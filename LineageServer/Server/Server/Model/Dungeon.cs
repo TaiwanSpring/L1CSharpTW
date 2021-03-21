@@ -76,7 +76,7 @@ namespace LineageServer.Server.Server.Model
 
 		private Dungeon()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 

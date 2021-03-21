@@ -39,7 +39,7 @@ namespace LineageServer.Server.Server.serverpackets
 		/// <param name="pc"> </param>
 		public S_Bookmarks(L1PcInstance pc)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

@@ -64,7 +64,7 @@ namespace LineageServer.Server.Server.datatables
 		{
 
 			int spawnCount = 0;
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -183,7 +183,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static void storeSpawn(L1PcInstance pc, L1Npc npc)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

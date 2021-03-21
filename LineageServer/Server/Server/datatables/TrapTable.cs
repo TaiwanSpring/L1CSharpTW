@@ -52,7 +52,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void initialize()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 

@@ -44,7 +44,7 @@ namespace LineageServer.Server.Server.Model
 		{
 			lock (this)
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				ResultSet rs = null;
 				try
@@ -113,7 +113,7 @@ namespace LineageServer.Server.Server.Model
 		{
 			lock (this)
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				try
 				{
@@ -162,7 +162,7 @@ namespace LineageServer.Server.Server.Model
 		{
 			lock (this)
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				try
 				{
@@ -190,7 +190,7 @@ namespace LineageServer.Server.Server.Model
 		{
 			lock (this)
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				try
 				{
@@ -217,7 +217,7 @@ namespace LineageServer.Server.Server.Model
 		{
 			lock (this)
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				try
 				{
@@ -246,7 +246,7 @@ namespace LineageServer.Server.Server.Model
 		/// <param name="type">  領出: 1, 存入: 0 </br> </param>
 		public virtual void writeHistory(L1PcInstance pc, L1ItemInstance item, int count, int type)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

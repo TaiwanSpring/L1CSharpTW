@@ -31,7 +31,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static void StoreKey(L1ItemInstance item)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -58,7 +58,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static void DeleteKey(L1ItemInstance item)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -81,7 +81,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static bool checkey(L1ItemInstance item)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

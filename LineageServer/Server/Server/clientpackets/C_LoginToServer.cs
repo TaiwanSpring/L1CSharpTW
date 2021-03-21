@@ -325,7 +325,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private void skills(L1PcInstance pc)
         {
-            Connection con = null;
+            IDataBaseConnection con = null;
             PreparedStatement pstm = null;
             ResultSet rs = null;
             try
@@ -518,7 +518,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private void buff(ClientThread clientthread, L1PcInstance pc)
         {
-            Connection con = null;
+            IDataBaseConnection con = null;
             PreparedStatement pstm = null;
             ResultSet rs = null;
             try

@@ -4,8 +4,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConsoleApp1
@@ -40,7 +38,7 @@ namespace ConsoleApp1
         public GameClient(TcpClient tcpClient)
         {
             // 採取亂數取seed
-            this.key = RandomHelper.Next(int.MaxValue);
+            this.key = random.Next(int.MaxValue);
             this.cipher = new Cipher(this.key);
             this.tcpClient = tcpClient;
             this.sendPacketQueue = new ConcurrentQueue<byte[]>();

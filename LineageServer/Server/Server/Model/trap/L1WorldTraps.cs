@@ -60,7 +60,7 @@ namespace LineageServer.Server.Server.Model.trap
 
 		private void initialize()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 

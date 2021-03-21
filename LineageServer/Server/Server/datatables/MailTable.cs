@@ -56,7 +56,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void loadMail()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -96,7 +96,7 @@ namespace LineageServer.Server.Server.datatables
 		{
 			set
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				ResultSet rs = null;
 				try
@@ -127,7 +127,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void setMailType(int mailId, int type)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -157,7 +157,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void deleteMail(int mailId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -217,7 +217,7 @@ namespace LineageServer.Server.Server.datatables
 			Array.Copy(text, 0, subject, 0, subjectLength);
 			Array.Copy(text, subjectLength, content, 0, contentLength);
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm2 = null;
 			try
 			{

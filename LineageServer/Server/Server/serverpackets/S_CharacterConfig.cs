@@ -39,7 +39,7 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			int length = 0;
 			sbyte[] data = null;
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

@@ -103,7 +103,7 @@ namespace LineageServer.Server.Server.serverpackets
 			writeC(S_OPCODE_PLEDGE_RECOMMENDATION);
 			writeC(type);
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 

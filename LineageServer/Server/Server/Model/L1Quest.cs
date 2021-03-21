@@ -108,7 +108,7 @@ namespace LineageServer.Server.Server.Model
 			if (_quest == null)
 			{
 
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				ResultSet rs = null;
 				try
@@ -151,7 +151,7 @@ namespace LineageServer.Server.Server.Model
 		public virtual void set_step(int quest_id, int step)
 		{
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

@@ -39,7 +39,7 @@ namespace LineageServer.Server.Server.Model
 		// ＤＢのcharacter_itemsの読込
 		public override void loadItems()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -103,7 +103,7 @@ namespace LineageServer.Server.Server.Model
 		// ＤＢのcharacter_elf_warehouseへ登録
 		public override void insertItem(L1ItemInstance item)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -150,7 +150,7 @@ namespace LineageServer.Server.Server.Model
 		// ＤＢのcharacter_elf_warehouseを更新
 		public override void updateItem(L1ItemInstance item)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -174,7 +174,7 @@ namespace LineageServer.Server.Server.Model
 		// ＤＢのcharacter_elf_warehouseから削除
 		public override void deleteItem(L1ItemInstance item)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

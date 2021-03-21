@@ -47,7 +47,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void storeCharacterConfig(int objectId, int length, sbyte[] data)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -71,7 +71,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void updateCharacterConfig(int objectId, int length, sbyte[] data)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -95,7 +95,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void deleteCharacterConfig(int objectId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -118,7 +118,7 @@ namespace LineageServer.Server.Server.datatables
 		public virtual int countCharacterConfig(int objectId)
 		{
 			int result = 0;
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

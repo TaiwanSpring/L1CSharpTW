@@ -97,7 +97,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void loadNpcData()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -239,7 +239,7 @@ namespace LineageServer.Server.Server.datatables
 		public static IDictionary<string, int> buildFamily()
 		{
 			IDictionary<string, int> result = Maps.newMap();
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

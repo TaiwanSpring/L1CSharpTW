@@ -57,7 +57,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void load()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 
@@ -124,7 +124,7 @@ namespace LineageServer.Server.Server.datatables
 		{
 			lock (this)
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
         
 				L1Town town = TownTable.Instance.getTownTable(town_id);
@@ -171,7 +171,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void updateTaxRate()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 
 			try
@@ -193,7 +193,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void updateSalesMoneyYesterday()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 
 			try

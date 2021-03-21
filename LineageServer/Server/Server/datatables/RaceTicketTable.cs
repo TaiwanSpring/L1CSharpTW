@@ -57,7 +57,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void load()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -106,7 +106,7 @@ namespace LineageServer.Server.Server.datatables
 				_tickets[ticket.get_itemobjid()] = ticket;
 			}
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -139,7 +139,7 @@ namespace LineageServer.Server.Server.datatables
 			{
 				_tickets.Remove(itemobjid);
 			}
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -161,7 +161,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void oldTicketDelete(int round)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -191,7 +191,7 @@ namespace LineageServer.Server.Server.datatables
 					ticket.set_allotment_percentage(allotment_percentage);
 				}
 			}
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

@@ -44,7 +44,7 @@ namespace LineageServer.Server.Server.datatables
 		/// </summary>
 		public virtual void newMember(L1PcInstance pc)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm1 = null;
 			ResultSet rs = null;
 			PreparedStatement pstm2 = null;
@@ -81,7 +81,7 @@ namespace LineageServer.Server.Server.datatables
 		/// </summary>
 		public virtual void updateMember(L1PcInstance pc)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -111,7 +111,7 @@ namespace LineageServer.Server.Server.datatables
 		/// </summary>
 		public virtual void updateMemberNotes(L1PcInstance pc, string notes)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm1 = null;
 			ResultSet rs = null;
 			try
@@ -139,7 +139,7 @@ namespace LineageServer.Server.Server.datatables
 		/// </summary>
 		public virtual void deleteMember(int charId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -164,7 +164,7 @@ namespace LineageServer.Server.Server.datatables
 		/// </summary>
 		public virtual void deleteAllMember(int clanId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

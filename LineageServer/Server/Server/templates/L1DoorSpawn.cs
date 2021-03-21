@@ -110,7 +110,7 @@ namespace LineageServer.Server.Server.Templates
 		public static IList<L1DoorSpawn> all()
 		{
 			IList<L1DoorSpawn> result = Lists.newArrayList();
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

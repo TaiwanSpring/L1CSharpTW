@@ -3213,6 +3213,7 @@ namespace LineageServer.Server.Server.Model.Instance
 		}
 
         public int MaxHp { get; internal set; }
+        public L1Map Map { get; internal set; }
     }
 
 }

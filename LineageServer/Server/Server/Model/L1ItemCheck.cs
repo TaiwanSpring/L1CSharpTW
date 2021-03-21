@@ -69,7 +69,7 @@ namespace LineageServer.Server.Server.Model
 
 		private bool findWeapon()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			bool inWeapon = false;
@@ -100,7 +100,7 @@ namespace LineageServer.Server.Server.Model
 
 		private bool findArmor()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			bool inArmor = false;
@@ -130,7 +130,7 @@ namespace LineageServer.Server.Server.Model
 
 		private bool findEtcItem()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			bool inEtcitem = false;

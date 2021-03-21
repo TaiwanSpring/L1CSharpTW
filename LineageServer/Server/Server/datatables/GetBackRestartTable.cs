@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LineageServer.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
@@ -50,7 +51,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public GetBackRestartTable()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

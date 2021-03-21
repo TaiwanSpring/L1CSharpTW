@@ -59,7 +59,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void FillNpcChatTable()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

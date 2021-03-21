@@ -37,7 +37,7 @@ namespace LineageServer.Server.Server.Clientpackets
             {
                 return;
             }
-            if (pc.hasSkillEffect(L1SkillId.1005))
+            if (pc.hasSkillEffect(L1SkillId.STATUS_CHAT_PROHIBITED))
             { // 被魔封
                 pc.sendPackets(new S_ServerMessage(242)); // 你從現在被禁止閒談。
                 return;
@@ -50,10 +50,10 @@ namespace LineageServer.Server.Server.Clientpackets
                     return;
                 }
                 // GM指令
-                if (chatText.StartsWith(".", StringComparison.Ordinal) && (pc.Gm || pc.Monitor))
+                if (chatText.StartsWith(".") && (pc.Gm || pc.Monitor))
                 {
                     string cmd = chatText.Substring(1);
-                    GMCommands.Instance.handleCommands(pc, cmd);
+                    GMCommands.Instance.HandleCommands(pc, cmd);
                     return;
                 }
 

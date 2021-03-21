@@ -57,7 +57,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void load()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			Inn inn = null;
@@ -109,7 +109,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void updateInn(L1Inn inn)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

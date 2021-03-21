@@ -70,7 +70,7 @@ namespace LineageServer.Server.Server.datatables
 		{
 			IDictionary<int, IList<L1Drop>> droplistMap = Maps.newMap();
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

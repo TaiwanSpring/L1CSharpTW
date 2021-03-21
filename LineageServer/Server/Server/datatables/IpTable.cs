@@ -48,7 +48,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void banIp(string ip)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 
 			try
@@ -102,7 +102,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void getIpTable()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -136,7 +136,7 @@ namespace LineageServer.Server.Server.datatables
 		public virtual bool liftBanIp(string ip)
 		{
 			bool ret = false;
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 
 			try

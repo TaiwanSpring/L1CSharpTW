@@ -44,7 +44,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public AuctionBoardTable()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -95,7 +95,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void insertAuctionBoard(L1AuctionBoard board)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -130,7 +130,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void updateAuctionBoard(L1AuctionBoard board)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -163,7 +163,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void deleteAuctionBoard(int houseId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

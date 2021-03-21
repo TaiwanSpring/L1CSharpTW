@@ -55,7 +55,7 @@ namespace LineageServer.Server.Server
 		private void loadState()
 		{
 			// 取得資料庫中最大的ID+1
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 

@@ -205,12 +205,12 @@ namespace LineageServer.Server.Server
 		 * public void executeIOPacket(ReceivablePacket<L2GameClient> pkt) {
 		 * _ioPacketsThreadPool.execute(pkt); }
 		 */
-		public virtual void executeTask(ThreadStart r)
+		public void ExecuteTask(ThreadStart r)
 		{
 			_generalThreadPool.execute(r);
 		}
 
-		public virtual void executeAi(ThreadStart r)
+		public void ExecuteAi(ThreadStart r)
 		{
 			_aiThreadPool.execute(r);
 		}

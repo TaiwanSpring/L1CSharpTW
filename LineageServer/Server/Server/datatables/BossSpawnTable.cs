@@ -33,7 +33,7 @@ namespace LineageServer.Server.Server.datatables
 		{
 
 			int spawnCount = 0;
-			java.sql.Connection con = null;
+			java.sql.IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

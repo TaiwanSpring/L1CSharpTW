@@ -1,52 +1,70 @@
-﻿//---------------------------------------------------------------------------------------------------------
-//	Copyright © 2007 - 2021 Tangible Software Solutions, Inc.
-//	This class can be used by anyone provided that the copyright notice remains intact.
-//
-//	This class is used to replace some calls to the java.lang.Math class.
-//---------------------------------------------------------------------------------------------------------
-using System;
-
-static class MathHelper
+﻿namespace System
 {
-    public static int Ensure(this int i, int min, int max)
+    static class MathHelper
     {
-        if (i < min)
+        public static int ParseInt(this string str)
         {
-            return min;
+            if (string.IsNullOrEmpty(str))
+            {
+                return 0;
+            }
+            int.TryParse(str, out int i);
+            return i;
+        }
+        public static bool Includes(this int i, int min, int max)
+        {
+            if (i < min)
+            {
+                return false;
+            }
+
+            if (i > max)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        public static int Ensure(this int i, int min, int max)
+        {
+            if (i < min)
+            {
+                return min;
+            }
+
+            if (i > max)
+            {
+                return max;
+            }
+
+            return i;
         }
 
-        if (i > max)
+        private static Random randomInstance = null;
+
+        public static double NextDouble
         {
-            return max;
+            get
+            {
+                if (randomInstance == null)
+                    randomInstance = new Random();
+
+                return randomInstance.NextDouble();
+            }
         }
 
-        return i;
-    }
-
-    private static Random randomInstance = null;
-
-    public static double NextDouble
-    {
-        get
+        public static double Expm1(double x)
         {
-            if (randomInstance == null)
-                randomInstance = new Random();
-
-            return randomInstance.NextDouble();
+            if (Math.Abs(x) < 1e-5)
+                return x + 0.5 * x * x;
+            else
+                return Math.Exp(x) - 1.0;
         }
-    }
 
-    public static double Expm1(double x)
-    {
-        if (Math.Abs(x) < 1e-5)
-            return x + 0.5 * x * x;
-        else
-            return Math.Exp(x) - 1.0;
-    }
-
-    public static double Log1p(double x)
-    {
-        double y = x;
-        return ((1 + y) == 1) ? y : y * (Math.Log(1 + y) / ((1 + y) - 1));
+        public static double Log1p(double x)
+        {
+            double y = x;
+            return ((1 + y) == 1) ? y : y * (Math.Log(1 + y) / ((1 + y) - 1));
+        }
     }
 }

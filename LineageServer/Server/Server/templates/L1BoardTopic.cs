@@ -115,7 +115,7 @@ namespace LineageServer.Server.Server.Templates
 		{
 			lock (typeof(L1BoardTopic))
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm1 = null;
 				ResultSet rs = null;
 				PreparedStatement pstm2 = null;
@@ -155,7 +155,7 @@ namespace LineageServer.Server.Server.Templates
 
 		public virtual void delete()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -178,7 +178,7 @@ namespace LineageServer.Server.Server.Templates
 
 		public static L1BoardTopic findById(int id)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -204,8 +204,8 @@ namespace LineageServer.Server.Server.Templates
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private static java.sql.PreparedStatement makeIndexStatement(java.sql.Connection con, int id, int limit) throws java.sql.SQLException
-		private static PreparedStatement makeIndexStatement(Connection con, int id, int limit)
+//ORIGINAL LINE: private static java.sql.PreparedStatement makeIndexStatement(java.sql.IDataBaseConnection con, int id, int limit) throws java.sql.SQLException
+		private static PreparedStatement makeIndexStatement(IDataBaseConnection con, int id, int limit)
 		{
 			PreparedStatement result = null;
 			int offset = 1;
@@ -231,7 +231,7 @@ namespace LineageServer.Server.Server.Templates
 		public static IList<L1BoardTopic> index(int id, int limit)
 		{
 			IList<L1BoardTopic> result = new List<L1BoardTopic>();
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

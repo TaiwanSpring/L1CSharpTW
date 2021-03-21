@@ -59,7 +59,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public HouseTable()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 
@@ -109,7 +109,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void updateHouse(L1House house)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -144,7 +144,7 @@ namespace LineageServer.Server.Server.datatables
 			{
 				IList<int> houseIdList = Lists.newList();
     
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				ResultSet rs = null;
     

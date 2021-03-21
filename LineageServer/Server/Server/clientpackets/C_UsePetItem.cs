@@ -1,34 +1,12 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿
+using LineageServer.Server.Server.datatables;
+using LineageServer.Server.Server.Model;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.serverpackets;
+using LineageServer.Server.Server.Templates;
+
 namespace LineageServer.Server.Server.Clientpackets
 {
-	using ClientThread = LineageServer.Server.Server.ClientThread;
-	using PetItemTable = LineageServer.Server.Server.datatables.PetItemTable;
-	using PetTypeTable = LineageServer.Server.Server.datatables.PetTypeTable;
-	using L1World = LineageServer.Server.Server.Model.L1World;
-	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1PetInstance = LineageServer.Server.Server.Model.Instance.L1PetInstance;
-	using S_PetEquipment = LineageServer.Server.Server.serverpackets.S_PetEquipment;
-	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using L1PetItem = LineageServer.Server.Server.Templates.L1PetItem;
-	using L1PetType = LineageServer.Server.Server.Templates.L1PetType;
-
-	// Referenced classes of package l1j.server.server.clientpackets:
-	// ClientBasePacket
-
 	/// <summary>
 	/// 處理收到由客戶端傳來使用寵物道具的封包
 	/// </summary>
@@ -45,8 +23,6 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_USE_PET_ITEM = "[C] C_UsePetItem";
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: public C_UsePetItem(byte abyte0[], l1j.server.server.ClientThread clientthread) throws Exception
 		public C_UsePetItem(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 

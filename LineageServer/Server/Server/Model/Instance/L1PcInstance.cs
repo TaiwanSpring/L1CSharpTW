@@ -7,7 +7,7 @@ using System.Threading;
 using LineageServer.Server.Server.Model.monitor;
 using LineageServer.Server.Server.datatables;
 using LineageServer.Server.Server.Model.skill;
-using LineageServer.Server.Server.command.executor;
+using LineageServer.Server.Server.Command.Executor;
 using LineageServer.Server.Server.utils.collections;
 using LineageServer.Server.Server.Model.classes;
 using System.Linq;
@@ -6618,6 +6618,11 @@ namespace LineageServer.Server.Server.Model.Instance
                     sendPackets(new S_Fight(S_Fight.TYPE_ENCOUNTER, S_Fight.FLAG_ON));
                 }
             }
+        }
+
+        internal void setSkillEffect(object sTATUS_CHAT_PROHIBITED, int v)
+        {
+            throw new NotImplementedException();
         }
     }
 

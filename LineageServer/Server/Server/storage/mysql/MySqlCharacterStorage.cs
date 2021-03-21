@@ -30,7 +30,7 @@ namespace LineageServer.Server.Server.storage.mysql
         public virtual L1PcInstance loadCharacter(string charName)
         {
             L1PcInstance pc = null;
-            Connection con = null;
+            IDataBaseConnection con = null;
             PreparedStatement pstm = null;
             PreparedStatement pstm2 = null;
             ResultSet rs = null;
@@ -174,7 +174,7 @@ namespace LineageServer.Server.Server.storage.mysql
 
         public virtual void createCharacter(L1PcInstance pc)
         {
-            Connection con = null;
+            IDataBaseConnection con = null;
             PreparedStatement pstm = null;
             try
             {
@@ -255,7 +255,7 @@ namespace LineageServer.Server.Server.storage.mysql
         //ORIGINAL LINE: @Override public void deleteCharacter(String accountName, String charName)throws Exception
         public virtual void deleteCharacter(string accountName, string charName)
         {
-            Connection con = null;
+            IDataBaseConnection con = null;
             PreparedStatement pstm = null;
             ResultSet rs = null;
             try
@@ -336,7 +336,7 @@ namespace LineageServer.Server.Server.storage.mysql
 
         public virtual void storeCharacter(L1PcInstance pc)
         {
-            Connection con = null;
+            IDataBaseConnection con = null;
             PreparedStatement pstm = null;
             try
             {

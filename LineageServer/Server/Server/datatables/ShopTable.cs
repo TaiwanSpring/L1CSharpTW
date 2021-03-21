@@ -57,7 +57,7 @@ namespace LineageServer.Server.Server.datatables
 		{
 			IList<int> ids = Lists.newList();
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -110,7 +110,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void loadShops()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

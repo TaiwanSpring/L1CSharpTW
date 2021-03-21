@@ -84,7 +84,7 @@ namespace LineageServer.Server.Server.datatables
 			// 13:連合チャット
 			// 14:チャットパーティ
 			// 17:血盟王族公告頻道
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

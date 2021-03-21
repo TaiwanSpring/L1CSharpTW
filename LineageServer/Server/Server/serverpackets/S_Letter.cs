@@ -34,7 +34,7 @@ namespace LineageServer.Server.Server.serverpackets
 		private void buildPacket(L1ItemInstance item)
 		{
 			/*
-			 * Connection con = null; PreparedStatement pstm = null; ResultSet rs =
+			 * IDataBaseConnection con = null; PreparedStatement pstm = null; ResultSet rs =
 			 * null; try { con = L1DatabaseFactory.getInstance().getConnection();
 			 * pstm = con
 			 * .prepareStatement("SELECT * FROM letter WHERE item_object_id=?");

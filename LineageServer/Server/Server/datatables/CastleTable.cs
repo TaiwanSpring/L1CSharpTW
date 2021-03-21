@@ -63,7 +63,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void load()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -121,7 +121,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void updateCastle(L1Castle castle)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

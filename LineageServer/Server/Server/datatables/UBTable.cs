@@ -47,7 +47,7 @@ namespace LineageServer.Server.Server.datatables
 		private void loadTable()
 		{
 
-			java.sql.Connection con = null;
+			java.sql.IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -182,7 +182,7 @@ namespace LineageServer.Server.Server.datatables
 		public virtual int getMaxPattern(int ubId)
 		{
 			int n = 0;
-			java.sql.Connection con = null;
+			java.sql.IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 

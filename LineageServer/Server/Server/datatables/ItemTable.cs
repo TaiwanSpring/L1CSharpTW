@@ -235,7 +235,7 @@ namespace LineageServer.Server.Server.datatables
 		{
 			IDictionary<int, L1EtcItem> result = Maps.newMap();
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			L1EtcItem item = null;
@@ -304,7 +304,7 @@ namespace LineageServer.Server.Server.datatables
 		{
 			IDictionary<int, L1Weapon> result = Maps.newMap();
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			L1Weapon weapon = null;
@@ -391,7 +391,7 @@ namespace LineageServer.Server.Server.datatables
 		private IDictionary<int, L1Armor> allArmor()
 		{
 			IDictionary<int, L1Armor> result = Maps.newMap();
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			L1Armor armor = null;

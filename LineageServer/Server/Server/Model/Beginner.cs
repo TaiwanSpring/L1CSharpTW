@@ -49,7 +49,7 @@ namespace LineageServer.Server.Server.Model
 
 		public virtual int GiveItem(L1PcInstance pc)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm1 = null;
 			ResultSet rs = null;
 			try

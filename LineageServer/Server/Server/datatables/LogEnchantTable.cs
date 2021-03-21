@@ -27,7 +27,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void storeLogEnchant(int char_id, int item_id, int old_enchantlvl, int new_enchantlvl)
 		{
-			java.sql.Connection con = null;
+			java.sql.IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

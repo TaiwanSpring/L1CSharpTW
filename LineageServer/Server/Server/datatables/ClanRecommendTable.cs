@@ -31,7 +31,7 @@
 		/// <param name="type_message"> 類型說明文字 </param>
 		public virtual void addRecommendRecord(int clan_id, int clan_type, string type_message)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -64,7 +64,7 @@
 		/// <param name="char_name"> 申請玩家名稱 </param>
 		public virtual void addRecommendApply(int clan_id, string char_name)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -94,7 +94,7 @@
 		/// </summary>
 		public virtual void updateRecommendRecord(int clan_id, int clan_type, string type_message)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -126,7 +126,7 @@
 		/// <param name="id"> 申請ID </param>
 		public virtual void removeRecommendApply(int id)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -152,7 +152,7 @@
 		/// <param name="clan_id"> 血盟 id </param>
 		public virtual void removeRecommendRecord(int clan_id)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -179,7 +179,7 @@
 		/// @return </param>
 		public virtual string getApplyPlayerName(int index_id)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			string charName = null;
@@ -214,7 +214,7 @@
 		/// @return </param>
 		public virtual bool isRecorded(int clan_id)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -244,7 +244,7 @@
 		/// @return </param>
 		public virtual bool isApplied(string char_name)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -273,7 +273,7 @@
 		/// </summary>
 		public virtual bool isClanApplyByPlayer(int clan_id)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -303,7 +303,7 @@
 		/// <returns> True:False </returns>
 		public virtual bool isApplyForTheClan(int clan_id, string char_name)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

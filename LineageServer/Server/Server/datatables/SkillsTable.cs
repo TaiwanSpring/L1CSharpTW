@@ -57,7 +57,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void RestoreSkills()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -138,7 +138,7 @@ namespace LineageServer.Server.Server.datatables
 				pc.SkillMastery = skillid;
 			}
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -172,7 +172,7 @@ namespace LineageServer.Server.Server.datatables
 				pc.removeSkillMastery(skillid);
 			}
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -198,7 +198,7 @@ namespace LineageServer.Server.Server.datatables
 		public virtual bool spellCheck(int playerobjid, int skillid)
 		{
 			bool ret = false;
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

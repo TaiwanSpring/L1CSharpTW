@@ -53,7 +53,7 @@ namespace LineageServer.Server.Server.datatables
 		private BuddyTable()
 		{
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement charIdPS = null;
 			ResultSet charIdRS = null;
 			try
@@ -119,7 +119,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void addBuddy(int charId, int objId, string name)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -144,7 +144,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void removeBuddy(int charId, string buddyName)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			L1Buddy buddy = getBuddyTable(charId);
 			if (!buddy.containsName(buddyName))

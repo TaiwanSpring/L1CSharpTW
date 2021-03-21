@@ -50,7 +50,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void FillFurnitureSpawnTable()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -129,7 +129,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void insertFurniture(L1FurnitureInstance furniture)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -155,7 +155,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void deleteFurniture(L1FurnitureInstance furniture)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

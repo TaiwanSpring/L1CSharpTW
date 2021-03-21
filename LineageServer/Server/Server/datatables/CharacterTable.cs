@@ -145,7 +145,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static void clearOnlineStatus()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -166,7 +166,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static void updateOnlineStatus(L1PcInstance pc)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -194,7 +194,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static void updatePartnerId(int targetId, int partnerId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -217,7 +217,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static void saveCharStatus(L1PcInstance pc)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -253,7 +253,7 @@ namespace LineageServer.Server.Server.datatables
 		public static bool doesCharNameExist(string name)
 		{
 			bool result = true;
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -281,7 +281,7 @@ namespace LineageServer.Server.Server.datatables
 		{
 			L1CharName cn = null;
 			string name = null;
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

@@ -63,7 +63,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void loadMobSkillData()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm1 = null;
 			PreparedStatement pstm2 = null;
 			ResultSet rs1 = null;

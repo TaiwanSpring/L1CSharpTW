@@ -14,7 +14,7 @@
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.Server.command.executor
+namespace LineageServer.Server.Server.Command.Executor
 {
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
@@ -22,13 +22,13 @@ namespace LineageServer.Server.Server.command.executor
 	using S_SkillSound = LineageServer.Server.Server.serverpackets.S_SkillSound;
 	using S_SystemMessage = LineageServer.Server.Server.serverpackets.S_SystemMessage;
 
-	public class L1Ress : L1CommandExecutor
+	public class L1Ress : IL1CommandExecutor
 	{
 		private L1Ress()
 		{
 		}
 
-		public static L1CommandExecutor Instance
+		public static IL1CommandExecutor Instance
 		{
 			get
 			{
@@ -36,7 +36,7 @@ namespace LineageServer.Server.Server.command.executor
 			}
 		}
 
-		public virtual void execute(L1PcInstance pc, string cmdName, string arg)
+		public void Execute(L1PcInstance pc, string cmdName, string arg)
 		{
 			try
 			{

@@ -42,7 +42,7 @@ namespace LineageServer.Server.Server.Clientpackets
             string s2 = string.Empty;
             try
             {
-                string[] tokens = s.Split(new string[] { "/t", "/n", "/r", "/f" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] tokens = s.Split(new string[] { "\t", "\n", "\r", "\f" }, StringSplitOptions.RemoveEmptyEntries);
                 s1 = tokens[0];
                 s2 = tokens[1];
             }

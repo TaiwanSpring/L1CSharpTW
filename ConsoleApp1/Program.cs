@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
@@ -10,11 +10,31 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            GameServer gameServer = new GameServer();
-            Task.Run(() => gameServer.StartServer());
+            string connectString = $"server=localHost;uid=root;pwd=753951;database=l1jdbtw";
+            MySqlConnection mySqlConnection = new MySqlConnection(connectString);
+            mySqlConnection.Open();
 
-            Console.WriteLine("Server start.");
-            Console.WriteLine("Press any key to stop.");
+            var comm = mySqlConnection.CreateCommand();
+            comm.CommandText = "SELECT * FROM accounts";
+            var reader = comm.ExecuteReader();
+            IDictionary<string, object> dataTable = new Dictionary<string, object>();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        dataTable.Add(reader.GetName(i), reader.GetValue(i));
+                    }
+                }
+            }
+
+            //GameServer gameServer = new GameServer();
+            //Task.Run(() => gameServer.StartServer());
+
+            //Console.WriteLine("Server start.");
+            //Console.WriteLine("Press any key to stop.");
             Console.ReadLine();
         }
     }

@@ -79,7 +79,7 @@ namespace LineageServer.Server.Server.taskmanager
 
 				_lastActivation = DateTimeHelper.CurrentUnixTimeMillis();
 
-				java.sql.Connection con = null;
+				java.sql.IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				try
 				{
@@ -196,7 +196,7 @@ namespace LineageServer.Server.Server.taskmanager
 
 		private void startAllTasks()
 		{
-			java.sql.Connection con = null;
+			java.sql.IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -272,7 +272,7 @@ namespace LineageServer.Server.Server.taskmanager
 
 		public static bool addUniqueTask(string task, TaskTypes type, string param1, string param2, string param3, long lastActivation)
 		{
-			java.sql.Connection con = null;
+			java.sql.IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 
@@ -318,7 +318,7 @@ namespace LineageServer.Server.Server.taskmanager
 
 		public static bool addTask(string task, TaskTypes type, string param1, string param2, string param3, long lastActivation)
 		{
-			java.sql.Connection con = null;
+			java.sql.IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 
 			try

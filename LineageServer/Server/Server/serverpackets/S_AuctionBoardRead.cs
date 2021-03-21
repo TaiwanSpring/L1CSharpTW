@@ -39,7 +39,7 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int objectId, string house_number)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

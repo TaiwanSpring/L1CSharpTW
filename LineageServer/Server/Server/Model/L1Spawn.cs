@@ -414,7 +414,7 @@ namespace LineageServer.Server.Server.Model
 		/// </summary>
 		/// <param name="spawnNumber">
 		///            L1Spawnで管理されている番号。ホームポイントが無ければ何を指定しても良い。 </param>
-		public virtual void executeSpawnTask(int spawnNumber, int objectId)
+		public void ExecuteSpawnTask(int spawnNumber, int objectId)
 		{
 			SpawnTask task = new SpawnTask(this, spawnNumber, objectId);
 			GeneralThreadPool.Instance.schedule(task, calcRespawnDelay());

@@ -36,7 +36,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private static void StoreBuff(int objId, int skillId, int time, int polyId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -61,7 +61,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static void DeleteBuff(L1PcInstance pc)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -101,7 +101,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public static void buffRemainingTime(L1PcInstance pc)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

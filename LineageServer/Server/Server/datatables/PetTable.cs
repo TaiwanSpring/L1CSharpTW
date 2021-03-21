@@ -59,7 +59,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void load()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -115,7 +115,7 @@ namespace LineageServer.Server.Server.datatables
 			l1pet.set_food(50);
 			_pets[itemobjid] = l1pet;
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -148,7 +148,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void storePet(L1Pet pet)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -181,7 +181,7 @@ namespace LineageServer.Server.Server.datatables
 		/// 更新寵物飽食度 </summary>
 		public virtual void storePetFood(L1Pet pet)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -204,7 +204,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void deletePet(int itemobjid)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -235,7 +235,7 @@ namespace LineageServer.Server.Server.datatables
 		public static bool isNameExists(string nameCaseInsensitive)
 		{
 			string nameLower = nameCaseInsensitive.ToLower();
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -300,7 +300,7 @@ namespace LineageServer.Server.Server.datatables
 			l1pet.set_food(50);
 			_pets[itemobjid] = l1pet;
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

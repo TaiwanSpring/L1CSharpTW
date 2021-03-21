@@ -53,7 +53,7 @@ namespace LineageServer.Server.Server.serverpackets
 			int[] month = null;
 			int[] day = null;
 			int[] price = null;
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 

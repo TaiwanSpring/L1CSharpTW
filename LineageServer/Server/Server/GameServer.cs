@@ -1,21 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Server
 {
 
@@ -76,13 +61,6 @@ namespace LineageServer.Server.Server
 	using SystemUtil = LineageServer.Server.Server.utils.SystemUtil;
 	using L1GameReStart = LineageServer.william.L1GameReStart;
 
-	// Referenced classes of package l1j.server.server:
-	// ClientThread, Logins, RateTable, IdFactory,
-	// LoginController, GameTimeController, Announcements,
-	// MobTable, SpawnTable, SkillsTable, PolyTable,
-	// TeleportLocations, ShopTable, NPCTalkDataTable, NpcSpawnTable,
-	// IpTable, Shutdown, NpcTable, MobGroupTable, NpcShoutTable
-
 	public class GameServer : IRunnable
 	{
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
@@ -140,8 +118,6 @@ namespace LineageServer.Server.Server
 			}
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: public void initialize() throws Exception
 		public virtual void initialize()
 		{
 			string s = Config.GAME_SERVER_HOST_NAME;

@@ -51,7 +51,7 @@ namespace LineageServer.Server.Server
             }
         }
 
-        public virtual void execute(IRunnable r)
+        public void Execute(IRunnable r)
         {
             ThreadPool.QueueUserWorkItem(new WaitCallback((state) => r.run()));
         }

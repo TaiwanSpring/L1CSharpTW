@@ -38,7 +38,7 @@ namespace LineageServer.Server.Server.storage.mysql
 		{
 			IList<L1ItemInstance> items = Lists.newList();
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -108,7 +108,7 @@ namespace LineageServer.Server.Server.storage.mysql
 //ORIGINAL LINE: @Override public void storeItem(int objId, l1j.server.server.model.Instance.L1ItemInstance item) throws Exception
 		public override void storeItem(int objId, L1ItemInstance item)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -157,7 +157,7 @@ namespace LineageServer.Server.Server.storage.mysql
 //ORIGINAL LINE: @Override public void deleteItem(l1j.server.server.model.Instance.L1ItemInstance item) throws Exception
 		public override void deleteItem(L1ItemInstance item)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -360,7 +360,7 @@ namespace LineageServer.Server.Server.storage.mysql
 		public override int getItemCount(int objId)
 		{
 			int count = 0;
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -391,7 +391,7 @@ namespace LineageServer.Server.Server.storage.mysql
 //ORIGINAL LINE: private void executeUpdate(int objId, String sql, int updateNum) throws java.sql.SQLException
 		private void executeUpdate(int objId, string sql, int updateNum)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -416,7 +416,7 @@ namespace LineageServer.Server.Server.storage.mysql
 //ORIGINAL LINE: private void executeUpdate(int objId, String sql, java.sql.Timestamp ts) throws java.sql.SQLException
 		private void executeUpdate(int objId, string sql, Timestamp ts)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

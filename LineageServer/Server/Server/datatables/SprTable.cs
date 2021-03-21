@@ -119,7 +119,7 @@ namespace LineageServer.Server.Server.datatables
 		/// </summary>
 		public virtual void loadSprAction()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			Spr spr = null;

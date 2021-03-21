@@ -48,7 +48,7 @@ namespace LineageServer.Server.Server.Templates
 			L1BookMark book = player.getBookMark(s);
 			if (book != null)
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				try
 				{
@@ -101,7 +101,7 @@ namespace LineageServer.Server.Server.Templates
 				bookmark.LocY = pc.Y;
 				bookmark.MapId = pc.MapId;
 
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 
 				try

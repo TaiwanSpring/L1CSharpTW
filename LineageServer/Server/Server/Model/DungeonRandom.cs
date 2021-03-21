@@ -54,7 +54,7 @@ namespace LineageServer.Server.Server.Model
 
 		private DungeonRandom()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 

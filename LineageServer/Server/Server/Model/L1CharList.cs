@@ -51,7 +51,7 @@ namespace LineageServer.Server.Server.Model
 
 		private void deleteCharacter(ClientThread client)
 		{
-			Connection conn = null;
+			IDataBaseConnection conn = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try
@@ -98,7 +98,7 @@ namespace LineageServer.Server.Server.Model
 
 		private void sendCharPacks(ClientThread client)
 		{
-			Connection conn = null;
+			IDataBaseConnection conn = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

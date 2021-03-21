@@ -447,7 +447,7 @@ namespace LineageServer.william
 
 		private static void getItemData()
 		{
-			java.sql.Connection con = null;
+			java.sql.IDataBaseConnection con = null;
 			try
 			{
 			  con = L1DatabaseFactory.Instance.Connection;

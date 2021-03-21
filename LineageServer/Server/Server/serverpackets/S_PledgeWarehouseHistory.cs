@@ -41,7 +41,7 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_PledgeWarehouseHistory(int clanId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

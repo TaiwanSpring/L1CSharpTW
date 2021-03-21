@@ -52,7 +52,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void loadMobGroup()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

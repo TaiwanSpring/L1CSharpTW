@@ -33,13 +33,13 @@ namespace LineageServer.Server.Server.utils
 
 		private object _proxy;
 
-		private LeakCheckedConnection(Connection con)
+		private LeakCheckedConnection(IDataBaseConnection con)
 		{
 			_con = con;
 			_proxy = Proxy.newProxyInstance(typeof(Connection).ClassLoader, new Type[] {typeof(Connection)}, new ConnectionHandler(this));
 		}
 
-		public static Connection create(Connection con)
+		public static Connection create(IDataBaseConnection con)
 		{
 			return (Connection) (new LeakCheckedConnection(con))._proxy;
 		}

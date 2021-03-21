@@ -56,7 +56,7 @@ namespace LineageServer.Server.Server.datatables
 		private ClanTable()
 		{
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				ResultSet rs = null;
 
@@ -102,7 +102,7 @@ namespace LineageServer.Server.Server.datatables
 			ICollection<L1Clan> AllClan = L1World.Instance.AllClans;
 			foreach (L1Clan clan in AllClan)
 			{
-				Connection con = null;
+				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;
 				ResultSet rs = null;
 
@@ -157,7 +157,7 @@ namespace LineageServer.Server.Server.datatables
 			clan.EmblemId = 0;
 			clan.EmblemStatus = 0;
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 
 			try
@@ -220,7 +220,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void updateClan(L1Clan clan)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{
@@ -256,7 +256,7 @@ namespace LineageServer.Server.Server.datatables
 			{
 				return;
 			}
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

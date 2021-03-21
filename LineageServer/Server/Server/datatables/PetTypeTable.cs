@@ -54,7 +54,7 @@ namespace LineageServer.Server.Server.datatables
 
 		private void loadTypes()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

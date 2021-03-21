@@ -65,7 +65,7 @@ namespace LineageServer.Server.Server.datatables
 		public virtual void writeLetter(int itemObjectId, int code, string sender, string receiver, string date, int templateId, sbyte[] subject, sbyte[] content)
 		{
 
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm1 = null;
 			ResultSet rs = null;
 			PreparedStatement pstm2 = null;
@@ -100,7 +100,7 @@ namespace LineageServer.Server.Server.datatables
 
 		public virtual void deleteLetter(int itemObjectId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			try
 			{

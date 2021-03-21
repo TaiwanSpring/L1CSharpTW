@@ -17,7 +17,7 @@ namespace LineageServer.Server.Server.utils
 
 	public class SQLUtil
 	{
-		public static SQLException close(Connection con)
+		public static SQLException close(IDataBaseConnection con)
 		{
 			try
 			{
@@ -65,7 +65,7 @@ namespace LineageServer.Server.Server.utils
 			return null;
 		}
 
-		public static void close(ResultSet rs, Statement pstm, Connection con)
+		public static void close(ResultSet rs, Statement pstm, IDataBaseConnection con)
 		{
 			close(rs);
 			close(pstm);

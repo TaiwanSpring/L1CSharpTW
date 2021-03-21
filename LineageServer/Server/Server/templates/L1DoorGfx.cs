@@ -75,7 +75,7 @@ namespace LineageServer.Server.Server.Templates
 		/// @return </param>
 		public static L1DoorGfx findByGfxId(int gfxId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;
 			try

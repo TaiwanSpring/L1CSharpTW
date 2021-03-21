@@ -160,7 +160,7 @@ namespace LineageServer.Server.Server
 
 		private static string totalContribution(int townId)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm1 = null;
 			ResultSet rs1 = null;
 			PreparedStatement pstm2 = null;
@@ -243,7 +243,7 @@ namespace LineageServer.Server.Server
 
 		private static void clearHomeTownID()
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 
 			try
@@ -269,7 +269,7 @@ namespace LineageServer.Server.Server
 		/// <returns> int 報酬 </returns>
 		public static int getPay(int objid)
 		{
-			Connection con = null;
+			IDataBaseConnection con = null;
 			PreparedStatement pstm1 = null;
 			PreparedStatement pstm2 = null;
 			ResultSet rs1 = null;
