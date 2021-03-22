@@ -18,7 +18,7 @@ using System.IO;
 namespace LineageServer.Server.Server.Model.map
 {
 
-	using MapsTable = LineageServer.Server.Server.datatables.MapsTable;
+	using MapsTable = LineageServer.Server.Server.DataSources.MapsTable;
 	using Maps = LineageServer.Server.Server.utils.collections.Maps;
 
 	/// <summary>

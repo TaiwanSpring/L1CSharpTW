@@ -20,7 +20,7 @@ namespace LineageServer.Server.telnet.command
 
 	using GameServer = LineageServer.Server.Server.GameServer;
 	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using ChatLogTable = LineageServer.Server.Server.datatables.ChatLogTable;
+	using ChatLogTable = LineageServer.Server.Server.DataSources.ChatLogTable;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1World = LineageServer.Server.Server.Model.L1World;

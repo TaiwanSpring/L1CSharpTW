@@ -19,10 +19,10 @@ namespace LineageServer.Server.Server.Model.game
 {
 
 	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using DoorTable = LineageServer.Server.Server.datatables.DoorTable;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
-	using RaceTicketTable = LineageServer.Server.Server.datatables.RaceTicketTable;
-	using ShopTable = LineageServer.Server.Server.datatables.ShopTable;
+	using DoorTable = LineageServer.Server.Server.DataSources.DoorTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
+	using RaceTicketTable = LineageServer.Server.Server.DataSources.RaceTicketTable;
+	using ShopTable = LineageServer.Server.Server.DataSources.ShopTable;
 	using L1Location = LineageServer.Server.Server.Model.L1Location;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1World = LineageServer.Server.Server.Model.L1World;

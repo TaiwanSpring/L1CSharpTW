@@ -19,9 +19,9 @@ namespace LineageServer.Server.Server.Model.shop
 {
 
 	using Config = LineageServer.Server.Config;
-	using CastleTable = LineageServer.Server.Server.datatables.CastleTable;
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
-	using TownTable = LineageServer.Server.Server.datatables.TownTable;
+	using CastleTable = LineageServer.Server.Server.DataSources.CastleTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
+	using TownTable = LineageServer.Server.Server.DataSources.TownTable;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
 	using L1PcInventory = LineageServer.Server.Server.Model.L1PcInventory;
 	using L1TaxCalculator = LineageServer.Server.Server.Model.L1TaxCalculator;

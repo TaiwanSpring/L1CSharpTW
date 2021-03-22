@@ -17,7 +17,7 @@
 namespace LineageServer.Server.Server.Model
 {
 
-	using CastleTable = LineageServer.Server.Server.datatables.CastleTable;
+	using CastleTable = LineageServer.Server.Server.DataSources.CastleTable;
 	using L1GameTime = LineageServer.Server.Server.Model.gametime.L1GameTime;
 	using L1GameTimeAdapter = LineageServer.Server.Server.Model.gametime.L1GameTimeAdapter;
 	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;

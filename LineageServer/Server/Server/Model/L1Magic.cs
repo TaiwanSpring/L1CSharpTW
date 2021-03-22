@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.Model
 	using Config = LineageServer.Server.Config;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using WarTimeController = LineageServer.Server.Server.WarTimeController;
-	using SkillsTable = LineageServer.Server.Server.datatables.SkillsTable;
+	using SkillsTable = LineageServer.Server.Server.DataSources.SkillsTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;

@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server.Model
 
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using InnTable = LineageServer.Server.Server.datatables.InnTable;
+	using InnTable = LineageServer.Server.Server.DataSources.InnTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;

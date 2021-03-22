@@ -18,8 +18,8 @@ namespace LineageServer.Server.Server.storage.mysql
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using InnKeyTable = LineageServer.Server.Server.datatables.InnKeyTable;
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
+	using InnKeyTable = LineageServer.Server.Server.DataSources.InnKeyTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using CharactersItemStorage = LineageServer.Server.Server.storage.CharactersItemStorage;
 	using L1Item = LineageServer.Server.Server.Templates.L1Item;

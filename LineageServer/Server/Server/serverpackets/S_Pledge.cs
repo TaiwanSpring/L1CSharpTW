@@ -18,8 +18,8 @@ namespace LineageServer.Server.Server.serverpackets
 {
 
 	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using CharacterTable = LineageServer.Server.Server.datatables.CharacterTable;
-	using ClanTable = LineageServer.Server.Server.datatables.ClanTable;
+	using CharacterTable = LineageServer.Server.Server.DataSources.CharacterTable;
+	using ClanTable = LineageServer.Server.Server.DataSources.ClanTable;
 	using L1Clan = LineageServer.Server.Server.Model.L1Clan;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 

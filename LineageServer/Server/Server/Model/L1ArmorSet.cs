@@ -25,7 +25,7 @@ namespace LineageServer.Server.Server.Model
 //	import static l1j.server.server.model.skill.L1SkillId.AWAKEN_VALAKAS;
 
 
-	using ArmorSetTable = LineageServer.Server.Server.datatables.ArmorSetTable;
+	using ArmorSetTable = LineageServer.Server.Server.DataSources.ArmorSetTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;

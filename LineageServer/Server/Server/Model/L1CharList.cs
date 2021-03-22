@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Model
 	using Config = LineageServer.Server.Config;
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using ClientThread = LineageServer.Server.Server.ClientThread;
-	using CharacterTable = LineageServer.Server.Server.datatables.CharacterTable;
+	using CharacterTable = LineageServer.Server.Server.DataSources.CharacterTable;
 	using S_CharAmount = LineageServer.Server.Server.serverpackets.S_CharAmount;
 	using S_CharPacks = LineageServer.Server.Server.serverpackets.S_CharPacks;
 	using S_CharSynAck = LineageServer.Server.Server.serverpackets.S_CharSynAck;

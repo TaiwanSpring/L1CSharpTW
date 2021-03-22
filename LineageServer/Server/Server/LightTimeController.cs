@@ -17,7 +17,7 @@ using System.Threading;
 /// </summary>
 namespace LineageServer.Server.Server
 {
-	using LightSpawnTable = LineageServer.Server.Server.datatables.LightSpawnTable;
+	using LightSpawnTable = LineageServer.Server.Server.DataSources.LightSpawnTable;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1FieldObjectInstance = LineageServer.Server.Server.Model.Instance.L1FieldObjectInstance;

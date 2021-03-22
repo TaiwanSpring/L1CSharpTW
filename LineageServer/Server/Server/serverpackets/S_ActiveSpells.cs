@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server.serverpackets
 {
 	using static LineageServer.Server.Server.Model.skill.L1SkillId;
 
-	using CharBuffTable = LineageServer.Server.Server.datatables.CharBuffTable;
+	using CharBuffTable = LineageServer.Server.Server.DataSources.CharBuffTable;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using Random = LineageServer.Server.Server.utils.Random;
 

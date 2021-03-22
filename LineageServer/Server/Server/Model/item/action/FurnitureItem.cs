@@ -19,9 +19,9 @@ namespace LineageServer.Server.Server.Model.item.action
 
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using FurnitureSpawnTable = LineageServer.Server.Server.datatables.FurnitureSpawnTable;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
-	using FurnitureItemTable = LineageServer.Server.Server.datatables.FurnitureItemTable;
+	using FurnitureSpawnTable = LineageServer.Server.Server.DataSources.FurnitureSpawnTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
+	using FurnitureItemTable = LineageServer.Server.Server.DataSources.FurnitureItemTable;
 	using L1HouseLocation = LineageServer.Server.Server.Model.L1HouseLocation;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1PcInventory = LineageServer.Server.Server.Model.L1PcInventory;

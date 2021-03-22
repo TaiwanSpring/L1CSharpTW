@@ -14,7 +14,7 @@
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.Server.datatables
+namespace LineageServer.Server.Server.DataSources
 {
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.ActionCodes.ACTION_Aggress;

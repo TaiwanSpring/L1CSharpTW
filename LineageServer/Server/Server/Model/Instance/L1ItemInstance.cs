@@ -1,4 +1,4 @@
-﻿using LineageServer.Server.Server.datatables;
+﻿using LineageServer.Server.Server.DataSources;
 using LineageServer.Server.Server.Model.identity;
 using LineageServer.Server.Server.Model.map;
 using LineageServer.Server.Server.Model.skill;

@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server.Model
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
 	using L1DoorInstance = LineageServer.Server.Server.Model.Instance.L1DoorInstance;
 	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;

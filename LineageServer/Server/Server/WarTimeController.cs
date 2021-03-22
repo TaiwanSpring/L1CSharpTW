@@ -20,8 +20,8 @@ namespace LineageServer.Server.Server
 {
 
 	using Config = LineageServer.Server.Config;
-	using CastleTable = LineageServer.Server.Server.datatables.CastleTable;
-	using DoorTable = LineageServer.Server.Server.datatables.DoorTable;
+	using CastleTable = LineageServer.Server.Server.DataSources.CastleTable;
+	using DoorTable = LineageServer.Server.Server.DataSources.DoorTable;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
 	using L1Clan = LineageServer.Server.Server.Model.L1Clan;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;

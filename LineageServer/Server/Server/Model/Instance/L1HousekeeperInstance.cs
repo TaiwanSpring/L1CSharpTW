@@ -16,8 +16,8 @@
 /// </summary>
 namespace LineageServer.Server.Server.Model.Instance
 {
-	using HouseTable = LineageServer.Server.Server.datatables.HouseTable;
-	using NPCTalkDataTable = LineageServer.Server.Server.datatables.NPCTalkDataTable;
+	using HouseTable = LineageServer.Server.Server.DataSources.HouseTable;
+	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1Clan = LineageServer.Server.Server.Model.L1Clan;
 	using L1NpcTalkData = LineageServer.Server.Server.Model.L1NpcTalkData;

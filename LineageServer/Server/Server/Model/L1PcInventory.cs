@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model
 
 
 	using Config = LineageServer.Server.Config;
-	using RaceTicketTable = LineageServer.Server.Server.datatables.RaceTicketTable;
+	using RaceTicketTable = LineageServer.Server.Server.DataSources.RaceTicketTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1PetInstance = LineageServer.Server.Server.Model.Instance.L1PetInstance;

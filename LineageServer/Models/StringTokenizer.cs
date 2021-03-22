@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace LineageServer.Model
+namespace LineageServer.Models
 {
     public class StringTokenizer
     {
@@ -25,7 +23,7 @@ namespace LineageServer.Model
 
         public string nextToken()
         {
-            if (hasMoreToken())
+            if (hasMoreTokens())
             {
                 return this.tokens[this.currentIndex++];
             }

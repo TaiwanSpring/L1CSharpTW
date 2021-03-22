@@ -28,11 +28,11 @@ namespace LineageServer.Server.Server.Model.Instance
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using DropTable = LineageServer.Server.Server.datatables.DropTable;
-	using NPCTalkDataTable = LineageServer.Server.Server.datatables.NPCTalkDataTable;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
-	using SprTable = LineageServer.Server.Server.datatables.SprTable;
-	using UBTable = LineageServer.Server.Server.datatables.UBTable;
+	using DropTable = LineageServer.Server.Server.DataSources.DropTable;
+	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
+	using SprTable = LineageServer.Server.Server.DataSources.SprTable;
+	using UBTable = LineageServer.Server.Server.DataSources.UBTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1DragonSlayer = LineageServer.Server.Server.Model.L1DragonSlayer;

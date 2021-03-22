@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.Model
 	using Random = LineageServer.Server.Server.utils.Random;
 
 	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using MobGroupTable = LineageServer.Server.Server.datatables.MobGroupTable;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
+	using MobGroupTable = LineageServer.Server.Server.DataSources.MobGroupTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
 	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
 	using L1MobGroup = LineageServer.Server.Server.Templates.L1MobGroup;

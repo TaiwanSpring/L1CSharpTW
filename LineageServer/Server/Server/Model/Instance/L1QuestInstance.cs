@@ -17,7 +17,7 @@
 namespace LineageServer.Server.Server.Model.Instance
 {
 
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1Quest = LineageServer.Server.Server.Model.L1Quest;
 	using S_ChangeHeading = LineageServer.Server.Server.serverpackets.S_ChangeHeading;

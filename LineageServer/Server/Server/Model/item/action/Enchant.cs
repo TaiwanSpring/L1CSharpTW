@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server.Model.item.action
 {
 	using Config = LineageServer.Server.Config;
 	using ClientThread = LineageServer.Server.Server.ClientThread;
-	using LogEnchantTable = LineageServer.Server.Server.datatables.LogEnchantTable;
+	using LogEnchantTable = LineageServer.Server.Server.DataSources.LogEnchantTable;
 	using L1PcInventory = LineageServer.Server.Server.Model.L1PcInventory;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;

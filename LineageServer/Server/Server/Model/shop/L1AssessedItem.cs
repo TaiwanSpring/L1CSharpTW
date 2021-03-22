@@ -14,7 +14,7 @@
 /// </summary>
 namespace LineageServer.Server.Server.Model.shop
 {
-	using RaceTicketTable = LineageServer.Server.Server.datatables.RaceTicketTable;
+	using RaceTicketTable = LineageServer.Server.Server.DataSources.RaceTicketTable;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1RaceTicket = LineageServer.Server.Server.Templates.L1RaceTicket;

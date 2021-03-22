@@ -47,9 +47,9 @@ namespace LineageServer.Server.Server.Model.Instance
 	using Config = LineageServer.Server.Config;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
-	using NpcChatTable = LineageServer.Server.Server.datatables.NpcChatTable;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
-	using SprTable = LineageServer.Server.Server.datatables.SprTable;
+	using NpcChatTable = LineageServer.Server.Server.DataSources.NpcChatTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
+	using SprTable = LineageServer.Server.Server.DataSources.SprTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1GroundInventory = LineageServer.Server.Server.Model.L1GroundInventory;

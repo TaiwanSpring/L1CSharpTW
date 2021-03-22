@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Model.skill
 	using static LineageServer.Server.Server.Model.skill.L1SkillId;
 
 
-	using SkillsTable = LineageServer.Server.Server.datatables.SkillsTable;
+	using SkillsTable = LineageServer.Server.Server.DataSources.SkillsTable;
 	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;

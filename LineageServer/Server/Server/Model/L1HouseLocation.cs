@@ -17,7 +17,7 @@
 namespace LineageServer.Server.Server.Model
 {
 
-	using HouseTable = LineageServer.Server.Server.datatables.HouseTable;
+	using HouseTable = LineageServer.Server.Server.DataSources.HouseTable;
 	using Point = LineageServer.Server.Server.Types.Point;
 
 	// Referenced classes of package l1j.server.server.model:

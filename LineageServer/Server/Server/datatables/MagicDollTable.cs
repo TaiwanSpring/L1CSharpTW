@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LineageServer.Server.Server.datatables
+namespace LineageServer.Server.Server.DataSources
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;

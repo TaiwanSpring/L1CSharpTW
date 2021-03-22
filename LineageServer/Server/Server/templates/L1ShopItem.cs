@@ -14,7 +14,7 @@
 /// </summary>
 namespace LineageServer.Server.Server.Templates
 {
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using L1BugBearRace = LineageServer.Server.Server.Model.game.L1BugBearRace;
 
 	public class L1ShopItem

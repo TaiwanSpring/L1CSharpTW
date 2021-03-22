@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.serverpackets
 {
 
 	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using MailTable = LineageServer.Server.Server.datatables.MailTable;
+	using MailTable = LineageServer.Server.Server.DataSources.MailTable;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1Mail = LineageServer.Server.Server.Templates.L1Mail;
 	using Lists = LineageServer.Server.Server.utils.collections.Lists;

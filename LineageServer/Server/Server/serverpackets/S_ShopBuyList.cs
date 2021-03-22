@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.serverpackets
 
 	using Config = LineageServer.Server.Config;
 	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using ShopTable = LineageServer.Server.Server.datatables.ShopTable;
+	using ShopTable = LineageServer.Server.Server.DataSources.ShopTable;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1World = LineageServer.Server.Server.Model.L1World;

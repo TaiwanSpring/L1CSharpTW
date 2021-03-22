@@ -19,9 +19,9 @@ namespace LineageServer.Server.Server
 {
 
 	using Config = LineageServer.Server.Config;
-	using AuctionBoardTable = LineageServer.Server.Server.datatables.AuctionBoardTable;
-	using ClanTable = LineageServer.Server.Server.datatables.ClanTable;
-	using HouseTable = LineageServer.Server.Server.datatables.HouseTable;
+	using AuctionBoardTable = LineageServer.Server.Server.DataSources.AuctionBoardTable;
+	using ClanTable = LineageServer.Server.Server.DataSources.ClanTable;
+	using HouseTable = LineageServer.Server.Server.DataSources.HouseTable;
 	using L1Clan = LineageServer.Server.Server.Model.L1Clan;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1AuctionBoard = LineageServer.Server.Server.Templates.L1AuctionBoard;

@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model
 	using Random = LineageServer.Server.Server.utils.Random;
 
 	using Config = LineageServer.Server.Config;
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1Map = LineageServer.Server.Server.Model.map.L1Map;
 	using L1WorldMap = LineageServer.Server.Server.Model.map.L1WorldMap;

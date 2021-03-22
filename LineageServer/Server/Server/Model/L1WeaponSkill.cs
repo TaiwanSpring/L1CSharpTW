@@ -36,8 +36,8 @@ namespace LineageServer.Server.Server.Model
 //	import static l1j.server.server.model.skill.L1SkillId.STATUS_FREEZE;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using WarTimeController = LineageServer.Server.Server.WarTimeController;
-	using SkillsTable = LineageServer.Server.Server.datatables.SkillsTable;
-	using WeaponSkillTable = LineageServer.Server.Server.datatables.WeaponSkillTable;
+	using SkillsTable = LineageServer.Server.Server.DataSources.SkillsTable;
+	using WeaponSkillTable = LineageServer.Server.Server.DataSources.WeaponSkillTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;

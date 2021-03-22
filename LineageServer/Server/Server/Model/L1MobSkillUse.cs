@@ -21,10 +21,10 @@ namespace LineageServer.Server.Server.Model
 
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using MobSkillTable = LineageServer.Server.Server.datatables.MobSkillTable;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
-	using SkillsTable = LineageServer.Server.Server.datatables.SkillsTable;
-	using SprTable = LineageServer.Server.Server.datatables.SprTable;
+	using MobSkillTable = LineageServer.Server.Server.DataSources.MobSkillTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
+	using SkillsTable = LineageServer.Server.Server.DataSources.SkillsTable;
+	using SprTable = LineageServer.Server.Server.DataSources.SprTable;
 	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;

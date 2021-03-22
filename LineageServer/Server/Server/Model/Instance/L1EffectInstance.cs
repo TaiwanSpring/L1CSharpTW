@@ -34,7 +34,7 @@ namespace LineageServer.Server.Server.Model.Instance
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
 	using WarTimeController = LineageServer.Server.Server.WarTimeController;
-	using SkillsTable = LineageServer.Server.Server.datatables.SkillsTable;
+	using SkillsTable = LineageServer.Server.Server.DataSources.SkillsTable;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1Cube = LineageServer.Server.Server.Model.L1Cube;

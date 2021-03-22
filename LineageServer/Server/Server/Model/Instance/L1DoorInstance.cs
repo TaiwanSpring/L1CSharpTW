@@ -17,7 +17,7 @@
 namespace LineageServer.Server.Server.Model.Instance
 {
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1Location = LineageServer.Server.Server.Model.L1Location;

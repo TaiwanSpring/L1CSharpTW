@@ -18,7 +18,7 @@ using System.Threading;
 namespace LineageServer.Server.Server
 {
 
-	using UBTable = LineageServer.Server.Server.datatables.UBTable;
+	using UBTable = LineageServer.Server.Server.DataSources.UBTable;
 	using L1UltimateBattle = LineageServer.Server.Server.Model.L1UltimateBattle;
 
 	public class UbTimeController : IRunnableStart

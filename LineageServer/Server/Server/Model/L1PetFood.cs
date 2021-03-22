@@ -15,8 +15,8 @@
 namespace LineageServer.Server.Server.Model
 {
 
-	using PetTable = LineageServer.Server.Server.datatables.PetTable;
-	using PetTypeTable = LineageServer.Server.Server.datatables.PetTypeTable;
+	using PetTable = LineageServer.Server.Server.DataSources.PetTable;
+	using PetTypeTable = LineageServer.Server.Server.DataSources.PetTypeTable;
 	using L1PetInstance = LineageServer.Server.Server.Model.Instance.L1PetInstance;
 	using S_NpcChatPacket = LineageServer.Server.Server.serverpackets.S_NpcChatPacket;
 	using L1Pet = LineageServer.Server.Server.Templates.L1Pet;

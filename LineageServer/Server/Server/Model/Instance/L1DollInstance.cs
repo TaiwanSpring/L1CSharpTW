@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Model.Instance
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using SprTable = LineageServer.Server.Server.datatables.SprTable;
+	using SprTable = LineageServer.Server.Server.DataSources.SprTable;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using S_DoActionGFX = LineageServer.Server.Server.serverpackets.S_DoActionGFX;
 	using S_DollPack = LineageServer.Server.Server.serverpackets.S_DollPack;

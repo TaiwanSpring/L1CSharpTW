@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.utils
 
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
 	using L1DragonSlayer = LineageServer.Server.Server.Model.L1DragonSlayer;
 	using L1NpcDeleteTimer = LineageServer.Server.Server.Model.L1NpcDeleteTimer;
 	using L1World = LineageServer.Server.Server.Model.L1World;

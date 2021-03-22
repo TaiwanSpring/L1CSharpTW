@@ -18,7 +18,7 @@ using System.Collections.Generic;
 namespace LineageServer.Server.Server.Model.npc.action
 {
 
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using LineageServer.Server.Server.Model;
 	using L1PcInventory = LineageServer.Server.Server.Model.L1PcInventory;

@@ -15,7 +15,7 @@ using System.Collections.Generic;
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.Server.datatables
+namespace LineageServer.Server.Server.DataSources
 {
 
 

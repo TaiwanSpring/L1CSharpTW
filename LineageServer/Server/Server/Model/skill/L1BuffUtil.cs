@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.Model.skill
 {
 	using Config = LineageServer.Server.Config;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
 	using L1Awake = LineageServer.Server.Server.Model.L1Awake;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1CurseParalysis = LineageServer.Server.Server.Model.L1CurseParalysis;

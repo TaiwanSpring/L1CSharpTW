@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server.serverpackets
 {
 	using Config = LineageServer.Server.Config;
 	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using NPCTalkDataTable = LineageServer.Server.Server.datatables.NPCTalkDataTable;
+	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
 	using L1NpcTalkData = LineageServer.Server.Server.Model.L1NpcTalkData;
 	using L1FieldObjectInstance = LineageServer.Server.Server.Model.Instance.L1FieldObjectInstance;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;

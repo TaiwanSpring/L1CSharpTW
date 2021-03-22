@@ -1,7 +1,7 @@
 ﻿namespace LineageServer.Server.Server.Templates
 {
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
-	using MagicDollTable = LineageServer.Server.Server.datatables.MagicDollTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
+	using MagicDollTable = LineageServer.Server.Server.DataSources.MagicDollTable;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1DollInstance = LineageServer.Server.Server.Model.Instance.L1DollInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;

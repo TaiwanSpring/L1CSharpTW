@@ -23,10 +23,10 @@ namespace LineageServer.Server.Server.Model.Instance
 
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using ExpTable = LineageServer.Server.Server.datatables.ExpTable;
-	using PetItemTable = LineageServer.Server.Server.datatables.PetItemTable;
-	using PetTable = LineageServer.Server.Server.datatables.PetTable;
-	using PetTypeTable = LineageServer.Server.Server.datatables.PetTypeTable;
+	using ExpTable = LineageServer.Server.Server.DataSources.ExpTable;
+	using PetItemTable = LineageServer.Server.Server.DataSources.PetItemTable;
+	using PetTable = LineageServer.Server.Server.DataSources.PetTable;
+	using PetTypeTable = LineageServer.Server.Server.DataSources.PetTypeTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1Inventory = LineageServer.Server.Server.Model.L1Inventory;

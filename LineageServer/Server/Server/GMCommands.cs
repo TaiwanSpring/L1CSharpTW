@@ -1,5 +1,5 @@
 ﻿using LineageServer.Interfaces;
-using LineageServer.Model;
+using LineageServer.Models;
 using LineageServer.Server.Server.Command;
 using LineageServer.Server.Server.Command.Executor;
 using LineageServer.Server.Server.Model.Instance;

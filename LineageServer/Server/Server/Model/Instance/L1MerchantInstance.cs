@@ -22,9 +22,9 @@ namespace LineageServer.Server.Server.Model.Instance
 //	import static l1j.server.server.model.skill.L1SkillId.STATUS_HASTE;
 
 
-	using ExpTable = LineageServer.Server.Server.datatables.ExpTable;
-	using NPCTalkDataTable = LineageServer.Server.Server.datatables.NPCTalkDataTable;
-	using TownTable = LineageServer.Server.Server.datatables.TownTable;
+	using ExpTable = LineageServer.Server.Server.DataSources.ExpTable;
+	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
+	using TownTable = LineageServer.Server.Server.DataSources.TownTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
 	using L1Clan = LineageServer.Server.Server.Model.L1Clan;

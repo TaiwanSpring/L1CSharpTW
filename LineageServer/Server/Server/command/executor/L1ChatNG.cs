@@ -1,4 +1,4 @@
-﻿using LineageServer.Model;
+﻿using LineageServer.Models;
 using LineageServer.Server.Server.Model;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.Model.skill;

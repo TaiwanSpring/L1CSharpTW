@@ -17,10 +17,6 @@ namespace LineageServer.DataBase
         {
             this.dbCommand = dbCommand;
         }
-        public void execute()
-        {
-            this.dbCommand.ExecuteNonQuery();
-        }
 
         public void setString(int index, string str)
         {
@@ -51,8 +47,8 @@ namespace LineageServer.DataBase
 
         public ResultSet executeQuery()
         {
-            ResultSetImp resultSetImp = new ResultSetImp();
             IDataReader dataReader = this.dbCommand.ExecuteReader();
+            ResultSetImp resultSetImp = new ResultSetImp();
             while (dataReader.Read())
             {
                 var dictionary = new Dictionary<string, object>();
@@ -63,6 +59,22 @@ namespace LineageServer.DataBase
                 }
             }
             return resultSetImp;
+        }
+        public int execute()
+        {
+            IDbTransaction dbTransaction = this.dbCommand.Connection.BeginTransaction();
+            try
+            {
+                this.dbCommand.Transaction = dbTransaction;
+                int result = this.dbCommand.ExecuteNonQuery();
+                dbTransaction.Commit();
+                return result;
+            }
+            catch (Exception)
+            {
+                dbTransaction.Rollback();
+                throw;
+            }
         }
     }
 }

@@ -4,10 +4,8 @@ using System.Text;
 
 namespace LineageServer.Interfaces
 {
-    interface IDatabaseFactory
+    interface IDatabaseFactory : IDisposable
     {
         IDataBaseConnection Connection { get; }
-
-        bool Initialize(string hostName, string user, string password, string dbName);
     }
 }

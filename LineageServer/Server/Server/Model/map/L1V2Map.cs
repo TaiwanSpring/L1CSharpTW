@@ -15,7 +15,7 @@
 namespace LineageServer.Server.Server.Model.map
 {
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using DoorTable = LineageServer.Server.Server.datatables.DoorTable;
+	using DoorTable = LineageServer.Server.Server.DataSources.DoorTable;
 	using L1DoorInstance = LineageServer.Server.Server.Model.Instance.L1DoorInstance;
 	using Point = LineageServer.Server.Server.Types.Point;
 

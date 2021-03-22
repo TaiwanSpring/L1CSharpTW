@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model.Instance
 //	import static l1j.server.server.model.skill.L1SkillId.FOG_OF_SLEEPING;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
-	using NPCTalkDataTable = LineageServer.Server.Server.datatables.NPCTalkDataTable;
+	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;

@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server
 {
 
 	using Config = LineageServer.Server.Config;
-	using NpcChatTable = LineageServer.Server.Server.datatables.NpcChatTable;
+	using NpcChatTable = LineageServer.Server.Server.DataSources.NpcChatTable;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;

@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using TownTable = LineageServer.Server.Server.datatables.TownTable;
+	using TownTable = LineageServer.Server.Server.DataSources.TownTable;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1GameTime = LineageServer.Server.Server.Model.gametime.L1GameTime;

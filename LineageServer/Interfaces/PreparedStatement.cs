@@ -9,7 +9,7 @@ namespace LineageServer.Interfaces
         void setString(int index, string str);
         void setInt(int index, int str);
         void setTimestamp(int index, DateTime dateTime);
-        void execute();
+        int execute();
 
         ResultSet executeQuery();
     }

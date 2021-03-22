@@ -43,8 +43,8 @@ namespace LineageServer.Server.Server.utils
 
 
 	using Config = LineageServer.Server.Config;
-	using ExpTable = LineageServer.Server.Server.datatables.ExpTable;
-	using PetTable = LineageServer.Server.Server.datatables.PetTable;
+	using ExpTable = LineageServer.Server.Server.DataSources.ExpTable;
+	using PetTable = LineageServer.Server.Server.DataSources.PetTable;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1World = LineageServer.Server.Server.Model.L1World;

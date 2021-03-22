@@ -18,8 +18,8 @@ using System.Collections.Generic;
 namespace LineageServer.Server.Server.Model.Instance
 {
 
-	using ClanTable = LineageServer.Server.Server.datatables.ClanTable;
-	using DoorTable = LineageServer.Server.Server.datatables.DoorTable;
+	using ClanTable = LineageServer.Server.Server.DataSources.ClanTable;
+	using DoorTable = LineageServer.Server.Server.DataSources.DoorTable;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
 	using L1Clan = LineageServer.Server.Server.Model.L1Clan;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;

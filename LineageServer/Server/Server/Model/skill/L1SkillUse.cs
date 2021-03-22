@@ -20,8 +20,8 @@ namespace LineageServer.Server.Server.Model.skill
 	using static LineageServer.Server.Server.Model.skill.L1SkillId;
 
 
-	using PolyTable = LineageServer.Server.Server.datatables.PolyTable;
-	using SkillsTable = LineageServer.Server.Server.datatables.SkillsTable;
+	using PolyTable = LineageServer.Server.Server.DataSources.PolyTable;
+	using SkillsTable = LineageServer.Server.Server.DataSources.SkillsTable;
 	using L1AuctionBoardInstance = LineageServer.Server.Server.Model.Instance.L1AuctionBoardInstance;
 	using L1BoardInstance = LineageServer.Server.Server.Model.Instance.L1BoardInstance;
 	using L1CrownInstance = LineageServer.Server.Server.Model.Instance.L1CrownInstance;

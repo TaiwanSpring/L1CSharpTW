@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.Model.item
 {
 
 
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using L1Inventory = LineageServer.Server.Server.Model.L1Inventory;
 	using L1PcInventory = LineageServer.Server.Server.Model.L1PcInventory;
 	using L1World = LineageServer.Server.Server.Model.L1World;

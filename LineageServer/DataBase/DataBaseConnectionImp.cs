@@ -1,4 +1,5 @@
-﻿using LineageServer.Interfaces;
+﻿using LineageServer.DataStruct;
+using LineageServer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,13 +7,13 @@ using System.Text;
 
 namespace LineageServer.DataBase
 {
-    class DataBaseConnectionImp : IDataBaseConnection
+    class DataBaseConnectionImp : ContainerObject, IDataBaseConnection
     {
         private IDbConnection connection;
 
-        public DataBaseConnectionImp(IDbConnection connection)
+        public DataBaseConnectionImp()
         {
-            this.connection = connection;
+            this.connection = Container.Resolve<IDbConnection>();
         }
 
         public PreparedStatement prepareStatement(string command)

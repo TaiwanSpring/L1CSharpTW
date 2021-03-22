@@ -42,7 +42,7 @@ namespace LineageServer.Server.Server.Model
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.model.skill.L1SkillId.STATUS_BRAVE;
 
-	using SkillsTable = LineageServer.Server.Server.datatables.SkillsTable;
+	using SkillsTable = LineageServer.Server.Server.DataSources.SkillsTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_Ability = LineageServer.Server.Server.serverpackets.S_Ability;

@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model.Instance
 	using Random = LineageServer.Server.Server.utils.Random;
 
 	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
-	using NPCTalkDataTable = LineageServer.Server.Server.datatables.NPCTalkDataTable;
+	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1NpcTalkData = LineageServer.Server.Server.Model.L1NpcTalkData;
 	using L1Quest = LineageServer.Server.Server.Model.L1Quest;

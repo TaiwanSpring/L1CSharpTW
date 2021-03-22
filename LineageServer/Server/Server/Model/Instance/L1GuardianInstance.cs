@@ -25,9 +25,9 @@ namespace LineageServer.Server.Server.Model.Instance
 	using Config = LineageServer.Server.Config;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
 	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
-	using DropTable = LineageServer.Server.Server.datatables.DropTable;
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
-	using NPCTalkDataTable = LineageServer.Server.Server.datatables.NPCTalkDataTable;
+	using DropTable = LineageServer.Server.Server.DataSources.DropTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
+	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1NpcTalkData = LineageServer.Server.Server.Model.L1NpcTalkData;

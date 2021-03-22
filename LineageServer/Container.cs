@@ -15,6 +15,14 @@ namespace LineageServer
             return mapping.ContainsKey(typeof(T));
         }
 
+        public void RegisterInstance<T>(T instance)
+        {
+            Type type = typeof(T);
+            if (!mapping.ContainsKey(type))
+            {
+                mapping.Add(type, instance);
+            }
+        }
         public T Resolve<T>()
         {
             Type type = typeof(T);

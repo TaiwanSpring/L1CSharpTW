@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.Model.Instance
 {
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.model.skill.L1SkillId.CANCELLATION;
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using L1HauntedHouse = LineageServer.Server.Server.Model.L1HauntedHouse;
 	using L1Inventory = LineageServer.Server.Server.Model.L1Inventory;
 	using L1Teleport = LineageServer.Server.Server.Model.L1Teleport;

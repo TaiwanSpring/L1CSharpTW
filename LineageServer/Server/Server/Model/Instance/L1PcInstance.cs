@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using LineageServer.Server.Server.Model.monitor;
-using LineageServer.Server.Server.datatables;
+using LineageServer.Server.Server.DataSources;
 using LineageServer.Server.Server.Model.skill;
 using LineageServer.Server.Server.Command.Executor;
 using LineageServer.Server.Server.utils.collections;

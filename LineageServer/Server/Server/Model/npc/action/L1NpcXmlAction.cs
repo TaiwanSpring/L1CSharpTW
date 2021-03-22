@@ -18,7 +18,7 @@ using System.Collections.Generic;
 namespace LineageServer.Server.Server.Model.npc.action
 {
 
-	using ExpTable = LineageServer.Server.Server.datatables.ExpTable;
+	using ExpTable = LineageServer.Server.Server.DataSources.ExpTable;
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;

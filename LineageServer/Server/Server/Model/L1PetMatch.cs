@@ -18,9 +18,9 @@ using System.Threading;
 namespace LineageServer.Server.Server.Model
 {
 
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
-	using PetTable = LineageServer.Server.Server.datatables.PetTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
+	using PetTable = LineageServer.Server.Server.DataSources.PetTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1PetInstance = LineageServer.Server.Server.Model.Instance.L1PetInstance;

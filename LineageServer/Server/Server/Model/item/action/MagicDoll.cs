@@ -15,8 +15,8 @@
 namespace LineageServer.Server.Server.Model.item.action
 {
 	using Config = LineageServer.Server.Config;
-	using MagicDollTable = LineageServer.Server.Server.datatables.MagicDollTable;
-	using NpcTable = LineageServer.Server.Server.datatables.NpcTable;
+	using MagicDollTable = LineageServer.Server.Server.DataSources.MagicDollTable;
+	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
 	using L1DollInstance = LineageServer.Server.Server.Model.Instance.L1DollInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_OwnCharStatus = LineageServer.Server.Server.serverpackets.S_OwnCharStatus;

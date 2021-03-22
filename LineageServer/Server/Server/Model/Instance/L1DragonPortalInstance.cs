@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model.Instance
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.model.skill.L1SkillId.EFFECT_BLOODSTAIN_OF_FAFURION;
 
-	using NPCTalkDataTable = LineageServer.Server.Server.datatables.NPCTalkDataTable;
+	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
 	using L1DragonSlayer = LineageServer.Server.Server.Model.L1DragonSlayer;
 	using L1NpcTalkData = LineageServer.Server.Server.Model.L1NpcTalkData;
 	using L1Teleport = LineageServer.Server.Server.Model.L1Teleport;

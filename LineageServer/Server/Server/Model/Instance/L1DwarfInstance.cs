@@ -17,7 +17,7 @@
 namespace LineageServer.Server.Server.Model.Instance
 {
 
-	using NPCTalkDataTable = LineageServer.Server.Server.datatables.NPCTalkDataTable;
+	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1NpcTalkData = LineageServer.Server.Server.Model.L1NpcTalkData;
 	using S_NPCTalkReturn = LineageServer.Server.Server.serverpackets.S_NPCTalkReturn;

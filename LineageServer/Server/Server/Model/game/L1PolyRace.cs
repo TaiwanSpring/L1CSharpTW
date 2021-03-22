@@ -16,8 +16,8 @@ namespace LineageServer.Server.Server.Model.game
 {
 
 	using FastTable = javolution.util.FastTable;
-	using DoorTable = LineageServer.Server.Server.datatables.DoorTable;
-	using ItemTable = LineageServer.Server.Server.datatables.ItemTable;
+	using DoorTable = LineageServer.Server.Server.DataSources.DoorTable;
+	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using L1Inventory = LineageServer.Server.Server.Model.L1Inventory;
 	using L1PolyMorph = LineageServer.Server.Server.Model.L1PolyMorph;
 	using L1Teleport = LineageServer.Server.Server.Model.L1Teleport;
