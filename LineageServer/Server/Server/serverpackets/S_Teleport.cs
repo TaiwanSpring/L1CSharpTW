@@ -1,59 +1,24 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Server.Server.Model.Instance;
+
 namespace LineageServer.Server.Server.serverpackets
 {
-	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-
-	// Referenced classes of package l1j.server.server.serverpackets:
-	// ServerBasePacket
-
-	public class S_Teleport : ServerBasePacket
-	{
-
-		private const string S_TELEPORT = "[S] S_Teleport";
-
-		private byte[] _byte = null;
-
-		public S_Teleport(L1PcInstance pc)
-		{
-			writeC(Opcodes.S_OPCODE_TELEPORT);
-			writeC(0x00);
-			writeC(0x40);
-			writeD(pc.Id);
-		}
-
-		public override sbyte[] Content
-		{
-			get
-			{
-				if (_byte == null)
-				{
-					_byte = Bytes;
-				}
-				return _byte;
-			}
-		}
-
-		public override string Type
-		{
-			get
-			{
-				return S_TELEPORT;
-			}
-		}
-	}
+    class S_Teleport : ServerBasePacket
+    {
+        private const string S_TELEPORT = "[S] S_Teleport";
+        public S_Teleport(L1PcInstance pc)
+        {
+            writeC(Opcodes.S_OPCODE_TELEPORT);
+            writeC(0x00);
+            writeC(0x40);
+            writeD(pc.Id);
+        }
+        public override string Type
+        {
+            get
+            {
+                return S_TELEPORT;
+            }
+        }
+    }
 
 }

@@ -7,7 +7,7 @@ namespace LineageServer.Server.Server.serverpackets
 {
     abstract class ServerBasePacket
     {
-        private static ILogger _log = Logger.getLogger(nameof(ServerBasePacket));
+        protected static ILogger _log = Logger.getLogger(nameof(ServerBasePacket));
 
         private static readonly string CLIENT_LANGUAGE_CODE = Config.CLIENT_LANGUAGE_CODE;
 

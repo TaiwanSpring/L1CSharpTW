@@ -12,23 +12,8 @@ namespace ConsoleApp1
         {
             string connectString = $"server=localHost;uid=root;pwd=753951;database=l1jdbtw";
             MySqlConnection mySqlConnection = new MySqlConnection(connectString);
-            mySqlConnection.Open();
-
-            var comm = mySqlConnection.CreateCommand();
-            comm.CommandText = "SELECT * FROM accounts";
-            var reader = comm.ExecuteReader();
-            IDictionary<string, object> dataTable = new Dictionary<string, object>();
-
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        dataTable.Add(reader.GetName(i), reader.GetValue(i));
-                    }
-                }
-            }
+            
+            
 
             //GameServer gameServer = new GameServer();
             //Task.Run(() => gameServer.StartServer());
@@ -86,36 +71,36 @@ namespace ConsoleApp1
     /// <param name="password">資料庫使用者密碼</param>
     /// <param name="dbName">資料庫名稱</param>
     /// <returns></returns>
-    public bool Initialize(string hostName, string user, string password, string dbName)
-    {
-        this.connectString = $"server={hostName};uid={user};pwd={password};database={dbName}";
-        try
-        {
-            MySqlConnection connection = new MySqlConnection(this.connectString);
-            connection.Open();
+    //public bool Initialize(string hostName, string user, string password, string dbName)
+    //{
+    //    this.connectString = $"server={hostName};uid={user};pwd={password};database={dbName}";
+    //    try
+    //    {
+    //        MySqlConnection connection = new MySqlConnection(this.connectString);
+    //        connection.Open();
 
-            Connection = new DataBaseConnectionImp(connection);
-        }
-        catch (MySqlException ex)
-        {
-            switch (ex.Number)
-            {
-                case 0:
-                    System.Console.WriteLine("無法連線到資料庫.");
-                    break;
-                case 1045:
-                    System.Console.WriteLine("使用者帳號或密碼錯誤,請再試一次.");
-                    break;
-            }
-            return false;
-        }
-        catch (Exception e)
-        {
-            //_log.fine("Database Connection FAILED");
-            System.Console.WriteLine("could not init DB connection:" + e.Message);
-            return false;
-        }
-        return true;
-    }
+    //        Connection = new DataBaseConnectionImp(connection);
+    //    }
+    //    catch (MySqlException ex)
+    //    {
+    //        switch (ex.Number)
+    //        {
+    //            case 0:
+    //                System.Console.WriteLine("無法連線到資料庫.");
+    //                break;
+    //            case 1045:
+    //                System.Console.WriteLine("使用者帳號或密碼錯誤,請再試一次.");
+    //                break;
+    //        }
+    //        return false;
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        //_log.fine("Database Connection FAILED");
+    //        System.Console.WriteLine("could not init DB connection:" + e.Message);
+    //        return false;
+    //    }
+    //    return true;
+    //}
 
 }

@@ -1,6 +1,6 @@
 ﻿using LineageServer.Interfaces;
 
-namespace LineageServer.DataStruct
+namespace LineageServer.Models
 {
     abstract class ContainerObject
     {

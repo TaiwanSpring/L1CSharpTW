@@ -7,6 +7,6 @@ namespace LineageServer.Enum
     public enum Level
     {
         Server,
-
+        WARNING
     }
 }

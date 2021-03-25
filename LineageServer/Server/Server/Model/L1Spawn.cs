@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading;
 namespace LineageServer.Server.Server.Model
 {
-	public class L1Spawn : L1GameTimeAdapter
+	class L1Spawn : L1GameTimeAdapter
 	{
 		private static ILogger _log = Logger.getLogger(nameof(L1Spawn));
 
@@ -32,10 +32,8 @@ namespace LineageServer.Server.Server.Model
 
 		private int _locy;
 
-		//JAVA TO C# CONVERTER NOTE: Fields cannot have the same name as methods of the current type:
 		private int Randomx_Conflict;
 
-		//JAVA TO C# CONVERTER NOTE: Fields cannot have the same name as methods of the current type:
 		private int Randomy_Conflict;
 
 		private int _locx1;

@@ -1,4 +1,4 @@
-﻿using LineageServer.DataStruct;
+﻿using LineageServer.Models;
 using LineageServer.Interfaces;
 using System;
 using System.Collections.Generic;
