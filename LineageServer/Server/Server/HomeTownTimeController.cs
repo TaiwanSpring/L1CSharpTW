@@ -22,9 +22,9 @@ namespace LineageServer.Server.Server
 	using TownTable = LineageServer.Server.Server.DataSources.TownTable;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1GameTime = LineageServer.Server.Server.Model.gametime.L1GameTime;
-	using L1GameTimeAdapter = LineageServer.Server.Server.Model.gametime.L1GameTimeAdapter;
-	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;
+	using L1GameTime = LineageServer.Server.Server.Model.Gametime.L1GameTime;
+	using L1GameTimeAdapter = LineageServer.Server.Server.Model.Gametime.L1GameTimeAdapter;
+	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using S_PacketBox = LineageServer.Server.Server.serverpackets.S_PacketBox;
 	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
 

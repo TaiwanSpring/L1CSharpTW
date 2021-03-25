@@ -223,8 +223,8 @@ namespace LineageServer.Server.Server
 			 */
             HcPacket movePacket = new HcPacket(this, M_CAPACITY);
             HcPacket hcPacket = new HcPacket(this, H_CAPACITY);
-            GeneralThreadPool.Instance.execute(movePacket);
-            GeneralThreadPool.Instance.execute(hcPacket);
+            RunnableExecuter.Instance.execute(movePacket);
+            RunnableExecuter.Instance.execute(hcPacket);
 
             string keyHax = "";
             int key = 0;
@@ -738,7 +738,7 @@ namespace LineageServer.Server.Server
             CharBuffTable.DeleteBuff(pc);
             CharBuffTable.SaveBuff(pc);
             pc.clearSkillEffectTimer();
-            LineageServer.Server.Server.Model.game.L1PolyRace.Instance.checkLeaveGame(pc);
+            LineageServer.Server.Server.Model.Game.L1PolyRace.Instance.checkLeaveGame(pc);
 
             // 停止玩家的偵測
             pc.stopEtcMonitor();

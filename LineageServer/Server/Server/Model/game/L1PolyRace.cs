@@ -1,50 +1,33 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
-namespace LineageServer.Server.Server.Model.game
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model.identity;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.Model.skill;
+using LineageServer.Server.Server.serverpackets;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+
+namespace LineageServer.Server.Server.Model.Game
 {
-
-	using FastTable = javolution.util.FastTable;
-	using DoorTable = LineageServer.Server.Server.DataSources.DoorTable;
-	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
-	using L1Inventory = LineageServer.Server.Server.Model.L1Inventory;
-	using L1PolyMorph = LineageServer.Server.Server.Model.L1PolyMorph;
-	using L1Teleport = LineageServer.Server.Server.Model.L1Teleport;
-	using L1DoorInstance = LineageServer.Server.Server.Model.Instance.L1DoorInstance;
-	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1ItemId = LineageServer.Server.Server.Model.identity.L1ItemId;
-	using L1SkillId = LineageServer.Server.Server.Model.skill.L1SkillId;
-	using L1SkillUse = LineageServer.Server.Server.Model.skill.L1SkillUse;
-	using S_EffectLocation = LineageServer.Server.Server.serverpackets.S_EffectLocation;
-	using S_Message_YN = LineageServer.Server.Server.serverpackets.S_Message_YN;
-	using S_Race = LineageServer.Server.Server.serverpackets.S_Race;
-	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using S_SkillBrave = LineageServer.Server.Server.serverpackets.S_SkillBrave;
-	using S_SkillHaste = LineageServer.Server.Server.serverpackets.S_SkillHaste;
-	using S_SystemMessage = LineageServer.Server.Server.serverpackets.S_SystemMessage;
-	using Random = LineageServer.Server.Server.utils.Random;
-
-
-	public class L1PolyRace
+	class L1PolyRace
 	{
 
 		/// <summary>
 		///*
 		/// [變身清單] 資料提供 CTKI 有錯請去幹蹻他 :)
 		/// </summary>
-		private int[] polyList = new int[] {936, 3134, 1642, 931, 96, 4038, 938, 929, 1540, 3783, 2145, 934, 3918, 3199, 3184, 3132, 3107, 3188, 3211, 3143, 3182, 3156, 3154, 3178, 4133, 5089, 945, 4171, 2541, 2001, 1649, 29};
+		private static readonly int[] polyList = new int[]
+		{
+			0936, 3134, 1642, 0931, 0096,
+			4038, 0938, 0929, 1540, 3783,
+			2145, 0934, 3918, 3199, 3184,
+			3132, 3107, 3188, 3211, 3143,
+			3182, 3156, 3154, 3178, 4133,
+			5089, 0945, 4171, 2541, 2001,
+			1649, 0029
+		};
 
 		private static L1PolyRace instance;
 
@@ -72,21 +55,26 @@ namespace LineageServer.Server.Server.Model.game
 		private static int readyTime = 60 * 1000; //進場之後等待時間 60秒
 		private static int limitTime = 240 * 1000; //遊戲時間 240秒
 
-		private FastTable<L1PcInstance> playerList = new FastTable<L1PcInstance>();
+		private HashSet<L1PcInstance> playerList = new HashSet<L1PcInstance>();
+
+		private HashSet<L1PcInstance> orderList = new HashSet<L1PcInstance>();
+
+		private HashSet<L1PcInstance> position = new HashSet<L1PcInstance>();
+
 
 		public virtual void addPlayerList(L1PcInstance pc)
 		{
-			if (!playerList.contains(pc))
+			if (!playerList.Contains(pc))
 			{
-				playerList.add(pc);
+				playerList.Add(pc);
 			}
 		}
 
 		public virtual void removePlayerList(L1PcInstance pc)
 		{
-			if (playerList.contains(pc))
+			if (playerList.Contains(pc))
 			{
-				playerList.remove(pc);
+				playerList.Remove(pc);
 			}
 		}
 
@@ -94,7 +82,7 @@ namespace LineageServer.Server.Server.Model.game
 		{
 			if (pc.Level < 30)
 			{
-				pc.sendPackets(new S_ServerMessage(1273,"30","99"));
+				pc.sendPackets(new S_ServerMessage(1273, "30", "99"));
 				return;
 			}
 			if (!pc.Inventory.consumeItem(L1ItemId.ADENA, 1000))
@@ -102,7 +90,7 @@ namespace LineageServer.Server.Server.Model.game
 				pc.sendPackets(new S_ServerMessage(189)); //金錢不足
 				return;
 			}
-			if (playerList.size() + orderList.size() >= maxPlayer)
+			if (playerList.Count + orderList.Count >= maxPlayer)
 			{
 				pc.sendPackets(new S_SystemMessage("遊戲人數已達上限"));
 				return;
@@ -119,29 +107,27 @@ namespace LineageServer.Server.Server.Model.game
 			}
 
 			addPlayerList(pc);
-			L1Teleport.teleport(pc, 32768, 32849, (short) 5143, 6, true);
+			L1Teleport.teleport(pc, 32768, 32849, (short)5143, 6, true);
 		}
-
-		private FastTable<L1PcInstance> orderList = new FastTable<L1PcInstance>();
 
 		public virtual void removeOrderList(L1PcInstance pc)
 		{
-			orderList.remove(pc);
+			orderList.Remove(pc);
 		}
 
 		//預約進場...試做1
 		public virtual void addOrderList(L1PcInstance pc)
 		{
-			if (orderList.contains(pc))
+			if (orderList.Contains(pc))
 			{
 				pc.sendPackets(new S_ServerMessage(1254));
 				return;
 			}
-			orderList.add(pc);
+			orderList.Add(pc);
 			pc.InOrderList = true;
-			pc.sendPackets(new S_ServerMessage(1253, orderList.size().ToString())); //已預約到第%0順位進入比賽場地。
+			pc.sendPackets(new S_ServerMessage(1253, orderList.Count.ToString())); //已預約到第%0順位進入比賽場地。
 
-			if (orderList.size() >= minPlayer)
+			if (orderList.Count >= minPlayer)
 			{
 				foreach (L1PcInstance player in orderList)
 				{
@@ -156,7 +142,7 @@ namespace LineageServer.Server.Server.Model.game
 		{
 			if (GameStatus == STATUS_READY)
 			{
-				return playerList.size() >= minPlayer;
+				return playerList.Count >= minPlayer;
 			}
 			return false;
 		}
@@ -164,6 +150,7 @@ namespace LineageServer.Server.Server.Model.game
 		private void setGameStart()
 		{
 			GameStatus = STATUS_PLAYING;
+
 			foreach (L1PcInstance pc in playerList)
 			{
 				speedUp(pc, 0, 0);
@@ -171,7 +158,7 @@ namespace LineageServer.Server.Server.Model.game
 				pc.sendPackets(new S_ServerMessage(1257)); //稍後比賽即將開始，請做好準備。
 				pc.sendPackets(new S_Race(S_Race.GameStart)); //5.4.3.2.1.GO!
 				pc.sendPackets(new S_Race(maxLap, pc.Lap)); //圈數
-				pc.sendPackets(new S_Race(playerList, pc)); //玩家名單
+				pc.sendPackets(new S_Race(playerList.ToList(), pc)); //玩家名單
 			}
 			startCompareTimer();
 			startClockTimer();
@@ -207,11 +194,11 @@ namespace LineageServer.Server.Server.Model.game
 						stopCompareTimer();
 						stopGameTimeLimitTimer();
 						sendEndMessage();
-					break;
+						break;
 					case END_STATUS_NOWINNER:
 						stopCompareTimer();
 						sendEndMessage();
-					break;
+						break;
 					case END_STATUS_NOPLAYER:
 						foreach (L1PcInstance pc in playerList)
 						{
@@ -219,7 +206,7 @@ namespace LineageServer.Server.Server.Model.game
 							pc.sendPackets(new S_ServerMessage(1264));
 							pc.Inventory.storeItem(L1ItemId.ADENA, 1000);
 						}
-					break;
+						break;
 				}
 				startEndTimer(); //5秒後傳回村
 			}
@@ -264,13 +251,13 @@ namespace LineageServer.Server.Server.Model.game
 				pc.sendPackets(new S_Race(S_Race.GameEnd));
 				pc.Lap = 1;
 				pc.LapCheck = 0;
-				L1Teleport.teleport(pc, 32616, 32782, (short) 4, 5, true);
+				L1Teleport.teleport(pc, 32616, 32782, (short)4, 5, true);
 				removeSkillEffect(pc);
 			}
 			DoorClose = true;
 			GameStatus = STATUS_NONE;
 			Winner = null;
-			playerList.clear();
+			playerList.Clear();
 			clearTime();
 		}
 
@@ -300,52 +287,27 @@ namespace LineageServer.Server.Server.Model.game
 			else
 			{ //YES
 				addPlayerList(pc);
-				L1Teleport.teleport(pc, 32768, 32849, (short) 5143, 6, true);
+				L1Teleport.teleport(pc, 32768, 32849, (short)5143, 6, true);
 				removeSkillEffect(pc);
 				removeOrderList(pc);
 				pc.InOrderList = false;
 			}
 		}
-
-		private FastTable<L1PcInstance> position = new FastTable<L1PcInstance>();
-
+		class PositionComparer : IComparer<L1PcInstance>
+		{
+			public int Compare([AllowNull] L1PcInstance x, [AllowNull] L1PcInstance y)
+			{
+				return y.LapScore.CompareTo(x.LapScore);
+			}
+		}
 		//判斷排名
 		private void comparePosition()
 		{
-			FastTable<L1PcInstance> temp = new FastTable<L1PcInstance>();
-			int size = playerList.size();
-			int count = 0;
-			while (size > count)
+			List<L1PcInstance> temp = new List<L1PcInstance>(playerList);
+			temp.Sort(new PositionComparer());
+			foreach (L1PcInstance pc in playerList)
 			{
-				int maxLapScore = 0;
-				foreach (L1PcInstance pc in playerList)
-				{
-					if (temp.contains(pc))
-					{
-						continue;
-					}
-					if (pc.LapScore >= maxLapScore)
-					{
-						maxLapScore = pc.LapScore;
-					}
-				}
-				foreach (L1PcInstance player in playerList)
-				{
-					if (player.LapScore == maxLapScore)
-					{
-						temp.add(player);
-					}
-				}
-				count++;
-			}
-			if (!position.Equals(temp))
-			{
-				position.clear();
-				position.addAll(temp);
-				foreach (L1PcInstance pc in playerList)
-				{
-					pc.sendPackets(new S_Race(position, pc)); //info
-				}
+				pc.sendPackets(new S_Race(temp, pc)); //info
 			}
 		}
 
@@ -382,15 +344,15 @@ namespace LineageServer.Server.Server.Model.game
 		{
 			int x = pc.X;
 			int y = pc.Y;
-			if (x == 32748 && (y == 32845 || y == 32846))
+			if (x == 32748 && ( y == 32845 || y == 32846 ))
 			{
 				speedUp(pc, 32748, 32845);
 			}
-			else if (x == 32748 && (y == 32847 || y == 32848))
+			else if (x == 32748 && ( y == 32847 || y == 32848 ))
 			{
 				speedUp(pc, 32748, 32847);
 			}
-			else if (x == 32748 && (y == 32849 || y == 32850))
+			else if (x == 32748 && ( y == 32849 || y == 32850 ))
 			{
 				speedUp(pc, 32748, 32849);
 			}
@@ -398,54 +360,51 @@ namespace LineageServer.Server.Server.Model.game
 			{
 				speedUp(pc, 32748, 32851);
 			}
-			else if (x == 32762 && (y == 32811 || y == 32812))
+			else if (x == 32762 && ( y == 32811 || y == 32812 ))
 			{
 				speedUp(pc, 32762, 32811);
 			}
-			else if ((x == 32799 || x == 32800) && y == 32830)
+			else if (( x == 32799 || x == 32800 ) && y == 32830)
 			{
 				speedUp(pc, 32800, 32830);
 			}
-			else if ((x == 32736 || x == 32737) && y == 32840)
+			else if (( x == 32736 || x == 32737 ) && y == 32840)
 			{
 				randomPoly(pc, 32737, 32840);
 			}
-			else if ((x == 32738 || x == 32739) && y == 32840)
+			else if (( x == 32738 || x == 32739 ) && y == 32840)
 			{
 				randomPoly(pc, 32739, 32840);
 			}
-			else if ((x == 32740 || x == 32741) && y == 32840)
+			else if (( x == 32740 || x == 32741 ) && y == 32840)
 			{
 				randomPoly(pc, 32741, 32840);
 			}
-			else if (x == 32749 && (y == 32818 || y == 32817))
+			else if (x == 32749 && ( y == 32818 || y == 32817 ))
 			{
 				randomPoly(pc, 32749, 32817);
 			}
-			else if (x == 32749 && (y == 32816 || y == 32815))
+			else if (x == 32749 && ( y == 32816 || y == 32815 ))
 			{
 				randomPoly(pc, 32749, 32815);
 			}
-			else if (x == 32749 && (y == 32814 || y == 32813))
+			else if (x == 32749 && ( y == 32814 || y == 32813 ))
 			{
 				randomPoly(pc, 32749, 32813);
 			}
-			else if (x == 32749 && (y == 32812 || y == 32811))
+			else if (x == 32749 && ( y == 32812 || y == 32811 ))
 			{
 				randomPoly(pc, 32749, 32811);
 			}
-			else if (x == 32790 && (y == 32812 || y == 32813))
+			else if (x == 32790 && ( y == 32812 || y == 32813 ))
 			{
 				randomPoly(pc, 32790, 32812);
 			}
-			else if ((x == 32793 || x == 32794) && y == 32831)
+			else if (( x == 32793 || x == 32794 ) && y == 32831)
 			{
 				randomPoly(pc, 32794, 32831);
 			}
 		}
-
-		private static int POLY_EFFECT = 15566;
-		private static int SPEED_EFFECT = 18333;
 
 		//變身效果
 		private void randomPoly(L1PcInstance pc, int x, int y)
@@ -454,7 +413,7 @@ namespace LineageServer.Server.Server.Model.game
 			{
 				return;
 			}
-			pc.setSkillEffect(POLY_EFFECT, 4 * 1000);
+			pc.setSkillEffect(L1SkillId.POLY_EFFECT, 4 * 1000);
 
 			int i = RandomHelper.Next(polyList.Length);
 			L1PolyMorph.doPoly(pc, polyList[i], 3600, L1PolyMorph.MORPH_BY_NPC);
@@ -472,7 +431,7 @@ namespace LineageServer.Server.Server.Model.game
 			{
 				return;
 			}
-			pc.setSkillEffect(SPEED_EFFECT, 4 * 1000);
+			pc.setSkillEffect(L1SkillId.SPEED_EFFECT, 4 * 1000);
 			int time = 15;
 			int objectId = pc.Id;
 			//競速專用 -超級加速
@@ -679,26 +638,25 @@ namespace LineageServer.Server.Server.Model.game
 
 		private void startReadyTimer()
 		{
-			(new ReadyTimer(this)).begin();
+			( new ReadyTimer(this) ).begin();
 		}
 
 		private void startCheckTimer()
 		{
-			(new CheckTimer(this)).begin();
+			( new CheckTimer(this) ).begin();
 		}
 
 		private void startClockTimer()
 		{
-			(new ClockTimer(this)).begin();
+			( new ClockTimer(this) ).begin();
 		}
 
 		private GameTimeLimitTimer limitTimer;
 
 		private void startGameTimeLimitTimer()
 		{
-			Timer timer = new Timer();
 			limitTimer = new GameTimeLimitTimer(this);
-			timer.schedule(limitTimer, limitTime);
+			RunnableExecuter.Instance.scheduleAtFixedRate(limitTimer, limitTime);
 		}
 
 		private void stopGameTimeLimitTimer()
@@ -708,16 +666,15 @@ namespace LineageServer.Server.Server.Model.game
 
 		private void startEndTimer()
 		{
-			(new EndTimer(this)).begin();
+			( new EndTimer(this) ).begin();
 		}
 
 		private CompareTimer compareTimer;
 
 		private void startCompareTimer()
 		{
-			Timer timer = new Timer();
 			compareTimer = new CompareTimer(this);
-			timer.schedule(compareTimer, 2000, 2000);
+			RunnableExecuter.Instance.scheduleAtFixedRate(compareTimer, 2000, 2000);
 		}
 
 		private void stopCompareTimer()
@@ -749,8 +706,7 @@ namespace LineageServer.Server.Server.Model.game
 
 			public virtual void begin()
 			{
-				Timer timer = new Timer();
-				timer.schedule(this, readyTime);
+				RunnableExecuter.Instance.scheduleAtFixedRate(this, readyTime);
 			}
 		}
 
@@ -779,8 +735,7 @@ namespace LineageServer.Server.Server.Model.game
 
 			public virtual void begin()
 			{
-				Timer timer = new Timer();
-				timer.schedule(this, 30 * 1000); //60s
+				RunnableExecuter.Instance.scheduleAtFixedRate(this, 30 * 1000);
 			}
 		}
 
@@ -808,8 +763,7 @@ namespace LineageServer.Server.Server.Model.game
 
 			public virtual void begin()
 			{
-				Timer timer = new Timer();
-				timer.schedule(this, 5000); // 5s
+				RunnableExecuter.Instance.scheduleAtFixedRate(this, 5000);
 			}
 		}
 
@@ -823,7 +777,14 @@ namespace LineageServer.Server.Server.Model.game
 				this.outerInstance = outerInstance;
 			}
 
-			public override void run()
+			public bool IsCancel { get; private set; }
+
+			public void cancel()
+			{
+				IsCancel = true;
+			}
+
+			public void run()
 			{
 				outerInstance.GameEnd = END_STATUS_NOWINNER;
 				this.cancel();
@@ -839,12 +800,14 @@ namespace LineageServer.Server.Server.Model.game
 		{
 			private readonly L1PolyRace outerInstance;
 
+			public bool IsCancel { get; private set; }
+
 			public EndTimer(L1PolyRace outerInstance)
 			{
 				this.outerInstance = outerInstance;
 			}
 
-			public override void run()
+			public void run()
 			{
 				outerInstance.giftWinner();
 				outerInstance.setGameInit();
@@ -853,8 +816,12 @@ namespace LineageServer.Server.Server.Model.game
 
 			public virtual void begin()
 			{
-				Timer timer = new Timer();
-				timer.schedule(this, 5000); // 10s
+				RunnableExecuter.Instance.scheduleAtFixedRate(this, 5000);
+			}
+
+			public void cancel()
+			{
+				IsCancel = true;
 			}
 		}
 

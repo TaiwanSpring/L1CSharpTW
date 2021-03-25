@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Model.Instance
 {
 	using Random = LineageServer.Server.Server.utils.Random;
 
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1NpcTalkData = LineageServer.Server.Server.Model.L1NpcTalkData;
@@ -435,14 +435,14 @@ namespace LineageServer.Server.Server.Model.Instance
 							L1Teleport.teleport(elf, 32878, 32980, (short) 2000, 6, true);
 							L1Teleport.teleport(wiz, 32876, 33003, (short) 2000, 0, true);
 							TeleportDelyTimer timer = new TeleportDelyTimer(this);
-							GeneralThreadPool.Instance.execute(timer);
+							RunnableExecuter.Instance.execute(timer);
 						}
 					}
 					else if (action.Equals("teleport barlog", StringComparison.OrdinalIgnoreCase))
 					{ // 古代人（Lv50クエスト古代の空間2F）
 						L1Teleport.teleport(player, 32755, 32844, (short) 2002, 5, true);
 						TeleportDelyTimer timer = new TeleportDelyTimer(this);
-						GeneralThreadPool.Instance.execute(timer);
+						RunnableExecuter.Instance.execute(timer);
 					}
 				}
 				catch (Exception)

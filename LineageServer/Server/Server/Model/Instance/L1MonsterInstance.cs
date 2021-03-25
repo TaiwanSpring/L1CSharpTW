@@ -26,7 +26,7 @@ namespace LineageServer.Server.Server.Model.Instance
 
 	using Config = LineageServer.Server.Config;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
 	using DropTable = LineageServer.Server.Server.DataSources.DropTable;
 	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
@@ -473,7 +473,7 @@ namespace LineageServer.Server.Server.Model.Instance
 						Status = ActionCodes.ACTION_Die;
 						openDoorWhenNpcDied(this);
 						Death death = new Death(this, attacker);
-						GeneralThreadPool.Instance.execute(death);
+						RunnableExecuter.Instance.execute(death);
 						// Death(attacker);
 						if (PortalNumber == -1 && (NpcTemplate.get_npcId() == 97006 || NpcTemplate.get_npcId() == 97007 || NpcTemplate.get_npcId() == 97044 || NpcTemplate.get_npcId() == 97045))
 						{
@@ -497,7 +497,7 @@ namespace LineageServer.Server.Server.Model.Instance
 				Dead = true;
 				Status = ActionCodes.ACTION_Die;
 				Death death = new Death(this, attacker);
-				GeneralThreadPool.Instance.execute(death);
+				RunnableExecuter.Instance.execute(death);
 				// Death(attacker);
 				if (PortalNumber == -1 && (NpcTemplate.get_npcId() == 97006 || NpcTemplate.get_npcId() == 97007 || NpcTemplate.get_npcId() == 97044 || NpcTemplate.get_npcId() == 97045))
 				{
@@ -1052,7 +1052,7 @@ namespace LineageServer.Server.Server.Model.Instance
 					if (_pc != null)
 					{
 						NextDragonStep nextDragonStep = new NextDragonStep(this, _pc, this, nextSpawnId);
-						GeneralThreadPool.Instance.execute(nextDragonStep);
+						RunnableExecuter.Instance.execute(nextDragonStep);
 					}
 				}
 			}

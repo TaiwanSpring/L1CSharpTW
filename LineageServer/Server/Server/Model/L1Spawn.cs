@@ -1,47 +1,20 @@
-﻿using System;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model.Gametime;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.Model.map;
+using LineageServer.Server.Server.Templates;
+using LineageServer.Server.Server.Types;
+using LineageServer.Server.Server.utils.collections;
+using System;
 using System.Collections.Generic;
 using System.Threading;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Server.Model
 {
-
-	using Config = LineageServer.Server.Config;
-	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
-	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
-	using L1DoorInstance = LineageServer.Server.Server.Model.Instance.L1DoorInstance;
-	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
-	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1GameTime = LineageServer.Server.Server.Model.gametime.L1GameTime;
-	using L1GameTimeAdapter = LineageServer.Server.Server.Model.gametime.L1GameTimeAdapter;
-	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;
-	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using L1SpawnTime = LineageServer.Server.Server.Templates.L1SpawnTime;
-	using Point = LineageServer.Server.Server.Types.Point;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
-
 	public class L1Spawn : L1GameTimeAdapter
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.getLogger(typeof(L1Spawn).FullName);
+		private static ILogger _log = Logger.getLogger(nameof(L1Spawn));
 
 		private readonly L1Npc _template;
 
@@ -59,10 +32,10 @@ namespace LineageServer.Server.Server.Model
 
 		private int _locy;
 
-//JAVA TO C# CONVERTER NOTE: Fields cannot have the same name as methods of the current type:
+		//JAVA TO C# CONVERTER NOTE: Fields cannot have the same name as methods of the current type:
 		private int Randomx_Conflict;
 
-//JAVA TO C# CONVERTER NOTE: Fields cannot have the same name as methods of the current type:
+		//JAVA TO C# CONVERTER NOTE: Fields cannot have the same name as methods of the current type:
 		private int Randomy_Conflict;
 
 		private int _locx1;
@@ -95,11 +68,11 @@ namespace LineageServer.Server.Server.Model
 
 		private IDictionary<int, Point> _homePoint = null; // initでspawnした個々のオブジェクトのホームポイント
 
-		private IList<L1NpcInstance> _mobs = Lists.newList();
+		private IList<L1NpcInstance> _mobs = Lists.newList<L1NpcInstance>();
 
 		private string _name;
 
-		private class SpawnTask : IRunnableStart
+		private class SpawnTask : IRunnable
 		{
 			private readonly L1Spawn outerInstance;
 
@@ -114,7 +87,7 @@ namespace LineageServer.Server.Server.Model
 				_objectId = objectId;
 			}
 
-			public override void run()
+			public void run()
 			{
 				outerInstance.doSpawn(_spawnNumber, _objectId);
 			}
@@ -396,15 +369,15 @@ namespace LineageServer.Server.Server.Model
 				respawnDelay += RandomHelper.Next(_delayInterval) * 1000;
 			}
 			L1GameTime currentTime = L1GameTimeClock.Instance.currentTime();
-			if ((_time != null) && !_time.TimePeriod.includes(currentTime))
+			if (( _time != null ) && !_time.includes(currentTime))
 			{ // 指定時間外なら指定時間までの時間を足す
-				long diff = (_time.TimeStart.Time - currentTime.toTime().Time);
+				long diff = (long)( _time.TimeStart - currentTime.Calendar ).TotalMilliseconds;
 				if (diff < 0)
 				{
-					diff += 24 * 1000L * 3600L;
+					diff += 24 * 3600 * 1000;
 				}
 				diff /= 6; // real time to game time
-				respawnDelay = (int) diff;
+				respawnDelay = (int)diff;
 			}
 			return respawnDelay;
 		}
@@ -417,7 +390,7 @@ namespace LineageServer.Server.Server.Model
 		public void ExecuteSpawnTask(int spawnNumber, int objectId)
 		{
 			SpawnTask task = new SpawnTask(this, spawnNumber, objectId);
-			GeneralThreadPool.Instance.schedule(task, calcRespawnDelay());
+			RunnableExecuter.Instance.execute(task, calcRespawnDelay());
 		}
 
 		private bool _initSpawn = false;
@@ -426,7 +399,7 @@ namespace LineageServer.Server.Server.Model
 
 		public virtual void init()
 		{
-			if ((_time != null) && _time.DeleteAtEndTime)
+			if (( _time != null ) && _time.DeleteAtEndTime)
 			{
 				// 時間外削除が指定されているなら、時間経過の通知を受ける。
 				L1GameTimeClock.Instance.addListener(this);
@@ -434,10 +407,10 @@ namespace LineageServer.Server.Server.Model
 			_delayInterval = _maxRespawnDelay - _minRespawnDelay;
 			_initSpawn = true;
 			// ホームポイントを持たせるか
-			if (Config.SPAWN_HOME_POINT && (Config.SPAWN_HOME_POINT_COUNT <= Amount) && (Config.SPAWN_HOME_POINT_DELAY >= MinRespawnDelay) && AreaSpawn)
+			if (Config.SPAWN_HOME_POINT && ( Config.SPAWN_HOME_POINT_COUNT <= Amount ) && ( Config.SPAWN_HOME_POINT_DELAY >= MinRespawnDelay ) && AreaSpawn)
 			{
 				_spawnHomePoint = true;
-				_homePoint = Maps.newMap();
+				_homePoint = Maps.newMap<int, Point>();
 			}
 
 			int spawnNum = 0;
@@ -453,11 +426,12 @@ namespace LineageServer.Server.Server.Model
 		/// ホームポイントがある場合は、spawnNumberを基にspawnする。 それ以外の場合は、spawnNumberは未使用。
 		/// </summary>
 		protected internal virtual void doSpawn(int spawnNumber)
-		{ // 初期配置
+		{
+			// 初期配置
 			// 指定時間外であれば、次spawnを予約して終わる。
-			if ((_time != null) && !_time.TimePeriod.includes(L1GameTimeClock.Instance.currentTime()))
+			if (( _time != null ) && !_time.includes(L1GameTimeClock.Instance.currentTime()))
 			{
-				executeSpawnTask(spawnNumber, 0);
+				ExecuteSpawnTask(spawnNumber, 0);
 				return;
 			}
 			doSpawn(spawnNumber, 0);
@@ -486,7 +460,7 @@ namespace LineageServer.Server.Server.Model
 					mob.Id = objectId; // オブジェクトID再利用
 				}
 
-				if ((0 <= Heading) && (Heading <= 7))
+				if (( 0 <= Heading ) && ( Heading <= 7 ))
 				{
 					mob.Heading = Heading;
 					//TODO 隨機面向byby9001183ex
@@ -503,21 +477,21 @@ namespace LineageServer.Server.Server.Model
 				}
 
 				int npcId = mob.NpcTemplate.get_npcId();
-				if ((npcId == 45488) && (MapId == 9))
+				if (( npcId == 45488 ) && ( MapId == 9 ))
 				{ // 卡士伯
-					mob.Map = (short)(MapId + RandomHelper.Next(2));
+					mob.Map = L1WorldMap.Instance.getMap((short)( MapId + RandomHelper.Next(2) ));
 				}
-				else if ((npcId == 45601) && (MapId == 11))
+				else if (( npcId == 45601 ) && ( MapId == 11 ))
 				{ // 死亡騎士
-					mob.Map = (short)(MapId + RandomHelper.Next(3));
+					mob.Map = L1WorldMap.Instance.getMap((short)( MapId + RandomHelper.Next(3) ));
 				}
-				else if ((npcId == 81322) && (MapId == 25))
+				else if (( npcId == 81322 ) && ( MapId == 25 ))
 				{ // 黑騎士副隊長
-					mob.Map = (short)(MapId + RandomHelper.Next(2));
+					mob.Map = L1WorldMap.Instance.getMap((short)( MapId + RandomHelper.Next(2) ));
 				}
 				else
 				{
-					mob.Map = MapId;
+					mob.Map = L1WorldMap.Instance.getMap(MapId);
 				}
 				mob.MovementDistance = MovementDistance;
 				mob.Rest = Rest;
@@ -528,7 +502,7 @@ namespace LineageServer.Server.Server.Model
 						case SPAWN_TYPE_PC_AROUND: // PC周辺に湧くタイプ
 							if (!_initSpawn)
 							{ // 初期配置では無条件に通常spawn
-								IList<L1PcInstance> players = Lists.newList();
+								IList<L1PcInstance> players = Lists.newList<L1PcInstance>();
 								foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
 								{
 									if (MapId == pc.MapId)
@@ -551,9 +525,9 @@ namespace LineageServer.Server.Server.Model
 							if (AreaSpawn)
 							{ // 座標が範囲指定されている場合
 								Point pt = null;
-								if (_spawnHomePoint && (null != (pt = _homePoint[spawnNumber])))
+								if (_spawnHomePoint && ( null != ( pt = _homePoint[spawnNumber] ) ))
 								{ // ホームポイントを元に再出現させる場合
-									L1Location loc = (new L1Location(pt, MapId)).randomLocation(Config.SPAWN_HOME_POINT_RANGE, false);
+									L1Location loc = ( new L1Location(pt, MapId) ).randomLocation(Config.SPAWN_HOME_POINT_RANGE, false);
 									newlocx = loc.X;
 									newlocy = loc.Y;
 								}
@@ -572,15 +546,15 @@ namespace LineageServer.Server.Server.Model
 							}
 							else if (RandomSpawn)
 							{ // 座標のランダム値が指定されている場合
-								newlocx = (LocX + (RandomHelper.Next(Randomx) - RandomHelper.Next(Randomx)));
-								newlocy = (LocY + (RandomHelper.Next(Randomy) - RandomHelper.Next(Randomy)));
+								newlocx = ( LocX + ( RandomHelper.Next(Randomx) - RandomHelper.Next(Randomx) ) );
+								newlocy = ( LocY + ( RandomHelper.Next(Randomy) - RandomHelper.Next(Randomy) ) );
 							}
 							else
 							{ // どちらも指定されていない場合
 								newlocx = LocX;
 								newlocy = LocY;
 							}
-						break;
+							break;
 					}
 					mob.X = newlocx;
 					mob.HomeX = newlocx;
@@ -595,14 +569,14 @@ namespace LineageServer.Server.Server.Model
 							{
 								break;
 							}
-							L1MonsterInstance mobtemp = (L1MonsterInstance) mob;
+							L1MonsterInstance mobtemp = (L1MonsterInstance)mob;
 							if (L1World.Instance.getVisiblePlayer(mobtemp).Count == 0)
 							{
 								break;
 							}
 							// 画面内にPCが居て出現できない場合は、3秒後にスケジューリングしてやり直し
 							SpawnTask task = new SpawnTask(this, spawnNumber, mob.Id);
-							GeneralThreadPool.Instance.schedule(task, 3000L);
+							RunnableExecuter.Instance.execute(task, 3000);
 							return;
 						}
 					}
@@ -610,7 +584,7 @@ namespace LineageServer.Server.Server.Model
 				}
 				if (mob is L1MonsterInstance)
 				{
-					((L1MonsterInstance) mob).initHide();
+					( (L1MonsterInstance)mob ).initHide();
 				}
 
 				mob.Spawn = this;
@@ -626,37 +600,37 @@ namespace LineageServer.Server.Server.Model
 				{
 					if (mob.MapId == 666)
 					{
-						((L1MonsterInstance) mob).set_storeDroped(true);
+						( (L1MonsterInstance)mob ).set_storeDroped(true);
 					}
 				}
-				if ((npcId == 45573) && (mob.MapId == 2))
+				if (( npcId == 45573 ) && ( mob.MapId == 2 ))
 				{ // バフォメット
 					foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
 					{
 						if (pc.MapId == 2)
 						{
-							L1Teleport.teleport(pc, 32664, 32797, (short) 2, 0, true);
+							L1Teleport.teleport(pc, 32664, 32797, (short)2, 0, true);
 						}
 					}
 				}
 
-				if (((npcId == 46142) && (mob.MapId == 73)) || ((npcId == 46141) && (mob.MapId == 74)))
+				if (( ( npcId == 46142 ) && ( mob.MapId == 73 ) ) || ( ( npcId == 46141 ) && ( mob.MapId == 74 ) ))
 				{
 					foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
 					{
-						if ((pc.MapId >= 72) && (pc.MapId <= 74))
+						if (( pc.MapId >= 72 ) && ( pc.MapId <= 74 ))
 						{
-							L1Teleport.teleport(pc, 32840, 32833, (short) 72, pc.Heading, true);
+							L1Teleport.teleport(pc, 32840, 32833, (short)72, pc.Heading, true);
 						}
 					}
 				}
-				if ((npcId == 81341) && ((mob.MapId == 2000) || (mob.MapId == 2001) || (mob.MapId == 2002) || (mob.MapId == 2003)))
+				if (( npcId == 81341 ) && ( ( mob.MapId == 2000 ) || ( mob.MapId == 2001 ) || ( mob.MapId == 2002 ) || ( mob.MapId == 2003 ) ))
 				{ // 再生之祭壇
 					foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
 					{
-						if ((pc.MapId >= 2000) && (pc.MapId <= 2003))
+						if (( pc.MapId >= 2000 ) && ( pc.MapId <= 2003 ))
 						{
-							L1Teleport.teleport(pc, 32933, 32988, (short) 410, 5, true);
+							L1Teleport.teleport(pc, 32933, 32988, (short)410, 5, true);
 						}
 					}
 				}
@@ -668,8 +642,8 @@ namespace LineageServer.Server.Server.Model
 
 				if (mob is L1MonsterInstance)
 				{
-					L1MonsterInstance mobtemp = (L1MonsterInstance) mob;
-					if (!_initSpawn && (mobtemp.HiddenStatus == 0))
+					L1MonsterInstance mobtemp = (L1MonsterInstance)mob;
+					if (!_initSpawn && ( mobtemp.HiddenStatus == 0 ))
 					{
 						mobtemp.onNpcAI(); // モンスターのＡＩを開始
 					}
@@ -721,7 +695,7 @@ namespace LineageServer.Server.Server.Model
 		{
 			get
 			{
-				return (LocX1 != 0) && (LocY1 != 0) && (LocX2 != 0) && (LocY2 != 0);
+				return ( LocX1 != 0 ) && ( LocY1 != 0 ) && ( LocX2 != 0 ) && ( LocY2 != 0 );
 			}
 		}
 
@@ -729,7 +703,7 @@ namespace LineageServer.Server.Server.Model
 		{
 			get
 			{
-				return (Randomx != 0) || (Randomy != 0);
+				return ( Randomx != 0 ) || ( Randomy != 0 );
 			}
 		}
 
@@ -748,7 +722,7 @@ namespace LineageServer.Server.Server.Model
 
 		public override void onMinuteChanged(L1GameTime time)
 		{
-			if (_time.TimePeriod.includes(time))
+			if (_time.includes(time))
 			{
 				return;
 			}
@@ -772,8 +746,8 @@ namespace LineageServer.Server.Server.Model
 
 		public static void doCrystalCave(int npcId)
 		{
-			int[] npcId2 = new int[] {46143, 46144, 46145, 46146, 46147, 46148, 46149, 46150, 46151, 46152};
-			int[] doorId = new int[] {5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010};
+			int[] npcId2 = new int[] { 46143, 46144, 46145, 46146, 46147, 46148, 46149, 46150, 46151, 46152 };
+			int[] doorId = new int[] { 5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010 };
 
 			for (int i = 0; i < npcId2.Length; i++)
 			{
@@ -790,7 +764,7 @@ namespace LineageServer.Server.Server.Model
 			{
 				if (@object is L1DoorInstance)
 				{
-					L1DoorInstance door = (L1DoorInstance) @object;
+					L1DoorInstance door = (L1DoorInstance)@object;
 					if (door.DoorId == doorId)
 					{
 						door.close();

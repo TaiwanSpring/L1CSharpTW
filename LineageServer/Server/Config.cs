@@ -512,8 +512,8 @@ namespace LineageServer.Server
 				DB_URL = serverSettings.getProperty("URL", "jdbc:mysql://localhost/l1jdb?useUnicode=true&characterEncoding=utf8");
 				DB_LOGIN = serverSettings.getProperty("Login", "root");
 				DB_PASSWORD = serverSettings.getProperty("Password", "");
-				THREAD_P_TYPE_GENERAL = Convert.ToInt32(serverSettings.getProperty("GeneralThreadPoolType", "0"), 10);
-				THREAD_P_SIZE_GENERAL = Convert.ToInt32(serverSettings.getProperty("GeneralThreadPoolSize", "0"), 10);
+				THREAD_P_TYPE_GENERAL = Convert.ToInt32(serverSettings.getProperty("RunnableExecuterType", "0"), 10);
+				THREAD_P_SIZE_GENERAL = Convert.ToInt32(serverSettings.getProperty("RunnableExecuterSize", "0"), 10);
 				CLIENT_LANGUAGE = int.Parse(serverSettings.getProperty("ClientLanguage", "4"));
 				CLIENT_LANGUAGE_CODE = LANGUAGE_CODE_ARRAY[CLIENT_LANGUAGE];
 				TIME_ZONE = serverSettings.getProperty("TimeZone", "Asia/Taipei");

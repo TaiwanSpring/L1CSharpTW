@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.Model
 
 	using Config = LineageServer.Server.Config;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using UBSpawnTable = LineageServer.Server.Server.DataSources.UBSpawnTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
@@ -411,7 +411,7 @@ namespace LineageServer.Server.Server.Model
 			_pattern = RandomHelper.Next(patternsMax) + 1; // 出現パターンを決める
 
 			UbThread ub = new UbThread(this);
-			GeneralThreadPool.Instance.execute(ub);
+			RunnableExecuter.Instance.execute(ub);
 		}
 
 		/// <summary>

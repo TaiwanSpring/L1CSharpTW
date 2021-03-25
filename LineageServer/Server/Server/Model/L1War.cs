@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Model
 {
 
 	using Config = LineageServer.Server.Config;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using WarTimeController = LineageServer.Server.Server.WarTimeController;
 	using CastleTable = LineageServer.Server.Server.DataSources.CastleTable;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
@@ -148,12 +148,12 @@ namespace LineageServer.Server.Server.Model
 				}
 
 				CastleWarTimer castle_war_timer = new CastleWarTimer(this);
-				GeneralThreadPool.Instance.execute(castle_war_timer); // タイマー開始
+				RunnableExecuter.Instance.execute(castle_war_timer); // タイマー開始
 			}
 			else if (war_type == 2)
 			{ // 模擬戦
 				SimWarTimer sim_war_timer = new SimWarTimer(this);
-				GeneralThreadPool.Instance.execute(sim_war_timer); // タイマー開始
+				RunnableExecuter.Instance.execute(sim_war_timer); // タイマー開始
 			}
 			L1World.Instance.addWar(this); // 戦争リストに追加
 		}

@@ -17,13 +17,14 @@ namespace LineageServer.Server.Server.serverpackets
 	using FastTable = javolution.util.FastTable;
 	using Opcodes = LineageServer.Server.Server.Opcodes;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
+	using System.Collections.Generic;
 
 	/// <summary>
 	/// 屬於PacketBox的封包 只是抓出來另外寫
 	/// GameStart	進入賽跑的畫面
 	/// GameEnd		離開賽跑的畫面
 	/// </summary>
-	public class S_Race : ServerBasePacket
+	class S_Race : ServerBasePacket
 	{
 		private const string S_RACE = "[S] S_Race";
 
@@ -48,12 +49,12 @@ namespace LineageServer.Server.Server.serverpackets
 			}
 		}
 
-		public S_Race(FastTable<L1PcInstance> playerList, L1PcInstance pc)
+		public S_Race(List<L1PcInstance> playerList, L1PcInstance pc)
 		{
 			writeC(Opcodes.S_OPCODE_PACKETBOX);
 			writeC(PlayerInfo);
-			writeH(playerList.size()); //參賽者人數
-			writeH(playerList.indexOf(pc)); //名次
+			writeH(playerList.Count); //參賽者人數
+			writeH(playerList.IndexOf(pc)); //名次
 			foreach (L1PcInstance player in playerList)
 			{
 				if (player == null)

@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server.serverpackets
 {
 	using Opcodes = LineageServer.Server.Server.Opcodes;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;
+	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 
 	// Referenced classes of package l1j.server.server.serverpackets:
 	// ServerBasePacket

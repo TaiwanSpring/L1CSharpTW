@@ -122,7 +122,7 @@ namespace LineageServer.Server.Server
 		public virtual void doAnnouncecycle()
 		{
 			AnnouncTask rs = new AnnouncTask(this); // 建立執行緒
-			GeneralThreadPool.Instance.scheduleAtFixedRate(rs, 180000, 60000 * Config.Show_Announcecycle_Time);
+			RunnableExecuter.Instance.scheduleAtFixedRate(rs, 180000, 60000 * Config.Show_Announcecycle_Time);
 			// 10分鐘公告一次(60秒*1分*1000毫秒)
 		}
 

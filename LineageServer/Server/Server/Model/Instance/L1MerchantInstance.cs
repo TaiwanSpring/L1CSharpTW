@@ -32,8 +32,8 @@ namespace LineageServer.Server.Server.Model.Instance
 	using L1Quest = LineageServer.Server.Server.Model.L1Quest;
 	using L1TownLocation = LineageServer.Server.Server.Model.L1TownLocation;
 	using L1World = LineageServer.Server.Server.Model.L1World;
-	using L1BugBearRace = LineageServer.Server.Server.Model.game.L1BugBearRace;
-	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;
+	using L1BugBearRace = LineageServer.Server.Server.Model.Game.L1BugBearRace;
+	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using L1SkillUse = LineageServer.Server.Server.Model.skill.L1SkillUse;
 	using S_ChangeHeading = LineageServer.Server.Server.serverpackets.S_ChangeHeading;
 	using S_NPCTalkReturn = LineageServer.Server.Server.serverpackets.S_NPCTalkReturn;

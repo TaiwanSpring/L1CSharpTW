@@ -1,36 +1,11 @@
-﻿using System;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.serverpackets;
+using LineageServer.Server.Server.Templates;
+using System;
 namespace LineageServer.Server.Server.Model.Instance
 {
-	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
-	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
-	using L1Character = LineageServer.Server.Server.Model.L1Character;
-	using L1Location = LineageServer.Server.Server.Model.L1Location;
-	using L1World = LineageServer.Server.Server.Model.L1World;
-	using S_DoActionGFX = LineageServer.Server.Server.serverpackets.S_DoActionGFX;
-	using S_Door = LineageServer.Server.Server.serverpackets.S_Door;
-	using S_DoorPack = LineageServer.Server.Server.serverpackets.S_DoorPack;
-	using S_RemoveObject = LineageServer.Server.Server.serverpackets.S_RemoveObject;
-	using L1DoorGfx = LineageServer.Server.Server.Templates.L1DoorGfx;
-	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-
 	[Serializable]
-	public class L1DoorInstance : L1NpcInstance
+	class L1DoorInstance : L1NpcInstance
 	{
 
 		private const long serialVersionUID = 1L;
@@ -135,23 +110,23 @@ namespace LineageServer.Server.Server.Model.Instance
 		private void updateStatus()
 		{
 			int newStatus = 0;
-			if ((MaxHp * 1 / 6) > CurrentHp)
+			if (( MaxHp * 1 / 6 ) > CurrentHp)
 			{
 				newStatus = ActionCodes.ACTION_DoorAction5;
 			}
-			else if ((MaxHp * 2 / 6) > CurrentHp)
+			else if (( MaxHp * 2 / 6 ) > CurrentHp)
 			{
 				newStatus = ActionCodes.ACTION_DoorAction4;
 			}
-			else if ((MaxHp * 3 / 6) > CurrentHp)
+			else if (( MaxHp * 3 / 6 ) > CurrentHp)
 			{
 				newStatus = ActionCodes.ACTION_DoorAction3;
 			}
-			else if ((MaxHp * 4 / 6) > CurrentHp)
+			else if (( MaxHp * 4 / 6 ) > CurrentHp)
 			{
 				newStatus = ActionCodes.ACTION_DoorAction2;
 			}
-			else if ((MaxHp * 5 / 6) > CurrentHp)
+			else if (( MaxHp * 5 / 6 ) > CurrentHp)
 			{
 				newStatus = ActionCodes.ACTION_DoorAction1;
 			}
@@ -182,7 +157,7 @@ namespace LineageServer.Server.Server.Model.Instance
 			Dead = true;
 			Status = ActionCodes.ACTION_DoorDie;
 
-			System.Collections.IDictionary.setPassable(Location, true);
+			Map.setPassable(Location, true);
 
 			broadcastPacket(new S_DoActionGFX(Id, ActionCodes.ACTION_DoorDie));
 			sendDoorPacket(null);
@@ -232,7 +207,7 @@ namespace LineageServer.Server.Server.Model.Instance
 			S_Door packet = new S_Door(x, y, Direction, Passable);
 			if (pc != null)
 			{ // onPerceive()経由の場合
-				// 開いている場合は通行不可パケット送信不要
+			  // 開いている場合は通行不可パケット送信不要
 				if (OpenStatus == ActionCodes.ACTION_Close)
 				{
 					pc.sendPackets(packet);

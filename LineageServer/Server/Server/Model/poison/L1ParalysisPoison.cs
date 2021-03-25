@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Model.poison
 //	import static l1j.server.server.model.skill.L1SkillId.STATUS_POISON_PARALYZED;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.model.skill.L1SkillId.STATUS_POISON_PARALYZING;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_Paralysis = LineageServer.Server.Server.serverpackets.S_Paralysis;
@@ -77,7 +77,7 @@ namespace LineageServer.Server.Server.Model.poison
 					{
 						player.sendPackets(new S_Paralysis(1, true)); // 麻痺状態にする
 						outerInstance._timer = new ParalysisTimer(outerInstance);
-						GeneralThreadPool.Instance.execute(outerInstance._timer); // 麻痺タイマー開始
+						RunnableExecuter.Instance.execute(outerInstance._timer); // 麻痺タイマー開始
 						if (Interrupted)
 						{
 							outerInstance._timer.Interrupt();
@@ -149,7 +149,7 @@ namespace LineageServer.Server.Server.Model.poison
 			if (_target is L1PcInstance)
 			{
 				_timer = new ParalysisPoisonTimer(this);
-				GeneralThreadPool.Instance.execute(_timer);
+				RunnableExecuter.Instance.execute(_timer);
 			}
 		}
 

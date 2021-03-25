@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Model
 //	import static l1j.server.server.model.skill.L1SkillId.STATUS_CURSE_PARALYZED;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.model.skill.L1SkillId.STATUS_CURSE_PARALYZING;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_Paralysis = LineageServer.Server.Server.serverpackets.S_Paralysis;
@@ -72,7 +72,7 @@ namespace LineageServer.Server.Server.Model
 				}
 				outerInstance._target.Paralyzed = true;
 				outerInstance._timer = new ParalysisTimer(outerInstance);
-				GeneralThreadPool.Instance.execute(outerInstance._timer); // 麻痺タイマー開始
+				RunnableExecuter.Instance.execute(outerInstance._timer); // 麻痺タイマー開始
 				if (Interrupted)
 				{
 					outerInstance._timer.Interrupt();
@@ -135,7 +135,7 @@ namespace LineageServer.Server.Server.Model
 			_target.PoisonEffect = 2;
 
 			_timer = new ParalysisDelayTimer(this);
-			GeneralThreadPool.Instance.execute(_timer);
+			RunnableExecuter.Instance.execute(_timer);
 		}
 
 		public static bool curse(L1Character cha, int delay, int time)

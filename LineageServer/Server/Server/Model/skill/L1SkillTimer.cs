@@ -1806,7 +1806,7 @@ namespace LineageServer.Server.Server.Model.skill
 
 		public virtual void begin()
 		{
-			GeneralThreadPool.Instance.execute(this);
+			RunnableExecuter.Instance.execute(this);
 		}
 
 		public virtual void end()
@@ -1862,7 +1862,7 @@ namespace LineageServer.Server.Server.Model.skill
 
 		public virtual void begin()
 		{
-			_future = GeneralThreadPool.Instance.scheduleAtFixedRate(this, 1000, 1000);
+			_future = RunnableExecuter.Instance.scheduleAtFixedRate(this, 1000, 1000);
 		}
 
 		public virtual void end()

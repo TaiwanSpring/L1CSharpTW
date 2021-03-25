@@ -7,32 +7,17 @@ namespace LineageServer.Server.Server.Model
 	/// 所有對象的基底
 	/// </summary>
 	[Serializable]
-	public class L1Object
+	class L1Object
 	{
-		private const long serialVersionUID = 1L;
-
 		/// <summary>
 		/// 取得對象所存在的地圖ID
 		/// </summary>
 		/// <returns> 地圖ID </returns>
 		public virtual short MapId
 		{
-			get
-			{
-				return (short) _loc.getMap().Id;
-			}
+			get { return (short)_loc.getMap().Id; }
+			set { _loc.setMap(L1WorldMap.Instance.getMap(value)); }
 		}
-
-		/// <summary>
-		/// 設定對象所存在的地圖ID
-		/// </summary>
-		/// <param name="mapId">
-		///            地圖ID </param>
-		public virtual void setMap(short mapId)
-		{
-			_loc.setMap(L1WorldMap.Instance.getMap(mapId));
-		}
-
 		/// <summary>
 		/// 取得對象所存在的地圖
 		/// 
@@ -41,7 +26,6 @@ namespace LineageServer.Server.Server.Model
 		{
 			return _loc.getMap();
 		}
-
 		/// <summary>
 		/// 設定對象所存在的地圖
 		/// </summary>
@@ -51,64 +35,39 @@ namespace LineageServer.Server.Server.Model
 		{
 			if (map == null)
 			{
-				throw new System.NullReferenceException();
+				throw new NullReferenceException();
 			}
 			_loc.setMap(map);
 		}
-
+		private int _id = 0;
 		/// <summary>
 		/// 取得對象在世界中唯一的ID
 		/// </summary>
 		/// <returns> 唯一的ID </returns>
 		public virtual int Id
 		{
-			get
-			{
-				return _id;
-			}
-			set
-			{
-				_id = value;
-			}
+			get { return _id; }
+			set { _id = value; }
 		}
-
-
 		/// <summary>
 		/// 取得對象在地圖上的X軸值
 		/// </summary>
 		/// <returns> 座標X軸值 </returns>
 		public virtual int X
 		{
-			get
-			{
-				return _loc.X;
-			}
-			set
-			{
-				_loc.X = value;
-			}
+			get { return _loc.X; }
+			set { _loc.X = value; }
 		}
-
-
 		/// <summary>
 		/// 取得對象在地圖上的Y軸值
 		/// </summary>
 		/// <returns> 座標Y軸值 </returns>
 		public virtual int Y
 		{
-			get
-			{
-				return _loc.Y;
-			}
-			set
-			{
-				_loc.Y = value;
-			}
+			get { return _loc.Y; }
+			set { _loc.Y = value; }
 		}
-
-
 		private L1Location _loc = new L1Location();
-
 		/// <summary>
 		/// 對象存在在地圖上的L1Location
 		/// </summary>
@@ -126,15 +85,12 @@ namespace LineageServer.Server.Server.Model
 				_loc.setMap(value.MapId);
 			}
 		}
-
-
 		public virtual void setLocation(int x, int y, int mapid)
 		{
 			_loc.X = x;
 			_loc.Y = y;
 			_loc.setMap(mapid);
 		}
-
 		/// <summary>
 		/// 取得與另一個對象間的直線距離。
 		/// </summary>
@@ -142,7 +98,6 @@ namespace LineageServer.Server.Server.Model
 		{
 			return this.Location.getLineDistance(obj.Location);
 		}
-
 		/// <summary>
 		/// 取得與另一個對象間的距離X軸或Y軸較大的那一個。
 		/// </summary>
@@ -150,7 +105,6 @@ namespace LineageServer.Server.Server.Model
 		{
 			return this.Location.getTileLineDistance(obj.Location);
 		}
-
 		/// <summary>
 		/// 取得與另一個對象間的X軸+Y軸的距離。
 		/// </summary>
@@ -158,7 +112,6 @@ namespace LineageServer.Server.Server.Model
 		{
 			return this.Location.getTileDistance(obj.Location);
 		}
-
 		/// <summary>
 		/// 對象的螢幕範圍進入玩家
 		/// </summary>
@@ -166,8 +119,8 @@ namespace LineageServer.Server.Server.Model
 		///            進入螢幕範圍的玩家 </param>
 		public virtual void onPerceive(L1PcInstance perceivedFrom)
 		{
-		}
 
+		}
 		/// <summary>
 		/// 對象對玩家採取的行動
 		/// </summary>
@@ -175,8 +128,8 @@ namespace LineageServer.Server.Server.Model
 		///            要採取行動的玩家目標 </param>
 		public virtual void onAction(L1PcInstance actionFrom)
 		{
-		}
 
+		}
 		/// <summary>
 		/// 與對象交談的玩家
 		/// </summary>
@@ -184,10 +137,13 @@ namespace LineageServer.Server.Server.Model
 		///            交談的玩家 </param>
 		public virtual void onTalkAction(L1PcInstance talkFrom)
 		{
+
 		}
-
-		private int _id = 0;
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="skillId"></param>
 		public virtual void onAction(L1PcInstance attacker, int skillId)
 		{
 

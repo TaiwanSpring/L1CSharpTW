@@ -2,7 +2,7 @@
 
 namespace LineageServer.Models
 {
-    public class StringTokenizer
+	public class StringTokenizer
     {
         readonly string[] tokens;
 

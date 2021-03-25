@@ -14,7 +14,7 @@ using System.Linq;
 using LineageServer.Interfaces;
 using LineageServer.Server.Server.Model.map;
 using LineageServer.Server.Server.utils;
-using LineageServer.Server.Server.Model.gametime;
+using LineageServer.Server.Server.Model.Gametime;
 
 namespace LineageServer.Server.Server.Model.Instance
 {
@@ -277,7 +277,7 @@ namespace LineageServer.Server.Server.Model.Instance
         public virtual void startObjectAutoUpdate()
         {
             removeAllKnownObjects();
-            _autoUpdateFuture = GeneralThreadPool.Instance.pcScheduleAtFixedRate(new L1PcAutoUpdate(Id), 0, INTERVAL_AUTO_UPDATE);
+            _autoUpdateFuture = RunnableExecuter.Instance.pcScheduleAtFixedRate(new L1PcAutoUpdate(Id), 0, INTERVAL_AUTO_UPDATE);
         }
 
         /// <summary>
@@ -1692,7 +1692,7 @@ namespace LineageServer.Server.Server.Model.Instance
                 trade.TradeCancel(this);
             }
 
-            GeneralThreadPool.Instance.execute(new Death(this, lastAttacker));
+            RunnableExecuter.Instance.execute(new Death(this, lastAttacker));
         }
         public L1Map Map { get; set; }
         private class Death : IRunnable
@@ -3407,7 +3407,7 @@ namespace LineageServer.Server.Server.Model.Instance
         public virtual void beginInvisTimer()
         {
             addInvisDelayCounter(1);
-            GeneralThreadPool.Instance.pcSchedule(new L1PcInvisDelay(Id), 3000);
+            RunnableExecuter.Instance.pcSchedule(new L1PcInvisDelay(Id), 3000);
         }
 
         public virtual void addExp(long exp)
@@ -3432,7 +3432,7 @@ namespace LineageServer.Server.Server.Model.Instance
 
         public virtual void beginExpMonitor()
         {
-            _expMonitorFuture = GeneralThreadPool.Instance.pcScheduleAtFixedRate(new L1PcExpMonitor(Id), 0, INTERVAL_EXP_MONITOR);
+            _expMonitorFuture = RunnableExecuter.Instance.pcScheduleAtFixedRate(new L1PcExpMonitor(Id), 0, INTERVAL_EXP_MONITOR);
         }
 
         private void levelUp(int gap)
@@ -3643,7 +3643,7 @@ namespace LineageServer.Server.Server.Model.Instance
             L1Teleport.teleport(this, locx, locy, mapid, 5, true);
             if (sec > 0)
             {
-                _ghostFuture = GeneralThreadPool.Instance.pcSchedule(new L1PcGhostMonitor(Id), sec * 1000);
+                _ghostFuture = RunnableExecuter.Instance.pcSchedule(new L1PcGhostMonitor(Id), sec * 1000);
             }
         }
 
@@ -3707,7 +3707,7 @@ namespace LineageServer.Server.Server.Model.Instance
             }
             if (_hellFuture == null)
             {
-                _hellFuture = GeneralThreadPool.Instance.pcScheduleAtFixedRate(new L1PcHellMonitor(Id), 0, 1000);
+                _hellFuture = RunnableExecuter.Instance.pcScheduleAtFixedRate(new L1PcHellMonitor(Id), 0, 1000);
             }
         }
 

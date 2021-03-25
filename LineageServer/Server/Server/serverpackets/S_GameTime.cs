@@ -15,7 +15,7 @@
 namespace LineageServer.Server.Server.serverpackets
 {
 	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;
+	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 
 	public class S_GameTime : ServerBasePacket
 	{

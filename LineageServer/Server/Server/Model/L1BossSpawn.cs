@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model
 	using Random = LineageServer.Server.Server.utils.Random;
 
 	using Config = LineageServer.Server.Config;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
 
 	public class L1BossSpawn : L1Spawn
@@ -168,7 +168,7 @@ namespace LineageServer.Server.Server.Model
 			while (cnt < Amount)
 			{
 				cnt++;
-				GeneralThreadPool.Instance.schedule(new SpawnTask(this, this, 0, objectId), delay);
+				RunnableExecuter.Instance.schedule(new SpawnTask(this, this, 0, objectId), delay);
 			}
 			_log.log(Level.FINE, ToString());
 		}

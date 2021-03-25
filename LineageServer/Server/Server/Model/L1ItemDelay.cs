@@ -17,7 +17,7 @@
 namespace LineageServer.Server.Server.Model
 {
 	using ClientThread = LineageServer.Server.Server.ClientThread;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_Paralysis = LineageServer.Server.Server.serverpackets.S_Paralysis;
@@ -109,7 +109,7 @@ namespace LineageServer.Server.Server.Model
 
 			ItemDelayTimer timer = new ItemDelayTimer(pc, delayId);
 			pc.addItemDelay(delayId, timer);
-			GeneralThreadPool.Instance.schedule(timer, delayTime);
+			RunnableExecuter.Instance.schedule(timer, delayTime);
 
 		}
 
@@ -117,7 +117,7 @@ namespace LineageServer.Server.Server.Model
 		{
 			int delayTime = ((L1EtcItem) item.Item).get_delaytime();
 			TeleportUnlockTimer timer = new TeleportUnlockTimer(pc);
-			GeneralThreadPool.Instance.schedule(timer, delayTime);
+			RunnableExecuter.Instance.schedule(timer, delayTime);
 		}
 
 	}

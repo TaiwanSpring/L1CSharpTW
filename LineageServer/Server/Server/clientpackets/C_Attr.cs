@@ -602,7 +602,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     }
                     break;
                 case 1256: // 寵物競速 預約名單回應
-                    LineageServer.Server.Server.Model.game.L1PolyRace.Instance.requsetAttr(pc, readC());
+                    LineageServer.Server.Server.Model.Game.L1PolyRace.Instance.requsetAttr(pc, readC());
                     break;
                 default:
                     break;

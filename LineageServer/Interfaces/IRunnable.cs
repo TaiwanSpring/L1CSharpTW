@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LineageServer.Interfaces
+﻿namespace LineageServer.Interfaces
 {
-    interface IRunnable
-    {
-        void run();
-    }
+	interface IRunnable
+	{
+		void run();
+	}
 }

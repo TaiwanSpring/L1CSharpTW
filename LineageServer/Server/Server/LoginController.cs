@@ -86,7 +86,7 @@ namespace LineageServer.Server.Server
 				return;
 			}
 
-			GeneralThreadPool.Instance.execute(() =>
+			RunnableExecuter.Instance.execute(() =>
 			{
 			if (client.ActiveChar != null)
 			{

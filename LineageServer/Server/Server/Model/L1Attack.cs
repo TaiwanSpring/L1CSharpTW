@@ -25,7 +25,7 @@ namespace LineageServer.Server.Server.Model
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1PetInstance = LineageServer.Server.Server.Model.Instance.L1PetInstance;
 	using L1SummonInstance = LineageServer.Server.Server.Model.Instance.L1SummonInstance;
-	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;
+	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using L1NpcDefaultAction = LineageServer.Server.Server.Model.npc.action.L1NpcDefaultAction;
 	using L1DamagePoison = LineageServer.Server.Server.Model.poison.L1DamagePoison;
 	using L1ParalysisPoison = LineageServer.Server.Server.Model.poison.L1ParalysisPoison;

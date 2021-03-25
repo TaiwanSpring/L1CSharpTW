@@ -24,7 +24,7 @@ namespace LineageServer.Server.Server.Model.Instance
 
 	using Config = LineageServer.Server.Config;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using DropTable = LineageServer.Server.Server.DataSources.DropTable;
 	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
@@ -143,7 +143,7 @@ namespace LineageServer.Server.Server.Model.Instance
 		public virtual void doGDropItem(int timer)
 		{
 			GDropItemTask task = new GDropItemTask(this);
-			GeneralThreadPool.Instance.schedule(task, timer * 60000);
+			RunnableExecuter.Instance.schedule(task, timer * 60000);
 		}
 
 		private class GDropItemTask : IRunnableStart
@@ -500,7 +500,7 @@ namespace LineageServer.Server.Server.Model.Instance
 							Status = ActionCodes.ACTION_Die;
 							_lastattacker = attacker;
 							Death death = new Death(this);
-							GeneralThreadPool.Instance.execute(death);
+							RunnableExecuter.Instance.execute(death);
 						}
 						if (newHp > 0)
 						{
@@ -513,7 +513,7 @@ namespace LineageServer.Server.Server.Model.Instance
 						Status = ActionCodes.ACTION_Die;
 						_lastattacker = attacker;
 						Death death = new Death(this);
-						GeneralThreadPool.Instance.execute(death);
+						RunnableExecuter.Instance.execute(death);
 					}
 				}
 			}

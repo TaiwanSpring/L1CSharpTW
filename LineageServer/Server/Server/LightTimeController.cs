@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1FieldObjectInstance = LineageServer.Server.Server.Model.Instance.L1FieldObjectInstance;
-	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;
+	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 
 	public class LightTimeController : IRunnableStart
 	{

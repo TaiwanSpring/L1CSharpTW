@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server.Model.Instance
 
 
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
 	using DropTable = LineageServer.Server.Server.DataSources.DropTable;
 	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
@@ -154,7 +154,7 @@ namespace LineageServer.Server.Server.Model.Instance
 		{
 			Id = IdFactory.Instance.nextId();
 
-			_summonFuture = GeneralThreadPool.Instance.schedule(new SummonTimer(this), SUMMON_TIME);
+			_summonFuture = RunnableExecuter.Instance.schedule(new SummonTimer(this), SUMMON_TIME);
 
 			Master = master;
 			X = master.X + RandomHelper.Next(5) - 2;
@@ -229,7 +229,7 @@ namespace LineageServer.Server.Server.Model.Instance
 				CurrentMpDirect = target.CurrentMp;
 			}
 
-			_summonFuture = GeneralThreadPool.Instance.schedule(new SummonTimer(this), SUMMON_TIME);
+			_summonFuture = RunnableExecuter.Instance.schedule(new SummonTimer(this), SUMMON_TIME);
 
 			Master = master;
 			X = target.X;

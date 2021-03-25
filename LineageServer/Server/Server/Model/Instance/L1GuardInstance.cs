@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Model.Instance
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.model.skill.L1SkillId.FOG_OF_SLEEPING;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
@@ -513,7 +513,7 @@ namespace LineageServer.Server.Server.Model.Instance
 					Dead = true;
 					Status = ActionCodes.ACTION_Die;
 					Death death = new Death(this, attacker);
-					GeneralThreadPool.Instance.execute(death);
+					RunnableExecuter.Instance.execute(death);
 				}
 				if (newHp > 0)
 				{
@@ -528,7 +528,7 @@ namespace LineageServer.Server.Server.Model.Instance
 				Dead = true;
 				Status = ActionCodes.ACTION_Die;
 				Death death = new Death(this, attacker);
-				GeneralThreadPool.Instance.execute(death);
+				RunnableExecuter.Instance.execute(death);
 			}
 		}
 

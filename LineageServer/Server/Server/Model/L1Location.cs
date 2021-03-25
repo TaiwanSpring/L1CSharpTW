@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Model
 		{
 		}
 
-		public L1Location(L1Location loc) : this(loc._x, loc._y, loc._map)
+		public L1Location(L1Location loc) : this(loc.X, loc.Y, loc._map)
 		{
 		}
 
@@ -39,8 +39,8 @@ namespace LineageServer.Server.Server.Model
 		public virtual void set(L1Location loc)
 		{
 			_map = loc._map;
-			_x = loc._x;
-			_y = loc._y;
+			X = loc.X;
+			Y = loc.Y;
 		}
 
 		public virtual void set(int x, int y, int mapId)
@@ -87,17 +87,17 @@ namespace LineageServer.Server.Server.Model
 
 		public virtual void setMap(int mapId)
 		{
-			_map = L1WorldMap.Instance.getMap((short) mapId);
+			_map = L1WorldMap.Instance.getMap((short)mapId);
 		}
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is L1Location))
+			if (!( obj is L1Location ))
 			{
 				return false;
 			}
-			L1Location loc = (L1Location) obj;
-			return (getMap() == loc.getMap()) && (X == loc.X) && (Y == loc.Y);
+			L1Location loc = (L1Location)obj;
+			return ( getMap() == loc.getMap() ) && ( X == loc.X ) && ( Y == loc.Y );
 		}
 
 		public override int GetHashCode()
@@ -107,7 +107,7 @@ namespace LineageServer.Server.Server.Model
 
 		public override string ToString()
 		{
-			return string.Format("({0:D}, {1:D}) on {2:D}", _x, _y, _map.Id);
+			return string.Format("({0:D}, {1:D}) on {2:D}", X, Y, _map.Id);
 		}
 
 		/// <summary>
@@ -173,7 +173,7 @@ namespace LineageServer.Server.Server.Model
 			int newY = 0;
 			int locX = baseLocation.X;
 			int locY = baseLocation.Y;
-			short mapId = (short) baseLocation.MapId;
+			short mapId = (short)baseLocation.MapId;
 			L1Map map = baseLocation.getMap();
 
 			newLocation.setMap(map);
@@ -212,9 +212,9 @@ namespace LineageServer.Server.Server.Model
 
 			int trial = 0;
 			// 試行回数を範囲最小値によってあげる為の計算
-			int amax = (int) Math.Pow(1 + (max * 2), 2);
-			int amin = (min == 0) ? 0 : (int) Math.Pow(1 + ((min - 1) * 2), 2);
-			int trialLimit = 40 * amax / (amax - amin);
+			int amax = (int)Math.Pow(1 + ( max * 2 ), 2);
+			int amin = ( min == 0 ) ? 0 : (int)Math.Pow(1 + ( ( min - 1 ) * 2 ), 2);
+			int trialLimit = 40 * amax / ( amax - amin );
 			Random random = new Random(DateTime.Now.Millisecond);
 			while (true)
 			{

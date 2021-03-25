@@ -16,7 +16,7 @@
 /// </summary>
 namespace LineageServer.Server.Server.Model.monitor
 {
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 
 	public class L1PcHellMonitor : L1PcMonitor
@@ -37,7 +37,7 @@ namespace LineageServer.Server.Server.Model.monitor
 			{
 				// endHellの実行時間が影響ないように
 				ThreadStart r = new L1PcMonitorAnonymousInnerClass(this, pc.Id);
-				GeneralThreadPool.Instance.execute(r);
+				RunnableExecuter.Instance.execute(r);
 			}
 		}
 

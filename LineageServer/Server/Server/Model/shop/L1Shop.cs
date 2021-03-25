@@ -29,7 +29,7 @@ namespace LineageServer.Server.Server.Model.shop
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1BugBearRace = LineageServer.Server.Server.Model.game.L1BugBearRace;
+	using L1BugBearRace = LineageServer.Server.Server.Model.Game.L1BugBearRace;
 	using L1ItemId = LineageServer.Server.Server.Model.identity.L1ItemId;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using L1Castle = LineageServer.Server.Server.Templates.L1Castle;

@@ -32,7 +32,7 @@ namespace LineageServer.Server.Server.Model.Instance
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.model.skill.L1SkillId.STATUS_CUBE_SHOCK_TO_ENEMY;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using WarTimeController = LineageServer.Server.Server.WarTimeController;
 	using SkillsTable = LineageServer.Server.Server.DataSources.SkillsTable;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
@@ -68,15 +68,15 @@ namespace LineageServer.Server.Server.Model.Instance
 			int npcId = NpcTemplate.get_npcId();
 			if (npcId == 81157)
 			{ // FW
-				GeneralThreadPool.Instance.schedule(new FwDamageTimer(this, this), 0);
+				RunnableExecuter.Instance.schedule(new FwDamageTimer(this, this), 0);
 			}
 			else if ((npcId == 80149) || (npcId == 80150) || (npcId == 80151) || (npcId == 80152))
 			{ // キューブ[バランス]
-				GeneralThreadPool.Instance.schedule(new CubeTimer(this, this), 0);
+				RunnableExecuter.Instance.schedule(new CubeTimer(this, this), 0);
 			}
 			else if (npcId == 93002)
 			{ // 毒霧
-				GeneralThreadPool.Instance.schedule(new PoisonTimer(this, this), 0);
+				RunnableExecuter.Instance.schedule(new PoisonTimer(this, this), 0);
 			}
 		}
 

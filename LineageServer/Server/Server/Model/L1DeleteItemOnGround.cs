@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model
 
 	using Config = LineageServer.Server.Config;
 	using L1Message = LineageServer.Server.L1Message;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
@@ -88,7 +88,7 @@ namespace LineageServer.Server.Server.Model
 			}
 
 			_deleteTimer = new DeleteTimer(this);
-			GeneralThreadPool.Instance.execute(_deleteTimer); // タイマー開始
+			RunnableExecuter.Instance.execute(_deleteTimer); // タイマー開始
 		}
 
 		private void deleteItem()

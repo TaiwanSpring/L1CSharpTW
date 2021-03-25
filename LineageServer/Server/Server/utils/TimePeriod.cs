@@ -15,7 +15,7 @@
 namespace LineageServer.Server.Server.utils
 {
 
-	using L1GameTime = LineageServer.Server.Server.Model.gametime.L1GameTime;
+	using L1GameTime = LineageServer.Server.Server.Model.Gametime.L1GameTime;
 
 	public class TimePeriod
 	{

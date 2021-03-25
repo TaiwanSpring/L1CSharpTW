@@ -46,7 +46,7 @@ namespace LineageServer.Server.Server.Model.Instance
 
 	using Config = LineageServer.Server.Config;
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using NpcChatTable = LineageServer.Server.Server.DataSources.NpcChatTable;
 	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
 	using SprTable = LineageServer.Server.Server.DataSources.SprTable;
@@ -280,7 +280,7 @@ namespace LineageServer.Server.Server.Model.Instance
 
 			public virtual void start()
 			{
-				GeneralThreadPool.Instance.execute(NpcAIThreadImpl.this);
+				RunnableExecuter.Instance.execute(NpcAIThreadImpl.this);
 			}
 
 			public override void run()
@@ -1739,7 +1739,7 @@ namespace LineageServer.Server.Server.Model.Instance
 				if (!_digestItemRunning)
 				{
 					DigestItemTimer digestItemTimer = new DigestItemTimer(this);
-					GeneralThreadPool.Instance.execute(digestItemTimer);
+					RunnableExecuter.Instance.execute(digestItemTimer);
 				}
 			}
 		}
@@ -3042,7 +3042,7 @@ namespace LineageServer.Server.Server.Model.Instance
 					return;
 				}
 				_deleteTask = new DeleteTimer(Id);
-				_future = GeneralThreadPool.Instance.schedule(_deleteTask, Config.NPC_DELETION_TIME * 1000);
+				_future = RunnableExecuter.Instance.schedule(_deleteTask, Config.NPC_DELETION_TIME * 1000);
 			}
 		}
 

@@ -26,7 +26,7 @@ namespace LineageServer.Server.Server.Model
 	using InnTable = LineageServer.Server.Server.DataSources.InnTable;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;
+	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using L1Inn = LineageServer.Server.Server.Templates.L1Inn;
 	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
 	using Maps = LineageServer.Server.Server.utils.collections.Maps;

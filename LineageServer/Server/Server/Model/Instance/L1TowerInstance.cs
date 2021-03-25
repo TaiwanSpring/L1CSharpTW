@@ -18,7 +18,7 @@ using System.Threading;
 namespace LineageServer.Server.Server.Model.Instance
 {
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using WarTimeController = LineageServer.Server.Server.WarTimeController;
 	using L1Attack = LineageServer.Server.Server.Model.L1Attack;
 	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
@@ -173,7 +173,7 @@ namespace LineageServer.Server.Server.Model.Instance
 						_lastattacker = attacker;
 						_crackStatus = 0;
 						Death death = new Death(this);
-						GeneralThreadPool.Instance.execute(death);
+						RunnableExecuter.Instance.execute(death);
 						// Death(attacker);
 					}
 					if (newHp > 0)
@@ -214,7 +214,7 @@ namespace LineageServer.Server.Server.Model.Instance
 					Status = ActionCodes.ACTION_TowerDie;
 					_lastattacker = attacker;
 					Death death = new Death(this);
-					GeneralThreadPool.Instance.execute(death);
+					RunnableExecuter.Instance.execute(death);
 					// Death(attacker);
 				}
 			}

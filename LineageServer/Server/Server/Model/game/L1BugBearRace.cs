@@ -1,41 +1,15 @@
-﻿using System;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.Model.map;
+using LineageServer.Server.Server.Model.shop;
+using LineageServer.Server.Server.serverpackets;
+using LineageServer.Server.Server.Templates;
+using System;
 using System.Threading;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
-namespace LineageServer.Server.Server.Model.game
+namespace LineageServer.Server.Server.Model.Game
 {
-
-	using IdFactory = LineageServer.Server.Server.IdFactory;
-	using DoorTable = LineageServer.Server.Server.DataSources.DoorTable;
-	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
-	using RaceTicketTable = LineageServer.Server.Server.DataSources.RaceTicketTable;
-	using ShopTable = LineageServer.Server.Server.DataSources.ShopTable;
-	using L1Location = LineageServer.Server.Server.Model.L1Location;
-	using L1Object = LineageServer.Server.Server.Model.L1Object;
-	using L1World = LineageServer.Server.Server.Model.L1World;
-	using L1DoorInstance = LineageServer.Server.Server.Model.Instance.L1DoorInstance;
-	using L1MerchantInstance = LineageServer.Server.Server.Model.Instance.L1MerchantInstance;
-	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1Shop = LineageServer.Server.Server.Model.shop.L1Shop;
-	using S_NPCPack = LineageServer.Server.Server.serverpackets.S_NPCPack;
-	using S_NpcChatPacket = LineageServer.Server.Server.serverpackets.S_NpcChatPacket;
-	using L1RaceTicket = LineageServer.Server.Server.Templates.L1RaceTicket;
-	using L1ShopItem = LineageServer.Server.Server.Templates.L1ShopItem;
-
 	public class L1BugBearRace
 	{
 		internal L1MerchantInstance pory;
@@ -71,9 +45,6 @@ namespace LineageServer.Server.Server.Model.game
 			}
 		}
 
-
-		private static Random _random = new Random();
-
 		private static L1BugBearRace instance;
 
 		public static L1BugBearRace Instance
@@ -96,9 +67,9 @@ namespace LineageServer.Server.Server.Model.game
 			{
 				if (obj is L1MerchantInstance)
 				{
-					if (((L1MerchantInstance) obj).NpcId == 70041)
+					if (( (L1MerchantInstance)obj ).NpcId == 70041)
 					{
-						parkin = (L1MerchantInstance) obj;
+						parkin = (L1MerchantInstance)obj;
 					}
 				}
 			}
@@ -106,9 +77,9 @@ namespace LineageServer.Server.Server.Model.game
 			{
 				if (obj is L1MerchantInstance)
 				{
-					if (((L1MerchantInstance) obj).NpcId == 70035)
+					if (( (L1MerchantInstance)obj ).NpcId == 70035)
 					{
-						cecile = (L1MerchantInstance) obj;
+						cecile = (L1MerchantInstance)obj;
 					}
 				}
 			}
@@ -116,25 +87,25 @@ namespace LineageServer.Server.Server.Model.game
 			{
 				if (obj is L1MerchantInstance)
 				{
-					if (((L1MerchantInstance) obj).NpcId == 70042)
+					if (( (L1MerchantInstance)obj ).NpcId == 70042)
 					{
-						pory = (L1MerchantInstance) obj;
+						pory = (L1MerchantInstance)obj;
 					}
 				}
 			}
-			(new RaceTimer(this, 0)).begin();
+			( new RaceTimer(this, 0) ).begin();
 		}
 
 		private void setRandomRunner()
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				int npcid = FIRST_NPCID + _RandomHelper.Next(20);
+				int npcid = FIRST_NPCID + RandomHelper.Next(20);
 				while (checkDuplicate(npcid, i))
 				{
-					npcid = FIRST_NPCID + _RandomHelper.Next(20);
+					npcid = FIRST_NPCID + RandomHelper.Next(20);
 				}
-				L1Location loc = new L1Location(33522 - (i * 2), 32861 + (i * 2), 4);
+				L1Location loc = new L1Location(33522 - ( i * 2 ), 32861 + ( i * 2 ), 4);
 				_runner[i] = spawnOne(loc, npcid, 6);
 
 			}
@@ -186,9 +157,9 @@ namespace LineageServer.Server.Server.Model.game
 
 		public virtual bool checkPosition(int runnerNumber)
 		{ // 現在のポジションを確認
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int[] defaultHead = { 6, 7, 0, 1, 2, 2 };
-			int[] defaultHead = new int[] {6, 7, 0, 1, 2, 2};
+		  //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+		  //ORIGINAL LINE: final int[] defaultHead = { 6, 7, 0, 1, 2, 2 };
+			int[] defaultHead = new int[] { 6, 7, 0, 1, 2, 2 };
 			if (GameStatus != STATUS_PLAYING)
 			{
 				return false;
@@ -199,7 +170,7 @@ namespace LineageServer.Server.Server.Model.game
 			int y = npc.Y;
 			if (_runnerStatus[runnerNumber] == 0)
 			{ // スタート　直線
-				if ((x >= 33476 && x <= 33476 + 8) && (y >= 32861 && y <= 32861 + 8))
+				if (( x >= 33476 && x <= 33476 + 8 ) && ( y >= 32861 && y <= 32861 + 8 ))
 				{
 					_runnerStatus[runnerNumber] = _runnerStatus[runnerNumber] + 1;
 					npc.Heading = defaultHead[_runnerStatus[runnerNumber]]; // ヘッジを変更
@@ -211,7 +182,7 @@ namespace LineageServer.Server.Server.Model.game
 			}
 			else if (_runnerStatus[runnerNumber] == 1)
 			{
-				if ((x <= 33473 && x >= 33473 - 9) && y == 32858)
+				if (( x <= 33473 && x >= 33473 - 9 ) && y == 32858)
 				{
 					_runnerStatus[runnerNumber] = _runnerStatus[runnerNumber] + 1;
 					npc.Heading = defaultHead[_runnerStatus[runnerNumber]]; // ヘッジを変更
@@ -223,7 +194,7 @@ namespace LineageServer.Server.Server.Model.game
 			}
 			else if (_runnerStatus[runnerNumber] == 2)
 			{
-				if ((x <= 33473 && x >= 33473 - 9) && y == 32852)
+				if (( x <= 33473 && x >= 33473 - 9 ) && y == 32852)
 				{
 					_runnerStatus[runnerNumber] = _runnerStatus[runnerNumber] + 1;
 					npc.Heading = defaultHead[_runnerStatus[runnerNumber]]; // ヘッジを変更
@@ -235,7 +206,7 @@ namespace LineageServer.Server.Server.Model.game
 			}
 			else if (_runnerStatus[runnerNumber] == 3)
 			{
-				if ((x == 33478 && (y <= 32847 && y >= 32847 - 9)))
+				if (( x == 33478 && ( y <= 32847 && y >= 32847 - 9 ) ))
 				{
 					_runnerStatus[runnerNumber] = _runnerStatus[runnerNumber] + 1;
 					npc.Heading = defaultHead[_runnerStatus[runnerNumber]]; // ヘッジを変更
@@ -247,11 +218,11 @@ namespace LineageServer.Server.Server.Model.game
 			}
 			else if (_runnerStatus[runnerNumber] == 4)
 			{
-				if (x == 33523 && (y >= 32847 - 9 && y <= 32847))
+				if (x == 33523 && ( y >= 32847 - 9 && y <= 32847 ))
 				{
 					_runnerStatus[runnerNumber] = _runnerStatus[runnerNumber] + 1;
 					npc.Heading = defaultHead[_runnerStatus[runnerNumber]]; // ヘッジを変更
-					// goal
+																			// goal
 					goal(runnerNumber);
 				}
 				else
@@ -261,7 +232,7 @@ namespace LineageServer.Server.Server.Model.game
 			}
 			else if (_runnerStatus[runnerNumber] == 5)
 			{
-				if (x == 33527 && (y >= 32847 - 8 && y <= 32847))
+				if (x == 33527 && ( y >= 32847 - 8 && y <= 32847 ))
 				{
 					npc.Heading = defaultHead[_runnerStatus[runnerNumber]]; // ヘッジを変更
 					finish();
@@ -288,7 +259,7 @@ namespace LineageServer.Server.Server.Model.game
 			if (cnt == 5)
 			{
 				GameStatus = STATUS_END;
-				(new RaceTimer(this, 30)).begin();
+				( new RaceTimer(this, 30) ).begin();
 				/* SHOP格納処理 */
 
 			}
@@ -342,13 +313,15 @@ namespace LineageServer.Server.Server.Model.game
 
 			internal int _startTime;
 
+			public bool IsCancel { get; private set; }
+
 			internal RaceTimer(L1BugBearRace outerInstance, int startTime)
 			{
 				this.outerInstance = outerInstance;
 				_startTime = startTime;
 			}
 
-			public override void run()
+			public void run()
 			{
 
 				try
@@ -395,7 +368,7 @@ namespace LineageServer.Server.Server.Model.game
 					{
 						if (loop % 60 == 0)
 						{
-							outerInstance.sendMessage("$376 " + (1 + (READY_TIME - loop) / 60) + " $377");
+							outerInstance.sendMessage("$376 " + ( 1 + ( READY_TIME - loop ) / 60 ) + " $377");
 						}
 						Thread.Sleep(1000);
 					}
@@ -421,16 +394,16 @@ namespace LineageServer.Server.Server.Model.game
 					}
 					for (int i = 0; i < outerInstance._runner.Length; i++)
 					{
-						(new BugBearRunning(outerInstance, i)).begin(0);
+						( new BugBearRunning(outerInstance, i) ).begin(0);
 					}
 
-					(new StartBuffTimer(outerInstance)).begin();
+					( new StartBuffTimer(outerInstance) ).begin();
 
 					for (int i = 0; i < outerInstance._runner.Length; i++)
 					{
 						if (outerInstance.getBetCount(i) > 0)
 						{
-							outerInstance._allotment_percentage[i] = (double)(outerInstance.AllBet / (outerInstance.getBetCount(i)) / 500D);
+							outerInstance._allotment_percentage[i] = (double)( outerInstance.AllBet / ( outerInstance.getBetCount(i) ) / 500D );
 						}
 						else
 						{
@@ -441,22 +414,25 @@ namespace LineageServer.Server.Server.Model.game
 					{
 						Thread.Sleep(1000);
 						outerInstance.sendMessage(NpcTable.Instance.getTemplate(outerInstance._runner[i].NpcId).get_nameid() + " $402 " + outerInstance._allotment_percentage[i].ToString()); // 402
-																			// の配当率は
+																																															  // の配当率は
 					}
 					this.cancel();
 				}
-				catch (InterruptedException e)
+				catch (Exception e)
 				{
-                    System.Console.WriteLine(e.ToString());
-                    System.Console.Write(e.StackTrace);
+					System.Console.WriteLine(e.ToString());
+					System.Console.Write(e.StackTrace);
 				}
-
 			}
 
 			public virtual void begin()
 			{
-				Timer timer = new Timer();
-				timer.schedule(this, _startTime * 1000);
+				RunnableExecuter.Instance.execute(this, _startTime * 1000);
+			}
+
+			public void cancel()
+			{
+				IsCancel = true;
 			}
 		}
 
@@ -467,6 +443,8 @@ namespace LineageServer.Server.Server.Model.game
 			internal L1NpcInstance _bugBear;
 			internal int _runnerNumber;
 
+			public bool IsCancel { get; private set; }
+
 			internal BugBearRunning(L1BugBearRace outerInstance, int runnerNumber)
 			{
 				this.outerInstance = outerInstance;
@@ -474,7 +452,7 @@ namespace LineageServer.Server.Server.Model.game
 				_runnerNumber = runnerNumber;
 			}
 
-			public override void run()
+			public void run()
 			{
 				int sleepTime = 0;
 				while (outerInstance.GameStatus == STATUS_PLAYING)
@@ -483,10 +461,10 @@ namespace LineageServer.Server.Server.Model.game
 					{
 						Thread.Sleep(sleepTime);
 					}
-					catch (InterruptedException e)
+					catch (Exception e)
 					{
-                        System.Console.WriteLine(e.ToString());
-                        System.Console.Write(e.StackTrace);
+						System.Console.WriteLine(e.ToString());
+						System.Console.Write(e.StackTrace);
 					}
 					while (!_bugBear.Map.isPassable(_bugBear.X, _bugBear.Y, _bugBear.Heading))
 					{
@@ -521,8 +499,12 @@ namespace LineageServer.Server.Server.Model.game
 
 			public virtual void begin(int startTime)
 			{
-				Timer _timer = new Timer();
-				_timer.schedule(this, startTime);
+				RunnableExecuter.Instance.execute(this, startTime);
+			}
+
+			public void cancel()
+			{
+				IsCancel = true;
 			}
 		}
 
@@ -549,32 +531,32 @@ namespace LineageServer.Server.Server.Model.game
 		/// <param name="heading">
 		///            向き </param>
 		/// <returns> L1NpcInstance 戻り値 : 成功=生成したインスタンス 失敗=null </returns>
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @SuppressWarnings("unused") private l1j.server.server.model.Instance.L1NpcInstance spawnOne(l1j.server.server.model.L1Location loc, int npcid, int heading)
+		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+		//ORIGINAL LINE: @SuppressWarnings("unused") private l1j.server.server.model.Instance.L1NpcInstance spawnOne(l1j.server.server.model.L1Location loc, int npcid, int heading)
 		private L1NpcInstance spawnOne(L1Location loc, int npcid, int heading)
 		{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final l1j.server.server.model.Instance.L1NpcInstance mob = new l1j.server.server.model.Instance.L1NpcInstance(l1j.server.server.datatables.NpcTable.getInstance().getTemplate(npcid));
+			//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+			//ORIGINAL LINE: final l1j.server.server.model.Instance.L1NpcInstance mob = new l1j.server.server.model.Instance.L1NpcInstance(l1j.server.server.datatables.NpcTable.getInstance().getTemplate(npcid));
 			L1NpcInstance mob = new L1NpcInstance(NpcTable.Instance.getTemplate(npcid));
 			if (mob == null)
 			{
 				return mob;
 			}
 
-			mob.NameId = "#" + (mob.NpcId - FIRST_NPCID + 1) + " " + mob.NameId;
+			mob.NameId = "#" + ( mob.NpcId - FIRST_NPCID + 1 ) + " " + mob.NameId;
 			mob.Id = IdFactory.Instance.nextId();
 			mob.Heading = heading;
 			mob.X = loc.X;
 			mob.HomeX = loc.X;
 			mob.Y = loc.Y;
 			mob.HomeY = loc.Y;
-			mob.Map = (short) loc.MapId;
+			mob.Map = L1WorldMap.Instance.getMap((short)loc.MapId);
 			mob.Passispeed = mob.Passispeed * 2;
 			L1World.Instance.storeObject(mob);
 			L1World.Instance.addVisibleObject(mob);
 
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final l1j.server.server.serverpackets.S_NPCPack s_npcPack = new l1j.server.server.serverpackets.S_NPCPack(mob);
+			//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+			//ORIGINAL LINE: final l1j.server.server.serverpackets.S_NPCPack s_npcPack = new l1j.server.server.serverpackets.S_NPCPack(mob);
 			S_NPCPack s_npcPack = new S_NPCPack(mob);
 			foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(mob))
 			{
@@ -593,7 +575,7 @@ namespace LineageServer.Server.Server.Model.game
 		{
 			set
 			{ // allbetは3桁の整数
-				this._allBet = (int)(value * 0.9); // 1割は管理人が取得
+				this._allBet = (int)( value * 0.9 ); // 1割は管理人が取得
 			}
 			get
 			{
@@ -617,7 +599,7 @@ namespace LineageServer.Server.Server.Model.game
 			L1NpcInstance npc = _runner[runnerNumber];
 			if (npc.BraveSpeed == 1)
 			{
-				sleepTime -= (int)(sleepTime * 0.25);
+				sleepTime -= (int)( sleepTime * 0.25 );
 			}
 
 			return sleepTime;
@@ -627,18 +609,20 @@ namespace LineageServer.Server.Server.Model.game
 		{
 			private readonly L1BugBearRace outerInstance;
 
+			public bool IsCancel { get; private set; }
+
 			internal StartBuffTimer(L1BugBearRace outerInstance)
 			{
 				this.outerInstance = outerInstance;
 			}
 
-			public override void run()
+			public void run()
 			{
 				if (outerInstance.GameStatus == STATUS_PLAYING)
 				{
 					for (int i = 0; i < outerInstance._runner.Length; i++)
 					{
-						if (outerInstance.RandomProbability <= outerInstance._winning_average[i] * (1 + (0.2 * outerInstance.getCondition(i))))
+						if (outerInstance.RandomProbability <= outerInstance._winning_average[i] * ( 1 + ( 0.2 * outerInstance.getCondition(i) ) ))
 						{
 							outerInstance._runner[i].BraveSpeed = 1;
 						}
@@ -656,8 +640,12 @@ namespace LineageServer.Server.Server.Model.game
 
 			public virtual void begin()
 			{
-				Timer _timer = new Timer();
-				_timer.scheduleAtFixedRate(this, 1000, 1000);
+				RunnableExecuter.Instance.scheduleAtFixedRate(this, 1000, 1000);
+			}
+
+			public void cancel()
+			{
+				IsCancel = true;
 			}
 		}
 
@@ -665,12 +653,12 @@ namespace LineageServer.Server.Server.Model.game
 		{
 			get
 			{
-				return (_RandomHelper.Next(10000) + 1) / 100D;
+				return ( RandomHelper.Next(10000) + 1 ) / 100D;
 			}
 		}
 		private void setWinnigAverage()
 		{
-			for (int i = 0; i < _winning_average.Length ; i++)
+			for (int i = 0; i < _winning_average.Length; i++)
 			{
 				double winningAverage = RandomProbability;
 
@@ -709,7 +697,7 @@ namespace LineageServer.Server.Server.Model.game
 		{
 			for (int i = 0; i < _condition.Length; i++)
 			{
-				_condition[i] = -1 + _RandomHelper.Next(3);
+				_condition[i] = -1 + RandomHelper.Next(3);
 			}
 		}
 

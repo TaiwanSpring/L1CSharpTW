@@ -17,7 +17,7 @@ using System.Threading;
 /// </summary>
 namespace LineageServer.Server.Server.Model
 {
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using WarTimeController = LineageServer.Server.Server.WarTimeController;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_PinkName = LineageServer.Server.Server.serverpackets.S_PinkName;
@@ -114,7 +114,7 @@ namespace LineageServer.Server.Server.Model
 						attacker.broadcastPacket(new S_PinkName(attacker.Id, 180));
 					}
 					PinkNameTimer pink = new PinkNameTimer(attacker);
-					GeneralThreadPool.Instance.execute(pink);
+					RunnableExecuter.Instance.execute(pink);
 				}
 			}
 		}

@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.Model.poison
 {
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.model.skill.L1SkillId.STATUS_POISON;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
@@ -107,7 +107,7 @@ namespace LineageServer.Server.Server.Model.poison
 			if (isDamageTarget(_target))
 			{
 				_timer = new NormalPoisonTimer(this);
-				GeneralThreadPool.Instance.execute(_timer); // 通常毒タイマー開始
+				RunnableExecuter.Instance.execute(_timer); // 通常毒タイマー開始
 			}
 		}
 

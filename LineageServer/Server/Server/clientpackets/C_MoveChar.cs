@@ -105,7 +105,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
             // sendMapTileLog(pc); //發送信息的目的地瓦（為調查地圖）
             // 寵物競速-判斷圈數
-            LineageServer.Server.Server.Model.game.L1PolyRace.Instance.checkLapFinish(pc);
+            LineageServer.Server.Server.Model.Game.L1PolyRace.Instance.checkLapFinish(pc);
             L1WorldTraps.Instance.onPlayerMoved(pc);
 
             pc.Map.setPassable(pc.Location, false);

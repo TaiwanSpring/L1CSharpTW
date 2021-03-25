@@ -50,8 +50,8 @@ namespace LineageServer.Server.Server
 	using L1NpcRegenerationTimer = LineageServer.Server.Server.Model.L1NpcRegenerationTimer;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1BugBearRace = LineageServer.Server.Server.Model.game.L1BugBearRace;
-	using L1GameTimeClock = LineageServer.Server.Server.Model.gametime.L1GameTimeClock;
+	using L1BugBearRace = LineageServer.Server.Server.Model.Game.L1BugBearRace;
+	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using L1TreasureBox = LineageServer.Server.Server.Model.item.L1TreasureBox;
 	using L1WorldMap = LineageServer.Server.Server.Model.map.L1WorldMap;
 	using L1NpcDefaultAction = LineageServer.Server.Server.Model.npc.action.L1NpcDefaultAction;
@@ -91,7 +91,7 @@ namespace LineageServer.Server.Server
 					else
 					{
 						ClientThread client = new ClientThread(socket);
-						GeneralThreadPool.Instance.execute(client);
+						RunnableExecuter.Instance.execute(client);
 					}
 				}
 				catch (IOException)
@@ -192,17 +192,17 @@ namespace LineageServer.Server.Server
 			// UB
 			// 初始化無限大戰
 			UbTimeController ubTimeContoroller = UbTimeController.Instance;
-			GeneralThreadPool.Instance.execute(ubTimeContoroller);
+			RunnableExecuter.Instance.execute(ubTimeContoroller);
 
 			// 初始化攻城
 			WarTimeController warTimeController = WarTimeController.Instance;
-			GeneralThreadPool.Instance.execute(warTimeController);
+			RunnableExecuter.Instance.execute(warTimeController);
 
 			// 設定精靈石的產生
 			if (Config.ELEMENTAL_STONE_AMOUNT > 0)
 			{
 				ElementalStoneGenerator elementalStoneGenerator = ElementalStoneGenerator.Instance;
-				GeneralThreadPool.Instance.execute(elementalStoneGenerator);
+				RunnableExecuter.Instance.execute(elementalStoneGenerator);
 			}
 
 			// 初始化 HomeTown 時間
@@ -210,26 +210,26 @@ namespace LineageServer.Server.Server
 
 			// 初始化盟屋拍賣
 			AuctionTimeController auctionTimeController = AuctionTimeController.Instance;
-			GeneralThreadPool.Instance.execute(auctionTimeController);
+			RunnableExecuter.Instance.execute(auctionTimeController);
 
 			// 初始化盟屋的稅金
 			HouseTaxTimeController houseTaxTimeController = HouseTaxTimeController.Instance;
-			GeneralThreadPool.Instance.execute(houseTaxTimeController);
+			RunnableExecuter.Instance.execute(houseTaxTimeController);
 
 			// 初始化釣魚
 			FishingTimeController fishingTimeController = FishingTimeController.Instance;
-			GeneralThreadPool.Instance.execute(fishingTimeController);
+			RunnableExecuter.Instance.execute(fishingTimeController);
 
 			// 初始化 NPC 聊天
 			NpcChatTimeController npcChatTimeController = NpcChatTimeController.Instance;
-			GeneralThreadPool.Instance.execute(npcChatTimeController);
+			RunnableExecuter.Instance.execute(npcChatTimeController);
 
 			// 初始化 Light
 			LightTimeController lightTimeController = LightTimeController.Instance;
-			GeneralThreadPool.Instance.execute(lightTimeController);
+			RunnableExecuter.Instance.execute(lightTimeController);
 			// TODO 殷海薩的祝福
 			AinTimeController ainTimeController = AinTimeController.Instance;
-			GeneralThreadPool.Instance.execute(ainTimeController);
+			RunnableExecuter.Instance.execute(ainTimeController);
 			// 初始化遊戲公告
 			Announcements.Instance;
 
@@ -279,7 +279,7 @@ namespace LineageServer.Server.Server
 			Thread.Sleep(Config.Gamesleep * 1000); //模擬器重開延遲  秒
 			L1CastleLocation.setCastleTaxRate(); // 必須在 CastleTable 初始化之後
 			GetBackRestartTable.Instance;
-			GeneralThreadPool.Instance;
+			RunnableExecuter.Instance;
 			L1NpcRegenerationTimer.Instance;
 			ChatLogTable.Instance;
 			WeaponSkillTable.Instance;
@@ -390,7 +390,7 @@ namespace LineageServer.Server.Server
 					return;
 				}
 				_shutdownThread = new ServerShutdownThread(this, secondsCount);
-				GeneralThreadPool.Instance.execute(_shutdownThread);
+				RunnableExecuter.Instance.execute(_shutdownThread);
 			}
 		}
 

@@ -41,7 +41,7 @@ namespace LineageServer.Server.Server.Model
 
 
 	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_DoActionGFX = LineageServer.Server.Server.serverpackets.S_DoActionGFX;
@@ -98,7 +98,7 @@ namespace LineageServer.Server.Server.Model
 		{
 			// 効果時間が8秒のため、4秒毎のスキルの場合処理時間を考慮すると実際には1回しか効果が現れない
 			// よって開始時間を0.9秒後に設定しておく
-			_future = GeneralThreadPool.Instance.scheduleAtFixedRate(this, 900, 1000);
+			_future = RunnableExecuter.Instance.scheduleAtFixedRate(this, 900, 1000);
 		}
 
 		public virtual void stop()

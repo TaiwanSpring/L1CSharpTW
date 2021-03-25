@@ -1,7 +1,7 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Server.Server.DataSources;
 using LineageServer.Server.Server.Model;
-using LineageServer.Server.Server.Model.game;
+using LineageServer.Server.Server.Model.Game;
 using LineageServer.Server.Server.Model.identity;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.Model.npc;
@@ -4937,15 +4937,15 @@ namespace LineageServer.Server.Server.Clientpackets
                     htmldata = new string[15];
                     for (int i = 0; i < 5; i++)
                     {
-                        htmldata[i * 3] = (NpcTable.Instance.getTemplate(LineageServer.Server.Server.Model.game.L1BugBearRace.Instance.getRunner(i).NpcId).get_nameid());
+                        htmldata[i * 3] = (NpcTable.Instance.getTemplate(LineageServer.Server.Server.Model.Game.L1BugBearRace.Instance.getRunner(i).NpcId).get_nameid());
                         string condition; // 610 普通
-                        if (LineageServer.Server.Server.Model.game.L1BugBearRace.Instance.getCondition(i) == 0)
+                        if (LineageServer.Server.Server.Model.Game.L1BugBearRace.Instance.getCondition(i) == 0)
                         {
                             condition = "$610";
                         }
                         else
                         {
-                            if (LineageServer.Server.Server.Model.game.L1BugBearRace.Instance.getCondition(i) > 0)
+                            if (LineageServer.Server.Server.Model.Game.L1BugBearRace.Instance.getCondition(i) > 0)
                             { // 368
                               // 良い
                                 condition = "$368";
@@ -4956,7 +4956,7 @@ namespace LineageServer.Server.Server.Clientpackets
                             }
                         }
                         htmldata[i * 3 + 1] = condition;
-                        htmldata[i * 3 + 2] = (LineageServer.Server.Server.Model.game.L1BugBearRace.Instance.getWinningAverage(i)).ToString();
+                        htmldata[i * 3 + 2] = (LineageServer.Server.Server.Model.Game.L1BugBearRace.Instance.getWinningAverage(i)).ToString();
                     }
                     htmlid = "maeno4";
                 }

@@ -16,7 +16,7 @@
 /// </summary>
 namespace LineageServer.Server.Server.Model.skill
 {
-	using GeneralThreadPool = LineageServer.Server.Server.GeneralThreadPool;
+	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 
 	// Referenced classes of package l1j.server.server.model:
@@ -52,7 +52,7 @@ namespace LineageServer.Server.Server.Model.skill
 		public static void onSkillUse(L1Character cha, int time)
 		{
 			cha.SkillDelay = true;
-			GeneralThreadPool.Instance.schedule(new SkillDelayTimer(cha, time), time);
+			RunnableExecuter.Instance.schedule(new SkillDelayTimer(cha, time), time);
 		}
 
 	}
