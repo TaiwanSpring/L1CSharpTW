@@ -2,6 +2,7 @@
 
 namespace LineageServer.Server.Server.utils
 {
+	/*
     // 全部staticにしてもいいかもしれない
     public class ByteArrayUtil
     {
@@ -93,7 +94,7 @@ namespace LineageServer.Server.Server.utils
             }
 
             return s;
-        }
-    }
+        }*/
+}
 
 }

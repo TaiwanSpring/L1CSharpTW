@@ -15,7 +15,7 @@ using System.Collections.Generic;
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.Server.Model.npc.action
+namespace LineageServer.Server.Server.Model.Npc.Action
 {
 
 	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
@@ -25,7 +25,7 @@ namespace LineageServer.Server.Server.Model.npc.action
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1NpcHtml = LineageServer.Server.Server.Model.npc.L1NpcHtml;
+	using L1NpcHtml = LineageServer.Server.Server.Model.Npc.L1NpcHtml;
 	using S_HowManyMake = LineageServer.Server.Server.serverpackets.S_HowManyMake;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using L1Item = LineageServer.Server.Server.Templates.L1Item;

@@ -1,73 +1,19 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.Model.skill;
+using LineageServer.Server.Server.serverpackets;
+using LineageServer.Server.Server.Templates;
+using System.Collections.Generic;
 namespace LineageServer.Server.Server.utils
 {
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.COOKING_1_7_N;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.COOKING_1_7_S;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.COOKING_2_7_N;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.COOKING_2_7_S;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.COOKING_3_7_N;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.COOKING_3_7_S;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.EFFECT_POTION_OF_EXP_150;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.EFFECT_POTION_OF_EXP_175;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.EFFECT_POTION_OF_EXP_200;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.EFFECT_POTION_OF_EXP_225;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.EFFECT_POTION_OF_EXP_250;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.EFFECT_POTION_OF_BATTLE;
-
-
-	using Config = LineageServer.Server.Config;
-	using ExpTable = LineageServer.Server.Server.DataSources.ExpTable;
-	using PetTable = LineageServer.Server.Server.DataSources.PetTable;
-	using L1Character = LineageServer.Server.Server.Model.L1Character;
-	using L1Object = LineageServer.Server.Server.Model.L1Object;
-	using L1World = LineageServer.Server.Server.Model.L1World;
-	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1PetInstance = LineageServer.Server.Server.Model.Instance.L1PetInstance;
-	using L1ScarecrowInstance = LineageServer.Server.Server.Model.Instance.L1ScarecrowInstance;
-	using L1SummonInstance = LineageServer.Server.Server.Model.Instance.L1SummonInstance;
-	using S_PetPack = LineageServer.Server.Server.serverpackets.S_PetPack;
-	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using S_SkillIconExp = LineageServer.Server.Server.serverpackets.S_SkillIconExp;
-	using L1Pet = LineageServer.Server.Server.Templates.L1Pet;
-
-	// Referenced classes of package l1j.server.server.utils:
-	// CalcStat
-
-	public class CalcExp
+	class CalcExp
 	{
 
 		private const long serialVersionUID = 1L;
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.getLogger(typeof(CalcExp).FullName);
+		private static ILogger _log = Logger.getLogger(nameof(CalcExp));
 
 		public static readonly long MAX_EXP = ExpTable.getExpByLevel(111) - 1;
 
@@ -92,7 +38,7 @@ namespace LineageServer.Server.Server.utils
 			long member_exp = 0;
 			int member_lawful = 0;
 			L1Object l1object = L1World.Instance.findObject(targetid);
-			L1NpcInstance npc = (L1NpcInstance) l1object;
+			L1NpcInstance npc = (L1NpcInstance)l1object;
 
 			// ヘイトの合計を取得
 			L1Character acquisitor;
@@ -115,7 +61,7 @@ namespace LineageServer.Server.Server.utils
 			{
 				acquisitor = acquisitorList[i];
 				hate = hateList[i];
-				if ((acquisitor != null) && !acquisitor.Dead)
+				if (( acquisitor != null ) && !acquisitor.Dead)
 				{
 					totalHateExp += hate;
 					if (acquisitor is L1PcInstance)
@@ -134,7 +80,7 @@ namespace LineageServer.Server.Server.utils
 				return;
 			}
 
-			if ((l1object != null) && !(npc is L1PetInstance) && !(npc is L1SummonInstance))
+			if (( l1object != null ) && !( npc is L1PetInstance ) && !( npc is L1SummonInstance ))
 			{
 				// int exp = npc.get_exp();
 				/*if (!L1World.getInstance().isProcessingContributionTotal() && (l1pcinstance.getHomeTownId() > 0)) {
@@ -146,8 +92,8 @@ namespace LineageServer.Server.Server.utils
 
 				if (l1pcinstance.InParty)
 				{ // パーティー中
-					// パーティーのヘイトの合計を算出
-					// パーティーメンバー以外にはそのまま配分
+				  // パーティーのヘイトの合計を算出
+				  // パーティーメンバー以外にはそのまま配分
 					partyHateExp = 0;
 					partyHateLawful = 0;
 					for (i = hateList.Count - 1; i >= 0; i--)
@@ -156,7 +102,7 @@ namespace LineageServer.Server.Server.utils
 						hate = hateList[i];
 						if (acquisitor is L1PcInstance)
 						{
-							L1PcInstance pc = (L1PcInstance) acquisitor;
+							L1PcInstance pc = (L1PcInstance)acquisitor;
 							if (pc == l1pcinstance)
 							{
 								partyHateExp += hate;
@@ -171,19 +117,19 @@ namespace LineageServer.Server.Server.utils
 							{
 								if (totalHateExp > 0)
 								{
-									acquire_exp = (exp * hate / totalHateExp);
+									acquire_exp = ( exp * hate / totalHateExp );
 								}
 								if (totalHateLawful > 0)
 								{
-									acquire_lawful = (lawful * hate / totalHateLawful);
+									acquire_lawful = ( lawful * hate / totalHateLawful );
 								}
 								AddExp(pc, acquire_exp, acquire_lawful);
 							}
 						}
 						else if (acquisitor is L1PetInstance)
 						{
-							L1PetInstance pet = (L1PetInstance) acquisitor;
-							L1PcInstance master = (L1PcInstance) pet.Master;
+							L1PetInstance pet = (L1PetInstance)acquisitor;
+							L1PcInstance master = (L1PcInstance)pet.Master;
 							if (master == l1pcinstance)
 							{
 								partyHateExp += hate;
@@ -196,15 +142,15 @@ namespace LineageServer.Server.Server.utils
 							{
 								if (totalHateExp > 0)
 								{
-									acquire_exp = (exp * hate / totalHateExp);
+									acquire_exp = ( exp * hate / totalHateExp );
 								}
 								AddExpPet(pet, acquire_exp);
 							}
 						}
 						else if (acquisitor is L1SummonInstance)
 						{
-							L1SummonInstance summon = (L1SummonInstance) acquisitor;
-							L1PcInstance master = (L1PcInstance) summon.Master;
+							L1SummonInstance summon = (L1SummonInstance)acquisitor;
+							L1PcInstance master = (L1PcInstance)summon.Master;
 							if (master == l1pcinstance)
 							{
 								partyHateExp += hate;
@@ -220,11 +166,11 @@ namespace LineageServer.Server.Server.utils
 					}
 					if (totalHateExp > 0)
 					{
-						party_exp = (exp * partyHateExp / totalHateExp);
+						party_exp = ( exp * partyHateExp / totalHateExp );
 					}
 					if (totalHateLawful > 0)
 					{
-						party_lawful = (lawful * partyHateLawful / totalHateLawful);
+						party_lawful = ( lawful * partyHateLawful / totalHateLawful );
 					}
 
 					// EXP、ロウフル配分
@@ -232,7 +178,7 @@ namespace LineageServer.Server.Server.utils
 					// プリボーナス
 					double pri_bonus = 0;
 					L1PcInstance leader = l1pcinstance.Party.Leader;
-					if (leader.Crown && (l1pcinstance.knownsObject(leader) || l1pcinstance.Equals(leader)))
+					if (leader.Crown && ( l1pcinstance.knownsObject(leader) || l1pcinstance.Equals(leader) ))
 					{
 						pri_bonus = 0.059;
 					}
@@ -252,15 +198,15 @@ namespace LineageServer.Server.Server.utils
 						}
 					}
 
-					party_exp = (long)(party_exp * (1 + pt_bonus + pri_bonus));
+					party_exp = (long)( party_exp * ( 1 + pt_bonus + pri_bonus ) );
 
 					// 自キャラクターとそのペット・サモンのヘイトの合計を算出
 					if (party_level > 0)
 					{
-						dist = ((l1pcinstance.Level * l1pcinstance.Level) / party_level);
+						dist = ( ( l1pcinstance.Level * l1pcinstance.Level ) / party_level );
 					}
-					member_exp = (long)(party_exp * dist);
-					member_lawful = (int)(party_lawful * dist);
+					member_exp = (long)( party_exp * dist );
+					member_lawful = (int)( party_lawful * dist );
 
 					ownHateExp = 0;
 					for (i = hateList.Count - 1; i >= 0; i--)
@@ -269,7 +215,7 @@ namespace LineageServer.Server.Server.utils
 						hate = hateList[i];
 						if (acquisitor is L1PcInstance)
 						{
-							L1PcInstance pc = (L1PcInstance) acquisitor;
+							L1PcInstance pc = (L1PcInstance)acquisitor;
 							if (pc == l1pcinstance)
 							{
 								ownHateExp += hate;
@@ -277,8 +223,8 @@ namespace LineageServer.Server.Server.utils
 						}
 						else if (acquisitor is L1PetInstance)
 						{
-							L1PetInstance pet = (L1PetInstance) acquisitor;
-							L1PcInstance master = (L1PcInstance) pet.Master;
+							L1PetInstance pet = (L1PetInstance)acquisitor;
+							L1PcInstance master = (L1PcInstance)pet.Master;
 							if (master == l1pcinstance)
 							{
 								ownHateExp += hate;
@@ -286,8 +232,8 @@ namespace LineageServer.Server.Server.utils
 						}
 						else if (acquisitor is L1SummonInstance)
 						{
-							L1SummonInstance summon = (L1SummonInstance) acquisitor;
-							L1PcInstance master = (L1PcInstance) summon.Master;
+							L1SummonInstance summon = (L1SummonInstance)acquisitor;
+							L1PcInstance master = (L1PcInstance)summon.Master;
 							if (master == l1pcinstance)
 							{
 								ownHateExp += hate;
@@ -303,25 +249,25 @@ namespace LineageServer.Server.Server.utils
 							hate = hateList[i];
 							if (acquisitor is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) acquisitor;
+								L1PcInstance pc = (L1PcInstance)acquisitor;
 								if (pc == l1pcinstance)
 								{
 									if (ownHateExp > 0)
 									{
-										acquire_exp = (member_exp * hate / ownHateExp);
+										acquire_exp = ( member_exp * hate / ownHateExp );
 									}
 									AddExp(pc, acquire_exp, member_lawful);
 								}
 							}
 							else if (acquisitor is L1PetInstance)
 							{
-								L1PetInstance pet = (L1PetInstance) acquisitor;
-								L1PcInstance master = (L1PcInstance) pet.Master;
+								L1PetInstance pet = (L1PetInstance)acquisitor;
+								L1PcInstance master = (L1PcInstance)pet.Master;
 								if (master == l1pcinstance)
 								{
 									if (ownHateExp > 0)
 									{
-										acquire_exp = (member_exp * hate / ownHateExp);
+										acquire_exp = ( member_exp * hate / ownHateExp );
 									}
 									AddExpPet(pet, acquire_exp);
 								}
@@ -333,7 +279,7 @@ namespace LineageServer.Server.Server.utils
 					}
 					else
 					{ // 攻撃に参加していなかった
-							// 自キャラクターのみに分配
+					  // 自キャラクターのみに分配
 						AddExp(l1pcinstance, member_exp, member_lawful);
 					}
 
@@ -344,10 +290,10 @@ namespace LineageServer.Server.Server.utils
 						{
 							if (party_level > 0)
 							{
-								dist = ((ptMember.Level * ptMember.Level) / party_level);
+								dist = ( ( ptMember.Level * ptMember.Level ) / party_level );
 							}
-							member_exp = (int)(party_exp * dist);
-							member_lawful = (int)(party_lawful * dist);
+							member_exp = (int)( party_exp * dist );
+							member_lawful = (int)( party_lawful * dist );
 
 							ownHateExp = 0;
 							for (i = hateList.Count - 1; i >= 0; i--)
@@ -356,7 +302,7 @@ namespace LineageServer.Server.Server.utils
 								hate = hateList[i];
 								if (acquisitor is L1PcInstance)
 								{
-									L1PcInstance pc = (L1PcInstance) acquisitor;
+									L1PcInstance pc = (L1PcInstance)acquisitor;
 									if (pc == ptMember)
 									{
 										ownHateExp += hate;
@@ -364,8 +310,8 @@ namespace LineageServer.Server.Server.utils
 								}
 								else if (acquisitor is L1PetInstance)
 								{
-									L1PetInstance pet = (L1PetInstance) acquisitor;
-									L1PcInstance master = (L1PcInstance) pet.Master;
+									L1PetInstance pet = (L1PetInstance)acquisitor;
+									L1PcInstance master = (L1PcInstance)pet.Master;
 									if (master == ptMember)
 									{
 										ownHateExp += hate;
@@ -373,8 +319,8 @@ namespace LineageServer.Server.Server.utils
 								}
 								else if (acquisitor is L1SummonInstance)
 								{
-									L1SummonInstance summon = (L1SummonInstance) acquisitor;
-									L1PcInstance master = (L1PcInstance) summon.Master;
+									L1SummonInstance summon = (L1SummonInstance)acquisitor;
+									L1PcInstance master = (L1PcInstance)summon.Master;
 									if (master == ptMember)
 									{
 										ownHateExp += hate;
@@ -390,25 +336,25 @@ namespace LineageServer.Server.Server.utils
 									hate = hateList[i];
 									if (acquisitor is L1PcInstance)
 									{
-										L1PcInstance pc = (L1PcInstance) acquisitor;
+										L1PcInstance pc = (L1PcInstance)acquisitor;
 										if (pc == ptMember)
 										{
 											if (ownHateExp > 0)
 											{
-												acquire_exp = (member_exp * hate / ownHateExp);
+												acquire_exp = ( member_exp * hate / ownHateExp );
 											}
 											AddExp(pc, acquire_exp, member_lawful);
 										}
 									}
 									else if (acquisitor is L1PetInstance)
 									{
-										L1PetInstance pet = (L1PetInstance) acquisitor;
-										L1PcInstance master = (L1PcInstance) pet.Master;
+										L1PetInstance pet = (L1PetInstance)acquisitor;
+										L1PcInstance master = (L1PcInstance)pet.Master;
 										if (master == ptMember)
 										{
 											if (ownHateExp > 0)
 											{
-												acquire_exp = (member_exp * hate / ownHateExp);
+												acquire_exp = ( member_exp * hate / ownHateExp );
 											}
 											AddExpPet(pet, acquire_exp);
 										}
@@ -420,7 +366,7 @@ namespace LineageServer.Server.Server.utils
 							}
 							else
 							{ // 攻撃に参加していなかった
-									// パーティーメンバーのみに分配
+							  // パーティーメンバーのみに分配
 								AddExp(ptMember, member_exp, member_lawful);
 							}
 						}
@@ -428,28 +374,28 @@ namespace LineageServer.Server.Server.utils
 				}
 				else
 				{ // パーティーを組んでいない
-						// EXP、ロウフルの分配
+				  // EXP、ロウフルの分配
 					for (i = hateList.Count - 1; i >= 0; i--)
 					{
 						acquisitor = acquisitorList[i];
 						hate = hateList[i];
-						acquire_exp = (exp * hate / totalHateExp);
+						acquire_exp = ( exp * hate / totalHateExp );
 						if (acquisitor is L1PcInstance)
 						{
 							if (totalHateLawful > 0)
 							{
-								acquire_lawful = (lawful * hate / totalHateLawful);
+								acquire_lawful = ( lawful * hate / totalHateLawful );
 							}
 						}
 
 						if (acquisitor is L1PcInstance)
 						{
-							L1PcInstance pc = (L1PcInstance) acquisitor;
+							L1PcInstance pc = (L1PcInstance)acquisitor;
 							AddExp(pc, acquire_exp, acquire_lawful);
 						}
 						else if (acquisitor is L1PetInstance)
 						{
-							L1PetInstance pet = (L1PetInstance) acquisitor;
+							L1PetInstance pet = (L1PetInstance)acquisitor;
 							AddExpPet(pet, acquire_exp);
 						}
 						else if (acquisitor is L1SummonInstance)
@@ -463,14 +409,14 @@ namespace LineageServer.Server.Server.utils
 		private static void AddExp(L1PcInstance pc, long exp, int lawful)
 		{
 
-			int add_lawful = (int)(lawful * Config.RATE_LA) * -1;
+			int add_lawful = (int)( lawful * Config.RATE_LA ) * -1;
 			pc.addLawful(add_lawful);
 
 			double exppenalty = ExpTable.getPenaltyRate(pc.Level);
 			double foodBonus = 1.0;
 			double expBonus = 1.0;
 			double ainBonus = 1.0; // TODO 殷海薩的祝福
-			// 魔法料理經驗加成
+								   // 魔法料理經驗加成
 			if (pc.hasSkillEffect(L1SkillId.COOKING_1_7_N) || pc.hasSkillEffect(L1SkillId.COOKING_1_7_S))
 			{
 				foodBonus = 1.01;
@@ -511,7 +457,7 @@ namespace LineageServer.Server.Server.utils
 			// TODO 殷海薩的祝福 計算公式仍需驗證
 			if (pc.AinPoint > 0)
 			{
-				if (!(_npc is L1PetInstance || _npc is L1SummonInstance || _npc is L1ScarecrowInstance))
+				if (!( _npc is L1PetInstance || _npc is L1SummonInstance || _npc is L1ScarecrowInstance ))
 				{
 					//TODO 木人寵物召喚不計算加成
 					pc.AinPoint = pc.AinPoint - 1;
@@ -520,7 +466,7 @@ namespace LineageServer.Server.Server.utils
 				}
 				// TODO 殷海薩的祝福 計算公式仍需驗證
 			}
-			long add_exp = (long)(exp * exppenalty * Config.RATE_XP * foodBonus * expBonus * ainBonus);
+			long add_exp = (long)( exp * exppenalty * Config.RATE_XP * foodBonus * expBonus * ainBonus );
 			// TODO 暴等洗血修正
 			if (add_exp < 0)
 			{ //TODO 經驗值大於2147483647會變負值導致錯誤.
@@ -536,20 +482,20 @@ namespace LineageServer.Server.Server.utils
 
 		private static void AddExpPet(L1PetInstance pet, long exp)
 		{
-			L1PcInstance pc = (L1PcInstance) pet.Master;
+			L1PcInstance pc = (L1PcInstance)pet.Master;
 
 			int petItemObjId = pet.ItemObjId;
 
 			int levelBefore = pet.Level;
 			//TODO 寵物經驗倍率
-			long totalExp = (long)(exp * Config.RATE_XP_PET + pet.Exp);
+			long totalExp = (long)( exp * Config.RATE_XP_PET + pet.Exp );
 			//TODO 寵物經驗倍率
 
 			//TODO 寵物最高等級
 			if (totalExp >= ExpTable.getExpByLevel(Config.Pet_Max_LV + 1))
 			{
 				totalExp = ExpTable.getExpByLevel(Config.Pet_Max_LV + 1) - 1;
-			//TODO 寵物最高等級
+				//TODO 寵物最高等級
 			}
 			pet.Exp = totalExp;
 

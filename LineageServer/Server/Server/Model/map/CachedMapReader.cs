@@ -1,40 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Server.Model.map
 {
+	//之後再補
 
-	using MapsTable = LineageServer.Server.Server.DataSources.MapsTable;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
-
+	/*
 	/// <summary>
 	/// 將地圖做快取的動作以減少讀取的時間。
 	/// </summary>
-	public class CachedMapReader : MapReader
+	class CachedMapReader : MapReader
 	{
 
 		/// <summary>
-		/// 地圖檔的路徑 </summary>
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @SuppressWarnings("unused") private static final String MAP_DIR = "./maps/";
+		/// 地圖檔的路徑 
+		/// </summary>
 		private const string MAP_DIR = "./maps/";
 
 		/// <summary>
-		/// cache 後地圖檔的路徑 </summary>
+		/// cache 後地圖檔的路徑 
+		/// </summary>
 		private const string CACHE_DIR = "./data/mapcache/";
 
 		/// <summary>
@@ -43,18 +27,15 @@ namespace LineageServer.Server.Server.Model.map
 		/// <param name="mapId">
 		///            地圖編號 </param>
 		/// <returns> L1V1Map </returns>
-		/// <exception cref="IOException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private L1V1Map cacheMap(final int mapId) throws java.io.IOException
 		private L1V1Map cacheMap(in int mapId)
 		{
-			File file = new File(CACHE_DIR);
-			if (!file.exists())
+			DirectoryInfo directoryInfo = new DirectoryInfo(CACHE_DIR);
+			if (!directoryInfo.Exists)
 			{
-				file.mkdir();
+				directoryInfo.Create();
 			}
 
-			L1V1Map map = (L1V1Map) (new TextMapReader()).read(mapId);
+			L1V1Map map = (L1V1Map)new TextMapReader().read(mapId);
 
 			DataOutputStream @out = new DataOutputStream(new BufferedOutputStream(new FileStream(CACHE_DIR + mapId + ".map", FileMode.Create, FileAccess.Write)));
 
@@ -84,8 +65,8 @@ namespace LineageServer.Server.Server.Model.map
 		///            地圖編號 </param>
 		/// <returns> L1Map </returns>
 		/// <exception cref="IOException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: @Override public L1Map read(final int mapId) throws java.io.IOException
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: @Override public L1Map read(final int mapId) throws java.io.IOException
 		public override L1Map read(in int mapId)
 		{
 			File file = new File(CACHE_DIR + mapId + ".map");
@@ -108,8 +89,8 @@ namespace LineageServer.Server.Server.Model.map
 			int width = @in.readInt();
 			int height = @in.readInt();
 
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: sbyte[][] tiles = new sbyte[width][height];
+			//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
+			//ORIGINAL LINE: sbyte[][] tiles = new sbyte[width][height];
 			sbyte[][] tiles = RectangularArrays.RectangularSbyteArray(width, height);
 			foreach (sbyte[] line in tiles)
 			{
@@ -126,8 +107,8 @@ namespace LineageServer.Server.Server.Model.map
 		/// </summary>
 		/// <returns> Map </returns>
 		/// <exception cref="IOException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: @Override public java.util.Map<int, L1Map> read() throws java.io.IOException
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: @Override public java.util.Map<int, L1Map> read() throws java.io.IOException
 		public override IDictionary<int, L1Map> read()
 		{
 			IDictionary<int, L1Map> maps = Maps.newMap();
@@ -138,5 +119,5 @@ namespace LineageServer.Server.Server.Model.map
 			return maps;
 		}
 	}
-
+	*/
 }

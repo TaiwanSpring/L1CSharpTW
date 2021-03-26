@@ -4,51 +4,46 @@ namespace LineageServer.Server.Server.Model.Gametime
 {
 	public enum L1GameTimeTypeEnum
 	{
-		MONTH,
-		DAY_OF_MONTH,
-		HOUR_OF_DAY,
-		MINUTE,
+		Month,
+		DayOfMonth,
+		HourOfDay,
+		Minute,
+	}
+
+	public enum OnTimeTypeEnum
+	{
+		Night
 	}
 	public class L1GameTime
 	{
-		private readonly int _time;
+		private static readonly DateTime baseTime = new DateTime(2003, 07, 03, 0, 0, 0);
+		private readonly DateTime time = DateTime.Now;
 
-		private readonly DateTime _calendar = DateTime.Now;
-
-		public L1GameTime()//TODO 自動重啟
-		{
-
-		}
-
-		//public static L1GameTime valueOf(long timeMillis)
-		//{
-		//	long t1 = timeMillis - BASE_TIME_IN_MILLIS_REAL;
-		//	if (t1 < 0)
-		//	{
-		//		throw new System.ArgumentException();
-		//	}
-		//	int t2 = (int)( ( t1 * 6 ) / 1000L );
-		//	int t3 = t2 % 3; // 時間が3の倍数になるように調整
-		//	return new L1GameTime(t2 - t3);
-		//}
-		public static L1GameTime fromSystemCurrentTime()
-		{
-			return new L1GameTime();
-		}
-
-		public virtual int get(L1GameTimeTypeEnum field)
+		public virtual int GetValue(L1GameTimeTypeEnum field)
 		{
 			switch (field)
 			{
-				case L1GameTimeTypeEnum.MONTH:
-					return _calendar.Month;
-				case L1GameTimeTypeEnum.DAY_OF_MONTH:
-					return _calendar.Day;
-				case L1GameTimeTypeEnum.HOUR_OF_DAY:
-					return _calendar.Hour;
-				case L1GameTimeTypeEnum.MINUTE:
+				case L1GameTimeTypeEnum.Month:
+					return time.Month;
+				case L1GameTimeTypeEnum.DayOfMonth:
+					return time.Day;
+				case L1GameTimeTypeEnum.HourOfDay:
+					return time.Hour;
+				case L1GameTimeTypeEnum.Minute:
 				default:
-					return _calendar.Minute;
+					return time.Minute;
+			}
+		}
+
+		public bool IsOnTime(OnTimeTypeEnum onTimeType)
+		{
+			switch (onTimeType)
+			{
+				// 6:00-17:59(昼)で無ければtrue
+				case OnTimeTypeEnum.Night:
+					return !IntRange.includes(this.time.Hour, 6, 17);
+				default:
+					return false;
 			}
 		}
 
@@ -56,7 +51,7 @@ namespace LineageServer.Server.Server.Model.Gametime
 		{
 			get
 			{
-				return _time;
+				return ( this.time.Hour * 3600 ) + ( this.time.Minute * 60 ) + this.time.Second;
 			}
 		}
 
@@ -64,7 +59,7 @@ namespace LineageServer.Server.Server.Model.Gametime
 		{
 			get
 			{
-				return _calendar;
+				return time;
 			}
 		}
 
@@ -72,14 +67,13 @@ namespace LineageServer.Server.Server.Model.Gametime
 		{
 			get
 			{
-				int hour = _calendar.Hour;
-				return !IntRange.includes(hour, 6, 17); // 6:00-17:59(昼)で無ければtrue
+				return IsOnTime(OnTimeTypeEnum.Night);
 			}
 		}
 
 		public override string ToString()
 		{
-			return _calendar.ToString("yyyyMMdd HH:mm:ss");
+			return time.ToString("yyyyMMdd HH:mm:ss");
 		}
 	}
 

@@ -26,7 +26,7 @@ namespace LineageServer.Server.Server.Model
 	using L1PetInstance = LineageServer.Server.Server.Model.Instance.L1PetInstance;
 	using L1SummonInstance = LineageServer.Server.Server.Model.Instance.L1SummonInstance;
 	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
-	using L1NpcDefaultAction = LineageServer.Server.Server.Model.npc.action.L1NpcDefaultAction;
+	using L1NpcDefaultAction = LineageServer.Server.Server.Model.Npc.Action.L1NpcDefaultAction;
 	using L1DamagePoison = LineageServer.Server.Server.Model.poison.L1DamagePoison;
 	using L1ParalysisPoison = LineageServer.Server.Server.Model.poison.L1ParalysisPoison;
 	using L1SilencePoison = LineageServer.Server.Server.Model.poison.L1SilencePoison;
@@ -1645,7 +1645,7 @@ namespace LineageServer.Server.Server.Model
 			{
 				bool flag = false;
 				int undead = _npc.NpcTemplate.get_undead();
-				bool isNight = L1GameTimeClock.Instance.currentTime().Night;
+				bool isNight = L1GameTimeClock.Instance.CurrentTime().Night;
 				if (isNight && ((undead == 1) || (undead == 3) || (undead == 4)))
 				{ // 18～6時、かつ、アンデッド系・アンデッド系ボス・弱点無効のアンデッド系
 					flag = true;

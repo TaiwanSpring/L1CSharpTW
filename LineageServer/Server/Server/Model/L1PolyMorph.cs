@@ -24,7 +24,7 @@ namespace LineageServer.Server.Server.Model
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1NpcDefaultAction = LineageServer.Server.Server.Model.npc.action.L1NpcDefaultAction;
+	using L1NpcDefaultAction = LineageServer.Server.Server.Model.Npc.Action.L1NpcDefaultAction;
 	using S_ChangeShape = LineageServer.Server.Server.serverpackets.S_ChangeShape;
 	using S_CharVisualUpdate = LineageServer.Server.Server.serverpackets.S_CharVisualUpdate;
 	using S_CloseList = LineageServer.Server.Server.serverpackets.S_CloseList;

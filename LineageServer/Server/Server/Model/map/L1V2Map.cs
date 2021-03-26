@@ -1,25 +1,13 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿//何苦用1維陣列各種Offset
+
+/*
+using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.Types;
+
 namespace LineageServer.Server.Server.Model.map
 {
-	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using DoorTable = LineageServer.Server.Server.DataSources.DoorTable;
-	using L1DoorInstance = LineageServer.Server.Server.Model.Instance.L1DoorInstance;
-	using Point = LineageServer.Server.Server.Types.Point;
-
-	public class L1V2Map : L1Map
+	class L1V2Map : L1Map
 	{
 		private readonly int _id;
 		private readonly int _xLoc;
@@ -43,16 +31,16 @@ namespace LineageServer.Server.Server.Model.map
 		/// <summary>
 		/// Mobなどの通行不可能になるオブジェクトがタイル上に存在するかを示すビットフラグ
 		/// </summary>
-		private static readonly sbyte BITFLAG_IS_IMPASSABLE = unchecked((sbyte) 128); // 1000 0000
+		private static readonly sbyte BITFLAG_IS_IMPASSABLE = unchecked((sbyte)128); // 1000 0000
 
 		private int offset(int x, int y)
 		{
-			return ((y - _yLoc) * _width * 2) + ((x - _xLoc) * 2);
+			return ( ( y - _yLoc ) * _width * 2 ) + ( ( x - _xLoc ) * 2 );
 		}
 
 		private int accessOriginalTile(int x, int y)
 		{
-			return _map[offset(x, y)] & (~BITFLAG_IS_IMPASSABLE);
+			return _map[offset(x, y)] & ( ~BITFLAG_IS_IMPASSABLE );
 		}
 
 		public L1V2Map(int id, sbyte[] map, int xLoc, int yLoc, int width, int height, bool underwater, bool markable, bool teleportable, bool escapable, bool useResurrection, bool usePainwand, bool enabledDeathPenalty, bool takePets, bool recallPets, bool usableItem, bool usableSkill)
@@ -97,7 +85,7 @@ namespace LineageServer.Server.Server.Model.map
 		{
 			int lo = _map[offset(x, y)];
 			int hi = _map[offset(x, y) + 1];
-			return (lo | ((hi << 8) & 0xFF00));
+			return ( lo | ( ( hi << 8 ) & 0xFF00 ) );
 		}
 
 		public override int getTile(int x, int y)
@@ -136,7 +124,7 @@ namespace LineageServer.Server.Server.Model.map
 
 		public override bool isArrowPassable(int x, int y)
 		{
-			return (accessOriginalTile(x, y) != 1);
+			return ( accessOriginalTile(x, y) != 1 );
 		}
 
 		public override bool isArrowPassable(Point pt, int heading)
@@ -209,7 +197,7 @@ namespace LineageServer.Server.Server.Model.map
 				return false;
 			}
 
-			return (tile != 1);
+			return ( tile != 1 );
 		}
 
 		public override bool isCombatZone(Point pt)
@@ -219,7 +207,7 @@ namespace LineageServer.Server.Server.Model.map
 
 		public override bool isCombatZone(int x, int y)
 		{
-			return (accessOriginalTile(x, y) == 8);
+			return ( accessOriginalTile(x, y) == 8 );
 		}
 
 		public override bool isInMap(Point pt)
@@ -229,7 +217,7 @@ namespace LineageServer.Server.Server.Model.map
 
 		public override bool isInMap(int x, int y)
 		{
-			return (_xLoc <= x && x < _xLoc + _width && _yLoc <= y && y < _yLoc + _height);
+			return ( _xLoc <= x && x < _xLoc + _width && _yLoc <= y && y < _yLoc + _height );
 		}
 
 		public override bool isNormalZone(Point pt)
@@ -239,7 +227,7 @@ namespace LineageServer.Server.Server.Model.map
 
 		public override bool isNormalZone(int x, int y)
 		{
-			return (!isCombatZone(x, y) && !isSafetyZone(x, y));
+			return ( !isCombatZone(x, y) && !isSafetyZone(x, y) );
 		}
 
 		public override bool isPassable(Point pt)
@@ -254,7 +242,7 @@ namespace LineageServer.Server.Server.Model.map
 			{
 				return false;
 			}
-			if (0 != (_map[offset(x, y)] & BITFLAG_IS_IMPASSABLE))
+			if (0 != ( _map[offset(x, y)] & BITFLAG_IS_IMPASSABLE ))
 			{
 				return false;
 			}
@@ -310,7 +298,7 @@ namespace LineageServer.Server.Server.Model.map
 			{
 				return false;
 			}
-			if (0 != (_map[offset(x, y)] & BITFLAG_IS_IMPASSABLE))
+			if (0 != ( _map[offset(x, y)] & BITFLAG_IS_IMPASSABLE ))
 			{
 				return false;
 			}
@@ -336,7 +324,7 @@ namespace LineageServer.Server.Server.Model.map
 		{
 			if (isPassable)
 			{
-				_map[offset(x, y)] &= (sbyte)(~BITFLAG_IS_IMPASSABLE);
+				_map[offset(x, y)] &= (sbyte)( ~BITFLAG_IS_IMPASSABLE );
 			}
 			else
 			{
@@ -490,8 +478,9 @@ namespace LineageServer.Server.Server.Model.map
 		{
 			int tile = getOriginalTile(pt.X, pt.Y);
 
-			return (tile & 0xFF) + " " + ((tile >> 8) & 0xFF);
+			return ( tile & 0xFF ) + " " + ( ( tile >> 8 ) & 0xFF );
 		}
 	}
 
 }
+*/

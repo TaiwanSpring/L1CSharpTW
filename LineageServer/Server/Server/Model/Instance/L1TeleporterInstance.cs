@@ -27,7 +27,7 @@ namespace LineageServer.Server.Server.Model.Instance
 	using L1Quest = LineageServer.Server.Server.Model.L1Quest;
 	using L1Teleport = LineageServer.Server.Server.Model.L1Teleport;
 	using L1World = LineageServer.Server.Server.Model.L1World;
-	using L1NpcHtml = LineageServer.Server.Server.Model.npc.L1NpcHtml;
+	using L1NpcHtml = LineageServer.Server.Server.Model.Npc.L1NpcHtml;
 	using S_NPCTalkReturn = LineageServer.Server.Server.serverpackets.S_NPCTalkReturn;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
 

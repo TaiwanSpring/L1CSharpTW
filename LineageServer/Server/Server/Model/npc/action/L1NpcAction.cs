@@ -1,16 +1,13 @@
-﻿
-using LineageServer.Server.Server.Model.Instance;
+﻿using LineageServer.Server.Server.Model.Instance;
 
-namespace LineageServer.Server.Server.Model.npc.action
+namespace LineageServer.Server.Server.Model.Npc.Action
 {
-    interface INpcAction
-    {
+	interface INpcAction
+	{
+		bool acceptsRequest(string actionName, L1PcInstance pc, L1Object obj);
 
-        bool acceptsRequest(string actionName, L1PcInstance pc, L1Object obj);
+		L1NpcHtml execute(string actionName, L1PcInstance pc, L1Object obj, sbyte[] args);
 
-        L1NpcHtml execute(string actionName, L1PcInstance pc, L1Object obj, sbyte[] args);
-
-        L1NpcHtml executeWithAmount(string actionName, L1PcInstance pc, L1Object obj, int amount);
-
-    }
+		L1NpcHtml executeWithAmount(string actionName, L1PcInstance pc, L1Object obj, int amount);
+	}
 }

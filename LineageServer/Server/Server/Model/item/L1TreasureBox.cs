@@ -1,124 +1,63 @@
-﻿using System;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.serverpackets;
+using LineageServer.Server.Server.utils.collections;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Server.Model.item
 {
-
-
-	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
-	using L1Inventory = LineageServer.Server.Server.Model.L1Inventory;
-	using L1PcInventory = LineageServer.Server.Server.Model.L1PcInventory;
-	using L1World = LineageServer.Server.Server.Model.L1World;
-	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using PerformanceTimer = LineageServer.Server.Server.utils.PerformanceTimer;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
-
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) public class L1TreasureBox
-	public class L1TreasureBox
+	[XmlRoot(ElementName = nameof(TreasureBoxList))]
+	class TreasureBoxList
 	{
+		[XmlElement(ElementName = "TreasureBox")]
+		public List<L1TreasureBox> Items { get; set; }
+	}
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.getLogger(typeof(L1TreasureBox).FullName);
+	[XmlRoot(ElementName = nameof(Item))]
+	class Item
+	{
+		[XmlAttribute(AttributeName = nameof(ItemId))]
+		public int ItemId { get; set; }
+		[XmlAttribute(AttributeName = nameof(Count))]
+		public int Count { get; set; }
+		[XmlAttribute(AttributeName = nameof(Chance))]
+		public double Chance { get; set; }
+		[XmlAttribute(AttributeName = nameof(Enchant))]
+		public int Enchant { get; set; }
+		//[XmlAttribute(AttributeName = nameof(Attr))]
+		//public string Attr { get; set; }
+		//[XmlAttribute(AttributeName = nameof(Identi))]
+		//public string Identi { get; set; }
+		//[XmlAttribute(AttributeName = nameof(Bless))]
+		//public string Bless { get; set; }
+	}
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) @XmlRootElement(name = "TreasureBoxList") private static class TreasureBoxList implements Iterable<L1TreasureBox>
-		private class TreasureBoxList : IEnumerable<L1TreasureBox>
-		{
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlElement(name = "TreasureBox") private java.util.List<L1TreasureBox> _list;
-			internal IList<L1TreasureBox> _list;
+	public enum TYPE
+	{
+		[XmlEnum("")]
+		Unknow,
+		[XmlEnum(nameof(RANDOM))]
+		RANDOM,
+		[XmlEnum(nameof(SPECIFIC))]
+		SPECIFIC,
+		[XmlEnum(nameof(RANDOM_SPECIFIC))]
+		RANDOM_SPECIFIC
+	}
 
-			public virtual IEnumerator<L1TreasureBox> GetEnumerator()
-			{
-				return _list.GetEnumerator();
-			}
-		}
+	[XmlRoot(ElementName = "TreasureBox")]
+	class L1TreasureBox
+	{
+		private static readonly ILogger _log = Logger.getLogger(nameof(L1TreasureBox));
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) private static class Item
-		private class Item
-		{
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "ItemId") private int _itemId;
-			internal int _itemId;
+		private static readonly IDictionary<int, L1TreasureBox> _dataMap = Maps.newMap<int, L1TreasureBox>();
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "Count") private int _count;
-			internal int _count;
-
-			internal int _chance;
-
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @SuppressWarnings("unused") @XmlAttribute(name = "Chance") private void setChance(double chance)
-			internal virtual double Chance
-			{
-				set
-				{
-					_chance = (int)(value * 10000);
-				}
-				get
-				{
-					return _chance;
-				}
-			}
-
-			public virtual int ItemId
-			{
-				get
-				{
-					return _itemId;
-				}
-			}
-
-			public virtual int Count
-			{
-				get
-				{
-					return _count;
-				}
-			}
-
-
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "Enchant") private int _enchant;
-			internal int _enchant;
-
-			public virtual int Enchant
-			{
-				get
-				{
-					return _enchant;
-				}
-			}
-		}
-
-		private enum TYPE
-		{
-			RANDOM,
-			SPECIFIC
-		}
-
-		private const string PATH = "./data/xml/Item/TreasureBox.xml";
-
-		private static readonly IDictionary<int, L1TreasureBox> _dataMap = Maps.newMap();
+		const int chanegDenominator = 10000;
 
 		/// <summary>
 		/// 指定されたIDのTreasureBoxを返す。
@@ -131,94 +70,81 @@ namespace LineageServer.Server.Server.Model.item
 			return _dataMap[id];
 		}
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "ItemId") private int _boxId;
-		private int _boxId;
+		[XmlElement(ElementName = "ItemId")]
+		public int BoxId { get; set; }
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "Type") private TYPE _type;
-		private TYPE _type;
+		[XmlElement(ElementName = "Type")]
+		public TYPE Type { get; set; }
 
-		private int BoxId
+		[XmlElement(ElementName = "Item")]
+		public List<Item> Items { get; set; }
+
+		public int TotalChance { get; } = 100;
+
+		private bool Init()
 		{
-			get
-			{
-				return _boxId;
-			}
-		}
-
-		private TYPE Type
-		{
-			get
-			{
-				return _type;
-			}
-		}
-
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlElement(name = "Item") private java.util.concurrent.CopyOnWriteArrayList<Item> _items;
-		private CopyOnWriteArrayList<Item> _items;
-
-		private IList<Item> Items
-		{
-			get
-			{
-				return _items;
-			}
-		}
-
-		private int _totalChance;
-
-		private int TotalChance
-		{
-			get
-			{
-				return _totalChance;
-			}
-		}
-
-		private void init()
-		{
+			double totalChance = 0d;
 			foreach (Item each in Items)
 			{
-				_totalChance += (int)each.Chance;
 				if (ItemTable.Instance.getTemplate(each.ItemId) == null)
 				{
-					Items.Remove(each);
 					_log.warning("item ID " + each.ItemId + " is not found。");
+					return false;
 				}
+				totalChance += each.Chance;
 			}
-			if ((TotalChance != 0) && (TotalChance != 1000000))
+
+			if (totalChance != 0 && totalChance != 100d)
 			{
 				_log.warning("ID " + BoxId + " 的總機率不等於100%。");
+				return false;
+			}
+			else
+			{
+				return true;
 			}
 		}
 
 		public static void load()
 		{
-			PerformanceTimer timer = new PerformanceTimer();
-            System.Console.Write("【讀取】 【TreasureBox】【設定】");
-			try
+			System.Console.Write("【讀取】 【TreasureBox】【設定】");
+			const string PATH = "./data/xml/Item/TreasureBox.xml";
+			FileInfo fileInfo = new FileInfo(PATH);
+			if (fileInfo.Exists)
 			{
-				JAXBContext context = JAXBContext.newInstance(typeof(L1TreasureBox.TreasureBoxList));
-
-				Unmarshaller um = context.createUnmarshaller();
-
-				File file = new File(PATH);
-				TreasureBoxList list = (TreasureBoxList) um.unmarshal(file);
-
-				foreach (L1TreasureBox each in list)
+				Stopwatch timer = Stopwatch.StartNew();
+				TreasureBoxList treasureBoxList;
+				try
 				{
-					each.init();
-					_dataMap[each.BoxId] = each;
+					StreamReader streamReader = fileInfo.OpenText();
+					XmlReader xmlReader = XmlReader.Create(streamReader);
+					XmlSerializer xmlSerializer = new XmlSerializer(typeof(TreasureBoxList));
+					treasureBoxList = xmlSerializer.Deserialize(xmlReader) as TreasureBoxList;
+					xmlReader.Close();
+					streamReader.Close();
 				}
+				catch (Exception e)
+				{
+					_log.log(Enum.Level.Server, $"{PATH} 載入失敗。", e);
+					return;
+				}
+
+				foreach (L1TreasureBox each in treasureBoxList.Items)
+				{
+					if (each.Init())
+					{
+						_dataMap[each.BoxId] = each;
+					}
+				}
+
+				timer.Stop();
+
+				System.Console.WriteLine("【完成】【" + timer.ElapsedMilliseconds + "】【毫秒】。");
 			}
-			catch (Exception e)
+			else
 			{
-				_log.log(Enum.Level.Server, PATH + "載入失敗。", e);
-				Environment.Exit(0);
+				System.Console.Write($"【讀取】 【TreasureBox】【設定】{fileInfo} 檔案不存在");
 			}
-            System.Console.WriteLine("【完成】【" + timer.get() + "】【毫秒】。");
 		}
 
 		/// <summary>
@@ -280,13 +206,13 @@ namespace LineageServer.Server.Server.Model.item
 				int itemId = BoxId;
 
 				// 魂の結晶の破片、魔族のスクロール、ブラックエントの実
-				if ((itemId == 40576) || (itemId == 40577) || (itemId == 40578) || (itemId == 40411) || (itemId == 49013))
+				if (( itemId == 40576 ) || ( itemId == 40577 ) || ( itemId == 40578 ) || ( itemId == 40411 ) || ( itemId == 49013 ))
 				{
 					pc.death(null); // キャラクターを死亡させる
 				}
 
 				// 多魯嘉之袋
-				if ((itemId == 46000))
+				if (( itemId == 46000 ))
 				{
 					L1ItemInstance box = pc.Inventory.findItemId(itemId);
 					box.ChargeCount = box.ChargeCount - 1;
@@ -318,5 +244,4 @@ namespace LineageServer.Server.Server.Model.item
 			pc.sendPackets(new S_ServerMessage(403, item.LogName)); // %0を手に入れました。
 		}
 	}
-
 }

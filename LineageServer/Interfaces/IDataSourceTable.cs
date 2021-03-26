@@ -4,7 +4,10 @@ using System.Text;
 
 namespace LineageServer.Interfaces
 {
-    interface IDataSourceTable
-    {
-    }
+	interface IDataSourceTable
+	{
+		IDataSourceRow[] Select();
+
+		IDataSourceRow NewRow();
+	}
 }

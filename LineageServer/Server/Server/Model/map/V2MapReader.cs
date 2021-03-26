@@ -1,29 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿//看起來就是多讀了 Left Right Top Bottom
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+/*
+using System.Collections.Generic;
+using System.IO;
 namespace LineageServer.Server.Server.Model.map
 {
-
-	using MapsTable = LineageServer.Server.Server.DataSources.MapsTable;
-	using BinaryInputStream = LineageServer.Server.Server.utils.BinaryInputStream;
-	using FileUtil = LineageServer.Server.Server.utils.FileUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
-
 	/// <summary>
 	/// 地圖 (v2maps/\d*.txt)讀取 (測試用)
 	/// </summary>
@@ -74,8 +55,8 @@ namespace LineageServer.Server.Server.Model.map
 		/// </summary>
 		/// <returns> Map </returns>
 		/// <exception cref="IOException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: @Override public java.util.Map<int, L1Map> read() throws java.io.IOException
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: @Override public java.util.Map<int, L1Map> read() throws java.io.IOException
 		public override IDictionary<int, L1Map> read()
 		{
 			IDictionary<int, L1Map> maps = Maps.newMap();
@@ -93,8 +74,8 @@ namespace LineageServer.Server.Server.Model.map
 		///            地圖編號 </param>
 		/// <returns> L1Map </returns>
 		/// <exception cref="IOException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: @Override public L1Map read(final int mapId) throws java.io.IOException
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: @Override public L1Map read(final int mapId) throws java.io.IOException
 		public override L1Map read(in int mapId)
 		{
 			File file = new File(MAP_DIR + mapId + ".md");
@@ -119,7 +100,7 @@ namespace LineageServer.Server.Server.Model.map
 			sbyte[] tiles = new sbyte[width * height * 2];
 			for (int i = 0; i < width * height * 2; i++)
 			{
-				tiles[i] = (sbyte) @in.readByte();
+				tiles[i] = (sbyte)@in.readByte();
 			}
 			@in.Close();
 
@@ -128,4 +109,4 @@ namespace LineageServer.Server.Server.Model.map
 		}
 	}
 
-}
+}*/

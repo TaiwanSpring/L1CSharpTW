@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using INpcAction = LineageServer.Server.Server.Model.npc.action.INpcAction;
-	using L1NpcXmlParser = LineageServer.Server.Server.Model.npc.action.L1NpcXmlParser;
+	using INpcAction = LineageServer.Server.Server.Model.Npc.Action.INpcAction;
+	using L1NpcXmlParser = LineageServer.Server.Server.Model.Npc.Action.L1NpcXmlParser;
 	using FileUtil = LineageServer.Server.Server.utils.FileUtil;
 	using PerformanceTimer = LineageServer.Server.Server.utils.PerformanceTimer;
 	using Lists = LineageServer.Server.Server.utils.collections.Lists;
@@ -32,17 +32,17 @@ namespace LineageServer.Server.Server.DataSources
 
 	public class NpcActionTable
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
+		//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
 		private static Logger _log = Logger.getLogger(typeof(NpcActionTable).FullName);
 
 		private static NpcActionTable _instance;
 
-		private readonly IList<INpcAction> _actions = Lists.newList();
+		private readonly IList<INpcAction> _actions = Lists.newList<INpcAction>();
 
-		private readonly IList<INpcAction> _talkActions = Lists.newList();
+		private readonly IList<INpcAction> _talkActions = Lists.newList<INpcAction>();
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private java.util.List<l1j.server.server.model.npc.action.L1NpcAction> loadAction(java.io.File file, String nodeName) throws javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException, java.io.IOException
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: private java.util.List<l1j.server.server.model.npc.action.L1NpcAction> loadAction(java.io.File file, String nodeName) throws javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException, java.io.IOException
 		private IList<INpcAction> loadAction(File file, string nodeName)
 		{
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -55,22 +55,22 @@ namespace LineageServer.Server.Server.DataSources
 			return L1NpcXmlParser.listActions(doc.DocumentElement);
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private void loadAction(java.io.File file) throws Exception
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: private void loadAction(java.io.File file) throws Exception
 		private void loadAction(File file)
 		{
-			((List<INpcAction>)_actions).AddRange(loadAction(file, "NpcActionList"));
+			( (List<INpcAction>)_actions ).AddRange(loadAction(file, "NpcActionList"));
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private void loadTalkAction(java.io.File file) throws Exception
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: private void loadTalkAction(java.io.File file) throws Exception
 		private void loadTalkAction(File file)
 		{
-			((List<INpcAction>)_talkActions).AddRange(loadAction(file, "NpcTalkActionList"));
+			( (List<INpcAction>)_talkActions ).AddRange(loadAction(file, "NpcTalkActionList"));
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private void loadDirectoryActions(java.io.File dir) throws Exception
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: private void loadDirectoryActions(java.io.File dir) throws Exception
 		private void loadDirectoryActions(File dir)
 		{
 			foreach (string file in dir.list())
@@ -84,8 +84,8 @@ namespace LineageServer.Server.Server.DataSources
 			}
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private NpcActionTable() throws Exception
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: private NpcActionTable() throws Exception
 		private NpcActionTable()
 		{
 			File usersDir = new File("./data/xml/NpcActions/users/");
@@ -101,9 +101,9 @@ namespace LineageServer.Server.Server.DataSources
 			try
 			{
 				PerformanceTimer timer = new PerformanceTimer();
-                System.Console.Write("【讀取】 【npcaction】【設定】");
+				System.Console.Write("【讀取】 【npcaction】【設定】");
 				_instance = new NpcActionTable();
-                System.Console.WriteLine("【完成】【" + timer.get() + "】【毫秒】。");
+				System.Console.WriteLine("【完成】【" + timer.get() + "】【毫秒】。");
 			}
 			catch (Exception e)
 			{

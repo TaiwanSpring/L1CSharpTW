@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1GameTime = LineageServer.Server.Server.Model.Gametime.L1GameTime;
-	using L1GameTimeAdapter = LineageServer.Server.Server.Model.Gametime.L1GameTimeAdapter;
+	using IL1GameTimeListener = LineageServer.Server.Server.Model.Gametime.IL1GameTimeListener;
 	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using S_PacketBox = LineageServer.Server.Server.serverpackets.S_PacketBox;
 	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
@@ -59,11 +59,11 @@ namespace LineageServer.Server.Server
 			if (_listener == null)
 			{
 				_listener = new L1TownFixedProcListener(this);
-				L1GameTimeClock.Instance.addListener(_listener);
+				L1GameTimeClock.Instance.AddListener(_listener);
 			}
 		}
 
-		private class L1TownFixedProcListener : L1GameTimeAdapter
+		private class L1TownFixedProcListener : IL1GameTimeListener
 		{
 			private readonly HomeTownTimeController outerInstance;
 
@@ -72,7 +72,7 @@ namespace LineageServer.Server.Server
 				this.outerInstance = outerInstance;
 			}
 
-			public override void onDayChanged(L1GameTime time)
+			public override void OnDayChanged(L1GameTime time)
 			{
 				outerInstance.fixedProc(time);
 			}

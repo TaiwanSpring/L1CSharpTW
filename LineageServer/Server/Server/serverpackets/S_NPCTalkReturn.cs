@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server.serverpackets
 {
 	using Opcodes = LineageServer.Server.Server.Opcodes;
 	using L1NpcTalkData = LineageServer.Server.Server.Model.L1NpcTalkData;
-	using L1NpcHtml = LineageServer.Server.Server.Model.npc.L1NpcHtml;
+	using L1NpcHtml = LineageServer.Server.Server.Model.Npc.L1NpcHtml;
 
 	public class S_NPCTalkReturn : ServerBasePacket
 	{

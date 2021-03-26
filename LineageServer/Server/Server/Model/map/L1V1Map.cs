@@ -1,25 +1,11 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.Types;
+using System;
+
 namespace LineageServer.Server.Server.Model.map
 {
-	using ActionCodes = LineageServer.Server.Server.ActionCodes;
-	using DoorTable = LineageServer.Server.Server.DataSources.DoorTable;
-	using L1DoorInstance = LineageServer.Server.Server.Model.Instance.L1DoorInstance;
-	using Point = LineageServer.Server.Server.Types.Point;
-
-	public class L1V1Map : L1Map
+	class L1V1Map : L1Map
 	{
 		private int _mapId;
 
@@ -31,7 +17,7 @@ namespace LineageServer.Server.Server.Model.map
 
 		private int _worldBottomRightY;
 
-		private sbyte[][] _map;
+		private byte[][] _map;
 
 		private bool _isUnderwater;
 
@@ -61,14 +47,14 @@ namespace LineageServer.Server.Server.Model.map
 		/// <summary>
 		/// Mobなどの通行不可能になるオブジェクトがタイル上に存在するかを示すビットフラグ
 		/// </summary>
-		private static readonly sbyte BITFLAG_IS_IMPASSABLE = unchecked((sbyte) 128); // 1000 0000
+		private static readonly byte BITFLAG_IS_IMPASSABLE = 128; // 1000 0000
 
 		protected internal L1V1Map()
 		{
 
 		}
 
-		public L1V1Map(int mapId, sbyte[][] map, int worldTopLeftX, int worldTopLeftY, bool underwater, bool markable, bool teleportable, bool escapable, bool useResurrection, bool usePainwand, bool enabledDeathPenalty, bool takePets, bool recallPets, bool usableItem, bool usableSkill)
+		public L1V1Map(int mapId, byte[][] map, int worldTopLeftX, int worldTopLeftY, bool underwater, bool markable, bool teleportable, bool escapable, bool useResurrection, bool usePainwand, bool enabledDeathPenalty, bool takePets, bool recallPets, bool usableItem, bool usableSkill)
 		{
 			_mapId = mapId;
 			_map = map;
@@ -96,10 +82,11 @@ namespace LineageServer.Server.Server.Model.map
 			_mapId = map._mapId;
 
 			// _mapをコピー
-			_map = new sbyte[map._map.Length][];
+			_map = new byte[map._map.Length][];
 			for (int i = 0; i < map._map.Length; i++)
 			{
-				_map[i] = map._map[i].clone();
+				_map[i] = new byte[map._map[i].Length];
+				Buffer.BlockCopy(map._map[i], 0, _map[i], 0, map._map[i].Length);
 			}
 
 			_worldTopLeftX = map._worldTopLeftX;
@@ -121,7 +108,7 @@ namespace LineageServer.Server.Server.Model.map
 
 		private int accessOriginalTile(int x, int y)
 		{
-			return accessTile(x, y) & (~BITFLAG_IS_IMPASSABLE);
+			return accessTile(x, y) & ( ~BITFLAG_IS_IMPASSABLE );
 		}
 
 		private void setTile(int x, int y, int tile)
@@ -130,13 +117,13 @@ namespace LineageServer.Server.Server.Model.map
 			{ // XXX とりあえずチェックする。これは良くない。
 				return;
 			}
-			_map[x - _worldTopLeftX][y - _worldTopLeftY] = (sbyte) tile;
+			_map[x - _worldTopLeftX][y - _worldTopLeftY] = (byte)tile;
 		}
 
 		/*
 		 * ものすごく良くない気がする
 		 */
-		public virtual sbyte[][] RawTiles
+		public virtual byte[][] RawTiles
 		{
 			get
 			{
@@ -188,7 +175,7 @@ namespace LineageServer.Server.Server.Model.map
 		public override int getTile(int x, int y)
 		{
 			short tile = _map[x - _worldTopLeftX][y - _worldTopLeftY];
-			if (0 != (tile & BITFLAG_IS_IMPASSABLE))
+			if (0 != ( tile & BITFLAG_IS_IMPASSABLE ))
 			{
 				return 300;
 			}
@@ -208,11 +195,11 @@ namespace LineageServer.Server.Server.Model.map
 		public override bool isInMap(int x, int y)
 		{
 			// フィールドの茶色エリアの判定
-			if ((_mapId == 4) && ((x < 32520) || (y < 32070) || ((y < 32190) && (x < 33950))))
+			if (( _mapId == 4 ) && ( ( x < 32520 ) || ( y < 32070 ) || ( ( y < 32190 ) && ( x < 33950 ) ) ))
 			{
 				return false;
 			}
-			return ((_worldTopLeftX <= x) && (x <= _worldBottomRightX) && (_worldTopLeftY <= y) && (y <= _worldBottomRightY));
+			return ( ( _worldTopLeftX <= x ) && ( x <= _worldBottomRightX ) && ( _worldTopLeftY <= y ) && ( y <= _worldBottomRightY ) );
 		}
 
 		public override bool isPassable(Point pt)
@@ -274,51 +261,51 @@ namespace LineageServer.Server.Server.Model.map
 				return false;
 			}
 
-			if ((tile2 & BITFLAG_IS_IMPASSABLE) == BITFLAG_IS_IMPASSABLE)
+			if (( tile2 & BITFLAG_IS_IMPASSABLE ) == BITFLAG_IS_IMPASSABLE)
 			{
 				return false;
 			}
 
-			if (!((tile2 & 0x02) == 0x02 || (tile2 & 0x01) == 0x01))
+			if (!( ( tile2 & 0x02 ) == 0x02 || ( tile2 & 0x01 ) == 0x01 ))
 			{
 				return false;
 			}
 
 			if (heading == 0)
 			{
-				return (tile1 & 0x02) == 0x02;
+				return ( tile1 & 0x02 ) == 0x02;
 			}
 			else if (heading == 1)
 			{
 				int tile3 = accessTile(x, y - 1);
 				int tile4 = accessTile(x + 1, y);
-				return ((tile3 & 0x01) == 0x01) || ((tile4 & 0x02) == 0x02);
+				return ( ( tile3 & 0x01 ) == 0x01 ) || ( ( tile4 & 0x02 ) == 0x02 );
 			}
 			else if (heading == 2)
 			{
-				return (tile1 & 0x01) == 0x01;
+				return ( tile1 & 0x01 ) == 0x01;
 			}
 			else if (heading == 3)
 			{
 				int tile3 = accessTile(x, y + 1);
-				return (tile3 & 0x01) == 0x01;
+				return ( tile3 & 0x01 ) == 0x01;
 			}
 			else if (heading == 4)
 			{
-				return (tile2 & 0x02) == 0x02;
+				return ( tile2 & 0x02 ) == 0x02;
 			}
 			else if (heading == 5)
 			{
-				return ((tile2 & 0x01) == 0x01) || ((tile2 & 0x02) == 0x02);
+				return ( ( tile2 & 0x01 ) == 0x01 ) || ( ( tile2 & 0x02 ) == 0x02 );
 			}
 			else if (heading == 6)
 			{
-				return (tile2 & 0x01) == 0x01;
+				return ( tile2 & 0x01 ) == 0x01;
 			}
 			else if (heading == 7)
 			{
 				int tile3 = accessTile(x - 1, y);
-				return (tile3 & 0x02) == 0x02;
+				return ( tile3 & 0x02 ) == 0x02;
 			}
 
 			return false;
@@ -333,11 +320,11 @@ namespace LineageServer.Server.Server.Model.map
 		{
 			if (isPassable)
 			{
-				setTile(x, y, (short)(accessTile(x, y) & (~BITFLAG_IS_IMPASSABLE)));
+				setTile(x, y, (short)( accessTile(x, y) & ( ~BITFLAG_IS_IMPASSABLE ) ));
 			}
 			else
 			{
-				setTile(x, y, (short)(accessTile(x, y) | BITFLAG_IS_IMPASSABLE));
+				setTile(x, y, (short)( accessTile(x, y) | BITFLAG_IS_IMPASSABLE ));
 			}
 		}
 
@@ -350,7 +337,7 @@ namespace LineageServer.Server.Server.Model.map
 		{
 			int tile = accessOriginalTile(x, y);
 
-			return (tile & 0x30) == 0x10;
+			return ( tile & 0x30 ) == 0x10;
 		}
 
 		public override bool isCombatZone(Point pt)
@@ -362,7 +349,7 @@ namespace LineageServer.Server.Server.Model.map
 		{
 			int tile = accessOriginalTile(x, y);
 
-			return (tile & 0x30) == 0x20;
+			return ( tile & 0x30 ) == 0x20;
 		}
 
 		public override bool isNormalZone(Point pt)
@@ -373,7 +360,7 @@ namespace LineageServer.Server.Server.Model.map
 		public override bool isNormalZone(int x, int y)
 		{
 			int tile = accessOriginalTile(x, y);
-			return (tile & 0x30) == 0x00;
+			return ( tile & 0x30 ) == 0x00;
 		}
 
 		public override bool isArrowPassable(Point pt)
@@ -383,7 +370,7 @@ namespace LineageServer.Server.Server.Model.map
 
 		public override bool isArrowPassable(int x, int y)
 		{
-			return (accessOriginalTile(x, y) & 0x0e) != 0;
+			return ( accessOriginalTile(x, y) & 0x0e ) != 0;
 		}
 
 		public override bool isArrowPassable(Point pt, int heading)
@@ -468,39 +455,39 @@ namespace LineageServer.Server.Server.Model.map
 
 			if (heading == 0)
 			{
-				return (tile1 & 0x08) == 0x08;
+				return ( tile1 & 0x08 ) == 0x08;
 			}
 			else if (heading == 1)
 			{
 				int tile3 = accessTile(x, y - 1);
 				int tile4 = accessTile(x + 1, y);
-				return ((tile3 & 0x04) == 0x04) || ((tile4 & 0x08) == 0x08);
+				return ( ( tile3 & 0x04 ) == 0x04 ) || ( ( tile4 & 0x08 ) == 0x08 );
 			}
 			else if (heading == 2)
 			{
-				return (tile1 & 0x04) == 0x04;
+				return ( tile1 & 0x04 ) == 0x04;
 			}
 			else if (heading == 3)
 			{
 				int tile3 = accessTile(x, y + 1);
-				return (tile3 & 0x04) == 0x04;
+				return ( tile3 & 0x04 ) == 0x04;
 			}
 			else if (heading == 4)
 			{
-				return (tile2 & 0x08) == 0x08;
+				return ( tile2 & 0x08 ) == 0x08;
 			}
 			else if (heading == 5)
 			{
-				return ((tile2 & 0x04) == 0x04) || ((tile2 & 0x08) == 0x08);
+				return ( ( tile2 & 0x04 ) == 0x04 ) || ( ( tile2 & 0x08 ) == 0x08 );
 			}
 			else if (heading == 6)
 			{
-				return (tile2 & 0x04) == 0x04;
+				return ( tile2 & 0x04 ) == 0x04;
 			}
 			else if (heading == 7)
 			{
 				int tile3 = accessTile(x - 1, y);
-				return (tile3 & 0x08) == 0x08;
+				return ( tile3 & 0x08 ) == 0x08;
 			}
 
 			return false;
@@ -620,7 +607,7 @@ namespace LineageServer.Server.Server.Model.map
 				int size = rightEdgeLocation - leftEdgeLocation;
 				if (size == 0)
 				{ // 1マス分の幅のドア
-					if ((x == door.X) && (y == door.Y))
+					if (( x == door.X ) && ( y == door.Y ))
 					{
 						return true;
 					}
@@ -631,7 +618,7 @@ namespace LineageServer.Server.Server.Model.map
 					{ // ／向き
 						for (int doorX = leftEdgeLocation; doorX <= rightEdgeLocation; doorX++)
 						{
-							if ((x == doorX) && (y == door.Y))
+							if (( x == doorX ) && ( y == door.Y ))
 							{
 								return true;
 							}
@@ -641,7 +628,7 @@ namespace LineageServer.Server.Server.Model.map
 					{ // ＼向き
 						for (int doorY = leftEdgeLocation; doorY <= rightEdgeLocation; doorY++)
 						{
-							if ((x == door.X) && (y == doorY))
+							if (( x == door.X ) && ( y == doorY ))
 							{
 								return true;
 							}
@@ -654,8 +641,9 @@ namespace LineageServer.Server.Server.Model.map
 
 		public override string toString(Point pt)
 		{
-			return getOriginalTile(pt.X, pt.Y);
+			int tile = getOriginalTile(pt.X, pt.Y);
+
+			return ( tile & 0xFF ) + " " + ( ( tile >> 8 ) & 0xFF );
 		}
 	}
-
 }

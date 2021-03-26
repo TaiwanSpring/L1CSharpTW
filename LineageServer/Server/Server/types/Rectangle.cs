@@ -1,17 +1,4 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿
 namespace LineageServer.Server.Server.Types
 {
 	/// <summary>
@@ -34,8 +21,9 @@ namespace LineageServer.Server.Server.Types
 			set(left, top, right, bottom);
 		}
 
-		public Rectangle() : this(0, 0, 0, 0)
+		public Rectangle()
 		{
+
 		}
 
 		public virtual void set(Rectangle rect)
@@ -109,7 +97,7 @@ namespace LineageServer.Server.Server.Types
 		/// <returns> 点(x, y)がこのRectangleの範囲内にある場合、true。 </returns>
 		public virtual bool contains(int x, int y)
 		{
-			return (_left <= x && x <= _right) && (_top <= y && y <= _bottom);
+			return ( _left <= x && x <= _right ) && ( _top <= y && y <= _bottom );
 		}
 
 		/// <summary>

@@ -6,28 +6,24 @@ namespace LineageServer.Server.Server.Model.Gametime
 {
 	class L1GameTimeCarrier : TimerTask
 	{
-		private L1PcInstance _pc;
+		private L1PcInstance pc;
 
 		public L1GameTimeCarrier(L1PcInstance pc)
 		{
-			_pc = pc;
+			this.pc = pc;
 		}
 
 		public override void run()
 		{
 			try
 			{
-				if (_pc.NetConnection == null)
+				if (this.pc.NetConnection == null)
 				{
 					cancel();
 					return;
 				}
 
-				int serverTime = L1GameTimeClock.Instance.currentTime().Seconds;
-				if (serverTime % 300 == 0)
-				{
-					_pc.sendPackets(new S_GameTime(serverTime));
-				}
+				pc.sendPackets(new S_GameTime(L1GameTimeClock.Instance.CurrentTime().Seconds));
 			}
 			catch (Exception)
 			{
@@ -37,7 +33,7 @@ namespace LineageServer.Server.Server.Model.Gametime
 
 		public virtual void start()
 		{
-			RunnableExecuter.Instance.scheduleAtFixedRate(this, 0, 500);
+			RunnableExecuter.Instance.scheduleAtFixedRate(this, 0, 300 * 1000); // 300秒發一次
 		}
 
 		public virtual void stop()

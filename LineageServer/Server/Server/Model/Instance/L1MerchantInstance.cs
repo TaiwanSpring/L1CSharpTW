@@ -1317,7 +1317,7 @@ namespace LineageServer.Server.Server.Model.Instance
 				}
 				else if (npcid == 70011)
 				{ // 話せる島の船着き管理人
-					int time = L1GameTimeClock.Instance.currentTime().Seconds % 86400;
+					int time = L1GameTimeClock.Instance.CurrentTime().Seconds % 86400;
 					if ((time < 60 * 60 * 6) || (time > 60 * 60 * 20))
 					{ // 20:00～6:00
 						htmlid = "shipEvI6";

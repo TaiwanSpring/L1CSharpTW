@@ -6,7 +6,7 @@ namespace LineageServer.Server.Server.Model
 {
 	public class L1Location : Point
 	{
-		protected internal L1Map _map = L1Map.newNull();
+		protected internal L1Map _map = L1Map.NullMap;
 
 		public L1Location() : base()
 		{

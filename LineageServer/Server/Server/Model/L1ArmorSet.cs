@@ -1,38 +1,15 @@
-﻿using System;
+﻿using LineageServer.Models;
+using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.Model.skill;
+using LineageServer.Server.Server.serverpackets;
+using LineageServer.Server.Server.Templates;
+using LineageServer.Server.Server.utils.collections;
+using System;
 using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Server.Model
 {
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.AWAKEN_ANTHARAS;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.AWAKEN_FAFURION;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.AWAKEN_VALAKAS;
-
-
-	using ArmorSetTable = LineageServer.Server.Server.DataSources.ArmorSetTable;
-	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using L1ArmorSets = LineageServer.Server.Server.Templates.L1ArmorSets;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-
-	public abstract class L1ArmorSet
+	abstract class L1ArmorSet
 	{
 		public abstract void giveEffect(L1PcInstance pc);
 
@@ -52,7 +29,7 @@ namespace LineageServer.Server.Server.Model
 			}
 		}
 
-		private static IList<L1ArmorSet> _allSet = Lists.newList();
+		private static IList<L1ArmorSet> _allSet = Lists.newList<L1ArmorSet>();
 
 		/*
 		 * ここで初期化してしまうのはいかがなものか・・・美しくない気がする
@@ -65,7 +42,6 @@ namespace LineageServer.Server.Server.Model
 			{
 				try
 				{
-
 					impl = new L1ArmorSetImpl(getArray(armorSets.Sets, ","));
 					if (armorSets.PolyId != -1)
 					{
@@ -79,8 +55,8 @@ namespace LineageServer.Server.Server.Model
 				}
 				catch (Exception ex)
 				{
-                    System.Console.WriteLine(ex.ToString());
-                    System.Console.Write(ex.StackTrace);
+					System.Console.WriteLine(ex.ToString());
+					System.Console.Write(ex.StackTrace);
 				}
 			}
 		}
@@ -116,7 +92,7 @@ namespace LineageServer.Server.Server.Model
 		protected internal L1ArmorSetImpl(int[] ids)
 		{
 			_ids = ids;
-			_effects = Lists.newList();
+			_effects = Lists.newList<L1ArmorSetEffect>();
 		}
 
 		public virtual void addEffect(L1ArmorSetEffect effect)
@@ -172,7 +148,7 @@ namespace LineageServer.Server.Server.Model
 			foreach (int id in _ids)
 			{
 				armor = pcInventory.findItemId(id);
-				if ((armor.Item.Type2 == 2) && (armor.Item.Type == 9))
+				if (( armor.Item.Type2 == 2 ) && ( armor.Item.Type == 9 ))
 				{ // ring
 					isSetContainRing = true;
 					break;
@@ -180,14 +156,14 @@ namespace LineageServer.Server.Server.Model
 			}
 
 			// リングを2つ装備していて、それが両方セット装備か調べる
-			if ((armor != null) && isSetContainRing)
+			if (( armor != null ) && isSetContainRing)
 			{
 				int itemId = armor.Item.ItemId;
 				if (pcInventory.getTypeEquipped(2, 9) == 2)
 				{
 					L1ItemInstance[] ring = new L1ItemInstance[2];
 					ring = pcInventory.RingEquipped;
-					if ((ring[0].Item.ItemId == itemId) && (ring[1].Item.ItemId == itemId))
+					if (( ring[0].Item.ItemId == itemId ) && ( ring[1].Item.ItemId == itemId ))
 					{
 						return true;
 					}
@@ -269,22 +245,22 @@ namespace LineageServer.Server.Server.Model
 
 		public virtual void giveEffect(L1PcInstance pc)
 		{
-			pc.addStr((sbyte) _str);
-			pc.addDex((sbyte) _dex);
-			pc.addCon((sbyte) _con);
-			pc.addWis((sbyte) _wis);
-			pc.addCha((sbyte) _cha);
-			pc.addInt((sbyte) _intl);
+			pc.addStr((sbyte)_str);
+			pc.addDex((sbyte)_dex);
+			pc.addCon((sbyte)_con);
+			pc.addWis((sbyte)_wis);
+			pc.addCha((sbyte)_cha);
+			pc.addInt((sbyte)_intl);
 		}
 
 		public virtual void cancelEffect(L1PcInstance pc)
 		{
-			pc.addStr((sbyte) -_str);
-			pc.addDex((sbyte) -_dex);
-			pc.addCon((sbyte) -_con);
-			pc.addWis((sbyte) -_wis);
-			pc.addCha((sbyte) -_cha);
-			pc.addInt((sbyte) -_intl);
+			pc.addStr((sbyte)-_str);
+			pc.addDex((sbyte)-_dex);
+			pc.addCon((sbyte)-_con);
+			pc.addWis((sbyte)-_wis);
+			pc.addCha((sbyte)-_cha);
+			pc.addInt((sbyte)-_intl);
 		}
 	}
 
@@ -381,12 +357,14 @@ namespace LineageServer.Server.Server.Model
 		public virtual void giveEffect(L1PcInstance pc)
 		{
 			int awakeSkillId = pc.AwakeSkillId;
-			if ((awakeSkillId == AWAKEN_ANTHARAS) || (awakeSkillId == AWAKEN_FAFURION) || (awakeSkillId == AWAKEN_VALAKAS))
+			if (( awakeSkillId == L1SkillId.AWAKEN_ANTHARAS ) ||
+				( awakeSkillId == L1SkillId.AWAKEN_FAFURION ) ||
+				( awakeSkillId == L1SkillId.AWAKEN_VALAKAS ))
 			{
 				pc.sendPackets(new S_ServerMessage(1384)); // 現在の状態では変身できません。
 				return;
 			}
-			if ((_gfxId == 6080) || (_gfxId == 6094))
+			if (( _gfxId == 6080 ) || ( _gfxId == 6094 ))
 			{
 				if (pc.get_sex() == 0)
 				{
@@ -407,7 +385,9 @@ namespace LineageServer.Server.Server.Model
 		public virtual void cancelEffect(L1PcInstance pc)
 		{
 			int awakeSkillId = pc.AwakeSkillId;
-			if ((awakeSkillId == AWAKEN_ANTHARAS) || (awakeSkillId == AWAKEN_FAFURION) || (awakeSkillId == AWAKEN_VALAKAS))
+			if (( awakeSkillId == L1SkillId.AWAKEN_ANTHARAS ) ||
+				( awakeSkillId == L1SkillId.AWAKEN_FAFURION ) ||
+				( awakeSkillId == L1SkillId.AWAKEN_VALAKAS ))
 			{
 				pc.sendPackets(new S_ServerMessage(1384)); // 現在の状態では変身できません。
 				return;

@@ -3,40 +3,56 @@
 namespace LineageServer.Models
 {
 	public class StringTokenizer
-    {
-        readonly string[] tokens;
+	{
+		readonly string[] tokens;
 
-        int currentIndex;
+		int currentIndex;
 
-        public StringTokenizer(string str)
-        {
-            try
-            {
-                this.tokens = str.Split(new string[] { "\t", "\n", "\r", "\f" }, StringSplitOptions.RemoveEmptyEntries);
-            }
-            catch (Exception)
-            {
+		public StringTokenizer(string str)
+		{
+			try
+			{
+				this.tokens = str.Split(new string[] { "\t", "\n", "\r", "\f" }, StringSplitOptions.RemoveEmptyEntries);
+			}
+			catch (Exception)
+			{
 
-                throw;
-            }
-        }
+				throw;
+			}
+		}
+		public StringTokenizer(string str, string splitChar)
+		{
+			try
+			{
+				this.tokens = str.Split(new string[] { splitChar }, StringSplitOptions.RemoveEmptyEntries);
+			}
+			catch (Exception)
+			{
 
-        public string nextToken()
-        {
-            if (hasMoreTokens())
-            {
-                return this.tokens[this.currentIndex++];
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
+				throw;
+			}
+		}
 
-        public bool hasMoreTokens()
-        {
-            return this.tokens != null &&
-                (this.currentIndex < this.tokens.Length);
-        }
-    }
+		public int countTokens()
+		{
+			return this.tokens.Length;
+		}
+		public string nextToken()
+		{
+			if (hasMoreTokens())
+			{
+				return this.tokens[this.currentIndex++];
+			}
+			else
+			{
+				return string.Empty;
+			}
+		}
+
+		public bool hasMoreTokens()
+		{
+			return this.tokens != null &&
+				( this.currentIndex < this.tokens.Length );
+		}
+	}
 }

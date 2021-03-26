@@ -1,20 +1,88 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Models;
-using LineageServer.Server.Server.utils.collections;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 namespace LineageServer.Server.Server.Model.Gametime
 {
 	public class L1GameTimeClock
 	{
 		private static L1GameTimeClock _instance;
+		public static L1GameTimeClock Instance
+		{
+			get
+			{
+				return _instance;
+			}
+		}
+		public static void Init()
+		{
+			_instance = new L1GameTimeClock();
+		}
 
-		private volatile L1GameTime _currentTime = L1GameTime.fromSystemCurrentTime();
+		private L1GameTime currentTime = new L1GameTime();
 
-		private L1GameTime _previousTime = null;
+		private L1GameTime previousTime = null;
 
-		private IList<L1GameTimeListener> _listeners = Lists.newConcurrentList<L1GameTimeListener>();
+		private HashSet<IL1GameTimeListener> listeners = new HashSet<IL1GameTimeListener>();
+
+		private bool IsFieldChanged(L1GameTimeTypeEnum field)
+		{
+			return previousTime.GetValue(field) != currentTime.GetValue(field);
+		}
+
+		private void NotifyChanged()
+		{
+			IL1GameTimeListener[] array = this.listeners.ToArray();
+			if (IsFieldChanged(L1GameTimeTypeEnum.Month))
+			{
+				for (int i = 0; i < array.Length; i++)
+				{
+					array[i].OnMonthChanged(currentTime);
+				}
+			}
+			if (IsFieldChanged(L1GameTimeTypeEnum.DayOfMonth))
+			{
+				for (int i = 0; i < array.Length; i++)
+				{
+					array[i].OnDayChanged(currentTime);
+				}
+			}
+			if (IsFieldChanged(L1GameTimeTypeEnum.HourOfDay))
+			{
+				for (int i = 0; i < array.Length; i++)
+				{
+					array[i].OnHourChanged(currentTime);
+				}
+			}
+			if (IsFieldChanged(L1GameTimeTypeEnum.Minute))
+			{
+				for (int i = 0; i < array.Length; i++)
+				{
+					array[i].OnMinuteChanged(currentTime);
+				}
+			}
+		}
+
+		private L1GameTimeClock()
+		{
+			RunnableExecuter.Instance.execute(new TimeUpdater(this));
+		}
+
+		public virtual L1GameTime CurrentTime()
+		{
+			return currentTime;
+		}
+
+		public virtual void AddListener(IL1GameTimeListener listener)
+		{
+			this.listeners.Add(listener);
+		}
+
+		public virtual void RemoveListener(IL1GameTimeListener listener)
+		{
+			this.listeners.Remove(listener);
+		}
 
 		private class TimeUpdater : IRunnable
 		{
@@ -29,82 +97,12 @@ namespace LineageServer.Server.Server.Model.Gametime
 			{
 				while (true)
 				{
-					outerInstance._previousTime = outerInstance._currentTime;
-					outerInstance._currentTime = L1GameTime.fromSystemCurrentTime();
-					outerInstance.notifyChanged();
+					outerInstance.previousTime = outerInstance.currentTime;
+					outerInstance.currentTime = new L1GameTime();
+					outerInstance.NotifyChanged();
 					Thread.Sleep(500);
 				}
 			}
-		}
-
-		private bool isFieldChanged(L1GameTimeTypeEnum field)
-		{
-			return _previousTime.get(field) != _currentTime.get(field);
-		}
-
-		private void notifyChanged()
-		{
-			if (isFieldChanged(L1GameTimeTypeEnum.MONTH))
-			{
-				foreach (L1GameTimeListener listener in _listeners)
-				{
-					listener.onMonthChanged(_currentTime);
-				}
-			}
-			if (isFieldChanged(L1GameTimeTypeEnum.DAY_OF_MONTH))
-			{
-				foreach (L1GameTimeListener listener in _listeners)
-				{
-					listener.onDayChanged(_currentTime);
-				}
-			}
-			if (isFieldChanged(L1GameTimeTypeEnum.HOUR_OF_DAY))
-			{
-				foreach (L1GameTimeListener listener in _listeners)
-				{
-					listener.onHourChanged(_currentTime);
-				}
-			}
-			if (isFieldChanged(L1GameTimeTypeEnum.MINUTE))
-			{
-				foreach (L1GameTimeListener listener in _listeners)
-				{
-					listener.onMinuteChanged(_currentTime);
-				}
-			}
-		}
-
-		private L1GameTimeClock()
-		{
-			RunnableExecuter.Instance.execute(new TimeUpdater(this));
-		}
-
-		public static void init()
-		{
-			_instance = new L1GameTimeClock();
-		}
-
-		public static L1GameTimeClock Instance
-		{
-			get
-			{
-				return _instance;
-			}
-		}
-
-		public virtual L1GameTime currentTime()
-		{
-			return _currentTime;
-		}
-
-		public virtual void addListener(L1GameTimeListener listener)
-		{
-			_listeners.Add(listener);
-		}
-
-		public virtual void removeListener(L1GameTimeListener listener)
-		{
-			_listeners.Remove(listener);
 		}
 	}
 

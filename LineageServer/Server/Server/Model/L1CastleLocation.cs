@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.Model
 
 	using CastleTable = LineageServer.Server.Server.DataSources.CastleTable;
 	using L1GameTime = LineageServer.Server.Server.Model.Gametime.L1GameTime;
-	using L1GameTimeAdapter = LineageServer.Server.Server.Model.Gametime.L1GameTimeAdapter;
+	using IL1GameTimeListener = LineageServer.Server.Server.Model.Gametime.IL1GameTimeListener;
 	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using L1Castle = LineageServer.Server.Server.Templates.L1Castle;
 	using Random = LineageServer.Server.Server.utils.Random;
@@ -628,13 +628,13 @@ namespace LineageServer.Server.Server.Model
 			if (_listener == null)
 			{
 				_listener = new L1CastleTaxRateListener();
-				L1GameTimeClock.Instance.addListener(_listener);
+				L1GameTimeClock.Instance.AddListener(_listener);
 			}
 		}
 
-		private class L1CastleTaxRateListener : L1GameTimeAdapter
+		private class L1CastleTaxRateListener : IL1GameTimeListener
 		{
-			public override void onDayChanged(L1GameTime time)
+			public override void OnDayChanged(L1GameTime time)
 			{
 				L1CastleLocation.setCastleTaxRate();
 			}
