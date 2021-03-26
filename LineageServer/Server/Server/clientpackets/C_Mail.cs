@@ -4,7 +4,7 @@ using LineageServer.Server.Server.Model.identity;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
 using LineageServer.Server.Server.Templates;
-using LineageServer.Server.Server.utils.collections;
+using LineageServer.Server.Server.Utils.collections;
 using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.Server.Clientpackets
@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private static int TYPE_MAIL_BOX = 2; // 保管箱
 
-        public C_Mail(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_Mail(byte[] abyte0, ClientThread client) : base(abyte0)
         {
 
             L1PcInstance pc = client.ActiveChar;
@@ -32,7 +32,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int type = readC();
+            int type = ReadC();
 
             if ((type == 0x00) || (type == 0x01) || (type == 0x02))
             { // 開啟
@@ -40,7 +40,7 @@ namespace LineageServer.Server.Server.Clientpackets
             }
             else if ((type == 0x10) || (type == 0x11) || (type == 0x12))
             { // 讀取
-                int mailId = readD();
+                int mailId = ReadD();
                 L1Mail mail = MailTable.getMail(mailId);
                 if (mail.ReadStatus == 0)
                 {
@@ -59,9 +59,9 @@ namespace LineageServer.Server.Server.Clientpackets
                     pc.sendPackets(new S_ServerMessage(L1SystemMessageId.Message189));
                     return;
                 }
-                readH(); // 世界寄信次數紀錄
-                string receiverName = readS();
-                sbyte[] text = readByte();
+                ReadH(); // 世界寄信次數紀錄
+                string receiverName = ReadS();
+                sbyte[] text = ReadByte();
                 L1PcInstance receiver = L1World.Instance.getPlayer(receiverName);
 
                 if (receiver != null)
@@ -119,9 +119,9 @@ namespace LineageServer.Server.Server.Clientpackets
                     pc.sendPackets(new S_ServerMessage(L1SystemMessageId.Message1262));
                     return;
                 }
-                readH();
-                string clanName = readS();
-                sbyte[] text = readByte();
+                ReadH();
+                string clanName = ReadS();
+                sbyte[] text = ReadByte();
                 L1Clan clan = L1World.Instance.getClan(clanName);
                 if (clan != null)
                 {
@@ -144,23 +144,23 @@ namespace LineageServer.Server.Server.Clientpackets
             }
             else if ((type == 0x30) || (type == 0x31) || (type == 0x32))
             { // 刪除
-                int mailId = readD();
+                int mailId = ReadD();
                 MailTable.Instance.deleteMail(mailId);
                 pc.sendPackets(new S_Mail(mailId, type));
             }
             else if (type == 0x60)
             { // 多選刪除
-                int count = readD();
+                int count = ReadD();
                 for (int i = 0; i < count; i++)
                 {
-                    int mailId = readD();
+                    int mailId = ReadD();
                     pc.sendPackets(new S_Mail(mailId, (MailTable.getMail(mailId).Type + 0x30)));
                     MailTable.Instance.deleteMail(mailId);
                 }
             }
             else if (type == 0x40)
             { // 保管箱儲存
-                int mailId = readD();
+                int mailId = ReadD();
                 MailTable.Instance.setMailType(mailId, TYPE_MAIL_BOX);
                 pc.sendPackets(new S_Mail(mailId, type));
             }

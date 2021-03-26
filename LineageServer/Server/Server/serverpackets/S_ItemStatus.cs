@@ -30,22 +30,22 @@ namespace LineageServer.Server.Server.serverpackets
 		/// </summary>
 		public S_ItemStatus(L1ItemInstance item)
 		{
-			writeC(Opcodes.S_OPCODE_ITEMSTATUS);
-			writeD(item.Id);
-			writeS(item.ViewName);
-			writeD(item.Count);
+			WriteC(Opcodes.S_OPCODE_ITEMSTATUS);
+			WriteD(item.Id);
+			WriteS(item.ViewName);
+			WriteD(item.Count);
 			if (!item.Identified)
 			{
 				// 未鑑定の場合ステータスを送る必要はない
-				writeC(0);
+				WriteC(0);
 			}
 			else
 			{
 				sbyte[] status = item.StatusBytes;
-				writeC(status.Length);
+				WriteC(status.Length);
 				foreach (sbyte b in status)
 				{
-					writeC(b);
+					WriteC(b);
 				}
 			}
 		}
@@ -54,7 +54,7 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			get
 			{
-				return _bao.toByteArray();
+				return memoryStream.toByteArray();
 			}
 		}
 

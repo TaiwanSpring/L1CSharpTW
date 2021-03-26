@@ -9,28 +9,28 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_TradeAddItem(L1ItemInstance item, int count, int type)
         {
-            writeC(Opcodes.S_OPCODE_TRADEADDITEM);
-            writeC(type); // 0:トレードウィンドウ上段 1:トレードウィンドウ下段
-            writeH(item.Item.GfxId);
-            writeS(item.getNumberedViewName(count));
+            WriteC(Opcodes.S_OPCODE_TRADEADDITEM);
+            WriteC(type); // 0:トレードウィンドウ上段 1:トレードウィンドウ下段
+            WriteH(item.Item.GfxId);
+            WriteS(item.getNumberedViewName(count));
             // 0:祝福 1:通常 2:呪い 3:未鑑定
             // 128:祝福&封印 129:&封印 130:呪い&封印 131:未鑑定&封印
             if (!item.Identified)
             {
-                writeC(3);
-                writeC(0);
-                writeC(7);
-                writeC(0);
+                WriteC(3);
+                WriteC(0);
+                WriteC(7);
+                WriteC(0);
             }
             else
             {
-                writeC(item.Bless);
-                writeC(item.StatusBytes.Length);
+                WriteC(item.Bless);
+                WriteC(item.StatusBytes.Length);
                 foreach (byte b in item.StatusBytes)
                 {
-                    writeC(b);
+                    WriteC(b);
                 }
-                writeH(0);
+                WriteH(0);
             }
         }
 

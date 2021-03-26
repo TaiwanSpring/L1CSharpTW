@@ -17,7 +17,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
 
         private const string C_RESULT = "[C] C_Result";
-        public C_Result(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_Result(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
             L1PcInstance pc = clientthread.ActiveChar;
@@ -26,9 +26,9 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int npcObjectId = readD();
-            int resultType = readC();
-            int size = readH();
+            int npcObjectId = ReadD();
+            int resultType = ReadC();
+            int size = ReadH();
 
             int level = pc.Level;
 
@@ -65,7 +65,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 L1ShopBuyOrderList orderList = shop.newBuyOrderList();
                 for (int i = 0; i < size; i++)
                 {
-                    orderList.add(readD(), readD());
+                    orderList.add(ReadD(), ReadD());
                 }
                 shop.sellItems(pc, orderList);
             }
@@ -80,8 +80,8 @@ namespace LineageServer.Server.Server.Clientpackets
                     int tax_rate = L1CastleLocation.getCastleTaxRateByNpcId(npcId);
                     for (int i = 0; i < size; i++)
                     {
-                        objectId = readD();
-                        count = readD();
+                        objectId = ReadD();
+                        count = ReadD();
 
                         item = pc.Inventory.getItem(objectId);
                         if (item == null)
@@ -124,7 +124,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     L1ShopSellOrderList orderList = shop.newSellOrderList(pc);
                     for (int i = 0; i < size; i++)
                     {
-                        orderList.add(readD(), readD());
+                        orderList.add(ReadD(), ReadD());
                     }
                     shop.buyItems(orderList);
                 }
@@ -136,8 +136,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 for (int i = 0; i < size; i++)
                 {
                     tradable = true;
-                    objectId = readD();
-                    count = readD();
+                    objectId = ReadD();
+                    count = ReadD();
                     L1Object @object = pc.Inventory.getItem(objectId);
                     L1ItemInstance item = (L1ItemInstance)@object;
                     if (!item.Item.Tradable)
@@ -189,8 +189,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 L1ItemInstance item;
                 for (int i = 0; i < size; i++)
                 {
-                    objectId = readD();
-                    count = readD();
+                    objectId = ReadD();
+                    count = ReadD();
                     item = pc.DwarfInventory.getItem(objectId);
                     if (pc.Inventory.checkAddItem(item, count) == L1Inventory.OK) // 檢查重量與容量
                     {
@@ -219,8 +219,8 @@ namespace LineageServer.Server.Server.Clientpackets
                     for (int i = 0; i < size; i++)
                     {
                         tradable = true;
-                        objectId = readD();
-                        count = readD();
+                        objectId = ReadD();
+                        count = ReadD();
                         L1Clan clan = L1World.Instance.getClan(pc.Clanname);
                         L1Object @object = pc.Inventory.getItem(objectId);
                         L1ItemInstance item = (L1ItemInstance)@object;
@@ -292,8 +292,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 {
                     for (int i = 0; i < size; i++)
                     {
-                        objectId = readD();
-                        count = readD();
+                        objectId = ReadD();
+                        count = ReadD();
                         item = clan.DwarfForClanInventory.getItem(objectId);
                         if (pc.Inventory.checkAddItem(item, count) == L1Inventory.OK)
                         { // 容量重量確認及びメッセージ送信
@@ -331,8 +331,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 for (int i = 0; i < size; i++)
                 {
                     tradable = true;
-                    objectId = readD();
-                    count = readD();
+                    objectId = ReadD();
+                    count = ReadD();
                     L1Object @object = pc.Inventory.getItem(objectId);
                     L1ItemInstance item = (L1ItemInstance)@object;
                     if (!item.Item.Tradable)
@@ -384,8 +384,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 L1ItemInstance item;
                 for (int i = 0; i < size; i++)
                 {
-                    objectId = readD();
-                    count = readD();
+                    objectId = ReadD();
+                    count = ReadD();
                     item = pc.DwarfForElfInventory.getItem(objectId);
                     if (pc.Inventory.checkAddItem(item, count) == L1Inventory.OK)
                     { // 容量重量確認及びメッセージ送信
@@ -446,8 +446,8 @@ namespace LineageServer.Server.Server.Clientpackets
 
                     for (int i = 0; i < size; i++)
                     { // 購入予定の商品
-                        order = readD();
-                        count = readD();
+                        order = ReadD();
+                        count = ReadD();
                         pssl = sellList[order];
                         itemObjectId = pssl.ItemObjectId;
                         sellPrice = pssl.SellPrice;
@@ -551,9 +551,9 @@ namespace LineageServer.Server.Server.Clientpackets
 
                 for (int i = 0; i < size; i++)
                 {
-                    itemObjectId = readD();
-                    count = readCH();
-                    order = readC();
+                    itemObjectId = ReadD();
+                    count = ReadCH();
+                    order = ReadC();
                     item = pc.Inventory.getItem(itemObjectId);
                     if (item == null)
                     {
@@ -635,8 +635,8 @@ namespace LineageServer.Server.Server.Clientpackets
                     petCost = 0;
                     petCount = 0;
                     divisor = 6;
-                    itemObjectId = readD();
-                    itemCount = readD();
+                    itemObjectId = ReadD();
+                    itemCount = ReadD();
 
                     if (itemCount == 0)
                     {

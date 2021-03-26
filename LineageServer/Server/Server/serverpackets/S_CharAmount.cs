@@ -31,13 +31,13 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int value, ClientThread client)
 		{
-			Account account = Account.load(client.AccountName);
+			Account account = Account.Load(client.AccountName);
 			int characterSlot = account.CharacterSlot;
 			int maxAmount = Config.DEFAULT_CHARACTER_SLOT + characterSlot;
 
-			writeC(Opcodes.S_OPCODE_CHARAMOUNT);
-			writeC(value);
-			writeC(maxAmount); // 最大角色欄位數量
+			WriteC(Opcodes.S_OPCODE_CHARAMOUNT);
+			WriteC(value);
+			WriteC(maxAmount); // 最大角色欄位數量
 		}
 
 		public override sbyte[] Content

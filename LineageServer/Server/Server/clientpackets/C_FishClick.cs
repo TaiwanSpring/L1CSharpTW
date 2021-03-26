@@ -10,7 +10,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 
 		private const string C_FISHCLICK = "[C] C_FishClick";
-		public C_FishClick(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_FishClick(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 			L1PcInstance pc = clientthread.ActiveChar;
 			if (pc == null || pc.Dead)

@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Npcchat : DataSourceTable
+    class Npcchat : DataSource
     {
         public const string TableName = "npcchat";
         public const string Column_note = "note";
@@ -19,7 +20,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_is_shout = "is_shout";
         public const string Column_is_world_chat = "is_world_chat";
         public const string Column_is_repeat = "is_repeat";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Npcchat; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

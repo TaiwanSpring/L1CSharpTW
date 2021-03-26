@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class SpawnlistLight : DataSourceTable
+    class SpawnlistLight : DataSource
     {
         public const string TableName = "spawnlist_light";
         public const string Column_id = "id";
@@ -9,7 +10,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_locx = "locx";
         public const string Column_locy = "locy";
         public const string Column_mapid = "mapid";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.SpawnlistLight; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},

@@ -35,8 +35,8 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int type)
 		{
-			writeC(Opcodes.S_OPCODE_CURSEBLIND);
-			writeH(type);
+			WriteC(Opcodes.S_OPCODE_CURSEBLIND);
+			WriteH(type);
 		}
 
 		public override sbyte[] Content

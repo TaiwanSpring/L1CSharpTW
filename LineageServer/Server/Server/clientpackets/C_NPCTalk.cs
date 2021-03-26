@@ -15,7 +15,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
 
         private const string C_NPC_TALK = "[C] C_NPCTalk";
-        public C_NPCTalk(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_NPCTalk(byte[] abyte0, ClientThread client) : base(abyte0)
         {
             L1PcInstance pc = client.ActiveChar;
             if (pc == null)
@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int objid = readD();
+            int objid = ReadD();
             L1Object obj = L1World.Instance.findObject(objid);
 
             if (obj != null)

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace LineageServer.DataBase
 {
-    class DataSourceRow : ContainerObject, IDataSourceRow
+    class DataSourceRow : ContainerObject, IDataSourceRow, IDataSourceQuery
     {
         enum DataBaseRowStatusEnum
         {
@@ -40,7 +40,7 @@ namespace LineageServer.DataBase
         {
             IDbCommand dbCommand = this.dbConnection.CreateCommand();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append($"SELECT * FROM {this.tableName} WHERE ");
+            stringBuilder.Append($"SELECT * FROM {this.tableName} WHERE 1 = 1 ");
             for (int i = 0; i < this.columnInfos.Length; i++)
             {
                 if (this.columnInfos[i].IsPKey)
@@ -48,7 +48,7 @@ namespace LineageServer.DataBase
                     if (this.where.ContainsKey(this.columnInfos[i].Column))
                     {
                         IDataParameter dataParameter = dbCommand.CreateParameter();
-                        stringBuilder.Append($"{this.columnInfos[i].Column} = @{this.columnInfos[i].Column} AND ");
+                        stringBuilder.Append($"AND {this.columnInfos[i].Column} = @{this.columnInfos[i].Column} ");
                         dataParameter.ParameterName = $"@{this.columnInfos[i].Column}";
                         dataParameter.Value = this.where[this.columnInfos[i].Column];
                         dataParameter.DbType = this.columnInfos[i].DbType;
@@ -56,7 +56,7 @@ namespace LineageServer.DataBase
                     }
                 }
             }
-            dbCommand.CommandText = stringBuilder.ToString().Substring(0, stringBuilder.Length - 5);
+            dbCommand.CommandText = stringBuilder.ToString();
             return dbCommand;
         }
         private IDbCommand BuilderInsertCommand()
@@ -124,30 +124,43 @@ namespace LineageServer.DataBase
                 }
             }
             stringBuilder.Remove(stringBuilder.Length - 2, 2);
-            stringBuilder.Append($" WHERE ");
-
-            for (int i = 0; i < this.columnInfos.Length; i++)
+            if (this.where.Count > 0)
             {
-                if (this.columnInfos[i].IsPKey)
+                stringBuilder.Append($" WHERE ");
+
+                for (int i = 0; i < this.columnInfos.Length; i++)
                 {
-                    if (this.where.ContainsKey(this.columnInfos[i].Column))
+                    if (this.columnInfos[i].IsPKey)
                     {
-                        IDataParameter dataParameter = dbCommand.CreateParameter();
-                        stringBuilder.Append($"{this.columnInfos[i].Column} = @{this.columnInfos[i].Column} AND ");
-                        dataParameter.ParameterName = $"@{this.columnInfos[i].Column}";
-                        dataParameter.Value = this.where[this.columnInfos[i].Column];
-                        dataParameter.DbType = this.columnInfos[i].DbType;
-                        dbCommand.Parameters.Add(dataParameter);
+                        if (this.where.ContainsKey(this.columnInfos[i].Column))
+                        {
+                            IDataParameter dataParameter = dbCommand.CreateParameter();
+                            stringBuilder.Append($"{this.columnInfos[i].Column} = @{this.columnInfos[i].Column} AND ");
+                            dataParameter.ParameterName = $"@{this.columnInfos[i].Column}";
+                            dataParameter.Value = this.where[this.columnInfos[i].Column];
+                            dataParameter.DbType = this.columnInfos[i].DbType;
+                            dbCommand.Parameters.Add(dataParameter);
+                        }
                     }
                 }
+                stringBuilder.Remove(stringBuilder.Length - 5, 5);
             }
-            dbCommand.CommandText = stringBuilder.ToString().Substring(0, stringBuilder.Length - 5);
+
+            dbCommand.CommandText = stringBuilder.ToString();
             return dbCommand;
         }
+
+        private void Reset()
+        {
+            this.data.Clear();
+            this.set.Clear();
+            this.where.Clear();
+        }
+
         public bool FillData(IDataReader dataReader)
         {
-            Select();
-
+            this.dataBaseRowStatus = DataBaseRowStatusEnum.Select;
+            Reset();
             for (int i = 0; i < dataReader.FieldCount; i++)
             {
                 string columnName = dataReader.GetName(i);
@@ -186,43 +199,35 @@ namespace LineageServer.DataBase
             return dbCommand;
         }
 
-        public IDataSourceRow Select()
+        IDataSourceRow IDataSourceRow.Select()
         {
             this.dataBaseRowStatus = DataBaseRowStatusEnum.Select;
-            this.data.Clear();
-            this.set.Clear();
-            this.where.Clear();
+            Reset();
             return this;
         }
 
         public IDataSourceRow Insert()
         {
             this.dataBaseRowStatus = DataBaseRowStatusEnum.Insert;
-            this.data.Clear();
-            this.set.Clear();
-            this.where.Clear();
+            Reset();
             return this;
         }
 
         public IDataSourceRow Update()
         {
             this.dataBaseRowStatus = DataBaseRowStatusEnum.Update;
-            this.data.Clear();
-            this.set.Clear();
-            this.where.Clear();
+            Reset();
             return this;
         }
 
         public IDataSourceRow Delete()
         {
             this.dataBaseRowStatus = DataBaseRowStatusEnum.Delete;
-            this.data.Clear();
-            this.set.Clear();
-            this.where.Clear();
+            Reset();
             return this;
         }
 
-        public IDataSourceRow Where(string column, object value)
+        IDataSourceRow IDataSourceRow.Where(string column, object value)
         {
             this.where.Add(column, value);
             return this;
@@ -334,6 +339,42 @@ namespace LineageServer.DataBase
                 default:
                     break;
             }
+        }
+
+        IDataSourceQuery IDataSourceQuery.Where(string column, object value)
+        {
+            this.where.Add(column, value);
+            return this;
+        }
+
+        public IList<IDataSourceRow> Query()
+        {
+            IList<IDataSourceRow> result = new List<IDataSourceRow>();
+            IDbCommand dbCommand = BuilderSelectCommand();
+            IDataReader dataReader = dbCommand.ExecuteReader();
+            while (dataReader.Read())
+            {
+                IDataSourceRow dataSourceRow = new DataSourceRow(this.tableName, this.columnInfos);
+                dataSourceRow.FillData(dataReader);
+                result.Add(dataSourceRow);
+            }
+            dataReader.Close();
+            return result;
+        }
+
+        public int getInt(string column)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string getString(string column)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime getTimestamp(string column)
+        {
+            throw new NotImplementedException();
         }
     }
 }

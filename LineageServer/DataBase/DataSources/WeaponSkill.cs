@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class WeaponSkill : DataSourceTable
+    class WeaponSkill : DataSource
     {
         public const string TableName = "weapon_skill";
         public const string Column_note = "note";
@@ -18,7 +19,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_attr = "attr";
         public const string Column_gfx_id = "gfx_id";
         public const string Column_gfx_id_target = "gfx_id_target";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.WeaponSkill; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

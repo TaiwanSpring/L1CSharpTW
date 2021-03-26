@@ -1,11 +1,14 @@
-﻿using System;
+﻿using LineageServer.Enum;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace LineageServer.Interfaces
 {
-    public interface IDataSource
+    interface IDataSource
     {
-
+        DataSourceTypeEnum DataSourceType { get; }
+        IDataSourceQuery Select();
+        IDataSourceRow NewRow();
     }
 }

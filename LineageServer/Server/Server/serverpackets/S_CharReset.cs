@@ -33,26 +33,26 @@ namespace LineageServer.Server.Server.serverpackets
 		/// </summary>
 		public S_CharReset(L1PcInstance pc, int lv, int hp, int mp, int ac, int str, int intel, int wis, int dex, int con, int cha)
 		{
-			writeC(Opcodes.S_OPCODE_CHARRESET);
-			writeC(0x02);
-			writeC(lv);
-			writeC(pc.TempMaxLevel); // max lv
-			writeH(hp);
-			writeH(mp);
-			writeH(ac);
-			writeC(str);
-			writeC(intel);
-			writeC(wis);
-			writeC(dex);
-			writeC(con);
-			writeC(cha);
+			WriteC(Opcodes.S_OPCODE_CHARRESET);
+			WriteC(0x02);
+			WriteC(lv);
+			WriteC(pc.TempMaxLevel); // max lv
+			WriteH(hp);
+			WriteH(mp);
+			WriteH(ac);
+			WriteC(str);
+			WriteC(intel);
+			WriteC(wis);
+			WriteC(dex);
+			WriteC(con);
+			WriteC(cha);
 		}
 
 		public S_CharReset(int point)
 		{
-			writeC(Opcodes.S_OPCODE_CHARRESET);
-			writeC(0x03);
-			writeC(point);
+			WriteC(Opcodes.S_OPCODE_CHARRESET);
+			WriteC(0x03);
+			WriteC(point);
 		}
 
 		/// <summary>
@@ -62,45 +62,45 @@ namespace LineageServer.Server.Server.serverpackets
 		/// </summary>
 		public S_CharReset(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_CHARRESET);
-			writeC(0x01);
+			WriteC(Opcodes.S_OPCODE_CHARRESET);
+			WriteC(0x01);
 			if (pc.Crown)
 			{
-				writeH(14);
-				writeH(2);
+				WriteH(14);
+				WriteH(2);
 			}
 			else if (pc.Knight)
 			{
-				writeH(16);
-				writeH(1);
+				WriteH(16);
+				WriteH(1);
 			}
 			else if (pc.Elf)
 			{
-				writeH(15);
-				writeH(4);
+				WriteH(15);
+				WriteH(4);
 			}
 			else if (pc.Wizard)
 			{
-				writeH(12);
-				writeH(6);
+				WriteH(12);
+				WriteH(6);
 			}
 			else if (pc.Darkelf)
 			{
-				writeH(12);
-				writeH(3);
+				WriteH(12);
+				WriteH(3);
 			}
 			else if (pc.DragonKnight)
 			{
-				writeH(15);
-				writeH(4);
+				WriteH(15);
+				WriteH(4);
 			}
 			else if (pc.Illusionist)
 			{
-				writeH(15);
-				writeH(4);
+				WriteH(15);
+				WriteH(4);
 			}
-			writeC(0x0a); // AC
-			writeC(pc.TempMaxLevel); // Lv
+			WriteC(0x0a); // AC
+			WriteC(pc.TempMaxLevel); // Lv
 		}
 
 		/// <summary>
@@ -110,10 +110,10 @@ namespace LineageServer.Server.Server.serverpackets
 		/// </summary>
 		public S_CharReset(int pcObjId, int emblemId)
 		{
-			writeC(Opcodes.S_OPCODE_CHARRESET);
-			writeC(0x3c);
-			writeD(pcObjId);
-			writeD(emblemId);
+			WriteC(Opcodes.S_OPCODE_CHARRESET);
+			WriteC(0x3c);
+			WriteD(pcObjId);
+			WriteD(emblemId);
 		}
 
 		public override sbyte[] Content

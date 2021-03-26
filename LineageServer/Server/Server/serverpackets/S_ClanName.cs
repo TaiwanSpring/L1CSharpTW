@@ -27,19 +27,19 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_ClanName(L1PcInstance pc, bool OnOff)
 		{
-			writeC(S_OPCODE_CLANNAME);
-			writeD(pc.Id);
-			writeS(OnOff ? pc.Clanname: "");
-			writeD(0);
-			writeC(0);
-			writeC(OnOff ? 0x0a : 0x0b);
+			WriteC(S_OPCODE_CLANNAME);
+			WriteD(pc.Id);
+			WriteS(OnOff ? pc.Clanname: "");
+			WriteD(0);
+			WriteC(0);
+			WriteC(OnOff ? 0x0a : 0x0b);
 			if (!OnOff)
 			{
-				writeD(pc.Clanid);
+				WriteD(pc.Clanid);
 			}
 			else
 			{
-				writeD(0);
+				WriteD(0);
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

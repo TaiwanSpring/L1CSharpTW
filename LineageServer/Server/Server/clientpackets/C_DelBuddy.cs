@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
         private const string C_DEL_BUDDY = "[C] C_DelBuddy";
 
-        public C_DelBuddy(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_DelBuddy(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
             L1PcInstance pc = clientthread.ActiveChar;
@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.Clientpackets
             {
                 return;
             }
-            string charName = readS();
+            string charName = ReadS();
             BuddyTable.Instance.removeBuddy(pc.Id, charName);
         }
 

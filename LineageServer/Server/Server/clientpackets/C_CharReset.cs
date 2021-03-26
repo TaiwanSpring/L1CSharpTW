@@ -3,7 +3,7 @@ using LineageServer.Server.Server.DataSources;
 using LineageServer.Server.Server.Model;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 using System;
 
 namespace LineageServer.Server.Server.Clientpackets
@@ -28,7 +28,7 @@ namespace LineageServer.Server.Server.Clientpackets
         /// //萬能藥 127.0.0.1 Request Work ID : 120 0000: 78 03 23 0a 0b 17 12 0d
         /// </summary>
 
-        public C_CharReset(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_CharReset(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
             if (clientthread.ActiveChar == null)
             {
@@ -37,16 +37,16 @@ namespace LineageServer.Server.Server.Clientpackets
 
             L1PcInstance pc = clientthread.ActiveChar;
 
-            int stage = readC();
+            int stage = ReadC();
 
             if (stage == 0x01)
             { // 0x01:キャラクター初期化
-                int str = readC();
-                int intel = readC();
-                int wis = readC();
-                int dex = readC();
-                int con = readC();
-                int cha = readC();
+                int str = ReadC();
+                int intel = ReadC();
+                int wis = ReadC();
+                int dex = ReadC();
+                int con = ReadC();
+                int cha = ReadC();
                 int hp = CalcInitHpMp.calcInitHp(pc);
                 int mp = CalcInitHpMp.calcInitMp(pc);
                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
@@ -61,7 +61,7 @@ namespace LineageServer.Server.Server.Clientpackets
             }
             else if (stage == 0x02)
             { // 0x02:ステータス再分配
-                int type2 = readC();
+                int type2 = ReadC();
                 if (type2 == 0x00)
                 { // 0x00:Lv1UP
                     setLevelUp(pc, 1);
@@ -106,7 +106,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 }
                 else if (type2 == 0x08)
                 {
-                    switch (readC())
+                    switch (ReadC())
                     {
                         case 1:
                             pc.addBaseStr((sbyte)1);
@@ -137,12 +137,12 @@ namespace LineageServer.Server.Server.Clientpackets
             }
             else if (stage == 0x03)
             {
-                pc.addBaseStr((sbyte)(readC() - pc.BaseStr));
-                pc.addBaseInt((sbyte)(readC() - pc.BaseInt));
-                pc.addBaseWis((sbyte)(readC() - pc.BaseWis));
-                pc.addBaseDex((sbyte)(readC() - pc.BaseDex));
-                pc.addBaseCon((sbyte)(readC() - pc.BaseCon));
-                pc.addBaseCha((sbyte)(readC() - pc.BaseCha));
+                pc.addBaseStr((sbyte)(ReadC() - pc.BaseStr));
+                pc.addBaseInt((sbyte)(ReadC() - pc.BaseInt));
+                pc.addBaseWis((sbyte)(ReadC() - pc.BaseWis));
+                pc.addBaseDex((sbyte)(ReadC() - pc.BaseDex));
+                pc.addBaseCon((sbyte)(ReadC() - pc.BaseCon));
+                pc.addBaseCha((sbyte)(ReadC() - pc.BaseCha));
                 saveNewCharStatus(pc);
             }
         }

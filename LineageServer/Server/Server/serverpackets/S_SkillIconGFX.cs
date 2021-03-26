@@ -24,9 +24,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SkillIconGFX(int i, int j)
 		{
-			writeC(Opcodes.S_OPCODE_SKILLICONGFX);
-			writeC(i);
-			writeH(j);
+			WriteC(Opcodes.S_OPCODE_SKILLICONGFX);
+			WriteC(i);
+			WriteH(j);
 		}
 
 		/// <summary>
@@ -35,12 +35,12 @@ namespace LineageServer.Server.Server.serverpackets
 		/// </summary>
 		public S_SkillIconGFX(int i)
 		{
-			writeC(Opcodes.S_OPCODE_SKILLICONGFX);
-			writeC(0xa0);
-			writeC(1);
-			writeH(0);
-			writeC(2);
-			writeH(i);
+			WriteC(Opcodes.S_OPCODE_SKILLICONGFX);
+			WriteC(0xa0);
+			WriteC(1);
+			WriteH(0);
+			WriteC(2);
+			WriteH(i);
 		}
 
 		public override sbyte[] Content

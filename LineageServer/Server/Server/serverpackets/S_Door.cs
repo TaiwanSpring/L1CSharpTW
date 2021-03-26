@@ -34,11 +34,11 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int x, int y, int direction, bool isPassable)
 		{
-			writeC(Opcodes.S_OPCODE_ATTRIBUTE);
-			writeH(x);
-			writeH(y);
-			writeC(direction); // ドアの方向 0: ／ 1: ＼
-			writeC(isPassable ? PASS : NOT_PASS);
+			WriteC(Opcodes.S_OPCODE_ATTRIBUTE);
+			WriteH(x);
+			WriteH(y);
+			WriteC(direction); // ドアの方向 0: ／ 1: ＼
+			WriteC(isPassable ? PASS : NOT_PASS);
 		}
 
 		public override sbyte[] Content

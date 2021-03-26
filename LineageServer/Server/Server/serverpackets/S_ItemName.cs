@@ -36,9 +36,9 @@ namespace LineageServer.Server.Server.serverpackets
 			}
 			// jumpを見る限り、このOpcodeはアイテム名を更新させる目的だけに使用される模様（装備後やOE後専用？）
 			// 後に何かデータを続けて送っても全て無視されてしまう
-			writeC(Opcodes.S_OPCODE_ITEMNAME);
-			writeD(item.Id);
-			writeS(item.ViewName);
+			WriteC(Opcodes.S_OPCODE_ITEMNAME);
+			WriteD(item.Id);
+			WriteS(item.ViewName);
 		}
 
 		public override sbyte[] Content

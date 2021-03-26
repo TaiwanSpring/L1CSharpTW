@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LineageServer.Server.Server.Model.classes
+namespace LineageServer.Server.Server.Model.Classes
 {
 	internal class L1RoyalClassFeature : L1ClassFeature
 	{

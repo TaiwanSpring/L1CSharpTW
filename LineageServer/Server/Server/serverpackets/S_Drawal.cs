@@ -24,9 +24,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_Drawal(int objectId, int count)
 		{
-			writeC(Opcodes.S_OPCODE_DRAWAL);
-			writeD(objectId);
-			writeD(count);
+			WriteC(Opcodes.S_OPCODE_DRAWAL);
+			WriteD(objectId);
+			WriteD(count);
 		}
 
 		public override sbyte[] Content

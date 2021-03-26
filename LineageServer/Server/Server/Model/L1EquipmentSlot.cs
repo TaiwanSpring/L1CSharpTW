@@ -54,7 +54,7 @@ namespace LineageServer.Server.Server.Model
 	using S_SkillBrave = LineageServer.Server.Server.serverpackets.S_SkillBrave;
 	using S_SkillHaste = LineageServer.Server.Server.serverpackets.S_SkillHaste;
 	using L1Item = LineageServer.Server.Server.Templates.L1Item;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class L1EquipmentSlot
 	{

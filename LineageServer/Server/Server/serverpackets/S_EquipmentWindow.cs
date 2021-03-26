@@ -75,17 +75,17 @@
 		/// @param 0x01 (對應isEq)1:使用  </param>
 		public S_EquipmentWindow(L1PcInstance pc, int itemObjId, int index, bool isEq)
 		{
-			writeC(Opcodes.S_OPCODE_CHARRESET);
-			writeC(0x42);
-			writeD(itemObjId);
-			writeC(index);
+			WriteC(Opcodes.S_OPCODE_CHARRESET);
+			WriteC(0x42);
+			WriteD(itemObjId);
+			WriteC(index);
 			if (isEq)
 			{
-				writeC(0x01); //TODO 1:使用(0x01=1)
+				WriteC(0x01); //TODO 1:使用(0x01=1)
 			}
 			else
 			{
-				writeC(0x00); //TODO 0:脫下(0x00=0)
+				WriteC(0x00); //TODO 0:脫下(0x00=0)
 			}
 		}
 

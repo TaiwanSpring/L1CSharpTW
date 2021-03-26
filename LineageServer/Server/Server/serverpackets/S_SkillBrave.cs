@@ -24,10 +24,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SkillBrave(int i, int j, int k)
 		{
-			writeC(Opcodes.S_OPCODE_SKILLBRAVE);
-			writeD(i);
-			writeC(j);
-			writeH(k);
+			WriteC(Opcodes.S_OPCODE_SKILLBRAVE);
+			WriteD(i);
+			WriteC(j);
+			WriteH(k);
 		}
 
 		public override sbyte[] Content

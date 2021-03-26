@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1UltimateBattle = LineageServer.Server.Server.Model.L1UltimateBattle;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class UBTable
 	{
@@ -61,27 +61,27 @@ namespace LineageServer.Server.Server.DataSources
 				{
 
 					L1UltimateBattle ub = new L1UltimateBattle();
-					ub.UbId = rs.getInt("ub_id");
-					ub.MapId = rs.getShort("ub_mapid");
-					ub.LocX1 = rs.getInt("ub_area_x1");
-					ub.LocY1 = rs.getInt("ub_area_y1");
-					ub.LocX2 = rs.getInt("ub_area_x2");
-					ub.LocY2 = rs.getInt("ub_area_y2");
-					ub.MinLevel = rs.getInt("min_lvl");
-					ub.MaxLevel = rs.getInt("max_lvl");
-					ub.MaxPlayer = rs.getInt("max_player");
-					ub.EnterRoyal = rs.getBoolean("enter_royal");
-					ub.EnterKnight = rs.getBoolean("enter_knight");
-					ub.EnterMage = rs.getBoolean("enter_mage");
-					ub.EnterElf = rs.getBoolean("enter_elf");
-					ub.EnterDarkelf = rs.getBoolean("enter_darkelf");
-					ub.EnterDragonKnight = rs.getBoolean("enter_dragonknight");
-					ub.EnterIllusionist = rs.getBoolean("enter_illusionist");
-					ub.EnterMale = rs.getBoolean("enter_male");
-					ub.EnterFemale = rs.getBoolean("enter_female");
-					ub.UsePot = rs.getBoolean("use_pot");
-					ub.Hpr = rs.getInt("hpr_bonus");
-					ub.Mpr = rs.getInt("mpr_bonus");
+					ub.UbId = dataSourceRow.getInt("ub_id");
+					ub.MapId = dataSourceRow.getShort("ub_mapid");
+					ub.LocX1 = dataSourceRow.getInt("ub_area_x1");
+					ub.LocY1 = dataSourceRow.getInt("ub_area_y1");
+					ub.LocX2 = dataSourceRow.getInt("ub_area_x2");
+					ub.LocY2 = dataSourceRow.getInt("ub_area_y2");
+					ub.MinLevel = dataSourceRow.getInt("min_lvl");
+					ub.MaxLevel = dataSourceRow.getInt("max_lvl");
+					ub.MaxPlayer = dataSourceRow.getInt("max_player");
+					ub.EnterRoyal = dataSourceRow.getBoolean("enter_royal");
+					ub.EnterKnight = dataSourceRow.getBoolean("enter_knight");
+					ub.EnterMage = dataSourceRow.getBoolean("enter_mage");
+					ub.EnterElf = dataSourceRow.getBoolean("enter_elf");
+					ub.EnterDarkelf = dataSourceRow.getBoolean("enter_darkelf");
+					ub.EnterDragonKnight = dataSourceRow.getBoolean("enter_dragonknight");
+					ub.EnterIllusionist = dataSourceRow.getBoolean("enter_illusionist");
+					ub.EnterMale = dataSourceRow.getBoolean("enter_male");
+					ub.EnterFemale = dataSourceRow.getBoolean("enter_female");
+					ub.UsePot = dataSourceRow.getBoolean("use_pot");
+					ub.Hpr = dataSourceRow.getInt("hpr_bonus");
+					ub.Mpr = dataSourceRow.getInt("mpr_bonus");
 					ub.resetLoc();
 
 					_ub[ub.UbId] = ub;
@@ -105,10 +105,10 @@ namespace LineageServer.Server.Server.DataSources
 
 				while (rs.next())
 				{
-					L1UltimateBattle ub = getUb(rs.getInt("ub_id"));
+					L1UltimateBattle ub = getUb(dataSourceRow.getInt("ub_id"));
 					if (ub != null)
 					{
-						ub.addManager(rs.getInt("ub_manager_npc_id"));
+						ub.addManager(dataSourceRow.getInt("ub_manager_npc_id"));
 					}
 				}
 			}
@@ -130,10 +130,10 @@ namespace LineageServer.Server.Server.DataSources
 
 				while (rs.next())
 				{
-					L1UltimateBattle ub = getUb(rs.getInt("ub_id"));
+					L1UltimateBattle ub = getUb(dataSourceRow.getInt("ub_id"));
 					if (ub != null)
 					{
-						ub.addUbTime(rs.getInt("ub_time"));
+						ub.addUbTime(dataSourceRow.getInt("ub_time"));
 					}
 				}
 			}
@@ -194,7 +194,7 @@ namespace LineageServer.Server.Server.DataSources
 				rs = pstm.executeQuery();
 				if (rs.next())
 				{
-					n = rs.getInt(1);
+					n = dataSourceRow.getInt(1);
 				}
 			}
 			catch (SQLException e)

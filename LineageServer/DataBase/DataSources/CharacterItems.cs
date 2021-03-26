@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class CharacterItems : DataSourceTable
+    class CharacterItems : DataSource
     {
         public const string TableName = "character_items";
         public const string Column_item_name = "item_name";
@@ -29,7 +30,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_hpr = "hpr";
         public const string Column_mpr = "mpr";
         public const string Column_m_def = "m_def";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.CharacterItems; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_item_name, DbType = DbType.String, IsPKey = false},

@@ -18,7 +18,7 @@ using System.Threading;
 /// </summary>
 namespace LineageServer.Server.Server.Model
 {
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	using Config = LineageServer.Server.Config;
 	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;

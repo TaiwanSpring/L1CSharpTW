@@ -4,7 +4,7 @@ using LineageServer.Server.Server.Model.map;
 using LineageServer.Server.Server.Model.skill;
 using LineageServer.Server.Server.serverpackets;
 using LineageServer.Server.Server.Templates;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 using System;
 using System.Text;
 

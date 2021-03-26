@@ -40,22 +40,21 @@ namespace LineageServer.Server.Server.serverpackets
 		public S_Pledge(int ClanId)
 		{
 			L1Clan clan = ClanTable.Instance.getTemplate(ClanId);
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(S_PacketBox.HTML_PLEDGE_ANNOUNCE);
-			writeS(clan.ClanName);
-			writeS(clan.LeaderName);
-			writeD(clan.EmblemId); // 盟徽id
-			writeD((int)(clan.FoundDate.Time / 1000)); // 血盟創立日
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(S_PacketBox.HTML_PLEDGE_ANNOUNCE);
+			WriteS(clan.ClanName);
+			WriteS(clan.LeaderName);
+			WriteD(clan.EmblemId); // 盟徽id
+			WriteD((int)(clan.FoundDate.Time / 1000)); // 血盟創立日
 			try
 			{
 				sbyte[] text = new sbyte[478];
-				Arrays.Fill(text, (sbyte) 0);
 				int i = 0;
 				foreach (sbyte b in clan.Announcement.GetBytes("Big5"))
 				{
 					text[i++] = b;
 				}
-				writeByte(text);
+				WriteByte(text);
 			}
 			catch (UnsupportedEncodingException e)
 			{
@@ -73,24 +72,23 @@ namespace LineageServer.Server.Server.serverpackets
 		public S_Pledge(L1PcInstance pc)
 		{
 			L1Clan clan = ClanTable.Instance.getTemplate(pc.Clanid);
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(S_PacketBox.HTML_PLEDGE_MEMBERS);
-			writeH(1);
-			writeC(clan.AllMembers.Length); // 血盟總人數
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(S_PacketBox.HTML_PLEDGE_MEMBERS);
+			WriteH(1);
+			WriteC(clan.AllMembers.Length); // 血盟總人數
 
 			// 血盟成員資料
 			/* Name/Rank/Level/Notes/MemberId/ClassType */
 			foreach (string member in clan.AllMembers)
 			{
 				L1PcInstance clanMember = CharacterTable.Instance.restoreCharacter(member);
-				writeS(clanMember.Name);
-				writeC(clanMember.ClanRank);
-				writeC(clanMember.Level);
+				WriteS(clanMember.Name);
+				WriteC(clanMember.ClanRank);
+				WriteC(clanMember.Level);
 
 				/// <summary>
 				/// 產生全由0填充的byte陣列 </summary>
 				sbyte[] text = new sbyte[62];
-				Arrays.Fill(text, (sbyte) 0);
 
 				/// <summary>
 				/// 將備註字串填入byte陣列 </summary>
@@ -102,9 +100,9 @@ namespace LineageServer.Server.Server.serverpackets
 						text[i++] = b;
 					}
 				}
-				writeByte(text);
-				writeD(clanMember.ClanMemberId);
-				writeC(clanMember.Type);
+				WriteByte(text);
+				WriteD(clanMember.ClanMemberId);
+				WriteC(clanMember.Type);
 			}
 		}
 
@@ -114,14 +112,13 @@ namespace LineageServer.Server.Server.serverpackets
 		/// <param name="notes"> 備註文字 </param>
 		public S_Pledge(string name, string notes)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(S_PacketBox.HTML_PLEDGE_WRITE_NOTES);
-			writeS(name);
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(S_PacketBox.HTML_PLEDGE_Write_NOTES);
+			WriteS(name);
 
 			/// <summary>
 			/// 產生全由0填充的byte陣列 </summary>
 			sbyte[] text = new sbyte[62];
-			Arrays.Fill(text, (sbyte) 0);
 
 			/// <summary>
 			/// 將備註字串填入byte陣列 </summary>
@@ -141,7 +138,7 @@ namespace LineageServer.Server.Server.serverpackets
                     System.Console.Write(e.StackTrace);
 				}
 			}
-			writeByte(text);
+			WriteByte(text);
 		}
 
 		public override sbyte[] Content
@@ -150,7 +147,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

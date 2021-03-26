@@ -40,13 +40,13 @@ namespace LineageServer.Server.Server.serverpackets
 		/// </summary>
 		public S_ShopSellList(int objId, L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWSHOPBUYLIST);
-			writeD(objId);
+			WriteC(Opcodes.S_OPCODE_SHOWSHOPBUYLIST);
+			WriteD(objId);
 
 			L1Object npcObj = L1World.Instance.findObject(objId);
 			if (!(npcObj is L1NpcInstance))
 			{
-				writeH(0);
+				WriteH(0);
 				return;
 			}
 			int npcId = ((L1NpcInstance) npcObj).NpcTemplate.get_npcId();
@@ -55,7 +55,7 @@ namespace LineageServer.Server.Server.serverpackets
 			L1Shop shop = ShopTable.Instance.get(npcId);
 			IList<L1ShopItem> shopItems = shop.SellingItems;
 
-			writeH(shopItems.Count);
+			WriteH(shopItems.Count);
 
 			// L1ItemInstanceのgetStatusBytesを利用するため
 			L1ItemInstance dummy = new L1ItemInstance();
@@ -65,13 +65,13 @@ namespace LineageServer.Server.Server.serverpackets
 				L1ShopItem shopItem = shopItems[i];
 				L1Item item = shopItem.Item;
 				int price = calc.layTax((int)(shopItem.Price * Config.RATE_SHOP_SELLING_PRICE));
-				writeD(i);
-				writeH(shopItem.Item.GfxId);
-				writeD(price);
+				WriteD(i);
+				WriteH(shopItem.Item.GfxId);
+				WriteD(price);
 
 				if (shopItem.PackCount > 1)
 				{
-					writeS(item.Name + " (" + shopItem.PackCount + ")");
+					WriteS(item.Name + " (" + shopItem.PackCount + ")");
 				}
 				else
 				{
@@ -80,31 +80,31 @@ namespace LineageServer.Server.Server.serverpackets
 						string[] temp = item.Name.Split(" ", true);
 						string buf = temp[temp.Length - 1];
 						temp = buf.Split("-", true);
-						writeS(buf + " $" + (1212 + int.Parse(temp[temp.Length - 1])));
+						WriteS(buf + " $" + (1212 + int.Parse(temp[temp.Length - 1])));
 					}
 					else
 					{
-						writeS(item.Name);
+						WriteS(item.Name);
 					}
 				}
 
 				L1Item template = ItemTable.Instance.getTemplate(item.ItemId);
 				if (template == null)
 				{
-					writeC(0);
+					WriteC(0);
 				}
 				else
 				{
 					dummy.Item = template;
 					sbyte[] status = dummy.StatusBytes;
-					writeC(status.Length);
+					WriteC(status.Length);
 					foreach (sbyte b in status)
 					{
-						writeC(b);
+						WriteC(b);
 					}
 				}
 			}
-			writeH(0x07); // 0x00:kaimo 0x01:pearl 0x07:adena
+			WriteH(0x07); // 0x00:kaimo 0x01:pearl 0x07:adena
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
@@ -113,7 +113,7 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			get
 			{
-				return _bao.toByteArray();
+				return memoryStream.toByteArray();
 			}
 		}
 	}

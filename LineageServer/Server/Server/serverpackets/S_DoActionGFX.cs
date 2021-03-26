@@ -26,9 +26,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_DoActionGFX(int objectId, int actionId)
 		{
-			writeC(Opcodes.S_OPCODE_DOACTIONGFX);
-			writeD(objectId);
-			writeC(actionId);
+			WriteC(Opcodes.S_OPCODE_DOACTIONGFX);
+			WriteD(objectId);
+			WriteC(actionId);
 		}
 
 		public override sbyte[] Content

@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_ADD_BOOKMARK = "[C] C_AddBookmark";
 
-		public C_AddBookmark(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_AddBookmark(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
 
 			L1PcInstance pc = client.ActiveChar;
@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			string s = readS();
+			string s = ReadS();
 
 			if (pc.Map.Markable || pc.Gm)
 			{

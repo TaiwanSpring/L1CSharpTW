@@ -20,9 +20,9 @@ namespace LineageServer.Server.Server.DataSources
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1MobGroup = LineageServer.Server.Server.Templates.L1MobGroup;
 	using L1NpcCount = LineageServer.Server.Server.Templates.L1NpcCount;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class MobGroupTable
 	{
@@ -62,14 +62,14 @@ namespace LineageServer.Server.Server.DataSources
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					int mobGroupId = rs.getInt("id");
-					bool isRemoveGroup = (rs.getBoolean("remove_group_if_leader_die"));
-					int leaderId = rs.getInt("leader_id");
+					int mobGroupId = dataSourceRow.getInt("id");
+					bool isRemoveGroup = (dataSourceRow.getBoolean("remove_group_if_leader_die"));
+					int leaderId = dataSourceRow.getInt("leader_id");
 					IList<L1NpcCount> minions = Lists.newList();
 					for (int i = 1; i <= 7; i++)
 					{
-						int id = rs.getInt("minion" + i + "_id");
-						int count = rs.getInt("minion" + i + "_count");
+						int id = dataSourceRow.getInt("minion" + i + "_id");
+						int count = dataSourceRow.getInt("minion" + i + "_count");
 						minions.Add(new L1NpcCount(id, count));
 					}
 					L1MobGroup mobGroup = new L1MobGroup(mobGroupId, leaderId, minions, isRemoveGroup);

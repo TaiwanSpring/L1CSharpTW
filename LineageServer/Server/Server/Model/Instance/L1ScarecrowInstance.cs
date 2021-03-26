@@ -22,8 +22,8 @@ namespace LineageServer.Server.Server.Model.Instance
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
 	using S_ChangeHeading = LineageServer.Server.Server.serverpackets.S_ChangeHeading;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using CalcExp = LineageServer.Server.Server.utils.CalcExp;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using CalcExp = LineageServer.Server.Server.Utils.CalcExp;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	[Serializable]
 	public class L1ScarecrowInstance : L1NpcInstance

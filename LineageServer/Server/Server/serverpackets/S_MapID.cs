@@ -24,12 +24,12 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_MapID(int mapid, bool isUnderwater)
 		{
-			writeC(Opcodes.S_OPCODE_MAPID);
-			writeH(mapid);
-			writeC(isUnderwater ? 1 : 0); // 水底:1
-			writeD(0);
-			writeD(0);
-			writeD(0);
+			WriteC(Opcodes.S_OPCODE_MAPID);
+			WriteH(mapid);
+			WriteC(isUnderwater ? 1 : 0); // 水底:1
+			WriteD(0);
+			WriteD(0);
+			WriteD(0);
 		}
 
 		public override sbyte[] Content

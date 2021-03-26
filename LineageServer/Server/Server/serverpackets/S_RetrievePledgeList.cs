@@ -43,22 +43,22 @@ namespace LineageServer.Server.Server.serverpackets
 				if (size > 0)
 				{
 					clan.WarehouseUsingChar = pc.Id; // クラン倉庫をロック
-					writeC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
-					writeD(objid);
-					writeH(size);
-					writeC(5); // 血盟倉庫
+					WriteC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
+					WriteD(objid);
+					WriteH(size);
+					WriteC(5); // 血盟倉庫
 					foreach (object itemObject in clan.DwarfForClanInventory.Items)
 					{
 						L1ItemInstance item = (L1ItemInstance) itemObject;
-						writeD(item.Id);
-						writeC(item.Item.UseType);
-						writeH(item.get_gfxid());
-						writeC(item.Bless);
-						writeD(item.Count);
-						writeC(item.Identified ? 1 : 0);
-						writeS(item.ViewName);
+						WriteD(item.Id);
+						WriteC(item.Item.UseType);
+						WriteH(item.get_gfxid());
+						WriteC(item.Bless);
+						WriteD(item.Count);
+						WriteC(item.Identified ? 1 : 0);
+						WriteS(item.ViewName);
 					}
-					writeD(0x0000001e); // 金幣30
+					WriteD(0x0000001e); // 金幣30
 				}
 				else
 				{

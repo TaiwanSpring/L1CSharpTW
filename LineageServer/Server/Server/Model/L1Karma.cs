@@ -14,7 +14,7 @@
 /// </summary>
 namespace LineageServer.Server.Server.Model
 {
-	using IntRange = LineageServer.Server.Server.utils.IntRange;
+	using IntRange = LineageServer.Server.Server.Utils.IntRange;
 
 	public class L1Karma
 	{

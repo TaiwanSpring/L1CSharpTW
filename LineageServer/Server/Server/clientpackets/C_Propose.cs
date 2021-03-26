@@ -1,7 +1,7 @@
 ﻿
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 
 namespace LineageServer.Server.Server.Clientpackets
 {
@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_PROPOSE = "[C] C_Propose";
 
-		public C_Propose(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_Propose(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance pc = clientthread.ActiveChar;
@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int c = readC();
+			int c = ReadC();
 
 			if (c == 0)
 			{ // /propose（/結婚）

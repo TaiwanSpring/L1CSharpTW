@@ -26,49 +26,49 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			int i6 = i1 + j1 + k1 + l1;
 			int j6 = i2 + j2;
-			writeC(Opcodes.S_OPCODE_DELSKILL);
+			WriteC(Opcodes.S_OPCODE_DELSKILL);
 			if ((i6 > 0) && (j6 == 0))
 			{
-				writeC(50);
+				WriteC(50);
 			}
 			else if (j6 > 0)
 			{
-				writeC(100);
+				WriteC(100);
 			}
 			else
 			{
-				writeC(32);
+				WriteC(32);
 			}
-			writeC(i);
-			writeC(j);
-			writeC(k);
-			writeC(l);
-			writeC(i1);
-			writeC(j1);
-			writeC(k1);
-			writeC(l1);
-			writeC(i2);
-			writeC(j2);
-			writeC(k2);
-			writeC(l2);
-			writeC(i3);
-			writeC(j3);
-			writeC(k3);
-			writeC(l3);
-			writeC(i4);
-			writeC(j4);
-			writeC(k4);
-			writeC(l4);
-			writeC(i5);
-			writeC(j5);
-			writeC(k5);
-			writeC(l5);
-			writeC(m5);
-			writeC(n5);
-			writeC(o5);
-			writeC(p5);
-			writeD(0);
-			writeD(0);
+			WriteC(i);
+			WriteC(j);
+			WriteC(k);
+			WriteC(l);
+			WriteC(i1);
+			WriteC(j1);
+			WriteC(k1);
+			WriteC(l1);
+			WriteC(i2);
+			WriteC(j2);
+			WriteC(k2);
+			WriteC(l2);
+			WriteC(i3);
+			WriteC(j3);
+			WriteC(k3);
+			WriteC(l3);
+			WriteC(i4);
+			WriteC(j4);
+			WriteC(k4);
+			WriteC(l4);
+			WriteC(i5);
+			WriteC(j5);
+			WriteC(k5);
+			WriteC(l5);
+			WriteC(m5);
+			WriteC(n5);
+			WriteC(o5);
+			WriteC(p5);
+			WriteD(0);
+			WriteD(0);
 		}
 
 		public override sbyte[] Content

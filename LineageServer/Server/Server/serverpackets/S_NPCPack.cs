@@ -39,47 +39,47 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_NPCPack(L1NpcInstance npc)
 		{
-			writeC(Opcodes.S_OPCODE_CHARPACK);
-			writeH(npc.X);
-			writeH(npc.Y);
-			writeD(npc.Id);
+			WriteC(Opcodes.S_OPCODE_CHARPACK);
+			WriteH(npc.X);
+			WriteH(npc.Y);
+			WriteD(npc.Id);
 			if (npc.TempCharGfx == 0)
 			{
-				writeH(npc.GfxId);
+				WriteH(npc.GfxId);
 			}
 			else
 			{
-				writeH(npc.TempCharGfx);
+				WriteH(npc.TempCharGfx);
 			}
-			writeC(npc.Status);
-			writeC(npc.Heading);
-			writeC(npc.ChaLightSize);
-			writeC(npc.MoveSpeed);
-			writeExp(npc.Exp);
-			writeH(npc.TempLawful);
+			WriteC(npc.Status);
+			WriteC(npc.Heading);
+			WriteC(npc.ChaLightSize);
+			WriteC(npc.MoveSpeed);
+			WriteExp(npc.Exp);
+			WriteH(npc.TempLawful);
 			if (Config.SHOW_NPC_ID)
 			{
-				writeS(npc.NameId + "[" + npc.NpcId + "]" + "面向[" + npc.Heading + "]" + "圖形[" + npc.GfxId + "]");
+				WriteS(npc.NameId + "[" + npc.NpcId + "]" + "面向[" + npc.Heading + "]" + "圖形[" + npc.GfxId + "]");
 			}
 			else
 			{
-				writeS(npc.NameId);
+				WriteS(npc.NameId);
 			}
 			if (npc is L1FieldObjectInstance)
 			{ // SICの壁字、看板など
 				L1NpcTalkData talkdata = NPCTalkDataTable.Instance.getTemplate(npc.NpcTemplate.get_npcId());
 				if (talkdata != null)
 				{
-					writeS(talkdata.NormalAction); // タイトルがHTML名として解釈される
+					WriteS(talkdata.NormalAction); // タイトルがHTML名として解釈される
 				}
 				else
 				{
-					writeS(null);
+					WriteS(null);
 				}
 			}
 			else
 			{
-				writeS(npc.Title);
+				WriteS(npc.Title);
 			}
 
 			/// <summary>
@@ -105,25 +105,25 @@ namespace LineageServer.Server.Server.serverpackets
 			// 二段加速狀態
 			status |= npc.BraveSpeed * 16;
 
-			writeC(status);
+			WriteC(status);
 
-			writeD(0); // 0以外にするとC_27が飛ぶ
-			writeS(null);
-			writeS(null); // マスター名？
+			WriteD(0); // 0以外にするとC_27が飛ぶ
+			WriteS(null);
+			WriteS(null); // マスター名？
 			if (npc.TempCharGfx == 1024 || npc.TempCharGfx == 2363 || npc.TempCharGfx == 6697 || npc.TempCharGfx == 8180 || npc.TempCharGfx == 1204 || npc.TempCharGfx == 2353 || npc.TempCharGfx == 3631 || npc.TempCharGfx == 2544)
 			{ // 飛行系怪物
-				writeC(npc.HiddenStatus == HIDDEN_STATUS_FLY ? 2 : 1); // 判斷是否飛天中
+				WriteC(npc.HiddenStatus == HIDDEN_STATUS_FLY ? 2 : 1); // 判斷是否飛天中
 			}
 			else
 			{
-				writeC(0);
+				WriteC(0);
 			}
-			writeC(0xFF); // HP
-			writeC(0);
-			writeC(npc.Level);
-			writeC(0xFF);
-			writeC(0xFF);
-			writeC(0);
+			WriteC(0xFF); // HP
+			WriteC(0);
+			WriteC(npc.Level);
+			WriteC(0xFF);
+			WriteC(0xFF);
+			WriteC(0);
 		}
 
 		public override sbyte[] Content
@@ -132,7 +132,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
     
 				return _byte;

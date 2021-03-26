@@ -22,25 +22,25 @@ namespace LineageServer.Server.Server.serverpackets
 	{
 		public S_PetCtrlMenu(L1Character cha, L1NpcInstance npc, bool open)
 		{
-			writeC(Opcodes.S_OPCODE_CHARRESET); // 3.80C 更動
-			writeC(0x0c);
+			WriteC(Opcodes.S_OPCODE_CHARRESET); // 3.80C 更動
+			WriteC(0x0c);
 
 			if (open)
 			{
-				writeH(cha.PetList.Count * 3);
-				writeD(0x00000000);
-				writeD(npc.Id);
-				writeH(npc.MapId);
-				writeH(0x0000);
-				writeH(npc.X);
-				writeH(npc.Y);
-				writeS(npc.NameId);
+				WriteH(cha.PetList.Count * 3);
+				WriteD(0x00000000);
+				WriteD(npc.Id);
+				WriteH(npc.MapId);
+				WriteH(0x0000);
+				WriteH(npc.X);
+				WriteH(npc.Y);
+				WriteS(npc.NameId);
 			}
 			else
 			{
-				writeH(cha.PetList.Count * 3 - 3);
-				writeD(0x00000001);
-				writeD(npc.Id);
+				WriteH(cha.PetList.Count * 3 - 3);
+				WriteD(0x00000001);
+				WriteD(npc.Id);
 			}
 		}
 

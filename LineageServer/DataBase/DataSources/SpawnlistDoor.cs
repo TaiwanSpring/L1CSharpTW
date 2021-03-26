@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class SpawnlistDoor : DataSourceTable
+    class SpawnlistDoor : DataSource
     {
         public const string TableName = "spawnlist_door";
         public const string Column_location = "location";
@@ -13,7 +14,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_hp = "hp";
         public const string Column_keeper = "keeper";
         public const string Column_isOpening = "isOpening";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.SpawnlistDoor; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_location, DbType = DbType.String, IsPKey = false},

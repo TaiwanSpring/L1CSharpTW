@@ -9,20 +9,20 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_CharVisualUpdate(L1PcInstance pc)
         {
-            writeC(Opcodes.S_OPCODE_CHARVISUALUPDATE);
-            writeD(pc.Id);
-            writeC(pc.CurrentWeapon);
-            writeC(0xff);
-            writeC(0xff);
+            WriteC(Opcodes.S_OPCODE_CHARVISUALUPDATE);
+            WriteD(pc.Id);
+            WriteC(pc.CurrentWeapon);
+            WriteC(0xff);
+            WriteC(0xff);
         }
 
         public S_CharVisualUpdate(L1Character cha, int status)
         {
-            writeC(Opcodes.S_OPCODE_CHARVISUALUPDATE);
-            writeD(cha.Id);
-            writeC(status);
-            writeC(0xff);
-            writeC(0xff);
+            WriteC(Opcodes.S_OPCODE_CHARVISUALUPDATE);
+            WriteD(cha.Id);
+            WriteC(status);
+            WriteC(0xff);
+            WriteC(0xff);
         }
 
         public override string Type

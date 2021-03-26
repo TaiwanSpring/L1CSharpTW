@@ -1,7 +1,7 @@
 ﻿using LineageServer.DataBase.DataSources;
 using LineageServer.Interfaces;
 using LineageServer.Server.Server.Templates;
-using LineageServer.Server.Server.utils.collections;
+using LineageServer.Server.Server.Utils.collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.DataSources
 	{
 		private readonly IDictionary<int, L1AuctionBoard> _boards = Maps.newConcurrentMap<int, L1AuctionBoard>();
 
-		private readonly IDataSourceTable dataSourceTable = new EmptyDataSourceTable();
+		private readonly IDataSourceTable dataSourceTable = new EmptyDataSource();
 
 		private DateTime timestampToCalendar(Timestamp ts)
 		{
@@ -26,16 +26,16 @@ namespace LineageServer.Server.Server.DataSources
 			foreach (IDataSourceRow rs in this.dataSourceTable.Select())
 			{
 				L1AuctionBoard board = new L1AuctionBoard();
-				board.HouseId = rs.getInt(1);
-				board.HouseName = rs.getString(2);
-				board.HouseArea = rs.getInt(3);
-				board.Deadline = timestampToCalendar((Timestamp)rs.getObject(4));
-				board.Price = rs.getInt(5);
-				board.Location = rs.getString(6);
-				board.OldOwner = rs.getString(7);
-				board.OldOwnerId = rs.getInt(8);
-				board.Bidder = rs.getString(9);
-				board.BidderId = rs.getInt(10);
+				board.HouseId = dataSourceRow.getInt(1);
+				board.HouseName = dataSourceRow.getString(2);
+				board.HouseArea = dataSourceRow.getInt(3);
+				board.Deadline = timestampToCalendar((Timestamp)dataSourceRow.getObject(4));
+				board.Price = dataSourceRow.getInt(5);
+				board.Location = dataSourceRow.getString(6);
+				board.OldOwner = dataSourceRow.getString(7);
+				board.OldOwnerId = dataSourceRow.getInt(8);
+				board.Bidder = dataSourceRow.getString(9);
+				board.BidderId = dataSourceRow.getInt(10);
 				_boards[board.HouseId] = board;
 			}
 		}

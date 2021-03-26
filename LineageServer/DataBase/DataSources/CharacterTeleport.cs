@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class CharacterTeleport : DataSourceTable
+    class CharacterTeleport : DataSource
     {
         public const string TableName = "character_teleport";
         public const string Column_name = "name";
@@ -10,7 +11,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_locx = "locx";
         public const string Column_locy = "locy";
         public const string Column_mapid = "mapid";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.CharacterTeleport; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},

@@ -32,22 +32,22 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_UseArrowSkill(L1Character cha, int targetobj, int x, int y, int[] data)
 		{ // data = {actid, dmg, spellgfx}
-			writeC(Opcodes.S_OPCODE_ATTACKPACKET);
-			writeC(data[0]); // actid
-			writeD(cha.Id);
-			writeD(targetobj);
-			writeH(data[1]); // dmg
-			writeC(cha.Heading);
-			writeD(_sequentialNumber.incrementAndGet());
-			writeH(data[2]); // spellgfx
-			writeC(0); // use_type 箭
-			writeH(cha.X);
-			writeH(cha.Y);
-			writeH(x);
-			writeH(y);
-			writeC(0);
-			writeC(0);
-			writeC(0); // 0:none 2:爪痕 4:雙擊 8:鏡返射
+			WriteC(Opcodes.S_OPCODE_ATTACKPACKET);
+			WriteC(data[0]); // actid
+			WriteD(cha.Id);
+			WriteD(targetobj);
+			WriteH(data[1]); // dmg
+			WriteC(cha.Heading);
+			WriteD(_sequentialNumber.incrementAndGet());
+			WriteH(data[2]); // spellgfx
+			WriteC(0); // use_type 箭
+			WriteH(cha.X);
+			WriteH(cha.Y);
+			WriteH(x);
+			WriteH(y);
+			WriteC(0);
+			WriteC(0);
+			WriteC(0); // 0:none 2:爪痕 4:雙擊 8:鏡返射
 		}
 
 		public override sbyte[] Content
@@ -56,7 +56,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				else
 				{

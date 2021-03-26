@@ -36,13 +36,13 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(string htmlid, int objid, string partyname, string partymembers, int type)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(objid);
-			writeS(htmlid);
-			writeH(type);
-			writeH(0x02);
-			writeS(partyname);
-			writeS(partymembers);
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(objid);
+			WriteS(htmlid);
+			WriteH(type);
+			WriteH(0x02);
+			WriteS(partyname);
+			WriteS(partymembers);
 		}
 
 		public S_Party(int type, L1PcInstance pc)
@@ -82,17 +82,17 @@ namespace LineageServer.Server.Server.serverpackets
 			}
 			else
 			{
-				writeC(Opcodes.S_OPCODE_PACKETBOX);
-				writeC(S_PacketBox.UPDATE_OLD_PART_MEMBER);
+				WriteC(Opcodes.S_OPCODE_PACKETBOX);
+				WriteC(S_PacketBox.UPDATE_OLD_PART_MEMBER);
 				nowhp = leader.CurrentHp;
 				maxhp = leader.MaxHp;
-				writeC(member.Length - 1);
-				writeD(leader.Id);
-				writeS(leader.Name);
-				writeC((int)(nowhp / maxhp) * 100);
-				writeD(leader.MapId);
-				writeH(leader.X);
-				writeH(leader.Y);
+				WriteC(member.Length - 1);
+				WriteD(leader.Id);
+				WriteS(leader.Name);
+				WriteC((int)(nowhp / maxhp) * 100);
+				WriteD(leader.MapId);
+				WriteH(leader.X);
+				WriteH(leader.Y);
 				for (int i = 0, a = member.Length; i < a; i++)
 				{
 					if (member[i].Id == leader.Id || member[i] == null)
@@ -101,14 +101,14 @@ namespace LineageServer.Server.Server.serverpackets
 					}
 					nowhp = member[i].CurrentHp;
 					maxhp = member[i].MaxHp;
-					writeD(member[i].Id);
-					writeS(member[i].Name);
-					writeC((int)(nowhp / maxhp) * 100);
-					writeD(member[i].MapId);
-					writeH(member[i].X);
-					writeH(member[i].Y);
+					WriteD(member[i].Id);
+					WriteS(member[i].Name);
+					WriteC((int)(nowhp / maxhp) * 100);
+					WriteD(member[i].MapId);
+					WriteH(member[i].X);
+					WriteH(member[i].Y);
 				}
-				writeC(0x00);
+				WriteC(0x00);
 			}
 		}
 
@@ -118,13 +118,13 @@ namespace LineageServer.Server.Server.serverpackets
 		/// <param name="pc"> </param>
 		public virtual void oldMember(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(S_PacketBox.PATRY_UPDATE_MEMBER);
-			writeD(pc.Id);
-			writeS(pc.Name);
-			writeD(pc.MapId);
-			writeH(pc.X);
-			writeH(pc.Y);
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(S_PacketBox.PATRY_UPDATE_MEMBER);
+			WriteD(pc.Id);
+			WriteS(pc.Name);
+			WriteD(pc.MapId);
+			WriteH(pc.X);
+			WriteH(pc.Y);
 		}
 
 		/// <summary>
@@ -133,10 +133,10 @@ namespace LineageServer.Server.Server.serverpackets
 		/// <param name="pc"> </param>
 		public virtual void changeLeader(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(S_PacketBox.PATRY_SET_MASTER);
-			writeD(pc.Id);
-			writeH(0x0000);
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(S_PacketBox.PATRY_SET_MASTER);
+			WriteD(pc.Id);
+			WriteH(0x0000);
 		}
 
 		/// <summary>
@@ -152,18 +152,18 @@ namespace LineageServer.Server.Server.serverpackets
 			}
 			else
 			{
-				writeC(Opcodes.S_OPCODE_PACKETBOX);
-				writeC(S_PacketBox.PATRY_MEMBERS);
-				writeC(member.Length);
+				WriteC(Opcodes.S_OPCODE_PACKETBOX);
+				WriteC(S_PacketBox.PATRY_MEMBERS);
+				WriteC(member.Length);
 				for (int i = 0, a = member.Length; i < a; i++)
 				{
-					writeD(member[i].Id);
-					writeD(member[i].MapId);
-					writeH(member[i].X);
-					writeH(member[i].Y);
+					WriteD(member[i].Id);
+					WriteD(member[i].MapId);
+					WriteH(member[i].X);
+					WriteH(member[i].Y);
 				}
-				writeC(0xff);
-				writeC(0xff);
+				WriteC(0xff);
+				WriteC(0xff);
 			}
 		}
 
@@ -173,7 +173,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
     
 				return _byte;

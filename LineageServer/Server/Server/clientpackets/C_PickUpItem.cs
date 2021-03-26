@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 
 		private const string C_PICK_UP_ITEM = "[C] C_PickUpItem";
-		public C_PickUpItem(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_PickUpItem(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
 
 			L1PcInstance pc = client.ActiveChar;
@@ -21,10 +21,10 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int x = readH();
-			int y = readH();
-			int objectId = readD();
-			int pickupCount = readD();
+			int x = ReadH();
+			int y = ReadH();
+			int objectId = ReadD();
+			int pickupCount = ReadD();
 
 			if (objectId == pc.Id)
 			{

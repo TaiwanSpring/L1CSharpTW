@@ -40,32 +40,32 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int type, string msg1, string msg2, string msg3, int check)
 		{
-			writeC(Opcodes.S_OPCODE_REDMESSAGE);
-			writeH(type);
+			WriteC(Opcodes.S_OPCODE_REDMESSAGE);
+			WriteH(type);
 			if (check == 1)
 			{
 				if (msg1.Length <= 0)
 				{
-					writeC(0);
+					WriteC(0);
 				}
 				else
 				{
-					writeC(1);
-					writeS(msg1);
+					WriteC(1);
+					WriteS(msg1);
 				}
 			}
 			else if (check == 2)
 			{
-				writeC(2);
-				writeS(msg1);
-				writeS(msg2);
+				WriteC(2);
+				WriteS(msg1);
+				WriteS(msg2);
 			}
 			else if (check == 3)
 			{
-				writeC(3);
-				writeS(msg1);
-				writeS(msg2);
-				writeS(msg3);
+				WriteC(3);
+				WriteS(msg1);
+				WriteS(msg2);
+				WriteS(msg3);
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

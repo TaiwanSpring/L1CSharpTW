@@ -9,7 +9,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
         private const string C_PledgeRecommendation_Conflict = "[C] C_PledgeRecommendation";
 
-        public C_PledgeRecommendation(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_PledgeRecommendation(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             L1PcInstance pc = client.ActiveChar;
             if (pc == null)
@@ -17,14 +17,14 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int data = readC();
+            int data = ReadC();
 
             if (data == 0)
             { // 登陸推薦血盟
                 /// <summary>
                 /// 血盟類型 戰鬥/打怪/友好 </summary>
-                int clanType = readC();
-                string TypeMessage = readS();
+                int clanType = ReadC();
+                string TypeMessage = ReadS();
                 if (ClanRecommendTable.Instance.isRecorded(pc.Clanid))
                 { // Update
                     ClanRecommendTable.Instance.updateRecommendRecord(pc.Clanid, clanType, TypeMessage);
@@ -57,14 +57,14 @@ namespace LineageServer.Server.Server.Clientpackets
             }
             else if (data == 5)
             { // 申請加入
-                int clan_id = readD();
+                int clan_id = ReadD();
                 ClanRecommendTable.Instance.addRecommendApply(clan_id, pc.Name);
                 pc.sendPackets(new S_PledgeRecommendation(data, clan_id, 0));
             }
             else if (data == 6)
             { // 審核已登記資料
-                int index = readD();
-                int type = readC();
+                int index = ReadD();
+                int type = ReadC();
 
                 if (type == 1)
                 { // 接受玩家加入

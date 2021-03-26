@@ -38,21 +38,21 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket()
 		{
-			writeC(Opcodes.S_OPCODE_DOACTIONGFX);
-			writeC(0x37); // ?
-			writeD(0x76002822); // ?
-			writeH(0x8AC3); // ?
+			WriteC(Opcodes.S_OPCODE_DOACTIONGFX);
+			WriteC(0x37); // ?
+			WriteD(0x76002822); // ?
+			WriteH(0x8AC3); // ?
 		}
 
 		private void buildPacket(int objectId, int motionNum, int x, int y)
 		{
-			writeC(Opcodes.S_OPCODE_DOACTIONGFX);
-			writeD(objectId);
-			writeC(motionNum);
-			writeH(x);
-			writeH(y);
-			writeD(0);
-			writeH(0);
+			WriteC(Opcodes.S_OPCODE_DOACTIONGFX);
+			WriteD(objectId);
+			WriteC(motionNum);
+			WriteH(x);
+			WriteH(y);
+			WriteD(0);
+			WriteH(0);
 		}
 
 		public override sbyte[] Content

@@ -14,7 +14,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
         private const string C_CHANGE_WAR_TIME = "[C] C_ChangeWarTime";
 
-        public C_ChangeWarTime(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_ChangeWarTime(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
             L1PcInstance player = clientthread.ActiveChar;

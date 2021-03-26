@@ -26,7 +26,7 @@ namespace LineageServer.Server.Server.Model.item.action
 	using S_SPMR = LineageServer.Server.Server.serverpackets.S_SPMR;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using L1Armor = LineageServer.Server.Server.Templates.L1Armor;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	public class Enchant
 	{

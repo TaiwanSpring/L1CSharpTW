@@ -27,7 +27,7 @@ namespace LineageServer.Server.Server.Model
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using S_War = LineageServer.Server.Server.serverpackets.S_War;
 	using L1Castle = LineageServer.Server.Server.Templates.L1Castle;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1War

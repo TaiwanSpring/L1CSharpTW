@@ -31,10 +31,10 @@ namespace LineageServer.Server.Server.DataSources
 	using L1ItemId = LineageServer.Server.Server.Model.identity.L1ItemId;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using L1Drop = LineageServer.Server.Server.Templates.L1Drop;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using Random = LineageServer.Server.Server.Utils.Random;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server.templates:
 	// L1Npc, L1Item, ItemTable
@@ -80,12 +80,12 @@ namespace LineageServer.Server.Server.DataSources
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					int mobId = rs.getInt("mobId");
-					int itemId = rs.getInt("itemId");
-					int min = rs.getInt("min");
-					int max = rs.getInt("max");
-					int chance = rs.getInt("chance");
-					int enchantlvl = rs.getInt("enchantlvl");
+					int mobId = dataSourceRow.getInt("mobId");
+					int itemId = dataSourceRow.getInt("itemId");
+					int min = dataSourceRow.getInt("min");
+					int max = dataSourceRow.getInt("max");
+					int chance = dataSourceRow.getInt("chance");
+					int enchantlvl = dataSourceRow.getInt("enchantlvl");
 
 					L1Drop drop = new L1Drop(mobId, itemId, min, max, chance, enchantlvl);
 

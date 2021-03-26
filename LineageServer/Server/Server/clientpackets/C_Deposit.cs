@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 
 		private const string C_DEPOSIT = "[C] C_Deposit";
-		public C_Deposit(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_Deposit(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance player = clientthread.ActiveChar;
@@ -22,8 +22,8 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int i = readD();
-			int j = readD();
+			int i = ReadD();
+			int j = ReadD();
 
 			if (i == player.Id)
 			{

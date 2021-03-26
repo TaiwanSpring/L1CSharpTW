@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Mapids : DataSourceTable
+    class Mapids : DataSource
     {
         public const string TableName = "mapids";
         public const string Column_locationname = "locationname";
@@ -21,7 +22,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_recall_pets = "recall_pets";
         public const string Column_usable_item = "usable_item";
         public const string Column_usable_skill = "usable_skill";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Mapids; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_locationname, DbType = DbType.String, IsPKey = false},

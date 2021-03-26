@@ -41,10 +41,10 @@ namespace LineageServer.Server.Server.serverpackets
 			// 7 : _血盟と_血盟との同盟関係が解除されました。
 			// 8 : あなたの血盟が現在_血盟と交戦中です。
 
-			writeC(Opcodes.S_OPCODE_WAR);
-			writeC(type);
-			writeS(clan_name1);
-			writeS(clan_name2);
+			WriteC(Opcodes.S_OPCODE_WAR);
+			WriteC(type);
+			WriteS(clan_name1);
+			WriteS(clan_name2);
 		}
 
 		public override sbyte[] Content

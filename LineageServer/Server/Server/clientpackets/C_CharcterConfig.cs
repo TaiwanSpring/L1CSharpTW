@@ -10,7 +10,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
 
         private const string C_CHARCTER_CONFIG = "[C] C_CharcterConfig";
-        public C_CharcterConfig(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_CharcterConfig(byte[] abyte0, ClientThread client) : base(abyte0)
         {
             if (Config.CHARACTER_CONFIG_IN_SERVER_SIDE)
             {
@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 {
                     return;
                 }
-                int length = readD() - 3;
-                sbyte[] data = readByte();
+                int length = ReadD() - 3;
+                byte[] data = ReadByte();
                 int count = CharacterConfigTable.Instance.countCharacterConfig(pc.Id);
                 if (count == 0)
                 {

@@ -7,10 +7,10 @@
 
 		public S_SkillIconThirdSpeed(int j)
 		{
-			writeC(Opcodes.S_OPCODE_SKILLICONGFX);
-			writeC(0x3c);
-			writeC(j); // time / 4
-			writeC(0x8);
+			WriteC(Opcodes.S_OPCODE_SKILLICONGFX);
+			WriteC(0x3c);
+			WriteC(j); // time / 4
+			WriteC(0x8);
 		}
 
 		public override sbyte[] Content

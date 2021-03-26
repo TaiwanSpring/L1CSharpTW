@@ -24,9 +24,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_Liquor(int objecId, int j)
 		{
-			writeC(Opcodes.S_OPCODE_LIQUOR);
-			writeD(objecId);
-			writeC(j);
+			WriteC(Opcodes.S_OPCODE_LIQUOR);
+			WriteD(objecId);
+			WriteC(j);
 		}
 
 		public override sbyte[] Content

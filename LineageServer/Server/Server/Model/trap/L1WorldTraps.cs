@@ -25,8 +25,8 @@ namespace LineageServer.Server.Server.Model.trap
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1TrapInstance = LineageServer.Server.Server.Model.Instance.L1TrapInstance;
 	using Point = LineageServer.Server.Server.Types.Point;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class L1WorldTraps
 	{
@@ -74,17 +74,17 @@ namespace LineageServer.Server.Server.Model.trap
 
 				while (rs.next())
 				{
-					int trapId = rs.getInt("trapId");
+					int trapId = dataSourceRow.getInt("trapId");
 					L1Trap trapTemp = TrapTable.Instance.getTemplate(trapId);
 					L1Location loc = new L1Location();
-					loc.setMap(rs.getInt("mapId"));
-					loc.X = rs.getInt("locX");
-					loc.Y = rs.getInt("locY");
+					loc.setMap(dataSourceRow.getInt("mapId"));
+					loc.X = dataSourceRow.getInt("locX");
+					loc.Y = dataSourceRow.getInt("locY");
 					Point rndPt = new Point();
-					rndPt.X = rs.getInt("locRndX");
-					rndPt.Y = rs.getInt("locRndY");
-					int count = rs.getInt("count");
-					int span = rs.getInt("span");
+					rndPt.X = dataSourceRow.getInt("locRndX");
+					rndPt.Y = dataSourceRow.getInt("locRndY");
+					int count = dataSourceRow.getInt("count");
+					int span = dataSourceRow.getInt("span");
 
 					for (int i = 0; i < count; i++)
 					{

@@ -45,14 +45,14 @@ namespace LineageServer.Server.Server.serverpackets
 
 			try
 			{
-				writeC(Opcodes.S_OPCODE_SKILLBUY);
-				writeD(100);
-				writeH(inCount);
+				WriteC(Opcodes.S_OPCODE_SKILLBUY);
+				WriteD(100);
+				WriteH(inCount);
 				for (int k = 0; k < count; k++)
 				{
 					if (!pc.isSkillMastery((k + 1)))
 					{
-						writeD(k);
+						WriteD(k);
 					}
 				}
 			}
@@ -138,7 +138,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

@@ -51,8 +51,8 @@ namespace LineageServer.Server.Server.Model.Instance
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using S_SkillBrave = LineageServer.Server.Server.serverpackets.S_SkillBrave;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using CalcExp = LineageServer.Server.Server.utils.CalcExp;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using CalcExp = LineageServer.Server.Server.Utils.CalcExp;
+	using Random = LineageServer.Server.Server.Utils.Random;
 	using S_HPMeter = LineageServer.Server.Server.serverpackets.S_HPMeter;
 
 	[Serializable]

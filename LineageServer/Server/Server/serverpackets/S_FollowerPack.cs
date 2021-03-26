@@ -32,19 +32,19 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_FollowerPack(L1FollowerInstance follower, L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_CHARPACK);
-			writeH(follower.X);
-			writeH(follower.Y);
-			writeD(follower.Id);
-			writeH(follower.GfxId);
-			writeC(follower.Status);
-			writeC(follower.Heading);
-			writeC(follower.ChaLightSize);
-			writeC(follower.MoveSpeed);
-			writeD(0);
-			writeH(0);
-			writeS(follower.NameId);
-			writeS(follower.Title);
+			WriteC(Opcodes.S_OPCODE_CHARPACK);
+			WriteH(follower.X);
+			WriteH(follower.Y);
+			WriteD(follower.Id);
+			WriteH(follower.GfxId);
+			WriteC(follower.Status);
+			WriteC(follower.Heading);
+			WriteC(follower.ChaLightSize);
+			WriteC(follower.MoveSpeed);
+			WriteD(0);
+			WriteH(0);
+			WriteS(follower.NameId);
+			WriteS(follower.Title);
 			int status = 0;
 			if (follower.Poison != null)
 			{ // 毒状態
@@ -53,17 +53,17 @@ namespace LineageServer.Server.Server.serverpackets
 					status |= STATUS_POISON;
 				}
 			}
-			writeC(status);
-			writeD(0);
-			writeS(null);
-			writeS(null);
-			writeC(0);
-			writeC(0xFF);
-			writeC(0);
-			writeC(follower.Level);
-			writeC(0);
-			writeC(0xFF);
-			writeC(0xFF);
+			WriteC(status);
+			WriteD(0);
+			WriteS(null);
+			WriteS(null);
+			WriteC(0);
+			WriteC(0xFF);
+			WriteC(0);
+			WriteC(follower.Level);
+			WriteC(0);
+			WriteC(0xFF);
+			WriteC(0xFF);
 		}
 
 		public override sbyte[] Content
@@ -72,7 +72,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
     
 				return _byte;

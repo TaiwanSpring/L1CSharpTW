@@ -21,9 +21,9 @@ namespace LineageServer.Server.Server.serverpackets
 		public S_Disconnect()
 		{
 			int content = 500;
-			writeC(Opcodes.S_OPCODE_DISCONNECT);
-			writeH(content);
-			writeD(0x00000000);
+			WriteC(Opcodes.S_OPCODE_DISCONNECT);
+			WriteH(content);
+			WriteD(0x00000000);
 		}
 
 		/// <summary>
@@ -31,9 +31,9 @@ namespace LineageServer.Server.Server.serverpackets
 		/// </summary>
 		public S_Disconnect(int id)
 		{
-			writeC(Opcodes.S_OPCODE_DISCONNECT);
-			writeC(id);
-			writeD(0x00000000);
+			WriteC(Opcodes.S_OPCODE_DISCONNECT);
+			WriteC(id);
+			WriteD(0x00000000);
 		}
 
 		public override sbyte[] Content

@@ -33,38 +33,38 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildpacket(L1NpcInstance npc, int exppercet)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
 
 			if (npc is L1PetInstance)
 			{ // ペット
 				L1PetInstance pet = (L1PetInstance) npc;
-				writeD(pet.Id);
-				writeS("anicom");
-				writeC(0x00);
-				writeH(0x000b);
+				WriteD(pet.Id);
+				WriteS("anicom");
+				WriteC(0x00);
+				WriteH(0x000b);
 				switch (pet.CurrentPetStatus)
 				{
 				case 1:
-					writeS("$469"); // 攻撃態勢
+					WriteS("$469"); // 攻撃態勢
 					break;
 				case 2:
-					writeS("$470"); // 防御態勢
+					WriteS("$470"); // 防御態勢
 					break;
 				case 3:
-					writeS("$471"); // 休憩
+					WriteS("$471"); // 休憩
 					break;
 				case 5:
-					writeS("$472"); // 警戒
+					WriteS("$472"); // 警戒
 					break;
 				default:
-					writeS("$471"); // 休憩
+					WriteS("$471"); // 休憩
 					break;
 				}
-				writeS(Convert.ToString(pet.CurrentHp)); // 現在のＨＰ
-				writeS(Convert.ToString(pet.MaxHp)); // 最大ＨＰ
-				writeS(Convert.ToString(pet.CurrentMp)); // 現在のＭＰ
-				writeS(Convert.ToString(pet.MaxMp)); // 最大ＭＰ
-				writeS(Convert.ToString(pet.Level)); // レベル
+				WriteS(Convert.ToString(pet.CurrentHp)); // 現在のＨＰ
+				WriteS(Convert.ToString(pet.MaxHp)); // 最大ＨＰ
+				WriteS(Convert.ToString(pet.CurrentMp)); // 現在のＭＰ
+				WriteS(Convert.ToString(pet.MaxMp)); // 最大ＭＰ
+				WriteS(Convert.ToString(pet.Level)); // レベル
 
 				// 名前の文字数が8を超えると落ちる
 				// なぜか"セント バーナード","ブレイブ ラビット"はOK
@@ -75,8 +75,8 @@ namespace LineageServer.Server.Server.serverpackets
 				// else if (pet_name.equalsIgnoreCase("ハイ セントバーナード")) {
 				// pet_name = "ハイ セントバー";
 				// }
-				// writeS(pet_name);
-				writeS(""); // ペットの名前を表示させると不安定になるので、非表示にする
+				// WriteS(pet_name);
+				WriteS(""); // ペットの名前を表示させると不安定になるので、非表示にする
 
 				string s = "$610";
 				if (pet.get_food() > 80)
@@ -99,43 +99,43 @@ namespace LineageServer.Server.Server.serverpackets
 				{
 					s = "$608"; // 非常餓。
 				}
-				writeS(s); // 飽食度
-				writeS(Convert.ToString(exppercet)); // 経験値
-				writeS(Convert.ToString(pet.Lawful)); // アライメント
+				WriteS(s); // 飽食度
+				WriteS(Convert.ToString(exppercet)); // 経験値
+				WriteS(Convert.ToString(pet.Lawful)); // アライメント
 			}
 			else if (npc is L1SummonInstance)
 			{ // サモンモンスター
 				L1SummonInstance summon = (L1SummonInstance) npc;
-				writeD(summon.Id);
-				writeS("moncom");
-				writeC(0x00);
-				writeH(6); // 渡す引数文字の数の模様
+				WriteD(summon.Id);
+				WriteS("moncom");
+				WriteC(0x00);
+				WriteH(6); // 渡す引数文字の数の模様
 				switch (summon.get_currentPetStatus())
 				{
 				case 1:
-					writeS("$469"); // 攻撃態勢
+					WriteS("$469"); // 攻撃態勢
 					break;
 				case 2:
-					writeS("$470"); // 防御態勢
+					WriteS("$470"); // 防御態勢
 					break;
 				case 3:
-					writeS("$471"); // 休憩
+					WriteS("$471"); // 休憩
 					break;
 				case 5:
-					writeS("$472"); // 警戒
+					WriteS("$472"); // 警戒
 					break;
 				default:
-					writeS("$471"); // 休憩
+					WriteS("$471"); // 休憩
 					break;
 				}
-				writeS(Convert.ToString(summon.CurrentHp)); // 現在のＨＰ
-				writeS(Convert.ToString(summon.MaxHp)); // 最大ＨＰ
-				writeS(Convert.ToString(summon.CurrentMp)); // 現在のＭＰ
-				writeS(Convert.ToString(summon.MaxMp)); // 最大ＭＰ
-				writeS(Convert.ToString(summon.Level)); // レベル
-				// writeS(summon.getNpcTemplate().get_nameid());
-				// writeS(Integer.toString(0));
-				// writeS(Integer.toString(790));
+				WriteS(Convert.ToString(summon.CurrentHp)); // 現在のＨＰ
+				WriteS(Convert.ToString(summon.MaxHp)); // 最大ＨＰ
+				WriteS(Convert.ToString(summon.CurrentMp)); // 現在のＭＰ
+				WriteS(Convert.ToString(summon.MaxMp)); // 最大ＭＰ
+				WriteS(Convert.ToString(summon.Level)); // レベル
+				// WriteS(summon.getNpcTemplate().get_nameid());
+				// WriteS(Integer.toString(0));
+				// WriteS(Integer.toString(790));
 			}
 		}
 
@@ -145,7 +145,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
     
 				return _byte;

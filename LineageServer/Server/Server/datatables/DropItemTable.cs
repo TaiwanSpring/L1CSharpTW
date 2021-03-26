@@ -18,8 +18,8 @@ namespace LineageServer.Server.Server.DataSources
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public sealed class DropItemTable
 	{
@@ -74,9 +74,9 @@ namespace LineageServer.Server.Server.DataSources
 				for (rs = pstm.executeQuery(); rs.next();)
 				{
 					dropItemData data = new dropItemData(this);
-					int itemId = rs.getInt("item_id");
-					data.dropRate = rs.getDouble("drop_rate");
-					data.dropAmount = rs.getDouble("drop_amount");
+					int itemId = dataSourceRow.getInt("item_id");
+					data.dropRate = dataSourceRow.getDouble("drop_rate");
+					data.dropAmount = dataSourceRow.getDouble("drop_amount");
 
 					_dropItem[itemId] = data;
 				}

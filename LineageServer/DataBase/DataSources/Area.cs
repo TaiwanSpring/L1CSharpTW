@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Area : DataSourceTable
+    class Area : DataSource
     {
         public const string TableName = "area";
         public const string Column_areaname = "areaname";
@@ -13,7 +14,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_y2 = "y2";
         public const string Column_flag = "flag";
         public const string Column_restart = "restart";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Area; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_areaname, DbType = DbType.String, IsPKey = false},

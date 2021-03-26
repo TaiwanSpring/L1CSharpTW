@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1NpcTalkData = LineageServer.Server.Server.Model.L1NpcTalkData;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class NPCTalkDataTable
 	{
@@ -64,11 +64,11 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1NpcTalkData l1npctalkdata = new L1NpcTalkData();
-					l1npctalkdata.NpcID = rs.getInt(1);
-					l1npctalkdata.NormalAction = rs.getString(2);
-					l1npctalkdata.CaoticAction = rs.getString(3);
-					l1npctalkdata.TeleportURL = rs.getString(4);
-					l1npctalkdata.TeleportURLA = rs.getString(5);
+					l1npctalkdata.NpcID = dataSourceRow.getInt(1);
+					l1npctalkdata.NormalAction = dataSourceRow.getString(2);
+					l1npctalkdata.CaoticAction = dataSourceRow.getString(3);
+					l1npctalkdata.TeleportURL = dataSourceRow.getString(4);
+					l1npctalkdata.TeleportURLA = dataSourceRow.getString(5);
 					_datatable[l1npctalkdata.NpcID] = l1npctalkdata;
 				}
 				_log.config("NPCアクションリスト " + _datatable.Count + "件ロード");

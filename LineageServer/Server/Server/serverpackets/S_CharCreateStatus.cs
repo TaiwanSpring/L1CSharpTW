@@ -30,10 +30,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_CharCreateStatus(int reason)
 		{
-			writeC(Opcodes.S_OPCODE_NEWCHARWRONG);
-			writeC(reason);
-			writeD(0x00000000);
-			writeH(0x0000);
+			WriteC(Opcodes.S_OPCODE_NEWCHARWRONG);
+			WriteC(reason);
+			WriteD(0x00000000);
+			WriteH(0x0000);
 		}
 
 		public override sbyte[] Content

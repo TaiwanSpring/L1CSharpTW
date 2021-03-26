@@ -18,7 +18,7 @@ using System.Threading;
 /// </summary>
 namespace LineageServer.Server.Server.Model.Instance
 {
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
 	using NPCTalkDataTable = LineageServer.Server.Server.DataSources.NPCTalkDataTable;

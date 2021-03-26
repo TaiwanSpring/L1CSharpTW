@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class BoardAuction : DataSourceTable
+    class BoardAuction : DataSource
     {
         public const string TableName = "board_auction";
         public const string Column_house_name = "house_name";
@@ -14,7 +15,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_price = "price";
         public const string Column_old_owner_id = "old_owner_id";
         public const string Column_bidder_id = "bidder_id";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.BoardAuction; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_house_name, DbType = DbType.String, IsPKey = false},

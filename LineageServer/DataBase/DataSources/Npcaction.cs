@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Npcaction : DataSourceTable
+    class Npcaction : DataSource
     {
         public const string TableName = "npcaction";
         public const string Column_normal_action = "normal_action";
@@ -9,7 +10,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_teleport_url = "teleport_url";
         public const string Column_teleport_urla = "teleport_urla";
         public const string Column_npcid = "npcid";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Npcaction; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_normal_action, DbType = DbType.String, IsPKey = false},

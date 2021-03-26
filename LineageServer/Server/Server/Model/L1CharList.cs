@@ -24,7 +24,7 @@ namespace LineageServer.Server.Server.Model
 	using S_CharAmount = LineageServer.Server.Server.serverpackets.S_CharAmount;
 	using S_CharPacks = LineageServer.Server.Server.serverpackets.S_CharPacks;
 	using S_CharSynAck = LineageServer.Server.Server.serverpackets.S_CharSynAck;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	/// <summary>
 	/// 角色列表 
@@ -39,7 +39,7 @@ namespace LineageServer.Server.Server.Model
 		public L1CharList(ClientThread client)
 		{
 			deleteCharacter(client); // 到達刪除期限，刪除角色
-			int amountOfChars = client.Account.countCharacters();
+			int amountOfChars = client.Account.CountCharacters();
 			client.SendPacket(new S_CharAmount(amountOfChars, client));
 			client.SendPacket(new S_CharSynAck(S_CharSynAck.SYN));
 			if (amountOfChars > 0)
@@ -64,10 +64,10 @@ namespace LineageServer.Server.Server.Model
 
 				while (rs.next())
 				{
-					string name = rs.getString("char_name");
-					string clanname = rs.getString("Clanname");
+					string name = dataSourceRow.getString("char_name");
+					string clanname = dataSourceRow.getString("Clanname");
 
-					Timestamp deleteTime = rs.getTimestamp("DeleteTime");
+					Timestamp deleteTime = dataSourceRow.getTimestamp("DeleteTime");
 					if (deleteTime != null)
 					{
 						DateTime cal = new DateTime();
@@ -111,13 +111,13 @@ namespace LineageServer.Server.Server.Model
 
 				while (rs.next())
 				{
-					string name = rs.getString("char_name");
-					string clanname = rs.getString("Clanname");
-					int type = rs.getInt("Type");
-					sbyte sex = rs.getByte("Sex");
-					int lawful = rs.getInt("Lawful");
+					string name = dataSourceRow.getString("char_name");
+					string clanname = dataSourceRow.getString("Clanname");
+					int type = dataSourceRow.getInt("Type");
+					sbyte sex = dataSourceRow.getByte("Sex");
+					int lawful = dataSourceRow.getInt("Lawful");
 
-					int currenthp = rs.getInt("CurHp");
+					int currenthp = dataSourceRow.getInt("CurHp");
 					if (currenthp < 1)
 					{
 						currenthp = 1;
@@ -127,7 +127,7 @@ namespace LineageServer.Server.Server.Model
 						currenthp = 32767;
 					}
 
-					int currentmp = rs.getInt("CurMp");
+					int currentmp = dataSourceRow.getInt("CurMp");
 					if (currentmp < 1)
 					{
 						currentmp = 1;
@@ -140,7 +140,7 @@ namespace LineageServer.Server.Server.Model
 					int lvl;
 					if (Config.CHARACTER_CONFIG_IN_SERVER_SIDE)
 					{
-						lvl = rs.getInt("level");
+						lvl = dataSourceRow.getInt("level");
 						if (lvl < 1)
 						{
 							lvl = 1;
@@ -155,15 +155,15 @@ namespace LineageServer.Server.Server.Model
 						lvl = 1;
 					}
 
-					int ac = rs.getInt("Ac");
-					int str = rs.getByte("Str");
-					int dex = rs.getByte("Dex");
-					int con = rs.getByte("Con");
-					int wis = rs.getByte("Wis");
-					int cha = rs.getByte("Cha");
-					int intel = rs.getByte("Intel");
-					int accessLevel = rs.getShort("AccessLevel");
-					Timestamp _birthday = (Timestamp) rs.getTimestamp("birthday");
+					int ac = dataSourceRow.getInt("Ac");
+					int str = dataSourceRow.getByte("Str");
+					int dex = dataSourceRow.getByte("Dex");
+					int con = dataSourceRow.getByte("Con");
+					int wis = dataSourceRow.getByte("Wis");
+					int cha = dataSourceRow.getByte("Cha");
+					int intel = dataSourceRow.getByte("Intel");
+					int accessLevel = dataSourceRow.getShort("AccessLevel");
+					Timestamp _birthday = (Timestamp) dataSourceRow.getTimestamp("birthday");
 					SimpleDateFormat SimpleDate = new SimpleDateFormat("yyyyMMdd");
 					int birthday = int.Parse(SimpleDate.format(_birthday.Time));
 

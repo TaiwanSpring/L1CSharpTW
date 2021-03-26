@@ -46,34 +46,34 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				itemName = item.Item.IdentifiedNameId;
 			}
-			writeC(Opcodes.S_OPCODE_DROPITEM);
-			writeH(item.X);
-			writeH(item.Y);
-			writeD(item.Id);
-			writeH(item.Item.GroundGfxId);
-			writeC(0);
-			writeC(0);
+			WriteC(Opcodes.S_OPCODE_DROPITEM);
+			WriteH(item.X);
+			WriteH(item.Y);
+			WriteD(item.Id);
+			WriteH(item.Item.GroundGfxId);
+			WriteC(0);
+			WriteC(0);
 			if (item.NowLighting)
 			{
-				writeC(item.Item.LightRange);
+				WriteC(item.Item.LightRange);
 			}
 			else
 			{
-				writeC(0);
+				WriteC(0);
 			}
-			writeC(0);
-			writeD(item.Count);
-			writeC(0);
-			writeC(0);
+			WriteC(0);
+			WriteD(item.Count);
+			WriteC(0);
+			WriteC(0);
 			if (item.Count > 1)
 			{
 				if (item.Item.ItemId == 40312 && item.KeyId != 0)
 				{ // 旅館鑰匙
-					writeS(itemName + item.InnKeyName + " (" + item.Count + ")");
+					WriteS(itemName + item.InnKeyName + " (" + item.Count + ")");
 				}
 				else
 				{
-					writeS(itemName + " (" + item.Count + ")");
+					WriteS(itemName + " (" + item.Count + ")");
 				}
 			}
 			else
@@ -81,37 +81,37 @@ namespace LineageServer.Server.Server.serverpackets
 				int itemId = item.Item.ItemId;
 				if ((itemId == 20383) && (isId == 1))
 				{ // 軍馬頭盔
-					writeS(itemName + " [" + item.ChargeCount + "]");
+					WriteS(itemName + " [" + item.ChargeCount + "]");
 				}
 				else if (item.ChargeCount != 0 && (isId == 1))
 				{ // 可使用的次數
-					writeS(itemName + " (" + item.ChargeCount + ")");
+					WriteS(itemName + " (" + item.ChargeCount + ")");
 				}
 				else if ((item.Item.LightRange != 0) && item.NowLighting)
 				{ // 燈具
-					writeS(itemName + " ($10)");
+					WriteS(itemName + " ($10)");
 				}
 				else if (item.Item.ItemId == 40312 && item.KeyId != 0)
 				{ // 旅館鑰匙
-					writeS(itemName + item.InnKeyName);
+					WriteS(itemName + item.InnKeyName);
 				}
 				else
 				{
-					writeS(itemName);
+					WriteS(itemName);
 				}
 			}
-			writeC(0);
-			writeD(0);
-			writeD(0);
-			writeC(255);
-			writeC(0);
-			writeC(0);
-			writeC(0);
-			writeH(65535);
-			// writeD(0x401799a);
-			writeD(0);
-			writeC(8);
-			writeC(0);
+			WriteC(0);
+			WriteD(0);
+			WriteD(0);
+			WriteC(255);
+			WriteC(0);
+			WriteC(0);
+			WriteC(0);
+			WriteH(65535);
+			// WriteD(0x401799a);
+			WriteD(0);
+			WriteC(8);
+			WriteC(0);
 		}
 
 		public override sbyte[] Content
@@ -120,7 +120,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

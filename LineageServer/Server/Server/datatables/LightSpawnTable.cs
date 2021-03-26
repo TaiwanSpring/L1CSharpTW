@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.DataSources
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1FieldObjectInstance = LineageServer.Server.Server.Model.Instance.L1FieldObjectInstance;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class LightSpawnTable
 	{
@@ -66,7 +66,7 @@ namespace LineageServer.Server.Server.DataSources
 						break;
 					}
 
-					L1Npc l1npc = NpcTable.Instance.getTemplate(rs.getInt(2));
+					L1Npc l1npc = NpcTable.Instance.getTemplate(dataSourceRow.getInt(2));
 					if (l1npc != null)
 					{
 						string s = l1npc.Impl;
@@ -77,9 +77,9 @@ namespace LineageServer.Server.Server.DataSources
 						L1FieldObjectInstance field = (L1FieldObjectInstance) constructor.Invoke(parameters);
 						field = (L1FieldObjectInstance) constructor.Invoke(parameters);
 						field.Id = IdFactory.Instance.nextId();
-						field.X = rs.getInt("locx");
-						field.Y = rs.getInt("locy");
-						field.Map = (short) rs.getInt("mapid");
+						field.X = dataSourceRow.getInt("locx");
+						field.Y = dataSourceRow.getInt("locy");
+						field.Map = (short) dataSourceRow.getInt("mapid");
 						field.HomeX = field.X;
 						field.HomeY = field.Y;
 						field.Heading = 0;

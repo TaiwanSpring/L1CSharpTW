@@ -24,8 +24,8 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_Deposit(int objecId)
 		{
-			writeC(Opcodes.S_OPCODE_DEPOSIT);
-			writeD(objecId);
+			WriteC(Opcodes.S_OPCODE_DEPOSIT);
+			WriteD(objecId);
 		}
 
 		public override sbyte[] Content

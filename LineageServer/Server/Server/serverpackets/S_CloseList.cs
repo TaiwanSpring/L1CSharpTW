@@ -20,9 +20,9 @@ namespace LineageServer.Server.Server.serverpackets
 	{
 		public S_CloseList(int objid)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(objid);
-			writeS("");
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(objid);
+			WriteS("");
 		}
 
 		public override sbyte[] Content

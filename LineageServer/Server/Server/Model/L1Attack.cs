@@ -41,7 +41,7 @@ namespace LineageServer.Server.Server.Model
 	using L1MagicDoll = LineageServer.Server.Server.Templates.L1MagicDoll;
 	using L1Skills = LineageServer.Server.Server.Templates.L1Skills;
 	using Point = LineageServer.Server.Server.Types.Point;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	using static LineageServer.Server.Server.Model.skill.L1SkillId;
 

@@ -10,7 +10,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
 
         private const string C_SKILL_BUY = "[C] C_SkillBuy";
-        public C_SkillBuy(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_SkillBuy(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
             L1PcInstance pc = clientthread.ActiveChar;
             if ((pc == null) || pc.Ghost)
@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int i = readD();
+            int i = ReadD();
             pc.sendPackets(new S_SkillBuy(i, pc));
             /*
 			 * int type = player.get_type(); int lvl = player.get_level();

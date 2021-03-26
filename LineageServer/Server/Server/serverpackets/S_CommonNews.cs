@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.serverpackets
 {
 
 	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	// Referenced classes of package l1j.server.server.serverpackets:
 	// ServerBasePacket
@@ -37,19 +37,19 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				return;
 			}
-			writeC(Opcodes.S_OPCODE_COMMONNEWS);
+			WriteC(Opcodes.S_OPCODE_COMMONNEWS);
 			string message = "";
 			for (int i = 0; i < _announcements.Count; i++)
 			{
 				message = (new StringBuilder()).Append(message).Append(_announcements[i]).Append("\n").ToString();
 			}
-			writeS(message);
+			WriteS(message);
 		}
 
 		public S_CommonNews(string s)
 		{
-			writeC(Opcodes.S_OPCODE_COMMONNEWS);
-			writeS(s);
+			WriteC(Opcodes.S_OPCODE_COMMONNEWS);
+			WriteS(s);
 		}
 
 		private void loadAnnouncements()

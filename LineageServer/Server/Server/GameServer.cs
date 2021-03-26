@@ -57,8 +57,8 @@ namespace LineageServer.Server.Server
 	using L1NpcDefaultAction = LineageServer.Server.Server.Model.Npc.Action.L1NpcDefaultAction;
 	using L1WorldTraps = LineageServer.Server.Server.Model.trap.L1WorldTraps;
 	using MysqlAutoBackup = LineageServer.Server.Server.storage.mysql.MysqlAutoBackup;
-	using MysqlAutoBackupTimer = LineageServer.Server.Server.utils.MysqlAutoBackupTimer;
-	using SystemUtil = LineageServer.Server.Server.utils.SystemUtil;
+	using MysqlAutoBackupTimer = LineageServer.Server.Server.Utils.MysqlAutoBackupTimer;
+	using SystemUtil = LineageServer.Server.Server.Utils.SystemUtil;
 	using L1GameReStart = LineageServer.william.L1GameReStart;
 
 	public class GameServer : IRunnable
@@ -326,8 +326,8 @@ namespace LineageServer.Server.Server
 			{
 				ClientThread.quitGame(pc);
 				L1World.Instance.removeObject(pc);
-				Account account = Account.load(pc.AccountName);
-				Account.online(account, false);
+				Account account = Account.Load(pc.AccountName);
+				Account.SetOnline(account, false);
 			}
 		}
 

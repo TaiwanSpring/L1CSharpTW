@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class MagicDoll : DataSourceTable
+    class MagicDoll : DataSource
     {
         public const string TableName = "magic_doll";
         public const string Column_note = "note";
@@ -30,7 +31,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_regist_blind = "regist_blind";
         public const string Column_effect = "effect";
         public const string Column_effect_chance = "effect_chance";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.MagicDoll; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

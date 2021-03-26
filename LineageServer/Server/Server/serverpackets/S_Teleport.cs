@@ -7,10 +7,10 @@ namespace LineageServer.Server.Server.serverpackets
         private const string S_TELEPORT = "[S] S_Teleport";
         public S_Teleport(L1PcInstance pc)
         {
-            writeC(Opcodes.S_OPCODE_TELEPORT);
-            writeC(0x00);
-            writeC(0x40);
-            writeD(pc.Id);
+            WriteC(Opcodes.S_OPCODE_TELEPORT);
+            WriteC(0x00);
+            WriteC(0x40);
+            WriteD(pc.Id);
         }
         public override string Type
         {

@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.serverpackets
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	// Referenced classes of package l1j.server.server.serverpackets:
 	// ServerBasePacket
@@ -51,24 +51,24 @@ namespace LineageServer.Server.Server.serverpackets
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					writeC(Opcodes.S_OPCODE_SHOWHTML);
-					writeD(objectId);
-					writeS("agsel");
-					writeS(house_number); // アジトの番号
-					writeH(9); // 以下の文字列の個数
-					writeS(rs.getString(2)); // アジトの名前
-					writeS(rs.getString(6)); // アジトの位置
-					writeS(rs.getString(3).ToString()); // アジトの広さ
-					writeS(rs.getString(7)); // 以前の所有者
-					writeS(rs.getString(9)); // 現在の入札者
-					writeS(rs.getInt(5).ToString()); // 現在の入札価格
-					DateTime cal = timestampToCalendar((Timestamp) rs.getObject(4));
+					WriteC(Opcodes.S_OPCODE_SHOWHTML);
+					WriteD(objectId);
+					WriteS("agsel");
+					WriteS(house_number); // アジトの番号
+					WriteH(9); // 以下の文字列の個数
+					WriteS(dataSourceRow.getString(2)); // アジトの名前
+					WriteS(dataSourceRow.getString(6)); // アジトの位置
+					WriteS(dataSourceRow.getString(3).ToString()); // アジトの広さ
+					WriteS(dataSourceRow.getString(7)); // 以前の所有者
+					WriteS(dataSourceRow.getString(9)); // 現在の入札者
+					WriteS(dataSourceRow.getInt(5).ToString()); // 現在の入札価格
+					DateTime cal = timestampToCalendar((Timestamp) dataSourceRow.getObject(4));
 					int month = cal.Month + 1;
 					int day = cal.Day;
 					int hour = cal.Hour;
-					writeS(month.ToString()); // 締切月
-					writeS(day.ToString()); // 締切日
-					writeS(hour.ToString()); // 締切時
+					WriteS(month.ToString()); // 締切月
+					WriteS(day.ToString()); // 締切日
+					WriteS(hour.ToString()); // 締切時
 				}
 			}
 			catch (SQLException e)

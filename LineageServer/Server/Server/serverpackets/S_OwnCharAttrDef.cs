@@ -36,12 +36,12 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_OWNCHARATTRDEF);
-			writeC(pc.Ac);
-			writeH(pc.Fire);
-			writeH(pc.Water);
-			writeH(pc.Wind);
-			writeH(pc.Earth);
+			WriteC(Opcodes.S_OPCODE_OWNCHARATTRDEF);
+			WriteC(pc.Ac);
+			WriteH(pc.Fire);
+			WriteH(pc.Water);
+			WriteH(pc.Wind);
+			WriteH(pc.Earth);
 		}
 
 		public override sbyte[] Content

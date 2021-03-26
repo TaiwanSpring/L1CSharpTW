@@ -2,7 +2,7 @@
 using LineageServer.Server.Server.Model;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 using System;
 namespace LineageServer.Server.Server.Clientpackets
 {
@@ -11,9 +11,9 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_SEND_LOCATION = "[C] C_SendLocation";
 
-		public C_SendLocation(sbyte[] abyte0, ClientThread client) : base(abyte0)
+		public C_SendLocation(byte[] abyte0, ClientThread client) : base(abyte0)
 		{
-			int type = readC();
+			int type = ReadC();
 
 			// クライアントがアクティブ,ノンアクティブ転換時に
 			// オペコード 0x57 0x0dパケットを送ってくるが詳細不明の為無視
@@ -29,11 +29,11 @@ namespace LineageServer.Server.Server.Clientpackets
 
 			if (type == 0x0b)
 			{
-				string name = readS();
-				int mapId = readH();
-				int x = readH();
-				int y = readH();
-				int msgId = readC();
+				string name = ReadS();
+				int mapId = ReadH();
+				int x = ReadH();
+				int y = ReadH();
+				int msgId = ReadC();
 
 				if (name.Length == 0)
 				{
@@ -51,8 +51,8 @@ namespace LineageServer.Server.Server.Clientpackets
 			}
 			else if (type == 0x06)
 			{
-				int objectId = readD();
-				int gate = readD();
+				int objectId = ReadD();
+				int gate = ReadD();
 				int[] dragonGate = new int[] {81273, 81274, 81275, 81276};
 				L1PcInstance pc = client.ActiveChar;
 				if (gate >= 0 && gate <= 3)
@@ -107,7 +107,7 @@ namespace LineageServer.Server.Server.Clientpackets
 					return;
 				}
 
-				int emblemStatus = readC(); // 0: 關閉 1:開啟
+				int emblemStatus = ReadC(); // 0: 關閉 1:開啟
 
 				L1Clan clan = pc.Clan;
 				clan.EmblemStatus = emblemStatus;
@@ -120,8 +120,8 @@ namespace LineageServer.Server.Server.Clientpackets
 			}
 			else if (type == 0x30)
 			{ // 村莊便利傳送
-				int mapIndex = readH(); // 1: 亞丁 2:古魯丁 3: 奇岩
-				int point = readH();
+				int mapIndex = ReadH(); // 1: 亞丁 2:古魯丁 3: 奇岩
+				int point = ReadH();
 				int locx = 0;
 				int locy = 0;
 				L1PcInstance pc = client.ActiveChar;
@@ -130,20 +130,20 @@ namespace LineageServer.Server.Server.Clientpackets
 					if (point == 0)
 					{ // 亞丁-村莊北邊地區
 						//X34079 Y33136 右下角 X 34090 Y 33150
-						locx = 34079 + (int)(MathHelper.NextDouble * 12);
-						locy = 33136 + (int)(MathHelper.NextDouble * 15);
+						locx = 34079 + (int)(ExtensionFunction.NextDouble * 12);
+						locy = 33136 + (int)(ExtensionFunction.NextDouble * 15);
 					}
 					else if (point == 1)
 					{ // 亞丁-村莊中心地區
 						//左上角 X 33970 Y 33243 右下角 X33979 Y33256 
-						locx = 33970 + (int)(MathHelper.NextDouble * 10);
-						locy = 33243 + (int)(MathHelper.NextDouble * 14);
+						locx = 33970 + (int)(ExtensionFunction.NextDouble * 10);
+						locy = 33243 + (int)(ExtensionFunction.NextDouble * 14);
 					}
 					else if (point == 2)
 					{ // 亞丁-村莊教堂地區
 						// 左上 X33925 Y33351 右下 X33938 Y33359
-						locx = 33925 + (int)(MathHelper.NextDouble * 14);
-						locy = 33351 + (int)(MathHelper.NextDouble * 9);
+						locx = 33925 + (int)(ExtensionFunction.NextDouble * 14);
+						locy = 33351 + (int)(ExtensionFunction.NextDouble * 9);
 					}
 				}
 				else if (mapIndex == 2)
@@ -151,14 +151,14 @@ namespace LineageServer.Server.Server.Clientpackets
 					if (point == 0)
 					{ // 古魯丁-北邊地區
 						//左上 X32615 Y32719 右下 X32625 Y32725
-						locx = 32615 + (int)(MathHelper.NextDouble * 11);
-						locy = 32719 + (int)(MathHelper.NextDouble * 7);
+						locx = 32615 + (int)(ExtensionFunction.NextDouble * 11);
+						locy = 32719 + (int)(ExtensionFunction.NextDouble * 7);
 					}
 					else if (point == 1)
 					{ // 古魯丁-南邊地區
 						//左上 X32621 Y32788 右下 X32629 Y32800  
-						locx = 32621 + (int)(MathHelper.NextDouble * 9);
-						locy = 32788 + (int)(MathHelper.NextDouble * 13);
+						locx = 32621 + (int)(ExtensionFunction.NextDouble * 9);
+						locy = 32788 + (int)(ExtensionFunction.NextDouble * 13);
 					}
 				}
 				else if (mapIndex == 3)
@@ -166,14 +166,14 @@ namespace LineageServer.Server.Server.Clientpackets
 					if (point == 0)
 					{ // 奇岩-北邊地區
 						//左上 X33501 Y32765 右下 X33511 Y32773
-						locx = 33501 + (int)(MathHelper.NextDouble * 11);
-						locy = 32765 + (int)(MathHelper.NextDouble * 9);
+						locx = 33501 + (int)(ExtensionFunction.NextDouble * 11);
+						locy = 32765 + (int)(ExtensionFunction.NextDouble * 9);
 					}
 					else if (point == 1)
 					{ // 奇岩-南邊地區
 						//左上 X33440 Y32784 右下 X33450 Y32794 
-						locx = 33440 + (int)(MathHelper.NextDouble * 11);
-						locy = 32784 + (int)(MathHelper.NextDouble * 11);
+						locx = 33440 + (int)(ExtensionFunction.NextDouble * 11);
+						locy = 32784 + (int)(ExtensionFunction.NextDouble * 11);
 					}
 				}
 				L1Teleport.teleport(pc, locx, locy, pc.MapId, pc.Heading, true);

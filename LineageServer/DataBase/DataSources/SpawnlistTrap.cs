@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class SpawnlistTrap : DataSourceTable
+    class SpawnlistTrap : DataSource
     {
         public const string TableName = "spawnlist_trap";
         public const string Column_note = "note";
@@ -14,7 +15,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_locRndY = "locRndY";
         public const string Column_count = "count";
         public const string Column_span = "span";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.SpawnlistTrap; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

@@ -1,6 +1,6 @@
 ﻿using LineageServer.Server.Server.Model.Instance;
 
-namespace LineageServer.Server.Server.Model.classes
+namespace LineageServer.Server.Server.Model.Classes
 {
 	public abstract class L1ClassFeature
 	{

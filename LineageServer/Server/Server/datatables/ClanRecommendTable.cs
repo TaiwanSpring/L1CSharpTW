@@ -3,7 +3,7 @@
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1Clan = LineageServer.Server.Server.Model.L1Clan;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class ClanRecommendTable
 	{
@@ -192,7 +192,7 @@
 
 				if (rs.first())
 				{
-					charName = rs.getString("char_name");
+					charName = dataSourceRow.getString("char_name");
 				}
 			}
 			catch (SQLException e)

@@ -21,10 +21,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_DoActionShop(int @object, int gfxid, sbyte[] message)
 		{
-			writeC(Opcodes.S_OPCODE_DOACTIONGFX);
-			writeD(@object);
-			writeC(gfxid);
-			writeByte(message);
+			WriteC(Opcodes.S_OPCODE_DOACTIONGFX);
+			WriteD(@object);
+			WriteC(gfxid);
+			WriteByte(message);
 		}
 
 		public override sbyte[] Content

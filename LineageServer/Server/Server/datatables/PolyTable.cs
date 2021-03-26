@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1PolyMorph = LineageServer.Server.Server.Model.L1PolyMorph;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class PolyTable
 	{
@@ -81,14 +81,14 @@ namespace LineageServer.Server.Server.DataSources
 		{
 			while (rs.next())
 			{
-				int id = rs.getInt("id");
-				string name = rs.getString("name");
-				int polyId = rs.getInt("polyid");
-				int minLevel = rs.getInt("minlevel");
-				int weaponEquipFlg = rs.getInt("weaponequip");
-				int armorEquipFlg = rs.getInt("armorequip");
-				bool canUseSkill = rs.getBoolean("isSkillUse");
-				int causeFlg = rs.getInt("cause");
+				int id = dataSourceRow.getInt("id");
+				string name = dataSourceRow.getString("name");
+				int polyId = dataSourceRow.getInt("polyid");
+				int minLevel = dataSourceRow.getInt("minlevel");
+				int weaponEquipFlg = dataSourceRow.getInt("weaponequip");
+				int armorEquipFlg = dataSourceRow.getInt("armorequip");
+				bool canUseSkill = dataSourceRow.getBoolean("isSkillUse");
+				int causeFlg = dataSourceRow.getInt("cause");
 
 				L1PolyMorph poly = new L1PolyMorph(id, name, polyId, minLevel, weaponEquipFlg, armorEquipFlg, canUseSkill, causeFlg);
 

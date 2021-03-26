@@ -10,7 +10,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
+ * along with this program; if not, Write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  *
@@ -28,9 +28,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SkillIconExp(int i)
 		{ //TODO 殷海薩的祝福
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(0x52);
-			writeC(i);
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(0x52);
+			WriteC(i);
 		}
 
 		public override sbyte[] Content

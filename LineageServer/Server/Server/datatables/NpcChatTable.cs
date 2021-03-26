@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.DataSources
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
 	using L1NpcChat = LineageServer.Server.Server.Templates.L1NpcChat;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class NpcChatTable
 	{
@@ -71,20 +71,20 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1NpcChat npcChat = new L1NpcChat();
-					npcChat.NpcId = rs.getInt("npc_id");
-					npcChat.ChatTiming = rs.getInt("chat_timing");
-					npcChat.StartDelayTime = rs.getInt("start_delay_time");
-					npcChat.ChatId1 = rs.getString("chat_id1");
-					npcChat.ChatId2 = rs.getString("chat_id2");
-					npcChat.ChatId3 = rs.getString("chat_id3");
-					npcChat.ChatId4 = rs.getString("chat_id4");
-					npcChat.ChatId5 = rs.getString("chat_id5");
-					npcChat.ChatInterval = rs.getInt("chat_interval");
-					npcChat.Shout = rs.getBoolean("is_shout");
-					npcChat.WorldChat = rs.getBoolean("is_world_chat");
-					npcChat.Repeat = rs.getBoolean("is_repeat");
-					npcChat.RepeatInterval = rs.getInt("repeat_interval");
-					npcChat.GameTime = rs.getInt("game_time");
+					npcChat.NpcId = dataSourceRow.getInt("npc_id");
+					npcChat.ChatTiming = dataSourceRow.getInt("chat_timing");
+					npcChat.StartDelayTime = dataSourceRow.getInt("start_delay_time");
+					npcChat.ChatId1 = dataSourceRow.getString("chat_id1");
+					npcChat.ChatId2 = dataSourceRow.getString("chat_id2");
+					npcChat.ChatId3 = dataSourceRow.getString("chat_id3");
+					npcChat.ChatId4 = dataSourceRow.getString("chat_id4");
+					npcChat.ChatId5 = dataSourceRow.getString("chat_id5");
+					npcChat.ChatInterval = dataSourceRow.getInt("chat_interval");
+					npcChat.Shout = dataSourceRow.getBoolean("is_shout");
+					npcChat.WorldChat = dataSourceRow.getBoolean("is_world_chat");
+					npcChat.Repeat = dataSourceRow.getBoolean("is_repeat");
+					npcChat.RepeatInterval = dataSourceRow.getInt("repeat_interval");
+					npcChat.GameTime = dataSourceRow.getInt("game_time");
 
 					if (npcChat.ChatTiming == L1NpcInstance.CHAT_TIMING_APPEARANCE)
 					{

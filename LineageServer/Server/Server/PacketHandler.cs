@@ -10,7 +10,7 @@ namespace LineageServer.Server.Server
         {
             _client = clientthread;
         }
-        public virtual void handlePacket(sbyte[] abyte0, L1PcInstance pcInstance)
+        public virtual void handlePacket(byte[] abyte0, L1PcInstance pcInstance)
         {
             int i = abyte0[0] & 0xff;
 

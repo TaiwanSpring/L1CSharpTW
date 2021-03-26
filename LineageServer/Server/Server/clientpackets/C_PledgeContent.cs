@@ -9,7 +9,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 		private const string C_PledgeContent_Conflict = "[C] C_PledgeContent";
 
-		public C_PledgeContent(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_PledgeContent(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
 			L1PcInstance pc = client.ActiveChar;
 			if (pc == null)
@@ -22,12 +22,12 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int data = readC();
+			int data = ReadC();
 
 			if (data == 15)
 			{ // 寫入血盟公告
 				// 讀取公告字串封包
-				string announce = readS();
+				string announce = ReadS();
 				/* 取出L1Clan物件 */
 				L1Clan clan = ClanTable.Instance.getTemplate(pc.Clanid);
 				/* 更新公告 */
@@ -40,7 +40,7 @@ namespace LineageServer.Server.Server.Clientpackets
 			else if (data == 16)
 			{ // 寫入個人備註
 				// 讀取備註字串封包
-				string notes = readS();
+				string notes = ReadS();
 				/* 更新角色備註資料 */
 				pc.ClanMemberNotes = notes;
 				/* 寫入備註資料到資料庫 */

@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1SpawnTime = LineageServer.Server.Server.Templates.L1SpawnTime;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class SpawnTimeTable
 	{
@@ -65,13 +65,13 @@ namespace LineageServer.Server.Server.DataSources
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					int id = rs.getInt("spawn_id");
+					int id = dataSourceRow.getInt("spawn_id");
 					L1SpawnTime.L1SpawnTimeBuilder builder = new L1SpawnTime.L1SpawnTimeBuilder(id);
-					builder.TimeStart = rs.getTime("time_start");
-					builder.TimeEnd = rs.getTime("time_end");
-					// builder.setPeriodStart(rs.getTimestamp("period_start"));
-					// builder.setPeriodEnd(rs.getTimestamp("period_end"));
-					builder.DeleteAtEndTime = rs.getBoolean("delete_at_endtime");
+					builder.TimeStart = dataSourceRow.getTime("time_start");
+					builder.TimeEnd = dataSourceRow.getTime("time_end");
+					// builder.setPeriodStart(dataSourceRow.getTimestamp("period_start"));
+					// builder.setPeriodEnd(dataSourceRow.getTimestamp("period_end"));
+					builder.DeleteAtEndTime = dataSourceRow.getBoolean("delete_at_endtime");
 
 					_times[id] = builder.build();
 				}

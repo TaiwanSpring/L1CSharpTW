@@ -1,4 +1,4 @@
-﻿namespace LineageServer.Server.Server.utils.Internationalization
+﻿namespace LineageServer.Server.Server.Utils.Internationalization
 {
 
 	/// <summary>

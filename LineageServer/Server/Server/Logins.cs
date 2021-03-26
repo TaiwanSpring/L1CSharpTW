@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server
 
 	using Config = LineageServer.Server.Config;
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class Logins
 	{
@@ -43,7 +43,7 @@ namespace LineageServer.Server.Server
 				sbyte[] abyte1;
 				sbyte[] abyte2;
 				MessageDigest messagedigest = MessageDigest.getInstance("SHA");
-				sbyte[] abyte0 = password.GetBytes(Encoding.UTF8);
+				byte[] abyte0 = password.GetBytes(Encoding.UTF8);
 				abyte1 = messagedigest.digest(abyte0);
 				abyte2 = null;
 
@@ -53,7 +53,7 @@ namespace LineageServer.Server.Server
 				rs = pstm.executeQuery();
 				if (rs.next())
 				{
-					abyte2 = decoder.decode(rs.getString(1));
+					abyte2 = decoder.decode(dataSourceRow.getString(1));
 					_log.fine("account exists");
 				}
 				SQLUtil.close(rs);

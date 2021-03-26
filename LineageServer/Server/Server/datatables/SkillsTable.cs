@@ -22,8 +22,8 @@ namespace LineageServer.Server.Server.DataSources
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1Skills = LineageServer.Server.Server.Templates.L1Skills;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class SkillsTable
 	{
@@ -88,38 +88,38 @@ namespace LineageServer.Server.Server.DataSources
 			while (rs.next())
 			{
 				L1Skills l1skills = new L1Skills();
-				int skill_id = rs.getInt("skill_id");
+				int skill_id = dataSourceRow.getInt("skill_id");
 				l1skills.SkillId = skill_id;
-				l1skills.Name = rs.getString("name");
-				l1skills.SkillLevel = rs.getInt("skill_level");
-				l1skills.SkillNumber = rs.getInt("skill_number");
-				l1skills.MpConsume = rs.getInt("mpConsume");
-				l1skills.HpConsume = rs.getInt("hpConsume");
-				l1skills.ItemConsumeId = rs.getInt("itemConsumeId");
-				l1skills.ItemConsumeCount = rs.getInt("itemConsumeCount");
-				l1skills.ReuseDelay = rs.getInt("reuseDelay");
-				l1skills.BuffDuration = rs.getInt("buffDuration");
-				l1skills.Target = rs.getString("target");
-				l1skills.TargetTo = rs.getInt("target_to");
-				l1skills.DamageValue = rs.getInt("damage_value");
-				l1skills.DamageDice = rs.getInt("damage_dice");
-				l1skills.DamageDiceCount = rs.getInt("damage_dice_count");
-				l1skills.ProbabilityValue = rs.getInt("probability_value");
-				l1skills.ProbabilityDice = rs.getInt("probability_dice");
-				l1skills.Attr = rs.getInt("attr");
-				l1skills.Type = rs.getInt("type");
-				l1skills.Lawful = rs.getInt("lawful");
-				l1skills.Ranged = rs.getInt("ranged");
-				l1skills.Area = rs.getInt("area");
-				l1skills.Through = rs.getBoolean("through");
-				l1skills.Id = rs.getInt("id");
-				l1skills.NameId = rs.getString("nameid");
-				l1skills.ActionId = rs.getInt("action_id");
-				l1skills.CastGfx = rs.getInt("castgfx");
-				l1skills.CastGfx2 = rs.getInt("castgfx2");
-				l1skills.SysmsgIdHappen = rs.getInt("sysmsgID_happen");
-				l1skills.SysmsgIdStop = rs.getInt("sysmsgID_stop");
-				l1skills.SysmsgIdFail = rs.getInt("sysmsgID_fail");
+				l1skills.Name = dataSourceRow.getString("name");
+				l1skills.SkillLevel = dataSourceRow.getInt("skill_level");
+				l1skills.SkillNumber = dataSourceRow.getInt("skill_number");
+				l1skills.MpConsume = dataSourceRow.getInt("mpConsume");
+				l1skills.HpConsume = dataSourceRow.getInt("hpConsume");
+				l1skills.ItemConsumeId = dataSourceRow.getInt("itemConsumeId");
+				l1skills.ItemConsumeCount = dataSourceRow.getInt("itemConsumeCount");
+				l1skills.ReuseDelay = dataSourceRow.getInt("reuseDelay");
+				l1skills.BuffDuration = dataSourceRow.getInt("buffDuration");
+				l1skills.Target = dataSourceRow.getString("target");
+				l1skills.TargetTo = dataSourceRow.getInt("target_to");
+				l1skills.DamageValue = dataSourceRow.getInt("damage_value");
+				l1skills.DamageDice = dataSourceRow.getInt("damage_dice");
+				l1skills.DamageDiceCount = dataSourceRow.getInt("damage_dice_count");
+				l1skills.ProbabilityValue = dataSourceRow.getInt("probability_value");
+				l1skills.ProbabilityDice = dataSourceRow.getInt("probability_dice");
+				l1skills.Attr = dataSourceRow.getInt("attr");
+				l1skills.Type = dataSourceRow.getInt("type");
+				l1skills.Lawful = dataSourceRow.getInt("lawful");
+				l1skills.Ranged = dataSourceRow.getInt("ranged");
+				l1skills.Area = dataSourceRow.getInt("area");
+				l1skills.Through = dataSourceRow.getBoolean("through");
+				l1skills.Id = dataSourceRow.getInt("id");
+				l1skills.NameId = dataSourceRow.getString("nameid");
+				l1skills.ActionId = dataSourceRow.getInt("action_id");
+				l1skills.CastGfx = dataSourceRow.getInt("castgfx");
+				l1skills.CastGfx2 = dataSourceRow.getInt("castgfx2");
+				l1skills.SysmsgIdHappen = dataSourceRow.getInt("sysmsgID_happen");
+				l1skills.SysmsgIdStop = dataSourceRow.getInt("sysmsgID_stop");
+				l1skills.SysmsgIdFail = dataSourceRow.getInt("sysmsgID_fail");
 
 				_skills[skill_id] = l1skills;
 			}

@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Weapon : DataSourceTable
+    class Weapon : DataSource
     {
         public const string TableName = "weapon";
         public const string Column_name = "name";
@@ -49,7 +50,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_trade = "trade";
         public const string Column_cant_delete = "cant_delete";
         public const string Column_max_use_time = "max_use_time";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Weapon; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},

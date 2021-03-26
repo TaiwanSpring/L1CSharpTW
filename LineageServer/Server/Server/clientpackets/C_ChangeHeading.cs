@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
         private const string C_CHANGE_HEADING = "[C] C_ChangeHeading";
         private static ILogger _log = Logger.getLogger(nameof(C_ChangeHeading));
 
-        public C_ChangeHeading(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_ChangeHeading(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             if (client.ActiveChar == null)
             {
@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Clientpackets
             }
 
             L1PcInstance pc = client.ActiveChar;
-            int heading = readC();
+            int heading = ReadC();
             pc.Heading = heading;
 
             if (pc.GmInvis || pc.Ghost)

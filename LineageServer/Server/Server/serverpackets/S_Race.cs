@@ -41,44 +41,44 @@ namespace LineageServer.Server.Server.serverpackets
 		//GameStart// CountDown// GameOver// GameEnd
 		public S_Race(int type)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(type);
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(type);
 			if (type == GameStart)
 			{
-				writeC(0x05); //倒數5秒
+				WriteC(0x05); //倒數5秒
 			}
 		}
 
 		public S_Race(List<L1PcInstance> playerList, L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(PlayerInfo);
-			writeH(playerList.Count); //參賽者人數
-			writeH(playerList.IndexOf(pc)); //名次
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(PlayerInfo);
+			WriteH(playerList.Count); //參賽者人數
+			WriteH(playerList.IndexOf(pc)); //名次
 			foreach (L1PcInstance player in playerList)
 			{
 				if (player == null)
 				{
 					continue;
 				}
-				writeS(player.Name);
+				WriteS(player.Name);
 			}
 		}
 
 		public S_Race(int maxLap, int lap)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(Lap);
-			writeH(maxLap); //最大圈數
-			writeH(lap); //目前圈數
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(Lap);
+			WriteH(maxLap); //最大圈數
+			WriteH(lap); //目前圈數
 		}
 
 		public S_Race(string winnerName, int time)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(Winner);
-			writeS(winnerName);
-			writeD(time * 1000);
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(Winner);
+			WriteS(winnerName);
+			WriteD(time * 1000);
 		}
 
 		public override sbyte[] Content

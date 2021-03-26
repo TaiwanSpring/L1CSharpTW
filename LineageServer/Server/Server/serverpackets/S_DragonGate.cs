@@ -28,14 +28,14 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_DragonGate(L1PcInstance pc, bool[] i)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(0x66); // = 102
-			writeD(pc.Id);
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(0x66); // = 102
+			WriteD(pc.Id);
 			// true 可點選，false 不能點選
-			writeC(i[0] ? 1 : 0); // 安塔瑞斯
-			writeC(i[1] ? 1 : 0); // 法利昂
-			writeC(i[2] ? 1 : 0); // 林德拜爾
-			writeC(i[3] ? 1 : 0); // 巴拉卡斯
+			WriteC(i[0] ? 1 : 0); // 安塔瑞斯
+			WriteC(i[1] ? 1 : 0); // 法利昂
+			WriteC(i[2] ? 1 : 0); // 林德拜爾
+			WriteC(i[3] ? 1 : 0); // 巴拉卡斯
 		}
 
 		public override sbyte[] Content

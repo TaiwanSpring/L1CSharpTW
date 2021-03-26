@@ -24,8 +24,8 @@ namespace LineageServer.Server.Server.Model
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1Item = LineageServer.Server.Server.Templates.L1Item;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	[Serializable]
 	public class L1DwarfInventory : L1Inventory
@@ -55,31 +55,31 @@ namespace LineageServer.Server.Server.Model
 				while (rs.next())
 				{
 					L1ItemInstance item = new L1ItemInstance();
-					int objectId = rs.getInt("id");
+					int objectId = dataSourceRow.getInt("id");
 					item.Id = objectId;
-					L1Item itemTemplate = ItemTable.Instance.getTemplate(rs.getInt("item_id"));
+					L1Item itemTemplate = ItemTable.Instance.getTemplate(dataSourceRow.getInt("item_id"));
 					item.Item = itemTemplate;
-					item.Count = rs.getInt("count");
+					item.Count = dataSourceRow.getInt("count");
 					item.Equipped = false;
-					item.EnchantLevel = rs.getInt("enchantlvl");
-					item.Identified = rs.getInt("is_id") != 0 ? true : false;
-					item.set_durability(rs.getInt("durability"));
-					item.ChargeCount = rs.getInt("charge_count");
-					item.RemainingTime = rs.getInt("remaining_time");
-					item.LastUsed = rs.getTimestamp("last_used");
-					item.Bless = rs.getInt("bless");
-					item.AttrEnchantKind = rs.getInt("attr_enchant_kind");
-					item.AttrEnchantLevel = rs.getInt("attr_enchant_level");
-					item.FireMr = rs.getInt("firemr");
-					item.WaterMr = rs.getInt("watermr");
-					item.EarthMr = rs.getInt("earthmr");
-					item.WindMr = rs.getInt("windmr");
-					item.setaddSp(rs.getInt("addsp"));
-					item.setaddHp(rs.getInt("addhp"));
-					item.setaddMp(rs.getInt("addmp"));
-					item.Hpr = rs.getInt("hpr");
-					item.Mpr = rs.getInt("mpr");
-					item.M_Def = rs.getInt("m_def");
+					item.EnchantLevel = dataSourceRow.getInt("enchantlvl");
+					item.Identified = dataSourceRow.getInt("is_id") != 0 ? true : false;
+					item.set_durability(dataSourceRow.getInt("durability"));
+					item.ChargeCount = dataSourceRow.getInt("charge_count");
+					item.RemainingTime = dataSourceRow.getInt("remaining_time");
+					item.LastUsed = dataSourceRow.getTimestamp("last_used");
+					item.Bless = dataSourceRow.getInt("bless");
+					item.AttrEnchantKind = dataSourceRow.getInt("attr_enchant_kind");
+					item.AttrEnchantLevel = dataSourceRow.getInt("attr_enchant_level");
+					item.FireMr = dataSourceRow.getInt("firemr");
+					item.WaterMr = dataSourceRow.getInt("watermr");
+					item.EarthMr = dataSourceRow.getInt("earthmr");
+					item.WindMr = dataSourceRow.getInt("windmr");
+					item.setaddSp(dataSourceRow.getInt("addsp"));
+					item.setaddHp(dataSourceRow.getInt("addhp"));
+					item.setaddMp(dataSourceRow.getInt("addmp"));
+					item.Hpr = dataSourceRow.getInt("hpr");
+					item.Mpr = dataSourceRow.getInt("mpr");
+					item.M_Def = dataSourceRow.getInt("m_def");
 					// 登入鑰匙紀錄
 					if (item.Item.ItemId == 40312)
 					{
@@ -230,7 +230,7 @@ namespace LineageServer.Server.Server.Model
 				IList<string> accountList = Lists.newList();
 				while (rs.next())
 				{
-					accountList.Add(rs.getString("login"));
+					accountList.Add(dataSourceRow.getString("login"));
 				}
 
 				present(accountList, itemid, enchant, count);
@@ -276,7 +276,7 @@ namespace LineageServer.Server.Server.Model
 				IList<string> accountList = Lists.newList();
 				while (rs.next())
 				{
-					accountList.Add(rs.getString("account_name"));
+					accountList.Add(dataSourceRow.getString("account_name"));
 				}
 
 				present(accountList, itemid, enchant, count);

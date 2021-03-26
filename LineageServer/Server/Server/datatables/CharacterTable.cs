@@ -26,8 +26,8 @@ namespace LineageServer.Server.Server.DataSources
 	using CharacterStorage = LineageServer.Server.Server.storage.CharacterStorage;
 	using MySqlCharacterStorage = LineageServer.Server.Server.storage.mysql.MySqlCharacterStorage;
 	using L1CharName = LineageServer.Server.Server.Templates.L1CharName;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class CharacterTable
 	{
@@ -292,9 +292,9 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					cn = new L1CharName();
-					name = rs.getString("char_name");
+					name = dataSourceRow.getString("char_name");
 					cn.Name = name;
-					cn.Id = rs.getInt("objid");
+					cn.Id = dataSourceRow.getInt("objid");
 					_charNameList[name] = cn;
 				}
 			}

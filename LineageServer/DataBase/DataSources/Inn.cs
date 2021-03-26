@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Inn : DataSourceTable
+    class Inn : DataSource
     {
         public const string TableName = "inn";
         public const string Column_name = "name";
@@ -11,7 +12,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_key_id = "key_id";
         public const string Column_lodger_id = "lodger_id";
         public const string Column_hall = "hall";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Inn; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},

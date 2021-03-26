@@ -1,7 +1,7 @@
 ﻿
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 
 namespace LineageServer.Server.Server.Clientpackets
 {
@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 
 		private const string C_TRADE = "[C] C_Trade";
-		public C_Trade(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_Trade(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 			L1PcInstance player = clientthread.ActiveChar;
 			if ((player == null) || player.Ghost)

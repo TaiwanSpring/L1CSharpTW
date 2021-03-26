@@ -24,10 +24,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SkillHaste(int i, int j, int k)
 		{
-			writeC(Opcodes.S_OPCODE_SKILLHASTE);
-			writeD(i);
-			writeC(j);
-			writeH(k);
+			WriteC(Opcodes.S_OPCODE_SKILLHASTE);
+			WriteD(i);
+			WriteC(j);
+			WriteH(k);
 		}
 
 		public override sbyte[] Content

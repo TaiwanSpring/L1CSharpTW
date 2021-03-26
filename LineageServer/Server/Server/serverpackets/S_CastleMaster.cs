@@ -33,9 +33,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int type, int objecId)
 		{
-			writeC(Opcodes.S_OPCODE_CASTLEMASTER);
-			writeC(type);
-			writeD(objecId);
+			WriteC(Opcodes.S_OPCODE_CASTLEMASTER);
+			WriteC(type);
+			WriteD(objecId);
 		}
 
 		public override sbyte[] Content

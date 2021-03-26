@@ -25,8 +25,8 @@ namespace LineageServer.Server.Server.DataSources
 	using L1DoorInstance = LineageServer.Server.Server.Model.Instance.L1DoorInstance;
 	using L1DoorGfx = LineageServer.Server.Server.Templates.L1DoorGfx;
 	using L1DoorSpawn = LineageServer.Server.Server.Templates.L1DoorSpawn;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class DoorTable
 	{

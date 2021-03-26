@@ -31,14 +31,14 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int objId, L1Buddy buddy)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(objId);
-			writeS(_HTMLID);
-			writeC(0x00);
-			writeH(0x02);
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(objId);
+			WriteS(_HTMLID);
+			WriteC(0x00);
+			WriteH(0x02);
 
-			writeS(buddy.BuddyListString);
-			writeS(buddy.OnlineBuddyListString);
+			WriteS(buddy.BuddyListString);
+			WriteS(buddy.OnlineBuddyListString);
 		}
 
 		public override sbyte[] Content
@@ -47,7 +47,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

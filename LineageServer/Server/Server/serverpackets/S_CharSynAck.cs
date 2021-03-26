@@ -35,21 +35,21 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int type)
 		{
-			writeC(Opcodes.S_OPCODE_CHARSYNACK);
-			writeC(type); // SYN: 0x0a  ACK: 0x40
+			WriteC(Opcodes.S_OPCODE_CHARSYNACK);
+			WriteC(type); // SYN: 0x0a  ACK: 0x40
 			if (type == 0x0a)
 			{
-				writeC(0x02);
-				writeC(0x00);
-				writeC(0x00);
-				writeC(0x00);
-				writeC(0x08);
-				writeC(0x00);
+				WriteC(0x02);
+				WriteC(0x00);
+				WriteC(0x00);
+				WriteC(0x00);
+				WriteC(0x08);
+				WriteC(0x00);
 			}
 			else
 			{
-				writeD(0x00000000);
-				writeH(0x0000);
+				WriteD(0x00000000);
+				WriteH(0x0000);
 			}
 
 		}

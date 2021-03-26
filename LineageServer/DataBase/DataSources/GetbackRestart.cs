@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class GetbackRestart : DataSourceTable
+    class GetbackRestart : DataSource
     {
         public const string TableName = "getback_restart";
         public const string Column_note = "note";
@@ -9,7 +10,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_locx = "locx";
         public const string Column_locy = "locy";
         public const string Column_mapid = "mapid";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.GetbackRestart; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

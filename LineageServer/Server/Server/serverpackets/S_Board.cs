@@ -41,29 +41,29 @@ namespace LineageServer.Server.Server.serverpackets
 		private void buildPacket(int boardObjId, int number)
 		{
 			IList<L1BoardTopic> topics = L1BoardTopic.index(number, TOPIC_LIMIT);
-			writeC(Opcodes.S_OPCODE_BOARD);
-			writeC(0); // DragonKeybbs = 1
-			writeD(boardObjId);
+			WriteC(Opcodes.S_OPCODE_BOARD);
+			WriteC(0); // DragonKeybbs = 1
+			WriteD(boardObjId);
 			if (number == 0)
 			{
-				writeD(0x7FFFFFFF);
+				WriteD(0x7FFFFFFF);
 			}
 			else
 			{
-				writeD(number);
+				WriteD(number);
 			}
-			writeC(topics.Count);
+			WriteC(topics.Count);
 			if (number == 0)
 			{
-				writeC(0);
-				writeH(300);
+				WriteC(0);
+				WriteH(300);
 			}
 			foreach (L1BoardTopic topic in topics)
 			{
-				writeD(topic.Id);
-				writeS(topic.Name);
-				writeS(topic.Date);
-				writeS(topic.Title);
+				WriteD(topic.Id);
+				WriteS(topic.Name);
+				WriteS(topic.Date);
+				WriteS(topic.Title);
 			}
 		}
 

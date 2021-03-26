@@ -21,15 +21,15 @@ namespace LineageServer.Server.Server.serverpackets
 	{
 		public S_HowManyMake(int objId, int max, string htmlId)
 		{
-			writeC(Opcodes.S_OPCODE_INPUTAMOUNT);
-			writeD(objId);
-			writeD(0); // ?
-			writeD(0); // スピンコントロールの初期価格
-			writeD(0); // 価格の下限
-			writeD(max); // 価格の上限
-			writeH(0); // ?
-			writeS("request");
-			writeS(htmlId);
+			WriteC(Opcodes.S_OPCODE_INPUTAMOUNT);
+			WriteD(objId);
+			WriteD(0); // ?
+			WriteD(0); // スピンコントロールの初期価格
+			WriteD(0); // 価格の下限
+			WriteD(max); // 価格の上限
+			WriteH(0); // ?
+			WriteS("request");
+			WriteS(htmlId);
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:

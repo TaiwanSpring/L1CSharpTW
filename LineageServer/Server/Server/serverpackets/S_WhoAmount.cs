@@ -23,10 +23,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_WhoAmount(string amount)
 		{
-			writeC(Opcodes.S_OPCODE_SERVERMSG);
-			writeH(0x0051);
-			writeC(0x01);
-			writeS(amount);
+			WriteC(Opcodes.S_OPCODE_SERVERMSG);
+			WriteH(0x0051);
+			WriteC(0x01);
+			WriteS(amount);
 		}
 
 		public override sbyte[] Content

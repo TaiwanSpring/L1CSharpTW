@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.DataSources
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class IpTable
 	{
@@ -115,7 +115,7 @@ namespace LineageServer.Server.Server.DataSources
 
 				while (rs.next())
 				{
-					_banip.Add(rs.getString(1));
+					_banip.Add(dataSourceRow.getString(1));
 				}
 
 				isInitialized = true;

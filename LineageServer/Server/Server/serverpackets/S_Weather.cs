@@ -14,48 +14,33 @@
 /// </summary>
 namespace LineageServer.Server.Server.serverpackets
 {
-	using Opcodes = LineageServer.Server.Server.Opcodes;
+    using Opcodes = LineageServer.Server.Server.Opcodes;
 
-	// Referenced classes of package l1j.server.server.serverpackets:
-	// ServerBasePacket
+    // Referenced classes of package l1j.server.server.serverpackets:
+    // ServerBasePacket
 
-	public class S_Weather : ServerBasePacket
-	{
+    class S_Weather : ServerBasePacket
+    {
+        private const string S_WEATHER = "[S] S_Weather";
 
-		private const string S_WEATHER = "[S] S_Weather";
+        public S_Weather(int weather)
+        {
+            buildPacket(weather);
+        }
 
-		private byte[] _byte = null;
+        private void buildPacket(int weather)
+        {
+            WriteC(Opcodes.S_OPCODE_WEATHER);
+            WriteC(weather);
+        }
 
-		public S_Weather(int weather)
-		{
-			buildPacket(weather);
-		}
-
-		private void buildPacket(int weather)
-		{
-			writeC(Opcodes.S_OPCODE_WEATHER);
-			writeC(weather);
-		}
-
-		public override sbyte[] Content
-		{
-			get
-			{
-				if (_byte == null)
-				{
-					_byte = Bytes;
-				}
-				return _byte;
-			}
-		}
-
-		public override string Type
-		{
-			get
-			{
-				return S_WEATHER;
-			}
-		}
-	}
+        public override string Type
+        {
+            get
+            {
+                return S_WEATHER;
+            }
+        }
+    }
 
 }

@@ -21,9 +21,9 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1House = LineageServer.Server.Server.Templates.L1House;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server:
 	// IdFactory
@@ -71,14 +71,14 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1House house = new L1House();
-					house.HouseId = rs.getInt(1);
-					house.HouseName = rs.getString(2);
-					house.HouseArea = rs.getInt(3);
-					house.Location = rs.getString(4);
-					house.KeeperId = rs.getInt(5);
-					house.OnSale = rs.getInt(6) == 1 ? true : false;
-					house.PurchaseBasement = rs.getInt(7) == 1 ? true : false;
-					house.TaxDeadline = timestampToCalendar((Timestamp) rs.getObject(8));
+					house.HouseId = dataSourceRow.getInt(1);
+					house.HouseName = dataSourceRow.getString(2);
+					house.HouseArea = dataSourceRow.getInt(3);
+					house.Location = dataSourceRow.getString(4);
+					house.KeeperId = dataSourceRow.getInt(5);
+					house.OnSale = dataSourceRow.getInt(6) == 1 ? true : false;
+					house.PurchaseBasement = dataSourceRow.getInt(7) == 1 ? true : false;
+					house.TaxDeadline = timestampToCalendar((Timestamp) dataSourceRow.getObject(8));
 					_house[house.HouseId] = house;
 				}
 			}
@@ -155,7 +155,7 @@ namespace LineageServer.Server.Server.DataSources
 					rs = pstm.executeQuery();
 					while (rs.next())
 					{
-						int houseId = rs.getInt("house_id");
+						int houseId = dataSourceRow.getInt("house_id");
 						houseIdList.Add(Convert.ToInt32(houseId));
 					}
 				}

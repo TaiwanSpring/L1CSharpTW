@@ -24,9 +24,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_CharTitle(int objid, string title)
 		{
-			writeC(Opcodes.S_OPCODE_CHARTITLE);
-			writeD(objid);
-			writeS(title);
+			WriteC(Opcodes.S_OPCODE_CHARTITLE);
+			WriteD(objid);
+			WriteS(title);
 		}
 
 		public override sbyte[] Content

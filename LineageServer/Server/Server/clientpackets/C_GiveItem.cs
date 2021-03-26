@@ -14,7 +14,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 		private const string C_GIVE_ITEM = "[C] C_GiveItem";
 
-		public C_GiveItem(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_GiveItem(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
 
 			L1PcInstance pc = client.ActiveChar;
@@ -22,11 +22,11 @@ namespace LineageServer.Server.Server.Clientpackets
 			{
 				return;
 			}
-			int targetId = readD();
-			readH();
-			readH();
-			int itemId = readD();
-			int count = readD();
+			int targetId = ReadD();
+			ReadH();
+			ReadH();
+			int itemId = ReadD();
+			int count = ReadD();
 
 			L1Object l1Object = L1World.Instance.findObject(targetId);
 			if ((l1Object == null) || !(l1Object is L1NpcInstance))

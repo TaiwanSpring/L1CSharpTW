@@ -45,13 +45,13 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int reason)
 		{
-			writeC(Opcodes.S_OPCODE_LOGINRESULT);
-			writeC(reason);
-			writeD(0x00000000);
-			writeD(0x00000000);
-			writeD(0x00000000);
-			writeD(0x00000000);
-			writeH(0x8c);
+			WriteC(Opcodes.S_OPCODE_LOGINRESULT);
+			WriteC(reason);
+			WriteD(0x00000000);
+			WriteD(0x00000000);
+			WriteD(0x00000000);
+			WriteD(0x00000000);
+			WriteH(0x8c);
 		}
 
 		public override sbyte[] Content

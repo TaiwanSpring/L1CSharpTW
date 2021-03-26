@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_WAR = "[C] C_War";
 
-        public C_War(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_War(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
             L1PcInstance player = clientthread.ActiveChar;
@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int type = readC();
-            string s = readS();
+            int type = ReadC();
+            string s = ReadS();
 
             string playerName = player.Name;
             string clanName = player.Clanname;

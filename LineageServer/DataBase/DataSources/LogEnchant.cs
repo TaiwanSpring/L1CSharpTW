@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class LogEnchant : DataSourceTable
+    class LogEnchant : DataSource
     {
         public const string TableName = "log_enchant";
         public const string Column_id = "id";
@@ -9,7 +10,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_item_id = "item_id";
         public const string Column_old_enchantlvl = "old_enchantlvl";
         public const string Column_new_enchantlvl = "new_enchantlvl";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.LogEnchant; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},

@@ -21,9 +21,9 @@ namespace LineageServer.Server.Server
 
 	using L1Location = LineageServer.Server.Server.Model.L1Location;
 	using L1ItemSetItem = LineageServer.Server.Server.Templates.L1ItemSetItem;
-	using IterableElementList = LineageServer.Server.Server.utils.IterableElementList;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using IterableElementList = LineageServer.Server.Server.Utils.IterableElementList;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	using Document = org.w3c.dom.Document;
 	using Element = org.w3c.dom.Element;

@@ -33,59 +33,59 @@ namespace LineageServer.Server.Server.serverpackets
 		/// </summary>
 		public S_InvList(IList<L1ItemInstance> items)
 		{
-			writeC(Opcodes.S_OPCODE_INVLIST);
-			writeC(items.Count); // 物品數量
+			WriteC(Opcodes.S_OPCODE_INVLIST);
+			WriteC(items.Count); // 物品數量
 
 			foreach (L1ItemInstance item in items)
 			{
-				writeD(item.Id);
-				writeH(item.Item.MagicCatalystType > 0 ? item.Item.MagicCatalystType : item.Item.ItemDescId > 0 ? item.Item.ItemDescId : item.Item.GroundGfxId);
-				writeC(item.Item.UseType);
-				writeC(item.ChargeCount);
-				writeH(item.get_gfxid());
-				writeC(item.Bless);
-				writeD(item.Count);
-				writeC(item.ItemStatusX); // 3.80C 物品驗證機制
-				writeS(item.ViewName);
+				WriteD(item.Id);
+				WriteH(item.Item.MagicCatalystType > 0 ? item.Item.MagicCatalystType : item.Item.ItemDescId > 0 ? item.Item.ItemDescId : item.Item.GroundGfxId);
+				WriteC(item.Item.UseType);
+				WriteC(item.ChargeCount);
+				WriteH(item.get_gfxid());
+				WriteC(item.Bless);
+				WriteD(item.Count);
+				WriteC(item.ItemStatusX); // 3.80C 物品驗證機制
+				WriteS(item.ViewName);
 				if (!item.Identified)
 				{ // 未鑑定
-					writeC(0);
+					WriteC(0);
 				}
 				else
 				{
 					byte[] status = item.StatusBytes;
-					writeC(status.Length);
+					WriteC(status.Length);
 					foreach (byte b in status)
 					{
-						writeC(b);
+						WriteC(b);
 					}
 				}
-				writeC(0x17);
-				writeC(0);
-				writeH(0);
-				writeH(0);
+				WriteC(0x17);
+				WriteC(0);
+				WriteH(0);
+				WriteH(0);
 				if (item.Item.Type == 10)
 				{ // 如果是法書，傳出法術編號
-					writeC(0);
+					WriteC(0);
 				}
 				else
 				{
-					writeC(item.EnchantLevel); // 物品武捲等級
+					WriteC(item.EnchantLevel); // 物品武捲等級
 				}
-				writeD(item.Id); // 3.80 物品世界流水編號
-				writeD(0);
-				writeD(0);
-				writeD(item.Bless >= 128 ? 3 : item.Item.Tradable ? 7 : 2); // 7:可刪除, 2: 不可刪除, 3: 封印狀態
-				writeC(0);
+				WriteD(item.Id); // 3.80 物品世界流水編號
+				WriteD(0);
+				WriteD(0);
+				WriteD(item.Bless >= 128 ? 3 : item.Item.Tradable ? 7 : 2); // 7:可刪除, 2: 不可刪除, 3: 封印狀態
+				WriteC(0);
 
-				/*writeC(0x17);
-				writeD(0);
-				writeD(0);
-				writeD(0);
-				writeD(0);
-				writeD(0);
-				writeH(0);
-				writeC(0);*/
+				/*WriteC(0x17);
+				WriteD(0);
+				WriteD(0);
+				WriteD(0);
+				WriteD(0);
+				WriteD(0);
+				WriteH(0);
+				WriteC(0);*/
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			get
 			{
-				return _bao.toByteArray();
+				return memoryStream.toByteArray();
 			}
 		}
 

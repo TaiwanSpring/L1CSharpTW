@@ -23,9 +23,9 @@ namespace LineageServer.Server.Server.DataSources
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using INpcAction = LineageServer.Server.Server.Model.Npc.Action.INpcAction;
 	using L1NpcXmlParser = LineageServer.Server.Server.Model.Npc.Action.L1NpcXmlParser;
-	using FileUtil = LineageServer.Server.Server.utils.FileUtil;
-	using PerformanceTimer = LineageServer.Server.Server.utils.PerformanceTimer;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using FileUtil = LineageServer.Server.Server.Utils.FileUtil;
+	using PerformanceTimer = LineageServer.Server.Server.Utils.PerformanceTimer;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	using Document = org.w3c.dom.Document;
 	using SAXException = org.xml.sax.SAXException;

@@ -16,7 +16,7 @@
 /// </summary>
 namespace LineageServer.Server
 {
-	using LineageServer.Server.Server.utils.Internationalization;
+	using LineageServer.Server.Server.Utils.Internationalization;
 
 	/// <summary>
 	/// 國際化的英文是Internationalization 因為單字中總共有18個字母，簡稱I18N， 目的是讓應用程式可以應地區不同而顯示不同的訊息。

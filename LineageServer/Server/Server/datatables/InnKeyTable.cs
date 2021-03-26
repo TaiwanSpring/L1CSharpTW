@@ -17,7 +17,7 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class InnKeyTable
 	{
@@ -93,13 +93,13 @@ namespace LineageServer.Server.Server.DataSources
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					int itemObj = rs.getInt("item_obj_id");
+					int itemObj = dataSourceRow.getInt("item_obj_id");
 					if (item.Id == itemObj)
 					{
-						item.KeyId = rs.getInt("key_id");
-						item.InnNpcId = rs.getInt("npc_id");
-						item.Hall = rs.getBoolean("hall");
-						item.DueTime = rs.getTimestamp("due_time");
+						item.KeyId = dataSourceRow.getInt("key_id");
+						item.InnNpcId = dataSourceRow.getInt("npc_id");
+						item.Hall = dataSourceRow.getBoolean("hall");
+						item.DueTime = dataSourceRow.getTimestamp("due_time");
 						return true;
 					}
 				}

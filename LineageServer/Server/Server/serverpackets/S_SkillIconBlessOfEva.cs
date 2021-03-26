@@ -24,9 +24,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SkillIconBlessOfEva(int objectId, int time)
 		{
-			writeC(Opcodes.S_OPCODE_BLESSOFEVA);
-			writeD(objectId);
-			writeH(time);
+			WriteC(Opcodes.S_OPCODE_BLESSOFEVA);
+			WriteD(objectId);
+			WriteH(time);
 		}
 
 		public override sbyte[] Content

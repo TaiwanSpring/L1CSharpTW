@@ -6,8 +6,8 @@ namespace LineageServer.Server.Server.serverpackets
         private const string S_ClanAttention_Conflict = "[S] S_ClanAttention";
         public S_ClanAttention()
         {
-            writeC(Opcodes.S_OPCODE_CLANATTENTION);
-            writeD(2);
+            WriteC(Opcodes.S_OPCODE_CLANATTENTION);
+            WriteD(2);
         }
 
         public override byte[] Content

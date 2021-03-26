@@ -47,65 +47,65 @@ namespace LineageServer.Server.Server.serverpackets
             // int addbyte = 0;
             // int addbyte1 = 1;
 
-            writeC(Opcodes.S_OPCODE_CHARPACK);
-            writeH(pc.X);
-            writeH(pc.Y);
-            writeD(pc.Id);
+            WriteC(Opcodes.S_OPCODE_CHARPACK);
+            WriteH(pc.X);
+            WriteH(pc.Y);
+            WriteD(pc.Id);
             if (pc.Dead)
             {
-                writeH(pc.TempCharGfxAtDead);
+                WriteH(pc.TempCharGfxAtDead);
             }
             else
             {
-                writeH(pc.TempCharGfx);
+                WriteH(pc.TempCharGfx);
             }
             if (pc.Dead)
             {
-                writeC(pc.Status);
+                WriteC(pc.Status);
             }
             else
             {
-                writeC(pc.CurrentWeapon);
+                WriteC(pc.CurrentWeapon);
             }
-            writeC(pc.Heading);
-            // writeC(0); // makes char invis (0x01), cannot move. spells display
-            writeC(pc.ChaLightSize);
-            writeC(pc.MoveSpeed);
-            writeD(1); // exp
-                       // writeC(0x00);
-            writeH(pc.Lawful);
-            writeS(pc.Name);
-            writeS(pc.Title);
-            writeC(status);
-            writeD(pc.Clanid > 0 ? pc.Clan.EmblemId : 0); // 盟徽編號
-            writeS(pc.Clanname); // クラン名
-            writeS(null); // ペッホチング？
-            writeC(0); // ？
+            WriteC(pc.Heading);
+            // WriteC(0); // makes char invis (0x01), cannot move. spells display
+            WriteC(pc.ChaLightSize);
+            WriteC(pc.MoveSpeed);
+            WriteD(1); // exp
+                       // WriteC(0x00);
+            WriteH(pc.Lawful);
+            WriteS(pc.Name);
+            WriteS(pc.Title);
+            WriteC(status);
+            WriteD(pc.Clanid > 0 ? pc.Clan.EmblemId : 0); // 盟徽編號
+            WriteS(pc.Clanname); // クラン名
+            WriteS(null); // ペッホチング？
+            WriteC(0); // ？
             /*
-			 * if(pc.is_isInParty()) // パーティー中 { writeC(100 * pc.get_currentHp() /
-			 * pc.get_maxHp()); } else { writeC(0xFF); }
+			 * if(pc.is_isInParty()) // パーティー中 { WriteC(100 * pc.get_currentHp() /
+			 * pc.get_maxHp()); } else { WriteC(0xFF); }
 			 */
 
-            writeC(0xFF);
+            WriteC(0xFF);
             if (pc.hasSkillEffect(L1SkillId.STATUS_THIRD_SPEED))
             {
-                writeC(0x08); // 3段加速
+                WriteC(0x08); // 3段加速
             }
             else
             {
-                writeC(0);
+                WriteC(0);
             }
-            writeC(0); // PC = 0, Mon = Lv
+            WriteC(0); // PC = 0, Mon = Lv
             if (pc.PrivateShop)
             {
 
             }
             else
             {
-                writeS(null);
+                WriteS(null);
             }
-            writeC(0xFF);
-            writeC(0xFF);
+            WriteC(0xFF);
+            WriteC(0xFF);
         }
 
         public override string Type

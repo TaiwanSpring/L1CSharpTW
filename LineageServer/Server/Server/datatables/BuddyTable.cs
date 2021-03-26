@@ -20,8 +20,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1Buddy = LineageServer.Server.Server.Model.L1Buddy;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// import l1j.server.server.model.Instance.L1PcInstance;
 
@@ -70,14 +70,14 @@ namespace LineageServer.Server.Server.DataSources
 					try
 					{
 						buddysPS = con.prepareStatement("SELECT buddy_id, buddy_name FROM character_buddys WHERE char_id = ?");
-						int charId = charIdRS.getInt("char_id");
+						int charId = charIddataSourceRow.getInt("char_id");
 						buddysPS.setInt(1, charId);
 						L1Buddy buddy = new L1Buddy(charId);
 
 						buddysRS = buddysPS.executeQuery();
 						while (buddysRS.next())
 						{
-							buddy.add(buddysRS.getInt("buddy_id"), buddysRS.getString("buddy_name"));
+							buddy.add(buddysdataSourceRow.getInt("buddy_id"), buddysdataSourceRow.getString("buddy_name"));
 						}
 
 						_buddys[buddy.CharId] = buddy;

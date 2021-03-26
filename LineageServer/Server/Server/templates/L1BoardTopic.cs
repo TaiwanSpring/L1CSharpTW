@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Templates
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using TimeInform = LineageServer.Server.Server.Model.TimeInform;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class L1BoardTopic
 	{
@@ -104,11 +104,11 @@ namespace LineageServer.Server.Server.Templates
 //ORIGINAL LINE: private L1BoardTopic(java.sql.ResultSet rs) throws java.sql.SQLException
 		private L1BoardTopic(ResultSet rs)
 		{
-			_id = rs.getInt("id");
-			_name = rs.getString("name");
-			_date = rs.getString("date");
-			_title = rs.getString("title");
-			_content = rs.getString("content");
+			_id = dataSourceRow.getInt("id");
+			_name = dataSourceRow.getString("name");
+			_date = dataSourceRow.getString("date");
+			_title = dataSourceRow.getString("title");
+			_content = dataSourceRow.getString("content");
 		}
 
 		public static L1BoardTopic create(string name, string title, string content)
@@ -125,7 +125,7 @@ namespace LineageServer.Server.Server.Templates
 					pstm1 = con.prepareStatement("SELECT max(id) + 1 as newid FROM board");
 					rs = pstm1.executeQuery();
 					rs.next();
-					int id = rs.getInt("newid");
+					int id = dataSourceRow.getInt("newid");
 					L1BoardTopic topic = new L1BoardTopic(id, name, title, content);
         
 					pstm2 = con.prepareStatement("INSERT INTO board SET id=?, name=?, date=?, title=?, content=?");

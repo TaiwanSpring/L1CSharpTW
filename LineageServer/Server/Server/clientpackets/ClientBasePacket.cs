@@ -7,7 +7,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
         private static readonly string CLIENT_LANGUAGE_CODE = Config.CLIENT_LANGUAGE_CODE;
 
-        private sbyte[] _decrypt;
+        private byte[] _decrypt;
 
         private int _off;
 
@@ -22,19 +22,19 @@ namespace LineageServer.Server.Server.Clientpackets
             }
         }
 
-        public ClientBasePacket(sbyte[] abyte0)
+        public ClientBasePacket(byte[] abyte0)
         {
             _decrypt = abyte0;
             _off = 1;
         }
-        public ClientBasePacket(sbyte[] abyte0, ClientThread clientthread)
+        public ClientBasePacket(byte[] abyte0, ClientThread clientthread)
         {
         }
-        public ClientBasePacket(ByteBuffer bytebuffer, ClientThread clientthread)
-        {
-        }
+        //public ClientBasePacket(ByteBuffer bytebuffer, ClientThread clientthread)
+        //{
+        //}
 
-        public virtual int readD()
+        public virtual int ReadD()
         {
             int i = _decrypt[_off++] & 0xff;
             i |= _decrypt[_off++] << 8 & 0xff00;
@@ -43,28 +43,28 @@ namespace LineageServer.Server.Server.Clientpackets
             return i;
         }
 
-        public virtual byte readC()
+        public virtual byte ReadC()
         {
             byte i = (byte)(_decrypt[_off++] & 0xff);
             return i;
         }
 
-        public virtual int readH()
+        public virtual int ReadH()
         {
             int i = _decrypt[_off++] & 0xff;
-            i |= _decrypt[_off++] << 8 & 0xff00;
+            i |= (_decrypt[_off++] << 8) & 0xff00;
             return i;
         }
 
-        public virtual int readCH()
+        public virtual int ReadCH()
         {
             int i = _decrypt[_off++] & 0xff;
-            i |= _decrypt[_off++] << 8 & 0xff00;
-            i |= _decrypt[_off++] << 16 & 0xff0000;
+            i |= (_decrypt[_off++] << 8) & 0xff00;
+            i |= (_decrypt[_off++] << 16) & 0xff0000;
             return i;
         }
 
-        public virtual double readF()
+        public virtual double ReadF()
         {
             byte[] longBuffer = new byte[8];
 
@@ -82,14 +82,16 @@ namespace LineageServer.Server.Server.Clientpackets
             //return BitConverter.Int64BitsToDouble(l);
         }
 
-        public virtual string readS()
+        public virtual string ReadS()
         {
-            string s = null;
+            string s;
             try
             {
-                s = StringHelper.NewString(_decrypt, _off, _decrypt.Length - _off, CLIENT_LANGUAGE_CODE);
+                s = GobalParameters.Encoding.GetString(_decrypt, _off, _decrypt.Length - _off);
+                //s = StringHelper.NewString(_decrypt, _off, _decrypt.Length - _off, CLIENT_LANGUAGE_CODE);
                 s = s.Substring(0, s.IndexOf('\0'));
-                _off += s.GetBytes(CLIENT_LANGUAGE_CODE).Length + 1;
+                _off += _decrypt.Length - _off + 1;
+                //_off += s.GetBytes(CLIENT_LANGUAGE_CODE).Length + 1;
             }
             catch (Exception e)
             {
@@ -99,9 +101,9 @@ namespace LineageServer.Server.Server.Clientpackets
             return s;
         }
 
-        public virtual sbyte[] readByte()
+        public virtual byte[] ReadByte()
         {
-            sbyte[] result = new sbyte[_decrypt.Length - _off];
+            byte[] result = new byte[_decrypt.Length - _off];
             try
             {
                 Array.Copy(_decrypt, _off, result, 0, _decrypt.Length - _off);

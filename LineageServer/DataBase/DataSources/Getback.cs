@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Getback : DataSourceTable
+    class Getback : DataSource
     {
         public const string TableName = "getback";
         public const string Column_note = "note";
@@ -21,7 +22,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_getback_townid_elf = "getback_townid_elf";
         public const string Column_getback_townid_darkelf = "getback_townid_darkelf";
         public const string Column_scrollescape = "scrollescape";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Getback; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

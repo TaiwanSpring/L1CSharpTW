@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_CHAT_PARTY = "[C] C_ChatParty";
 
-        public C_ChatParty(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_ChatParty(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
             L1PcInstance pc = clientthread.ActiveChar;
@@ -21,10 +21,10 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int type = readC();
+            int type = ReadC();
             if (type == 0)
             { // /chatbanish 的命令
-                string name = readS();
+                string name = ReadS();
 
                 if (!pc.InChatParty)
                 {

@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1Castle = LineageServer.Server.Server.Templates.L1Castle;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server:
 	// IdFactory
@@ -75,10 +75,10 @@ namespace LineageServer.Server.Server.DataSources
 
 				while (rs.next())
 				{
-					L1Castle castle = new L1Castle(rs.getInt(1), rs.getString(2));
-					castle.WarTime = timestampToCalendar((Timestamp) rs.getObject(3));
-					castle.TaxRate = rs.getInt(4);
-					castle.PublicMoney = rs.getInt(5);
+					L1Castle castle = new L1Castle(dataSourceRow.getInt(1), dataSourceRow.getString(2));
+					castle.WarTime = timestampToCalendar((Timestamp) dataSourceRow.getObject(3));
+					castle.TaxRate = dataSourceRow.getInt(4);
+					castle.PublicMoney = dataSourceRow.getInt(5);
 
 					/// <summary>
 					/// 設置擁有該城堡的血盟 </summary>

@@ -1,6 +1,6 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Server.Server.Model.Instance;
-using LineageServer.Server.Server.utils.collections;
+using LineageServer.Server.Server.Utils.collections;
 using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.Server.Model
@@ -70,22 +70,22 @@ namespace LineageServer.Server.Server.Model
                 while (rs.next())
                 {
                     Getback getback = new Getback();
-                    getback._areaX1 = rs.getInt("area_x1");
-                    getback._areaY1 = rs.getInt("area_y1");
-                    getback._areaX2 = rs.getInt("area_x2");
-                    getback._areaY2 = rs.getInt("area_y2");
-                    getback._areaMapId = rs.getInt("area_mapid");
-                    getback._getbackX1 = rs.getInt("getback_x1");
-                    getback._getbackY1 = rs.getInt("getback_y1");
-                    getback._getbackX2 = rs.getInt("getback_x2");
-                    getback._getbackY2 = rs.getInt("getback_y2");
-                    getback._getbackX3 = rs.getInt("getback_x3");
-                    getback._getbackY3 = rs.getInt("getback_y3");
-                    getback._getbackMapId = rs.getInt("getback_mapid");
-                    getback._getbackTownId = rs.getInt("getback_townid");
-                    getback._getbackTownIdForElf = rs.getInt("getback_townid_elf");
-                    getback._getbackTownIdForDarkelf = rs.getInt("getback_townid_darkelf");
-                    rs.getBoolean("scrollescape");
+                    getback._areaX1 = dataSourceRow.getInt("area_x1");
+                    getback._areaY1 = dataSourceRow.getInt("area_y1");
+                    getback._areaX2 = dataSourceRow.getInt("area_x2");
+                    getback._areaY2 = dataSourceRow.getInt("area_y2");
+                    getback._areaMapId = dataSourceRow.getInt("area_mapid");
+                    getback._getbackX1 = dataSourceRow.getInt("getback_x1");
+                    getback._getbackY1 = dataSourceRow.getInt("getback_y1");
+                    getback._getbackX2 = dataSourceRow.getInt("getback_x2");
+                    getback._getbackY2 = dataSourceRow.getInt("getback_y2");
+                    getback._getbackX3 = dataSourceRow.getInt("getback_x3");
+                    getback._getbackY3 = dataSourceRow.getInt("getback_y3");
+                    getback._getbackMapId = dataSourceRow.getInt("getback_mapid");
+                    getback._getbackTownId = dataSourceRow.getInt("getback_townid");
+                    getback._getbackTownIdForElf = dataSourceRow.getInt("getback_townid_elf");
+                    getback._getbackTownIdForDarkelf = dataSourceRow.getInt("getback_townid_darkelf");
+                    dataSourceRow.getBoolean("scrollescape");
                     IList<Getback> getbackList = _getback[getback._areaMapId];
                     if (getbackList == null)
                     {

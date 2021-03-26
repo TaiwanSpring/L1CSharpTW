@@ -2,7 +2,7 @@
 using LineageServer.Interfaces;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.Templates;
-using LineageServer.Server.Server.utils.collections;
+using LineageServer.Server.Server.Utils.collections;
 using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.Server.DataSources
@@ -91,40 +91,40 @@ namespace LineageServer.Server.Server.DataSources
                 while (rs.next())
                 {
                     L1Npc npc = new L1Npc();
-                    int npcId = rs.getInt("npcid");
+                    int npcId = dataSourceRow.getInt("npcid");
                     npc.set_npcId(npcId);
-                    npc.set_name(rs.getString("name"));
-                    npc.set_nameid(rs.getString("nameid"));
-                    npc.Impl = rs.getString("impl");
-                    npc.set_gfxid(rs.getInt("gfxid"));
-                    npc.set_level(rs.getInt("lvl"));
-                    npc.set_hp(rs.getInt("hp"));
-                    npc.set_mp(rs.getInt("mp"));
-                    npc.set_ac(rs.getInt("ac"));
-                    npc.set_str(rs.getByte("str"));
-                    npc.set_con(rs.getByte("con"));
-                    npc.set_dex(rs.getByte("dex"));
-                    npc.set_wis(rs.getByte("wis"));
-                    npc.set_int(rs.getByte("intel"));
-                    npc.set_mr(rs.getInt("mr"));
-                    npc.set_exp(rs.getInt("exp"));
-                    npc.set_lawful(rs.getInt("lawful"));
-                    npc.set_size(rs.getString("size"));
-                    npc.set_weakAttr(rs.getInt("weakAttr"));
-                    npc.set_ranged(rs.getInt("ranged"));
-                    npc.Tamable = rs.getBoolean("tamable");
-                    npc.set_passispeed(rs.getInt("passispeed"));
-                    npc.set_atkspeed(rs.getInt("atkspeed"));
-                    npc.AltAtkSpeed = rs.getInt("alt_atk_speed");
-                    npc.AtkMagicSpeed = rs.getInt("atk_magic_speed");
-                    npc.SubMagicSpeed = rs.getInt("sub_magic_speed");
-                    npc.set_undead(rs.getInt("undead"));
-                    npc.set_poisonatk(rs.getInt("poison_atk"));
-                    npc.set_paralysisatk(rs.getInt("paralysis_atk"));
-                    npc.set_agro(rs.getBoolean("agro"));
-                    npc.set_agrososc(rs.getBoolean("agrososc"));
-                    npc.set_agrocoi(rs.getBoolean("agrocoi"));
-                    int? family = _familyTypes[rs.getString("family")];
+                    npc.set_name(dataSourceRow.getString("name"));
+                    npc.set_nameid(dataSourceRow.getString("nameid"));
+                    npc.Impl = dataSourceRow.getString("impl");
+                    npc.set_gfxid(dataSourceRow.getInt("gfxid"));
+                    npc.set_level(dataSourceRow.getInt("lvl"));
+                    npc.set_hp(dataSourceRow.getInt("hp"));
+                    npc.set_mp(dataSourceRow.getInt("mp"));
+                    npc.set_ac(dataSourceRow.getInt("ac"));
+                    npc.set_str(dataSourceRow.getByte("str"));
+                    npc.set_con(dataSourceRow.getByte("con"));
+                    npc.set_dex(dataSourceRow.getByte("dex"));
+                    npc.set_wis(dataSourceRow.getByte("wis"));
+                    npc.set_int(dataSourceRow.getByte("intel"));
+                    npc.set_mr(dataSourceRow.getInt("mr"));
+                    npc.set_exp(dataSourceRow.getInt("exp"));
+                    npc.set_lawful(dataSourceRow.getInt("lawful"));
+                    npc.set_size(dataSourceRow.getString("size"));
+                    npc.set_weakAttr(dataSourceRow.getInt("weakAttr"));
+                    npc.set_ranged(dataSourceRow.getInt("ranged"));
+                    npc.Tamable = dataSourceRow.getBoolean("tamable");
+                    npc.set_passispeed(dataSourceRow.getInt("passispeed"));
+                    npc.set_atkspeed(dataSourceRow.getInt("atkspeed"));
+                    npc.AltAtkSpeed = dataSourceRow.getInt("alt_atk_speed");
+                    npc.AtkMagicSpeed = dataSourceRow.getInt("atk_magic_speed");
+                    npc.SubMagicSpeed = dataSourceRow.getInt("sub_magic_speed");
+                    npc.set_undead(dataSourceRow.getInt("undead"));
+                    npc.set_poisonatk(dataSourceRow.getInt("poison_atk"));
+                    npc.set_paralysisatk(dataSourceRow.getInt("paralysis_atk"));
+                    npc.set_agro(dataSourceRow.getBoolean("agro"));
+                    npc.set_agrososc(dataSourceRow.getBoolean("agrososc"));
+                    npc.set_agrocoi(dataSourceRow.getBoolean("agrocoi"));
+                    int? family = _familyTypes[dataSourceRow.getString("family")];
                     if (family == null)
                     {
                         npc.set_family(0);
@@ -133,7 +133,7 @@ namespace LineageServer.Server.Server.DataSources
                     {
                         npc.set_family(family.Value);
                     }
-                    int agrofamily = rs.getInt("agrofamily");
+                    int agrofamily = dataSourceRow.getInt("agrofamily");
                     if ((npc.get_family() == 0) && (agrofamily == 1))
                     {
                         npc.set_agrofamily(0);
@@ -142,35 +142,35 @@ namespace LineageServer.Server.Server.DataSources
                     {
                         npc.set_agrofamily(agrofamily);
                     }
-                    npc.set_agrogfxid1(rs.getInt("agrogfxid1"));
-                    npc.set_agrogfxid2(rs.getInt("agrogfxid2"));
-                    npc.set_picupitem(rs.getBoolean("picupitem"));
-                    npc.set_digestitem(rs.getInt("digestitem"));
-                    npc.set_bravespeed(rs.getBoolean("bravespeed"));
-                    npc.set_hprinterval(rs.getInt("hprinterval"));
-                    npc.set_hpr(rs.getInt("hpr"));
-                    npc.set_mprinterval(rs.getInt("mprinterval"));
-                    npc.set_mpr(rs.getInt("mpr"));
-                    npc.set_teleport(rs.getBoolean("teleport"));
-                    npc.set_randomlevel(rs.getInt("randomlevel"));
-                    npc.set_randomhp(rs.getInt("randomhp"));
-                    npc.set_randommp(rs.getInt("randommp"));
-                    npc.set_randomac(rs.getInt("randomac"));
-                    npc.set_randomexp(rs.getInt("randomexp"));
-                    npc.set_randomlawful(rs.getInt("randomlawful"));
-                    npc.set_damagereduction(rs.getInt("damage_reduction"));
-                    npc.set_hard(rs.getBoolean("hard"));
-                    npc.set_doppel(rs.getBoolean("doppel"));
-                    npc.set_IsTU(rs.getBoolean("IsTU"));
-                    npc.set_IsErase(rs.getBoolean("IsErase"));
-                    npc.BowActId = rs.getInt("bowActId");
-                    npc.Karma = rs.getInt("karma");
-                    npc.TransformId = rs.getInt("transform_id");
-                    npc.TransformGfxId = rs.getInt("transform_gfxid");
-                    npc.LightSize = rs.getInt("light_size");
-                    npc.AmountFixed = rs.getBoolean("amount_fixed");
-                    npc.ChangeHead = rs.getBoolean("change_head");
-                    npc.CantResurrect = rs.getBoolean("cant_resurrect");
+                    npc.set_agrogfxid1(dataSourceRow.getInt("agrogfxid1"));
+                    npc.set_agrogfxid2(dataSourceRow.getInt("agrogfxid2"));
+                    npc.set_picupitem(dataSourceRow.getBoolean("picupitem"));
+                    npc.set_digestitem(dataSourceRow.getInt("digestitem"));
+                    npc.set_bravespeed(dataSourceRow.getBoolean("bravespeed"));
+                    npc.set_hprinterval(dataSourceRow.getInt("hprinterval"));
+                    npc.set_hpr(dataSourceRow.getInt("hpr"));
+                    npc.set_mprinterval(dataSourceRow.getInt("mprinterval"));
+                    npc.set_mpr(dataSourceRow.getInt("mpr"));
+                    npc.set_teleport(dataSourceRow.getBoolean("teleport"));
+                    npc.set_randomlevel(dataSourceRow.getInt("randomlevel"));
+                    npc.set_randomhp(dataSourceRow.getInt("randomhp"));
+                    npc.set_randommp(dataSourceRow.getInt("randommp"));
+                    npc.set_randomac(dataSourceRow.getInt("randomac"));
+                    npc.set_randomexp(dataSourceRow.getInt("randomexp"));
+                    npc.set_randomlawful(dataSourceRow.getInt("randomlawful"));
+                    npc.set_damagereduction(dataSourceRow.getInt("damage_reduction"));
+                    npc.set_hard(dataSourceRow.getBoolean("hard"));
+                    npc.set_doppel(dataSourceRow.getBoolean("doppel"));
+                    npc.set_IsTU(dataSourceRow.getBoolean("IsTU"));
+                    npc.set_IsErase(dataSourceRow.getBoolean("IsErase"));
+                    npc.BowActId = dataSourceRow.getInt("bowActId");
+                    npc.Karma = dataSourceRow.getInt("karma");
+                    npc.TransformId = dataSourceRow.getInt("transform_id");
+                    npc.TransformGfxId = dataSourceRow.getInt("transform_gfxid");
+                    npc.LightSize = dataSourceRow.getInt("light_size");
+                    npc.AmountFixed = dataSourceRow.getBoolean("amount_fixed");
+                    npc.ChangeHead = dataSourceRow.getBoolean("change_head");
+                    npc.CantResurrect = dataSourceRow.getBoolean("cant_resurrect");
 
                     registerConstructorCache(npc.Impl);
                     _npcs[npcId] = npc;
@@ -227,7 +227,7 @@ namespace LineageServer.Server.Server.DataSources
                 int id = 1;
                 while (rs.next())
                 {
-                    string family = rs.getString("family");
+                    string family = dataSourceRow.getString("family");
                     result[family] = id++;
                 }
             }

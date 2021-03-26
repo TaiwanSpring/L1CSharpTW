@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_SELECT_LIST = "[C] C_SelectList";
 
-		public C_SelectList(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_SelectList(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 			L1PcInstance pc = clientthread.ActiveChar;
 			if (pc == null)
@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.Clientpackets
 			}
 
 			// アイテム毎にリクエストが来る。
-			int itemObjectId = readD();
-			int npcObjectId = readD();
+			int itemObjectId = ReadD();
+			int npcObjectId = ReadD();
 
 
 			if (npcObjectId != 0)

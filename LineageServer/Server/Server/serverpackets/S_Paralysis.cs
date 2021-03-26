@@ -24,75 +24,75 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_Paralysis(int type, bool flag)
 		{
-			writeC(Opcodes.S_OPCODE_PARALYSIS);
+			WriteC(Opcodes.S_OPCODE_PARALYSIS);
 			if (type == TYPE_PARALYSIS) // 体が完全に麻痺しました。
 			{
 				if (flag == true)
 				{
-					writeC(2);
+					WriteC(2);
 				}
 				else
 				{
-					writeC(3);
+					WriteC(3);
 				}
 			}
 			else if (type == TYPE_PARALYSIS2) // 体が完全に麻痺しました。
 			{
 				if (flag == true)
 				{
-					writeC(4);
+					WriteC(4);
 				}
 				else
 				{
-					writeC(5);
+					WriteC(5);
 				}
 			}
 			else if (type == TYPE_TELEPORT_UNLOCK) // テレポート待ち状態の解除
 			{
-				writeC(7);
+				WriteC(7);
 			}
 			else if (type == TYPE_SLEEP) // 強力な睡魔が襲ってきて、寝てしまいました。
 			{
 				if (flag == true)
 				{
-					writeC(10);
+					WriteC(10);
 				}
 				else
 				{
-					writeC(11);
+					WriteC(11);
 				}
 			}
 			else if (type == TYPE_FREEZE) // 体が凍りました。
 			{
 				if (flag == true)
 				{
-					writeC(12);
+					WriteC(12);
 				}
 				else
 				{
-					writeC(13);
+					WriteC(13);
 				}
 			}
 			else if (type == TYPE_STUN) // スタン状態です。
 			{
 				if (flag == true)
 				{
-					writeC(22);
+					WriteC(22);
 				}
 				else
 				{
-					writeC(23);
+					WriteC(23);
 				}
 			}
 			else if (type == TYPE_BIND) // 足が縛られたように動けません。
 			{
 				if (flag == true)
 				{
-					writeC(24);
+					WriteC(24);
 				}
 				else
 				{
-					writeC(25);
+					WriteC(25);
 				}
 			}
 

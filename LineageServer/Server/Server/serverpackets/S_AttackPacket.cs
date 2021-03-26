@@ -36,14 +36,14 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildpacket(L1Character atk, int objid, int[] data)
 		{ // data = {actid, dmg, effect}
-			writeC(Opcodes.S_OPCODE_ATTACKPACKET);
-			writeC(data[0]); // actid
-			writeD(atk.Id);
-			writeD(objid);
-			writeH(data[1]); // dmg
-			writeC(atk.Heading);
-			writeD(0x00000000);
-			writeC(data[2]); // effect 0:none 2:爪痕 4:雙擊 8:鏡返射
+			WriteC(Opcodes.S_OPCODE_ATTACKPACKET);
+			WriteC(data[0]); // actid
+			WriteD(atk.Id);
+			WriteD(objid);
+			WriteH(data[1]); // dmg
+			WriteC(atk.Heading);
+			WriteD(0x00000000);
+			WriteC(data[2]); // effect 0:none 2:爪痕 4:雙擊 8:鏡返射
 		}
 
 		public override sbyte[] Content

@@ -131,15 +131,15 @@ namespace LineageServer.Server.Server.serverpackets
 		///            智力 </param>
 		private void buildPacket(L1PcInstance pc, int Str, int Dex, int Con, int Wis, int Cha, int Int)
 		{
-			int write1 = (Int * 16) + Str;
-			int write2 = (Dex * 16) + Wis;
-			int write3 = (Cha * 16) + Con;
-			writeC(Opcodes.S_OPCODE_CHARRESET);
-			writeC(0x04);
-			writeC(write1); // 智力&力量
-			writeC(write2); // 敏捷&精神
-			writeC(write3); // 魅力&體質
-			writeC(0x00);
+			int Write1 = (Int * 16) + Str;
+			int Write2 = (Dex * 16) + Wis;
+			int Write3 = (Cha * 16) + Con;
+			WriteC(Opcodes.S_OPCODE_CHARRESET);
+			WriteC(0x04);
+			WriteC(Write1); // 智力&力量
+			WriteC(Write2); // 敏捷&精神
+			WriteC(Write3); // 魅力&體質
+			WriteC(0x00);
 		}
 
 		public override sbyte[] Content

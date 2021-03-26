@@ -2,7 +2,7 @@
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.Model.map;
 using LineageServer.Server.Server.Templates;
-using LineageServer.Server.Server.utils.collections;
+using LineageServer.Server.Server.Utils.collections;
 using System;
 using System.Collections.Generic;
 

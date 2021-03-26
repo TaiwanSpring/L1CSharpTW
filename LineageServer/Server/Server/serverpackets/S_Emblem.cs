@@ -38,11 +38,11 @@ namespace LineageServer.Server.Server.serverpackets
 				{
 					int data = 0;
 					bis = new BufferedInputStream(new FileStream(file, FileMode.Open, FileAccess.Read));
-					writeC(Opcodes.S_OPCODE_EMBLEM);
-					writeD(emblemId);
+					WriteC(Opcodes.S_OPCODE_EMBLEM);
+					WriteD(emblemId);
 					while ((data = bis.read()) != -1)
 					{
-						writeP(data);
+						WriteP(data);
 					}
 				}
 			}

@@ -33,10 +33,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int targetId, int objectId, string message)
 		{
-			writeC(Opcodes.S_OPCODE_TRUETARGET);
-			writeD(targetId);
-			writeD(objectId);
-			writeS(message);
+			WriteC(Opcodes.S_OPCODE_TRUETARGET);
+			WriteD(targetId);
+			WriteD(objectId);
+			WriteS(message);
 		}
 
 		public override sbyte[] Content

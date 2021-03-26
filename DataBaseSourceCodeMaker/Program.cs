@@ -18,6 +18,7 @@ namespace DataBaseSourceCodeMaker
 
             var dataReader = command.ExecuteReader();
             List<string> tableName = new List<string>();
+            StringBuilder enumBuilder = new StringBuilder();
             while (dataReader.Read())
             {
                 tableName.Add(dataReader.GetString(0));
@@ -57,11 +58,13 @@ namespace DataBaseSourceCodeMaker
                     }
                 }
                 string className = classNameBuilder.ToString().Replace("_", string.Empty);
+                enumBuilder.AppendLine($"{className},");
                 command2.CommandText = @"
 select concat('using System.Data;') union all
+select concat('using LineageServer.Enum;') union all
 select concat('namespace LineageServer.DataBase.DataSources') union all
 select '{' union all
-select concat('    class ', @className,' : DataSourceTable') union all
+select concat('    class ', @className,' : DataSource') union all
 select '    {' union all
 select concat('        public const string TableName = ""',@table,'"";') union all
 select concat('        public const string Column_',COLUMN_NAME,' = ""', COLUMN_NAME,'"";') from information_schema.columns c
@@ -80,7 +83,8 @@ select 'date' ,'DateTime' union all
 select 'tinyint' ,'Boolean'
 ) tps on c.data_type like tps.orign
 where table_schema = @schema and table_name = @table union all
-select '        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}' union all
+select concat('        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.',@className,'; } }') union all
+select '        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }' union all
 select '        private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]' UNION all
 select '        {' union all
 select concat('            new ColumnInfo() { Column = ','Column_',COLUMN_NAME,', DbType = DbType.',tps.dest,', IsPKey = ', IF(ISNULL((SELECT INDEX_NAME FROM information_schema.STATISTICS AS i WHERE i.TABLE_SCHEMA = @schema AND i.TABLE_NAME = @table AND i.COLUMN_NAME = c.COLUMN_NAME AND i.INDEX_NAME = 'PRIMARY')) = 1, 'false' , 'true'),'},') from  information_schema.columns c
@@ -116,9 +120,13 @@ SELECT '}';".Replace("@schema", "'l1jdbtw'").Replace("@table", $"'{item}'").Repl
                 dataReader.Close();
 
                 File.WriteAllText(Path.Combine(Environment.CurrentDirectory, className + ".cs"), stringBuilder.ToString());
+
             }
 
             mySqlConnection.Close();
+
+            string enumContext = enumBuilder.ToString();
+
             Console.WriteLine("Hello World!");
 
             Console.ReadLine();

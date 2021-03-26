@@ -28,9 +28,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1Character cha)
 		{
-			writeC(Opcodes.S_OPCODE_CHANGEHEADING);
-			writeD(cha.Id);
-			writeC(cha.Heading);
+			WriteC(Opcodes.S_OPCODE_CHANGEHEADING);
+			WriteD(cha.Id);
+			WriteC(cha.Heading);
 		}
 
 		public override sbyte[] Content

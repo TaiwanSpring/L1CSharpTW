@@ -9,7 +9,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
 
         private const string C_LEAVE_PARTY = "[C] C_LeaveParty";
-        public C_LeaveParty(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_LeaveParty(byte[] decrypt, ClientThread client) : base(decrypt)
         {
 
             L1PcInstance player = client.ActiveChar;

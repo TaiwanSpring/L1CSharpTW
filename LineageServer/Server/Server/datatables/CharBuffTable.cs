@@ -77,8 +77,8 @@ namespace LineageServer.Server.Server.DataSources
             rs = pstm.executeQuery();
             while (rs.next())
             {
-                int skillid = rs.getInt("skill_id");
-                int remaining_time = rs.getInt("remaining_time");
+                int skillid = dataSourceRow.getInt("skill_id");
+                int remaining_time = dataSourceRow.getInt("remaining_time");
                 switch (skillid)
                 {
                     case L1SkillId.STATUS_RIBRAVE: // 生命之樹果實

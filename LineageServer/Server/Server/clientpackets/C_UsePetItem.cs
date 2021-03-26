@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_USE_PET_ITEM = "[C] C_UsePetItem";
 
-		public C_UsePetItem(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_UsePetItem(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance pc = clientthread.ActiveChar;
@@ -32,9 +32,9 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int data = readC();
-			int petId = readD();
-			int listNo = readC();
+			int data = ReadC();
+			int petId = ReadD();
+			int listNo = ReadC();
 
 			L1PetInstance pet = (L1PetInstance) L1World.Instance.findObject(petId);
 			if (pet == null)

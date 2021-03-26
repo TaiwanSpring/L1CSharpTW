@@ -31,23 +31,23 @@ namespace LineageServer.Server.Server.serverpackets
 		///            外見のタイプ 0 = 通常色, 1 = 緑色, 2 = 灰色 </param>
 		public S_Poison(int objId, int type)
 		{
-			writeC(Opcodes.S_OPCODE_POISON);
-			writeD(objId);
+			WriteC(Opcodes.S_OPCODE_POISON);
+			WriteD(objId);
 
 			if (type == 0)
 			{ // 通常
-				writeC(0);
-				writeC(0);
+				WriteC(0);
+				WriteC(0);
 			}
 			else if (type == 1)
 			{ // 緑色
-				writeC(1);
-				writeC(0);
+				WriteC(1);
+				WriteC(0);
 			}
 			else if (type == 2)
 			{ // 灰色
-				writeC(0);
-				writeC(1);
+				WriteC(0);
+				WriteC(1);
 			}
 			else
 			{

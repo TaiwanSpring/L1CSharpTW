@@ -19,8 +19,8 @@ using System.IO;
 namespace LineageServer.Server.Server
 {
 
-	using StreamUtil = LineageServer.Server.Server.utils.StreamUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using StreamUtil = LineageServer.Server.Server.Utils.StreamUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class BadNamesList
 	{

@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Mail : DataSourceTable
+    class Mail : DataSource
     {
         public const string TableName = "mail";
         public const string Column_sender = "sender";
@@ -11,7 +12,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_type = "type";
         public const string Column_inbox_id = "inbox_id";
         public const string Column_read_status = "read_status";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Mail; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_sender, DbType = DbType.String, IsPKey = false},

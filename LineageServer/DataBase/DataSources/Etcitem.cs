@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Etcitem : DataSourceTable
+    class Etcitem : DataSource
     {
         public const string TableName = "etcitem";
         public const string Column_name = "name";
@@ -33,7 +34,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_delay_effect = "delay_effect";
         public const string Column_food_volume = "food_volume";
         public const string Column_save_at_once = "save_at_once";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Etcitem; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},

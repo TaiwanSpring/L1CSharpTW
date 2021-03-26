@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_SHOP_LIST = "[C] C_ShopList";
 
-		public C_ShopList(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_ShopList(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance pc = clientthread.ActiveChar;
@@ -20,8 +20,8 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int type = readC();
-			int objectId = readD();
+			int type = ReadC();
+			int objectId = ReadD();
 
 			pc.sendPackets(new S_PrivateShop(pc, objectId, type));
 		}

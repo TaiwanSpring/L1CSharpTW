@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server.Clientpackets
         private const string C_BAN_CLAN = "[C] C_BanClan";
         private static ILogger _log = Logger.getLogger(nameof(C_BanClan));
 
-        public C_BanClan(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_BanClan(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
             L1PcInstance pc = clientthread.ActiveChar;
@@ -25,7 +25,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            string s = readS();
+            string s = ReadS();
 
             L1Clan clan = L1World.Instance.getClan(pc.Clanname);
             if (clan != null)

@@ -7,8 +7,8 @@ namespace LineageServer.Server.Server.serverpackets
     {
         public S_RemoveObject(L1Object obj)
         {
-            writeC(Opcodes.S_OPCODE_REMOVE_OBJECT);
-            writeD(obj.Id);
+            WriteC(Opcodes.S_OPCODE_REMOVE_OBJECT);
+            WriteD(obj.Id);
         }
     }
 }

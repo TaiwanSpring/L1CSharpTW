@@ -25,8 +25,8 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_DeleteCharOK(int type)
 		{
-			writeC(Opcodes.S_OPCODE_DETELECHAROK);
-			writeC(type);
+			WriteC(Opcodes.S_OPCODE_DETELECHAROK);
+			WriteC(type);
 		}
 
 		public override sbyte[] Content

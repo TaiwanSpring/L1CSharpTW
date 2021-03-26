@@ -10,7 +10,7 @@ namespace LineageServer.Server.Server.Clientpackets
         private const string C_EXIT_GHOST = "[C] C_ExitGhost";
 
         // 移動
-        public C_ExitGhost(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_ExitGhost(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             L1PcInstance pc = client.ActiveChar;
             if ((pc == null) || (!pc.Ghost))

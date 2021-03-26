@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
     /// </summary>
     class C_UseSkill : ClientBasePacket
     {
-        public C_UseSkill(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_UseSkill(byte[] abyte0, ClientThread client) : base(abyte0)
         {
             L1PcInstance pc = client.ActiveChar;
             if ((pc == null) || pc.Teleport || pc.Dead)
@@ -20,8 +20,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int row = readC();
-            int column = readC();
+            int row = ReadC();
+            int column = ReadC();
             int skillId = (row * 8) + column + 1;
             string charName = null;
             string message = null;
@@ -64,42 +64,42 @@ namespace LineageServer.Server.Server.Clientpackets
                 {
                     if ((skillId == L1SkillId.CALL_CLAN) || (skillId == L1SkillId.RUN_CLAN))
                     { // コールクラン、ランクラン
-                        charName = readS();
+                        charName = ReadS();
                     }
                     else if (skillId == L1SkillId.TRUE_TARGET)
                     { // トゥルーターゲット
-                        targetId = readD();
-                        targetX = readH();
-                        targetY = readH();
-                        message = readS();
+                        targetId = ReadD();
+                        targetX = ReadH();
+                        targetY = ReadH();
+                        message = ReadS();
                     }
                     else if ((skillId == L1SkillId.TELEPORT) || (skillId == L1SkillId.MASS_TELEPORT))
                     { // テレポート、マステレポート
-                        readH(); // MapID
-                        targetId = readD(); // Bookmark ID
+                        ReadH(); // MapID
+                        targetId = ReadD(); // Bookmark ID
                     }
                     else if ((skillId == L1SkillId.FIRE_WALL) || (skillId == L1SkillId.LIFE_STREAM))
                     { // ファイアーウォール、ライフストリーム
-                        targetX = readH();
-                        targetY = readH();
+                        targetX = ReadH();
+                        targetY = ReadH();
                     }
                     else if (skillId == L1SkillId.SUMMON_MONSTER)
                     { // 法師魔法 (召喚術)
                         if (pc.Inventory.checkEquipped(20284))
                         { // 有裝備召喚戒指
-                            int summonId = readD();
+                            int summonId = ReadD();
                             pc.SummonId = summonId;
                         }
                         else
                         {
-                            targetId = readD();
+                            targetId = ReadD();
                         }
                     }
                     else
                     {
-                        targetId = readD();
-                        targetX = readH();
-                        targetY = readH();
+                        targetId = ReadD();
+                        targetX = ReadH();
+                        targetY = ReadH();
                     }
                 }
                 catch (Exception)

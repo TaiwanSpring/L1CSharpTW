@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.serverpackets
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1PetInstance = LineageServer.Server.Server.Model.Instance.L1PetInstance;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	// Referenced classes of package l1j.server.server.serverpackets:
 	// ServerBasePacket
@@ -56,26 +56,26 @@ namespace LineageServer.Server.Server.serverpackets
 
 			if (amuletList.Count != 0)
 			{
-				writeC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
-				writeD(npcObjId);
-				writeH(amuletList.Count);
-				writeC(0x0c);
+				WriteC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
+				WriteD(npcObjId);
+				WriteH(amuletList.Count);
+				WriteC(0x0c);
 				foreach (L1ItemInstance item in amuletList)
 				{
-					writeD(item.Id);
-					writeC(0x00);
-					writeH(item.get_gfxid());
-					writeC(item.Bless);
-					writeD(item.Count);
-					writeC(item.Identified ? 1 : 0);
-					writeS(item.ViewName);
+					WriteD(item.Id);
+					WriteC(0x00);
+					WriteH(item.get_gfxid());
+					WriteC(item.Bless);
+					WriteD(item.Count);
+					WriteC(item.Identified ? 1 : 0);
+					WriteS(item.ViewName);
 				}
 			}
 			else
 			{
 				return;
 			}
-			writeD(0x00000073); // Price
+			WriteD(0x00000073); // Price
 		}
 
 		private bool isWithdraw(L1PcInstance pc, L1ItemInstance item)

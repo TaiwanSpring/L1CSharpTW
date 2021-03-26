@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class CharacterSkills : DataSourceTable
+    class CharacterSkills : DataSource
     {
         public const string TableName = "character_skills";
         public const string Column_skill_name = "skill_name";
@@ -10,7 +11,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_skill_id = "skill_id";
         public const string Column_is_active = "is_active";
         public const string Column_activetimeleft = "activetimeleft";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.CharacterSkills; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_skill_name, DbType = DbType.String, IsPKey = false},

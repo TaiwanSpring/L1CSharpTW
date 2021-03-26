@@ -32,8 +32,8 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int time)
 		{
-			writeC(Opcodes.S_OPCODE_GAMETIME);
-			writeD(time);
+			WriteC(Opcodes.S_OPCODE_GAMETIME);
+			WriteD(time);
 		}
 
 		public override sbyte[] Content

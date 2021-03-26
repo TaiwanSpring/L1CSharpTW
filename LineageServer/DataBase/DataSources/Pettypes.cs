@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Pettypes : DataSourceTable
+    class Pettypes : DataSource
     {
         public const string TableName = "pettypes";
         public const string Column_Name = "Name";
@@ -20,7 +21,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_MessageId5 = "MessageId5";
         public const string Column_DefyMessageId = "DefyMessageId";
         public const string Column_canUseEquipment = "canUseEquipment";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Pettypes; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_Name, DbType = DbType.String, IsPKey = false},

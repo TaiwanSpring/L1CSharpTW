@@ -37,26 +37,26 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1ItemInstance item)
 		{
-			// writeC(Opcodes.S_OPCODE_ITEMAMOUNT);
-			// writeD(item.getId());
-			// writeD(item.getCount());
-			// writeC(0);
+			// WriteC(Opcodes.S_OPCODE_ITEMAMOUNT);
+			// WriteD(item.getId());
+			// WriteD(item.getCount());
+			// WriteC(0);
 			// 3.0
-			writeC(Opcodes.S_OPCODE_ITEMAMOUNT);
-			writeD(item.Id);
-			writeS(item.ViewName);
-			writeD(item.Count);
+			WriteC(Opcodes.S_OPCODE_ITEMAMOUNT);
+			WriteD(item.Id);
+			WriteS(item.ViewName);
+			WriteD(item.Count);
 			if (!item.Identified)
 			{ // 未鑑定の場合ステータスを送る必要はない
-				writeC(0);
+				WriteC(0);
 			}
 			else
 			{
 				byte[] status = item.StatusBytes;
-				writeC(status.Length);
+				WriteC(status.Length);
 				foreach (byte b in status)
 				{
-					writeC(b);
+					WriteC(b);
 				}
 			}
 			// 3.0 end

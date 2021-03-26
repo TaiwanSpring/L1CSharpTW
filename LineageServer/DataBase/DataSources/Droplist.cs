@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Droplist : DataSourceTable
+    class Droplist : DataSource
     {
         public const string TableName = "droplist";
         public const string Column_mobId = "mobId";
@@ -10,7 +11,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_max = "max";
         public const string Column_chance = "chance";
         public const string Column_enchantlvl = "enchantlvl";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Droplist; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_mobId, DbType = DbType.Int32, IsPKey = true},

@@ -36,11 +36,11 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1ItemInstance item)
 		{
-			writeC(Opcodes.S_OPCODE_ITEMCOLOR);
-			writeD(item.Id);
+			WriteC(Opcodes.S_OPCODE_ITEMCOLOR);
+			WriteD(item.Id);
 			// 0:祝福 1:通常 2:呪い 3:未鑑定
 			// 128:祝福&封印 129:&封印 130:呪い&封印 131:未鑑定&封印
-			writeC(item.Bless);
+			WriteC(item.Bless);
 		}
 
 		public override sbyte[] Content

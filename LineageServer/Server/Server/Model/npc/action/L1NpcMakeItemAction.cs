@@ -29,8 +29,8 @@ namespace LineageServer.Server.Server.Model.Npc.Action
 	using S_HowManyMake = LineageServer.Server.Server.serverpackets.S_HowManyMake;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using L1Item = LineageServer.Server.Server.Templates.L1Item;
-	using IterableElementList = LineageServer.Server.Server.utils.IterableElementList;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using IterableElementList = LineageServer.Server.Server.Utils.IterableElementList;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	using Element = org.w3c.dom.Element;
 	using NodeList = org.w3c.dom.NodeList;

@@ -9,7 +9,7 @@ namespace LineageServer.Server.Server.Clientpackets
     class C_NPCTalkAction : ClientBasePacket
     {
         private const string C_NPC_TALK_ACTION = "[C] C_NPCTalkAction";
-        public C_NPCTalkAction(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_NPCTalkAction(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             L1PcInstance activeChar = client.ActiveChar;
 
@@ -18,9 +18,9 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int objectId = readD();
+            int objectId = ReadD();
 
-            string action = readS();
+            string action = ReadS();
 
             if (L1World.Instance.findObject(objectId) is L1NpcInstance npc)
             {

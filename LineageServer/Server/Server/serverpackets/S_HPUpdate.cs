@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server.serverpackets
 {
 	using Opcodes = LineageServer.Server.Server.Opcodes;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using IntRange = LineageServer.Server.Server.utils.IntRange;
+	using IntRange = LineageServer.Server.Server.Utils.IntRange;
 
 	public class S_HPUpdate : ServerBasePacket
 	{
@@ -34,11 +34,11 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public virtual void buildPacket(int currentHp, int maxHp)
 		{
-			writeC(Opcodes.S_OPCODE_HPUPDATE);
-			writeH(hpRange.ensure(currentHp));
-			writeH(hpRange.ensure(maxHp));
-			// writeC(0);
-			// writeD(GameTimeController.getInstance().getGameTime());
+			WriteC(Opcodes.S_OPCODE_HPUPDATE);
+			WriteH(hpRange.ensure(currentHp));
+			WriteH(hpRange.ensure(maxHp));
+			// WriteC(0);
+			// WriteD(GameTimeController.getInstance().getGameTime());
 		}
 
 		public override sbyte[] Content

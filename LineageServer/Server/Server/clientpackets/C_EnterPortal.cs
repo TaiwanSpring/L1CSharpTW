@@ -10,7 +10,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 
 		private const string C_ENTER_PORTAL = "[C] C_EnterPortal";
-		public C_EnterPortal(sbyte[] abyte0, ClientThread client) : base(abyte0)
+		public C_EnterPortal(byte[] abyte0, ClientThread client) : base(abyte0)
 		{
 			L1PcInstance pc = client.ActiveChar;
 			if (pc == null)
@@ -18,8 +18,8 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int locx = readH();
-			int locy = readH();
+			int locx = ReadH();
+			int locy = ReadH();
 
 			if (pc.Teleport)
 			{ // 傳送中

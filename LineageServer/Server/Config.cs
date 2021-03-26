@@ -18,7 +18,7 @@ using System.IO;
 namespace LineageServer.Server
 {
 
-	using IntRange = LineageServer.Server.Server.utils.IntRange;
+	using IntRange = LineageServer.Server.Server.Utils.IntRange;
 
 	public sealed class Config
 	{

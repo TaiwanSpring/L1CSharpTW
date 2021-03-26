@@ -31,15 +31,15 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			string htmlid = "";
 			htmlid = npc.TeleportURL;
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(objid);
-			writeS(htmlid);
-			writeH(0x01); // 不明
-			writeH(prices.Length); // 引数の数
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(objid);
+			WriteS(htmlid);
+			WriteH(0x01); // 不明
+			WriteH(prices.Length); // 引数の数
 
 			foreach (object price in prices)
 			{
-				writeS((((int?) price).Value).ToString());
+				WriteS((((int?) price).Value).ToString());
 			}
 		}
 
@@ -49,7 +49,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

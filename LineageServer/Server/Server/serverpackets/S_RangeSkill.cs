@@ -41,30 +41,30 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1Character cha, L1Character[] target, int spellgfx, int actionId, int type)
 		{
-			writeC(Opcodes.S_OPCODE_RANGESKILLS);
-			writeC(actionId);
-			writeD(cha.Id);
-			writeH(cha.X);
-			writeH(cha.Y);
+			WriteC(Opcodes.S_OPCODE_RANGESKILLS);
+			WriteC(actionId);
+			WriteD(cha.Id);
+			WriteH(cha.X);
+			WriteH(cha.Y);
 			if (type == TYPE_NODIR)
 			{
-				writeC(cha.Heading);
+				WriteC(cha.Heading);
 			}
 			else if (type == TYPE_DIR)
 			{
 				int newHeading = calcheading(cha.X, cha.Y, target[0].X, target[0].Y);
 				cha.Heading = newHeading;
-				writeC(cha.Heading);
+				WriteC(cha.Heading);
 			}
-			writeD(_sequentialNumber.incrementAndGet()); // 番号がダブらないように送る。
-			writeH(spellgfx);
-			writeC(type); // 0:範囲 6:遠距離 8:範囲&遠距離
-			writeH(0);
-			writeH(target.Length);
+			WriteD(_sequentialNumber.incrementAndGet()); // 番号がダブらないように送る。
+			WriteH(spellgfx);
+			WriteC(type); // 0:範囲 6:遠距離 8:範囲&遠距離
+			WriteH(0);
+			WriteH(target.Length);
 			foreach (L1Character element in target)
 			{
-				writeD(element.Id);
-				writeH(0x20); // 0:ダメージモーションあり 0以外:なし
+				WriteD(element.Id);
+				WriteH(0x20); // 0:ダメージモーションあり 0以外:なし
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

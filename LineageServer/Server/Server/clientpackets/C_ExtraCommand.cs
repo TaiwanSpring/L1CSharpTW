@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
     class C_ExtraCommand : ClientBasePacket
     {
         private const string C_EXTRA_COMMAND = "[C] C_ExtraCommand";
-        public C_ExtraCommand(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_ExtraCommand(byte[] abyte0, ClientThread client) : base(abyte0)
         {
 
             L1PcInstance pc = client.ActiveChar;
@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int actionId = readC();
+            int actionId = ReadC();
             if (pc.Ghost)
             {
                 return;

@@ -14,7 +14,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_BUDDY = "[C] C_Buddy";
 
-		public C_Buddy(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_Buddy(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance pc = clientthread.ActiveChar;

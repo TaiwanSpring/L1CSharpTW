@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Npc : DataSourceTable
+    class Npc : DataSource
     {
         public const string TableName = "npc";
         public const string Column_name = "name";
@@ -71,7 +72,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_light_size = "light_size";
         public const string Column_amount_fixed = "amount_fixed";
         public const string Column_cant_resurrect = "cant_resurrect";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Npc; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},

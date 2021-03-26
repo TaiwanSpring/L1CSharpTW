@@ -2,7 +2,7 @@
 using LineageServer.Server.Server.Model;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 
 namespace LineageServer.Server.Server.Clientpackets
 {
@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
     class C_DropItem : ClientBasePacket
     {
         private const string C_DROP_ITEM = "[C] C_DropItem";
-        public C_DropItem(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_DropItem(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             L1PcInstance pc = client.ActiveChar;
             if (pc == null)
@@ -20,10 +20,10 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int x = readH();
-            int y = readH();
-            int objectId = readD();
-            int count = readD();
+            int x = ReadH();
+            int y = ReadH();
+            int objectId = ReadD();
+            int count = ReadD();
 
             if (count > 0x77359400 || count < 0)
             { // 確保數量不會溢位

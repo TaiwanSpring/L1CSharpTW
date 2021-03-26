@@ -31,9 +31,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int objid, int type)
 		{
-			writeC(Opcodes.S_OPCODE_INVIS);
-			writeD(objid);
-			writeC(type);
+			WriteC(Opcodes.S_OPCODE_INVIS);
+			WriteD(objid);
+			WriteC(type);
 		}
 
 		public override sbyte[] Content

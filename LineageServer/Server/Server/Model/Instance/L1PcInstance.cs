@@ -8,12 +8,12 @@ using LineageServer.Server.Server.Model.monitor;
 using LineageServer.Server.Server.DataSources;
 using LineageServer.Server.Server.Model.skill;
 using LineageServer.Server.Server.Command.Executor;
-using LineageServer.Server.Server.utils.collections;
-using LineageServer.Server.Server.Model.classes;
+using LineageServer.Server.Server.Utils.collections;
+using LineageServer.Server.Server.Model.Classes;
 using System.Linq;
 using LineageServer.Interfaces;
 using LineageServer.Server.Server.Model.map;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 using LineageServer.Server.Server.Model.Gametime;
 
 namespace LineageServer.Server.Server.Model.Instance

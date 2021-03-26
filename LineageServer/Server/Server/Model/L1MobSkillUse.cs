@@ -38,9 +38,9 @@ namespace LineageServer.Server.Server.Model
 	using L1MobSkill = LineageServer.Server.Server.Templates.L1MobSkill;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
 	using L1Skills = LineageServer.Server.Server.Templates.L1Skills;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using Random = LineageServer.Server.Server.Utils.Random;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class L1MobSkillUse
 	{

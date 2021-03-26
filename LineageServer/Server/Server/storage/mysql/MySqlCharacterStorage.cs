@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.storage.mysql
     using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
     using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
     using CharacterStorage = LineageServer.Server.Server.storage.CharacterStorage;
-    using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+    using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
     public class MySqlCharacterStorage : CharacterStorage
     {
@@ -49,14 +49,14 @@ namespace LineageServer.Server.Server.storage.mysql
                     return null;
                 }
                 pc = new L1PcInstance();
-                pc.AccountName = rs.getString("account_name");
-                pc.Id = rs.getInt("objid");
-                pc.Name = rs.getString("char_name");
-                pc.Birthday = rs.getTimestamp("birthday");
-                pc.HighLevel = rs.getInt("HighLevel");
-                pc.Exp = rs.getLong("Exp");
-                pc.addBaseMaxHp(rs.getShort("MaxHp"));
-                short currentHp = rs.getShort("CurHp");
+                pc.AccountName = dataSourceRow.getString("account_name");
+                pc.Id = dataSourceRow.getInt("objid");
+                pc.Name = dataSourceRow.getString("char_name");
+                pc.Birthday = dataSourceRow.getTimestamp("birthday");
+                pc.HighLevel = dataSourceRow.getInt("HighLevel");
+                pc.Exp = dataSourceRow.getLong("Exp");
+                pc.addBaseMaxHp(dataSourceRow.getShort("MaxHp"));
+                short currentHp = dataSourceRow.getShort("CurHp");
                 if (currentHp < 1)
                 {
                     currentHp = 1;
@@ -64,45 +64,45 @@ namespace LineageServer.Server.Server.storage.mysql
                 pc.CurrentHpDirect = currentHp;
                 pc.Dead = false;
                 pc.Status = 0;
-                pc.addBaseMaxMp(rs.getShort("MaxMp"));
-                pc.CurrentMpDirect = rs.getShort("CurMp");
-                pc.addBaseStr(rs.getByte("Str"));
-                pc.addBaseCon(rs.getByte("Con"));
-                pc.addBaseDex(rs.getByte("Dex"));
-                pc.addBaseCha(rs.getByte("Cha"));
-                pc.addBaseInt(rs.getByte("Intel"));
-                pc.addBaseWis(rs.getByte("Wis"));
-                int status = rs.getInt("Status");
+                pc.addBaseMaxMp(dataSourceRow.getShort("MaxMp"));
+                pc.CurrentMpDirect = dataSourceRow.getShort("CurMp");
+                pc.addBaseStr(dataSourceRow.getByte("Str"));
+                pc.addBaseCon(dataSourceRow.getByte("Con"));
+                pc.addBaseDex(dataSourceRow.getByte("Dex"));
+                pc.addBaseCha(dataSourceRow.getByte("Cha"));
+                pc.addBaseInt(dataSourceRow.getByte("Intel"));
+                pc.addBaseWis(dataSourceRow.getByte("Wis"));
+                int status = dataSourceRow.getInt("Status");
                 pc.CurrentWeapon = status;
-                int classId = rs.getInt("Class");
+                int classId = dataSourceRow.getInt("Class");
                 pc.ClassId = classId;
                 pc.TempCharGfx = classId;
                 pc.GfxId = classId;
-                pc.set_sex(rs.getInt("Sex"));
-                pc.Type = rs.getInt("Type");
-                int head = rs.getInt("Heading");
+                pc.set_sex(dataSourceRow.getInt("Sex"));
+                pc.Type = dataSourceRow.getInt("Type");
+                int head = dataSourceRow.getInt("Heading");
                 if (head > 7)
                 {
                     head = 0;
                 }
                 pc.Heading = head;
-                pc.X = rs.getInt("locX");
-                pc.Y = rs.getInt("locY");
-                pc.Map = rs.getShort("MapID");
-                pc.set_food(rs.getInt("Food"));
-                pc.Lawful = rs.getInt("Lawful");
-                pc.Title = rs.getString("Title");
-                pc.Clanid = rs.getInt("ClanID");
-                pc.Clanname = rs.getString("Clanname");
-                pc.ClanRank = rs.getInt("ClanRank");
-                pc.BonusStats = rs.getInt("BonusStatus");
-                pc.ElixirStats = rs.getInt("ElixirStatus");
-                pc.ElfAttr = rs.getInt("ElfAttr");
-                pc.set_PKcount(rs.getInt("PKcount"));
-                pc.PkCountForElf = rs.getInt("PkCountForElf");
-                pc.ExpRes = rs.getInt("ExpRes");
-                pc.PartnerId = rs.getInt("PartnerID");
-                pc.AccessLevel = rs.getShort("AccessLevel");
+                pc.X = dataSourceRow.getInt("locX");
+                pc.Y = dataSourceRow.getInt("locY");
+                pc.Map = dataSourceRow.getShort("MapID");
+                pc.set_food(dataSourceRow.getInt("Food"));
+                pc.Lawful = dataSourceRow.getInt("Lawful");
+                pc.Title = dataSourceRow.getString("Title");
+                pc.Clanid = dataSourceRow.getInt("ClanID");
+                pc.Clanname = dataSourceRow.getString("Clanname");
+                pc.ClanRank = dataSourceRow.getInt("ClanRank");
+                pc.BonusStats = dataSourceRow.getInt("BonusStatus");
+                pc.ElixirStats = dataSourceRow.getInt("ElixirStatus");
+                pc.ElfAttr = dataSourceRow.getInt("ElfAttr");
+                pc.set_PKcount(dataSourceRow.getInt("PKcount"));
+                pc.PkCountForElf = dataSourceRow.getInt("PkCountForElf");
+                pc.ExpRes = dataSourceRow.getInt("ExpRes");
+                pc.PartnerId = dataSourceRow.getInt("PartnerID");
+                pc.AccessLevel = dataSourceRow.getShort("AccessLevel");
                 if (pc.AccessLevel == 200)
                 {
                     pc.Gm = true;
@@ -118,25 +118,25 @@ namespace LineageServer.Server.Server.storage.mysql
                     pc.Gm = false;
                     pc.Monitor = false;
                 }
-                pc.OnlineStatus = rs.getInt("OnlineStatus");
-                pc.HomeTownId = rs.getInt("HomeTownID");
-                pc.Contribution = rs.getInt("Contribution");
-                pc.Pay = rs.getInt("Pay"); // 村莊福利金 此欄位由 HomeTownTimeController 處理 update
-                pc.HellTime = rs.getInt("HellTime");
-                pc.Banned = rs.getBoolean("Banned");
-                pc.Karma = rs.getInt("Karma");
-                pc.LastPk = rs.getTimestamp("LastPk");
-                pc.LastPkForElf = rs.getTimestamp("LastPkForElf");
-                pc.DeleteTime = rs.getTimestamp("DeleteTime");
-                pc.OriginalStr = rs.getInt("OriginalStr");
-                pc.OriginalCon = rs.getInt("OriginalCon");
-                pc.OriginalDex = rs.getInt("OriginalDex");
-                pc.OriginalCha = rs.getInt("OriginalCha");
-                pc.OriginalInt = rs.getInt("OriginalInt");
-                pc.OriginalWis = rs.getInt("OriginalWis");
-                pc.LastActive = rs.getTimestamp("LastActive"); // TODO 殷海薩的祝福
-                pc.AinZone = rs.getInt("AinZone"); // TODO 殷海薩的祝福
-                pc.AinPoint = rs.getInt("AinPoint"); // TODO 殷海薩的祝福
+                pc.OnlineStatus = dataSourceRow.getInt("OnlineStatus");
+                pc.HomeTownId = dataSourceRow.getInt("HomeTownID");
+                pc.Contribution = dataSourceRow.getInt("Contribution");
+                pc.Pay = dataSourceRow.getInt("Pay"); // 村莊福利金 此欄位由 HomeTownTimeController 處理 update
+                pc.HellTime = dataSourceRow.getInt("HellTime");
+                pc.Banned = dataSourceRow.getBoolean("Banned");
+                pc.Karma = dataSourceRow.getInt("Karma");
+                pc.LastPk = dataSourceRow.getTimestamp("LastPk");
+                pc.LastPkForElf = dataSourceRow.getTimestamp("LastPkForElf");
+                pc.DeleteTime = dataSourceRow.getTimestamp("DeleteTime");
+                pc.OriginalStr = dataSourceRow.getInt("OriginalStr");
+                pc.OriginalCon = dataSourceRow.getInt("OriginalCon");
+                pc.OriginalDex = dataSourceRow.getInt("OriginalDex");
+                pc.OriginalCha = dataSourceRow.getInt("OriginalCha");
+                pc.OriginalInt = dataSourceRow.getInt("OriginalInt");
+                pc.OriginalWis = dataSourceRow.getInt("OriginalWis");
+                pc.LastActive = dataSourceRow.getTimestamp("LastActive"); // TODO 殷海薩的祝福
+                pc.AinZone = dataSourceRow.getInt("AinZone"); // TODO 殷海薩的祝福
+                pc.AinPoint = dataSourceRow.getInt("AinPoint"); // TODO 殷海薩的祝福
                 rs.close();
 
                 pc.refresh();
@@ -153,8 +153,8 @@ namespace LineageServer.Server.Server.storage.mysql
                     {
                         return null;
                     }
-                    pc.ClanMemberId = rs.getInt("index_id");
-                    pc.ClanMemberNotes = rs.getString("notes");
+                    pc.ClanMemberId = dataSourceRow.getInt("index_id");
+                    pc.ClanMemberNotes = dataSourceRow.getString("notes");
                 }
                 _log.finest("restored char data: ");
             }

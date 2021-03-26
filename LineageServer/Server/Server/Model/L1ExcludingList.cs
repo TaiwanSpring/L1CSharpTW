@@ -18,7 +18,7 @@ using System.Collections.Generic;
 namespace LineageServer.Server.Server.Model
 {
 
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class L1ExcludingList
 	{

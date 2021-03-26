@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.DataSources
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1FurnitureInstance = LineageServer.Server.Server.Model.Instance.L1FurnitureInstance;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class FurnitureSpawnTable
 	{
@@ -66,7 +66,7 @@ namespace LineageServer.Server.Server.DataSources
 						break;
 					}
 
-					L1Npc l1npc = NpcTable.Instance.getTemplate(rs.getInt(2));
+					L1Npc l1npc = NpcTable.Instance.getTemplate(dataSourceRow.getInt(2));
 					if (l1npc != null)
 					{
 						string s = l1npc.Impl;
@@ -78,10 +78,10 @@ namespace LineageServer.Server.Server.DataSources
 						furniture = (L1FurnitureInstance) constructor.Invoke(parameters);
 						furniture.Id = IdFactory.Instance.nextId();
 
-						furniture.ItemObjId = rs.getInt(1);
-						furniture.X = rs.getInt(3);
-						furniture.Y = rs.getInt(4);
-						furniture.Map = (short) rs.getInt(5);
+						furniture.ItemObjId = dataSourceRow.getInt(1);
+						furniture.X = dataSourceRow.getInt(3);
+						furniture.Y = dataSourceRow.getInt(4);
+						furniture.Map = (short) dataSourceRow.getInt(5);
 						furniture.HomeX = furniture.X;
 						furniture.HomeY = furniture.Y;
 						furniture.Heading = 0;

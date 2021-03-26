@@ -31,9 +31,9 @@ namespace LineageServer.Server.Server.Model
 	using L1ItemId = LineageServer.Server.Server.Model.identity.L1ItemId;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using L1Item = LineageServer.Server.Server.Templates.L1Item;
-	using IntRange = LineageServer.Server.Server.utils.IntRange;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using IntRange = LineageServer.Server.Server.Utils.IntRange;
+	using Random = LineageServer.Server.Server.Utils.Random;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1UltimateBattle

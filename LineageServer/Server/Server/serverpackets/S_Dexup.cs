@@ -25,13 +25,13 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_Dexup(L1PcInstance pc, int type, int time)
 		{
-			writeC(Opcodes.S_OPCODE_DEXUP);
-			writeH(time);
-			writeC(pc.Dex);
-			writeC(type);
-			writeC(0);
-			writeC(0);
-			writeC(0);
+			WriteC(Opcodes.S_OPCODE_DEXUP);
+			WriteH(time);
+			WriteC(pc.Dex);
+			WriteC(type);
+			WriteC(0);
+			WriteC(0);
+			WriteC(0);
 		}
 
 		public override sbyte[] Content

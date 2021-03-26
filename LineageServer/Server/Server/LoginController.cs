@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1Trade = LineageServer.Server.Server.Model.L1Trade;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 
 	public class LoginController

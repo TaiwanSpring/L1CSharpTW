@@ -32,25 +32,25 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_NEWCHARPACK);
-			writeS(pc.Name);
-			writeS("");
-			writeC(pc.Type);
-			writeC(pc.get_sex());
-			writeH(pc.Lawful);
-			writeH(pc.MaxHp);
-			writeH(pc.MaxMp);
-			writeC(pc.Ac);
-			writeC(pc.Level);
-			writeC(pc.Str);
-			writeC(pc.Dex);
-			writeC(pc.Con);
-			writeC(pc.Wis);
-			writeC(pc.Cha);
-			writeC(pc.Int);
-			writeC(0); // 是否為管理員
-			writeD(pc.SimpleBirthday);
-			writeC((pc.Level ^ pc.Str ^ pc.Dex ^ pc.Con ^ pc.Wis ^ pc.Cha ^ pc.Int) & 0xff); // XOR 驗證
+			WriteC(Opcodes.S_OPCODE_NEWCHARPACK);
+			WriteS(pc.Name);
+			WriteS("");
+			WriteC(pc.Type);
+			WriteC(pc.get_sex());
+			WriteH(pc.Lawful);
+			WriteH(pc.MaxHp);
+			WriteH(pc.MaxMp);
+			WriteC(pc.Ac);
+			WriteC(pc.Level);
+			WriteC(pc.Str);
+			WriteC(pc.Dex);
+			WriteC(pc.Con);
+			WriteC(pc.Wis);
+			WriteC(pc.Cha);
+			WriteC(pc.Int);
+			WriteC(0); // 是否為管理員
+			WriteD(pc.SimpleBirthday);
+			WriteC((pc.Level ^ pc.Str ^ pc.Dex ^ pc.Con ^ pc.Wis ^ pc.Cha ^ pc.Int) & 0xff); // XOR 驗證
 		}
 
 		public override byte[] Content

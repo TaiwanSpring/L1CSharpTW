@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Templates
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_Bookmarks = LineageServer.Server.Server.serverpackets.S_Bookmarks;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class L1BookMark
 	{

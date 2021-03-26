@@ -31,13 +31,13 @@ namespace LineageServer.Server.Server.serverpackets
 		// OKボタンを押すとC_127が飛ぶ
 		public S_HireSoldier(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_HIRESOLDIER);
-			writeH(0); // ? クライアントが返すパケットに含まれる
-			writeH(0); // ? クライアントが返すパケットに含まれる
-			writeH(0); // 雇用された傭兵の総数
-			writeS(pc.Name);
-			writeD(0); // ? クライアントが返すパケットに含まれる
-			writeH(0); // 配置可能な傭兵数
+			WriteC(Opcodes.S_OPCODE_HIRESOLDIER);
+			WriteH(0); // ? クライアントが返すパケットに含まれる
+			WriteH(0); // ? クライアントが返すパケットに含まれる
+			WriteH(0); // 雇用された傭兵の総数
+			WriteS(pc.Name);
+			WriteD(0); // ? クライアントが返すパケットに含まれる
+			WriteH(0); // 配置可能な傭兵数
 		}
 
 		public override sbyte[] Content

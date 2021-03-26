@@ -17,7 +17,7 @@
 namespace LineageServer.Server.Server.Model
 {
 
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 
 	using Config = LineageServer.Server.Config;

@@ -234,7 +234,7 @@ namespace LineageServer.Server.Server
             {
                 /// <summary>
                 /// 採取亂數取seed </summary>
-                keyHax = ((int)(MathHelper.NextDouble * 2147483647) + 1).ToString("x");
+                keyHax = ((int)(ExtensionFunction.NextDouble * 2147483647) + 1).ToString("x");
                 key = Convert.ToInt32(keyHax, 16);
 
                 Bogus = (sbyte)(FIRST_PACKET.Length + 7);
@@ -383,7 +383,7 @@ namespace LineageServer.Server.Server
                     // 玩家離線時, online=0
                     if (Account != null)
                     {
-                        LineageServer.Server.Server.Account.online(Account, false);
+                        LineageServer.Server.Server.Account.SetOnline(Account, false);
                     }
 
                     // 送出斷線的封包
@@ -414,7 +414,7 @@ namespace LineageServer.Server.Server
                 System.Console.WriteLine("等待客戶端連接...");
                 if (Account != null)
                 {
-                    LineageServer.Server.Server.Account.online(Account, false);
+                    LineageServer.Server.Server.Account.SetOnline(Account, false);
                 }
             }
             return;
@@ -426,7 +426,7 @@ namespace LineageServer.Server.Server
         {
             try
             {
-                LineageServer.Server.Server.Account.online(Account, false);
+                LineageServer.Server.Server.Account.SetOnline(Account, false);
                 sendPacket(new S_Disconnect());
                 _kick = 1;
                 StreamUtil.close(_out, _in);
@@ -547,7 +547,7 @@ namespace LineageServer.Server.Server
                     { // 正在個人商店
                         outerInstance.kick();
                         _log.warning("一定時間沒有收到封包回應，所以強制切斷 (" + outerInstance._hostname + ") 的連線。");
-                        Account.online(outerInstance.Account, false);
+                        Account.SetOnline(outerInstance.Account, false);
                         cancel();
                         return;
                     }
@@ -748,8 +748,8 @@ namespace LineageServer.Server.Server
             //Account account = Account.load(pc.getAccountName());
             //Account.online(account, false);
             // 設定帳號的角色為下線
-            Account account = LineageServer.Server.Server.Account.load(pc.AccountName);
-            LineageServer.Server.Server.Account.OnlineStatus(account, false);
+            Account account = LineageServer.Server.Server.Account.Load(pc.AccountName);
+            LineageServer.Server.Server.Account.SetOnlineStatus(account, false);
 
             try
             {

@@ -15,11 +15,11 @@ namespace LineageServer.Server.Server.Clientpackets
         private const string C_BOARD_WRITE = "[C] C_BoardWrite";
         private static ILogger _log = Logger.getLogger(nameof(C_BoardWrite));
 
-        public C_BoardWrite(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_BoardWrite(byte[] decrypt, ClientThread client) : base(decrypt)
         {
-            int id = readD();
-            string title = readS();
-            string content = readS();
+            int id = ReadD();
+            string title = ReadS();
+            string content = ReadS();
 
             L1Object tg = L1World.Instance.findObject(id);
 

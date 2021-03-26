@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.DataSources
 	using Config = LineageServer.Server.Config;
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class ChatLogTable
 	{

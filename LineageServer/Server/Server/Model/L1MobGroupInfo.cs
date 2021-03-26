@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.Model
 {
 
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1MobGroupInfo

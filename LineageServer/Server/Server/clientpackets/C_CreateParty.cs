@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_CREATE_PARTY = "[C] C_CreateParty";
 
-		public C_CreateParty(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_CreateParty(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
 			L1PcInstance pc = client.ActiveChar;
 			if (pc == null)
@@ -21,10 +21,10 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int type = readC();
+			int type = ReadC();
 			if ((type == 0) || (type == 1))
 			{ // 自動接受組隊 on 與 off 的同
-				int targetId = readD();
+				int targetId = ReadD();
 				L1Object temp = L1World.Instance.findObject(targetId);
 				if (temp is L1PcInstance)
 				{
@@ -89,7 +89,7 @@ namespace LineageServer.Server.Server.Clientpackets
 			}
 			else if (type == 2)
 			{ // 聊天組隊
-				string name = readS();
+				string name = ReadS();
 				L1PcInstance targetPc = L1World.Instance.getPlayer(name);
 				if (targetPc == null)
 				{
@@ -146,7 +146,7 @@ namespace LineageServer.Server.Server.Clientpackets
 				}
 
 				// 取得目標物件編號
-				int targetId = readD();
+				int targetId = ReadD();
 
 				// 嘗試取得目標
 				L1Object obj = L1World.Instance.findObject(targetId);

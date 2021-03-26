@@ -1,6 +1,6 @@
 ﻿using LineageServer.Server.Server.Model.Instance;
 //可移往DB
-namespace LineageServer.Server.Server.utils
+namespace LineageServer.Server.Server.Utils
 {
 	class CalcInitHpMp
 	{

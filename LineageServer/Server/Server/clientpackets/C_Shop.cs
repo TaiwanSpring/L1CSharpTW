@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Clientpackets
 		///       0010: 00 00 35 35 ff 00 74 72 61 64 65 7a 6f 6e 65 31 ..55..tradezone1
 		///       0020: 00 08 50 57 ..PW
 		/// </summary>
-		public C_Shop(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_Shop(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 			L1PcInstance pc = clientthread.ActiveChar;
 			if ((pc == null) || pc.Ghost)
@@ -41,18 +41,18 @@ namespace LineageServer.Server.Server.Clientpackets
 			L1ItemInstance checkItem;
 			bool tradable = true;
 
-			int type = readC();
+			int type = ReadC();
 			if (type == 0)
 			{ // 開始
-				int sellTotalCount = readH();
+				int sellTotalCount = ReadH();
 				int sellObjectId;
 				int sellPrice;
 				int sellCount;
 				for (int i = 0; i < sellTotalCount; i++)
 				{
-					sellObjectId = readD();
-					sellPrice = readD();
-					sellCount = readD();
+					sellObjectId = ReadD();
+					sellPrice = ReadD();
+					sellCount = ReadD();
 					// 檢查交易項目
 					checkItem = pc.Inventory.getItem(sellObjectId);
 					if (!checkItem.Item.Tradable)
@@ -79,15 +79,15 @@ namespace LineageServer.Server.Server.Clientpackets
 					pssl.SellTotalCount = sellCount;
 					sellList.Add(pssl);
 				}
-				int buyTotalCount = readH();
+				int buyTotalCount = ReadH();
 				int buyObjectId;
 				int buyPrice;
 				int buyCount;
 				for (int i = 0; i < buyTotalCount; i++)
 				{
-					buyObjectId = readD();
-					buyPrice = readD();
-					buyCount = readD();
+					buyObjectId = ReadD();
+					buyPrice = ReadD();
+					buyCount = ReadD();
 					// 檢查交易項目
 					checkItem = pc.Inventory.getItem(buyObjectId);
 					if (!checkItem.Item.Tradable)
@@ -146,7 +146,7 @@ namespace LineageServer.Server.Server.Clientpackets
 					pc.broadcastPacket(new S_DoActionGFX(pc.Id, ActionCodes.ACTION_Idle));
 					return;
 				}
-				sbyte[] chat = readByte();
+				sbyte[] chat = ReadByte();
 				pc.ShopChat = chat;
 				pc.PrivateShop = true;
 				pc.sendPackets(new S_DoActionShop(pc.Id,ActionCodes.ACTION_Shop, chat));

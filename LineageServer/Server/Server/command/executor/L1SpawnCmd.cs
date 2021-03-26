@@ -3,7 +3,7 @@ using LineageServer.Server.Server.DataSources;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
 using LineageServer.Server.Server.Templates;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 using System;
 
 namespace LineageServer.Server.Server.Command.Executor

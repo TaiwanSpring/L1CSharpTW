@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LineageServer.Interfaces
 {
-    interface IContainerAdapter
+    public interface IContainerAdapter
     {
         void RegisterInstance<T>(T instance);
         bool CanResolve<T>();

@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.Clientpackets
         /// <summary>
         /// C_1 輸入 /exclude 指令的時候 
         /// </summary>
-        public C_Exclude(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_Exclude(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             L1PcInstance pc = client.ActiveChar;
             if (pc == null)
@@ -27,7 +27,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            string name = readS();
+            string name = ReadS();
             if (name.Length == 0)
             {
                 return;

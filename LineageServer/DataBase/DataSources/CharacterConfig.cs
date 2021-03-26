@@ -1,12 +1,14 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class CharacterConfig : DataSourceTable
+    class CharacterConfig : DataSource
     {
         public const string TableName = "character_config";
         public const string Column_object_id = "object_id";
         public const string Column_length = "length";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.CharacterConfig; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_object_id, DbType = DbType.Int32, IsPKey = true},

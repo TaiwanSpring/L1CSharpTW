@@ -12,30 +12,30 @@ namespace LineageServer.Server.Server.serverpackets
 			 * int addbyte = 0; int addbyte1 = 1; int addbyte2 = 13; int setting =
 			 * 4;
 			 */
-            writeC(Opcodes.S_OPCODE_CHARPACK);
-            writeH(doll.X);
-            writeH(doll.Y);
-            writeD(doll.Id);
-            writeH(doll.GfxId); // SpriteID in List.spr
-            writeC(doll.Status); // Modes in List.spr
-            writeC(doll.Heading);
-            writeC(0); // (Bright) - 0~15
-            writeC(doll.MoveSpeed); // 1段加速狀態
-            writeD(0);
-            writeH(0);
-            writeS(doll.NameId);
-            writeS(doll.Title);
-            writeC((doll.BraveSpeed * 16)); // 狀態、2段加速狀態
-            writeD(0); // ??
-            writeS(null); // ??
-            writeS(doll.Master != null ? doll.Master.Name : "");
-            writeC(0); // ??
-            writeC(0xFF);
-            writeC(0);
-            writeC(doll.Level); // PC = 0, Mon = Lv
-            writeC(0);
-            writeC(0xFF);
-            writeC(0xFF);
+            WriteC(Opcodes.S_OPCODE_CHARPACK);
+            WriteH(doll.X);
+            WriteH(doll.Y);
+            WriteD(doll.Id);
+            WriteH(doll.GfxId); // SpriteID in List.spr
+            WriteC(doll.Status); // Modes in List.spr
+            WriteC(doll.Heading);
+            WriteC(0); // (Bright) - 0~15
+            WriteC(doll.MoveSpeed); // 1段加速狀態
+            WriteD(0);
+            WriteH(0);
+            WriteS(doll.NameId);
+            WriteS(doll.Title);
+            WriteC((doll.BraveSpeed * 16)); // 狀態、2段加速狀態
+            WriteD(0); // ??
+            WriteS(null); // ??
+            WriteS(doll.Master != null ? doll.Master.Name : "");
+            WriteC(0); // ??
+            WriteC(0xFF);
+            WriteC(0);
+            WriteC(doll.Level); // PC = 0, Mon = Lv
+            WriteC(0);
+            WriteC(0xFF);
+            WriteC(0xFF);
         }
 
         public override string Type

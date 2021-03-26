@@ -15,7 +15,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
         private const string C_RESTARTMENU = "[C] C_RestartMenu";
 
-        public C_RestartMenu(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_RestartMenu(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
             L1PcInstance pc = clientthread.ActiveChar;
             if (pc == null)
@@ -23,12 +23,12 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int data = readC();
+            int data = ReadC();
 
             if (data == 1)
             { // 請求授予血盟RANK
-                int rank = readC();
-                string name = readS();
+                int rank = ReadC();
+                string name = ReadS();
                 L1PcInstance targetPc = L1World.Instance.getPlayer(name);
 
                 L1Clan clan = L1World.Instance.getClan(pc.Clanname);

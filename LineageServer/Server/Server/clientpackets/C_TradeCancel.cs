@@ -9,7 +9,7 @@ namespace LineageServer.Server.Server.Clientpackets
     class C_TradeCancel : ClientBasePacket
     {
         private const string C_TRADE_CANCEL = "[C] C_TradeCancel";
-        public C_TradeCancel(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_TradeCancel(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
             L1PcInstance player = clientthread.ActiveChar;
             if (player == null)

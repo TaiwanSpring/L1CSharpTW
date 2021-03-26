@@ -25,8 +25,8 @@ namespace LineageServer.Server.Server.DataSources
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_PacketBox = LineageServer.Server.Server.serverpackets.S_PacketBox;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server:
 	// IdFactory
@@ -70,17 +70,17 @@ namespace LineageServer.Server.Server.DataSources
 					{
 						L1Clan clan = new L1Clan();
 						// clan.SetClanId(clanData.getInt(1));
-						int clan_id = rs.getInt(1);
+						int clan_id = dataSourceRow.getInt(1);
 						clan.ClanId = clan_id;
-						clan.ClanName = rs.getString(2);
-						clan.LeaderId = rs.getInt(3);
-						clan.LeaderName = rs.getString(4);
-						clan.CastleId = rs.getInt(5);
-						clan.HouseId = rs.getInt(6);
-						clan.FoundDate = rs.getTimestamp(7);
-						clan.Announcement = rs.getString(8);
-						clan.EmblemId = rs.getInt(9);
-						clan.EmblemStatus = rs.getInt(10);
+						clan.ClanName = dataSourceRow.getString(2);
+						clan.LeaderId = dataSourceRow.getInt(3);
+						clan.LeaderName = dataSourceRow.getString(4);
+						clan.CastleId = dataSourceRow.getInt(5);
+						clan.HouseId = dataSourceRow.getInt(6);
+						clan.FoundDate = dataSourceRow.getTimestamp(7);
+						clan.Announcement = dataSourceRow.getString(8);
+						clan.EmblemId = dataSourceRow.getInt(9);
+						clan.EmblemStatus = dataSourceRow.getInt(10);
 
 						L1World.Instance.storeClan(clan);
 						_clans[clan_id] = clan;
@@ -115,7 +115,7 @@ namespace LineageServer.Server.Server.DataSources
 
 					while (rs.next())
 					{
-						clan.addMemberName(rs.getString(1));
+						clan.addMemberName(dataSourceRow.getString(1));
 					}
 				}
 				catch (SQLException e)

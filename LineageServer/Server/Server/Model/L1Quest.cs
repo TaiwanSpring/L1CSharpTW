@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.Model
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class L1Quest
 	{
@@ -122,7 +122,7 @@ namespace LineageServer.Server.Server.Model
 
 					while (rs.next())
 					{
-						_quest[rs.getInt(2)] = rs.getInt(3);
+						_quest[dataSourceRow.getInt(2)] = dataSourceRow.getInt(3);
 					}
 
 				}

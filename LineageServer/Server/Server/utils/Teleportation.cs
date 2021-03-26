@@ -4,7 +4,7 @@ using LineageServer.Server.Server.Model.map;
 using LineageServer.Server.Server.Model.skill;
 using LineageServer.Server.Server.serverpackets;
 using System.Collections.Generic;
-namespace LineageServer.Server.Server.utils
+namespace LineageServer.Server.Server.Utils
 {
     class Teleportation
     {

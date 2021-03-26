@@ -28,8 +28,8 @@ namespace LineageServer.Server.Server
 	using S_CharVisualUpdate = LineageServer.Server.Server.serverpackets.S_CharVisualUpdate;
 	using S_OwnCharStatus = LineageServer.Server.Server.serverpackets.S_OwnCharStatus;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Random = LineageServer.Server.Server.Utils.Random;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class FishingTimeController : IRunnableStart
 	{

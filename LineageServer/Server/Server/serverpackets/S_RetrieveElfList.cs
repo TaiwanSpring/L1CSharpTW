@@ -28,20 +28,20 @@ namespace LineageServer.Server.Server.serverpackets
 				int size = pc.DwarfForElfInventory.Size;
 				if (size > 0)
 				{
-					writeC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
-					writeD(objid);
-					writeH(size);
-					writeC(9); // エルフ倉庫
+					WriteC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
+					WriteD(objid);
+					WriteH(size);
+					WriteC(9); // エルフ倉庫
 					foreach (object itemObject in pc.DwarfForElfInventory.Items)
 					{
 						L1ItemInstance item = (L1ItemInstance) itemObject;
-						writeD(item.Id);
-						writeC(0);
-						writeH(item.get_gfxid());
-						writeC(item.Bless);
-						writeD(item.Count);
-						writeC(item.Identified ? 1 : 0);
-						writeS(item.ViewName);
+						WriteD(item.Id);
+						WriteC(0);
+						WriteH(item.get_gfxid());
+						WriteC(item.Bless);
+						WriteD(item.Count);
+						WriteC(item.Identified ? 1 : 0);
+						WriteS(item.ViewName);
 					}
 				}
 				else

@@ -30,15 +30,15 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildpacket(L1Character cha, int npcObjectId, int type)
 		{
-			writeC(Opcodes.S_OPCODE_ATTACKPACKET);
-			writeC(type);
-			writeD(npcObjectId);
-			writeD(cha.Id);
-			writeH(0x01); // 3.3C damage
-			writeC(cha.Heading);
-			writeH(0x0000); // target x
-			writeH(0x0000); // target y
-			writeC(0x00); // 0x00:none 0x04:Claw 0x08:CounterMirror
+			WriteC(Opcodes.S_OPCODE_ATTACKPACKET);
+			WriteC(type);
+			WriteD(npcObjectId);
+			WriteD(cha.Id);
+			WriteH(0x01); // 3.3C damage
+			WriteC(cha.Heading);
+			WriteH(0x0000); // target x
+			WriteH(0x0000); // target y
+			WriteC(0x00); // 0x00:none 0x04:Claw 0x08:CounterMirror
 		}
 
 		public override sbyte[] Content

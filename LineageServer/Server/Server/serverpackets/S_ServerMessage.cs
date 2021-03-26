@@ -57,58 +57,58 @@ namespace LineageServer.Server.Server.serverpackets
         private void buildPacket(int type, string msg1, string msg2, string msg3, string msg4, string msg5, int check)
         {
 
-            writeC(Opcodes.S_OPCODE_SERVERMSG);
-            writeH(type);
+            WriteC(Opcodes.S_OPCODE_SERVERMSG);
+            WriteH(type);
 
             if (check == 0)
             {
-                writeC(0);
+                WriteC(0);
                 if (type == 0x01a2)
                 { // 隊伍解散
-                    writeH(0x0a00); // 關閉組隊介面
+                    WriteH(0x0a00); // 關閉組隊介面
                 }
             }
             else if (check == 1)
             {
                 if (type == 0x09b9)
                 { // 沙漠紅色訊息
-                    writeC(2);
-                    writeD(4);
-                    writeS(msg1);
+                    WriteC(2);
+                    WriteD(4);
+                    WriteS(msg1);
                     return;
                 }
-                writeC(1);
-                writeS(msg1);
+                WriteC(1);
+                WriteS(msg1);
             }
             else if (check == 2)
             {
-                writeC(2);
-                writeS(msg1);
-                writeS(msg2);
+                WriteC(2);
+                WriteS(msg1);
+                WriteS(msg2);
             }
             else if (check == 3)
             {
-                writeC(3);
-                writeS(msg1);
-                writeS(msg2);
-                writeS(msg3);
+                WriteC(3);
+                WriteS(msg1);
+                WriteS(msg2);
+                WriteS(msg3);
             }
             else if (check == 4)
             {
-                writeC(4);
-                writeS(msg1);
-                writeS(msg2);
-                writeS(msg3);
-                writeS(msg4);
+                WriteC(4);
+                WriteS(msg1);
+                WriteS(msg2);
+                WriteS(msg3);
+                WriteS(msg4);
             }
             else
             {
-                writeC(5);
-                writeS(msg1);
-                writeS(msg2);
-                writeS(msg3);
-                writeS(msg4);
-                writeS(msg5);
+                WriteC(5);
+                WriteS(msg1);
+                WriteS(msg2);
+                WriteS(msg3);
+                WriteS(msg4);
+                WriteS(msg5);
             }
         }
 
@@ -119,7 +119,7 @@ namespace LineageServer.Server.Server.serverpackets
                 if (_byte == null)
                 {
 
-                    _byte = _bao.ToArray();
+                    _byte = memoryStream.ToArray();
                 }
 
                 return _byte;

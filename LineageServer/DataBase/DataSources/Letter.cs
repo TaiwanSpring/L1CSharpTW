@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Letter : DataSourceTable
+    class Letter : DataSource
     {
         public const string TableName = "letter";
         public const string Column_sender = "sender";
@@ -10,7 +11,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_item_object_id = "item_object_id";
         public const string Column_code = "code";
         public const string Column_template_id = "template_id";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Letter; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_sender, DbType = DbType.String, IsPKey = false},

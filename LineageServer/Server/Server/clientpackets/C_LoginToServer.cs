@@ -17,12 +17,12 @@ namespace LineageServer.Server.Server.Clientpackets
     {
         private const string C_LOGIN_TO_SERVER = "[C] C_LoginToServer";
         private static ILogger _log = Logger.getLogger(nameof(C_LoginToServer));
-        public C_LoginToServer(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_LoginToServer(byte[] abyte0, ClientThread client) : base(abyte0)
         {
 
             string login = client.AccountName;
 
-            string charName = readS();
+            string charName = ReadS();
 
             if (client.ActiveChar != null)
             {
@@ -32,7 +32,7 @@ namespace LineageServer.Server.Server.Clientpackets
             }
 
             L1PcInstance pc = L1PcInstance.load(charName);
-            Account account = Account.load(pc.AccountName);
+            Account account = Account.Load(pc.AccountName);
             if (account.OnlineStatus)
             {
                 _log.info("同一個帳號雙重角色登入，強制切斷 " + client.Hostname + ") 的連結");
@@ -71,7 +71,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
             pc.sendPackets(new S_LoginGame(pc));
 
-            Account.OnlineStatus(account, true); // OnlineStatus = 1
+            Account.SetOnlineStatus(account, true); // OnlineStatus = 1
 
             // 如果設定檔中設定自動回村的話
             GetBackRestartTable gbrTable = GetBackRestartTable.Instance;
@@ -366,7 +366,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 int lv28 = 0;
                 while (rs.next())
                 {
-                    int skillId = rs.getInt("skill_id");
+                    int skillId = dataSourceRow.getInt("skill_id");
                     L1Skills l1skills = SkillsTable.Instance.getTemplate(skillId);
                     if (l1skills.SkillLevel == 1)
                     {
@@ -530,13 +530,13 @@ namespace LineageServer.Server.Server.Clientpackets
                 rs = pstm.executeQuery();
                 while (rs.next())
                 {
-                    int skillid = rs.getInt("skill_id");
-                    int remaining_time = rs.getInt("remaining_time");
+                    int skillid = dataSourceRow.getInt("skill_id");
+                    int remaining_time = dataSourceRow.getInt("remaining_time");
                     int time = 0;
                     switch (skillid)
                     {
                         case L1SkillId.SHAPE_CHANGE: // 變身
-                            int poly_id = rs.getInt("poly_id");
+                            int poly_id = dataSourceRow.getInt("poly_id");
                             L1PolyMorph.doPoly(pc, poly_id, remaining_time, L1PolyMorph.MORPH_BY_LOGIN);
                             break;
                         case L1SkillId.STATUS_BRAVE: // 勇敢藥水

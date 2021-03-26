@@ -31,19 +31,19 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SignboardPack(L1SignboardInstance signboard)
 		{
-			writeC(Opcodes.S_OPCODE_CHARPACK);
-			writeH(signboard.X);
-			writeH(signboard.Y);
-			writeD(signboard.Id);
-			writeH(signboard.GfxId);
-			writeC(0);
-			writeC(getDirection(signboard.Heading));
-			writeC(0);
-			writeC(0);
-			writeD(0);
-			writeH(0);
-			writeS(null);
-			writeS(signboard.NameId);
+			WriteC(Opcodes.S_OPCODE_CHARPACK);
+			WriteH(signboard.X);
+			WriteH(signboard.Y);
+			WriteD(signboard.Id);
+			WriteH(signboard.GfxId);
+			WriteC(0);
+			WriteC(getDirection(signboard.Heading));
+			WriteC(0);
+			WriteC(0);
+			WriteD(0);
+			WriteH(0);
+			WriteS(null);
+			WriteS(signboard.NameId);
 			int status = 0;
 			if (signboard.Poison != null)
 			{ // 毒状態
@@ -52,16 +52,16 @@ namespace LineageServer.Server.Server.serverpackets
 					status |= STATUS_POISON;
 				}
 			}
-			writeC(status);
-			writeD(0);
-			writeS(null);
-			writeS(null);
-			writeC(0);
-			writeC(0xFF);
-			writeC(0);
-			writeC(0);
-			writeS(null);
-			writeH(0xFFFF);
+			WriteC(status);
+			WriteD(0);
+			WriteS(null);
+			WriteS(null);
+			WriteC(0);
+			WriteC(0xFF);
+			WriteC(0);
+			WriteC(0);
+			WriteS(null);
+			WriteH(0xFFFF);
 		}
 
 		private int getDirection(int heading)
@@ -94,7 +94,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
     
 				return _byte;

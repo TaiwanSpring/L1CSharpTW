@@ -33,26 +33,26 @@ namespace LineageServer.Server.Server.serverpackets
 			switch (type)
 			{
 				case 0: // normal chat
-					writeC(Opcodes.S_OPCODE_NPCSHOUT); // Key is 16 , can use
+					WriteC(Opcodes.S_OPCODE_NPCSHOUT); // Key is 16 , can use
 														// desc-?.tbl
-					writeC(type); // Color
-					writeD(npc.Id);
-					writeS(npc.Name + ": " + chat);
+					WriteC(type); // Color
+					WriteD(npc.Id);
+					WriteS(npc.Name + ": " + chat);
 					break;
 
 				case 2: // shout
-					writeC(Opcodes.S_OPCODE_NPCSHOUT); // Key is 16 , can use
+					WriteC(Opcodes.S_OPCODE_NPCSHOUT); // Key is 16 , can use
 														// desc-?.tbl
-					writeC(type); // Color
-					writeD(npc.Id);
-					writeS("<" + npc.Name + "> " + chat);
+					WriteC(type); // Color
+					WriteD(npc.Id);
+					WriteS("<" + npc.Name + "> " + chat);
 					break;
 
 				case 3: // world chat
-					writeC(Opcodes.S_OPCODE_NPCSHOUT);
-					writeC(type); // XXX 白色になる
-					writeD(npc.Id);
-					writeS("[" + npc.Name + "] " + chat);
+					WriteC(Opcodes.S_OPCODE_NPCSHOUT);
+					WriteC(type); // XXX 白色になる
+					WriteD(npc.Id);
+					WriteS("[" + npc.Name + "] " + chat);
 					break;
 
 				default:

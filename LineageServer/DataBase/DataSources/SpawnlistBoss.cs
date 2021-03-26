@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class SpawnlistBoss : DataSourceTable
+    class SpawnlistBoss : DataSource
     {
         public const string TableName = "spawnlist_boss";
         public const string Column_location = "location";
@@ -25,7 +26,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_rest = "rest";
         public const string Column_spawn_type = "spawn_type";
         public const string Column_percentage = "percentage";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.SpawnlistBoss; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_location, DbType = DbType.String, IsPKey = false},

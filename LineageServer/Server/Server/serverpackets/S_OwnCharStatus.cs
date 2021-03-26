@@ -11,41 +11,41 @@ namespace LineageServer.Server.Server.serverpackets
         {
             int time = L1GameTimeClock.Instance.currentTime().Seconds;
             time = time - (time % 300);
-            writeC(Opcodes.S_OPCODE_OWNCHARSTATUS);
-            writeD(pc.Id);
+            WriteC(Opcodes.S_OPCODE_OWNCHARSTATUS);
+            WriteD(pc.Id);
             if (pc.Level < 1)
             {
-                writeC(1);
+                WriteC(1);
             }
             else if (pc.Level > 127)
             {
-                writeC(127);
+                WriteC(127);
             }
             else
             {
-                writeC(pc.Level);
+                WriteC(pc.Level);
             }
-            writeExp(pc.Exp);
-            writeC(pc.Str);
-            writeC(pc.Int);
-            writeC(pc.Wis);
-            writeC(pc.Dex);
-            writeC(pc.Con);
-            writeC(pc.Cha);
-            writeH(pc.CurrentHp);
-            writeH(pc.MaxHp);
-            writeH(pc.CurrentMp);
-            writeH(pc.MaxMp);
-            writeC(pc.Ac);
-            writeD(time);
-            writeC(pc.get_food());
-            writeC(pc.Inventory.Weight242);
-            writeH(pc.Lawful);
-            writeH(pc.Fire);
-            writeH(pc.Water);
-            writeH(pc.Wind);
-            writeH(pc.Earth);
-            writeD(pc.MonsKill); // 狩獵數量
+            WriteExp(pc.Exp);
+            WriteC(pc.Str);
+            WriteC(pc.Int);
+            WriteC(pc.Wis);
+            WriteC(pc.Dex);
+            WriteC(pc.Con);
+            WriteC(pc.Cha);
+            WriteH(pc.CurrentHp);
+            WriteH(pc.MaxHp);
+            WriteH(pc.CurrentMp);
+            WriteH(pc.MaxMp);
+            WriteC(pc.Ac);
+            WriteD(time);
+            WriteC(pc.get_food());
+            WriteC(pc.Inventory.Weight242);
+            WriteH(pc.Lawful);
+            WriteH(pc.Fire);
+            WriteH(pc.Water);
+            WriteH(pc.Wind);
+            WriteH(pc.Earth);
+            WriteD(pc.MonsKill); // 狩獵數量
         }
 
         public override string Type

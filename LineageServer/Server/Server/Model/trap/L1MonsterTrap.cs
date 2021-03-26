@@ -29,7 +29,7 @@ namespace LineageServer.Server.Server.Model.trap
 	using TrapStorage = LineageServer.Server.Server.storage.TrapStorage;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
 	using Point = LineageServer.Server.Server.Types.Point;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class L1MonsterTrap : L1Trap
 	{

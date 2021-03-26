@@ -36,9 +36,9 @@ namespace LineageServer.Server.Server.serverpackets
 		private void buildPacket(int objid, int gfxid, int aid)
 		{
 			// aidは使われていない
-			writeC(Opcodes.S_OPCODE_SKILLSOUNDGFX);
-			writeD(objid);
-			writeH(gfxid);
+			WriteC(Opcodes.S_OPCODE_SKILLSOUNDGFX);
+			WriteD(objid);
+			WriteH(gfxid);
 		}
 
 		public override sbyte[] Content

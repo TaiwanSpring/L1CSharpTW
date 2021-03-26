@@ -33,9 +33,9 @@ namespace LineageServer.Server.Server.serverpackets
 		public S_SystemMessage(string msg)
 		{
 			_msg = msg;
-			writeC(Opcodes.S_OPCODE_GLOBALCHAT);
-			writeC(0x09);
-			writeS(msg);
+			WriteC(Opcodes.S_OPCODE_GLOBALCHAT);
+			WriteC(0x09);
+			WriteS(msg);
 		}
 
 		/// <summary>
@@ -48,10 +48,10 @@ namespace LineageServer.Server.Server.serverpackets
 		public S_SystemMessage(string msg, bool nameid)
 		{
 			_msg = msg;
-			writeC(Opcodes.S_OPCODE_NPCSHOUT);
-			writeC(2);
-			writeD(0);
-			writeS(msg);
+			WriteC(Opcodes.S_OPCODE_NPCSHOUT);
+			WriteC(2);
+			WriteD(0);
+			WriteS(msg);
 			// NPCチャットパケットであればnameidが解釈されるためこれを利用する
 		}
 

@@ -17,7 +17,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
 //ORIGINAL LINE: public C_SkillBuyOK(byte abyte0[], l1j.server.server.ClientThread clientthread) throws Exception
-		public C_SkillBuyOK(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_SkillBuyOK(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance pc = clientthread.ActiveChar;
@@ -26,7 +26,7 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int count = readH();
+			int count = ReadH();
 			int[] sid = new int[count];
 			int price = 0;
 			int level1 = 0;
@@ -40,7 +40,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 			for (int i = 0; i < count; i++)
 			{
-				sid[i] = readD();
+				sid[i] = ReadD();
 				switch (sid[i])
 				{
 					// Lv1魔法

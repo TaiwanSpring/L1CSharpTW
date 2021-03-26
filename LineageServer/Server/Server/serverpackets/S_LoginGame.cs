@@ -30,21 +30,21 @@ namespace LineageServer.Server.Server.serverpackets
 			 * 【Server】 id:223 size:8 time:1134908599
 			 *  0000:  df 03 c1 55 b5 6e d1 dc
 			 */
-			writeC(S_OPCODE_LOGINTOGAME);
-			writeC(0x03); // 語系
+			WriteC(S_OPCODE_LOGINTOGAME);
+			WriteC(0x03); // 語系
 			if (pc.Clanid > 0)
 			{
-				writeD(pc.ClanMemberId);
+				WriteD(pc.ClanMemberId);
 			}
 			else
 			{
-				writeC(0x53);
-				writeC(0x01);
-				writeC(0x00);
-				writeC(0x8b);
+				WriteC(0x53);
+				WriteC(0x01);
+				WriteC(0x00);
+				WriteC(0x8b);
 			}
-			writeC(0x9c);
-			writeC(0x1f);
+			WriteC(0x9c);
+			WriteC(0x1f);
 		}
 
 		public override sbyte[] Content

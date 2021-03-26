@@ -8,7 +8,7 @@ namespace LineageServer.Server.Server.Clientpackets
 {
     class C_WarePassword : ClientBasePacket
     {
-        public C_WarePassword(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_WarePassword(byte[] abyte0, ClientThread client) : base(abyte0)
         {
 
             L1PcInstance pc = client.ActiveChar;
@@ -18,16 +18,16 @@ namespace LineageServer.Server.Server.Clientpackets
             }
 
             // 類型(0: 密碼變更, 1: 一般倉庫, 2: 血盟倉庫)
-            int type = readC();
+            int type = ReadC();
 
             // 取得第一組數值(舊密碼, 或待驗證的密碼)
-            int pass1 = readD();
+            int pass1 = ReadD();
 
             // 取得第二組數值(新密碼, 或倉庫 NPC 的 objId)
-            int pass2 = readD();
+            int pass2 = ReadD();
 
             // 不明的2個位元組
-            readH();
+            ReadH();
 
             // 取得角色物件
             Account account = client.Account;
@@ -44,7 +44,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 else if ((pass1 < 0) && (account.WarePassword == 0))
                 {
                     // 進行密碼變更
-                    account.changeWarePassword(pass2);
+                    account.ChangeWarePassword(pass2);
                     pc.sendPackets(new S_SystemMessage("倉庫密碼設定完成，請牢記您的新密碼。"));
                 }
                 // 進行密碼變更
@@ -59,12 +59,12 @@ namespace LineageServer.Server.Server.Clientpackets
                     }
                     else if (pass2 > 0)
                     {
-                        account.changeWarePassword(pass2);
+                        account.ChangeWarePassword(pass2);
                         pc.sendPackets(new S_SystemMessage("倉庫密碼變更完成，請牢記您的新密碼。"));
                     }
                     else
                     {
-                        account.changeWarePassword(0);
+                        account.ChangeWarePassword(0);
                         pc.sendPackets(new S_SystemMessage("倉庫密碼取消完成。"));
                     }
                 }

@@ -4,7 +4,7 @@ namespace LineageServer.william
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 	public class ItemPrice
 	{
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
@@ -62,8 +62,8 @@ namespace LineageServer.william
 		{
 			while (rs.next())
 			{
-				int itemId = rs.getInt("item_id");
-				int price = rs.getInt("price");
+				int itemId = dataSourceRow.getInt("item_id");
+				int price = dataSourceRow.getInt("price");
 
 				L1WilliamItemPrice item_price = new L1WilliamItemPrice(itemId, price);
 				_itemIdIndex[itemId] = item_price;

@@ -4,9 +4,9 @@ namespace LineageServer.Server.Server.Model.Npc.Action
 {
 
 	using L1Quest = LineageServer.Server.Server.Model.L1Quest;
-	using IterableElementList = LineageServer.Server.Server.utils.IterableElementList;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using IterableElementList = LineageServer.Server.Server.Utils.IterableElementList;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	using Element = org.w3c.dom.Element;
 	using NodeList = org.w3c.dom.NodeList;

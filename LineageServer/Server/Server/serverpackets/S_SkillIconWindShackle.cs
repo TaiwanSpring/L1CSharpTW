@@ -25,10 +25,10 @@ namespace LineageServer.Server.Server.serverpackets
 		public S_SkillIconWindShackle(int objectId, int time)
 		{
 			int buffTime = (time / 4); // なぜか4倍されるため4で割っておく
-			writeC(Opcodes.S_OPCODE_SKILLICONGFX);
-			writeC(0x2c);
-			writeD(objectId);
-			writeH(buffTime);
+			WriteC(Opcodes.S_OPCODE_SKILLICONGFX);
+			WriteC(0x2c);
+			WriteD(objectId);
+			WriteH(buffTime);
 		}
 
 		public override sbyte[] Content

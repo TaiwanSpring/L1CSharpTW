@@ -1,4 +1,4 @@
-﻿using LineageServer.Server.Server.utils.collections;
+﻿using LineageServer.Server.Server.Utils.collections;
 using System.Collections.Generic;
 using System.IO;
 

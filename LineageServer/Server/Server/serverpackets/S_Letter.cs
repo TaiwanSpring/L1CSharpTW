@@ -39,14 +39,14 @@ namespace LineageServer.Server.Server.serverpackets
 			 * pstm = con
 			 * .prepareStatement("SELECT * FROM letter WHERE item_object_id=?");
 			 * pstm.setInt(1, item.getId()); rs = pstm.executeQuery(); while
-			 * (rs.next()) { writeC(Opcodes.S_OPCODE_LETTER); writeD(item.getId());
-			 * if (item.get_gfxid() == 465) { // 開く前 writeH(466); // 開いた後 } else if
-			 * (item.get_gfxid() == 606) { writeH(605); } else if (item.get_gfxid()
-			 * == 616) { writeH(615); } else { writeH(item.get_gfxid()); }
-			 * writeH(rs.getInt(2)); writeS(rs.getString(3));
-			 * writeS(rs.getString(4)); writeByte(rs.getBytes(7));
-			 * writeByte(rs.getBytes(8)); writeC(rs.getInt(6)); // テンプレ
-			 * writeS(rs.getString(5)); // 日付 } } catch (SQLException e) {
+			 * (rs.next()) { WriteC(Opcodes.S_OPCODE_LETTER); WriteD(item.getId());
+			 * if (item.get_gfxid() == 465) { // 開く前 WriteH(466); // 開いた後 } else if
+			 * (item.get_gfxid() == 606) { WriteH(605); } else if (item.get_gfxid()
+			 * == 616) { WriteH(615); } else { WriteH(item.get_gfxid()); }
+			 * WriteH(dataSourceRow.getInt(2)); WriteS(dataSourceRow.getString(3));
+			 * WriteS(dataSourceRow.getString(4)); WriteByte(dataSourceRow.getBytes(7));
+			 * WriteByte(dataSourceRow.getBytes(8)); WriteC(dataSourceRow.getInt(6)); // テンプレ
+			 * WriteS(dataSourceRow.getString(5)); // 日付 } } catch (SQLException e) {
 			 * _log.log(Enum.Level.Server, e.getLocalizedMessage(), e); } finally {
 			 * SQLUtil.close(rs); SQLUtil.close(pstm); SQLUtil.close(con); }
 			 */

@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1PetItem = LineageServer.Server.Server.Templates.L1PetItem;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class PetItemTable
 	{
@@ -88,20 +88,20 @@ namespace LineageServer.Server.Server.DataSources
 			while (rs.next())
 			{
 				L1PetItem petItem = new L1PetItem();
-				petItem.ItemId = rs.getInt("item_id");
-				petItem.UseType = (_useTypes[rs.getString("use_type")]);
-				petItem.HitModifier = rs.getInt("hitmodifier");
-				petItem.DamageModifier = rs.getInt("dmgmodifier");
-				petItem.AddAc = rs.getInt("ac");
-				petItem.AddStr = rs.getInt("add_str");
-				petItem.AddCon = rs.getInt("add_con");
-				petItem.AddDex = rs.getInt("add_dex");
-				petItem.AddInt = rs.getInt("add_int");
-				petItem.AddWis = rs.getInt("add_wis");
-				petItem.AddHp = rs.getInt("add_hp");
-				petItem.AddMp = rs.getInt("add_mp");
-				petItem.AddSp = rs.getInt("add_sp");
-				petItem.AddMr = rs.getInt("m_def");
+				petItem.ItemId = dataSourceRow.getInt("item_id");
+				petItem.UseType = (_useTypes[dataSourceRow.getString("use_type")]);
+				petItem.HitModifier = dataSourceRow.getInt("hitmodifier");
+				petItem.DamageModifier = dataSourceRow.getInt("dmgmodifier");
+				petItem.AddAc = dataSourceRow.getInt("ac");
+				petItem.AddStr = dataSourceRow.getInt("add_str");
+				petItem.AddCon = dataSourceRow.getInt("add_con");
+				petItem.AddDex = dataSourceRow.getInt("add_dex");
+				petItem.AddInt = dataSourceRow.getInt("add_int");
+				petItem.AddWis = dataSourceRow.getInt("add_wis");
+				petItem.AddHp = dataSourceRow.getInt("add_hp");
+				petItem.AddMp = dataSourceRow.getInt("add_mp");
+				petItem.AddSp = dataSourceRow.getInt("add_sp");
+				petItem.AddMr = dataSourceRow.getInt("m_def");
 				_petItemIdIndex[petItem.ItemId] = petItem;
 			}
 		}

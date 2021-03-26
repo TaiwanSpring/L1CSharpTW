@@ -1,7 +1,7 @@
 ﻿using LineageServer.DataBase.DataSources;
 using LineageServer.Interfaces;
 using LineageServer.Server.Server.Templates;
-using LineageServer.Server.Server.utils.collections;
+using LineageServer.Server.Server.Utils.collections;
 using System.Collections.Generic;
 namespace LineageServer.Server.Server.DataSources
 {
@@ -30,7 +30,7 @@ namespace LineageServer.Server.Server.DataSources
 
 		private void load()
 		{
-			IDataSourceTable dataSourceTable = new EmptyDataSourceTable();
+			IDataSourceTable dataSourceTable = new EmptyDataSource();
 			fillTable(dataSourceTable.Select());
 		}
 		private void fillTable(IDataSourceRow[] dataSourceRows)
@@ -38,30 +38,30 @@ namespace LineageServer.Server.Server.DataSources
 			foreach (IDataSourceRow rs in dataSourceRows)
 			{
 				L1ArmorSets l1ArmorSets = new L1ArmorSets();
-				l1ArmorSets.Id = rs.getInt("id");
-				l1ArmorSets.Sets = rs.getString("sets");
-				l1ArmorSets.PolyId = rs.getInt("polyid");
-				l1ArmorSets.Ac = rs.getInt("ac");
-				l1ArmorSets.Hp = rs.getInt("hp");
-				l1ArmorSets.Mp = rs.getInt("mp");
-				l1ArmorSets.Hpr = rs.getInt("hpr");
-				l1ArmorSets.Mpr = rs.getInt("mpr");
-				l1ArmorSets.Mr = rs.getInt("mr");
-				l1ArmorSets.Str = rs.getInt("str");
-				l1ArmorSets.Dex = rs.getInt("dex");
-				l1ArmorSets.Con = rs.getInt("con");
-				l1ArmorSets.Wis = rs.getInt("wis");
-				l1ArmorSets.Cha = rs.getInt("cha");
-				l1ArmorSets.Intl = rs.getInt("intl");
-				l1ArmorSets.HitModifier = rs.getInt("hit_modifier");
-				l1ArmorSets.DmgModifier = rs.getInt("dmg_modifier");
-				l1ArmorSets.BowHitModifier = rs.getInt("bow_hit_modifier");
-				l1ArmorSets.BowDmgModifier = rs.getInt("bow_dmg_modifier");
-				l1ArmorSets.Sp = rs.getInt("sp");
-				l1ArmorSets.DefenseWater = rs.getInt("defense_water");
-				l1ArmorSets.DefenseWind = rs.getInt("defense_wind");
-				l1ArmorSets.DefenseFire = rs.getInt("defense_fire");
-				l1ArmorSets.DefenseEarth = rs.getInt("defense_earth");
+				l1ArmorSets.Id = dataSourceRow.getInt("id");
+				l1ArmorSets.Sets = dataSourceRow.getString("sets");
+				l1ArmorSets.PolyId = dataSourceRow.getInt("polyid");
+				l1ArmorSets.Ac = dataSourceRow.getInt("ac");
+				l1ArmorSets.Hp = dataSourceRow.getInt("hp");
+				l1ArmorSets.Mp = dataSourceRow.getInt("mp");
+				l1ArmorSets.Hpr = dataSourceRow.getInt("hpr");
+				l1ArmorSets.Mpr = dataSourceRow.getInt("mpr");
+				l1ArmorSets.Mr = dataSourceRow.getInt("mr");
+				l1ArmorSets.Str = dataSourceRow.getInt("str");
+				l1ArmorSets.Dex = dataSourceRow.getInt("dex");
+				l1ArmorSets.Con = dataSourceRow.getInt("con");
+				l1ArmorSets.Wis = dataSourceRow.getInt("wis");
+				l1ArmorSets.Cha = dataSourceRow.getInt("cha");
+				l1ArmorSets.Intl = dataSourceRow.getInt("intl");
+				l1ArmorSets.HitModifier = dataSourceRow.getInt("hit_modifier");
+				l1ArmorSets.DmgModifier = dataSourceRow.getInt("dmg_modifier");
+				l1ArmorSets.BowHitModifier = dataSourceRow.getInt("bow_hit_modifier");
+				l1ArmorSets.BowDmgModifier = dataSourceRow.getInt("bow_dmg_modifier");
+				l1ArmorSets.Sp = dataSourceRow.getInt("sp");
+				l1ArmorSets.DefenseWater = dataSourceRow.getInt("defense_water");
+				l1ArmorSets.DefenseWind = dataSourceRow.getInt("defense_wind");
+				l1ArmorSets.DefenseFire = dataSourceRow.getInt("defense_fire");
+				l1ArmorSets.DefenseEarth = dataSourceRow.getInt("defense_earth");
 				_armorSetList.Add(l1ArmorSets);
 			}
 		}

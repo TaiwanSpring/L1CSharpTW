@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1ItemId = LineageServer.Server.Server.Model.identity.L1ItemId;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	/// <summary>
 	/// 負責物品狀態檢查是否作弊
@@ -145,7 +145,7 @@ namespace LineageServer.Server.Server.Model
 					if (rs.next())
 					{
 						inEtcitem = true;
-						isStackable = rs.getInt("stackable") == 1 ? true : false;
+						isStackable = dataSourceRow.getInt("stackable") == 1 ? true : false;
 					}
 				}
 			}

@@ -17,7 +17,7 @@ namespace LineageServer.Server.Server.serverpackets
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using Opcodes = LineageServer.Server.Server.Opcodes;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	// Referenced classes of package l1j.server.server.serverpackets:
 	// ServerBasePacket
@@ -50,8 +50,8 @@ namespace LineageServer.Server.Server.serverpackets
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					length = rs.getInt(2);
-					data = rs.getBytes(3);
+					length = dataSourceRow.getInt(2);
+					data = dataSourceRow.getBytes(3);
 				}
 			}
 			catch (SQLException e)
@@ -67,10 +67,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 			if (length != 0)
 			{
-				writeC(Opcodes.S_OPCODE_SKILLICONGFX);
-				writeC(S_PacketBox.CHARACTER_CONFIG);
-				writeD(length);
-				writeByte(data);
+				WriteC(Opcodes.S_OPCODE_SKILLICONGFX);
+				WriteC(S_PacketBox.CHARACTER_CONFIG);
+				WriteD(length);
+				WriteByte(data);
 			}
 		}
 

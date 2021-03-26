@@ -39,24 +39,24 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int type, string msg1, string msg2, string msg3, int check)
 		{
-			writeC(Opcodes.S_OPCODE_YES_NO);
-			writeH(0x0000); // 3.51未知封包
-			writeD(GameServer.YesNoCount);
-			writeH(type);
+			WriteC(Opcodes.S_OPCODE_YES_NO);
+			WriteH(0x0000); // 3.51未知封包
+			WriteD(GameServer.YesNoCount);
+			WriteH(type);
 			if (check == 1)
 			{
-				writeS(msg1);
+				WriteS(msg1);
 			}
 			else if (check == 2)
 			{
-				writeS(msg1);
-				writeS(msg2);
+				WriteS(msg1);
+				WriteS(msg2);
 			}
 			else if (check == 3)
 			{
-				writeS(msg1);
-				writeS(msg2);
-				writeS(msg3);
+				WriteS(msg1);
+				WriteS(msg2);
+				WriteS(msg3);
 			}
 		}
 

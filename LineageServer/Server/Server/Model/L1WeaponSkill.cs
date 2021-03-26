@@ -52,7 +52,7 @@ namespace LineageServer.Server.Server.Model
 	using S_SkillSound = LineageServer.Server.Server.serverpackets.S_SkillSound;
 	using S_UseAttackSkill = LineageServer.Server.Server.serverpackets.S_UseAttackSkill;
 	using L1Skills = LineageServer.Server.Server.Templates.L1Skills;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1PcInstance

@@ -28,22 +28,22 @@ namespace LineageServer.Server.Server.serverpackets
 				int size = pc.DwarfInventory.Size;
 				if (size > 0)
 				{
-					writeC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
-					writeD(objid);
-					writeH(size);
-					writeC(3); // 個人倉庫
+					WriteC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
+					WriteD(objid);
+					WriteH(size);
+					WriteC(3); // 個人倉庫
 					foreach (object itemObject in pc.DwarfInventory.Items)
 					{
 						L1ItemInstance item = (L1ItemInstance) itemObject;
-						writeD(item.Id);
-						writeC(item.Item.UseType); // 道具:0 武器:1  防具:2...
-						writeH(item.get_gfxid());
-						writeC(item.Bless);
-						writeD(item.Count);
-						writeC(item.Identified ? 1 : 0);
-						writeS(item.ViewName);
+						WriteD(item.Id);
+						WriteC(item.Item.UseType); // 道具:0 武器:1  防具:2...
+						WriteH(item.get_gfxid());
+						WriteC(item.Bless);
+						WriteD(item.Count);
+						WriteC(item.Identified ? 1 : 0);
+						WriteS(item.ViewName);
 					}
-					writeD(0x0000001e); // 金幣30
+					WriteD(0x0000001e); // 金幣30
 				}
 				else
 				{

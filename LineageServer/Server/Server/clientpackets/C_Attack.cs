@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
     class C_Attack : ClientBasePacket
 	{
 
-		public C_Attack(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_Attack(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
 
 			L1PcInstance pc = client.ActiveChar;
@@ -20,9 +20,9 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int targetId = readD();
-			int x = readH();
-			int y = readH();
+			int targetId = ReadD();
+			int x = ReadH();
+			int y = ReadH();
 
 			L1Object target = L1World.Instance.findObject(targetId);
 

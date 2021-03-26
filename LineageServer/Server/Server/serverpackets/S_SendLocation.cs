@@ -23,13 +23,13 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SendLocation(int type, string senderName, int mapId, int x, int y, int msgId)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(0x6f);
-			writeS(senderName);
-			writeH(mapId);
-			writeH(x);
-			writeH(y);
-			writeC(msgId); // 發信者位在的地圖ID
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(0x6f);
+			WriteS(senderName);
+			WriteH(mapId);
+			WriteH(x);
+			WriteH(y);
+			WriteC(msgId); // 發信者位在的地圖ID
 		}
 
 		public override sbyte[] Content

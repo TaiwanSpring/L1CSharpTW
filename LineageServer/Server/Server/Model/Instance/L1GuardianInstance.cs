@@ -41,8 +41,8 @@ namespace LineageServer.Server.Server.Model.Instance
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using L1Item = LineageServer.Server.Server.Templates.L1Item;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using CalcExp = LineageServer.Server.Server.utils.CalcExp;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using CalcExp = LineageServer.Server.Server.Utils.CalcExp;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	[Serializable]
 	public class L1GuardianInstance : L1NpcInstance

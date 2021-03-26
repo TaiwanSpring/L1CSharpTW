@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1GetBackRestart = LineageServer.Server.Server.Templates.L1GetBackRestart;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server:
 	// IdFactory
@@ -62,11 +62,11 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1GetBackRestart gbr = new L1GetBackRestart();
-					int area = rs.getInt("area");
+					int area = dataSourceRow.getInt("area");
 					gbr.Area = area;
-					gbr.LocX = rs.getInt("locx");
-					gbr.LocY = rs.getInt("locy");
-					gbr.MapId = rs.getShort("mapid");
+					gbr.LocX = dataSourceRow.getInt("locx");
+					gbr.LocY = dataSourceRow.getInt("locy");
+					gbr.MapId = dataSourceRow.getShort("mapid");
 
 					_getbackrestart[area] = gbr;
 				}

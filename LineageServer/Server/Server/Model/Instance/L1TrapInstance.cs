@@ -27,8 +27,8 @@ namespace LineageServer.Server.Server.Model.Instance
 	using S_RemoveObject = LineageServer.Server.Server.serverpackets.S_RemoveObject;
 	using S_Trap = LineageServer.Server.Server.serverpackets.S_Trap;
 	using Point = LineageServer.Server.Server.Types.Point;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Random = LineageServer.Server.Server.Utils.Random;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	[Serializable]
 	public class L1TrapInstance : L1Object

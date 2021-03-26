@@ -17,7 +17,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
 
         private const string C_AMOUNT = "[C] C_Amount";
-        public C_Amount(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_Amount(byte[] decrypt, ClientThread client) : base(decrypt)
         {
 
             L1PcInstance pc = client.ActiveChar;
@@ -26,10 +26,10 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int objectId = readD();
-            int amount = readD();
-            readC();
-            string s = readS();
+            int objectId = ReadD();
+            int amount = ReadD();
+            ReadC();
+            string s = ReadS();
 
 
             L1NpcInstance npc = (L1NpcInstance)L1World.Instance.findObject(objectId);

@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.DataSources
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1Town = LineageServer.Server.Server.Templates.L1Town;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server:
 	// IdFactory
@@ -74,17 +74,17 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1Town town = new L1Town();
-					townid = rs.getInt("town_id");
+					townid = dataSourceRow.getInt("town_id");
 					town.set_townid(townid);
-					town.set_name(rs.getString("name"));
-					town.set_leader_id(rs.getInt("leader_id"));
-					town.set_leader_name(rs.getString("leader_name"));
-					town.set_tax_rate(rs.getInt("tax_rate"));
-					town.set_tax_rate_reserved(rs.getInt("tax_rate_reserved"));
-					town.set_sales_money(rs.getInt("sales_money"));
-					town.set_sales_money_yesterday(rs.getInt("sales_money_yesterday"));
-					town.set_town_tax(rs.getInt("town_tax"));
-					town.set_town_fix_tax(rs.getInt("town_fix_tax"));
+					town.set_name(dataSourceRow.getString("name"));
+					town.set_leader_id(dataSourceRow.getInt("leader_id"));
+					town.set_leader_name(dataSourceRow.getString("leader_name"));
+					town.set_tax_rate(dataSourceRow.getInt("tax_rate"));
+					town.set_tax_rate_reserved(dataSourceRow.getInt("tax_rate_reserved"));
+					town.set_sales_money(dataSourceRow.getInt("sales_money"));
+					town.set_sales_money_yesterday(dataSourceRow.getInt("sales_money_yesterday"));
+					town.set_town_tax(dataSourceRow.getInt("town_tax"));
+					town.set_town_fix_tax(dataSourceRow.getInt("town_fix_tax"));
 
 					_towns[townid] = town;
 				}

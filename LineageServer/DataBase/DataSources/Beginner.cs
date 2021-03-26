@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Beginner : DataSourceTable
+    class Beginner : DataSource
     {
         public const string TableName = "beginner";
         public const string Column_activate = "activate";
@@ -12,7 +13,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_charge_count = "charge_count";
         public const string Column_enchantlvl = "enchantlvl";
         public const string Column_bless = "bless";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Beginner; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_activate, DbType = DbType.String, IsPKey = false},

@@ -20,38 +20,38 @@ namespace LineageServer.Server.Server.serverpackets
 	{
 		public S_MPUpdate(int currentmp, int maxmp)
 		{
-			writeC(Opcodes.S_OPCODE_MPUPDATE);
+			WriteC(Opcodes.S_OPCODE_MPUPDATE);
 
 			if (currentmp < 0)
 			{
-				writeH(0);
+				WriteH(0);
 			}
 			else if (currentmp > 32767)
 			{
-				writeH(32767);
+				WriteH(32767);
 			}
 			else
 			{
-				writeH(currentmp);
+				WriteH(currentmp);
 			}
 
 			if (maxmp < 1)
 			{
-				writeH(1);
+				WriteH(1);
 			}
 			else if (maxmp > 32767)
 			{
-				writeH(32767);
+				WriteH(32767);
 			}
 			else
 			{
-				writeH(maxmp);
+				WriteH(maxmp);
 			}
 
-			// writeH(currentmp);
-			// writeH(maxmp);
-			// writeC(0);
-			// writeD(GameTimeController.getInstance().getGameTime());
+			// WriteH(currentmp);
+			// WriteH(maxmp);
+			// WriteC(0);
+			// WriteD(GameTimeController.getInstance().getGameTime());
 		}
 
 		public override sbyte[] Content

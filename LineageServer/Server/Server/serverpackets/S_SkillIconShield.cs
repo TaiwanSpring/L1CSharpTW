@@ -24,10 +24,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SkillIconShield(int type, int time)
 		{
-			writeC(Opcodes.S_OPCODE_SKILLICONSHIELD);
-			writeH(time);
-			writeC(type);
-			writeD(0);
+			WriteC(Opcodes.S_OPCODE_SKILLICONSHIELD);
+			WriteH(time);
+			WriteC(type);
+			WriteD(0);
 		}
 
 		public override sbyte[] Content

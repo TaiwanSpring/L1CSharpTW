@@ -24,9 +24,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_PinkName(int objecId, int time)
 		{
-			writeC(Opcodes.S_OPCODE_PINKNAME);
-			writeD(objecId);
-			writeD(time);
+			WriteC(Opcodes.S_OPCODE_PINKNAME);
+			WriteD(objecId);
+			WriteD(time);
 		}
 
 		public override sbyte[] Content

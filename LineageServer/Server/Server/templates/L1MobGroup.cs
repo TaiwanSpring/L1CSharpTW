@@ -16,7 +16,7 @@
 namespace LineageServer.Server.Server.Templates
 {
 
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class L1MobGroup
 	{

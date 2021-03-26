@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class DungeonRandom : DataSourceTable
+    class DungeonRandom : DataSource
     {
         public const string TableName = "dungeon_random";
         public const string Column_note = "note";
@@ -24,7 +25,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_new_y5 = "new_y5";
         public const string Column_new_mapid5 = "new_mapid5";
         public const string Column_new_heading = "new_heading";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.DungeonRandom; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

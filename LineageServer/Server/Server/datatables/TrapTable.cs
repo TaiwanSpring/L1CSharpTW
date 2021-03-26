@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.DataSources
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1Trap = LineageServer.Server.Server.Model.trap.L1Trap;
 	using TrapStorage = LineageServer.Server.Server.storage.TrapStorage;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class TrapTable
 	{
@@ -66,7 +66,7 @@ namespace LineageServer.Server.Server.DataSources
 
 				while (rs.next())
 				{
-					string typeName = rs.getString("type");
+					string typeName = dataSourceRow.getString("type");
 
 					L1Trap trap = createTrapInstance(typeName, new SqlTrapStorage(this, rs));
 
@@ -130,7 +130,7 @@ namespace LineageServer.Server.Server.DataSources
 			{
 				try
 				{
-					return _rs.getString(name);
+					return _dataSourceRow.getString(name);
 				}
 				catch (SQLException)
 				{
@@ -142,7 +142,7 @@ namespace LineageServer.Server.Server.DataSources
 			{
 				try
 				{
-					return _rs.getInt(name);
+					return _dataSourceRow.getInt(name);
 				}
 				catch (SQLException)
 				{
@@ -155,7 +155,7 @@ namespace LineageServer.Server.Server.DataSources
 			{
 				try
 				{
-					return _rs.getBoolean(name);
+					return _dataSourceRow.getBoolean(name);
 				}
 				catch (SQLException)
 				{

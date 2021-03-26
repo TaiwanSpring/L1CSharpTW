@@ -1,7 +1,7 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Server.Server.Command.Executor;
 using LineageServer.Server.Server.Templates;
-using LineageServer.Server.Server.utils.collections;
+using LineageServer.Server.Server.Utils.collections;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -57,7 +57,7 @@ namespace LineageServer.Server.Server.Command
                 ResultSet rs = L1DatabaseFactory.Instance.Connection.prepareStatement("SELECT * FROM commands").executeQuery();
                 while (rs.next())
                 {
-                    L1Command l1Command = new L1Command(rs.getString("name"), rs.getInt("access_level"), rs.getString("class_name"));
+                    L1Command l1Command = new L1Command(dataSourceRow.getString("name"), dataSourceRow.getInt("access_level"), dataSourceRow.getString("class_name"));
                     if (string.IsNullOrEmpty(l1Command.Name) ||
                        string.IsNullOrEmpty(l1Command.TypeName))
                     {

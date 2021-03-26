@@ -28,9 +28,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_ChangeName(int objectId, string name)
 		{
-			writeC(Opcodes.S_OPCODE_CHANGENAME);
-			writeD(objectId);
-			writeS(name);
+			WriteC(Opcodes.S_OPCODE_CHANGENAME);
+			WriteD(objectId);
+			WriteS(name);
 		}
 
 		public override sbyte[] Content

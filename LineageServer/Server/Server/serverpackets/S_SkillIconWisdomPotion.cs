@@ -24,10 +24,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SkillIconWisdomPotion(int time)
 		{
-			writeC(Opcodes.S_OPCODE_SKILLICONGFX);
-			writeC(0x39);
-			writeC(0x2c);
-			writeC(time);
+			WriteC(Opcodes.S_OPCODE_SKILLICONGFX);
+			WriteC(0x39);
+			WriteC(0x2c);
+			WriteC(time);
 		}
 
 		public override sbyte[] Content

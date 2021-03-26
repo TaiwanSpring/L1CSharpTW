@@ -25,7 +25,7 @@ namespace LineageServer.Server.Server.Clientpackets
         }
 
         // 移動
-        public C_MoveChar(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_MoveChar(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             L1PcInstance pc = client.ActiveChar;
             if ((pc == null) || pc.Teleport)
@@ -33,9 +33,9 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int locx = readH();
-            int locy = readH();
-            int heading = readC();
+            int locx = ReadH();
+            int locy = ReadH();
+            int heading = ReadC();
 
             // 檢查移動的時間間隔
             if (Config.CHECK_MOVE_INTERVAL)

@@ -5,7 +5,7 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1MagicDoll = LineageServer.Server.Server.Templates.L1MagicDoll;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class MagicDollTable
 	{
@@ -47,32 +47,32 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1MagicDoll doll = new L1MagicDoll();
-					int itemId = rs.getInt("item_id");
+					int itemId = dataSourceRow.getInt("item_id");
 					doll.ItemId = itemId;
-					doll.DollId = rs.getInt("doll_id");
-					doll.Ac = rs.getInt("ac");
-					doll.Hpr = rs.getInt("hpr");
-					doll.HprTime = rs.getBoolean("hpr_time");
-					doll.Mpr = rs.getInt("mpr");
-					doll.MprTime = rs.getBoolean("mpr_time");
-					doll.Hit = rs.getInt("hit");
-					doll.Dmg = rs.getInt("dmg");
-					doll.DmgChance = rs.getInt("dmg_chance");
-					doll.BowHit = rs.getInt("bow_hit");
-					doll.BowDmg = rs.getInt("bow_dmg");
-					doll.DmgReduction = rs.getInt("dmg_reduction");
-					doll.DmgReductionChance = rs.getInt("dmg_reduction_chance");
-					doll.DmgEvasionChance = rs.getInt("dmg_evasion_chance");
-					doll.WeightReduction = rs.getInt("weight_reduction");
-					doll.RegistStun = rs.getInt("regist_stun");
-					doll.RegistStone = rs.getInt("regist_stone");
-					doll.RegistSleep = rs.getInt("regist_sleep");
-					doll.RegistFreeze = rs.getInt("regist_freeze");
-					doll.RegistSustain = rs.getInt("regist_sustain");
-					doll.RegistBlind = rs.getInt("regist_blind");
-					doll.MakeItemId = rs.getInt("make_itemid");
-					doll.Effect = rs.getByte("effect");
-					doll.EffectChance = rs.getInt("effect_chance");
+					doll.DollId = dataSourceRow.getInt("doll_id");
+					doll.Ac = dataSourceRow.getInt("ac");
+					doll.Hpr = dataSourceRow.getInt("hpr");
+					doll.HprTime = dataSourceRow.getBoolean("hpr_time");
+					doll.Mpr = dataSourceRow.getInt("mpr");
+					doll.MprTime = dataSourceRow.getBoolean("mpr_time");
+					doll.Hit = dataSourceRow.getInt("hit");
+					doll.Dmg = dataSourceRow.getInt("dmg");
+					doll.DmgChance = dataSourceRow.getInt("dmg_chance");
+					doll.BowHit = dataSourceRow.getInt("bow_hit");
+					doll.BowDmg = dataSourceRow.getInt("bow_dmg");
+					doll.DmgReduction = dataSourceRow.getInt("dmg_reduction");
+					doll.DmgReductionChance = dataSourceRow.getInt("dmg_reduction_chance");
+					doll.DmgEvasionChance = dataSourceRow.getInt("dmg_evasion_chance");
+					doll.WeightReduction = dataSourceRow.getInt("weight_reduction");
+					doll.RegistStun = dataSourceRow.getInt("regist_stun");
+					doll.RegistStone = dataSourceRow.getInt("regist_stone");
+					doll.RegistSleep = dataSourceRow.getInt("regist_sleep");
+					doll.RegistFreeze = dataSourceRow.getInt("regist_freeze");
+					doll.RegistSustain = dataSourceRow.getInt("regist_sustain");
+					doll.RegistBlind = dataSourceRow.getInt("regist_blind");
+					doll.MakeItemId = dataSourceRow.getInt("make_itemid");
+					doll.Effect = dataSourceRow.getByte("effect");
+					doll.EffectChance = dataSourceRow.getInt("effect_chance");
 
 					_dolls[itemId] = doll;
 				}

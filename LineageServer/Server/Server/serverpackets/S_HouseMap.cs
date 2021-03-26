@@ -37,9 +37,9 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			int number = Convert.ToInt32(house_number);
 
-			writeC(Opcodes.S_OPCODE_HOUSEMAP);
-			writeD(objectId);
-			writeD(number);
+			WriteC(Opcodes.S_OPCODE_HOUSEMAP);
+			WriteD(objectId);
+			WriteD(number);
 		}
 
 		public override sbyte[] Content

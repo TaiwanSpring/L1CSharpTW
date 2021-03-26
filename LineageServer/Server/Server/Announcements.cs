@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_SystemMessage = LineageServer.Server.Server.serverpackets.S_SystemMessage;
-	using StreamUtil = LineageServer.Server.Server.utils.StreamUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using StreamUtil = LineageServer.Server.Server.Utils.StreamUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class Announcements
 	{

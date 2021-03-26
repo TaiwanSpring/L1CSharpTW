@@ -29,14 +29,14 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_RuneSlot(int type, int slotNum)
 		{
-			writeC(Opcodes.S_OPCODE_CHARRESET);
-			writeC(0x43);
-			writeD(type);
-			writeD(slotNum);
-			writeD(0);
-			writeD(0);
-			writeD(0);
-			writeH(0);
+			WriteC(Opcodes.S_OPCODE_CHARRESET);
+			WriteC(0x43);
+			WriteD(type);
+			WriteD(slotNum);
+			WriteD(0);
+			WriteD(0);
+			WriteD(0);
+			WriteH(0);
 		}
 
 

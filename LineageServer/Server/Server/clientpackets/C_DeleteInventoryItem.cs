@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_DELETE_INVENTORY_ITEM = "[C] C_DeleteInventoryItem";
 
-		public C_DeleteInventoryItem(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_DeleteInventoryItem(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
 
 			L1PcInstance pc = client.ActiveChar;
@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int itemObjectId = readD();
+			int itemObjectId = ReadD();
 			int deleteCount = 0;
 			L1ItemInstance item = pc.Inventory.getItem(itemObjectId);
 
@@ -75,7 +75,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 			if (item.Count > 1)
 			{
-				deleteCount = readD();
+				deleteCount = ReadD();
 				pc.Inventory.removeItem(item, deleteCount);
 			}
 			else

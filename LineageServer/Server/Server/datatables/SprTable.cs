@@ -75,8 +75,8 @@ namespace LineageServer.Server.Server.DataSources
 
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class SprTable
 	{
@@ -130,7 +130,7 @@ namespace LineageServer.Server.Server.DataSources
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					int key = rs.getInt("spr_id");
+					int key = dataSourceRow.getInt("spr_id");
 					if (!_dataMap.ContainsKey(key))
 					{
 						spr = new Spr();
@@ -141,9 +141,9 @@ namespace LineageServer.Server.Server.DataSources
 						spr = _dataMap[key];
 					}
 
-					int actid = rs.getInt("act_id");
-					int frameCount = rs.getInt("framecount");
-					int frameRate = rs.getInt("framerate");
+					int actid = dataSourceRow.getInt("act_id");
+					int frameCount = dataSourceRow.getInt("framecount");
+					int frameRate = dataSourceRow.getInt("framerate");
 					int speed = calcActionSpeed(frameCount, frameRate);
 
 					switch (actid)

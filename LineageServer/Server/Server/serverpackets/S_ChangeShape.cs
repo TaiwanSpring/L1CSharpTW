@@ -26,12 +26,12 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_ChangeShape(int objId, int polyId, int currentWeapon)
 		{
-			writeC(Opcodes.S_OPCODE_POLY);
-			writeD(objId);
-			writeH(polyId);
-			writeC(currentWeapon);
-			writeC(0xff);
-			writeC(0xff);
+			WriteC(Opcodes.S_OPCODE_POLY);
+			WriteD(objId);
+			WriteH(polyId);
+			WriteC(currentWeapon);
+			WriteC(0xff);
+			WriteC(0xff);
 		}
 
 		public override sbyte[] Content

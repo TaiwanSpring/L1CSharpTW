@@ -20,16 +20,16 @@ namespace LineageServer.Server.Server.serverpackets
 	{
 		public S_ShowSummonList(int objid)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(objid);
-			writeS("summonlist");
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(objid);
+			WriteS("summonlist");
 		}
 
 		public override sbyte[] Content
 		{
 			get
 			{
-				return _bao.toByteArray();
+				return memoryStream.toByteArray();
 			}
 		}
 

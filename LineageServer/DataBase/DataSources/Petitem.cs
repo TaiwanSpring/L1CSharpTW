@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Petitem : DataSourceTable
+    class Petitem : DataSource
     {
         public const string TableName = "petitem";
         public const string Column_note = "note";
@@ -19,7 +20,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_add_mp = "add_mp";
         public const string Column_add_sp = "add_sp";
         public const string Column_m_def = "m_def";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Petitem; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

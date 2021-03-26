@@ -28,11 +28,11 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SelectTarget(int ObjectId)
 		{
-			writeC(Opcodes.S_OPCODE_SELECTTARGET);
-			writeD(ObjectId);
-			writeC(0x00);
-			writeC(0x00);
-			writeC(0x00);
+			WriteC(Opcodes.S_OPCODE_SELECTTARGET);
+			WriteD(ObjectId);
+			WriteC(0x00);
+			WriteC(0x00);
+			WriteC(0x00);
 		}
 
 		public override sbyte[] Content

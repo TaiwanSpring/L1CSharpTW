@@ -10,7 +10,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_LOGIN_TO_SERVER_OK = "[C] C_LoginToServerOK";
 
-        public C_LoginToServerOK(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_LoginToServerOK(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             L1PcInstance pc = client.ActiveChar;
             if (pc == null)
@@ -18,8 +18,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int type = readC();
-            int button = readC();
+            int type = ReadC();
+            int button = ReadC();
 
             if (type == 255)
             { // 全體聊天 && 密語

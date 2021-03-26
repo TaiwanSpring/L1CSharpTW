@@ -17,7 +17,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private static ILogger _log = Logger.getLogger(nameof(C_EmblemUpload));
 
-        public C_EmblemUpload(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_EmblemUpload(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
             L1PcInstance player = clientthread.ActiveChar;
             if (player == null)
@@ -40,7 +40,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     fos = new FileStream("emblem/" + emblem_file, FileMode.Create, FileAccess.Write);
                     for (short cnt = 0; cnt < 384; cnt++)
                     {
-                        fos.WriteByte(readC());
+                        fos.WriteByte(ReadC());
                     }
                 }
                 catch (Exception e)

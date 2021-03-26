@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Castle : DataSourceTable
+    class Castle : DataSource
     {
         public const string TableName = "castle";
         public const string Column_name = "name";
@@ -9,7 +10,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_castle_id = "castle_id";
         public const string Column_tax_rate = "tax_rate";
         public const string Column_public_money = "public_money";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Castle; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},

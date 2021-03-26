@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
 
         private const string C_DOOR = "[C] C_Door";
-        public C_Door(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_Door(byte[] abyte0, ClientThread client) : base(abyte0)
         {
 
             L1PcInstance pc = client.ActiveChar;
@@ -21,9 +21,9 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            readH();
-            readH();
-            int objectId = readD();
+            ReadH();
+            ReadH();
+            int objectId = ReadD();
 
             L1DoorInstance door = (L1DoorInstance)L1World.Instance.findObject(objectId);
             if (door == null)

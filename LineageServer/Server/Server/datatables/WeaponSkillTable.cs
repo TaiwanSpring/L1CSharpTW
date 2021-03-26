@@ -19,8 +19,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1WeaponSkill = LineageServer.Server.Server.Model.L1WeaponSkill;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class WeaponSkillTable
 	{
@@ -79,17 +79,17 @@ namespace LineageServer.Server.Server.DataSources
 		{
 			while (rs.next())
 			{
-				int weaponId = rs.getInt("weapon_id");
-				int probability = rs.getInt("probability");
-				int fixDamage = rs.getInt("fix_damage");
-				int randomDamage = rs.getInt("random_damage");
-				int area = rs.getInt("area");
-				int skillId = rs.getInt("skill_id");
-				int skillTime = rs.getInt("skill_time");
-				int effectId = rs.getInt("effect_id");
-				int effectTarget = rs.getInt("effect_target");
-				bool isArrowType = rs.getBoolean("arrow_type");
-				int attr = rs.getInt("attr");
+				int weaponId = dataSourceRow.getInt("weapon_id");
+				int probability = dataSourceRow.getInt("probability");
+				int fixDamage = dataSourceRow.getInt("fix_damage");
+				int randomDamage = dataSourceRow.getInt("random_damage");
+				int area = dataSourceRow.getInt("area");
+				int skillId = dataSourceRow.getInt("skill_id");
+				int skillTime = dataSourceRow.getInt("skill_time");
+				int effectId = dataSourceRow.getInt("effect_id");
+				int effectTarget = dataSourceRow.getInt("effect_target");
+				bool isArrowType = dataSourceRow.getBoolean("arrow_type");
+				int attr = dataSourceRow.getInt("attr");
 				L1WeaponSkill weaponSkill = new L1WeaponSkill(weaponId, probability, fixDamage, randomDamage, area, skillId, skillTime, effectId, effectTarget, isArrowType, attr);
 				_weaponIdIndex[weaponId] = weaponSkill;
 			}

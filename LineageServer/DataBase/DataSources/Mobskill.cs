@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Mobskill : DataSourceTable
+    class Mobskill : DataSource
     {
         public const string TableName = "mobskill";
         public const string Column_mobname = "mobname";
@@ -27,7 +28,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_SummonMax = "SummonMax";
         public const string Column_PolyId = "PolyId";
         public const string Column_SkillArea = "SkillArea";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Mobskill; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_mobname, DbType = DbType.String, IsPKey = false},

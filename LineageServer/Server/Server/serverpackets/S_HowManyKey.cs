@@ -29,18 +29,18 @@ namespace LineageServer.Server.Server.serverpackets
 		 */
 		public S_HowManyKey(L1NpcInstance npc, int price, int min, int max, string htmlId)
 		{
-			writeC(Opcodes.S_OPCODE_INPUTAMOUNT);
-			writeD(npc.Id);
-			writeD(price); // 價錢
-			writeD(min); // 起始數量
-			writeD(min); // 起始數量
-			writeD(max); // 購買上限
-			writeH(0); // ?
-			writeS(htmlId); // 對話檔檔名
-			writeC(0); // ?
-			writeH(0x02); // writeS 數量
-			writeS(npc.Name); // 顯示NPC名稱
-			writeS(price.ToString()); // 顯示價錢
+			WriteC(Opcodes.S_OPCODE_INPUTAMOUNT);
+			WriteD(npc.Id);
+			WriteD(price); // 價錢
+			WriteD(min); // 起始數量
+			WriteD(min); // 起始數量
+			WriteD(max); // 購買上限
+			WriteH(0); // ?
+			WriteS(htmlId); // 對話檔檔名
+			WriteC(0); // ?
+			WriteH(0x02); // WriteS 數量
+			WriteS(npc.Name); // 顯示NPC名稱
+			WriteS(price.ToString()); // 顯示價錢
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:

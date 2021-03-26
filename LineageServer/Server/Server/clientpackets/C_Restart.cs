@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_RESTART = "[C] C_Restart";
 
-        public C_Restart(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_Restart(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
             L1PcInstance pc = clientthread.ActiveChar;
             if (pc == null)

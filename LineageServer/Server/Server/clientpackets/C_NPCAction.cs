@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_NPC_ACTION = "[C] C_NPCAction";
         private static ILogger _log = Logger.getLogger(nameof(C_NPCAction));
-        public C_NPCAction(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_NPCAction(byte[] abyte0, ClientThread client) : base(abyte0)
         {
             L1PcInstance pc = client.ActiveChar;
             if (pc == null)
@@ -29,8 +29,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int objid = readD();
-            string s = readS();
+            int objid = ReadD();
+            string s = ReadS();
 
             string s2 = string.Empty;
 
@@ -40,7 +40,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 s == "map" ||
                 s == "apply")
             { // 參加拍賣
-                s2 = readS();
+                s2 = ReadS();
             }
             else if (s == "ent")
             {
@@ -48,7 +48,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 {
                     if (l1NpcInstance.NpcTemplate.get_npcId() == 80088)
                     {
-                        s2 = readS();
+                        s2 = ReadS();
                     }
                 }
             }
@@ -123,7 +123,7 @@ namespace LineageServer.Server.Server.Clientpackets
             INpcAction action = NpcActionTable.Instance.get(s, pc, obj);
             if (action != null)
             {
-                L1NpcHtml result = action.execute(s, pc, obj, readByte());
+                L1NpcHtml result = action.execute(s, pc, obj, ReadByte());
                 if (result != null)
                 {
                     pc.sendPackets(new S_NPCTalkReturn(obj.Id, result));

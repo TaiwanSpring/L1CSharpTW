@@ -24,9 +24,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SkillIconWaterLife()
 		{
-			writeC(Opcodes.S_OPCODE_SKILLICONGFX);
-			writeC(0x3b);
-			writeH(0x0000);
+			WriteC(Opcodes.S_OPCODE_SKILLICONGFX);
+			WriteC(0x3b);
+			WriteH(0x0000);
 		}
 
 		public override sbyte[] Content

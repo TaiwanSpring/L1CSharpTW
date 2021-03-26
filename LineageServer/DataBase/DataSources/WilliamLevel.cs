@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class WilliamLevel : DataSourceTable
+    class WilliamLevel : DataSource
     {
         public const string TableName = "william_level";
         public const string Column_註解 = "註解";
@@ -20,7 +21,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_give_illusionist = "give_illusionist";
         public const string Column_quest_id = "quest_id";
         public const string Column_quest_step = "quest_step";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.WilliamLevel; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_註解, DbType = DbType.String, IsPKey = false},

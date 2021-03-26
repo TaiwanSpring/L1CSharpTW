@@ -1,7 +1,7 @@
 ﻿using LineageServer.Server.Server.Model;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 
 namespace LineageServer.Server.Server.Clientpackets
 {
@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_JOIN_CLAN = "[C] C_JoinClan";
 
-        public C_JoinClan(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_JoinClan(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
             L1PcInstance pc = clientthread.ActiveChar;
             if ((pc == null) || pc.Ghost)

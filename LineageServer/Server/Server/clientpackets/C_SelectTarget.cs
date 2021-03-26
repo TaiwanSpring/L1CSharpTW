@@ -12,12 +12,12 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_SELECT_TARGET = "[C] C_SelectTarget";
 
-		public C_SelectTarget(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_SelectTarget(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
-			int petId = readD();
-			readC();
-			int targetId = readD();
+			int petId = ReadD();
+			ReadC();
+			int targetId = ReadD();
 
 			L1PetInstance pet = (L1PetInstance) L1World.Instance.findObject(petId);
 			L1Character target = (L1Character) L1World.Instance.findObject(targetId);

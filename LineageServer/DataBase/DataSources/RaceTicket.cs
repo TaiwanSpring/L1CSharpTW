@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class RaceTicket : DataSourceTable
+    class RaceTicket : DataSource
     {
         public const string TableName = "race_ticket";
         public const string Column_item_obj_id = "item_obj_id";
@@ -9,7 +10,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_victory = "victory";
         public const string Column_runner_num = "runner_num";
         public const string Column_allotment_percentage = "allotment_percentage";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.RaceTicket; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_item_obj_id, DbType = DbType.Int32, IsPKey = true},

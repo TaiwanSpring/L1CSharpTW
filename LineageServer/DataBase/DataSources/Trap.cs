@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Trap : DataSourceTable
+    class Trap : DataSource
     {
         public const string TableName = "trap";
         public const string Column_poisonType = "poisonType";
@@ -23,7 +24,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_skillId = "skillId";
         public const string Column_skillTimeSeconds = "skillTimeSeconds";
         public const string Column_isDetectionable = "isDetectionable";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Trap; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_poisonType, DbType = DbType.String, IsPKey = false},

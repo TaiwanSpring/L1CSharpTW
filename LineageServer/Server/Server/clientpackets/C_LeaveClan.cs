@@ -13,10 +13,10 @@ namespace LineageServer.Server.Server.Clientpackets
     {
 
         private const string C_LEAVE_CLAN = "[C] C_LeaveClan";
-        public C_LeaveClan(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_LeaveClan(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
-            string clan_name = readS();
+            string clan_name = ReadS();
 
             L1PcInstance player = clientthread.ActiveChar;
             if (player == null)

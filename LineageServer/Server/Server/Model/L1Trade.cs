@@ -1,6 +1,6 @@
 ﻿using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.Server.Model

@@ -18,18 +18,18 @@
 
         private void buildPacket(int type, bool equipped)
         {
-            writeC(Opcodes.S_OPCODE_ABILITY);
-            writeC(type);
+            WriteC(Opcodes.S_OPCODE_ABILITY);
+            WriteC(type);
             if (equipped)
             {
-                writeC(0x01);
+                WriteC(0x01);
             }
             else
             {
-                writeC(0x00);
+                WriteC(0x00);
             }
-            writeC(0x00);
-            writeH(0x0000);
+            WriteC(0x00);
+            WriteH(0x0000);
         }
 
         public override string Type

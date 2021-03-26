@@ -32,14 +32,14 @@ namespace LineageServer.Server.Server.serverpackets
 		/// </summary>
 		public S_NoSee(string targetName)
 		{
-			writeC(S_OPCODE_SHOWHTML);
-			writeD(0x00000000);
-			writeS("noseeb");
-			writeC(0);
-			writeH(1);
-			writeS(targetName);
-			writeC(0x8f);
-			writeH(0);
+			WriteC(S_OPCODE_SHOWHTML);
+			WriteD(0x00000000);
+			WriteS("noseeb");
+			WriteC(0);
+			WriteH(1);
+			WriteS(targetName);
+			WriteC(0x8f);
+			WriteH(0);
 		}
 
 

@@ -51,14 +51,14 @@ namespace LineageServer.Server.Server.serverpackets
 		/// 更新六項能力值以及負重 </summary>
 		private void buildPacket(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_OWNCHARSTATUS2);
-			writeC(pc.Str);
-			writeC(pc.Int);
-			writeC(pc.Wis);
-			writeC(pc.Dex);
-			writeC(pc.Con);
-			writeC(pc.Cha);
-			writeC(pc.Inventory.Weight242);
+			WriteC(Opcodes.S_OPCODE_OWNCHARSTATUS2);
+			WriteC(pc.Str);
+			WriteC(pc.Int);
+			WriteC(pc.Wis);
+			WriteC(pc.Dex);
+			WriteC(pc.Con);
+			WriteC(pc.Cha);
+			WriteC(pc.Inventory.Weight242);
 		}
 
 		public override sbyte[] Content

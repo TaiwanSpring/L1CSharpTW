@@ -31,9 +31,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int i, int j)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(i);
-			writeS("RaiseAttr");
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(i);
+			WriteS("RaiseAttr");
 		}
 
 		public override sbyte[] Content

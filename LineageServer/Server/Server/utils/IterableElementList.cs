@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-namespace LineageServer.Server.Server.utils
+namespace LineageServer.Server.Server.Utils
 {
-
-
 	public class IterableElementList : IEnumerable<Element>
 	{
 		internal IterableNodeList _list;

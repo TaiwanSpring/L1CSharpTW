@@ -25,13 +25,13 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			// npc.set_moving(true);
 
-			writeC(Opcodes.S_OPCODE_MOVEOBJECT);
-			writeD(npc.Id);
-			writeH(x);
-			writeH(y);
-			writeC(heading);
-			writeC(0x80); // 3.80C 更動
-			writeD(0x00000000);
+			WriteC(Opcodes.S_OPCODE_MOVEOBJECT);
+			WriteD(npc.Id);
+			WriteH(x);
+			WriteH(y);
+			WriteC(heading);
+			WriteC(0x80); // 3.80C 更動
+			WriteD(0x00000000);
 
 			// npc.set_moving(false);
 		}

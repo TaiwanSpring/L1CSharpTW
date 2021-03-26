@@ -22,8 +22,8 @@ namespace LineageServer.Server.Server.DataSources
 	using IdFactory = LineageServer.Server.Server.IdFactory;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1Mail = LineageServer.Server.Server.Templates.L1Mail;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	// Referenced classes of package l1j.server.server:
 	// IdFactory
@@ -67,15 +67,15 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1Mail mail = new L1Mail();
-					mail.Id = rs.getInt("id");
-					mail.Type = rs.getInt("type");
-					mail.SenderName = rs.getString("sender");
-					mail.ReceiverName = rs.getString("receiver");
-					mail.Date = rs.getTimestamp("date");
-					mail.ReadStatus = rs.getInt("read_status");
-					mail.Subject = rs.getBytes("subject");
-					mail.Content = rs.getBytes("content");
-					mail.InBoxId = rs.getInt("inbox_id");
+					mail.Id = dataSourceRow.getInt("id");
+					mail.Type = dataSourceRow.getInt("type");
+					mail.SenderName = dataSourceRow.getString("sender");
+					mail.ReceiverName = dataSourceRow.getString("receiver");
+					mail.Date = dataSourceRow.getTimestamp("date");
+					mail.ReadStatus = dataSourceRow.getInt("read_status");
+					mail.Subject = dataSourceRow.getBytes("subject");
+					mail.Content = dataSourceRow.getBytes("content");
+					mail.InBoxId = dataSourceRow.getInt("inbox_id");
 
 					_allMail.Add(mail);
 				}

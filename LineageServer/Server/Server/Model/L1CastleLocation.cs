@@ -22,8 +22,8 @@ namespace LineageServer.Server.Server.Model
 	using IL1GameTimeListener = LineageServer.Server.Server.Model.Gametime.IL1GameTimeListener;
 	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using L1Castle = LineageServer.Server.Server.Templates.L1Castle;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using Random = LineageServer.Server.Server.Utils.Random;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1CastleLocation

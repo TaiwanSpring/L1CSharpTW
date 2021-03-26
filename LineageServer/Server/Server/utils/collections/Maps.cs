@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-namespace LineageServer.Server.Server.utils.collections
+namespace LineageServer.Server.Server.Utils.collections
 {
 	public class Maps
 	{

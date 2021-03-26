@@ -18,8 +18,8 @@ namespace LineageServer.Server.Server.DataSources
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public sealed class MapsTable
 	{
@@ -101,25 +101,25 @@ namespace LineageServer.Server.Server.DataSources
 				for (rs = pstm.executeQuery(); rs.next();)
 				{
 					MapData data = new MapData(this);
-					int mapId = rs.getInt("mapid");
-					// rs.getString("locationname");
-					data.startX = rs.getInt("startX");
-					data.endX = rs.getInt("endX");
-					data.startY = rs.getInt("startY");
-					data.endY = rs.getInt("endY");
-					data.monster_amount = rs.getDouble("monster_amount");
-					data.dropRate = rs.getDouble("drop_rate");
-					data.isUnderwater = rs.getBoolean("underwater");
-					data.markable = rs.getBoolean("markable");
-					data.teleportable = rs.getBoolean("teleportable");
-					data.escapable = rs.getBoolean("escapable");
-					data.isUseResurrection = rs.getBoolean("resurrection");
-					data.isUsePainwand = rs.getBoolean("painwand");
-					data.isEnabledDeathPenalty = rs.getBoolean("penalty");
-					data.isTakePets = rs.getBoolean("take_pets");
-					data.isRecallPets = rs.getBoolean("recall_pets");
-					data.isUsableItem = rs.getBoolean("usable_item");
-					data.isUsableSkill = rs.getBoolean("usable_skill");
+					int mapId = dataSourceRow.getInt("mapid");
+					// dataSourceRow.getString("locationname");
+					data.startX = dataSourceRow.getInt("startX");
+					data.endX = dataSourceRow.getInt("endX");
+					data.startY = dataSourceRow.getInt("startY");
+					data.endY = dataSourceRow.getInt("endY");
+					data.monster_amount = dataSourceRow.getDouble("monster_amount");
+					data.dropRate = dataSourceRow.getDouble("drop_rate");
+					data.isUnderwater = dataSourceRow.getBoolean("underwater");
+					data.markable = dataSourceRow.getBoolean("markable");
+					data.teleportable = dataSourceRow.getBoolean("teleportable");
+					data.escapable = dataSourceRow.getBoolean("escapable");
+					data.isUseResurrection = dataSourceRow.getBoolean("resurrection");
+					data.isUsePainwand = dataSourceRow.getBoolean("painwand");
+					data.isEnabledDeathPenalty = dataSourceRow.getBoolean("penalty");
+					data.isTakePets = dataSourceRow.getBoolean("take_pets");
+					data.isRecallPets = dataSourceRow.getBoolean("recall_pets");
+					data.isUsableItem = dataSourceRow.getBoolean("usable_item");
+					data.isUsableSkill = dataSourceRow.getBoolean("usable_skill");
 
 					_maps[mapId] = data;
 				}

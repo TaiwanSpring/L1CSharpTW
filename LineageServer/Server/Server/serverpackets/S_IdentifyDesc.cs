@@ -35,8 +35,8 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1ItemInstance item)
 		{
-			writeC(Opcodes.S_OPCODE_IDENTIFYDESC);
-			writeH(item.Item.ItemDescId);
+			WriteC(Opcodes.S_OPCODE_IDENTIFYDESC);
+			WriteH(item.Item.ItemDescId);
 
 			StringBuilder name = new StringBuilder();
 
@@ -59,28 +59,28 @@ namespace LineageServer.Server.Server.serverpackets
 
 			if (item.Item.Type2 == 1)
 			{ // weapon
-				writeH(134); // \f1%0：小さなモンスター打撃%1 大きなモンスター打撃%2
-				writeC(3);
-				writeS(name.ToString());
-				writeS(item.Item.DmgSmall + "+" + item.EnchantLevel);
-				writeS(item.Item.DmgLarge + "+" + item.EnchantLevel);
+				WriteH(134); // \f1%0：小さなモンスター打撃%1 大きなモンスター打撃%2
+				WriteC(3);
+				WriteS(name.ToString());
+				WriteS(item.Item.DmgSmall + "+" + item.EnchantLevel);
+				WriteS(item.Item.DmgLarge + "+" + item.EnchantLevel);
 
 			}
 			else if (item.Item.Type2 == 2)
 			{ // armor
 				if (item.Item.ItemId == 20383)
 				{ // 騎馬用ヘルム
-					writeH(137); // \f1%0：使用可能回数%1［重さ%2］
-					writeC(3);
-					writeS(name.ToString());
-					writeS(item.ChargeCount.ToString());
+					WriteH(137); // \f1%0：使用可能回数%1［重さ%2］
+					WriteC(3);
+					WriteS(name.ToString());
+					WriteS(item.ChargeCount.ToString());
 				}
 				else
 				{
-					writeH(135); // \f1%0：防御力%1 防御具
-					writeC(2);
-					writeS(name.ToString());
-					writeS(Math.Abs(item.Item.get_ac()) + "+" + item.EnchantLevel);
+					WriteH(135); // \f1%0：防御力%1 防御具
+					WriteC(2);
+					WriteS(name.ToString());
+					WriteS(Math.Abs(item.Item.get_ac()) + "+" + item.EnchantLevel);
 				}
 
 			}
@@ -88,33 +88,33 @@ namespace LineageServer.Server.Server.serverpackets
 			{ // etcitem
 				if (item.Item.Type == 1)
 				{ // wand
-					writeH(137); // \f1%0：使用可能回数%1［重さ%2］
-					writeC(3);
-					writeS(name.ToString());
-					writeS(item.ChargeCount.ToString());
+					WriteH(137); // \f1%0：使用可能回数%1［重さ%2］
+					WriteC(3);
+					WriteS(name.ToString());
+					WriteS(item.ChargeCount.ToString());
 				}
 				else if (item.Item.Type == 2)
 				{ // light系アイテム
-					writeH(138);
-					writeC(2);
+					WriteH(138);
+					WriteC(2);
 					name.Append(": $231 "); // 残りの燃料
 					name.Append(item.RemainingTime.ToString());
-					writeS(name.ToString());
+					WriteS(name.ToString());
 				}
 				else if (item.Item.Type == 7)
 				{ // food
-					writeH(136); // \f1%0：満腹度%1［重さ%2］
-					writeC(3);
-					writeS(name.ToString());
-					writeS((item.Item.FoodVolume).ToString());
+					WriteH(136); // \f1%0：満腹度%1［重さ%2］
+					WriteC(3);
+					WriteS(name.ToString());
+					WriteS((item.Item.FoodVolume).ToString());
 				}
 				else
 				{
-					writeH(138); // \f1%0：［重さ%1］
-					writeC(2);
-					writeS(name.ToString());
+					WriteH(138); // \f1%0：［重さ%1］
+					WriteC(2);
+					WriteS(name.ToString());
 				}
-				writeS(item.Weight.ToString());
+				WriteS(item.Weight.ToString());
 			}
 		}
 

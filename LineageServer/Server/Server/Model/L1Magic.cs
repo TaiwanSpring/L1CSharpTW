@@ -30,7 +30,7 @@ namespace LineageServer.Server.Server.Model
 	using S_SkillSound = LineageServer.Server.Server.serverpackets.S_SkillSound;
 	using L1MagicDoll = LineageServer.Server.Server.Templates.L1MagicDoll;
 	using L1Skills = LineageServer.Server.Server.Templates.L1Skills;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	using static LineageServer.Server.Server.Model.skill.L1SkillId;
 

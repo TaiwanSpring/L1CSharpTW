@@ -17,12 +17,12 @@
 
 		public S_PetEquipment(int i, L1PetInstance pet, int j)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(0x25);
-			writeC(i);
-			writeD(pet.Id);
-			writeC(j);
-			writeC(pet.Ac); // 寵物防禦
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(0x25);
+			WriteC(i);
+			WriteD(pet.Id);
+			WriteC(j);
+			WriteC(pet.Ac); // 寵物防禦
 		}
 
 		public override sbyte[] Content

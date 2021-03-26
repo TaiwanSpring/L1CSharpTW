@@ -20,9 +20,9 @@ namespace LineageServer.Server.Server.Model
 
 
 	using BossSpawnTable = LineageServer.Server.Server.DataSources.BossSpawnTable;
-	using PerformanceTimer = LineageServer.Server.Server.utils.PerformanceTimer;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using PerformanceTimer = LineageServer.Server.Server.Utils.PerformanceTimer;
+	using Random = LineageServer.Server.Server.Utils.Random;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) public class L1BossCycle

@@ -30,11 +30,11 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1NpcInstance npc)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(npc.Id);
-			writeS("nosell");
-			writeC(0x00);
-			writeH(0x00);
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(npc.Id);
+			WriteS("nosell");
+			WriteC(0x00);
+			WriteH(0x00);
 		}
 
 		public override sbyte[] Content

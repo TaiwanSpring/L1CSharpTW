@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace LineageServer.Server.Server.utils
+namespace LineageServer.Server.Server.Utils
 {
 	/*
     // 全部staticにしてもいいかもしれない

@@ -5,7 +5,7 @@ using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.Model.map;
 using LineageServer.Server.Server.serverpackets;
 using LineageServer.Server.Server.Templates;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 using System;
 
 namespace LineageServer.Server.Server.Clientpackets
@@ -34,12 +34,12 @@ namespace LineageServer.Server.Server.Clientpackets
         private static readonly int[] ORIGINAL_AMOUNT = new int[] { 8, 4, 7, 16, 10, 6, 10 };
 
         private static readonly string CLIENT_LANGUAGE_CODE = Config.CLIENT_LANGUAGE_CODE;
-        public C_CreateChar(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_CreateChar(byte[] abyte0, ClientThread client) : base(abyte0)
         {
             L1PcInstance pc = new L1PcInstance();
-            string name = readS();
+            string name = ReadS();
 
-            Account account = Account.load(client.AccountName);
+            Account account = Account.Load(client.AccountName);
             int characterSlot = account.CharacterSlot;
             int maxAmount = Config.DEFAULT_CHARACTER_SLOT + characterSlot;
 
@@ -66,7 +66,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            if (client.Account.countCharacters() >= maxAmount)
+            if (client.Account.CountCharacters() >= maxAmount)
             {
                 S_CharCreateStatus s_charcreatestatus1 = new S_CharCreateStatus(S_CharCreateStatus.REASON_WRONG_AMOUNT);
                 client.SendPacket(s_charcreatestatus1);
@@ -74,14 +74,14 @@ namespace LineageServer.Server.Server.Clientpackets
             }
 
             pc.Name = name;
-            pc.Type = readC();
-            pc.set_sex(readC());
-            pc.addBaseStr((sbyte)readC());
-            pc.addBaseDex((sbyte)readC());
-            pc.addBaseCon((sbyte)readC());
-            pc.addBaseWis((sbyte)readC());
-            pc.addBaseCha((sbyte)readC());
-            pc.addBaseInt((sbyte)readC());
+            pc.Type = ReadC();
+            pc.set_sex(ReadC());
+            pc.addBaseStr((sbyte)ReadC());
+            pc.addBaseDex((sbyte)ReadC());
+            pc.addBaseCon((sbyte)ReadC());
+            pc.addBaseWis((sbyte)ReadC());
+            pc.addBaseCha((sbyte)ReadC());
+            pc.addBaseInt((sbyte)ReadC());
 
             bool isStatusError = false;
             int originalStr = ORIGINAL_STR[pc.Type];

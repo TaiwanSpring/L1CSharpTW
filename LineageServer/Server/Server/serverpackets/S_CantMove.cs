@@ -24,8 +24,8 @@ namespace LineageServer.Server.Server.serverpackets
 		public S_CantMove()
 		{
 	/*
-			writeC(Opcodes.S_OPCODE_CANTMOVEBEFORETELE);
-	//		writeC(Opcodes.S_OPCODE_CANTMOVE);
+			WriteC(Opcodes.S_OPCODE_CANTMOVEBEFORETELE);
+	//		WriteC(Opcodes.S_OPCODE_CANTMOVE);
 	*/
 		}
 

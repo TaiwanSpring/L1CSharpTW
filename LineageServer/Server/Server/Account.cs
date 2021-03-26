@@ -1,27 +1,10 @@
-﻿using LineageServer.Interfaces;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Models;
 using System;
 using System.Text;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Server
 {
-
-    using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-    using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-
     /// <summary>
     /// 帳號相關資訊
     /// </summary>
@@ -77,9 +60,8 @@ namespace LineageServer.Server.Server
 
         /// <summary>
         /// 紀錄用 </summary>
-        //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-        private static Logger _log = Logger.getLogger(typeof(Account).FullName);
-        internal static readonly Base64.Encoder encoder = Base64.Encoder;
+        private static ILogger _log = Logger.getLogger(nameof(Account));
+        private readonly static IDataSource dataSource = Container.Instance.Resolve<IDataSourceFactory>().Factory(Enum.DataSourceTypeEnum.Accounts);
         /// <summary>
         /// 建構式
         /// </summary>
@@ -88,86 +70,49 @@ namespace LineageServer.Server.Server
         }
 
         /// <summary>
-        /// 將明文密碼加密
+        /// 加密
         /// </summary>
-        /// <param name="rawPassword">
-        ///            明文密碼 </param>
+        /// <param name="str">明文</param>
         /// <returns> String </returns>
-        /// <exception cref="NoSuchAlgorithmException">
-        ///             密碼使用不存在的演算法加密 </exception>
-        /// <exception cref="UnsupportedEncodingException">
-        ///             文字編碼不支援 </exception>
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private static String encodePassword(final String rawPassword) throws java.security.NoSuchAlgorithmException, java.io.UnsupportedEncodingException
-        private static string encodePassword(in string rawPassword)
+        private static string Encode(string str)
         {
-            sbyte[] buf = rawPassword.GetBytes(Encoding.UTF8);
-            buf = MessageDigest.getInstance("SHA").digest(buf);
-
-            return encoder.encodeToString(buf);
+            byte[] buffer = GobalParameters.Encoding.GetBytes(str);
+            var sha = System.Security.Cryptography.SHA256.Create();
+            buffer = sha.ComputeHash(buffer);
+            sha.Dispose();
+            return GobalParameters.Encoding.GetString(buffer);
         }
 
         /// <summary>
         /// 建立新的帳號
         /// </summary>
-        /// <param name="name">
-        ///            帳號名稱 </param>
-        /// <param name="rawPassword">
-        ///            明文密碼 </param>
-        /// <param name="ip">
-        ///            連結時的 IP </param>
-        /// <param name="host">
-        ///            連結時的 dns 反查 </param>
+        /// <param name="name">帳號名稱 </param>
+        /// <param name="password">明文密碼 </param>
+        /// <param name="ip">連結時的 IP </param>
+        /// <param name="host">連結時的 dns 反查 </param>
         /// <returns> Account </returns>
-        public static Account create(in string name, in string rawPassword, in string ip, in string host)
+        public static Account Create(string name, string password, string ip, string host)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
             try
             {
                 Account account = new Account();
                 account._name = name;
-                account._password = encodePassword(rawPassword);
+                account._password = Encode(password);
                 account._ip = ip;
                 account._host = host;
-                account._banned = false;
                 account._lastActive = DateTime.Now;
+                dataSource.NewRow().Insert()
+                            .Set(Accounts.Column_login, account._name)
+                            .Set(Accounts.Column_password, account._password)
+                            .Set(Accounts.Column_lastactive, account._lastActive)
+                            .Set(Accounts.Column_ip, account._ip)
+                            .Set(Accounts.Column_host, account._host).Execute();
+            }
+            catch (Exception e)
+            {
+                _log.log(Enum.Level.Server, e.Message, e);
+            }
 
-                con = L1DatabaseFactory.Instance.Connection;
-                string sqlstr = "INSERT INTO accounts SET login=?,password=?,lastactive=?,access_level=?,ip=?,host=?,online=?,banned=?,character_slot=?,OnlineStatus=?";
-                pstm = con.prepareStatement(sqlstr);
-                pstm.setString(1, account._name);
-                pstm.setString(2, account._password);
-                pstm.setTimestamp(3, account._lastActive);
-                pstm.setInt(4, 0);
-                pstm.setString(5, account._ip);
-                pstm.setString(6, account._host);
-                pstm.setInt(7, 0);
-                pstm.setInt(8, account._banned ? 1 : 0);
-                pstm.setInt(9, account._online ? 1 : 0);
-                pstm.setInt(10, account._onlineStatus ? 1 : 0);
-                pstm.execute();
-                _log.info("created new account for " + name);
-
-                return account;
-            }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            catch (NoSuchAlgorithmException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            catch (UnsupportedEncodingException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
-            }
             return null;
         }
 
@@ -177,51 +122,35 @@ namespace LineageServer.Server.Server
         /// <param name="name">
         ///            帳號名稱 </param>
         /// <returns> Account </returns>
-        public static Account load(in string name)
+        public static Account Load(string name)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-
-            Account account = null;
             try
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                string sqlstr = "SELECT * FROM accounts WHERE login=? LIMIT 1";
-                pstm = con.prepareStatement(sqlstr);
-                pstm.setString(1, name);
-                rs = pstm.executeQuery();
-                if (!rs.next())
+                IDataSourceRow dataSourceRow = dataSource.NewRow();
+                dataSourceRow.Select().Where(Accounts.Column_login, name).Execute();
+                Account account = new Account();
+                account._name = dataSourceRow.getString(Accounts.Column_login);
+                if (string.IsNullOrEmpty(account._name))
                 {
                     return null;
                 }
-                account = new Account();
-                account._name = rs.getString("login");
-                account._password = rs.getString("password");
-                account._lastActive = rs.getTimestamp("lastactive");
-                account._accessLevel = rs.getInt("access_level");
-                account._ip = rs.getString("ip");
-                account._host = rs.getString("host");
-                account._banned = rs.getInt("banned") == 0 ? false : true;
-                account._online = rs.getInt("online") == 0 ? false : true;
-                account._characterSlot = rs.getInt("character_slot");
-                account._WarePassword = rs.getInt("warepassword");
-                account._onlineStatus = rs.getInt("OnlineStatus") == 0 ? false : true;
-
-                _log.fine("account exists");
+                account._password = dataSourceRow.getString(Accounts.Column_password);
+                account._lastActive = dataSourceRow.getTimestamp(Accounts.Column_lastactive);
+                account._accessLevel = dataSourceRow.getInt(Accounts.Column_access_level);
+                account._ip = dataSourceRow.getString(Accounts.Column_ip);
+                account._host = dataSourceRow.getString(Accounts.Column_host);
+                account._banned = dataSourceRow.getInt(Accounts.Column_banned) == 0 ? false : true;
+                account._online = dataSourceRow.getInt(Accounts.Column_online) == 0 ? false : true;
+                account._characterSlot = dataSourceRow.getInt(Accounts.Column_character_slot);
+                account._WarePassword = dataSourceRow.getInt(Accounts.Column_warepassword);
+                account._onlineStatus = dataSourceRow.getInt(Accounts.Column_OnlineStatus) == 0 ? false : true;
             }
-            catch (SQLException e)
+            catch (Exception e)
             {
                 _log.log(Enum.Level.Server, e.Message, e);
             }
-            finally
-            {
-                SQLUtil.close(rs);
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
-            }
 
-            return account;
+            return null;
         }
 
         /// <summary>
@@ -229,32 +158,18 @@ namespace LineageServer.Server.Server
         /// </summary>
         /// <param name="account">
         ///            帳號 </param>
-        public static void updateLastActive(in Account account, in string ip)
+        public void UpdateLastActive(string ip)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            Timestamp ts = new Timestamp(DateTimeHelper.CurrentUnixTimeMillis());
-
             try
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                string sqlstr = "UPDATE accounts SET lastactive=?, ip=? ,online=1 WHERE login = ?";
-                pstm = con.prepareStatement(sqlstr);
-                pstm.setTimestamp(1, ts);
-                pstm.setString(2, ip);
-                pstm.setString(3, account.Name);
-                pstm.execute();
-                account._lastActive = ts;
-                _log.fine("update lastactive for " + account.Name);
+                dataSource.NewRow().Update()
+                     .Set(Accounts.Column_lastactive, DateTime.Now)
+                     .Set(Accounts.Column_ip, ip)
+                     .Where(Accounts.Column_login, Name).Execute();
             }
             catch (Exception e)
             {
                 _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
             }
         }
 
@@ -263,30 +178,17 @@ namespace LineageServer.Server.Server
         /// </summary>
         /// <param name="account">
         ///            アカウント </param>
-        public static void updateCharacterSlot(in Account account)
+        public static void UpdateCharacterSlot(Account account)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-
             try
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                string sqlstr = "UPDATE accounts SET character_slot=? WHERE login=?";
-                pstm = con.prepareStatement(sqlstr);
-                pstm.setInt(1, account.CharacterSlot);
-                pstm.setString(2, account.Name);
-                pstm.execute();
-                account._characterSlot = account.CharacterSlot;
-                _log.fine("update characterslot for " + account.Name);
+                dataSource.NewRow().Update()
+                          .Set(Accounts.Column_character_slot, account.CharacterSlot)
+                          .Where(Accounts.Column_login, account.Name).Execute();
             }
             catch (Exception e)
             {
                 _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
             }
         }
 
@@ -294,64 +196,38 @@ namespace LineageServer.Server.Server
         /// 取得帳號下的角色數目
         /// </summary>
         /// <returns> int </returns>
-        public virtual int countCharacters()
+        public virtual int CountCharacters()
         {
-            int result = 0;
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
+            IDataSource charactersDataSource = Container.Instance.Resolve<IDataSourceFactory>().Factory(Enum.DataSourceTypeEnum.Characters);
             try
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                string sqlstr = "SELECT count(*) as cnt FROM characters WHERE account_name=?";
-                pstm = con.prepareStatement(sqlstr);
-                pstm.setString(1, _name);
-                rs = pstm.executeQuery();
-                if (rs.next())
-                {
-                    result = rs.getInt("cnt");
-                }
+                return charactersDataSource.Select()
+                    .Where(Characters.Column_account_name, _name).Query().Count;
             }
-            catch (SQLException e)
+            catch (Exception e)
             {
                 _log.log(Enum.Level.Server, e.Message, e);
             }
-            finally
-            {
-                SQLUtil.close(rs);
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
-            }
-            return result;
+            return 0;
         }
 
         /// <summary>
         /// @category 寫入帳號是否在線上 </summary>
         /// <param name="account"> 玩家帳號 </param>
-        /// <param name="i"> isOnline? </param>
-        public static void online(Account account, bool i)
+        /// <param name="isOnline"> isOnline? </param>
+        public static void SetOnline(Account account, bool isOnline)
         {
-            lock (typeof(Account))
+            lock (dataSource)
             {
-                IDataBaseConnection con = null;
-                PreparedStatement pstm = null;
                 try
                 {
-                    con = L1DatabaseFactory.Instance.Connection;
-                    string sqlstr = "UPDATE accounts SET online=? WHERE login=?";
-                    pstm = con.prepareStatement(sqlstr);
-                    pstm.setInt(1, i ? 1 : 0);
-                    pstm.setString(2, account.Name);
-                    pstm.execute();
-                    account.Online = i;
+                    dataSource.NewRow().Update()
+                        .Where(Accounts.Column_login, account.Name)
+                        .Set(Accounts.Column_online, isOnline ? 1 : 0).Execute();
                 }
-                catch (SQLException)
+                catch (Exception e)
                 {
-                }
-                finally
-                {
-                    SQLUtil.close(pstm);
-                    SQLUtil.close(con);
+                    _log.log(Enum.Level.Server, e.Message, e);
                 }
             }
         }
@@ -359,30 +235,20 @@ namespace LineageServer.Server.Server
         /// <summary>
         /// @category 寫入是否有角色在線上 </summary>
         /// <param name="account"> 玩家帳號 </param>
-        /// <param name="i"> isOnline? </param>
-        public static void OnlineStatus(Account account, bool i)
+        /// <param name="isOnline"> isOnline? </param>
+        public static void SetOnlineStatus(Account account, bool isOnline)
         {
-            lock (typeof(Account))
+            lock (dataSource)
             {
-                IDataBaseConnection con = null;
-                PreparedStatement pstm = null;
                 try
                 {
-                    con = L1DatabaseFactory.Instance.Connection;
-                    string sqlstr = "UPDATE accounts SET OnlineStatus=? WHERE login=?";
-                    pstm = con.prepareStatement(sqlstr);
-                    pstm.setInt(1, i ? 1 : 0);
-                    pstm.setString(2, account.Name);
-                    pstm.execute();
-                    account.OnlineStatus = i;
+                    dataSource.NewRow().Update()
+                        .Where(Accounts.Column_login, account.Name)
+                        .Set(Accounts.Column_OnlineStatus, isOnline ? 1 : 0).Execute();
                 }
-                catch (SQLException)
+                catch (Exception e)
                 {
-                }
-                finally
-                {
-                    SQLUtil.close(pstm);
-                    SQLUtil.close(con);
+                    _log.log(Enum.Level.Server, e.Message, e);
                 }
             }
         }
@@ -392,23 +258,15 @@ namespace LineageServer.Server.Server
         /// </summary>
         public static void InitialOnlineStatus()
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
             try
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                string sqlstr = "UPDATE accounts SET online=0, OnlineStatus=0 WHERE online=1 OR OnlineStatus=1";
-                pstm = con.prepareStatement(sqlstr);
-                pstm.execute();
+                dataSource.NewRow().Update()
+                       .Set(Accounts.Column_online, 0)
+                       .Set(Accounts.Column_OnlineStatus, 0).Execute();
             }
             catch (Exception e)
             {
                 _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
             }
         }
 
@@ -417,26 +275,19 @@ namespace LineageServer.Server.Server
         /// </summary>
         /// <param name="login">
         ///            アカウント名 </param>
-        public static void ban(in string login)
+        public static void Ban(string login)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
             try
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                string sqlstr = "UPDATE accounts SET banned=1, online=0, OnlineStatus=0 WHERE login=?";
-                pstm = con.prepareStatement(sqlstr);
-                pstm.setString(1, login);
-                pstm.execute();
+                dataSource.NewRow().Update()
+                          .Set(Accounts.Column_login, login)
+                          .Set(Accounts.Column_banned, 1)
+                          .Set(Accounts.Column_online, 0)
+                          .Set(Accounts.Column_OnlineStatus, 0).Execute();
             }
-            catch (SQLException e)
+            catch (Exception e)
             {
                 _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
             }
         }
 
@@ -446,7 +297,7 @@ namespace LineageServer.Server.Server
         /// <param name="rawPassword">
         ///            明文密碼 </param>
         /// <returns> boolean </returns>
-        public virtual bool validatePassword(in string rawPassword)
+        public virtual bool ValidatePassword(in string rawPassword)
         {
             // 認證成功後如果再度認證就判斷為失敗
             if (_isValid)
@@ -455,7 +306,7 @@ namespace LineageServer.Server.Server
             }
             try
             {
-                _isValid = _password.Equals(encodePassword(rawPassword));
+                _isValid = _password.Equals(Encode(rawPassword));
                 if (_isValid)
                 {
                     _password = null; // 認證成功後就將記憶體中的密碼清除
@@ -474,28 +325,17 @@ namespace LineageServer.Server.Server
         /// </summary>
         /// <param name="newPassword">
         ///            新的密碼 </param>
-        public virtual void changeWarePassword(int newPassword)
+        public virtual void ChangeWarePassword(int newPassword)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
             try
             {
-                con = L1DatabaseFactory.Instance.Connection;
-
-                pstm = con.prepareStatement("UPDATE `accounts` SET `warepassword` = ? WHERE `login` = ?");
-                pstm.setInt(1, newPassword);
-                pstm.setString(2, Name);
-                pstm.execute();
-
-                _WarePassword = newPassword;
+                dataSource.NewRow().Update()
+                          .Set(Accounts.Column_login, Name)
+                          .Set(Accounts.Column_warepassword, newPassword).Execute();
             }
-            catch (SQLException)
+            catch (Exception e)
             {
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
+                _log.log(Enum.Level.Server, e.Message, e);
             }
         }
 
@@ -587,26 +427,18 @@ namespace LineageServer.Server.Server
         /// <param name="i"> </param>
         public virtual bool Online
         {
-            set
-            {
-                lock (this)
-                {
-                    _online = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 取得帳號是否在線上
-        /// @return
-        /// </summary>
-        public virtual bool Onlined
-        {
             get
             {
-                lock (this)
+                lock (dataSource)
                 {
                     return _online;
+                }
+            }
+            set
+            {
+                lock (dataSource)
+                {
+                    _online = value;
                 }
             }
         }
@@ -618,14 +450,14 @@ namespace LineageServer.Server.Server
         {
             set
             {
-                lock (this)
+                lock (dataSource)
                 {
                     _onlineStatus = value;
                 }
             }
             get
             {
-                lock (this)
+                lock (dataSource)
                 {
                     return _onlineStatus;
                 }

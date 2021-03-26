@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_PARTY = "[C] C_Party";
 
-        public C_Party(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_Party(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
             L1PcInstance pc = clientthread.ActiveChar;

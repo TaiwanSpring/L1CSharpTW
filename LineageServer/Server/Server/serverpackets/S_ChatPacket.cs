@@ -32,105 +32,105 @@ namespace LineageServer.Server.Server.serverpackets
 
 			if (type == 0)
 			{ // 一般頻道
-				writeC(opcode);
-				writeC(type);
+				WriteC(opcode);
+				WriteC(type);
 				if (pc.Invisble)
 				{
-					writeD(0);
+					WriteD(0);
 				}
 				else
 				{
-					writeD(pc.Id);
+					WriteD(pc.Id);
 				}
-				writeS(pc.Name + ": " + chat);
+				WriteS(pc.Name + ": " + chat);
 			}
 			else if (type == 2)
 			{ // 大喊
-				writeC(opcode);
-				writeC(type);
+				WriteC(opcode);
+				WriteC(type);
 				if (pc.Invisble)
 				{
-					writeD(0);
+					WriteD(0);
 				}
 				else
 				{
-					writeD(pc.Id);
+					WriteD(pc.Id);
 				}
-				writeS("<" + pc.Name + "> " + chat);
-				writeH(pc.X);
-				writeH(pc.Y);
+				WriteS("<" + pc.Name + "> " + chat);
+				WriteH(pc.X);
+				WriteH(pc.Y);
 			}
 			else if (type == 3)
 			{ // 世界頻道
-				writeC(opcode);
-				writeC(type);
+				WriteC(opcode);
+				WriteC(type);
 				if (pc.Gm == true)
 				{
 					if (Config.GM_TALK)
 					{
-					writeS("[*" + pc.Name + "*] " + chat);
+					WriteS("[*" + pc.Name + "*] " + chat);
 					}
 					else
 					{
-					writeS("[******] " + chat);
+					WriteS("[******] " + chat);
 					}
 				}
 			}
 			else if (type == 4)
 			{ // 血盟騎士頻道
-				writeC(opcode);
-				writeC(type);
-				writeS("{" + pc.Name + "} " + chat);
+				WriteC(opcode);
+				WriteC(type);
+				WriteS("{" + pc.Name + "} " + chat);
 			}
 			else if (type == 9)
 			{ // 密語頻道
-				writeC(opcode);
-				writeC(type);
-				writeS("-> (" + pc.Name + ") " + chat);
+				WriteC(opcode);
+				WriteC(type);
+				WriteS("-> (" + pc.Name + ") " + chat);
 			}
 			else if (type == 11)
 			{ // 血盟頻道
-				writeC(opcode);
-				writeC(type);
-				writeS("(" + pc.Name + ") " + chat);
+				WriteC(opcode);
+				WriteC(type);
+				WriteS("(" + pc.Name + ") " + chat);
 			}
 			else if (type == 12)
 			{ // 交易頻道
-				writeC(opcode);
-				writeC(type);
-				writeS("[" + pc.Name + "] " + chat);
+				WriteC(opcode);
+				WriteC(type);
+				WriteS("[" + pc.Name + "] " + chat);
 			}
 			else if (type == 13)
 			{ // 聯盟頻道
-				writeC(opcode);
-				writeC(0x04);
-				writeS("{{" + pc.Name + "}} " + chat);
+				WriteC(opcode);
+				WriteC(0x04);
+				WriteS("{{" + pc.Name + "}} " + chat);
 			}
 			else if (type == 14)
 			{ // 隊伍頻道
-				writeC(opcode);
-				writeC(type);
+				WriteC(opcode);
+				WriteC(type);
 				if (pc.Invisble)
 				{
-					writeD(0);
+					WriteD(0);
 				}
 				else
 				{
-					writeD(pc.Id);
+					WriteD(pc.Id);
 				}
-				writeS("(" + pc.Name + ") " + chat);
+				WriteS("(" + pc.Name + ") " + chat);
 			}
 			else if (type == 16)
 			{ // 密語頻道
-				writeC(opcode);
-				writeS(pc.Name);
-				writeS(chat);
+				WriteC(opcode);
+				WriteS(pc.Name);
+				WriteS(chat);
 			}
 			else if (type == 17)
 			{ // 血盟王族公告頻道
-				writeC(opcode);
-				writeC(type);
-				writeS("{" + pc.Name + "}" + chat);
+				WriteC(opcode);
+				WriteC(type);
+				WriteS("{" + pc.Name + "}" + chat);
 			}
 		}
 
@@ -140,7 +140,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (null == _byte)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

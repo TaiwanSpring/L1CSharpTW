@@ -23,8 +23,8 @@ namespace LineageServer.Server.Server.storage.mysql
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using CharactersItemStorage = LineageServer.Server.Server.storage.CharactersItemStorage;
 	using L1Item = LineageServer.Server.Server.Templates.L1Item;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class MySqlCharactersItemStorage : CharactersItemStorage
 	{
@@ -51,7 +51,7 @@ namespace LineageServer.Server.Server.storage.mysql
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					int itemId = rs.getInt("item_id");
+					int itemId = dataSourceRow.getInt("item_id");
 					L1Item itemTemplate = ItemTable.Instance.getTemplate(itemId);
 					if (itemTemplate == null)
 					{
@@ -59,29 +59,29 @@ namespace LineageServer.Server.Server.storage.mysql
 						continue;
 					}
 					item = new L1ItemInstance();
-					item.Id = rs.getInt("id");
+					item.Id = dataSourceRow.getInt("id");
 					item.Item = itemTemplate;
-					item.Count = rs.getInt("count");
-					item.Equipped = rs.getInt("is_equipped") != 0 ? true : false;
-					item.EnchantLevel = rs.getInt("enchantlvl");
-					item.Identified = rs.getInt("is_id") != 0 ? true : false;
-					item.set_durability(rs.getInt("durability"));
-					item.ChargeCount = rs.getInt("charge_count");
-					item.RemainingTime = rs.getInt("remaining_time");
-					item.LastUsed = rs.getTimestamp("last_used");
-					item.Bless = rs.getInt("bless");
-					item.AttrEnchantKind = rs.getInt("attr_enchant_kind");
-					item.AttrEnchantLevel = rs.getInt("attr_enchant_level");
-					item.FireMr = rs.getInt("firemr");
-					item.WaterMr = rs.getInt("watermr");
-					item.EarthMr = rs.getInt("earthmr");
-					item.WindMr = rs.getInt("windmr");
-					item.setaddSp(rs.getInt("addsp"));
-					item.setaddHp(rs.getInt("addhp"));
-					item.setaddMp(rs.getInt("addmp"));
-					item.Hpr = rs.getInt("hpr");
-					item.Mpr = rs.getInt("mpr");
-					item.M_Def = rs.getInt("m_def");
+					item.Count = dataSourceRow.getInt("count");
+					item.Equipped = dataSourceRow.getInt("is_equipped") != 0 ? true : false;
+					item.EnchantLevel = dataSourceRow.getInt("enchantlvl");
+					item.Identified = dataSourceRow.getInt("is_id") != 0 ? true : false;
+					item.set_durability(dataSourceRow.getInt("durability"));
+					item.ChargeCount = dataSourceRow.getInt("charge_count");
+					item.RemainingTime = dataSourceRow.getInt("remaining_time");
+					item.LastUsed = dataSourceRow.getTimestamp("last_used");
+					item.Bless = dataSourceRow.getInt("bless");
+					item.AttrEnchantKind = dataSourceRow.getInt("attr_enchant_kind");
+					item.AttrEnchantLevel = dataSourceRow.getInt("attr_enchant_level");
+					item.FireMr = dataSourceRow.getInt("firemr");
+					item.WaterMr = dataSourceRow.getInt("watermr");
+					item.EarthMr = dataSourceRow.getInt("earthmr");
+					item.WindMr = dataSourceRow.getInt("windmr");
+					item.setaddSp(dataSourceRow.getInt("addsp"));
+					item.setaddHp(dataSourceRow.getInt("addhp"));
+					item.setaddMp(dataSourceRow.getInt("addmp"));
+					item.Hpr = dataSourceRow.getInt("hpr");
+					item.Mpr = dataSourceRow.getInt("mpr");
+					item.M_Def = dataSourceRow.getInt("m_def");
 					item.LastStatus.updateAll();
 					// 登入鑰匙紀錄
 					if (item.Item.ItemId == 40312)

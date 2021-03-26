@@ -66,9 +66,9 @@ namespace LineageServer.Server.Server.serverpackets
 				int sell = sellItems.Count;
 				if (sell > 0)
 				{
-					writeC(Opcodes.S_OPCODE_SHOWSHOPSELLLIST);
-					writeD(objid);
-					writeH(sell);
+					WriteC(Opcodes.S_OPCODE_SHOWSHOPSELLLIST);
+					WriteD(objid);
+					WriteH(sell);
 					foreach (object itemObj in sellItems)
 					{
 						L1ItemInstance item = (L1ItemInstance) itemObj;
@@ -87,8 +87,8 @@ namespace LineageServer.Server.Server.serverpackets
 							double tax = (100 + tax_rate) / 100.0;
 							price = (int)(price * tax);
 						}
-						writeD(item.Id);
-						writeD(price / 2);
+						WriteD(item.Id);
+						WriteD(price / 2);
 					}
 				}
 				else
@@ -112,18 +112,18 @@ namespace LineageServer.Server.Server.serverpackets
 					return;
 				}
 
-				writeC(Opcodes.S_OPCODE_SHOWSHOPSELLLIST);
-				writeD(objid);
-				writeH(assessedItems.Count);
+				WriteC(Opcodes.S_OPCODE_SHOWSHOPSELLLIST);
+				WriteD(objid);
+				WriteH(assessedItems.Count);
 
 				foreach (L1AssessedItem item in assessedItems)
 				{
-					writeD(item.TargetId);
-					writeD(item.AssessedPrice);
+					WriteD(item.TargetId);
+					WriteD(item.AssessedPrice);
 				}
 			}
 			// 全道具販賣  end
-			writeH(0x0007); // 7 = 金幣為單位 顯示總金額
+			WriteH(0x0007); // 7 = 金幣為單位 顯示總金額
 		}
 
 		public override sbyte[] Content

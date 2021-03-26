@@ -23,9 +23,9 @@ namespace LineageServer.Server.Server.Model
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using Random = LineageServer.Server.Server.Utils.Random;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1Teleport, L1PcInstance
@@ -66,29 +66,29 @@ namespace LineageServer.Server.Server.Model
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					int srcMapId = rs.getInt("src_mapid");
-					int srcX = rs.getInt("src_x");
-					int srcY = rs.getInt("src_y");
+					int srcMapId = dataSourceRow.getInt("src_mapid");
+					int srcX = dataSourceRow.getInt("src_x");
+					int srcY = dataSourceRow.getInt("src_y");
 					string key = (new StringBuilder()).Append(srcMapId).Append(srcX).Append(srcY).ToString();
 					int[] newX = new int[5];
 					int[] newY = new int[5];
 					short[] newMapId = new short[5];
-					newX[0] = rs.getInt("new_x1");
-					newY[0] = rs.getInt("new_y1");
-					newMapId[0] = rs.getShort("new_mapid1");
-					newX[1] = rs.getInt("new_x2");
-					newY[1] = rs.getInt("new_y2");
-					newMapId[1] = rs.getShort("new_mapid2");
-					newX[2] = rs.getInt("new_x3");
-					newY[2] = rs.getInt("new_y3");
-					newMapId[2] = rs.getShort("new_mapid3");
-					newX[3] = rs.getInt("new_x4");
-					newY[3] = rs.getInt("new_y4");
-					newMapId[3] = rs.getShort("new_mapid4");
-					newX[4] = rs.getInt("new_x5");
-					newY[4] = rs.getInt("new_y5");
-					newMapId[4] = rs.getShort("new_mapid5");
-					int heading = rs.getInt("new_heading");
+					newX[0] = dataSourceRow.getInt("new_x1");
+					newY[0] = dataSourceRow.getInt("new_y1");
+					newMapId[0] = dataSourceRow.getShort("new_mapid1");
+					newX[1] = dataSourceRow.getInt("new_x2");
+					newY[1] = dataSourceRow.getInt("new_y2");
+					newMapId[1] = dataSourceRow.getShort("new_mapid2");
+					newX[2] = dataSourceRow.getInt("new_x3");
+					newY[2] = dataSourceRow.getInt("new_y3");
+					newMapId[2] = dataSourceRow.getShort("new_mapid3");
+					newX[3] = dataSourceRow.getInt("new_x4");
+					newY[3] = dataSourceRow.getInt("new_y4");
+					newMapId[3] = dataSourceRow.getShort("new_mapid4");
+					newX[4] = dataSourceRow.getInt("new_x5");
+					newY[4] = dataSourceRow.getInt("new_y5");
+					newMapId[4] = dataSourceRow.getShort("new_mapid5");
+					int heading = dataSourceRow.getInt("new_heading");
 					NewDungeonRandom newDungeonRandom = new NewDungeonRandom(newX, newY, newMapId, heading);
 					if (_dungeonMap.ContainsKey(key))
 					{

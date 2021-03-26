@@ -15,7 +15,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_CHAT_WHISPER = "[C] C_ChatWhisper";
 
-		public C_ChatWhisper(sbyte[] abyte0, ClientThread client) : base(abyte0)
+		public C_ChatWhisper(byte[] abyte0, ClientThread client) : base(abyte0)
 		{
 
 			L1PcInstance whisperFrom = client.ActiveChar;
@@ -24,8 +24,8 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			string targetName = readS();
-			string text = readS();
+			string targetName = ReadS();
+			string text = ReadS();
 
 			// 被魔封
 			if (whisperFrom.hasSkillEffect(L1SkillId.STATUS_CHAT_PROHIBITED))

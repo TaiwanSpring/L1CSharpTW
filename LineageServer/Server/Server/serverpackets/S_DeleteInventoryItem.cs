@@ -31,8 +31,8 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			if (item != null)
 			{
-				writeC(Opcodes.S_OPCODE_DELETEINVENTORYITEM);
-				writeD(item.Id);
+				WriteC(Opcodes.S_OPCODE_DELETEINVENTORYITEM);
+				WriteD(item.Id);
 			}
 		}
 

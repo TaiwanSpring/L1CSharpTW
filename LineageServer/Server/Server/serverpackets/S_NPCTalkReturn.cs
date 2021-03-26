@@ -66,22 +66,22 @@ namespace LineageServer.Server.Server.serverpackets
 		private void buildPacket(int objid, string htmlid, string[] data)
 		{
 
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(objid);
-			writeS(htmlid);
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(objid);
+			WriteS(htmlid);
 			if (data != null && 1 <= data.Length)
 			{
-				writeH(0x01); // 不明バイト 分かる人居たら修正願います
-				writeH(data.Length); // 引数の数
+				WriteH(0x01); // 不明バイト 分かる人居たら修正願います
+				WriteH(data.Length); // 引数の数
 				foreach (string datum in data)
 				{
-					writeS(datum);
+					WriteS(datum);
 				}
 			}
 			else
 			{
-				writeH(0x00);
-				writeH(0x00);
+				WriteH(0x00);
+				WriteH(0x00);
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

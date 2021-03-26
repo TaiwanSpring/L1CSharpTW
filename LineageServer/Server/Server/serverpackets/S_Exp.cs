@@ -29,16 +29,16 @@ namespace LineageServer.Server.Server.serverpackets
 		///            - PC </param>
 		public S_Exp(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_EXP);
-			writeC(pc.Level);
-			writeExp(pc.Exp);
+			WriteC(Opcodes.S_OPCODE_EXP);
+			WriteC(pc.Level);
+			WriteExp(pc.Exp);
 
-			// writeC(Opcodes.S_OPCODE_EXP);
-			// writeC(0x39);// level
-			// writeD(_objid);// ??
-			// writeC(0x0A);// ??
-			// writeH(getexp);// min exp
-			// writeH(getexpreward);// max exp
+			// WriteC(Opcodes.S_OPCODE_EXP);
+			// WriteC(0x39);// level
+			// WriteD(_objid);// ??
+			// WriteC(0x0A);// ??
+			// WriteH(getexp);// min exp
+			// WriteH(getexpreward);// max exp
 		}
 
 		public override sbyte[] Content

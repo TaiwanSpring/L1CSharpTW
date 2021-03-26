@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class DoorGfxs : DataSourceTable
+    class DoorGfxs : DataSource
     {
         public const string TableName = "door_gfxs";
         public const string Column_note = "note";
@@ -9,7 +10,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_direction = "direction";
         public const string Column_left_edge_offset = "left_edge_offset";
         public const string Column_right_edge_offset = "right_edge_offset";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.DoorGfxs; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

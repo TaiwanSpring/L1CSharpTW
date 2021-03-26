@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_CHECK_PK = "[C] C_CheckPK";
 
-		public C_CheckPK(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_CheckPK(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance player = clientthread.ActiveChar;

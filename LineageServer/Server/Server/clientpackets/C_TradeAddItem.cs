@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
     class C_TradeAddItem : ClientBasePacket
     {
         private const string C_TRADE_ADD_ITEM = "[C] C_TradeAddItem";
-        public C_TradeAddItem(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_TradeAddItem(byte[] abyte0, ClientThread client) : base(abyte0)
         {
 
             L1PcInstance pc = client.ActiveChar;
@@ -20,8 +20,8 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int itemid = readD();
-            int itemcount = readD();
+            int itemid = ReadD();
+            int itemcount = ReadD();
 
             L1Trade trade = new L1Trade();
             L1ItemInstance item = pc.Inventory.getItem(itemid);

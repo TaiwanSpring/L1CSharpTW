@@ -1,6 +1,6 @@
 ﻿using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 
 namespace LineageServer.Server.Server.Clientpackets
 {
@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 
 		private const string C_FIGHT = "[C] C_Fight";
-		public C_Fight(sbyte[] abyte0, ClientThread client) : base(abyte0)
+		public C_Fight(byte[] abyte0, ClientThread client) : base(abyte0)
 		{
 
 			L1PcInstance pc = client.ActiveChar;

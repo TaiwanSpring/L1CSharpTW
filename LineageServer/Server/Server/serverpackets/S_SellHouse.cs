@@ -33,15 +33,15 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int objectId, string houseNumber)
 		{
-			writeC(Opcodes.S_OPCODE_INPUTAMOUNT);
-			writeD(objectId);
-			writeD(0); // ?
-			writeD(100000); // スピンコントロールの初期価格
-			writeD(100000); // 価格の下限
-			writeD(2000000000); // 価格の上限
-			writeH(0); // ?
-			writeS("agsell");
-			writeS("agsell " + houseNumber);
+			WriteC(Opcodes.S_OPCODE_INPUTAMOUNT);
+			WriteD(objectId);
+			WriteD(0); // ?
+			WriteD(100000); // スピンコントロールの初期価格
+			WriteD(100000); // 価格の下限
+			WriteD(2000000000); // 価格の上限
+			WriteH(0); // ?
+			WriteS("agsell");
+			WriteS("agsell " + houseNumber);
 		}
 
 		public override sbyte[] Content

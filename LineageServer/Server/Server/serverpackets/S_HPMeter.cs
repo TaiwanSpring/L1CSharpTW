@@ -59,9 +59,9 @@ namespace LineageServer.Server.Server.serverpackets
 		// end
 		private void buildPacket(int objId, int hpRatio)
 		{
-			writeC(Opcodes.S_OPCODE_HPMETER);
-			writeD(objId);
-			writeH(hpRatio);
+			WriteC(Opcodes.S_OPCODE_HPMETER);
+			WriteD(objId);
+			WriteH(hpRatio);
 		}
 
 		public override sbyte[] Content
@@ -70,7 +70,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
     
 				return _byte;

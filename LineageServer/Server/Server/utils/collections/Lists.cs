@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace LineageServer.Server.Server.utils.collections
+namespace LineageServer.Server.Server.Utils.collections
 {
     public static class Lists
     {

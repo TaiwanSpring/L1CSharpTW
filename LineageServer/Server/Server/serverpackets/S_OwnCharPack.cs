@@ -43,47 +43,47 @@ namespace LineageServer.Server.Server.serverpackets
 				status |= STATUS_GHOST;
 			}
 
-			writeC(Opcodes.S_OPCODE_CHARPACK);
-			writeH(pc.X);
-			writeH(pc.Y);
-			writeD(pc.Id);
-			writeH(pc.Dead ? pc.TempCharGfxAtDead : pc.TempCharGfx);
-			writeC(pc.Dead ? pc.Status : pc.CurrentWeapon);
-			writeC(pc.Heading);
-			writeC(pc.OwnLightSize);
-			writeC(pc.MoveSpeed);
-			//writeD(pc.getExp());
-			writeD(1);
-			writeH(pc.Lawful);
-			writeS(pc.Name);
-			writeS(pc.Title);
-			writeC(status);
-			writeD(pc.Clanid > 0 ? pc.Clan.EmblemId : 0); // 盟徽編號
-			writeS(pc.Clanname); // クラン名
-			writeS(null); // ペッホチング？
-			writeC(pc.ClanRank > 0 ? pc.ClanRank << 4 : 0xb0); // 階級  * 16
+			WriteC(Opcodes.S_OPCODE_CHARPACK);
+			WriteH(pc.X);
+			WriteH(pc.Y);
+			WriteD(pc.Id);
+			WriteH(pc.Dead ? pc.TempCharGfxAtDead : pc.TempCharGfx);
+			WriteC(pc.Dead ? pc.Status : pc.CurrentWeapon);
+			WriteC(pc.Heading);
+			WriteC(pc.OwnLightSize);
+			WriteC(pc.MoveSpeed);
+			//WriteD(pc.getExp());
+			WriteD(1);
+			WriteH(pc.Lawful);
+			WriteS(pc.Name);
+			WriteS(pc.Title);
+			WriteC(status);
+			WriteD(pc.Clanid > 0 ? pc.Clan.EmblemId : 0); // 盟徽編號
+			WriteS(pc.Clanname); // クラン名
+			WriteS(null); // ペッホチング？
+			WriteC(pc.ClanRank > 0 ? pc.ClanRank << 4 : 0xb0); // 階級  * 16
 			if (pc.InParty) // パーティー中
 			{
-				writeC(100 * pc.CurrentHp / pc.MaxHp);
+				WriteC(100 * pc.CurrentHp / pc.MaxHp);
 			}
 			else
 			{
-				writeC(0xff);
+				WriteC(0xff);
 			}
 			if (pc.hasSkillEffect(L1SkillId.STATUS_THIRD_SPEED))
 			{
-				writeC(0x08); // 3段加速
+				WriteC(0x08); // 3段加速
 			}
 			else
 			{
-				writeC(0);
+				WriteC(0);
 			}
-			writeC(0); // PC = 0, Mon = Lv
-			writeC(0); // ？
-			writeC(0xff);
-			writeC(0xff);
-			writeS(null);
-			writeC(0);
+			WriteC(0); // PC = 0, Mon = Lv
+			WriteC(0); // ？
+			WriteC(0xff);
+			WriteC(0xff);
+			WriteS(null);
+			WriteC(0);
 		}
 
 		public override string Type

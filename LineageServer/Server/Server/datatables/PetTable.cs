@@ -23,9 +23,9 @@ namespace LineageServer.Server.Server.DataSources
 	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
 	using L1Pet = LineageServer.Server.Server.Templates.L1Pet;
 	using L1PetType = LineageServer.Server.Server.Templates.L1PetType;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using Random = LineageServer.Server.Server.Utils.Random;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server:
 	// IdFactory
@@ -71,17 +71,17 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1Pet pet = new L1Pet();
-					int itemobjid = rs.getInt(1);
+					int itemobjid = dataSourceRow.getInt(1);
 					pet.set_itemobjid(itemobjid);
-					pet.set_objid(rs.getInt(2));
-					pet.set_npcid(rs.getInt(3));
-					pet.set_name(rs.getString(4));
-					pet.set_level(rs.getInt(5));
-					pet.set_hp(rs.getInt(6));
-					pet.set_mp(rs.getInt(7));
-					pet.set_exp(rs.getInt(8));
-					pet.set_lawful(rs.getInt(9));
-					pet.set_food(rs.getInt(10));
+					pet.set_objid(dataSourceRow.getInt(2));
+					pet.set_npcid(dataSourceRow.getInt(3));
+					pet.set_name(dataSourceRow.getString(4));
+					pet.set_level(dataSourceRow.getInt(5));
+					pet.set_hp(dataSourceRow.getInt(6));
+					pet.set_mp(dataSourceRow.getInt(7));
+					pet.set_exp(dataSourceRow.getInt(8));
+					pet.set_lawful(dataSourceRow.getInt(9));
+					pet.set_food(dataSourceRow.getInt(10));
 
 					_pets[itemobjid] = pet;
 				}

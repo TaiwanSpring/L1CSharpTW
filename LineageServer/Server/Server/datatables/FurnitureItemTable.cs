@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1FurnitureItem = LineageServer.Server.Server.Templates.L1FurnitureItem;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class FurnitureItemTable
 	{
@@ -61,9 +61,9 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1FurnitureItem furniture = new L1FurnitureItem();
-					int itemId = rs.getInt("item_id");
+					int itemId = dataSourceRow.getInt("item_id");
 					furniture.FurnitureItemId = itemId;
-					furniture.FurnitureNpcId = rs.getInt("npc_id");
+					furniture.FurnitureNpcId = dataSourceRow.getInt("npc_id");
 					_furnishings[itemId] = furniture;
 				}
 			}

@@ -25,12 +25,12 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_Strup(L1PcInstance pc, int type, int time)
 		{
-			writeC(Opcodes.S_OPCODE_STRUP);
-			writeH(time);
-			writeC(pc.Str);
-			writeC(pc.Inventory.Weight242);
-			writeC(type);
-			writeH(0);
+			WriteC(Opcodes.S_OPCODE_STRUP);
+			WriteH(time);
+			WriteC(pc.Str);
+			WriteC(pc.Inventory.Weight242);
+			WriteC(type);
+			WriteH(0);
 		}
 
 		public override sbyte[] Content

@@ -16,9 +16,9 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private static ILogger _log = Logger.getLogger(nameof(C_DeleteChar));
 
-        public C_DeleteChar(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_DeleteChar(byte[] decrypt, ClientThread client) : base(decrypt)
         {
-            string name = readS();
+            string name = ReadS();
 
             try
             {

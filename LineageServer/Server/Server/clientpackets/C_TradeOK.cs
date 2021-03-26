@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 
 		private const string C_TRADE_CANCEL = "[C] C_TradeOK";
-		public C_TradeOK(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_TradeOK(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 			L1PcInstance player = clientthread.ActiveChar;
 			if (player == null)

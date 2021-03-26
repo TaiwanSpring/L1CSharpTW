@@ -39,16 +39,16 @@ namespace LineageServer.Server.Server.serverpackets
 				return;
 			}
 
-			writeC(Opcodes.S_OPCODE_PRIVATESHOPLIST);
-			writeC(type);
-			writeD(objectId);
+			WriteC(Opcodes.S_OPCODE_PRIVATESHOPLIST);
+			WriteC(type);
+			WriteD(objectId);
 
 			if (type == 0)
 			{
 				IList<L1PrivateShopSellList> list = shopPc.SellList;
 				int size = list.Count;
 				pc.PartnersPrivateShopItemCount = size;
-				writeH(size);
+				WriteH(size);
 				for (int i = 0; i < size; i++)
 				{
 					L1PrivateShopSellList pssl = list[i];
@@ -58,13 +58,13 @@ namespace LineageServer.Server.Server.serverpackets
 					L1ItemInstance item = shopPc.Inventory.getItem(itemObjectId);
 					if (item != null)
 					{
-						writeC(i);
-						writeC(item.Bless);
-						writeH(item.Item.GfxId);
-						writeD(count);
-						writeD(price);
-						writeS(item.getNumberedViewName(count));
-						writeC(0);
+						WriteC(i);
+						WriteC(item.Bless);
+						WriteH(item.Item.GfxId);
+						WriteD(count);
+						WriteD(price);
+						WriteS(item.getNumberedViewName(count));
+						WriteC(0);
 					}
 				}
 			}
@@ -72,7 +72,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				IList<L1PrivateShopBuyList> list = shopPc.BuyList;
 				int size = list.Count;
-				writeH(size);
+				WriteH(size);
 				for (int i = 0; i < size; i++)
 				{
 					L1PrivateShopBuyList psbl = list[i];
@@ -84,10 +84,10 @@ namespace LineageServer.Server.Server.serverpackets
 					{
 						if ((item.ItemId == pcItem.ItemId) && (item.EnchantLevel == pcItem.EnchantLevel))
 						{
-							writeC(i);
-							writeD(pcItem.Id);
-							writeD(count);
-							writeD(price);
+							WriteC(i);
+							WriteD(pcItem.Id);
+							WriteD(count);
+							WriteD(price);
 						}
 					}
 				}

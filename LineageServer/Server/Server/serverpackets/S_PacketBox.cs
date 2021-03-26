@@ -250,7 +250,7 @@ namespace LineageServer.Server.Server.serverpackets
 
         /// <summary>
         /// 3.8 血盟查詢盟友 (寫入備註) </summary>
-        public const int HTML_PLEDGE_WRITE_NOTES = 169;
+        public const int HTML_PLEDGE_Write_NOTES = 169;
 
         /// <summary>
         /// 3.8 血盟查詢盟友 (顯示盟友) </summary>
@@ -271,8 +271,8 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_PacketBox(int subCode)
         {
-            writeC(Opcodes.S_OPCODE_PACKETBOX);
-            writeC(subCode);
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(subCode);
 
             switch (subCode)
             {
@@ -294,14 +294,14 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_PacketBox(int subCode, L1PcInstance pc)
         {
-            writeC(Opcodes.S_OPCODE_PACKETBOX);
-            writeC(subCode);
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(subCode);
             switch (subCode)
             {
                 case TOWN_TELEPORT:
-                    writeC(0x01);
-                    writeH(pc.X);
-                    writeH(pc.Y);
+                    WriteC(0x01);
+                    WriteH(pc.X);
+                    WriteH(pc.Y);
                     break;
             }
 
@@ -309,8 +309,8 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_PacketBox(int subCode, int value)
         {
-            writeC(Opcodes.S_OPCODE_PACKETBOX);
-            writeC(subCode);
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(subCode);
 
             switch (subCode)
             {
@@ -319,63 +319,63 @@ namespace LineageServer.Server.Server.serverpackets
                 case ICON_I2H:
                 case ICON_POLYMORPH:
                 case MAP_TIMER:
-                    writeH(value); // time
+                    WriteH(value); // time
                     break;
                 case MSG_WAR_BEGIN:
                 case MSG_WAR_END:
                 case MSG_WAR_GOING:
-                    writeC(value); // castle id
-                    writeH(0); // ?
+                    WriteC(value); // castle id
+                    WriteH(0); // ?
                     break;
                 case MSG_SMS_SENT:
                 case WEIGHT:
                 case FOOD:
-                    writeC(value);
+                    WriteC(value);
                     break;
                 case MSG_ELF: // 忽然全身充滿了%s的靈力。
                 case MSG_COLOSSEUM: // 大圓形競技場，混沌的大戰開始！結束！取消！
-                    writeC(value); // msg id
-                    writeC(0);
+                    WriteC(value); // msg id
+                    WriteC(0);
                     break;
                 case MSG_LEVEL_OVER:
-                    writeC(0); // ?
-                    writeC(value); // 0-49以外は表示されない
+                    WriteC(0); // ?
+                    WriteC(value); // 0-49以外は表示されない
                     break;
                 case COOK_WINDOW:
-                    writeC(0xdb); // ?
-                    writeC(0x31);
-                    writeC(0xdf);
-                    writeC(0x02);
-                    writeC(0x01);
-                    writeC(value); // level
+                    WriteC(0xdb); // ?
+                    WriteC(0x31);
+                    WriteC(0xdf);
+                    WriteC(0x02);
+                    WriteC(0x01);
+                    WriteC(value); // level
                     break;
                 case EXPBLESS:
-                    writeC(value); // %值為0 ~ 200
+                    WriteC(value); // %值為0 ~ 200
                     break;
                 case DODGE_RATE_PLUS: // + 閃避率
-                    writeC(value);
-                    writeC(0x00);
+                    WriteC(value);
+                    WriteC(0x00);
                     break;
                 case DODGE_RATE_MINUS: // - 閃避率
-                    writeC(value);
+                    WriteC(value);
                     break;
                 case 21: // 狀態圖示
-                    writeC(0x00);
-                    writeC(0x00);
-                    writeC(0x00);
-                    writeC(value); // 閃避圖示 (幻術:鏡像、黑妖:闇影閃避)
+                    WriteC(0x00);
+                    WriteC(0x00);
+                    WriteC(0x00);
+                    WriteC(value); // 閃避圖示 (幻術:鏡像、黑妖:闇影閃避)
                     break;
                 case PLEDGE_EMBLEM_STATUS:
-                    writeC(1);
+                    WriteC(1);
                     if (value == 0)
                     { // 0:關閉 1:開啟
-                        writeC(0);
+                        WriteC(0);
                     }
                     else if (value == 1)
                     {
-                        writeC(1);
+                        WriteC(1);
                     }
-                    writeD(0x00);
+                    WriteD(0x00);
                     break;
                 default:
                     break;
@@ -384,71 +384,71 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_PacketBox(int subCode, int type, int time)
         {
-            writeC(Opcodes.S_OPCODE_PACKETBOX);
-            writeC(subCode);
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(subCode);
 
             switch (subCode)
             {
                 case ICON_COOKING:
                     if (type == 54)
                     { // 象牙塔妙藥
-                        writeC(0x12);
-                        writeC(0x0c);
-                        writeC(0x0c);
-                        writeC(0x07);
-                        writeC(0x12);
-                        writeC(0x08);
-                        writeH(0x0000); // 飽和度 值:2000，飽和度100%
-                        writeC(type); // 類型
-                        writeC(0x2a);
-                        writeH(time); // 時間
-                        writeC(0x0); // 負重度 值:242，負重度100%
+                        WriteC(0x12);
+                        WriteC(0x0c);
+                        WriteC(0x0c);
+                        WriteC(0x07);
+                        WriteC(0x12);
+                        WriteC(0x08);
+                        WriteH(0x0000); // 飽和度 值:2000，飽和度100%
+                        WriteC(type); // 類型
+                        WriteC(0x2a);
+                        WriteH(time); // 時間
+                        WriteC(0x0); // 負重度 值:242，負重度100%
                     }
                     else if (type != 7)
                     {
-                        writeC(0x12);
-                        writeC(0x0b);
-                        writeC(0x0c);
-                        writeC(0x0b);
-                        writeC(0x0f);
-                        writeC(0x08);
-                        writeH(0x0000); // 飽和度 值:2000，飽和度100%
-                        writeC(type); // 類型
-                        writeC(0x24);
-                        writeH(time); // 時間
-                        writeC(0x00); // 負重度 值:242，負重度100%
+                        WriteC(0x12);
+                        WriteC(0x0b);
+                        WriteC(0x0c);
+                        WriteC(0x0b);
+                        WriteC(0x0f);
+                        WriteC(0x08);
+                        WriteH(0x0000); // 飽和度 值:2000，飽和度100%
+                        WriteC(type); // 類型
+                        WriteC(0x24);
+                        WriteH(time); // 時間
+                        WriteC(0x00); // 負重度 值:242，負重度100%
                     }
                     else
                     {
-                        writeC(0x12);
-                        writeC(0x0b);
-                        writeC(0x0c);
-                        writeC(0x0b);
-                        writeC(0x0f);
-                        writeC(0x08);
-                        writeH(0x0000); // 飽和度 值:2000，飽和度100%
-                        writeC(type); // 類型
-                        writeC(0x26);
-                        writeH(time); // 時間
-                        writeC(0x00); // 負重度 值:240，負重度100%
+                        WriteC(0x12);
+                        WriteC(0x0b);
+                        WriteC(0x0c);
+                        WriteC(0x0b);
+                        WriteC(0x0f);
+                        WriteC(0x08);
+                        WriteH(0x0000); // 飽和度 值:2000，飽和度100%
+                        WriteC(type); // 類型
+                        WriteC(0x26);
+                        WriteH(time); // 時間
+                        WriteC(0x00); // 負重度 值:240，負重度100%
                     }
                     break;
                 case MSG_DUEL:
-                    writeD(type); // 相手のオブジェクトID
-                    writeD(time); // 自分のオブジェクトID
+                    WriteD(type); // 相手のオブジェクトID
+                    WriteD(time); // 自分のオブジェクトID
                     break;
                 case ICON_MAGIC_DOLL:
                     if (type == 32)
                     { // 愛心圖示
-                        writeH(time);
-                        writeC(type);
-                        writeC(12);
+                        WriteH(time);
+                        WriteC(type);
+                        WriteC(12);
                     }
                     else
                     { // 魔法娃娃圖示
-                        writeH(time);
-                        writeC(0);
-                        writeC(0);
+                        WriteH(time);
+                        WriteC(0);
+                        WriteC(0);
                     }
                     break;
                 default:
@@ -458,8 +458,8 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_PacketBox(int subCode, string name)
         {
-            writeC(Opcodes.S_OPCODE_PACKETBOX);
-            writeC(subCode);
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(subCode);
 
             switch (subCode)
             {
@@ -467,7 +467,7 @@ namespace LineageServer.Server.Server.serverpackets
                 case REM_EXCLUDE:
                 case MSG_TOWN_LEADER:
                 case HTML_PLEDGE_REALEASE_ANNOUNCE:
-                    writeS(name);
+                    WriteS(name);
                     break;
                 default:
                     break;
@@ -476,15 +476,15 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_PacketBox(int subCode, int id, string name, string clanName)
         {
-            writeC(Opcodes.S_OPCODE_PACKETBOX);
-            writeC(subCode);
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(subCode);
 
             switch (subCode)
             {
                 case MSG_WIN_LASTAVARD:
-                    writeD(id); // クランIDか何か？
-                    writeS(name);
-                    writeS(clanName);
+                    WriteD(id); // クランIDか何か？
+                    WriteS(name);
+                    WriteS(clanName);
                     break;
 
                 default:
@@ -494,14 +494,14 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_PacketBox(int subCode, int rank, string name)
         {
-            writeC(Opcodes.S_OPCODE_PACKETBOX);
-            writeC(subCode);
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(subCode);
 
             switch (subCode)
             {
                 case MSG_RANK_CHANGED: // 你的階級變更為%s
-                    writeC(rank);
-                    writeS(name);
+                    WriteC(rank);
+                    WriteS(name);
                     break;
             }
 
@@ -509,38 +509,38 @@ namespace LineageServer.Server.Server.serverpackets
 
         public S_PacketBox(int subCode, object[] names)
         {
-            writeC(Opcodes.S_OPCODE_PACKETBOX);
-            writeC(subCode);
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(subCode);
 
             switch (subCode)
             {
                 case ADD_EXCLUDE2:
-                    writeC(names.Length);
+                    WriteC(names.Length);
                     foreach (object name in names)
                     {
-                        writeS(name.ToString());
+                        WriteS(name.ToString());
                     }
                     break;
                 case MSG_WAR_OCCUPY_ALL:
-                    writeC(names.Length);
+                    WriteC(names.Length);
                     foreach (object name in names)
                     {
-                        writeS(name.ToString());
+                        WriteS(name.ToString());
                     }
                     break;
                 case MSG_WAR_IS_GOING_ALL:
-                    writeC(names.Length);
+                    WriteC(names.Length);
                     foreach (object name in names)
                     {
-                        writeS(name.ToString());
+                        WriteS(name.ToString());
                     }
                     break;
                 case HTML_PLEDGE_ONLINE_MEMBERS:
-                    writeH(names.Length);
+                    WriteH(names.Length);
                     foreach (object name in names)
                     {
                         L1PcInstance pc = (L1PcInstance)name;
-                        writeS(pc.Name);
+                        WriteS(pc.Name);
                     }
                     break;
                 default:
@@ -555,19 +555,19 @@ namespace LineageServer.Server.Server.serverpackets
         /// <param name="value"> 時間 </param>
         public S_PacketBox(int subCode, object[] names, int[] value)
         {
-            writeC(Opcodes.S_OPCODE_PACKETBOX);
-            writeC(subCode);
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(subCode);
 
             switch (subCode)
             {
                 case MAP_TIME:
-                    writeD(names.Length);
+                    WriteD(names.Length);
                     int i = 1;
                     foreach (object name in names)
                     {
-                        writeD(i);
-                        writeS(name.ToString());
-                        writeD(Convert.ToInt32(value[i - 1]));
+                        WriteD(i);
+                        WriteS(name.ToString());
+                        WriteD(Convert.ToInt32(value[i - 1]));
                         i++;
                     }
                     break;
@@ -578,19 +578,19 @@ namespace LineageServer.Server.Server.serverpackets
 
         private void callSomething()
         {
-            IEnumerator<L1PcInstance> itr = L1World.Instance.AllPlayers.GetEnumerator();
+            IEnumerator<L1PcInstance> itr = L1World.Instance.AllPlayedataSourceRow.getEnumerator();
 
-            writeC(L1World.Instance.AllPlayers.Count);
+            WriteC(L1World.Instance.AllPlayers.Count);
             DateTime dateTime = new DateTime(1970, 01, 01, 09, 0, 0);
             while (itr.MoveNext())
             {
                 L1PcInstance pc = itr.Current;
-                Account acc = Account.load(pc.AccountName);
+                Account acc = Account.Load(pc.AccountName);
 
                 // 時間情報 とりあえずログイン時間を入れてみる
                 if (acc == null)
                 {
-                    writeD(0);
+                    WriteD(0);
                 }
                 else
                 {
@@ -600,12 +600,12 @@ namespace LineageServer.Server.Server.serverpackets
                     //cal.set(DateTime.YEAR, 1970);
                     //int time = (int)(cal.Ticks / 1000);
 
-                    writeD((int)((acc.LastActive - dateTime).TotalMilliseconds / 1000)); // JST 1970 1/1 09:00 が基準
+                    WriteD((int)((acc.LastActive - dateTime).TotalMilliseconds / 1000)); // JST 1970 1/1 09:00 が基準
                 }
 
                 // キャラ情報
-                writeS(pc.Name); // 半角12字まで
-                writeS(pc.Clanname); // []内に表示される文字列。半角12字まで
+                WriteS(pc.Name); // 半角12字まで
+                WriteS(pc.Clanname); // []内に表示される文字列。半角12字まで
             }
         }
 

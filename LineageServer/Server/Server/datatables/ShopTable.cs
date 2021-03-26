@@ -20,9 +20,9 @@ namespace LineageServer.Server.Server.DataSources
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1Shop = LineageServer.Server.Server.Model.shop.L1Shop;
 	using L1ShopItem = LineageServer.Server.Server.Templates.L1ShopItem;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class ShopTable
 	{
@@ -67,7 +67,7 @@ namespace LineageServer.Server.Server.DataSources
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					ids.Add(rs.getInt("npc_id"));
+					ids.Add(dataSourceRow.getInt("npc_id"));
 				}
 			}
 			catch (SQLException e)
@@ -89,10 +89,10 @@ namespace LineageServer.Server.Server.DataSources
 			IList<L1ShopItem> purchasingList = Lists.newList();
 			while (rs.next())
 			{
-				int itemId = rs.getInt("item_id");
-				int sellingPrice = rs.getInt("selling_price");
-				int purchasingPrice = rs.getInt("purchasing_price");
-				int packCount = rs.getInt("pack_count");
+				int itemId = dataSourceRow.getInt("item_id");
+				int sellingPrice = dataSourceRow.getInt("selling_price");
+				int purchasingPrice = dataSourceRow.getInt("purchasing_price");
+				int packCount = dataSourceRow.getInt("pack_count");
 				packCount = packCount == 0 ? 1 : packCount;
 				if (0 <= sellingPrice)
 				{

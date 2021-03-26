@@ -3,7 +3,7 @@ using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
 using System.Collections.Generic;
 
-namespace LineageServer.Server.Server.utils
+namespace LineageServer.Server.Server.Utils
 {
     class FaceToFace
     {

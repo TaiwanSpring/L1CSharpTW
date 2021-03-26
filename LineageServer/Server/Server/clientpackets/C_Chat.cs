@@ -14,7 +14,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_CHAT = "[C] C_Chat";
 
-        public C_Chat(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_Chat(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
             if (clientthread.ActiveChar == null)
             {
@@ -23,8 +23,8 @@ namespace LineageServer.Server.Server.Clientpackets
 
             L1PcInstance pc = clientthread.ActiveChar;
 
-            int chatType = readC();
-            string chatText = readS();
+            int chatType = ReadC();
+            string chatText = ReadS();
             // 修正對話出現太長的字串會斷線 start
             if (!string.IsNullOrEmpty(chatText) && chatText.Length > 130)
             {

@@ -29,48 +29,48 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_AttackMissPacket(L1Character attacker, int targetId)
 		{
-			writeC(Opcodes.S_OPCODE_ATTACKPACKET);
-			writeC(1);
-			writeD(attacker.Id);
-			writeD(targetId);
-			writeH(0);
-			writeC(attacker.Heading);
-			writeD(0);
-			writeC(0);
+			WriteC(Opcodes.S_OPCODE_ATTACKPACKET);
+			WriteC(1);
+			WriteD(attacker.Id);
+			WriteD(targetId);
+			WriteH(0);
+			WriteC(attacker.Heading);
+			WriteD(0);
+			WriteC(0);
 		}
 
 		public S_AttackMissPacket(L1Character attacker, int targetId, int actId)
 		{
-			writeC(Opcodes.S_OPCODE_ATTACKPACKET);
-			writeC(actId);
-			writeD(attacker.Id);
-			writeD(targetId);
-			writeH(0);
-			writeC(attacker.Heading);
-			writeD(0);
-			writeC(0);
+			WriteC(Opcodes.S_OPCODE_ATTACKPACKET);
+			WriteC(actId);
+			WriteD(attacker.Id);
+			WriteD(targetId);
+			WriteH(0);
+			WriteC(attacker.Heading);
+			WriteD(0);
+			WriteC(0);
 		}
 
 		public S_AttackMissPacket(int attackId, int targetId)
 		{
-			writeC(Opcodes.S_OPCODE_ATTACKPACKET);
-			writeC(1);
-			writeD(attackId);
-			writeD(targetId);
-			writeH(0);
-			writeC(0);
-			writeD(0);
+			WriteC(Opcodes.S_OPCODE_ATTACKPACKET);
+			WriteC(1);
+			WriteD(attackId);
+			WriteD(targetId);
+			WriteH(0);
+			WriteC(0);
+			WriteD(0);
 		}
 
 		public S_AttackMissPacket(int attackId, int targetId, int actId)
 		{
-			writeC(Opcodes.S_OPCODE_ATTACKPACKET);
-			writeC(actId);
-			writeD(attackId);
-			writeD(targetId);
-			writeH(0);
-			writeC(0);
-			writeD(0);
+			WriteC(Opcodes.S_OPCODE_ATTACKPACKET);
+			WriteC(actId);
+			WriteD(attackId);
+			WriteD(targetId);
+			WriteH(0);
+			WriteC(0);
+			WriteD(0);
 		}
 
 		public override sbyte[] Content

@@ -7,7 +7,7 @@ namespace LineageServer.Server.Server.Clientpackets
     /// </summary>
     class C_ReturnToLogin : ClientBasePacket
     {
-        public C_ReturnToLogin(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_ReturnToLogin(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             LoginController.Instance.logout(client);
         }

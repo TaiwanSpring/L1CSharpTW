@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_CLAN = "[C] C_Clan";
 
-		public C_Clan(sbyte[] abyte0, ClientThread client) : base(abyte0)
+		public C_Clan(byte[] abyte0, ClientThread client) : base(abyte0)
 		{
 
 			L1PcInstance pc = client.ActiveChar;
@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int clanId = readD();
+			int clanId = ReadD();
 			L1Clan clan = ClanTable.Instance.getTemplate(clanId);
 			pc.sendPackets(new S_Emblem(clan.ClanId));
 		}

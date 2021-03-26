@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model.Instance
 	using S_DoActionGFX = LineageServer.Server.Server.serverpackets.S_DoActionGFX;
 	using S_NPCPack = LineageServer.Server.Server.serverpackets.S_NPCPack;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	[Serializable]
 	public class L1FishInstance : L1NpcInstance

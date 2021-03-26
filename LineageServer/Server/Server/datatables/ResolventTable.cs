@@ -18,8 +18,8 @@ namespace LineageServer.Server.Server.DataSources
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public sealed class ResolventTable
 	{
@@ -59,8 +59,8 @@ namespace LineageServer.Server.Server.DataSources
 
 				for (rs = pstm.executeQuery(); rs.next();)
 				{
-					int itemId = rs.getInt("item_id");
-					int crystalCount = rs.getInt("crystal_count");
+					int itemId = dataSourceRow.getInt("item_id");
+					int crystalCount = dataSourceRow.getInt("crystal_count");
 
 					_resolvent[itemId] = crystalCount;
 				}

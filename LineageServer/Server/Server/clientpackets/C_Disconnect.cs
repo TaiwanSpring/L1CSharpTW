@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private static ILogger _log = Logger.getLogger(nameof(C_Disconnect));
 
-		public C_Disconnect(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_Disconnect(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
 			client.CharReStart(true);
 			L1PcInstance pc = client.ActiveChar;
@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Clientpackets
 			{
 				if (client.Account != null)
 				{
-					Account.online(client.Account, false);
+					Account.SetOnline(client.Account, false);
 				}
 
 				ClientThread.quitGame(pc);

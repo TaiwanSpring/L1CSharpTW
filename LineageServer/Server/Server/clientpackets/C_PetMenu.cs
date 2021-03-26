@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_PET_MENU = "[C] C_PetMenu";
 
-        public C_PetMenu(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_PetMenu(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
             L1PcInstance pc = clientthread.ActiveChar;
@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int petId = readD();
+            int petId = ReadD();
             L1PetInstance pet = (L1PetInstance)L1World.Instance.findObject(petId);
 
             if ((pet != null) && (pc != null))

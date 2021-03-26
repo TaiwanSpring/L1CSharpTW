@@ -1,6 +1,6 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Server.Server.Model.Instance;
-using LineageServer.Server.Server.utils.collections;
+using LineageServer.Server.Server.Utils.collections;
 using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.Server.serverpackets
@@ -36,7 +36,7 @@ namespace LineageServer.Server.Server.serverpackets
                 rs = pstm.executeQuery();
                 while (rs.next())
                 {
-                    houseId = rs.getInt(1);
+                    houseId = dataSourceRow.getInt(1);
                     if ((board.X == 33421) && (board.Y == 32823))
                     { // 競売掲示板(ギラン)
                         if ((houseId >= 262145) && (houseId <= 262189))
@@ -85,13 +85,13 @@ namespace LineageServer.Server.Server.serverpackets
                     rs = pstm.executeQuery();
                     while (rs.next())
                     {
-                        id[i] = rs.getInt(1);
-                        name[i] = rs.getString(2);
-                        area[i] = rs.getInt(3);
-                        DateTime cal = timestampToCalendar((Timestamp)rs.getObject(4));
+                        id[i] = dataSourceRow.getInt(1);
+                        name[i] = dataSourceRow.getString(2);
+                        area[i] = dataSourceRow.getInt(3);
+                        DateTime cal = timestampToCalendar((Timestamp)dataSourceRow.getObject(4));
                         month[i] = cal.Month + 1;
                         day[i] = cal.Day;
-                        price[i] = rs.getInt(5);
+                        price[i] = dataSourceRow.getInt(5);
                     }
                 }
             }
@@ -100,17 +100,17 @@ namespace LineageServer.Server.Server.serverpackets
                 _log.log(Enum.Level.Server, e.Message, e);
             }
 
-            writeC(Opcodes.S_OPCODE_HOUSELIST);
-            writeD(board.Id);
-            writeH(count); // レコード数
+            WriteC(Opcodes.S_OPCODE_HOUSELIST);
+            WriteD(board.Id);
+            WriteH(count); // レコード数
             for (int i = 0; i < count; ++i)
             {
-                writeD(id[i]); // アジトの番号
-                writeS(name[i]); // アジトの名前
-                writeH(area[i]); // アジトの広さ
-                writeC(month[i]); // 締切月
-                writeC(day[i]); // 締切日
-                writeD(price[i]); // 現在の入札価格
+                WriteD(id[i]); // アジトの番号
+                WriteS(name[i]); // アジトの名前
+                WriteH(area[i]); // アジトの広さ
+                WriteC(month[i]); // 締切月
+                WriteC(day[i]); // 締切日
+                WriteD(price[i]); // 現在の入札価格
             }
         }
 

@@ -25,11 +25,11 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_Resurrection(L1PcInstance target, L1PcInstance use, int type)
 		{
-			writeC(Opcodes.S_OPCODE_RESURRECTION);
-			writeD(target.Id);
-			writeC(type);
-			writeD(use.Id);
-			writeD(target.ClassId);
+			WriteC(Opcodes.S_OPCODE_RESURRECTION);
+			WriteD(target.Id);
+			WriteC(type);
+			WriteD(use.Id);
+			WriteD(target.ClassId);
 		}
 
 		public override sbyte[] Content

@@ -22,9 +22,9 @@ namespace LineageServer.Server.Server.taskmanager
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using TaskRestart = LineageServer.Server.Server.taskmanager.tasks.TaskRestart;
 	using TaskShutdown = LineageServer.Server.Server.taskmanager.tasks.TaskShutdown;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	/// <summary>
 	/// @author Layane
@@ -207,7 +207,7 @@ namespace LineageServer.Server.Server.taskmanager
 
 				while (rs.next())
 				{
-					Task task = _tasks[rs.getString("task").Trim().ToLower().GetHashCode()];
+					Task task = _tasks[dataSourceRow.getString("task").Trim().ToLower().GetHashCode()];
 
 					if (task == null)
 					{

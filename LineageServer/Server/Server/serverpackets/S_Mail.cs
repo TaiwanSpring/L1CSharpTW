@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.serverpackets
 	using MailTable = LineageServer.Server.Server.DataSources.MailTable;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1Mail = LineageServer.Server.Server.Templates.L1Mail;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	// Referenced classes of package l1j.server.server.serverpackets:
 	// ServerBasePacket
@@ -67,9 +67,9 @@ namespace LineageServer.Server.Server.serverpackets
 				}
 			}
 
-			writeC(Opcodes.S_OPCODE_MAIL);
-			writeC(type);
-			writeH(mails.Count);
+			WriteC(Opcodes.S_OPCODE_MAIL);
+			WriteC(type);
+			WriteH(mails.Count);
 
 			if (mails.Count == 0)
 			{
@@ -79,12 +79,12 @@ namespace LineageServer.Server.Server.serverpackets
 			for (int i = 0; i < mails.Count; i++)
 			{
 				L1Mail mail = mails[i];
-				writeD(mail.Id);
-				writeC(mail.ReadStatus);
-				writeD((int)(mail.Date.Time / 1000));
-				writeC(mail.SenderName.Equals(pc.Name, StringComparison.OrdinalIgnoreCase) ? 1 : 0); // 寄件/備份
-				writeS(mail.SenderName.Equals(pc.Name, StringComparison.OrdinalIgnoreCase) ? mail.ReceiverName : mail.SenderName);
-				writeByte(mail.Subject);
+				WriteD(mail.Id);
+				WriteC(mail.ReadStatus);
+				WriteD((int)(mail.Date.Time / 1000));
+				WriteC(mail.SenderName.Equals(pc.Name, StringComparison.OrdinalIgnoreCase) ? 1 : 0); // 寄件/備份
+				WriteS(mail.SenderName.Equals(pc.Name, StringComparison.OrdinalIgnoreCase) ? mail.ReceiverName : mail.SenderName);
+				WriteByte(mail.Subject);
 			}
 		}
 
@@ -96,12 +96,12 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			MailTable.Instance;
 			L1Mail mail = MailTable.getMail(mailId);
-			writeC(Opcodes.S_OPCODE_MAIL);
-			writeC(0x50);
-			writeD(mailId);
-			writeC(isDraft ? 1 : 0);
-			writeS(pc.Name);
-			writeByte(mail.Subject);
+			WriteC(Opcodes.S_OPCODE_MAIL);
+			WriteC(0x50);
+			WriteD(mailId);
+			WriteC(isDraft ? 1 : 0);
+			WriteS(pc.Name);
+			WriteByte(mail.Subject);
 		}
 
 		/// <summary>
@@ -110,9 +110,9 @@ namespace LineageServer.Server.Server.serverpackets
 		/// <param name="isDelivered"> 寄出:1 ,失敗:0 </param>
 		public S_Mail(int type, bool isDelivered)
 		{
-			writeC(Opcodes.S_OPCODE_MAIL);
-			writeC(type);
-			writeC(isDelivered ? 1 : 0);
+			WriteC(Opcodes.S_OPCODE_MAIL);
+			WriteC(type);
+			WriteC(isDelivered ? 1 : 0);
 		}
 
 		/// <summary>
@@ -128,20 +128,20 @@ namespace LineageServer.Server.Server.serverpackets
 			// 0x30: 刪除一般 0x31:刪除血盟 0x32:一般存到保管箱 0x40:刪除保管箱
 			if ((type == 0x30) || (type == 0x31) || (type == 0x32) || (type == 0x40))
 			{
-				writeC(Opcodes.S_OPCODE_MAIL);
-				writeC(type);
-				writeD(mailId);
-				writeC(1);
+				WriteC(Opcodes.S_OPCODE_MAIL);
+				WriteC(type);
+				WriteD(mailId);
+				WriteC(1);
 				return;
 			}
 			MailTable.Instance;
 			L1Mail mail = MailTable.getMail(mailId);
 			if (mail != null)
 			{
-				writeC(Opcodes.S_OPCODE_MAIL);
-				writeC(type);
-				writeD(mail.Id);
-				writeByte(mail.Content);
+				WriteC(Opcodes.S_OPCODE_MAIL);
+				WriteC(type);
+				WriteD(mail.Id);
+				WriteByte(mail.Content);
 			}
 		}
 

@@ -52,10 +52,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_Fight(int type, int flag)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(0x72);
-			writeD(type);
-			writeD((flag == FLAG_OFF) ? FLAG_OFF : FLAG_ON);
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(0x72);
+			WriteD(type);
+			WriteD((flag == FLAG_OFF) ? FLAG_OFF : FLAG_ON);
 		}
 
 		public override sbyte[] Content

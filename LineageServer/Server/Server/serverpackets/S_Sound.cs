@@ -37,9 +37,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int sound)
 		{
-			writeC(Opcodes.S_OPCODE_SOUND);
-			writeC(0); // repeat
-			writeH(sound);
+			WriteC(Opcodes.S_OPCODE_SOUND);
+			WriteC(0); // repeat
+			WriteH(sound);
 		}
 
 		public override sbyte[] Content

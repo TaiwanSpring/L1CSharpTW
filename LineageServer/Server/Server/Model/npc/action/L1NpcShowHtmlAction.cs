@@ -20,8 +20,8 @@ namespace LineageServer.Server.Server.Model.Npc.Action
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1NpcHtml = LineageServer.Server.Server.Model.Npc.L1NpcHtml;
-	using IterableElementList = LineageServer.Server.Server.utils.IterableElementList;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using IterableElementList = LineageServer.Server.Server.Utils.IterableElementList;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	using Element = org.w3c.dom.Element;
 	using NodeList = org.w3c.dom.NodeList;

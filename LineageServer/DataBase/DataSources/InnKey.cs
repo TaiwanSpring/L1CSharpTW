@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class InnKey : DataSourceTable
+    class InnKey : DataSource
     {
         public const string TableName = "inn_key";
         public const string Column_due_time = "due_time";
@@ -9,7 +10,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_key_id = "key_id";
         public const string Column_npc_id = "npc_id";
         public const string Column_hall = "hall";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.InnKey; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_due_time, DbType = DbType.DateTime, IsPKey = false},

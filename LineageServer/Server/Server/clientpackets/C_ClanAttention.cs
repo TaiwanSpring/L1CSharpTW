@@ -5,11 +5,11 @@ namespace LineageServer.Server.Server.Clientpackets
 	/// <summary>
 	/// 處理客戶端傳來之血盟注視封包
 	/// </summary>
-	class C_ClanAttention : ClientBasePacket todo
+	class C_ClanAttention : ClientBasePacket //todo
 	{
 		private const string C_PledgeRecommendation = "[C] C_PledgeRecommendation";
 
-		public C_ClanAttention(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_ClanAttention(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
 
 			L1PcInstance pc = client.ActiveChar;
@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int data = readC();
+			int data = ReadC();
 
 			if (data == 0)
 			{ // 新增注視血盟

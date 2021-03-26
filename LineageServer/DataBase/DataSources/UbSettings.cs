@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class UbSettings : DataSourceTable
+    class UbSettings : DataSource
     {
         public const string TableName = "ub_settings";
         public const string Column_ub_name = "ub_name";
@@ -26,7 +27,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_enter_male = "enter_male";
         public const string Column_enter_female = "enter_female";
         public const string Column_use_pot = "use_pot";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.UbSettings; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_ub_name, DbType = DbType.String, IsPKey = false},

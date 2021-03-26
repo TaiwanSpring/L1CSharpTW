@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server.Model
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using S_DropItem = LineageServer.Server.Server.serverpackets.S_DropItem;
 	using S_RemoveObject = LineageServer.Server.Server.serverpackets.S_RemoveObject;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	[Serializable]
 	public class L1GroundInventory : L1Inventory

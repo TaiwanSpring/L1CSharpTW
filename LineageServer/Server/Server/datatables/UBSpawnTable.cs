@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.DataSources
 	using L1UbPattern = LineageServer.Server.Server.Model.L1UbPattern;
 	using L1UbSpawn = LineageServer.Server.Server.Model.L1UbSpawn;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class UBSpawnTable
 	{
@@ -65,22 +65,22 @@ namespace LineageServer.Server.Server.DataSources
 
 				while (rs.next())
 				{
-					L1Npc npcTemp = NpcTable.Instance.getTemplate(rs.getInt(6));
+					L1Npc npcTemp = NpcTable.Instance.getTemplate(dataSourceRow.getInt(6));
 					if (npcTemp == null)
 					{
 						continue;
 					}
 
 					L1UbSpawn spawnDat = new L1UbSpawn();
-					spawnDat.Id = rs.getInt(1);
-					spawnDat.UbId = rs.getInt(2);
-					spawnDat.Pattern = rs.getInt(3);
-					spawnDat.Group = rs.getInt(4);
+					spawnDat.Id = dataSourceRow.getInt(1);
+					spawnDat.UbId = dataSourceRow.getInt(2);
+					spawnDat.Pattern = dataSourceRow.getInt(3);
+					spawnDat.Group = dataSourceRow.getInt(4);
 					spawnDat.Name = npcTemp.get_name();
-					spawnDat.NpcTemplateId = rs.getInt(6);
-					spawnDat.Amount = rs.getInt(7);
-					spawnDat.SpawnDelay = rs.getInt(8);
-					spawnDat.SealCount = rs.getInt(9);
+					spawnDat.NpcTemplateId = dataSourceRow.getInt(6);
+					spawnDat.Amount = dataSourceRow.getInt(7);
+					spawnDat.SpawnDelay = dataSourceRow.getInt(8);
+					spawnDat.SealCount = dataSourceRow.getInt(9);
 
 					_spawnTable[spawnDat.Id] = spawnDat;
 				}
@@ -125,7 +125,7 @@ namespace LineageServer.Server.Server.DataSources
 				rs = pstm.executeQuery();
 				if (rs.next())
 				{
-					n = rs.getInt(1);
+					n = dataSourceRow.getInt(1);
 				}
 			}
 			catch (SQLException e)

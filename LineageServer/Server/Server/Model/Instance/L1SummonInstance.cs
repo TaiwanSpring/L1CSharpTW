@@ -43,7 +43,7 @@ namespace LineageServer.Server.Server.Model.Instance
 	using S_SummonPack = LineageServer.Server.Server.serverpackets.S_SummonPack;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
 	using L1PetType = LineageServer.Server.Server.Templates.L1PetType;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	[Serializable]
 	public class L1SummonInstance : L1NpcInstance

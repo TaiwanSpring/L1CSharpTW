@@ -15,7 +15,7 @@
 namespace LineageServer.Server.Server.Templates
 {
 	using NpcTable = LineageServer.Server.Server.DataSources.NpcTable;
-	using IntRange = LineageServer.Server.Server.utils.IntRange;
+	using IntRange = LineageServer.Server.Server.Utils.IntRange;
 
 	public class L1PetType
 	{

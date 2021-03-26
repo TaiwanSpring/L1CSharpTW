@@ -13,7 +13,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_WHO = "[C] C_Who";
 
-        public C_Who(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_Who(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             string amount = (L1World.Instance.AllPlayers.Count).ToString();
             L1PcInstance pc = client.ActiveChar;
@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            string s = readS();
+            string s = ReadS();
             L1PcInstance find = L1World.Instance.getPlayer(s);
 
 

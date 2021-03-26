@@ -47,8 +47,8 @@ namespace LineageServer.Server.Server.serverpackets
 				lawfulness = "(Lawful)";
 			}
 
-			writeC(Opcodes.S_OPCODE_GLOBALCHAT);
-			writeC(0x08);
+			WriteC(Opcodes.S_OPCODE_GLOBALCHAT);
+			WriteC(0x08);
 
 			string title = "";
 			string clan = "";
@@ -63,9 +63,9 @@ namespace LineageServer.Server.Server.serverpackets
 				clan = "[" + pc.Clanname + "]";
 			}
 
-			writeS(title + pc.Name + " " + lawfulness + " " + clan);
-			// writeD(0x80157FE4);
-			writeD(0);
+			WriteS(title + pc.Name + " " + lawfulness + " " + clan);
+			// WriteD(0x80157FE4);
+			WriteD(0);
 		}
 
 		public override sbyte[] Content
@@ -74,7 +74,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

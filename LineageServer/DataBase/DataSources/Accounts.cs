@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Accounts : DataSourceTable
+    class Accounts : DataSource
     {
         public const string TableName = "accounts";
         public const string Column_login = "login";
@@ -15,7 +16,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_character_slot = "character_slot";
         public const string Column_warepassword = "warepassword";
         public const string Column_OnlineStatus = "OnlineStatus";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Accounts; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_login, DbType = DbType.String, IsPKey = true},

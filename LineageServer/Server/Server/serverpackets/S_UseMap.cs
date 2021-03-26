@@ -23,64 +23,64 @@ namespace LineageServer.Server.Server.serverpackets
 		public S_UseMap(L1PcInstance pc, int objid, int itemid)
 		{
 
-			//writeC(Opcodes.S_OPCODE_USEMAP);
-			writeD(objid);
+			//WriteC(Opcodes.S_OPCODE_USEMAP);
+			WriteD(objid);
 
 			switch (itemid)
 			{
 				case 40373:
-					writeD(16);
+					WriteD(16);
 					break;
 				case 40374:
-					writeD(1);
+					WriteD(1);
 					break;
 				case 40375:
-					writeD(2);
+					WriteD(2);
 					break;
 				case 40376:
-					writeD(3);
+					WriteD(3);
 					break;
 				case 40377:
-					writeD(4);
+					WriteD(4);
 					break;
 				case 40378:
-					writeD(5);
+					WriteD(5);
 					break;
 				case 40379:
-					writeD(6);
+					WriteD(6);
 					break;
 				case 40380:
-					writeD(7);
+					WriteD(7);
 					break;
 				case 40381:
-					writeD(8);
+					WriteD(8);
 					break;
 				case 40382:
-					writeD(9);
+					WriteD(9);
 					break;
 				case 40383:
-					writeD(10);
+					WriteD(10);
 					break;
 				case 40384:
-					writeD(11);
+					WriteD(11);
 					break;
 				case 40385:
-					writeD(12);
+					WriteD(12);
 					break;
 				case 40386:
-					writeD(13);
+					WriteD(13);
 					break;
 				case 40387:
-					writeD(14);
+					WriteD(14);
 					break;
 				case 40388:
-					writeD(15);
+					WriteD(15);
 					break;
 				case 40389:
-					writeD(17);
+					WriteD(17);
 					break;
 				case 40390:
-					writeD(18);
+					WriteD(18);
 					break;
 			}
 		}

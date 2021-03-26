@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Polymorphs : DataSourceTable
+    class Polymorphs : DataSource
     {
         public const string TableName = "polymorphs";
         public const string Column_name = "name";
@@ -12,7 +13,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_armorequip = "armorequip";
         public const string Column_isSkillUse = "isSkillUse";
         public const string Column_cause = "cause";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Polymorphs; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},

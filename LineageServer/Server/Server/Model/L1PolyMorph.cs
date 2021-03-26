@@ -31,7 +31,7 @@ namespace LineageServer.Server.Server.Model
 	using S_NpcChangeShape = LineageServer.Server.Server.serverpackets.S_NpcChangeShape;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 	using S_SkillIconGFX = LineageServer.Server.Server.serverpackets.S_SkillIconGFX;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1PcInstance

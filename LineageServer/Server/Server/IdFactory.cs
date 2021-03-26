@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class IdFactory
 	{
@@ -68,7 +68,7 @@ namespace LineageServer.Server.Server
 				int id = 0;
 				if (rs.next())
 				{
-					id = rs.getInt("nextid");
+					id = dataSourceRow.getInt("nextid");
 				}
 				if (id < FIRST_ID)
 				{

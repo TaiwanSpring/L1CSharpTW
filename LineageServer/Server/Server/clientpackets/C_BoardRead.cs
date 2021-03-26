@@ -11,10 +11,10 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_BOARD_READ = "[C] C_BoardRead";
 
-		public C_BoardRead(sbyte[] decrypt, ClientThread client) : base(decrypt)
+		public C_BoardRead(byte[] decrypt, ClientThread client) : base(decrypt)
 		{
-			int objId = readD();
-			int topicNumber = readD();
+			int objId = ReadD();
+			int topicNumber = ReadD();
 			L1Object obj = L1World.Instance.findObject(objId);
 			L1BoardInstance board = (L1BoardInstance) obj;
 			board.onActionRead(client.ActiveChar, topicNumber);

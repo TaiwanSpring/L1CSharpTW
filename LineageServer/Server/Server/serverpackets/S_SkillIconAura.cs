@@ -24,19 +24,19 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_SkillIconAura(int i, int j)
 		{
-			writeC(Opcodes.S_OPCODE_SKILLICONGFX);
-			writeC(0x16);
-			writeC(i);
-			writeH(j);
+			WriteC(Opcodes.S_OPCODE_SKILLICONGFX);
+			WriteC(0x16);
+			WriteC(i);
+			WriteH(j);
 		}
 
 		public S_SkillIconAura(int i, int j, int k)
 		{
-			writeC(Opcodes.S_OPCODE_SKILLICONGFX);
-			writeC(0x16);
-			writeC(i);
-			writeH(j);
-			writeC(k);
+			WriteC(Opcodes.S_OPCODE_SKILLICONGFX);
+			WriteC(0x16);
+			WriteC(i);
+			WriteH(j);
+			WriteC(k);
 		}
 
 		public override sbyte[] Content

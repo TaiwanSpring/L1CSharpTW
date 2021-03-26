@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server.Templates
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class L1DoorGfx
 	{
@@ -88,10 +88,10 @@ namespace LineageServer.Server.Server.Templates
 				{
 					return null;
 				}
-				int id = rs.getInt("gfxid");
-				int dir = rs.getInt("direction");
-				int rEdge = rs.getInt("right_edge_offset");
-				int lEdge = rs.getInt("left_edge_offset");
+				int id = dataSourceRow.getInt("gfxid");
+				int dir = dataSourceRow.getInt("direction");
+				int rEdge = dataSourceRow.getInt("right_edge_offset");
+				int lEdge = dataSourceRow.getInt("left_edge_offset");
 				return new L1DoorGfx(id, dir, rEdge, lEdge);
 
 			}

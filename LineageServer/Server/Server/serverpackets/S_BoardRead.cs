@@ -33,12 +33,12 @@ namespace LineageServer.Server.Server.serverpackets
 		private void buildPacket(int number)
 		{
 			L1BoardTopic topic = L1BoardTopic.findById(number);
-			writeC(Opcodes.S_OPCODE_BOARDREAD);
-			writeD(number);
-			writeS(topic.Name);
-			writeS(topic.Title);
-			writeS(topic.Date);
-			writeS(topic.Content);
+			WriteC(Opcodes.S_OPCODE_BOARDREAD);
+			WriteD(number);
+			WriteS(topic.Name);
+			WriteS(topic.Title);
+			WriteS(topic.Date);
+			WriteS(topic.Content);
 		}
 
 		public override sbyte[] Content

@@ -19,7 +19,7 @@ namespace LineageServer.Server.Server.Command.Executor
                 if (target != null)
                 {
                     // アカウントをBANする
-                    Account.ban(target.AccountName);
+                    Account.Ban(target.AccountName);
                     pc.sendPackets(new S_SystemMessage(target.Name + "被您強制踢除遊戲並封鎖IP"));
                     target.sendPackets(new S_Disconnect());
                 }

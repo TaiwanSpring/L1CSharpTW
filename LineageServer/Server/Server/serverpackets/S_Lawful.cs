@@ -30,10 +30,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(int objid, int lawful)
 		{
-			writeC(Opcodes.S_OPCODE_LAWFUL);
-			writeD(objid);
-			writeH(lawful);
-			writeD(0);
+			WriteC(Opcodes.S_OPCODE_LAWFUL);
+			WriteD(objid);
+			WriteH(lawful);
+			WriteD(0);
 		}
 
 		public override sbyte[] Content

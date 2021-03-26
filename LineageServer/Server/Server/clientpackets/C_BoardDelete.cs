@@ -14,10 +14,10 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private static ILogger _log = Logger.getLogger(nameof(C_BoardDelete));
 
-        public C_BoardDelete(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_BoardDelete(byte[] decrypt, ClientThread client) : base(decrypt)
         {
-            int objId = readD();
-            int topicId = readD();
+            int objId = ReadD();
+            int topicId = ReadD();
             L1Object obj = L1World.Instance.findObject(objId);
             if (obj == null)
             {

@@ -35,10 +35,10 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			IList<L1ItemInstance> itemList = pet.Inventory.Items;
 
-			writeC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
-			writeD(pet.Id);
-			writeH(itemList.Count);
-			writeC(0x0b);
+			WriteC(Opcodes.S_OPCODE_SHOWRETRIEVELIST);
+			WriteD(pet.Id);
+			WriteH(itemList.Count);
+			WriteC(0x0b);
 
 			foreach (object itemObject in itemList)
 			{
@@ -47,25 +47,25 @@ namespace LineageServer.Server.Server.serverpackets
 				{
 					continue;
 				}
-				writeD(petItem.Id);
-				writeC(0x02); // 值:0x00  無、0x01:武器類、0x02:防具類、0x16:牙齒類 、0x33:藥水類
-				writeH(petItem.get_gfxid());
-				writeC(petItem.Bless);
-				writeD(petItem.Count);
+				WriteD(petItem.Id);
+				WriteC(0x02); // 值:0x00  無、0x01:武器類、0x02:防具類、0x16:牙齒類 、0x33:藥水類
+				WriteH(petItem.get_gfxid());
+				WriteC(petItem.Bless);
+				WriteD(petItem.Count);
 
 				// 顯示裝備中的寵物裝備
 				if (petItem.Item.Type2 == 0 && petItem.Item.Type == 11 && petItem.Equipped)
 				{
-					writeC(petItem.Identified ? 3 : 2);
+					WriteC(petItem.Identified ? 3 : 2);
 				}
 				else
 				{
-					writeC(petItem.Identified ? 1 : 0);
+					WriteC(petItem.Identified ? 1 : 0);
 				}
-				writeS(petItem.ViewName);
+				WriteS(petItem.ViewName);
 
 			}
-			writeC(pet.Ac); // 寵物防禦
+			WriteC(pet.Ac); // 寵物防禦
 		}
 
 		public override sbyte[] Content

@@ -28,7 +28,7 @@ namespace LineageServer.Server.Server.Model.item.action
 	using S_SkillIconGFX = LineageServer.Server.Server.serverpackets.S_SkillIconGFX;
 	using S_SkillIconWisdomPotion = LineageServer.Server.Server.serverpackets.S_SkillIconWisdomPotion;
 	using S_SkillSound = LineageServer.Server.Server.serverpackets.S_SkillSound;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	using static LineageServer.Server.Server.Model.skill.L1SkillId;
 

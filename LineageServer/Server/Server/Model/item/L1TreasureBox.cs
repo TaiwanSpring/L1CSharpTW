@@ -2,7 +2,7 @@
 using LineageServer.Server.Server.DataSources;
 using LineageServer.Server.Server.Model.Instance;
 using LineageServer.Server.Server.serverpackets;
-using LineageServer.Server.Server.utils.collections;
+using LineageServer.Server.Server.Utils.collections;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

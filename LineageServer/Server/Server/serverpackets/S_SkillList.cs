@@ -34,16 +34,16 @@ namespace LineageServer.Server.Server.serverpackets
 		{
 			if (Insert)
 			{
-				writeC(S_OPCODE_ADDSKILL);
+				WriteC(S_OPCODE_ADDSKILL);
 			}
 			else
 			{
-				writeC(S_OPCODE_DELSKILL);
+				WriteC(S_OPCODE_DELSKILL);
 			}
 
 			int[] SkillList = new int[0x20];
 
-			writeC(SkillList.Length);
+			WriteC(SkillList.Length);
 
 			foreach (L1Skills skill in skills)
 			{
@@ -54,10 +54,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 			foreach (int i in SkillList)
 			{
-				writeC(i);
+				WriteC(i);
 			}
 
-			writeC(0x00); // 區分用的數值
+			WriteC(0x00); // 區分用的數值
 		}
 
 		public override sbyte[] Content

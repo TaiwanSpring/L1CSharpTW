@@ -11,67 +11,67 @@ namespace LineageServer.Server.Server.serverpackets
 
         private static readonly string CLIENT_LANGUAGE_CODE = Config.CLIENT_LANGUAGE_CODE;
 
-        internal MemoryStream _bao = new MemoryStream();
+        internal MemoryStream memoryStream = new MemoryStream();
 
-        protected internal virtual void writeD(int value)
+        protected internal virtual void WriteD(int value)
         {
-            _bao.WriteByte((byte)(value & 0xff));
-            _bao.WriteByte((byte)(value >> 8 & 0xff));
-            _bao.WriteByte((byte)(value >> 16 & 0xff));
-            _bao.WriteByte((byte)(value >> 24 & 0xff));
+            this.memoryStream.WriteByte((byte)(value & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 8 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 16 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 24 & 0xff));
         }
 
-        protected internal virtual void writeH(int value)
+        protected internal virtual void WriteH(int value)
         {
-            _bao.WriteByte((byte)(value & 0xff));
-            _bao.WriteByte((byte)(value >> 8 & 0xff));
+            this.memoryStream.WriteByte((byte)(value & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 8 & 0xff));
         }
 
-        protected internal virtual void writeC(int value)
-        {
-            //this._bao.WriteByte(BitConverter.GetBytes(value)[0]);
-            _bao.WriteByte((byte)(value & 0xff));
-        }
-
-        protected internal virtual void writeP(int value)
+        protected internal virtual void WriteC(int value)
         {
             //this._bao.WriteByte(BitConverter.GetBytes(value)[0]);
-            _bao.WriteByte((byte)value);
+            this.memoryStream.WriteByte((byte)(value & 0xff));
         }
 
-        protected internal virtual void writeL(long value)
+        protected internal virtual void WriteP(int value)
         {
             //this._bao.WriteByte(BitConverter.GetBytes(value)[0]);
-            _bao.WriteByte((byte)(value & 0xff));
+            this.memoryStream.WriteByte((byte)value);
         }
-        protected internal virtual void writeExp(in long value)
+
+        protected internal virtual void WriteL(long value)
+        {
+            //this._bao.WriteByte(BitConverter.GetBytes(value)[0]);
+            this.memoryStream.WriteByte((byte)(value & 0xff));
+        }
+        protected internal virtual void WriteExp(in long value)
         {
             //this._bao.Write(BitConverter.GetBytes(value));
-            this._bao.WriteByte((byte)(value & 0xff));
-            this._bao.WriteByte((byte)(value >> 8 & 0xff));
-            this._bao.WriteByte((byte)(value >> 16 & 0xff));
-            this._bao.WriteByte((byte)(value >> 24 & 0xff));
+            this.memoryStream.WriteByte((byte)(value & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 8 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 16 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 24 & 0xff));
         }
-        protected internal virtual void writeF(double org)
+        protected internal virtual void WriteF(double org)
         {
             long value = BitConverter.DoubleToInt64Bits(org);
-            _bao.WriteByte((byte)(value & 0xff));
-            _bao.WriteByte((byte)(value >> 8 & 0xff));
-            _bao.WriteByte((byte)(value >> 16 & 0xff));
-            _bao.WriteByte((byte)(value >> 24 & 0xff));
-            _bao.WriteByte((byte)(value >> 32 & 0xff));
-            _bao.WriteByte((byte)(value >> 40 & 0xff));
-            _bao.WriteByte((byte)(value >> 48 & 0xff));
-            _bao.WriteByte((byte)(value >> 56 & 0xff));
+            this.memoryStream.WriteByte((byte)(value & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 8 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 16 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 24 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 32 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 40 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 48 & 0xff));
+            this.memoryStream.WriteByte((byte)(value >> 56 & 0xff));
         }
 
-        protected internal virtual void writeS(string text)
+        protected internal virtual void WriteS(string text)
         {
             try
             {
                 if (!string.IsNullOrEmpty(text))
                 {
-                    _bao.Write(Encoding.GetEncoding(CLIENT_LANGUAGE_CODE).GetBytes(text));
+                    this.memoryStream.Write(Encoding.GetEncoding(CLIENT_LANGUAGE_CODE).GetBytes(text));
                 }
             }
             catch (Exception e)
@@ -79,39 +79,27 @@ namespace LineageServer.Server.Server.serverpackets
                 _log.log(Enum.Level.Server, e.Message, e);
             }
 
-            _bao.WriteByte(0);
+            this.memoryStream.WriteByte(0);
         }
 
-        protected internal virtual void writeByte(sbyte[] text)
+        protected internal virtual void WriteByte(byte[] buffer)
         {
-            try
-            {
-                if (text != null)
-                {
-                    byte[] buffer = new byte[text.Length];
-                    Buffer.BlockCopy(text, 0, buffer, 0, text.Length);
-                    _bao.Write(buffer, 0, buffer.Length);
-                }
-            }
-            catch (Exception e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
+            this.memoryStream.Write(buffer, 0, buffer.Length);
         }
 
         public byte[] BuildBuffer()
         {
-            byte padding = (byte)(_bao.Length % 4);
+            byte padding = (byte)(this.memoryStream.Length % 4);
 
             if (padding != 0)
             {
                 for (byte i = padding; i < 4; i++)
                 {
-                    writeC(0x00);
+                    WriteC(0x00);
                 }
             }
-            byte[] buffer = _bao.ToArray();
-            _bao.Close();
+            byte[] buffer = this.memoryStream.ToArray();
+            this.memoryStream.Close();
             return buffer;
         }
 

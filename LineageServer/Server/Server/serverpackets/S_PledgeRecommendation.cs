@@ -26,7 +26,7 @@ namespace LineageServer.Server.Server.serverpackets
 	using L1Clan = LineageServer.Server.Server.Model.L1Clan;
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	// Referenced classes of package l1j.server.server.serverpackets:
 	// ServerBasePacket
@@ -84,24 +84,24 @@ namespace LineageServer.Server.Server.serverpackets
 		/// <param name="postStatus"> 登錄成功:True, 取消登陸:False </param>
 		private void buildPacket(bool postStatus, int clan_id)
 		{
-			writeC(S_OPCODE_PLEDGE_RECOMMENDATION);
-			writeC(postStatus ? 0 : 1);
+			WriteC(S_OPCODE_PLEDGE_RECOMMENDATION);
+			WriteC(postStatus ? 0 : 1);
 			if (!ClanRecommendTable.Instance.isRecorded(clan_id))
 			{
-				writeC(0x82);
+				WriteC(0x82);
 			}
 			else
 			{
-				writeC(0);
+				WriteC(0);
 			}
-			writeD(0);
-			writeC(0);
+			WriteD(0);
+			WriteC(0);
 		}
 
 		private void buildPacket(int type, int record_id, string typeMessage, int acceptType, string char_name)
 		{
-			writeC(S_OPCODE_PLEDGE_RECOMMENDATION);
-			writeC(type);
+			WriteC(S_OPCODE_PLEDGE_RECOMMENDATION);
+			WriteC(type);
 
 			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
@@ -120,7 +120,7 @@ namespace LineageServer.Server.Server.serverpackets
 
 					while (rs.next())
 					{
-						if (ClanRecommendTable.Instance.isApplyForTheClan(rs.getInt("clan_id"), char_name))
+						if (ClanRecommendTable.Instance.isApplyForTheClan(dataSourceRow.getInt("clan_id"), char_name))
 						{
 							continue;
 						}
@@ -132,26 +132,26 @@ namespace LineageServer.Server.Server.serverpackets
 
 					rs.beforeFirst();
 
-					writeC(0x00);
-					writeC(rows);
+					WriteC(0x00);
+					WriteC(rows);
 
 					while (rs.next())
 					{
-						if (ClanRecommendTable.Instance.isApplyForTheClan(rs.getInt("clan_id"), char_name))
+						if (ClanRecommendTable.Instance.isApplyForTheClan(dataSourceRow.getInt("clan_id"), char_name))
 						{
 							continue;
 						}
-						writeD(rs.getInt("clan_id")); // 血盟id
-						writeS(rs.getString("clan_name")); // 血盟名稱
-						writeS(rs.getString("crown_name")); // 王族名稱
-						writeD(0); // 一周最大上線人數
-						writeC(rs.getInt("clan_type")); // 血盟登錄類型
-						L1Clan clan = L1World.Instance.getClan(rs.getString("clan_name"));
-						writeC(clan.HouseId > 0 ? 1 : 0); // 是否有盟屋
-						writeC(0); // 戰爭狀態
-						writeC(0); // 尚未使用
-						writeS(typeMessage); // 血盟類型說明
-						writeD(clan.EmblemId); // 盟徽編號
+						WriteD(dataSourceRow.getInt("clan_id")); // 血盟id
+						WriteS(dataSourceRow.getString("clan_name")); // 血盟名稱
+						WriteS(dataSourceRow.getString("crown_name")); // 王族名稱
+						WriteD(0); // 一周最大上線人數
+						WriteC(dataSourceRow.getInt("clan_type")); // 血盟登錄類型
+						L1Clan clan = L1World.Instance.getClan(dataSourceRow.getString("clan_name"));
+						WriteC(clan.HouseId > 0 ? 1 : 0); // 是否有盟屋
+						WriteC(0); // 戰爭狀態
+						WriteC(0); // 尚未使用
+						WriteS(typeMessage); // 血盟類型說明
+						WriteD(clan.EmblemId); // 盟徽編號
 					}
 				}
 				catch (SQLException e)
@@ -176,30 +176,30 @@ namespace LineageServer.Server.Server.serverpackets
 					rs.last();
 					int rows = rs.Row;
 					rs.beforeFirst();
-					writeC(0x00);
-					writeC(rows);
+					WriteC(0x00);
+					WriteC(rows);
 
 					while (rs.next())
 					{
 						PreparedStatement pstm2 = con.prepareStatement("SELECT * FROM clan_recommend_record WHERE clan_id=?");
-						pstm2.setInt(1, rs.getInt("clan_id"));
+						pstm2.setInt(1, dataSourceRow.getInt("clan_id"));
 						ResultSet rs2 = pstm2.executeQuery();
 
 						if (rs2.first())
 						{
-							writeD(rs.getInt("id")); // id
-							writeC(0);
-							writeD(rs2.getInt("clan_id")); // 血盟id
-							writeS(rs2.getString("clan_name")); // 血盟名稱
-							L1Clan clan = L1World.Instance.getClan(rs.getString("clan_name"));
-							writeS(clan.LeaderName); // 王族名稱
-							writeD(0); // 一周最大上線人數
-							writeC(rs2.getInt("clan_type")); // 血盟登錄類型
-							writeC(clan.HouseId > 0 ? 1 : 0); // 是否有盟屋
-							writeC(0); // 戰爭狀態
-							writeC(0); // 尚未使用
-							writeS(rs2.getString("type_message")); // 血盟類型說明
-							writeD(clan.EmblemId); // 盟徽編號
+							WriteD(dataSourceRow.getInt("id")); // id
+							WriteC(0);
+							WriteD(rs2.getInt("clan_id")); // 血盟id
+							WriteS(rs2.getString("clan_name")); // 血盟名稱
+							L1Clan clan = L1World.Instance.getClan(dataSourceRow.getString("clan_name"));
+							WriteS(clan.LeaderName); // 王族名稱
+							WriteD(0); // 一周最大上線人數
+							WriteC(rs2.getInt("clan_type")); // 血盟登錄類型
+							WriteC(clan.HouseId > 0 ? 1 : 0); // 是否有盟屋
+							WriteC(0); // 戰爭狀態
+							WriteC(0); // 尚未使用
+							WriteS(rs2.getString("type_message")); // 血盟類型說明
+							WriteD(clan.EmblemId); // 盟徽編號
 						}
 					}
 				}
@@ -217,7 +217,7 @@ namespace LineageServer.Server.Server.serverpackets
 			case 4: // 邀請名單
 				if (!ClanRecommendTable.Instance.isRecorded(record_id))
 				{
-					writeC(0x82);
+					WriteC(0x82);
 				}
 				else
 				{
@@ -228,12 +228,12 @@ namespace LineageServer.Server.Server.serverpackets
 						pstm.setInt(1, record_id);
 						rs = pstm.executeQuery();
 
-						writeC(0x00);
+						WriteC(0x00);
 
 						if (rs.first())
 						{
-							writeC(rs.getInt("clan_type")); // 血盟類型
-							writeS(rs.getString("type_message"));
+							WriteC(dataSourceRow.getInt("clan_type")); // 血盟類型
+							WriteS(dataSourceRow.getString("type_message"));
 						}
 
 						PreparedStatement pstm2 = con.prepareStatement("SELECT * FROM clan_recommend_apply WHERE clan_id=?");
@@ -243,22 +243,22 @@ namespace LineageServer.Server.Server.serverpackets
 						int rows = rs2.Row;
 						rs2.beforeFirst();
 
-						writeC(rows);
+						WriteC(rows);
 
 						while (rs2.next())
 						{
-							writeD(rs2.getInt("id"));
+							WriteD(rs2.getInt("id"));
 							L1PcInstance pc = L1World.Instance.getPlayer(rs2.getString("char_name"));
 							if (pc == null)
 							{
 								pc = CharacterTable.Instance.restoreCharacter(rs2.getString("char_name"));
 							}
-							writeC(0);
-							writeC(pc.OnlineStatus); // 上線狀態
-							writeS(pc.Name); // 角色明稱
-							writeC(pc.Type); // 職業
-							writeH(pc.Lawful); // 角色 正義值
-							writeH(pc.Level); // 角色 等級
+							WriteC(0);
+							WriteC(pc.OnlineStatus); // 上線狀態
+							WriteS(pc.Name); // 角色明稱
+							WriteC(pc.Type); // 職業
+							WriteH(pc.Lawful); // 角色 正義值
+							WriteH(pc.Level); // 角色 等級
 						}
 					}
 					catch (SQLException e)
@@ -280,13 +280,13 @@ namespace LineageServer.Server.Server.serverpackets
 				break;
 			case 5: // 申請加入
 			case 6: // 刪除申請
-				writeC(0x00);
-				writeD(record_id);
-				writeC(acceptType);
+				WriteC(0x00);
+				WriteD(record_id);
+				WriteC(acceptType);
 				break;
 			}
-			writeD(0);
-			writeC(0);
+			WriteD(0);
+			WriteC(0);
 		}
 
 
@@ -296,7 +296,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

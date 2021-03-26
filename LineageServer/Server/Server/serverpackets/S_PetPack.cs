@@ -18,20 +18,20 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1PetInstance pet, L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_CHARPACK);
-			writeH(pet.X);
-			writeH(pet.Y);
-			writeD(pet.Id);
-			writeH(pet.GfxId); // SpriteID in List.spr
-			writeC(pet.Status); // Modes in List.spr
-			writeC(pet.Heading);
-			writeC(pet.ChaLightSize); // (Bright) - 0~15
-			writeC(pet.MoveSpeed); // スピード - 0:normal, 1:fast,
+			WriteC(Opcodes.S_OPCODE_CHARPACK);
+			WriteH(pet.X);
+			WriteH(pet.Y);
+			WriteD(pet.Id);
+			WriteH(pet.GfxId); // SpriteID in List.spr
+			WriteC(pet.Status); // Modes in List.spr
+			WriteC(pet.Heading);
+			WriteC(pet.ChaLightSize); // (Bright) - 0~15
+			WriteC(pet.MoveSpeed); // スピード - 0:normal, 1:fast,
 			// 2:slow
-			writeExp(pet.Exp);
-			writeH(pet.TempLawful);
-			writeS(pet.Name);
-			writeS(pet.Title);
+			WriteExp(pet.Exp);
+			WriteH(pet.TempLawful);
+			WriteS(pet.Name);
+			WriteS(pet.Title);
 			int status = 0;
 			if (pet.Poison != null)
 			{ // 毒状態
@@ -40,25 +40,25 @@ namespace LineageServer.Server.Server.serverpackets
 					status |= STATUS_POISON;
 				}
 			}
-			writeC(status);
-			writeD(0); // ??
-			writeS(null); // ??
-			writeS(pet.Master != null ? pet.Master.Name : "");
-			writeC(0); // ??
+			WriteC(status);
+			WriteD(0); // ??
+			WriteS(null); // ??
+			WriteS(pet.Master != null ? pet.Master.Name : "");
+			WriteC(0); // ??
 			// HPのパーセント
 			if ((pet.Master != null) && (pet.Master.Id == pc.Id))
 			{
-				writeC(100 * pet.CurrentHp / pet.MaxHp);
+				WriteC(100 * pet.CurrentHp / pet.MaxHp);
 			}
 			else
 			{
-				writeC(0xFF);
+				WriteC(0xFF);
 			}
-			writeC(0);
-			writeC(pet.Level); // PC = 0, Mon = Lv
-			writeC(0);
-			writeC(0xFF);
-			writeC(0xFF);
+			WriteC(0);
+			WriteC(pet.Level); // PC = 0, Mon = Lv
+			WriteC(0);
+			WriteC(0xFF);
+			WriteC(0xFF);
 		}
 
 		public override string Type

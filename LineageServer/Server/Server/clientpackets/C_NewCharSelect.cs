@@ -10,7 +10,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
         private const string C_NEW_CHAR_SELECT = "[C] C_NewCharSelect";
 
-        public C_NewCharSelect(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_NewCharSelect(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             client.SendPacket(new S_PacketBox(S_PacketBox.LOGOUT)); // 2.70C->3.0追加
             client.CharReStart(true);

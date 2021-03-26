@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class ClanWarehouseHistory : DataSourceTable
+    class ClanWarehouseHistory : DataSource
     {
         public const string TableName = "clan_warehouse_history";
         public const string Column_char_name = "char_name";
@@ -11,7 +12,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_clan_id = "clan_id";
         public const string Column_item_count = "item_count";
         public const string Column_type = "type";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.ClanWarehouseHistory; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_char_name, DbType = DbType.String, IsPKey = false},

@@ -14,7 +14,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_CREATE_CLAN = "[C] C_CreateClan";
 
-		public C_CreateClan(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_CreateClan(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance pc = clientthread.ActiveChar;
@@ -23,7 +23,7 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			string s = readS();
+			string s = ReadS();
 			if (pc.Crown)
 			{ // 是王族
 				if (pc.Clanid == 0)

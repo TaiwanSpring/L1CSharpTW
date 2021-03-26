@@ -24,7 +24,7 @@ namespace LineageServer.Server.Server.Model
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1SkillUse = LineageServer.Server.Server.Model.skill.L1SkillUse;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class L1HauntedHouse
 	{

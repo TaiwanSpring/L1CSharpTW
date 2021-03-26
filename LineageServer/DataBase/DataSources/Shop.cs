@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Shop : DataSourceTable
+    class Shop : DataSource
     {
         public const string TableName = "shop";
         public const string Column_npc_id = "npc_id";
@@ -10,7 +11,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_selling_price = "selling_price";
         public const string Column_pack_count = "pack_count";
         public const string Column_purchasing_price = "purchasing_price";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Shop; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_npc_id, DbType = DbType.Int32, IsPKey = true},

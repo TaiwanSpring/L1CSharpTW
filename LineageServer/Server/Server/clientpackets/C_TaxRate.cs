@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 
 		private const string C_TAX_RATE = "[C] C_TaxRate";
-		public C_TaxRate(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_TaxRate(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance player = clientthread.ActiveChar;
@@ -21,8 +21,8 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int i = readD();
-			int j = readC();
+			int i = ReadD();
+			int j = ReadC();
 
 			if (i == player.Id)
 			{

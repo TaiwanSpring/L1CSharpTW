@@ -28,8 +28,8 @@ namespace LineageServer.Server.Server.Model
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using L1Inn = LineageServer.Server.Server.Templates.L1Inn;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1Teleport, L1PcInstance
@@ -88,14 +88,14 @@ namespace LineageServer.Server.Server.Model
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					int srcMapId = rs.getInt("src_mapid");
-					int srcX = rs.getInt("src_x");
-					int srcY = rs.getInt("src_y");
+					int srcMapId = dataSourceRow.getInt("src_mapid");
+					int srcX = dataSourceRow.getInt("src_x");
+					int srcY = dataSourceRow.getInt("src_y");
 					string key = (new StringBuilder()).Append(srcMapId).Append(srcX).Append(srcY).ToString();
-					int newX = rs.getInt("new_x");
-					int newY = rs.getInt("new_y");
-					int newMapId = rs.getInt("new_mapid");
-					int heading = rs.getInt("new_heading");
+					int newX = dataSourceRow.getInt("new_x");
+					int newY = dataSourceRow.getInt("new_y");
+					int newMapId = dataSourceRow.getInt("new_mapid");
+					int heading = dataSourceRow.getInt("new_heading");
 					DungeonType dungeonType = DungeonType.NONE;
 					if ((((srcX == 33423) || (srcX == 33424) || (srcX == 33425) || (srcX == 33426)) && (srcY == 33502) && (srcMapId == 4)) || (((srcX == 32733) || (srcX == 32734) || (srcX == 32735) || (srcX == 32736)) && (srcY == 32794) && (srcMapId == 83)))
 					{ // FI行きの船->ハイネ船着場

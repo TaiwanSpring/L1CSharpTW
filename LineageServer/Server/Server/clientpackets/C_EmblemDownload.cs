@@ -11,9 +11,9 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_EMBLEMDOWNLOAD = "[C] C_EmblemDownload";
 
-		public C_EmblemDownload(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_EmblemDownload(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
-			int emblemId = readD();
+			int emblemId = ReadD();
 
 			L1PcInstance pc = clientthread.ActiveChar;
 			if (pc == null)

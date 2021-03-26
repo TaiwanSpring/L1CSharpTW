@@ -23,31 +23,31 @@ namespace LineageServer.Server.Server.serverpackets
 		public S_Trap(L1TrapInstance trap, string name)
 		{
 
-			writeC(Opcodes.S_OPCODE_DROPITEM);
-			writeH(trap.X);
-			writeH(trap.Y);
-			writeD(trap.Id);
-			writeH(7); // adena
-			writeC(0);
-			writeC(0);
-			writeC(0);
-			writeC(0);
-			writeD(0);
-			writeC(0);
-			writeC(0);
-			writeS(name);
-			writeC(0);
-			writeD(0);
-			writeD(0);
-			writeC(255);
-			writeC(0);
-			writeC(0);
-			writeC(0);
-			writeH(65535);
-			// writeD(0x401799a);
-			writeD(0);
-			writeC(8);
-			writeC(0);
+			WriteC(Opcodes.S_OPCODE_DROPITEM);
+			WriteH(trap.X);
+			WriteH(trap.Y);
+			WriteD(trap.Id);
+			WriteH(7); // adena
+			WriteC(0);
+			WriteC(0);
+			WriteC(0);
+			WriteC(0);
+			WriteD(0);
+			WriteC(0);
+			WriteC(0);
+			WriteS(name);
+			WriteC(0);
+			WriteD(0);
+			WriteD(0);
+			WriteC(255);
+			WriteC(0);
+			WriteC(0);
+			WriteC(0);
+			WriteH(65535);
+			// WriteD(0x401799a);
+			WriteD(0);
+			WriteC(8);
+			WriteC(0);
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:

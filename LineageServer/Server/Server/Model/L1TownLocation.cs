@@ -17,7 +17,7 @@ namespace LineageServer.Server.Server.Model
 	using TownTable = LineageServer.Server.Server.DataSources.TownTable;
 	using L1Town = LineageServer.Server.Server.Templates.L1Town;
 	using Point = LineageServer.Server.Server.Types.Point;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1CastleLocation

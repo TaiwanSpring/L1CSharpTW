@@ -15,7 +15,7 @@ namespace LineageServer.Server.Server.Clientpackets
 	{
 
 		private const string C_DRAWAL = "[C] C_Drawal";
-		public C_Drawal(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+		public C_Drawal(byte[] abyte0, ClientThread clientthread) : base(abyte0)
 		{
 
 			L1PcInstance pc = clientthread.ActiveChar;
@@ -24,8 +24,8 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			readD();
-			int j = Math.Abs(readD());
+			ReadD();
+			int j = Math.Abs(ReadD());
 
 			L1Clan clan = L1World.Instance.getClan(pc.Clanname);
 			if (clan != null)

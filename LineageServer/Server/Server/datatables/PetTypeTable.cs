@@ -19,9 +19,9 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1PetType = LineageServer.Server.Server.Templates.L1PetType;
-	using IntRange = LineageServer.Server.Server.utils.IntRange;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using IntRange = LineageServer.Server.Server.Utils.IntRange;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class PetTypeTable
 	{
@@ -66,22 +66,22 @@ namespace LineageServer.Server.Server.DataSources
 
 				while (rs.next())
 				{
-					int baseNpcId = rs.getInt("BaseNpcId");
-					string name = rs.getString("Name");
-					int itemIdForTaming = rs.getInt("ItemIdForTaming");
-					int hpUpMin = rs.getInt("HpUpMin");
-					int hpUpMax = rs.getInt("HpUpMax");
-					int mpUpMin = rs.getInt("MpUpMin");
-					int mpUpMax = rs.getInt("MpUpMax");
-					int evolvItemId = rs.getInt("EvolvItemId");
-					int npcIdForEvolving = rs.getInt("NpcIdForEvolving");
+					int baseNpcId = dataSourceRow.getInt("BaseNpcId");
+					string name = dataSourceRow.getString("Name");
+					int itemIdForTaming = dataSourceRow.getInt("ItemIdForTaming");
+					int hpUpMin = dataSourceRow.getInt("HpUpMin");
+					int hpUpMax = dataSourceRow.getInt("HpUpMax");
+					int mpUpMin = dataSourceRow.getInt("MpUpMin");
+					int mpUpMax = dataSourceRow.getInt("MpUpMax");
+					int evolvItemId = dataSourceRow.getInt("EvolvItemId");
+					int npcIdForEvolving = dataSourceRow.getInt("NpcIdForEvolving");
 					int[] msgIds = new int[5];
 					for (int i = 0; i < 5; i++)
 					{
-						msgIds[i] = rs.getInt("MessageId" + (i + 1));
+						msgIds[i] = dataSourceRow.getInt("MessageId" + (i + 1));
 					}
-					int defyMsgId = rs.getInt("DefyMessageId");
-					bool canUseEquipment = rs.getBoolean("canUseEquipment");
+					int defyMsgId = dataSourceRow.getInt("DefyMessageId");
+					bool canUseEquipment = dataSourceRow.getBoolean("canUseEquipment");
 					IntRange hpUpRange = new IntRange(hpUpMin, hpUpMax);
 					IntRange mpUpRange = new IntRange(mpUpMin, mpUpMax);
 					_types[baseNpcId] = new L1PetType(baseNpcId, name, itemIdForTaming, hpUpRange, mpUpRange, evolvItemId, npcIdForEvolving, msgIds, defyMsgId, canUseEquipment);

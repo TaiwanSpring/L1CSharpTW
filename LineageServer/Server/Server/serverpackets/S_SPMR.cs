@@ -36,17 +36,17 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_SPMR);
+			WriteC(Opcodes.S_OPCODE_SPMR);
 			// ウィズダムポーションのSPはS_SkillBrave送信時に更新されるため差し引いておく
 			if (pc.hasSkillEffect(L1SkillId.STATUS_WISDOM_POTION))
 			{
-				writeC(pc.Sp - pc.TrueSp - 2); // 装備増加したSP
+				WriteC(pc.Sp - pc.TrueSp - 2); // 装備増加したSP
 			}
 			else
 			{
-				writeC(pc.Sp - pc.TrueSp); // 装備増加したSP
+				WriteC(pc.Sp - pc.TrueSp); // 装備増加したSP
 			}
-			writeH(pc.TrueMr - pc.BaseMr); // 装備や魔法で増加したMR
+			WriteH(pc.TrueMr - pc.BaseMr); // 装備や魔法で増加したMR
 		}
 
 		public override sbyte[] Content

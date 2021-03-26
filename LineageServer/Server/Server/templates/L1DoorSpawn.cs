@@ -5,8 +5,8 @@ namespace LineageServer.Server.Server.Templates
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1Location = LineageServer.Server.Server.Model.L1Location;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class L1DoorSpawn
 	{
@@ -120,14 +120,14 @@ namespace LineageServer.Server.Server.Templates
 				rs = pstm.executeQuery();
 				while (rs.next())
 				{
-					int id = rs.getInt("id");
-					int gfxId = rs.getInt("gfxid");
-					int x = rs.getInt("locx");
-					int y = rs.getInt("locy");
-					int mapId = rs.getInt("mapid");
-					int hp = rs.getInt("hp");
-					int keeper = rs.getInt("keeper");
-					bool isOpening = rs.getBoolean("isOpening");
+					int id = dataSourceRow.getInt("id");
+					int gfxId = dataSourceRow.getInt("gfxid");
+					int x = dataSourceRow.getInt("locx");
+					int y = dataSourceRow.getInt("locy");
+					int mapId = dataSourceRow.getInt("mapid");
+					int hp = dataSourceRow.getInt("hp");
+					int keeper = dataSourceRow.getInt("keeper");
+					bool isOpening = dataSourceRow.getBoolean("isOpening");
 					L1DoorGfx gfx = L1DoorGfx.findByGfxId(gfxId);
 					L1DoorSpawn spawn = new L1DoorSpawn(id, gfx, x, y, mapId, hp, keeper, isOpening);
 					result.Add(spawn);

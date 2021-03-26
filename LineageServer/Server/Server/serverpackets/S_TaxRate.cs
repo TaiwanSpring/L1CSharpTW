@@ -24,10 +24,10 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_TaxRate(int objecId)
 		{
-			writeC(Opcodes.S_OPCODE_TAXRATE);
-			writeD(objecId);
-			writeC(10); // 10%~50%
-			writeC(50);
+			WriteC(Opcodes.S_OPCODE_TAXRATE);
+			WriteD(objecId);
+			WriteC(10); // 10%~50%
+			WriteC(50);
 		}
 
 		public override sbyte[] Content

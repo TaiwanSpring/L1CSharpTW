@@ -74,22 +74,22 @@ namespace LineageServer.Server.Server.serverpackets
 
 			int newheading = calcheading(cha.X, cha.Y, x, y);
 			cha.Heading = newheading;
-			writeC(Opcodes.S_OPCODE_ATTACKPACKET);
-			writeC(data[0]); // actionId
-			writeD(withCastMotion ? cha.Id : 0);
-			writeD(targetobj);
-			writeH(data[1]); // dmg
-			writeC(newheading);
-			writeD(_sequentialNumber.incrementAndGet()); // 番号がダブらないように送る。
-			writeH(data[2]); // spellgfx
-			writeC(data[3]); // use_type 0:弓箭 6:遠距離魔法 8:遠距離範圍魔法
-			writeH(cha.X);
-			writeH(cha.Y);
-			writeH(x);
-			writeH(y);
-			writeC(0);
-			writeC(0);
-			writeC(0); // 0:none 2:爪痕 4:雙擊 8:鏡返射
+			WriteC(Opcodes.S_OPCODE_ATTACKPACKET);
+			WriteC(data[0]); // actionId
+			WriteD(withCastMotion ? cha.Id : 0);
+			WriteD(targetobj);
+			WriteH(data[1]); // dmg
+			WriteC(newheading);
+			WriteD(_sequentialNumber.incrementAndGet()); // 番号がダブらないように送る。
+			WriteH(data[2]); // spellgfx
+			WriteC(data[3]); // use_type 0:弓箭 6:遠距離魔法 8:遠距離範圍魔法
+			WriteH(cha.X);
+			WriteH(cha.Y);
+			WriteH(x);
+			WriteH(y);
+			WriteC(0);
+			WriteC(0);
+			WriteC(0); // 0:none 2:爪痕 4:雙擊 8:鏡返射
 		}
 
 		public override sbyte[] Content
@@ -98,7 +98,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				else
 				{

@@ -22,7 +22,7 @@ namespace LineageServer.Server.Server.serverpackets
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
 	using L1Item = LineageServer.Server.Server.Templates.L1Item;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	//Referenced classes of package l1j.server.server.serverpackets:
 	//ServerBasePacket
@@ -63,17 +63,17 @@ namespace LineageServer.Server.Server.serverpackets
 				rs.beforeFirst(); // 將指標移回最前頭
 				/// <summary>
 				/// 封包部分 </summary>
-				writeC(S_OPCODE_PACKETBOX);
-				writeC(S_PacketBox.HTML_CLAN_WARHOUSE_RECORD);
-				writeD(rowcount); // 總共筆數
+				WriteC(S_OPCODE_PACKETBOX);
+				WriteC(S_PacketBox.HTML_CLAN_WARHOUSE_RECORD);
+				WriteD(rowcount); // 總共筆數
 				while (rs.next())
 				{
-					L1Item item = ItemTable.Instance.getTemplate(ItemTable.Instance.findItemIdByName(rs.getString("item_name")));
-					writeS(rs.getString("char_name"));
-					writeC(rs.getInt("type")); // 領出: 1, 存入: 0
-					writeS(item.UnidentifiedNameId); // 物品名稱
-					writeD(rs.getInt("item_count")); // 物品數量
-					writeD((int)((DateTimeHelper.CurrentUnixTimeMillis() - rs.getTimestamp("record_time").Time) / 60000)); // 過了幾分鐘
+					L1Item item = ItemTable.Instance.getTemplate(ItemTable.Instance.findItemIdByName(dataSourceRow.getString("item_name")));
+					WriteS(dataSourceRow.getString("char_name"));
+					WriteC(dataSourceRow.getInt("type")); // 領出: 1, 存入: 0
+					WriteS(item.UnidentifiedNameId); // 物品名稱
+					WriteD(dataSourceRow.getInt("item_count")); // 物品數量
+					WriteD((int)((DateTimeHelper.CurrentUnixTimeMillis() - dataSourceRow.getTimestamp("record_time").Time) / 60000)); // 過了幾分鐘
 				}
 			}
 			catch (SQLException e)
@@ -97,7 +97,7 @@ namespace LineageServer.Server.Server.serverpackets
 			{
 				if (_byte == null)
 				{
-					_byte = _bao.toByteArray();
+					_byte = memoryStream.toByteArray();
 				}
 				return _byte;
 			}

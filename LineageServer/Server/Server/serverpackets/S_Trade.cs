@@ -23,8 +23,8 @@ namespace LineageServer.Server.Server.serverpackets
 	{
 		public S_Trade(string name)
 		{
-			writeC(Opcodes.S_OPCODE_TRADE);
-			writeS(name);
+			WriteC(Opcodes.S_OPCODE_TRADE);
+			WriteS(name);
 		}
 
 		public override sbyte[] Content

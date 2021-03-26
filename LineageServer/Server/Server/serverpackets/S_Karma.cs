@@ -24,9 +24,9 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_Karma(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_PACKETBOX);
-			writeC(0x57);
-			writeD(pc.Karma);
+			WriteC(Opcodes.S_OPCODE_PACKETBOX);
+			WriteC(0x57);
+			WriteD(pc.Karma);
 		}
 
 		public override sbyte[] Content

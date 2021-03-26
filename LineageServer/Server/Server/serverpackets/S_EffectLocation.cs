@@ -49,11 +49,11 @@ namespace LineageServer.Server.Server.serverpackets
 		/// <param name="gfxId"> - 表示するエフェクトのID </param>
 		public S_EffectLocation(int x, int y, int gfxId)
 		{
-			writeC(Opcodes.S_OPCODE_EFFECTLOCATION);
-			writeH(x);
-			writeH(y);
-			writeH(gfxId);
-			writeC(0);
+			WriteC(Opcodes.S_OPCODE_EFFECTLOCATION);
+			WriteH(x);
+			WriteH(y);
+			WriteH(gfxId);
+			WriteC(0);
 		}
 
 		public override sbyte[] Content

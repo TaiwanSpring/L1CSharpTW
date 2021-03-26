@@ -1,5 +1,5 @@
 ﻿using LineageServer.Server.Server.Model.Instance;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 
 namespace LineageServer.Server.Server.Clientpackets
 {
@@ -11,7 +11,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_TELEPORT = "[C] C_Teleport";
 
-        public C_Teleport(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_Teleport(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
             L1PcInstance pc = clientthread.ActiveChar;
             if (pc == null)

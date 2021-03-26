@@ -1,4 +1,4 @@
-﻿using LineageServer.Server.Server.utils;
+﻿using LineageServer.Server.Server.Utils;
 using System;
 namespace LineageServer.Server.Server.Model.Gametime
 {

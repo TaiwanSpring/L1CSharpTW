@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1RaceTicket = LineageServer.Server.Server.Templates.L1RaceTicket;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	// Referenced classes of package l1j.server.server:
 	// IdFactory
@@ -69,12 +69,12 @@ namespace LineageServer.Server.Server.DataSources
 				while (rs.next())
 				{
 					L1RaceTicket ticket = new L1RaceTicket();
-					int itemobjid = rs.getInt(1);
+					int itemobjid = dataSourceRow.getInt(1);
 					ticket.set_itemobjid(itemobjid);
-					ticket.set_round(rs.getInt(2));
-					ticket.set_allotment_percentage(rs.getInt(3));
-					ticket.set_victory(rs.getInt(4));
-					ticket.set_runner_num(rs.getInt(5));
+					ticket.set_round(dataSourceRow.getInt(2));
+					ticket.set_allotment_percentage(dataSourceRow.getInt(3));
+					ticket.set_victory(dataSourceRow.getInt(4));
+					ticket.set_runner_num(dataSourceRow.getInt(5));
 
 					if (ticket.get_round() > temp)
 					{

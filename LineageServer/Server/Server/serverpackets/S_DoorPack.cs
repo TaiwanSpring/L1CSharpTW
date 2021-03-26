@@ -18,36 +18,36 @@ namespace LineageServer.Server.Server.serverpackets
 
         private void buildPacket(L1DoorInstance door)
         {
-            writeC(Opcodes.S_OPCODE_CHARPACK);
-            writeH(door.X);
-            writeH(door.Y);
-            writeD(door.Id);
-            writeH(door.GfxId);
+            WriteC(Opcodes.S_OPCODE_CHARPACK);
+            WriteH(door.X);
+            WriteH(door.Y);
+            WriteD(door.Id);
+            WriteH(door.GfxId);
             int doorStatus = door.Status;
             int openStatus = door.OpenStatus;
             if (door.Dead)
             {
-                writeC(doorStatus);
+                WriteC(doorStatus);
             }
             else if (openStatus == ActionCodes.ACTION_Open)
             {
-                writeC(openStatus);
+                WriteC(openStatus);
             }
             else if ((door.MaxHp > 1) && (doorStatus != 0))
             {
-                writeC(doorStatus);
+                WriteC(doorStatus);
             }
             else
             {
-                writeC(openStatus);
+                WriteC(openStatus);
             }
-            writeC(0);
-            writeC(0);
-            writeC(0);
-            writeD(1);
-            writeH(0);
-            writeS(null);
-            writeS(null);
+            WriteC(0);
+            WriteC(0);
+            WriteC(0);
+            WriteD(1);
+            WriteH(0);
+            WriteS(null);
+            WriteS(null);
             int status = 0;
             if (door.Poison != null)
             { // 毒状態
@@ -56,17 +56,17 @@ namespace LineageServer.Server.Server.serverpackets
                     status |= STATUS_POISON;
                 }
             }
-            writeC(status);
-            writeD(0);
-            writeS(null);
-            writeS(null);
-            writeC(0);
-            writeC(0xFF);
-            writeC(0);
-            writeC(0);
-            writeC(0);
-            writeC(0xFF);
-            writeC(0xFF);
+            WriteC(status);
+            WriteD(0);
+            WriteS(null);
+            WriteS(null);
+            WriteC(0);
+            WriteC(0xFF);
+            WriteC(0);
+            WriteC(0);
+            WriteC(0);
+            WriteC(0xFF);
+            WriteC(0xFF);
         }
 
         public override string Type

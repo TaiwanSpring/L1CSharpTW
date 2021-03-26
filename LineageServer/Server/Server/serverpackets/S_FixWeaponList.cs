@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.serverpackets
 	using Opcodes = LineageServer.Server.Server.Opcodes;
 	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	// Referenced classes of package l1j.server.server.serverpackets:
 	// ServerBasePacket, S_SystemMessage
@@ -37,8 +37,8 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(L1PcInstance pc)
 		{
-			writeC(Opcodes.S_OPCODE_SELECTLIST);
-			writeD(0x000000c8); // Price
+			WriteC(Opcodes.S_OPCODE_SELECTLIST);
+			WriteD(0x000000c8); // Price
 
 			IList<L1ItemInstance> weaponList = Lists.newList();
 			IList<L1ItemInstance> itemList = pc.Inventory.Items;
@@ -57,13 +57,13 @@ namespace LineageServer.Server.Server.serverpackets
 				}
 			}
 
-			writeH(weaponList.Count); // Weapon Amount
+			WriteH(weaponList.Count); // Weapon Amount
 
 			foreach (L1ItemInstance weapon in weaponList)
 			{
 
-				writeD(weapon.Id); // Item ID
-				writeC(weapon.get_durability()); // Fix Level
+				WriteD(weapon.Id); // Item ID
+				WriteC(weapon.get_durability()); // Fix Level
 			}
 		}
 

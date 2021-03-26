@@ -11,7 +11,7 @@ using LineageServer.Server.Server.serverpackets;
 using LineageServer.Server.Server.storage;
 using LineageServer.Server.Server.Templates;
 using LineageServer.Server.Server.Types;
-using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.Utils;
 using System;
 using System.Text;
 namespace LineageServer.Server.Server.Clientpackets
@@ -24,7 +24,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private const string C_ITEM_USE = "[C] C_ItemUSe";
         private static ILogger _log = Logger.getLogger(nameof(C_ItemUSe));
-        public C_ItemUSe(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_ItemUSe(byte[] abyte0, ClientThread client) : base(abyte0)
         {
 
             L1PcInstance pc = client.ActiveChar;
@@ -33,7 +33,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int itemObjid = readD();
+            int itemObjid = ReadD();
 
             L1ItemInstance l1iteminstance = pc.Inventory.getItem(itemObjid);
 
@@ -93,7 +93,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 case 40096:
                 case 49308:
                 case 140088: // 變形卷軸
-                    s = readS();
+                    s = ReadS();
                     break;
                 case L1ItemId.SCROLL_OF_ENCHANT_ARMOR:
                 case L1ItemId.SCROLL_OF_ENCHANT_WEAPON:
@@ -189,15 +189,15 @@ namespace LineageServer.Server.Server.Clientpackets
                 case 47052:
                 case 49198:
                 case 49199:
-                    l = readD();
+                    l = ReadD();
                     break;
                 case 140100:
                 case 40100:
                 case 40099:
                 case 40086:
                 case 40863: // 瞬間移動卷軸
-                    bmapid = readH();
-                    btele = readD();
+                    bmapid = ReadH();
+                    btele = ReadD();
                     // pc.sendPackets(new S_Paralysis(S_Paralysis.TYPE_TELEPORT_UNLOCK, false));
                     break;
                 case 40090:
@@ -205,49 +205,49 @@ namespace LineageServer.Server.Server.Clientpackets
                 case 40092:
                 case 40093:
                 case 40094: // 空的魔法卷軸(Lv1)～(Lv5)
-                    blanksc_skillid = readC();
+                    blanksc_skillid = ReadC();
                     break;
                 case 40870:
                 case 40879: // spell_buff
-                    spellsc_objid = readD();
+                    spellsc_objid = ReadD();
                     break;
                 case 40089:
                 case 140089: // 復活卷軸
-                    resid = readD();
+                    resid = ReadD();
                     break;
                 case 40310:
                 case 40311:
                 case 40730:
                 case 40731:
                 case 40732: // 信紙
-                    letterCode = readH();
-                    letterReceiver = readS();
-                    letterText = readByte();
+                    letterCode = ReadH();
+                    letterReceiver = ReadS();
+                    letterText = ReadByte();
                     break;
                 case 41293:
                 case 41294: // 釣竿
-                    fishX = readH();
-                    fishY = readH();
+                    fishX = ReadH();
+                    fishY = ReadH();
                     break;
                 default:
                     if ((use_type == 30))
                     { // spell_buff
-                        spellsc_objid = readD();
+                        spellsc_objid = ReadD();
                     }
                     else if ((use_type == 5) || (use_type == 17))
                     { // spell_long、spell_short
-                        spellsc_objid = readD();
-                        spellsc_x = readH();
-                        spellsc_y = readH();
+                        spellsc_objid = ReadD();
+                        spellsc_x = ReadH();
+                        spellsc_y = ReadH();
                     }
                     else if ((itemId >= 41255) && (itemId <= 41259))
                     { // 料理書
-                        cookStatus = readC();
-                        cookNo = readC();
+                        cookStatus = ReadC();
+                        cookNo = ReadC();
                     }
                     else
                     {
-                        l = readC();
+                        l = ReadC();
                     }
                     break;
             }
@@ -3498,7 +3498,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     { // 太古の玉爾
                         if ((pc != null) && (l1iteminstance != null))
                         {
-                            Account account = Account.load(pc.AccountName);
+                            Account account = Account.Load(pc.AccountName);
                             if (account == null)
                             {
                                 pc.sendPackets(new S_ServerMessage(79)); // \f1沒有任何事情發生。
@@ -3520,7 +3520,7 @@ namespace LineageServer.Server.Server.Clientpackets
                                 characterSlot += 1;
                             }
                             account.CharacterSlot = characterSlot;
-                            Account.updateCharacterSlot(account);
+                            Account.UpdateCharacterSlot(account);
                             pc.Inventory.removeItem(l1iteminstance, 1);
                         }
                         else

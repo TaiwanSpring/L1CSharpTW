@@ -16,9 +16,9 @@ namespace LineageServer.Server.Server.Clientpackets
             return ((obj is L1BoardInstance) || (obj is L1AuctionBoardInstance));
         }
 
-        public C_Board(sbyte[] abyte0, ClientThread client) : base(abyte0)
+        public C_Board(byte[] abyte0, ClientThread client) : base(abyte0)
         {
-            int objectId = readD();
+            int objectId = ReadD();
             L1Object obj = L1World.Instance.findObject(objectId);
             if (!isBoardInstance(obj))
             {

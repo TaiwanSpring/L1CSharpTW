@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class ClanMembers : DataSourceTable
+    class ClanMembers : DataSource
     {
         public const string TableName = "clan_members";
         public const string Column_char_name = "char_name";
@@ -9,7 +10,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_clan_id = "clan_id";
         public const string Column_index_id = "index_id";
         public const string Column_char_id = "char_id";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.ClanMembers; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_char_name, DbType = DbType.String, IsPKey = false},

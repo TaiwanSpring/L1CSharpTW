@@ -40,27 +40,27 @@ namespace LineageServer.Server.Server.serverpackets
 			// timeは1加算すると3:02（182分）進む
 			int time = (int)(diff / 182);
 
-			// writeDの直前のwriteCで時間の調節ができる
+			// WriteDの直前のWriteCで時間の調節ができる
 			// 0.7倍した時間だけ縮まるが
 			// 1つ調整するとその次の時間が広がる？
-			writeC(Opcodes.S_OPCODE_WARTIME);
-			writeH(6); // リストの数（6以上は無効）
-			writeS(Config.TIME_ZONE); // 時間の後ろの（）内に表示される文字列
-			writeC(0); // ?
-			writeC(0); // ?
-			writeC(0);
-			writeD(time);
-			writeC(0);
-			writeD(time - 1);
-			writeC(0);
-			writeD(time - 2);
-			writeC(0);
-			writeD(time - 3);
-			writeC(0);
-			writeD(time - 4);
-			writeC(0);
-			writeD(time - 5);
-			writeC(0);
+			WriteC(Opcodes.S_OPCODE_WARTIME);
+			WriteH(6); // リストの数（6以上は無効）
+			WriteS(Config.TIME_ZONE); // 時間の後ろの（）内に表示される文字列
+			WriteC(0); // ?
+			WriteC(0); // ?
+			WriteC(0);
+			WriteD(time);
+			WriteC(0);
+			WriteD(time - 1);
+			WriteC(0);
+			WriteD(time - 2);
+			WriteC(0);
+			WriteD(time - 3);
+			WriteC(0);
+			WriteD(time - 4);
+			WriteC(0);
+			WriteD(time - 5);
+			WriteC(0);
 		}
 
 		public override sbyte[] Content

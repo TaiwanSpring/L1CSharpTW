@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.DataSources
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1BossSpawn = LineageServer.Server.Server.Model.L1BossSpawn;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class BossSpawnTable
 	{
@@ -47,7 +47,7 @@ namespace LineageServer.Server.Server.DataSources
 				L1Npc template1;
 				while (rs.next())
 				{
-					int npcTemplateId = rs.getInt("npc_id");
+					int npcTemplateId = dataSourceRow.getInt("npc_id");
 					template1 = NpcTable.Instance.getTemplate(npcTemplateId);
 
 					if (template1 == null)
@@ -58,27 +58,27 @@ namespace LineageServer.Server.Server.DataSources
 					else
 					{
 						spawnDat = new L1BossSpawn(template1);
-						spawnDat.Id = rs.getInt("id");
+						spawnDat.Id = dataSourceRow.getInt("id");
 						spawnDat.Npcid = npcTemplateId;
-						spawnDat.Location = rs.getString("location");
-						spawnDat.CycleType = rs.getString("cycle_type");
-						spawnDat.Amount = rs.getInt("count");
-						spawnDat.GroupId = rs.getInt("group_id");
-						spawnDat.LocX = rs.getInt("locx");
-						spawnDat.LocY = rs.getInt("locy");
-						spawnDat.Randomx = rs.getInt("randomx");
-						spawnDat.Randomy = rs.getInt("randomy");
-						spawnDat.LocX1 = rs.getInt("locx1");
-						spawnDat.LocY1 = rs.getInt("locy1");
-						spawnDat.LocX2 = rs.getInt("locx2");
-						spawnDat.LocY2 = rs.getInt("locy2");
-						spawnDat.Heading = rs.getInt("heading");
-						spawnDat.MapId = rs.getShort("mapid");
-						spawnDat.RespawnScreen = rs.getBoolean("respawn_screen");
-						spawnDat.MovementDistance = rs.getInt("movement_distance");
-						spawnDat.Rest = rs.getBoolean("rest");
-						spawnDat.SpawnType = rs.getInt("spawn_type");
-						spawnDat.Percentage = rs.getInt("percentage");
+						spawnDat.Location = dataSourceRow.getString("location");
+						spawnDat.CycleType = dataSourceRow.getString("cycle_type");
+						spawnDat.Amount = dataSourceRow.getInt("count");
+						spawnDat.GroupId = dataSourceRow.getInt("group_id");
+						spawnDat.LocX = dataSourceRow.getInt("locx");
+						spawnDat.LocY = dataSourceRow.getInt("locy");
+						spawnDat.Randomx = dataSourceRow.getInt("randomx");
+						spawnDat.Randomy = dataSourceRow.getInt("randomy");
+						spawnDat.LocX1 = dataSourceRow.getInt("locx1");
+						spawnDat.LocY1 = dataSourceRow.getInt("locy1");
+						spawnDat.LocX2 = dataSourceRow.getInt("locx2");
+						spawnDat.LocY2 = dataSourceRow.getInt("locy2");
+						spawnDat.Heading = dataSourceRow.getInt("heading");
+						spawnDat.MapId = dataSourceRow.getShort("mapid");
+						spawnDat.RespawnScreen = dataSourceRow.getBoolean("respawn_screen");
+						spawnDat.MovementDistance = dataSourceRow.getInt("movement_distance");
+						spawnDat.Rest = dataSourceRow.getBoolean("rest");
+						spawnDat.SpawnType = dataSourceRow.getInt("spawn_type");
+						spawnDat.Percentage = dataSourceRow.getInt("percentage");
 
 						spawnDat.Name = template1.get_name();
 

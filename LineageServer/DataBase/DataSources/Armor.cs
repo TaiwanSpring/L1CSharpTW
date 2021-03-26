@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Armor : DataSourceTable
+    class Armor : DataSource
     {
         public const string TableName = "armor";
         public const string Column_name = "name";
@@ -59,7 +60,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_regist_sustain = "regist_sustain";
         public const string Column_regist_blind = "regist_blind";
         public const string Column_grade = "grade";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Armor; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},

@@ -8,7 +8,7 @@ namespace LineageServer.Server.Server.Clientpackets
     {
         private const string C_KEEP_ALIVE = "[C] C_KeepALIVE";
 
-        public C_KeepALIVE(sbyte[] decrypt, ClientThread client) : base(decrypt)
+        public C_KeepALIVE(byte[] decrypt, ClientThread client) : base(decrypt)
         {
             // XXX:GameTimeを送信（3バイトのデータを送って来ているのでそれを何かに利用しないといけないかもしれない）
             // L1PcInstance pc = client.getActiveChar();

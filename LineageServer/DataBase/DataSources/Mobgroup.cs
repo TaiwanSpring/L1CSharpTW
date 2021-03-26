@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class Mobgroup : DataSourceTable
+    class Mobgroup : DataSource
     {
         public const string TableName = "mobgroup";
         public const string Column_note = "note";
@@ -22,7 +23,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_minion6_count = "minion6_count";
         public const string Column_minion7_id = "minion7_id";
         public const string Column_minion7_count = "minion7_count";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Mobgroup; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},

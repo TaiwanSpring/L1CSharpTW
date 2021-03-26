@@ -23,8 +23,8 @@ namespace LineageServer.Server.Server.serverpackets
 	{
 		public S_TradeStatus(int type)
 		{
-			writeC(Opcodes.S_OPCODE_TRADESTATUS);
-			writeC(type); // 0:取引完了 1:取引キャンセル
+			WriteC(Opcodes.S_OPCODE_TRADESTATUS);
+			WriteC(type); // 0:取引完了 1:取引キャンセル
 		}
 
 		public override sbyte[] Content

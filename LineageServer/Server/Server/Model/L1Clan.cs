@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.Model
 {
 
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
+	using Lists = LineageServer.Server.Server.Utils.collections.Lists;
 
 	public class L1Clan
 	{

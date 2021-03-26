@@ -20,10 +20,10 @@ namespace LineageServer.Server.Server.serverpackets
 	{
 		public S_GMHtml(int _objid, string html)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(_objid);
-			writeS("hsiw");
-			writeS(html);
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(_objid);
+			WriteS("hsiw");
+			WriteS(html);
 		}
 
 		public override sbyte[] Content

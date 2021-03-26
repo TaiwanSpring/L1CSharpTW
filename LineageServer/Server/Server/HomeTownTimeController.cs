@@ -26,7 +26,7 @@ namespace LineageServer.Server.Server
 	using IL1GameTimeListener = LineageServer.Server.Server.Model.Gametime.IL1GameTimeListener;
 	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using S_PacketBox = LineageServer.Server.Server.serverpackets.S_PacketBox;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class HomeTownTimeController
 	{

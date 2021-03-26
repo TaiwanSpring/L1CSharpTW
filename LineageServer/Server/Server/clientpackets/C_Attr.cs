@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
         private static readonly int[] HEADING_TABLE_Y = new int[] { -1, -1, 0, 1, 1, 1, 0, -1 };
 
-        public C_Attr(sbyte[] abyte0, ClientThread clientthread) : base(abyte0)
+        public C_Attr(byte[] abyte0, ClientThread clientthread) : base(abyte0)
         {
 
             L1PcInstance pc = clientthread.ActiveChar;
@@ -27,7 +27,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 return;
             }
 
-            int i = readH(); // 3.51C未知的功能
+            int i = ReadH(); // 3.51C未知的功能
             int attrcode;
 
             if (i == 479)
@@ -38,8 +38,8 @@ namespace LineageServer.Server.Server.Clientpackets
             {
                 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
                 //ORIGINAL LINE: @SuppressWarnings("unused") int count = readD();
-                int count = readD(); // 紀錄世界中發送YesNo的次數
-                attrcode = readH();
+                int count = ReadD(); // 紀錄世界中發送YesNo的次數
+                attrcode = ReadH();
             }
 
             string name;
@@ -48,7 +48,7 @@ namespace LineageServer.Server.Server.Clientpackets
             switch (attrcode)
             {
                 case 97: // \f3%0%s 想加入你的血盟。你接受嗎。(Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance joinPc = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
                     pc.TempID = 0;
                     if (joinPc != null)
@@ -137,7 +137,7 @@ namespace LineageServer.Server.Server.Clientpackets
                 case 217: // %0 血盟向你的血盟宣戰。是否接受？(Y/N)
                 case 221: // %0 血盟要向你投降。是否接受？(Y/N)
                 case 222: // %0 血盟要結束戰爭。是否接受？(Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance enemyLeader = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
                     if (enemyLeader == null)
                     {
@@ -188,7 +188,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 252: // \f2%0%s 要與你交易。願不願交易？ (Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance trading_partner = (L1PcInstance)L1World.Instance.findObject(pc.TradeID);
                     if (trading_partner != null)
                     {
@@ -208,7 +208,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 321: // 是否要復活？ (Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance resusepc1 = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
                     pc.TempID = 0;
                     if (resusepc1 != null)
@@ -225,7 +225,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 322: // 是否要復活？ (Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance resusepc2 = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
                     pc.TempID = 0;
                     if (resusepc2 != null)
@@ -250,16 +250,16 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 325: // 你想叫牠什麼名字？
-                    c = readC(); // ?
-                    name = readS();
+                    c = ReadC(); // ?
+                    name = ReadS();
                     L1PetInstance pet = (L1PetInstance)L1World.Instance.findObject(pc.TempID);
                     pc.TempID = 0;
                     renamePet(pet, name);
                     break;
 
                 case 512: // 請輸入血盟小屋名稱?
-                    c = readH(); // ?
-                    name = readS();
+                    c = ReadH(); // ?
+                    name = ReadS();
                     int houseId = pc.TempID;
                     pc.TempID = 0;
                     if (name.Length <= 16)
@@ -275,7 +275,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 630: // %0%s 要與你決鬥。你是否同意？(Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance fightPc = (L1PcInstance)L1World.Instance.findObject(pc.FightId);
                     if (c == 0)
                     {
@@ -291,7 +291,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 653: // 若你離婚，你的結婚戒指將會消失。你決定要離婚嗎？(Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance target653 = (L1PcInstance)L1World.Instance.findObject(pc.PartnerId);
                     if (c == 0)
                     { // No
@@ -316,7 +316,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 654: // %0 向你(妳)求婚，你(妳)答應嗎?
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance partner = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
                     pc.TempID = 0;
                     if (partner != null)
@@ -342,7 +342,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
                 // コールクラン
                 case 729: // 盟主正在呼喚你，你要接受他的呼喚嗎？(Y/N)
-                    c = readH();
+                    c = ReadH();
                     if (c == 0)
                     { // No
 
@@ -354,7 +354,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 738: // 恢復經驗值需消耗%0金幣。想要恢復經驗值嗎?
-                    c = readH();
+                    c = ReadH();
                     if ((c == 1) && (pc.ExpRes == 1))
                     { // Yes
                         int cost = 0;
@@ -385,7 +385,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 951: // 您要接受玩家 %0%s 提出的隊伍對話邀請嗎？(Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance chatPc = (L1PcInstance)L1World.Instance.findObject(pc.PartyID);
                     if (chatPc != null)
                     {
@@ -420,7 +420,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 953: // 玩家 %0%s 邀請您加入隊伍？(Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance target = (L1PcInstance)L1World.Instance.findObject(pc.PartyID);
                     if (target != null)
                     {
@@ -459,7 +459,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 954: // 玩家 %0%s 邀請您加入自動分配隊伍？(Y/N)
-                    c = readH();
+                    c = ReadH();
                     L1PcInstance target2 = (L1PcInstance)L1World.Instance.findObject(pc.PartyID);
                     if (target2 != null)
                     {
@@ -499,9 +499,9 @@ namespace LineageServer.Server.Server.Clientpackets
                     break;
 
                 case 479: // 提昇能力值？（str、dex、int、con、wis、cha）
-                    if (readC() == 1)
+                    if (ReadC() == 1)
                     {
-                        string s = readS();
+                        string s = ReadS();
                         if (!(pc.Level - 50 > pc.BonusStats))
                         {
                             return;
@@ -602,7 +602,7 @@ namespace LineageServer.Server.Server.Clientpackets
                     }
                     break;
                 case 1256: // 寵物競速 預約名單回應
-                    LineageServer.Server.Server.Model.Game.L1PolyRace.Instance.requsetAttr(pc, readC());
+                    LineageServer.Server.Server.Model.Game.L1PolyRace.Instance.requsetAttr(pc, ReadC());
                     break;
                 default:
                     break;

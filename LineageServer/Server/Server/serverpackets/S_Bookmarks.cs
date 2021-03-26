@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.serverpackets
 	using Opcodes = LineageServer.Server.Server.Opcodes;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1BookMark = LineageServer.Server.Server.Templates.L1BookMark;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	public class S_Bookmarks : ServerBasePacket
 	{
@@ -51,41 +51,41 @@ namespace LineageServer.Server.Server.serverpackets
 				rs.last(); // 為了取得總列數，先將指標拉到最後
 				int rowcount = rs.Row; // 取得總列數
 				rs.beforeFirst(); // 將指標移回最前頭
-				writeC(Opcodes.S_OPCODE_CHARRESET);
-				writeC(0x2a);
-				writeC(0x80);
-				writeC(0x00);
-				writeC(0x02);
+				WriteC(Opcodes.S_OPCODE_CHARRESET);
+				WriteC(0x2a);
+				WriteC(0x80);
+				WriteC(0x00);
+				WriteC(0x02);
 				for (int i = 0; i <= 126 ; i++)
 				{
 					if (i < rowcount)
 					{
-						writeC(i);
+						WriteC(i);
 					}
 					else
 					{
-						writeC(0x00);
+						WriteC(0x00);
 					}
 				}
-				writeC(0x3c);
-				writeC(0);
-				writeC(rowcount);
-				writeC(0);
+				WriteC(0x3c);
+				WriteC(0);
+				WriteC(rowcount);
+				WriteC(0);
 
 				while (rs.next())
 				{
 					L1BookMark bookmark = new L1BookMark();
-					bookmark.Id = rs.getInt("id");
-					bookmark.CharId = rs.getInt("char_id");
-					bookmark.Name = rs.getString("name");
-					bookmark.LocX = rs.getInt("locx");
-					bookmark.LocY = rs.getInt("locy");
-					bookmark.MapId = rs.getShort("mapid");
-					writeH(bookmark.LocX);
-					writeH(bookmark.LocY);
-					writeS(bookmark.Name);
-					writeH(bookmark.MapId);
-					writeD(bookmark.Id);
+					bookmark.Id = dataSourceRow.getInt("id");
+					bookmark.CharId = dataSourceRow.getInt("char_id");
+					bookmark.Name = dataSourceRow.getString("name");
+					bookmark.LocX = dataSourceRow.getInt("locx");
+					bookmark.LocY = dataSourceRow.getInt("locy");
+					bookmark.MapId = dataSourceRow.getShort("mapid");
+					WriteH(bookmark.LocX);
+					WriteH(bookmark.LocY);
+					WriteS(bookmark.Name);
+					WriteH(bookmark.MapId);
+					WriteD(bookmark.Id);
 					pc.addBookMark(bookmark);
 				}
 
@@ -104,12 +104,12 @@ namespace LineageServer.Server.Server.serverpackets
 
 		private void buildPacket(string name, int map, int id, int x, int y)
 		{
-			writeC(Opcodes.S_OPCODE_BOOKMARKS);
-			writeS(name);
-			writeH(map);
-			writeD(id);
-			writeH(x);
-			writeH(y);
+			WriteC(Opcodes.S_OPCODE_BOOKMARKS);
+			WriteS(name);
+			WriteH(map);
+			WriteD(id);
+			WriteH(x);
+			WriteH(y);
 		}
 
 

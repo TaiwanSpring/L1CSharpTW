@@ -12,7 +12,7 @@ namespace LineageServer.Server.Server.Clientpackets
 
 		private const string C_SHIP = "[C] C_Ship";
 
-		public C_Ship(sbyte[] abyte0, ClientThread client) : base(abyte0)
+		public C_Ship(byte[] abyte0, ClientThread client) : base(abyte0)
 		{
 
 			L1PcInstance pc = client.ActiveChar;
@@ -21,9 +21,9 @@ namespace LineageServer.Server.Server.Clientpackets
 				return;
 			}
 
-			int shipMapId = readH();
-			int locX = readH();
-			int locY = readH();
+			int shipMapId = ReadH();
+			int locX = ReadH();
+			int locY = ReadH();
 			int mapId = pc.MapId;
 
 			if (mapId == 5)

@@ -20,8 +20,8 @@ namespace LineageServer.Server.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1Inn = LineageServer.Server.Server.Templates.L1Inn;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	public class InnTable
 	{
@@ -71,7 +71,7 @@ namespace LineageServer.Server.Server.DataSources
 				int roomNumber;
 				while (rs.next())
 				{
-					int key = rs.getInt("npcid");
+					int key = dataSourceRow.getInt("npcid");
 					if (!_dataMap.ContainsKey(key))
 					{
 						inn = new Inn();
@@ -83,13 +83,13 @@ namespace LineageServer.Server.Server.DataSources
 					}
 
 					l1inn = new L1Inn();
-					l1inn.InnNpcId = rs.getInt("npcid");
-					roomNumber = rs.getInt("room_number");
+					l1inn.InnNpcId = dataSourceRow.getInt("npcid");
+					roomNumber = dataSourceRow.getInt("room_number");
 					l1inn.RoomNumber = roomNumber;
-					l1inn.KeyId = rs.getInt("key_id");
-					l1inn.LodgerId = rs.getInt("lodger_id");
-					l1inn.Hall = rs.getBoolean("hall");
-					l1inn.DueTime = rs.getTimestamp("due_time");
+					l1inn.KeyId = dataSourceRow.getInt("key_id");
+					l1inn.LodgerId = dataSourceRow.getInt("lodger_id");
+					l1inn.Hall = dataSourceRow.getBoolean("hall");
+					l1inn.DueTime = dataSourceRow.getTimestamp("due_time");
 
 					inn._inn[Convert.ToInt32(roomNumber)] = l1inn;
 				}

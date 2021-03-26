@@ -18,7 +18,7 @@ namespace LineageServer.Server.Server.Model
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using IdFactory = LineageServer.Server.Server.IdFactory;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
 
 	// Referenced classes of package l1j.server.server.model:
 	// L1PcInstance
@@ -99,15 +99,15 @@ namespace LineageServer.Server.Server.Model
 					{
 						pstm2 = con.prepareStatement("INSERT INTO character_items SET id=?, item_id=?, char_id=?, item_name=?, count=?, is_equipped=?, enchantlvl=?, is_id=?, durability=?, charge_count=?, remaining_time=?, last_used=?, bless=?");
 						pstm2.setInt(1, IdFactory.Instance.nextId());
-						pstm2.setInt(2, rs.getInt("item_id"));
+						pstm2.setInt(2, dataSourceRow.getInt("item_id"));
 						pstm2.setInt(3, pc.Id);
-						pstm2.setString(4, rs.getString("item_name"));
-						pstm2.setInt(5, rs.getInt("count"));
+						pstm2.setString(4, dataSourceRow.getString("item_name"));
+						pstm2.setInt(5, dataSourceRow.getInt("count"));
 						pstm2.setInt(6, 0);
-						pstm2.setInt(7, rs.getInt("enchantlvl"));
+						pstm2.setInt(7, dataSourceRow.getInt("enchantlvl"));
 						pstm2.setInt(8, 0);
 						pstm2.setInt(9, 0);
-						pstm2.setInt(10, rs.getInt("charge_count"));
+						pstm2.setInt(10, dataSourceRow.getInt("charge_count"));
 						pstm2.setInt(11, 0);
 						pstm2.setTimestamp(12, null);
 						pstm2.setInt(13, 1);

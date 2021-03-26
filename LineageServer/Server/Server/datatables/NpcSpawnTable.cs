@@ -23,8 +23,8 @@ namespace LineageServer.Server.Server.DataSources
 	using L1Spawn = LineageServer.Server.Server.Model.L1Spawn;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1Npc = LineageServer.Server.Server.Templates.L1Npc;
-	using SQLUtil = LineageServer.Server.Server.utils.SQLUtil;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
+	using SQLUtil = LineageServer.Server.Server.Utils.SQLUtil;
+	using Maps = LineageServer.Server.Server.Utils.collections.Maps;
 
 	// Referenced classes of package l1j.server.server:
 	// MobTable, IdFactory
@@ -76,7 +76,7 @@ namespace LineageServer.Server.Server.DataSources
 				{
 					if (Config.ALT_GMSHOP == false)
 					{
-						int npcid = rs.getInt(1);
+						int npcid = dataSourceRow.getInt(1);
 						if ((npcid >= Config.ALT_GMSHOP_MIN_ID) && (npcid <= Config.ALT_GMSHOP_MAX_ID))
 						{
 							continue;
@@ -84,7 +84,7 @@ namespace LineageServer.Server.Server.DataSources
 					}
 					if (Config.ALT_HALLOWEENIVENT == false)
 					{
-						int npcid = rs.getInt("id");
+						int npcid = dataSourceRow.getInt("id");
 						if (((npcid >= 130852) && (npcid <= 130862)) || ((npcid >= 26656) && (npcid <= 26734)) || ((npcid >= 89634) && (npcid <= 89644)))
 						{
 							continue;
@@ -92,7 +92,7 @@ namespace LineageServer.Server.Server.DataSources
 					}
 					if (Config.ALT_JPPRIVILEGED == false)
 					{
-						int npcid = rs.getInt("id");
+						int npcid = dataSourceRow.getInt("id");
 						if ((npcid >= 1310368) && (npcid <= 1310379))
 						{
 							continue;
@@ -100,7 +100,7 @@ namespace LineageServer.Server.Server.DataSources
 					}
 					if (Config.ALT_TALKINGSCROLLQUEST == false)
 					{
-						int npcid = rs.getInt("id");
+						int npcid = dataSourceRow.getInt("id");
 						if (((npcid >= 87537) && (npcid <= 87551)) || ((npcid >= 1310387) && (npcid <= 1310389)))
 						{
 							continue;
@@ -108,13 +108,13 @@ namespace LineageServer.Server.Server.DataSources
 					}
 					if (Config.ALT_TALKINGSCROLLQUEST == true)
 					{
-						int npcid = rs.getInt("id");
+						int npcid = dataSourceRow.getInt("id");
 						if ((npcid >= 90066) && (npcid <= 90069))
 						{
 							continue;
 						}
 					}
-					int npcTemplateid = rs.getInt("npc_templateid");
+					int npcTemplateid = dataSourceRow.getInt("npc_templateid");
 					L1Npc l1npc = NpcTable.Instance.getTemplate(npcTemplateid);
 					L1Spawn l1spawn;
 					if (l1npc == null)
@@ -124,25 +124,25 @@ namespace LineageServer.Server.Server.DataSources
 					}
 					else
 					{
-						if (rs.getInt("count") == 0)
+						if (dataSourceRow.getInt("count") == 0)
 						{
 							continue;
 						}
 						l1spawn = new L1Spawn(l1npc);
-						l1spawn.Id = rs.getInt("id");
-						l1spawn.Amount = rs.getInt("count");
-						l1spawn.LocX = rs.getInt("locx");
-						l1spawn.LocY = rs.getInt("locy");
-						l1spawn.Randomx = rs.getInt("randomx");
-						l1spawn.Randomy = rs.getInt("randomy");
+						l1spawn.Id = dataSourceRow.getInt("id");
+						l1spawn.Amount = dataSourceRow.getInt("count");
+						l1spawn.LocX = dataSourceRow.getInt("locx");
+						l1spawn.LocY = dataSourceRow.getInt("locy");
+						l1spawn.Randomx = dataSourceRow.getInt("randomx");
+						l1spawn.Randomy = dataSourceRow.getInt("randomy");
 						l1spawn.LocX1 = 0;
 						l1spawn.LocY1 = 0;
 						l1spawn.LocX2 = 0;
 						l1spawn.LocY2 = 0;
-						l1spawn.Heading = rs.getInt("heading");
-						l1spawn.MinRespawnDelay = rs.getInt("respawn_delay");
-						l1spawn.MapId = rs.getShort("mapid");
-						l1spawn.MovementDistance = rs.getInt("movement_distance");
+						l1spawn.Heading = dataSourceRow.getInt("heading");
+						l1spawn.MinRespawnDelay = dataSourceRow.getInt("respawn_delay");
+						l1spawn.MapId = dataSourceRow.getShort("mapid");
+						l1spawn.MovementDistance = dataSourceRow.getInt("movement_distance");
 						l1spawn.Name = l1npc.get_name();
 						l1spawn.init();
 						spawnCount += l1spawn.Amount;

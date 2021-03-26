@@ -1,7 +1,8 @@
 using System.Data;
+using LineageServer.Enum;
 namespace LineageServer.DataBase.DataSources
 {
-    class LogChat : DataSourceTable
+    class LogChat : DataSource
     {
         public const string TableName = "log_chat";
         public const string Column_account_name = "account_name";
@@ -24,7 +25,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_target_locx = "target_locx";
         public const string Column_target_locy = "target_locy";
         public const string Column_target_mapid = "target_mapid";
-        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; }}
+        public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.LogChat; } }
+        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
             new ColumnInfo() { Column = Column_account_name, DbType = DbType.String, IsPKey = false},

@@ -46,7 +46,7 @@ namespace LineageServer.Server.Server.Model.Instance
 	using L1Pet = LineageServer.Server.Server.Templates.L1Pet;
 	using L1PetItem = LineageServer.Server.Server.Templates.L1PetItem;
 	using L1PetType = LineageServer.Server.Server.Templates.L1PetType;
-	using Random = LineageServer.Server.Server.utils.Random;
+	using Random = LineageServer.Server.Server.Utils.Random;
 
 	[Serializable]
 	public class L1PetInstance : L1NpcInstance

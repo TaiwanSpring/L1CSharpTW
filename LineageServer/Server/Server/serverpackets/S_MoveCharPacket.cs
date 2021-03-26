@@ -16,7 +16,7 @@ namespace LineageServer.Server.Server.serverpackets
 {
 	using Opcodes = LineageServer.Server.Server.Opcodes;
 	using L1Character = LineageServer.Server.Server.Model.L1Character;
-	using MoveUtil = LineageServer.Server.Server.utils.MoveUtil;
+	using MoveUtil = LineageServer.Server.Server.Utils.MoveUtil;
 
 	// Referenced classes of package l1j.server.server.serverpackets:
 	// ServerBasePacket
@@ -34,13 +34,13 @@ namespace LineageServer.Server.Server.serverpackets
 			int x = cha.X - MoveUtil.MoveX(heading);
 			int y = cha.Y - MoveUtil.MoveY(heading);
 
-			writeC(Opcodes.S_OPCODE_MOVEOBJECT);
-			writeD(cha.Id);
-			writeH(x);
-			writeH(y);
-			writeC(heading);
-			writeC(129);
-			writeD(0);
+			WriteC(Opcodes.S_OPCODE_MOVEOBJECT);
+			WriteD(cha.Id);
+			WriteH(x);
+			WriteH(y);
+			WriteC(heading);
+			WriteC(129);
+			WriteD(0);
 		}
 
 		public override sbyte[] Content

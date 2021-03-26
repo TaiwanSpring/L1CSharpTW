@@ -20,9 +20,9 @@ namespace LineageServer.Server.Server.serverpackets
 	{
 		public S_ShowPolyList(int objid)
 		{
-			writeC(Opcodes.S_OPCODE_SHOWHTML);
-			writeD(objid);
-			writeS("monlist");
+			WriteC(Opcodes.S_OPCODE_SHOWHTML);
+			WriteD(objid);
+			WriteS("monlist");
 		}
 
 		public override sbyte[] Content
