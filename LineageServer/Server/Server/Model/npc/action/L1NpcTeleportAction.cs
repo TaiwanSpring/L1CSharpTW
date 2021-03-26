@@ -12,7 +12,7 @@
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.Server.Model.npc.action
+namespace LineageServer.Server.Server.Model.Npc.Action
 {
 	using Element = org.w3c.dom.Element;
 
@@ -21,7 +21,7 @@ namespace LineageServer.Server.Server.Model.npc.action
 	using L1Teleport = LineageServer.Server.Server.Model.L1Teleport;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
 	using L1ItemId = LineageServer.Server.Server.Model.identity.L1ItemId;
-	using L1NpcHtml = LineageServer.Server.Server.Model.npc.L1NpcHtml;
+	using L1NpcHtml = LineageServer.Server.Server.Model.Npc.L1NpcHtml;
 	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
 
 	public class L1NpcTeleportAction : L1NpcXmlAction

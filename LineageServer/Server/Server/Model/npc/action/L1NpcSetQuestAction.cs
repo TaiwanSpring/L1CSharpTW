@@ -12,13 +12,13 @@
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.Server.Model.npc.action
+namespace LineageServer.Server.Server.Model.Npc.Action
 {
 	using Element = org.w3c.dom.Element;
 
 	using L1Object = LineageServer.Server.Server.Model.L1Object;
 	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1NpcHtml = LineageServer.Server.Server.Model.npc.L1NpcHtml;
+	using L1NpcHtml = LineageServer.Server.Server.Model.Npc.L1NpcHtml;
 
 	public class L1NpcSetQuestAction : L1NpcXmlAction
 	{

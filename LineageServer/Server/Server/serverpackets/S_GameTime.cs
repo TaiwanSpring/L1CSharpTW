@@ -26,7 +26,7 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_GameTime()
 		{
-			int time = L1GameTimeClock.Instance.currentTime().Seconds;
+			int time = L1GameTimeClock.Instance.CurrentTime().Seconds;
 			buildPacket(time);
 		}
 

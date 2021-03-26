@@ -2,8 +2,8 @@
 using LineageServer.Server.Server.DataSources;
 using LineageServer.Server.Server.Model;
 using LineageServer.Server.Server.Model.Instance;
-using LineageServer.Server.Server.Model.npc;
-using LineageServer.Server.Server.Model.npc.action;
+using LineageServer.Server.Server.Model.Npc;
+using LineageServer.Server.Server.Model.Npc.Action;
 using LineageServer.Server.Server.serverpackets;
 
 namespace LineageServer.Server.Server.Clientpackets

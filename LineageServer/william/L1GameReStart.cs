@@ -19,7 +19,7 @@ namespace LineageServer.william
 		private volatile L1GameTime _currentTime = new L1GameTime();
 		private L1GameTime _previousTime = null;
 
-		private HashSet<L1GameTimeListener> _listeners = new HashSet<L1GameTimeListener>();
+		private HashSet<IL1GameTimeListener> _listeners = new HashSet<IL1GameTimeListener>();
 
 		private static int willRestartTime;
 		public int _remnant;
@@ -131,30 +131,30 @@ namespace LineageServer.william
 		{
 			if (isFieldChanged(DateTime.MONTH))
 			{
-				foreach (L1GameTimeListener listener in _listeners)
+				foreach (IL1GameTimeListener listener in _listeners)
 				{
-					listener.onMonthChanged(_currentTime);
+					listener.OnMonthChanged(_currentTime);
 				}
 			}
 			if (isFieldChanged(DateTime.DAY_OF_MONTH))
 			{
-				foreach (L1GameTimeListener listener in _listeners)
+				foreach (IL1GameTimeListener listener in _listeners)
 				{
-					listener.onDayChanged(_currentTime);
+					listener.OnDayChanged(_currentTime);
 				}
 			}
 			if (isFieldChanged(DateTime.HOUR_OF_DAY))
 			{
-				foreach (L1GameTimeListener listener in _listeners)
+				foreach (IL1GameTimeListener listener in _listeners)
 				{
-					listener.onHourChanged(_currentTime);
+					listener.OnHourChanged(_currentTime);
 				}
 			}
 			if (isFieldChanged(DateTime.MINUTE))
 			{
-				foreach (L1GameTimeListener listener in _listeners)
+				foreach (IL1GameTimeListener listener in _listeners)
 				{
-					listener.onMinuteChanged(_currentTime);
+					listener.OnMinuteChanged(_currentTime);
 				}
 			}
 		}
@@ -185,12 +185,12 @@ namespace LineageServer.william
 			}
 		}
 
-		public virtual void addListener(L1GameTimeListener listener)
+		public virtual void addListener(IL1GameTimeListener listener)
 		{
 			_listeners.Add(listener);
 		}
 
-		public virtual void removeListener(L1GameTimeListener listener)
+		public virtual void removeListener(IL1GameTimeListener listener)
 		{
 			_listeners.Remove(listener);
 		}

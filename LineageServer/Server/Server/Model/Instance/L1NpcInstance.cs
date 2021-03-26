@@ -65,7 +65,7 @@ namespace LineageServer.Server.Server.Model.Instance
 	using L1World = LineageServer.Server.Server.Model.L1World;
 	using L1Map = LineageServer.Server.Server.Model.map.L1Map;
 	using L1WorldMap = LineageServer.Server.Server.Model.map.L1WorldMap;
-	using L1NpcDefaultAction = LineageServer.Server.Server.Model.npc.action.L1NpcDefaultAction;
+	using L1NpcDefaultAction = LineageServer.Server.Server.Model.Npc.Action.L1NpcDefaultAction;
 	using L1SkillUse = LineageServer.Server.Server.Model.skill.L1SkillUse;
 	using S_CharVisualUpdate = LineageServer.Server.Server.serverpackets.S_CharVisualUpdate;
 	using S_DoActionGFX = LineageServer.Server.Server.serverpackets.S_DoActionGFX;

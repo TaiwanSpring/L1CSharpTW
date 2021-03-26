@@ -1,45 +1,16 @@
-﻿using System;
+﻿using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model.Game;
+using LineageServer.Server.Server.Model.identity;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.serverpackets;
+using LineageServer.Server.Server.Templates;
+using LineageServer.Server.Server.utils;
+using LineageServer.Server.Server.utils.collections;
+using System;
 using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Server.Model.shop
 {
-
-	using Config = LineageServer.Server.Config;
-	using CastleTable = LineageServer.Server.Server.DataSources.CastleTable;
-	using ItemTable = LineageServer.Server.Server.DataSources.ItemTable;
-	using TownTable = LineageServer.Server.Server.DataSources.TownTable;
-	using L1CastleLocation = LineageServer.Server.Server.Model.L1CastleLocation;
-	using L1PcInventory = LineageServer.Server.Server.Model.L1PcInventory;
-	using L1TaxCalculator = LineageServer.Server.Server.Model.L1TaxCalculator;
-	using L1TownLocation = LineageServer.Server.Server.Model.L1TownLocation;
-	using L1World = LineageServer.Server.Server.Model.L1World;
-	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1BugBearRace = LineageServer.Server.Server.Model.Game.L1BugBearRace;
-	using L1ItemId = LineageServer.Server.Server.Model.identity.L1ItemId;
-	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using L1Castle = LineageServer.Server.Server.Templates.L1Castle;
-	using L1Item = LineageServer.Server.Server.Templates.L1Item;
-	using L1ShopItem = LineageServer.Server.Server.Templates.L1ShopItem;
-	using IntRange = LineageServer.Server.Server.utils.IntRange;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-
-	public class L1Shop
+	class L1Shop
 	{
 		private readonly int _npcId;
 
@@ -49,9 +20,9 @@ namespace LineageServer.Server.Server.Model.shop
 
 		public L1Shop(int npcId, IList<L1ShopItem> sellingItems, IList<L1ShopItem> purchasingItems)
 		{
-			if ((sellingItems == null) || (purchasingItems == null))
+			if (( sellingItems == null ) || ( purchasingItems == null ))
 			{
-				throw new System.NullReferenceException();
+				throw new NullReferenceException();
 			}
 
 			_npcId = npcId;
@@ -126,7 +97,7 @@ namespace LineageServer.Server.Server.Model.shop
 
 		private int getAssessedPrice(L1ShopItem item)
 		{
-			return (int)(item.Price * Config.RATE_SHOP_PURCHASING_PRICE / item.PackCount);
+			return (int)( item.Price * Config.RATE_SHOP_PURCHASING_PRICE / item.PackCount );
 		}
 
 		/// <summary>
@@ -137,7 +108,7 @@ namespace LineageServer.Server.Server.Model.shop
 		/// <returns> 査定された買取可能アイテムのリスト </returns>
 		public virtual IList<L1AssessedItem> assessItems(L1PcInventory inv)
 		{
-			IList<L1AssessedItem> result = Lists.newList();
+			IList<L1AssessedItem> result = Lists.newList<L1AssessedItem>();
 			foreach (L1ShopItem item in _purchasingItems)
 			{
 				foreach (L1ItemInstance targetItem in inv.findItemsId(item.ItemId))
@@ -170,7 +141,7 @@ namespace LineageServer.Server.Server.Model.shop
 			// 購入できるかチェック
 			if (!pc.Inventory.checkItem(L1ItemId.ADENA, price))
 			{
-                System.Console.WriteLine(price);
+				System.Console.WriteLine(price);
 				// \f1アデナが不足しています。
 				pc.sendPackets(new S_ServerMessage(189));
 				return false;
@@ -223,13 +194,13 @@ namespace LineageServer.Server.Server.Model.shop
 			int castleTax = calc.calcCastleTaxPrice(price);
 			int nationalTax = calc.calcNationalTaxPrice(price);
 			// アデン城・ディアド城の場合は国税なし
-			if ((castleId == L1CastleLocation.ADEN_CASTLE_ID) || (castleId == L1CastleLocation.DIAD_CASTLE_ID))
+			if (( castleId == L1CastleLocation.ADEN_CASTLE_ID ) || ( castleId == L1CastleLocation.DIAD_CASTLE_ID ))
 			{
 				castleTax += nationalTax;
 				nationalTax = 0;
 			}
 
-			if ((castleId != 0) && (castleTax > 0))
+			if (( castleId != 0 ) && ( castleTax > 0 ))
 			{
 				L1Castle castle = CastleTable.Instance.getCastleTable(castleId);
 
@@ -303,7 +274,7 @@ namespace LineageServer.Server.Server.Model.shop
 			if (!L1World.Instance.ProcessingContributionTotal)
 			{
 				int town_id = L1TownLocation.getTownIdByNpcid(_npcId);
-				if ((town_id >= 1) && (town_id <= 10))
+				if (( town_id >= 1 ) && ( town_id <= 10 ))
 				{
 					TownTable.Instance.addSalesMoney(town_id, price);
 				}
@@ -323,7 +294,7 @@ namespace LineageServer.Server.Server.Model.shop
 		/// </summary>
 		private void sellItems(L1PcInventory inv, L1ShopBuyOrderList orderList)
 		{
-			if (!inv.consumeItem(L1ItemId.ADENA,orderList.TotalPriceTaxIncluded))
+			if (!inv.consumeItem(L1ItemId.ADENA, orderList.TotalPriceTaxIncluded))
 			{
 				throw new System.InvalidOperationException("購入に必要なアデナを消費できませんでした。");
 			}
@@ -335,12 +306,12 @@ namespace LineageServer.Server.Server.Model.shop
 				if (item.ItemId == 40309)
 				{ // Race Tickets
 					item.Item = order.Item.Item;
-					L1BugBearRace.Instance.AllBet = L1BugBearRace.Instance.AllBet + (amount * order.Item.Price);
+					L1BugBearRace.Instance.AllBet = L1BugBearRace.Instance.AllBet + ( amount * order.Item.Price );
 					string[] runNum = item.Item.IdentifiedNameId.Split("-", true);
 					int trueNum = 0;
 					for (int i = 0; i < 5; i++)
 					{
-						if (L1BugBearRace.Instance.getRunner(i).NpcId - 91350 == (int.Parse(runNum[runNum.Length - 1]) - 1))
+						if (L1BugBearRace.Instance.getRunner(i).NpcId - 91350 == ( int.Parse(runNum[runNum.Length - 1]) - 1 ))
 						{
 							trueNum = i;
 							break;
@@ -351,7 +322,7 @@ namespace LineageServer.Server.Server.Model.shop
 				item.Count = amount;
 				item.Identified = true;
 				inv.storeItem(item);
-				if ((_npcId == 70068) || (_npcId == 70020))
+				if (( _npcId == 70068 ) || ( _npcId == 70020 ))
 				{
 					item.Identified = false;
 					int chance = RandomHelper.Next(100) + 1;
@@ -359,23 +330,23 @@ namespace LineageServer.Server.Server.Model.shop
 					{
 						item.EnchantLevel = -2;
 					}
-					else if ((chance >= 16) && (chance <= 30))
+					else if (( chance >= 16 ) && ( chance <= 30 ))
 					{
 						item.EnchantLevel = -1;
 					}
-					else if ((chance >= 31) && (chance <= 70))
+					else if (( chance >= 31 ) && ( chance <= 70 ))
 					{
 						item.EnchantLevel = 0;
 					}
-					else if ((chance >= 71) && (chance <= 87))
+					else if (( chance >= 71 ) && ( chance <= 87 ))
 					{
 						item.EnchantLevel = RandomHelper.Next(2) + 1;
 					}
-					else if ((chance >= 88) && (chance <= 97))
+					else if (( chance >= 88 ) && ( chance <= 97 ))
 					{
 						item.EnchantLevel = RandomHelper.Next(3) + 3;
 					}
-					else if ((chance >= 98) && (chance <= 99))
+					else if (( chance >= 98 ) && ( chance <= 99 ))
 					{
 						item.EnchantLevel = 6;
 					}

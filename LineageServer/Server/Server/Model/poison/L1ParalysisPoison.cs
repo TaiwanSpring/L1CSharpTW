@@ -1,31 +1,12 @@
-﻿using System.Threading;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.Model.skill;
+using LineageServer.Server.Server.serverpackets;
+using System.Threading;
 namespace LineageServer.Server.Server.Model.poison
 {
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.STATUS_POISON_PARALYZED;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.STATUS_POISON_PARALYZING;
-	using RunnableExecuter = LineageServer.Server.Server.RunnableExecuter;
-	using L1Character = LineageServer.Server.Server.Model.L1Character;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using S_Paralysis = LineageServer.Server.Server.serverpackets.S_Paralysis;
-
-	public class L1ParalysisPoison : L1Poison
+	class L1ParalysisPoison : L1Poison
 	{
 		// 麻痺毒の性能一覧 猶予 持続 (参考値、未適用)
 		// グール 20 45
@@ -35,7 +16,7 @@ namespace LineageServer.Server.Server.Model.poison
 
 		private readonly L1Character _target;
 
-		private Thread _timer;
+		private ITimerTask _timer;
 
 		private readonly int _delay;
 
@@ -43,7 +24,7 @@ namespace LineageServer.Server.Server.Model.poison
 
 		private int _effectId = 1;
 
-		private class ParalysisPoisonTimer : IRunnable
+		private class ParalysisPoisonTimer : TimerTask
 		{
 			private readonly L1ParalysisPoison outerInstance;
 
@@ -52,19 +33,11 @@ namespace LineageServer.Server.Server.Model.poison
 				this.outerInstance = outerInstance;
 			}
 
-			public override void run()
+			public void run()
 			{
-				outerInstance._target.setSkillEffect(STATUS_POISON_PARALYZING, 0);
+				outerInstance._target.setSkillEffect(L1SkillId.STATUS_POISON_PARALYZING, 0);
 
-				try
-				{
-					Thread.Sleep(outerInstance._delay); // 麻痺するまでの猶予時間を待つ。
-				}
-				catch (InterruptedException)
-				{
-					outerInstance._target.killSkillEffectTimer(STATUS_POISON_PARALYZING);
-					return;
-				}
+				Thread.Sleep(outerInstance._delay); // 麻痺するまでの猶予時間を待つ。
 
 				// エフェクトを緑から灰色へ
 				outerInstance._effectId = 2;
@@ -72,22 +45,22 @@ namespace LineageServer.Server.Server.Model.poison
 
 				if (outerInstance._target is L1PcInstance)
 				{
-					L1PcInstance player = (L1PcInstance) outerInstance._target;
+					L1PcInstance player = (L1PcInstance)outerInstance._target;
 					if (player.Dead == false)
 					{
 						player.sendPackets(new S_Paralysis(1, true)); // 麻痺状態にする
 						outerInstance._timer = new ParalysisTimer(outerInstance);
 						RunnableExecuter.Instance.execute(outerInstance._timer); // 麻痺タイマー開始
-						if (Interrupted)
+						if (IsCancel)
 						{
-							outerInstance._timer.Interrupt();
+							outerInstance._timer.cancel();
 						}
 					}
 				}
 			}
 		}
 
-		private class ParalysisTimer : IRunnable
+		private class ParalysisTimer : TimerTask
 		{
 			private readonly L1ParalysisPoison outerInstance;
 
@@ -98,20 +71,14 @@ namespace LineageServer.Server.Server.Model.poison
 
 			public override void run()
 			{
-				outerInstance._target.killSkillEffectTimer(STATUS_POISON_PARALYZING);
-				outerInstance._target.setSkillEffect(STATUS_POISON_PARALYZED, 0);
-				try
-				{
-					Thread.Sleep(outerInstance._time);
-				}
-				catch (InterruptedException)
-				{
-				}
+				outerInstance._target.killSkillEffectTimer(L1SkillId.STATUS_POISON_PARALYZING);
+				outerInstance._target.setSkillEffect(L1SkillId.STATUS_POISON_PARALYZED, 0);
+				Thread.Sleep(outerInstance._time);
 
-				outerInstance._target.killSkillEffectTimer(STATUS_POISON_PARALYZED);
+				outerInstance._target.killSkillEffectTimer(L1SkillId.STATUS_POISON_PARALYZED);
 				if (outerInstance._target is L1PcInstance)
 				{
-					L1PcInstance player = (L1PcInstance) outerInstance._target;
+					L1PcInstance player = (L1PcInstance)outerInstance._target;
 					if (!player.Dead)
 					{
 						player.sendPackets(new S_Paralysis(1, false)); // 麻痺状態を解除する
@@ -165,7 +132,7 @@ namespace LineageServer.Server.Server.Model.poison
 		{
 			if (_timer != null)
 			{
-				_timer.Interrupt(); // 麻痺毒タイマー解除
+				_timer.cancel(); // 麻痺毒タイマー解除
 			}
 
 			_target.PoisonEffect = 0;

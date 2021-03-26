@@ -1,79 +1,18 @@
-﻿using System;
+﻿using LineageServer.Enum;
+using LineageServer.Interfaces;
+using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.Model.Instance;
+using LineageServer.Server.Server.Model.trap;
+using LineageServer.Server.Server.serverpackets;
+using LineageServer.Server.Server.Templates;
+using LineageServer.Server.Server.utils.collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Server.Model.skill
 {
-	using static LineageServer.Server.Server.Model.skill.L1SkillId;
-
-
-	using PolyTable = LineageServer.Server.Server.DataSources.PolyTable;
-	using SkillsTable = LineageServer.Server.Server.DataSources.SkillsTable;
-	using L1AuctionBoardInstance = LineageServer.Server.Server.Model.Instance.L1AuctionBoardInstance;
-	using L1BoardInstance = LineageServer.Server.Server.Model.Instance.L1BoardInstance;
-	using L1CrownInstance = LineageServer.Server.Server.Model.Instance.L1CrownInstance;
-	using L1DollInstance = LineageServer.Server.Server.Model.Instance.L1DollInstance;
-	using L1DoorInstance = LineageServer.Server.Server.Model.Instance.L1DoorInstance;
-	using L1DwarfInstance = LineageServer.Server.Server.Model.Instance.L1DwarfInstance;
-	using L1EffectInstance = LineageServer.Server.Server.Model.Instance.L1EffectInstance;
-	using L1FieldObjectInstance = LineageServer.Server.Server.Model.Instance.L1FieldObjectInstance;
-	using L1FurnitureInstance = LineageServer.Server.Server.Model.Instance.L1FurnitureInstance;
-	using L1GuardInstance = LineageServer.Server.Server.Model.Instance.L1GuardInstance;
-	using L1HousekeeperInstance = LineageServer.Server.Server.Model.Instance.L1HousekeeperInstance;
-	using L1ItemInstance = LineageServer.Server.Server.Model.Instance.L1ItemInstance;
-	using L1MerchantInstance = LineageServer.Server.Server.Model.Instance.L1MerchantInstance;
-	using L1MonsterInstance = LineageServer.Server.Server.Model.Instance.L1MonsterInstance;
-	using L1NpcInstance = LineageServer.Server.Server.Model.Instance.L1NpcInstance;
-	using L1PcInstance = LineageServer.Server.Server.Model.Instance.L1PcInstance;
-	using L1PetInstance = LineageServer.Server.Server.Model.Instance.L1PetInstance;
-	using L1SummonInstance = LineageServer.Server.Server.Model.Instance.L1SummonInstance;
-	using L1TeleporterInstance = LineageServer.Server.Server.Model.Instance.L1TeleporterInstance;
-	using L1TowerInstance = LineageServer.Server.Server.Model.Instance.L1TowerInstance;
-	using L1WorldTraps = LineageServer.Server.Server.Model.trap.L1WorldTraps;
-	using S_AttackPacket = LineageServer.Server.Server.serverpackets.S_AttackPacket;
-	using S_ChangeHeading = LineageServer.Server.Server.serverpackets.S_ChangeHeading;
-	using S_Dexup = LineageServer.Server.Server.serverpackets.S_Dexup;
-	using S_DoActionGFX = LineageServer.Server.Server.serverpackets.S_DoActionGFX;
-	using S_EffectLocation = LineageServer.Server.Server.serverpackets.S_EffectLocation;
-	using S_Message_YN = LineageServer.Server.Server.serverpackets.S_Message_YN;
-	using S_OwnCharAttrDef = LineageServer.Server.Server.serverpackets.S_OwnCharAttrDef;
-	using S_OwnCharStatus = LineageServer.Server.Server.serverpackets.S_OwnCharStatus;
-	using S_Paralysis = LineageServer.Server.Server.serverpackets.S_Paralysis;
-	using S_Poison = LineageServer.Server.Server.serverpackets.S_Poison;
-	using S_RangeSkill = LineageServer.Server.Server.serverpackets.S_RangeSkill;
-	using S_ServerMessage = LineageServer.Server.Server.serverpackets.S_ServerMessage;
-	using S_SkillBrave = LineageServer.Server.Server.serverpackets.S_SkillBrave;
-	using S_SkillHaste = LineageServer.Server.Server.serverpackets.S_SkillHaste;
-	using S_SkillIconAura = LineageServer.Server.Server.serverpackets.S_SkillIconAura;
-	using S_SkillIconGFX = LineageServer.Server.Server.serverpackets.S_SkillIconGFX;
-	using S_SkillIconShield = LineageServer.Server.Server.serverpackets.S_SkillIconShield;
-	using S_SkillIconWaterLife = LineageServer.Server.Server.serverpackets.S_SkillIconWaterLife;
-	using S_SkillIconWindShackle = LineageServer.Server.Server.serverpackets.S_SkillIconWindShackle;
-	using S_SkillSound = LineageServer.Server.Server.serverpackets.S_SkillSound;
-	using S_Sound = LineageServer.Server.Server.serverpackets.S_Sound;
-	using S_Strup = LineageServer.Server.Server.serverpackets.S_Strup;
-	using S_TrueTarget = LineageServer.Server.Server.serverpackets.S_TrueTarget;
-	using S_UseAttackSkill = LineageServer.Server.Server.serverpackets.S_UseAttackSkill;
-	using L1BookMark = LineageServer.Server.Server.Templates.L1BookMark;
-
-	using L1Skills = LineageServer.Server.Server.Templates.L1Skills;
-	using Random = LineageServer.Server.Server.utils.Random;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-
-	public class L1SkillUse
+	class L1SkillUse
 	{
 		public const int TYPE_NORMAL = 0;
 
@@ -157,13 +96,54 @@ namespace LineageServer.Server.Server.Model.skill
 
 		private int _gfxid = 0;
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.getLogger(typeof(L1SkillUse).FullName);
+		private static ILogger _log = Logger.getLogger(nameof(L1SkillUse));
 
-		private static readonly int[] CAST_WITH_INVIS = new int[] {1, 2, 3, 5, 8, 9, 12, 13, 14, 19, 21, 26, 31, 32, 35, 37, 42, 43, 44, 48, 49, 52, 54, 55, 57, 60, 61, 63, 67, 68, 69, 72, 73, 75, 78, 79, REDUCTION_ARMOR, BOUNCE_ATTACK, SOLID_CARRIAGE, COUNTER_BARRIER, 97, 98, 99, 100, 101, 102, 104, 105, 106, 107, 109, 110, 111, 113, 114, 115, 116, 117, 118, 129, 130, 131, 133, 134, 137, 138, 146, 147, 148, 149, 150, 151, 155, 156, 158, 159, 163, 164, 165, 166, 168, 169, 170, 171, SOUL_OF_FLAME, ADDITIONAL_FIRE, DRAGON_SKIN, AWAKEN_ANTHARAS, AWAKEN_FAFURION, AWAKEN_VALAKAS, MIRROR_IMAGE, ILLUSION_OGRE, ILLUSION_LICH, PATIENCE, ILLUSION_DIA_GOLEM, INSIGHT, ILLUSION_AVATAR};
+		private static readonly int[] CAST_WITH_INVIS = new int[]
+		{
+			1, 2, 3, 5, 8,
+			9, 12, 13, 14, 19,
+			21, 26, 31, 32, 35,
+			37, 42, 43, 44, 48,
+			49, 52, 54, 55, 57,
+			60, 61, 63, 67, 68,
+			69, 72, 73, 75, 78,
+			79, L1SkillId.REDUCTION_ARMOR, L1SkillId.BOUNCE_ATTACK, L1SkillId.SOLID_CARRIAGE, L1SkillId.COUNTER_BARRIER,
+			97, 98, 99, 100, 101,
+			102, 104, 105, 106, 107,
+			109, 110, 111, 113, 114,
+			115, 116, 117, 118, 129,
+			130, 131, 133, 134, 137,
+			138, 146, 147, 148, 149,
+			150, 151, 155, 156, 158,
+			159, 163, 164, 165, 166,
+			168, 169, 170, 171, L1SkillId.SOUL_OF_FLAME,
+			L1SkillId.ADDITIONAL_FIRE, L1SkillId.DRAGON_SKIN, L1SkillId.AWAKEN_ANTHARAS, L1SkillId.AWAKEN_FAFURION, L1SkillId.AWAKEN_VALAKAS,
+			L1SkillId.MIRROR_IMAGE, L1SkillId.ILLUSION_OGRE, L1SkillId.ILLUSION_LICH, L1SkillId.PATIENCE, L1SkillId.ILLUSION_DIA_GOLEM, L1SkillId.INSIGHT, L1SkillId.ILLUSION_AVATAR };
 
 		// 設定魔法屏障不可抵擋的魔法
-		private static readonly int[] EXCEPT_COUNTER_MAGIC = new int[] {1, 2, 3, 5, 8, 9, 12, 13, 14, 19, 21, 26, 31, 32, 35, 37, 42, 43, 44, 48, 49, 52, 54, 55, 57, 60, 61, 63, 67, 68, 69, 72, 73, 75, 78, 79, SHOCK_STUN, REDUCTION_ARMOR, BOUNCE_ATTACK, SOLID_CARRIAGE, COUNTER_BARRIER, 97, 98, 99, 100, 101, 102, 104, 105, 106, 107, 109, 110, 111, 113, 114, 115, 116, 117, 118, 129, 130, 131, 132, 134, 137, 138, 146, 147, 148, 149, 150, 151, 155, 156, 158, 159, 161, 163, 164, 165, 166, 168, 169, 170, 171, SOUL_OF_FLAME, ADDITIONAL_FIRE, DRAGON_SKIN, AWAKEN_ANTHARAS, AWAKEN_FAFURION, AWAKEN_VALAKAS, MIRROR_IMAGE, ILLUSION_OGRE, ILLUSION_LICH, PATIENCE, 10026, 10027, ILLUSION_DIA_GOLEM, INSIGHT, ILLUSION_AVATAR, 10028, 10029};
+		private static readonly int[] EXCEPT_COUNTER_MAGIC = new int[]
+		{
+			1, 2, 3, 5, 8,
+			9, 12, 13, 14, 19,
+			21, 26, 31, 32, 35,
+			37, 42, 43, 44, 48,
+			49, 52, 54, 55, 57,
+			60, 61, 63, 67, 68,
+			69, 72, 73, 75, 78,
+			79, L1SkillId.SHOCK_STUN, L1SkillId.REDUCTION_ARMOR, L1SkillId.BOUNCE_ATTACK, L1SkillId.SOLID_CARRIAGE,
+			L1SkillId.COUNTER_BARRIER, 97, 98, 99, 100,
+			101, 102, 104, 105, 106,
+			107, 109, 110, 111, 113,
+			114, 115, 116, 117, 118,
+			129, 130, 131, 132, 134,
+			137, 138, 146, 147, 148,
+			149, 150, 151, 155, 156,
+			158, 159, 161, 163, 164,
+			165, 166, 168, 169, 170,
+			171, L1SkillId.SOUL_OF_FLAME, L1SkillId.ADDITIONAL_FIRE, L1SkillId.DRAGON_SKIN, L1SkillId.AWAKEN_ANTHARAS,
+			L1SkillId.AWAKEN_FAFURION, L1SkillId.AWAKEN_VALAKAS, L1SkillId.MIRROR_IMAGE, L1SkillId.ILLUSION_OGRE, L1SkillId.ILLUSION_LICH,
+			L1SkillId.PATIENCE, 10026, 10027, L1SkillId.ILLUSION_DIA_GOLEM, L1SkillId.INSIGHT,
+			L1SkillId.ILLUSION_AVATAR, 10028, 10029 };
 
 		public L1SkillUse()
 		{
@@ -280,7 +260,7 @@ namespace LineageServer.Server.Server.Model.skill
 		{
 			// 初期設定ここから
 			CheckedUseSkill = true;
-			_targetList = Lists.newList(); // ターゲットリストの初期化
+			_targetList = Lists.newList<TargetStatus>(); // ターゲットリストの初期化
 
 			_skill = SkillsTable.Instance.getTemplate(skillid);
 			_skillId = skillid;
@@ -303,7 +283,7 @@ namespace LineageServer.Server.Server.Model.skill
 			else
 			{
 				// npc
-				_npc = (L1NpcInstance) attacker;
+				_npc = (L1NpcInstance)attacker;
 				_user = _npc;
 			}
 
@@ -337,7 +317,9 @@ namespace LineageServer.Server.Server.Model.skill
 
 			// ファイアーウォール、ライフストリームは詠唱対象が座標
 			// キューブは詠唱者の座標に配置されるため例外
-			if ((_skillId == FIRE_WALL) || (_skillId == LIFE_STREAM) || (_skillId == TRUE_TARGET))
+			if (( _skillId == L1SkillId.FIRE_WALL ) ||
+				( _skillId == L1SkillId.LIFE_STREAM ) ||
+				( _skillId == L1SkillId.TRUE_TARGET ))
 			{
 				return true;
 			}
@@ -345,7 +327,7 @@ namespace LineageServer.Server.Server.Model.skill
 			L1Object l1object = L1World.Instance.findObject(_targetID);
 			if (l1object is L1ItemInstance)
 			{
-				_log.fine("skill target item name: " + ((L1ItemInstance) l1object).ViewName);
+				_log.info($"skill target item name: {( (L1ItemInstance)l1object ).ViewName}");
 				// スキルターゲットが精霊の石になることがある。
 				// Linux環境で確認（Windowsでは未確認）
 				// 2008.5.4追記：地面のアイテムに魔法を使うとなる。継続してもエラーになるだけなのでreturn
@@ -379,18 +361,23 @@ namespace LineageServer.Server.Server.Model.skill
 			}
 
 			// テレポート、マステレポートは対象がブックマークID
-			if ((_skillId == TELEPORT) || (_skillId == MASS_TELEPORT))
+			if (( _skillId == L1SkillId.TELEPORT ) ||
+				( _skillId == L1SkillId.MASS_TELEPORT ))
 			{
 				_bookmarkId = target_id;
 			}
 			// 対象がアイテムのスキル
-			if ((_skillId == CREATE_MAGICAL_WEAPON) || (_skillId == BRING_STONE) || (_skillId == BLESSED_ARMOR) || (_skillId == ENCHANT_WEAPON) || (_skillId == SHADOW_FANG))
+			if (( _skillId == L1SkillId.CREATE_MAGICAL_WEAPON ) ||
+				( _skillId == L1SkillId.BRING_STONE ) ||
+				( _skillId == L1SkillId.BLESSED_ARMOR ) ||
+				( _skillId == L1SkillId.ENCHANT_WEAPON ) ||
+				( _skillId == L1SkillId.SHADOW_FANG ))
 			{
 				_itemobjid = target_id;
 			}
-			_target = (L1Character) l1object;
+			_target = (L1Character)l1object;
 
-			if (!(_target is L1MonsterInstance) && _skill.Target.Equals("attack") && (_user.Id != target_id))
+			if (!( _target is L1MonsterInstance ) && _skill.Target.Equals("attack") && ( _user.Id != target_id ))
 			{
 				_isPK = true; // ターゲットがモンスター以外で攻撃系スキルで、自分以外の場合PKモードとする。
 			}
@@ -398,12 +385,12 @@ namespace LineageServer.Server.Server.Model.skill
 			// 初期設定ここまで
 
 			// 事前チェック
-			if (!(l1object is L1Character))
+			if (!( l1object is L1Character ))
 			{ // ターゲットがキャラクター以外の場合何もしない。
 				checkedResult = false;
 			}
 			makeTargetList(); // ターゲットの一覧を作成
-			if (_targetList.Count == 0 && (_user is L1NpcInstance))
+			if (_targetList.Count == 0 && ( _user is L1NpcInstance ))
 			{
 				checkedResult = false;
 			}
@@ -422,8 +409,8 @@ namespace LineageServer.Server.Server.Model.skill
 				// スキル使用者がPCの場合のチェック
 				if (_user is L1PcInstance)
 				{
-					L1PcInstance pc = (L1PcInstance) _user;
-    
+					L1PcInstance pc = (L1PcInstance)_user;
+
 					if (pc.Teleport)
 					{ // 傳送中
 						return false;
@@ -432,7 +419,7 @@ namespace LineageServer.Server.Server.Model.skill
 					{ // 麻痺・凍結状態か
 						return false;
 					}
-					if ((pc.Invisble || pc.InvisDelay) && !InvisUsableSkill)
+					if (( pc.Invisble || pc.InvisDelay ) && !InvisUsableSkill)
 					{ // 隱身中無法使用技能
 						return false;
 					}
@@ -444,53 +431,53 @@ namespace LineageServer.Server.Server.Model.skill
 					int polyId = pc.TempCharGfx;
 					L1PolyMorph poly = PolyTable.Instance.getTemplate(polyId);
 					// 魔法が使えない変身
-					if ((poly != null) && !poly.canUseSkill())
+					if (( poly != null ) && !poly.canUseSkill())
 					{
 						pc.sendPackets(new S_ServerMessage(285)); // \f1在此狀態下無法使用魔法。
 						return false;
 					}
-    
+
 					if (!AttrAgrees)
 					{ // 精霊魔法で、属性が一致しなければ何もしない。
 						return false;
 					}
-    
-					if ((_skillId == ELEMENTAL_PROTECTION) && (pc.ElfAttr == 0))
+
+					if (( _skillId == L1SkillId.ELEMENTAL_PROTECTION ) && ( pc.ElfAttr == 0 ))
 					{
 						pc.sendPackets(new S_ServerMessage(280)); // \f1施咒失敗。
 						return false;
 					}
-    
+
 					/* 水中無法使用火屬性魔法 */
 					if (pc.Map.Underwater && _skill.Attr == 2)
 					{
 						pc.sendPackets(new S_ServerMessage(280)); // \f1施咒失敗。
 						return false;
 					}
-    
+
 					// スキルディレイ中使用不可
 					if (pc.SkillDelay)
 					{
 						return false;
 					}
-    
+
 					// 魔法封印、封印禁地、卡毒、幻想
 					if (pc.hasSkillEffect(L1SkillId.SILENCE) || pc.hasSkillEffect(L1SkillId.AREA_OF_SILENCE) || pc.hasSkillEffect(L1SkillId.STATUS_POISON_SILENCE) || pc.hasSkillEffect(L1SkillId.CONFUSION_ING))
 					{
 						pc.sendPackets(new S_ServerMessage(285)); // \f1在此狀態下無法使用魔法。
 						return false;
 					}
-    
+
 					// DIGはロウフルでのみ使用可
-					if ((_skillId == DISINTEGRATE) && (pc.Lawful < 500))
+					if (( _skillId == L1SkillId.DISINTEGRATE ) && ( pc.Lawful < 500 ))
 					{
 						// このメッセージであってるか未確認
 						pc.sendPackets(new S_ServerMessage(352, "$967")); // 若要使用這個法術，屬性必須成為 (正義)。
 						return false;
 					}
-    
+
 					// 同じキューブは効果範囲外であれば配置可能
-					if ((_skillId == CUBE_IGNITION) || (_skillId == CUBE_QUAKE) || (_skillId == CUBE_SHOCK) || (_skillId == CUBE_BALANCE))
+					if (( _skillId == L1SkillId.CUBE_IGNITION ) || ( _skillId == L1SkillId.CUBE_QUAKE ) || ( _skillId == L1SkillId.CUBE_SHOCK ) || ( _skillId == L1SkillId.CUBE_BALANCE ))
 					{
 						bool isNearSameCube = false;
 						int gfxId = 0;
@@ -498,9 +485,9 @@ namespace LineageServer.Server.Server.Model.skill
 						{
 							if (obj is L1EffectInstance)
 							{
-								L1EffectInstance effect = (L1EffectInstance) obj;
+								L1EffectInstance effect = (L1EffectInstance)obj;
 								gfxId = effect.GfxId;
-								if (((_skillId == CUBE_IGNITION) && (gfxId == 6706)) || ((_skillId == CUBE_QUAKE) && (gfxId == 6712)) || ((_skillId == CUBE_SHOCK) && (gfxId == 6718)) || ((_skillId == CUBE_BALANCE) && (gfxId == 6724)))
+								if (( ( _skillId == L1SkillId.CUBE_IGNITION ) && ( gfxId == 6706 ) ) || ( ( _skillId == L1SkillId.CUBE_QUAKE ) && ( gfxId == 6712 ) ) || ( ( _skillId == L1SkillId.CUBE_SHOCK ) && ( gfxId == 6718 ) ) || ( ( _skillId == L1SkillId.CUBE_BALANCE ) && ( gfxId == 6724 ) ))
 								{
 									isNearSameCube = true;
 									break;
@@ -513,15 +500,17 @@ namespace LineageServer.Server.Server.Model.skill
 							return false;
 						}
 					}
-    
+
 					// 覺醒狀態 - 非覺醒技能無法使用
-					if (((pc.AwakeSkillId == AWAKEN_ANTHARAS) && (_skillId != AWAKEN_ANTHARAS)) || ((pc.AwakeSkillId == AWAKEN_FAFURION) && (_skillId != AWAKEN_FAFURION)) || ((pc.AwakeSkillId == AWAKEN_VALAKAS) && (_skillId != AWAKEN_VALAKAS)) && (_skillId != MAGMA_BREATH) && (_skillId != SHOCK_SKIN) && (_skillId != FREEZING_BREATH))
+					if (( ( pc.AwakeSkillId == L1SkillId.AWAKEN_ANTHARAS ) && ( _skillId != L1SkillId.AWAKEN_ANTHARAS ) ) ||
+						( ( pc.AwakeSkillId == L1SkillId.AWAKEN_FAFURION ) && ( _skillId != L1SkillId.AWAKEN_FAFURION ) ) ||
+						( ( pc.AwakeSkillId == L1SkillId.AWAKEN_VALAKAS ) && ( _skillId != L1SkillId.AWAKEN_VALAKAS ) ) && ( _skillId != L1SkillId.MAGMA_BREATH ) && ( _skillId != L1SkillId.SHOCK_SKIN ) && ( _skillId != L1SkillId.FREEZING_BREATH ))
 					{
 						pc.sendPackets(new S_ServerMessage(1385)); // 目前狀態中無法使用覺醒魔法。
 						return false;
 					}
-    
-					if ((ItemConsume == false) && !_player.Gm)
+
+					if (( ItemConsume == false ) && !_player.Gm)
 					{ // 法術消耗道具判斷。
 						_player.sendPackets(new S_ServerMessage(299)); // \f1施放魔法所需材料不足。
 						return false;
@@ -530,16 +519,16 @@ namespace LineageServer.Server.Server.Model.skill
 				// スキル使用者がNPCの場合のチェック
 				else if (_user is L1NpcInstance)
 				{
-    
+
 					// サイレンス状態では使用不可
-					if (_user.hasSkillEffect(SILENCE))
+					if (_user.hasSkillEffect(L1SkillId.SILENCE))
 					{
 						// NPCにサイレンスが掛かっている場合は1回だけ使用をキャンセルさせる効果。
-						_user.removeSkillEffect(SILENCE);
+						_user.removeSkillEffect(L1SkillId.SILENCE);
 						return false;
 					}
 				}
-    
+
 				// PC、NPC共通檢查HP、MP是否足夠
 				if (!HPMPConsume)
 				{ // 花費的HP、MP計算
@@ -558,24 +547,24 @@ namespace LineageServer.Server.Server.Model.skill
 			get
 			{
 				// スペルスクロールを使用するのはPCのみ
-				L1PcInstance pc = (L1PcInstance) _user;
-    
+				L1PcInstance pc = (L1PcInstance)_user;
+
 				if (pc.Teleport)
 				{ // 傳送中
 					return false;
 				}
-    
+
 				if (pc.Paralyzed)
 				{ // 麻痺・凍結状態か
 					return false;
 				}
-    
+
 				// インビジ中に使用不可のスキル
-				if ((pc.Invisble || pc.InvisDelay) && !InvisUsableSkill)
+				if (( pc.Invisble || pc.InvisDelay ) && !InvisUsableSkill)
 				{
 					return false;
 				}
-    
+
 				return true;
 			}
 		}
@@ -621,7 +610,7 @@ namespace LineageServer.Server.Server.Model.skill
 
 				if (type == TYPE_NORMAL)
 				{ // 魔法詠唱時
-					if (!_isGlanceCheckFail || (SkillArea > 0) || _skill.Target.Equals("none"))
+					if (!_isGlanceCheckFail || ( SkillArea > 0 ) || _skill.Target.Equals("none"))
 					{
 						runSkill();
 						useConsume();
@@ -667,7 +656,7 @@ namespace LineageServer.Server.Server.Model.skill
 			// useConsume(); // HP、MPは減らす
 			CheckedUseSkill = false;
 			// テレポートスキル
-			if ((_skillId == TELEPORT) || (_skillId == MASS_TELEPORT) || (_skillId == TELEPORT_TO_MATHER))
+			if (( _skillId == L1SkillId.TELEPORT ) || ( _skillId == L1SkillId.MASS_TELEPORT ) || ( _skillId == L1SkillId.TELEPORT_TO_MATHER ))
 			{
 				// テレポートできない場合でも、クライアント側は応答を待っている
 				// テレポート待ち状態の解除（第2引数に意味はない）
@@ -676,21 +665,21 @@ namespace LineageServer.Server.Server.Model.skill
 		}
 
 		// ターゲットか？
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private boolean isTarget(l1j.server.server.model.L1Character cha) throws Exception
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: private boolean isTarget(l1j.server.server.model.L1Character cha) throws Exception
 		private bool isTarget(L1Character cha)
 		{
 			bool _flg = false;
 
 			if (cha is L1PcInstance)
 			{
-				L1PcInstance pc = (L1PcInstance) cha;
+				L1PcInstance pc = (L1PcInstance)cha;
 				if (pc.Ghost || pc.GmInvis)
 				{
 					return false;
 				}
 			}
-			if ((_calcType == NPC_PC) && ((cha is L1PcInstance) || (cha is L1PetInstance) || (cha is L1SummonInstance)))
+			if (( _calcType == NPC_PC ) && ( ( cha is L1PcInstance ) || ( cha is L1PetInstance ) || ( cha is L1SummonInstance ) ))
 			{
 				_flg = true;
 			}
@@ -698,71 +687,74 @@ namespace LineageServer.Server.Server.Model.skill
 			// 破壊不可能なドアは対象外
 			if (cha is L1DoorInstance)
 			{
-				if ((cha.getMaxHp() == 0) || (cha.getMaxHp() == 1))
+				if (( cha.getMaxHp() == 0 ) || ( cha.getMaxHp() == 1 ))
 				{
 					return false;
 				}
 			}
 
 			// マジックドールは対象外
-			if ((cha is L1DollInstance) && (_skillId != HASTE))
+			if (( cha is L1DollInstance ) && ( _skillId != L1SkillId.HASTE ))
 			{
 				return false;
 			}
 
 			// 元のターゲットがPet、Summon以外のNPCの場合、PC、Pet、Summonは対象外
-			if ((_calcType == PC_NPC) && (_target is L1NpcInstance) && !(_target is L1PetInstance) && !(_target is L1SummonInstance) && ((cha is L1PetInstance) || (cha is L1SummonInstance) || (cha is L1PcInstance)))
+			if (( _calcType == PC_NPC ) && ( _target is L1NpcInstance ) && !( _target is L1PetInstance ) && !( _target is L1SummonInstance ) && ( ( cha is L1PetInstance ) ||
+				( cha is L1SummonInstance ) || ( cha is L1PcInstance ) ))
 			{
 				return false;
 			}
 
 			// 元のターゲットがガード以外のNPCの場合、ガードは対象外
-			if ((_calcType == PC_NPC) && (_target is L1NpcInstance) && !(_target is L1GuardInstance) && (cha is L1GuardInstance))
+			if (( _calcType == PC_NPC ) && ( _target is L1NpcInstance ) && !( _target is L1GuardInstance ) && ( cha is L1GuardInstance ))
 			{
 				return false;
 			}
 
 			// NPC対PCでターゲットがモンスターの場合ターゲットではない。
-			if ((_skill.Target.Equals("attack") || (_skill.Type == L1Skills.TYPE_ATTACK)) && (_calcType == NPC_PC) && !(cha is L1PetInstance) && !(cha is L1SummonInstance) && !(cha is L1PcInstance))
+			if (( _skill.Target.Equals("attack") ||
+				( _skill.Type == L1Skills.TYPE_ATTACK ) ) && ( _calcType == NPC_PC ) && !( cha is L1PetInstance ) && !( cha is L1SummonInstance ) && !( cha is L1PcInstance ))
 			{
 				return false;
 			}
 
 			// NPC対NPCで使用者がMOBで、ターゲットがMOBの場合ターゲットではない。
-			if ((_skill.Target.Equals("attack") || (_skill.Type == L1Skills.TYPE_ATTACK)) && (_calcType == NPC_NPC) && (_user is L1MonsterInstance) && (cha is L1MonsterInstance))
+			if (( _skill.Target.Equals("attack") ||
+				( _skill.Type == L1Skills.TYPE_ATTACK ) ) && ( _calcType == NPC_NPC ) && ( _user is L1MonsterInstance ) && ( cha is L1MonsterInstance ))
 			{
 				return false;
 			}
 
 			// 無方向範囲攻撃魔法で攻撃できないNPCは対象外
-			if (_skill.Target.Equals("none") && (_skill.Type == L1Skills.TYPE_ATTACK) && ((cha is L1AuctionBoardInstance) || (cha is L1BoardInstance) || (cha is L1CrownInstance) || (cha is L1DwarfInstance) || (cha is L1EffectInstance) || (cha is L1FieldObjectInstance) || (cha is L1FurnitureInstance) || (cha is L1HousekeeperInstance) || (cha is L1MerchantInstance) || (cha is L1TeleporterInstance)))
+			if (_skill.Target.Equals("none") && ( _skill.Type == L1Skills.TYPE_ATTACK ) && ( ( cha is L1AuctionBoardInstance ) || ( cha is L1BoardInstance ) || ( cha is L1CrownInstance ) || ( cha is L1DwarfInstance ) || ( cha is L1EffectInstance ) || ( cha is L1FieldObjectInstance ) || ( cha is L1FurnitureInstance ) || ( cha is L1HousekeeperInstance ) || ( cha is L1MerchantInstance ) || ( cha is L1TeleporterInstance ) ))
 			{
 				return false;
 			}
 
 			// 攻擊型魔法無法攻擊自己
-			if ((_skill.Type == L1Skills.TYPE_ATTACK) && (cha.Id == _user.Id))
+			if (( _skill.Type == L1Skills.TYPE_ATTACK ) && ( cha.Id == _user.Id ))
 			{
 				return false;
 			}
 
 			// 體力回復術判斷施法者不補血
-			if ((cha.Id == _user.Id) && (_skillId == HEAL_ALL))
+			if (( cha.Id == _user.Id ) && ( _skillId == L1SkillId.HEAL_ALL ))
 			{
 				return false;
 			}
 
-			if ((((_skill.TargetTo & L1Skills.TARGET_TO_PC) == L1Skills.TARGET_TO_PC) || ((_skill.TargetTo & L1Skills.TARGET_TO_CLAN) == L1Skills.TARGET_TO_CLAN) || ((_skill.TargetTo & L1Skills.TARGET_TO_PARTY) == L1Skills.TARGET_TO_PARTY)) && (cha.Id == _user.Id) && (_skillId != HEAL_ALL))
+			if (( ( ( _skill.TargetTo & L1Skills.TARGET_TO_PC ) == L1Skills.TARGET_TO_PC ) || ( ( _skill.TargetTo & L1Skills.TARGET_TO_CLAN ) == L1Skills.TARGET_TO_CLAN ) || ( ( _skill.TargetTo & L1Skills.TARGET_TO_PARTY ) == L1Skills.TARGET_TO_PARTY ) ) && ( cha.Id == _user.Id ) && ( _skillId != L1SkillId.HEAL_ALL ))
 			{
 				return true; // ターゲットがパーティーかクラン員のものは自分に効果がある。（ただし、ヒールオールは除外）
 			}
 
 			// スキル使用者がPCで、PKモードではない場合、自分のサモン・ペットは対象外
-			if ((_user is L1PcInstance) && (_skill.Target.Equals("attack") || (_skill.Type == L1Skills.TYPE_ATTACK)) && (_isPK == false))
+			if (( _user is L1PcInstance ) && ( _skill.Target.Equals("attack") || ( _skill.Type == L1Skills.TYPE_ATTACK ) ) && ( _isPK == false ))
 			{
 				if (cha is L1SummonInstance)
 				{
-					L1SummonInstance summon = (L1SummonInstance) cha;
+					L1SummonInstance summon = (L1SummonInstance)cha;
 					if (_player.Id == summon.Master.Id)
 					{
 						return false;
@@ -770,7 +762,7 @@ namespace LineageServer.Server.Server.Model.skill
 				}
 				else if (cha is L1PetInstance)
 				{
-					L1PetInstance pet = (L1PetInstance) cha;
+					L1PetInstance pet = (L1PetInstance)cha;
 					if (_player.Id == pet.Master.Id)
 					{
 						return false;
@@ -778,17 +770,17 @@ namespace LineageServer.Server.Server.Model.skill
 				}
 			}
 
-			if ((_skill.Target.Equals("attack") || (_skill.Type == L1Skills.TYPE_ATTACK)) && !(cha is L1MonsterInstance) && (_isPK == false) && (_target is L1PcInstance))
+			if (( _skill.Target.Equals("attack") || ( _skill.Type == L1Skills.TYPE_ATTACK ) ) && !( cha is L1MonsterInstance ) && ( _isPK == false ) && ( _target is L1PcInstance ))
 			{
-				L1PcInstance enemy = (L1PcInstance) cha;
+				L1PcInstance enemy = (L1PcInstance)cha;
 				// カウンターディテクション
-				if ((_skillId == COUNTER_DETECTION) && (enemy.ZoneType != 1) && (cha.hasSkillEffect(INVISIBILITY) || cha.hasSkillEffect(BLIND_HIDING)))
+				if (( _skillId == L1SkillId.COUNTER_DETECTION ) && ( enemy.ZoneType != 1 ) && ( cha.hasSkillEffect(L1SkillId.INVISIBILITY) || cha.hasSkillEffect(L1SkillId.BLIND_HIDING) ))
 				{
 					return true; // インビジかブラインドハイディング中
 				}
-				if ((_player.Clanid != 0) && (enemy.Clanid != 0))
+				if (( _player.Clanid != 0 ) && ( enemy.Clanid != 0 ))
 				{ // クラン所属中
-					// 全戦争リストを取得
+				  // 全戦争リストを取得
 					foreach (L1War war in L1World.Instance.WarList)
 					{
 						if (war.CheckClanInWar(_player.Clanname))
@@ -806,66 +798,66 @@ namespace LineageServer.Server.Server.Model.skill
 				return false; // 攻撃スキルでPKモードじゃない場合
 			}
 
-			if ((_user.glanceCheck(cha.X, cha.Y) == false) && (_skill.Through == false))
+			if (( _user.glanceCheck(cha.X, cha.Y) == false ) && ( _skill.Through == false ))
 			{
 				// エンチャント、復活スキルは障害物の判定をしない
-				if (!((_skill.Type == L1Skills.TYPE_CHANGE) || (_skill.Type == L1Skills.TYPE_RESTORE)))
+				if (!( ( _skill.Type == L1Skills.TYPE_CHANGE ) || ( _skill.Type == L1Skills.TYPE_RESTORE ) ))
 				{
 					_isGlanceCheckFail = true;
 					return false; // 直線上に障害物がある
 				}
 			}
 
-			if (cha.hasSkillEffect(ICE_LANCE) || cha.hasSkillEffect(FREEZING_BLIZZARD) || cha.hasSkillEffect(FREEZING_BREATH) || cha.hasSkillEffect(ICE_LANCE_COCKATRICE) || cha.hasSkillEffect(ICE_LANCE_BASILISK))
+			if (cha.hasSkillEffect(L1SkillId.ICE_LANCE) || cha.hasSkillEffect(L1SkillId.FREEZING_BLIZZARD) || cha.hasSkillEffect(L1SkillId.FREEZING_BREATH) || cha.hasSkillEffect(L1SkillId.ICE_LANCE_COCKATRICE) || cha.hasSkillEffect(L1SkillId.ICE_LANCE_BASILISK))
 			{
-				if (_skillId == ICE_LANCE || _skillId == FREEZING_BLIZZARD || _skillId == FREEZING_BREATH || _skillId == ICE_LANCE_COCKATRICE || _skillId == ICE_LANCE_BASILISK)
+				if (_skillId == L1SkillId.ICE_LANCE || _skillId == L1SkillId.FREEZING_BLIZZARD || _skillId == L1SkillId.FREEZING_BREATH || _skillId == L1SkillId.ICE_LANCE_COCKATRICE || _skillId == L1SkillId.ICE_LANCE_BASILISK)
 				{
 					return false;
 				}
 			}
-	/*
-			if (cha.hasSkillEffect(ICE_LANCE) && ((_skillId == ICE_LANCE) || (_skillId == FREEZING_BLIZZARD) || (_skillId == FREEZING_BREATH))) {
-				return false; // アイスランス中にアイスランス、フリージングブリザード、フリージングブレス
-			}
-	
-			if (cha.hasSkillEffect(FREEZING_BLIZZARD) && ((_skillId == ICE_LANCE) || (_skillId == FREEZING_BLIZZARD) || (_skillId == FREEZING_BREATH))) {
-				return false; // フリージングブリザード中にアイスランス、フリージングブリザード、フリージングブレス
-			}
-	
-			if (cha.hasSkillEffect(FREEZING_BREATH) && ((_skillId == ICE_LANCE) || (_skillId == FREEZING_BLIZZARD) || (_skillId == FREEZING_BREATH))) {
-				return false; // フリージングブレス中にアイスランス、フリージングブリザード、フリージングブレス
-			}
-	*/
-			if (cha.hasSkillEffect(EARTH_BIND) && (_skillId == EARTH_BIND))
+			/*
+					if (cha.hasSkillEffect(L1SkillId.ICE_LANCE) && ((_skillId == L1SkillId.ICE_LANCE) || (_skillId == L1SkillId.FREEZING_BLIZZARD) || (_skillId == L1SkillId.FREEZING_BREATH))) {
+						return false; // アイスランス中にアイスランス、フリージングブリザード、フリージングブレス
+					}
+
+					if (cha.hasSkillEffect(L1SkillId.FREEZING_BLIZZARD) && ((_skillId == L1SkillId.ICE_LANCE) || (_skillId == L1SkillId.FREEZING_BLIZZARD) || (_skillId == L1SkillId.FREEZING_BREATH))) {
+						return false; // フリージングブリザード中にアイスランス、フリージングブリザード、フリージングブレス
+					}
+
+					if (cha.hasSkillEffect(L1SkillId.FREEZING_BREATH) && ((_skillId == L1SkillId.ICE_LANCE) || (_skillId == L1SkillId.FREEZING_BLIZZARD) || (_skillId == L1SkillId.FREEZING_BREATH))) {
+						return false; // フリージングブレス中にアイスランス、フリージングブリザード、フリージングブレス
+					}
+			*/
+			if (cha.hasSkillEffect(L1SkillId.EARTH_BIND) && ( _skillId == L1SkillId.EARTH_BIND ))
 			{
 				return false; // アース バインド中にアース バインド
 			}
 
-			if (!(cha is L1MonsterInstance) && ((_skillId == TAMING_MONSTER) || (_skillId == CREATE_ZOMBIE)))
+			if (!( cha is L1MonsterInstance ) && ( ( _skillId == L1SkillId.TAMING_MONSTER ) || ( _skillId == L1SkillId.CREATE_ZOMBIE ) ))
 			{
 				return false; // ターゲットがモンスターじゃない（テイミングモンスター）
 			}
-			if (cha.Dead && ((_skillId != CREATE_ZOMBIE) && (_skillId != RESURRECTION) && (_skillId != GREATER_RESURRECTION) && (_skillId != CALL_OF_NATURE)))
+			if (cha.Dead && ( ( _skillId != L1SkillId.CREATE_ZOMBIE ) && ( _skillId != L1SkillId.RESURRECTION ) && ( _skillId != L1SkillId.GREATER_RESURRECTION ) && ( _skillId != L1SkillId.CALL_OF_NATURE ) ))
 			{
 				return false; // 目標已死亡 法術非復活類
 			}
 
-			if ((cha.Dead == false) && ((_skillId == CREATE_ZOMBIE) || (_skillId == RESURRECTION) || (_skillId == GREATER_RESURRECTION) || (_skillId == CALL_OF_NATURE)))
+			if (( cha.Dead == false ) && ( ( _skillId == L1SkillId.CREATE_ZOMBIE ) || ( _skillId == L1SkillId.RESURRECTION ) || ( _skillId == L1SkillId.GREATER_RESURRECTION ) || ( _skillId == L1SkillId.CALL_OF_NATURE ) ))
 			{
 				return false; // 目標未死亡 法術復活類
 			}
 
-			if (((cha is L1TowerInstance) || (cha is L1DoorInstance)) && ((_skillId == CREATE_ZOMBIE) || (_skillId == RESURRECTION) || (_skillId == GREATER_RESURRECTION) || (_skillId == CALL_OF_NATURE)))
+			if (( ( cha is L1TowerInstance ) || ( cha is L1DoorInstance ) ) && ( ( _skillId == L1SkillId.CREATE_ZOMBIE ) || ( _skillId == L1SkillId.RESURRECTION ) || ( _skillId == L1SkillId.GREATER_RESURRECTION ) || ( _skillId == L1SkillId.CALL_OF_NATURE ) ))
 			{
 				return false; // 塔跟門不可放復活法術
 			}
 
 			if (cha is L1PcInstance)
 			{
-				L1PcInstance pc = (L1PcInstance) cha;
+				L1PcInstance pc = (L1PcInstance)cha;
 				if (pc.hasSkillEffect(L1SkillId.ABSOLUTE_BARRIER))
 				{ // 絕對屏障狀態中
-					if ((_skillId == CURSE_BLIND) || (_skillId == WEAPON_BREAK) || (_skillId == DARKNESS) || (_skillId == WEAKNESS) || (_skillId == DISEASE) || (_skillId == FOG_OF_SLEEPING) || (_skillId == MASS_SLOW) || (_skillId == SLOW) || (_skillId == CANCELLATION) || (_skillId == SILENCE) || (_skillId == DECAY_POTION) || (_skillId == MASS_TELEPORT) || (_skillId == DETECTION) || (_skillId == COUNTER_DETECTION) || (_skillId == ERASE_MAGIC) || (_skillId == ENTANGLE) || (_skillId == PHYSICAL_ENCHANT_DEX) || (_skillId == PHYSICAL_ENCHANT_STR) || (_skillId == BLESS_WEAPON) || (_skillId == EARTH_SKIN) || (_skillId == IMMUNE_TO_HARM) || (_skillId == REMOVE_CURSE))
+					if (( _skillId == L1SkillId.CURSE_BLIND ) || ( _skillId == L1SkillId.WEAPON_BREAK ) || ( _skillId == L1SkillId.DARKNESS ) || ( _skillId == L1SkillId.WEAKNESS ) || ( _skillId == L1SkillId.DISEASE ) || ( _skillId == L1SkillId.FOG_OF_SLEEPING ) || ( _skillId == L1SkillId.MASS_SLOW ) || ( _skillId == L1SkillId.SLOW ) || ( _skillId == L1SkillId.CANCELLATION ) || ( _skillId == L1SkillId.SILENCE ) || ( _skillId == L1SkillId.DECAY_POTION ) || ( _skillId == L1SkillId.MASS_TELEPORT ) || ( _skillId == L1SkillId.DETECTION ) || ( _skillId == L1SkillId.COUNTER_DETECTION ) || ( _skillId == L1SkillId.ERASE_MAGIC ) || ( _skillId == L1SkillId.ENTANGLE ) || ( _skillId == L1SkillId.PHYSICAL_ENCHANT_DEX ) || ( _skillId == L1SkillId.PHYSICAL_ENCHANT_STR ) || ( _skillId == L1SkillId.BLESS_WEAPON ) || ( _skillId == L1SkillId.EARTH_SKIN ) || ( _skillId == L1SkillId.IMMUNE_TO_HARM ) || ( _skillId == L1SkillId.REMOVE_CURSE ))
 					{
 						return true;
 					}
@@ -878,10 +870,10 @@ namespace LineageServer.Server.Server.Model.skill
 
 			if (cha is L1NpcInstance)
 			{
-				int hiddenStatus = ((L1NpcInstance) cha).HiddenStatus;
+				int hiddenStatus = ( (L1NpcInstance)cha ).HiddenStatus;
 				if (hiddenStatus == L1NpcInstance.HIDDEN_STATUS_SINK)
 				{
-					if ((_skillId == DETECTION) || (_skillId == COUNTER_DETECTION))
+					if (( _skillId == L1SkillId.DETECTION ) || ( _skillId == L1SkillId.COUNTER_DETECTION ))
 					{ // ディテク、Cディテク
 						return true;
 					}
@@ -896,19 +888,19 @@ namespace LineageServer.Server.Server.Model.skill
 				}
 			}
 
-			if (((_skill.TargetTo & L1Skills.TARGET_TO_PC) == L1Skills.TARGET_TO_PC) && (cha is L1PcInstance))
+			if (( ( _skill.TargetTo & L1Skills.TARGET_TO_PC ) == L1Skills.TARGET_TO_PC ) && ( cha is L1PcInstance ))
 			{
 				_flg = true;
 			}
-			else if (((_skill.TargetTo & L1Skills.TARGET_TO_NPC) == L1Skills.TARGET_TO_NPC) && ((cha is L1MonsterInstance) || (cha is L1NpcInstance) || (cha is L1SummonInstance) || (cha is L1PetInstance)))
+			else if (( ( _skill.TargetTo & L1Skills.TARGET_TO_NPC ) == L1Skills.TARGET_TO_NPC ) && ( ( cha is L1MonsterInstance ) || ( cha is L1NpcInstance ) || ( cha is L1SummonInstance ) || ( cha is L1PetInstance ) ))
 			{
 				_flg = true;
 			}
-			else if (((_skill.TargetTo & L1Skills.TARGET_TO_PET) == L1Skills.TARGET_TO_PET) && (_user is L1PcInstance))
+			else if (( ( _skill.TargetTo & L1Skills.TARGET_TO_PET ) == L1Skills.TARGET_TO_PET ) && ( _user is L1PcInstance ))
 			{ // ターゲットがSummon,Pet
 				if (cha is L1SummonInstance)
 				{
-					L1SummonInstance summon = (L1SummonInstance) cha;
+					L1SummonInstance summon = (L1SummonInstance)cha;
 					if (summon.Master != null)
 					{
 						if (_player.Id == summon.Master.Id)
@@ -919,7 +911,7 @@ namespace LineageServer.Server.Server.Model.skill
 				}
 				else if (cha is L1PetInstance)
 				{
-					L1PetInstance pet = (L1PetInstance) cha;
+					L1PetInstance pet = (L1PetInstance)cha;
 					if (pet.Master != null)
 					{
 						if (_player.Id == pet.Master.Id)
@@ -930,13 +922,13 @@ namespace LineageServer.Server.Server.Model.skill
 				}
 			}
 
-			if ((_calcType == PC_PC) && (cha is L1PcInstance))
+			if (( _calcType == PC_PC ) && ( cha is L1PcInstance ))
 			{
-				if (((_skill.TargetTo & L1Skills.TARGET_TO_CLAN) == L1Skills.TARGET_TO_CLAN) && (((_player.Clanid != 0) && (_player.Clanid == ((L1PcInstance) cha).Clanid)) || _player.Gm))
+				if (( ( _skill.TargetTo & L1Skills.TARGET_TO_CLAN ) == L1Skills.TARGET_TO_CLAN ) && ( ( ( _player.Clanid != 0 ) && ( _player.Clanid == ( (L1PcInstance)cha ).Clanid ) ) || _player.Gm ))
 				{
 					return true;
 				}
-				if (((_skill.TargetTo & L1Skills.TARGET_TO_PARTY) == L1Skills.TARGET_TO_PARTY) && (_player.Party.isMember((L1PcInstance) cha) || _player.Gm))
+				if (( ( _skill.TargetTo & L1Skills.TARGET_TO_PARTY ) == L1Skills.TARGET_TO_PARTY ) && ( _player.Party.isMember((L1PcInstance)cha) || _player.Gm ))
 				{
 					return true;
 				}
@@ -955,7 +947,7 @@ namespace LineageServer.Server.Server.Model.skill
 					_targetList.Add(new TargetStatus(_user));
 					return;
 				}
-				if ((_skill.TargetTo == L1Skills.TARGET_TO_ME) && ((_skill.Type & L1Skills.TYPE_ATTACK) != L1Skills.TYPE_ATTACK))
+				if (( _skill.TargetTo == L1Skills.TARGET_TO_ME ) && ( ( _skill.Type & L1Skills.TYPE_ATTACK ) != L1Skills.TYPE_ATTACK ))
 				{
 					_targetList.Add(new TargetStatus(_user)); // ターゲットは使用者のみ
 					return;
@@ -977,13 +969,13 @@ namespace LineageServer.Server.Server.Model.skill
 					}
 				}
 
-				if ((isTarget(_target) == false) && !(_skill.Target.Equals("none")))
+				if (( isTarget(_target) == false ) && !( _skill.Target.Equals("none") ))
 				{
 					// 対象が違うのでスキルが発動しない。
 					return;
 				}
 
-				if ((_skillId == LIGHTNING) || (_skillId == FREEZING_BREATH))
+				if (( _skillId == L1SkillId.LIGHTNING ) || ( _skillId == L1SkillId.FREEZING_BREATH ))
 				{ // ライトニング、フリージングブレス直線的に範囲を決める
 					IList<L1Object> al1object = L1World.Instance.getVisibleLineObjects(_user, _target);
 
@@ -993,11 +985,11 @@ namespace LineageServer.Server.Server.Model.skill
 						{
 							continue;
 						}
-						if (!(tgobj is L1Character))
+						if (!( tgobj is L1Character ))
 						{ // ターゲットがキャラクター以外の場合何もしない。
 							continue;
 						}
-						L1Character cha = (L1Character) tgobj;
+						L1Character cha = (L1Character)tgobj;
 						if (isTarget(cha) == false)
 						{
 							continue;
@@ -1006,7 +998,7 @@ namespace LineageServer.Server.Server.Model.skill
 					}
 					return;
 				}
-				if (_player.AccessLevel >= 200 && _skillId == ENERGY_BOLT)
+				if (_player.AccessLevel >= 200 && _skillId == L1SkillId.ENERGY_BOLT)
 				{ // ライトニング、フリージングブレス直線的に範囲を決める
 					IList<L1Object> al1object = L1World.Instance.getVisibleObjects(_user, 10);
 
@@ -1016,11 +1008,11 @@ namespace LineageServer.Server.Server.Model.skill
 						{
 							continue;
 						}
-						if (!(tgobj is L1Character))
+						if (!( tgobj is L1Character ))
 						{ // ターゲットがキャラクター以外の場合何もしない。
 							continue;
 						}
-						L1Character cha = (L1Character) tgobj;
+						L1Character cha = (L1Character)tgobj;
 						if (isTarget(cha) == false)
 						{
 							continue;
@@ -1033,7 +1025,7 @@ namespace LineageServer.Server.Server.Model.skill
 				{ // 単体の場合
 					if (!_user.glanceCheck(_target.X, _target.Y))
 					{ // 直線上に障害物があるか
-						if (((_skill.Type & L1Skills.TYPE_ATTACK) == L1Skills.TYPE_ATTACK) && (_skillId != 10026) && (_skillId != 10027) && (_skillId != 10028) && (_skillId != 10029))
+						if (( ( _skill.Type & L1Skills.TYPE_ATTACK ) == L1Skills.TYPE_ATTACK ) && ( _skillId != 10026 ) && ( _skillId != 10027 ) && ( _skillId != 10028 ) && ( _skillId != 10029 ))
 						{ // 安息攻撃以外の攻撃スキル
 							_targetList.Add(new TargetStatus(_target, false)); // ダメージも発生しないし、ダメージモーションも発生しないが、スキルは発動
 							return;
@@ -1048,7 +1040,7 @@ namespace LineageServer.Server.Server.Model.skill
 						_targetList.Add(new TargetStatus(_target));
 					}
 
-					if ((_skillId != 49) && !(_skill.Target.Equals("attack") || (_skill.Type == L1Skills.TYPE_ATTACK)))
+					if (( _skillId != L1SkillId.HEAL_ALL ) && !( _skill.Target.Equals("attack") || ( _skill.Type == L1Skills.TYPE_ATTACK ) ))
 					{
 						// 攻撃系以外のスキルとH-A以外はターゲット自身を含める
 						_targetList.Add(new TargetStatus(_user));
@@ -1069,11 +1061,11 @@ namespace LineageServer.Server.Server.Model.skill
 						{
 							continue;
 						}
-						if (!(tgobj is L1Character))
+						if (!( tgobj is L1Character ))
 						{ // ターゲットがキャラクター以外の場合何もしない。
 							continue;
 						}
-						L1Character cha = (L1Character) tgobj;
+						L1Character cha = (L1Character)tgobj;
 						if (!isTarget(cha))
 						{
 							continue;
@@ -1098,7 +1090,7 @@ namespace LineageServer.Server.Server.Model.skill
 			if (msgID > 0)
 			{
 				// 效果訊息排除施法者本身。
-				if (_skillId == AREA_OF_SILENCE && _user.Id == pc.Id)
+				if (_skillId == L1SkillId.AREA_OF_SILENCE && _user.Id == pc.Id)
 				{ // 封印禁地
 					return;
 				}
@@ -1111,7 +1103,7 @@ namespace LineageServer.Server.Server.Model.skill
 		{
 			// 攻撃スキル以外で対象を指定するスキルが失敗した場合は失敗したメッセージをクライアントに送信
 			// ※攻撃スキルは障害物があっても成功時と同じアクションであるべき。
-			if ((_skill.Type != L1Skills.TYPE_ATTACK) && !_skill.Target.Equals("none") && _targetList.Count == 0)
+			if (( _skill.Type != L1Skills.TYPE_ATTACK ) && !_skill.Target.Equals("none") && _targetList.Count == 0)
 			{
 				sendFailMessage();
 			}
@@ -1121,7 +1113,7 @@ namespace LineageServer.Server.Server.Model.skill
 		private void sendFailMessage()
 		{
 			int msgID = _skill.SysmsgIdFail;
-			if ((msgID > 0) && (_user is L1PcInstance))
+			if (( msgID > 0 ) && ( _user is L1PcInstance ))
 			{
 				_player.sendPackets(new S_ServerMessage(msgID));
 			}
@@ -1137,8 +1129,8 @@ namespace LineageServer.Server.Server.Model.skill
 				{ // NPCが使った場合なんでもOK
 					return true;
 				}
-    
-				if ((_skill.SkillLevel >= 17) && (_skill.SkillLevel <= 22) && (magicattr != 0) && (magicattr != _player.ElfAttr) && !_player.Gm)
+
+				if (( _skill.SkillLevel >= 17 ) && ( _skill.SkillLevel <= 22 ) && ( magicattr != 0 ) && ( magicattr != _player.ElfAttr ) && !_player.Gm)
 				{ // ただしGMは例外
 					return false;
 				}
@@ -1158,7 +1150,7 @@ namespace LineageServer.Server.Server.Model.skill
 				_hpConsume = _skill.HpConsume;
 				int currentMp = 0;
 				int currentHp = 0;
-    
+
 				if (_user is L1NpcInstance)
 				{
 					currentMp = _npc.CurrentMp;
@@ -1168,114 +1160,114 @@ namespace LineageServer.Server.Server.Model.skill
 				{
 					currentMp = _player.CurrentMp;
 					currentHp = _player.CurrentHp;
-    
+
 					// MPのINT軽減
-					if ((_player.Int > 12) && (_skillId > HOLY_WEAPON) && (_skillId <= FREEZING_BLIZZARD))
+					if (( _player.Int > 12 ) && ( _skillId > L1SkillId.HOLY_WEAPON ) && ( _skillId <= L1SkillId.FREEZING_BLIZZARD ))
 					{ // LV2以上
 						_mpConsume--;
 					}
-					if ((_player.Int > 13) && (_skillId > STALAC) && (_skillId <= FREEZING_BLIZZARD))
+					if (( _player.Int > 13 ) && ( _skillId > L1SkillId.STALAC ) && ( _skillId <= L1SkillId.FREEZING_BLIZZARD ))
 					{ // LV3以上
 						_mpConsume--;
 					}
-					if ((_player.Int > 14) && (_skillId > WEAK_ELEMENTAL) && (_skillId <= FREEZING_BLIZZARD))
+					if (( _player.Int > 14 ) && ( _skillId > L1SkillId.WEAK_ELEMENTAL ) && ( _skillId <= L1SkillId.FREEZING_BLIZZARD ))
 					{ // LV4以上
 						_mpConsume--;
 					}
-					if ((_player.Int > 15) && (_skillId > MEDITATION) && (_skillId <= FREEZING_BLIZZARD))
+					if (( _player.Int > 15 ) && ( _skillId > L1SkillId.MEDITATION ) && ( _skillId <= L1SkillId.FREEZING_BLIZZARD ))
 					{ // LV5以上
 						_mpConsume--;
 					}
-					if ((_player.Int > 16) && (_skillId > DARKNESS) && (_skillId <= FREEZING_BLIZZARD))
+					if (( _player.Int > 16 ) && ( _skillId > L1SkillId.DARKNESS ) && ( _skillId <= L1SkillId.FREEZING_BLIZZARD ))
 					{ // LV6以上
 						_mpConsume--;
 					}
-					if ((_player.Int > 17) && (_skillId > BLESS_WEAPON) && (_skillId <= FREEZING_BLIZZARD))
+					if (( _player.Int > 17 ) && ( _skillId > L1SkillId.BLESS_WEAPON ) && ( _skillId <= L1SkillId.FREEZING_BLIZZARD ))
 					{ // LV7以上
 						_mpConsume--;
 					}
-					if ((_player.Int > 18) && (_skillId > DISEASE) && (_skillId <= FREEZING_BLIZZARD))
+					if (( _player.Int > 18 ) && ( _skillId > L1SkillId.DISEASE ) && ( _skillId <= L1SkillId.FREEZING_BLIZZARD ))
 					{ // LV8以上
 						_mpConsume--;
 					}
-    
+
 					// 騎士智力減免
-					if ((_player.Int > 12) && (_skillId >= SHOCK_STUN) && (_skillId <= COUNTER_BARRIER))
+					if (( _player.Int > 12 ) && ( _skillId >= L1SkillId.SHOCK_STUN ) && ( _skillId <= L1SkillId.COUNTER_BARRIER ))
 					{
 						if (_player.Int <= 17)
 						{
-							_mpConsume -= (_player.Int - 12);
+							_mpConsume -= ( _player.Int - 12 );
 						}
 						else
 						{
 							_mpConsume -= 5; // int > 18
 							if (_mpConsume > 1)
 							{ // 法術還可以減免
-								sbyte extraInt = (sbyte)(_player.Int - 17);
+								sbyte extraInt = (sbyte)( _player.Int - 17 );
 								// 減免公式
-								for (int first = 1,range = 2 ; first <= extraInt; first += range, range++)
+								for (int first = 1, range = 2; first <= extraInt; first += range, range++)
 								{
 									_mpConsume--;
 								}
 							}
 						}
-    
+
 					}
-    
+
 					// 裝備MP減免 一次只需判斷一個 
-					if ((_skillId == PHYSICAL_ENCHANT_DEX) && _player.Inventory.checkEquipped(20013))
+					if (( _skillId == L1SkillId.PHYSICAL_ENCHANT_DEX ) && _player.Inventory.checkEquipped(20013))
 					{ // 敏捷魔法頭盔使用通暢氣脈術
 						_mpConsume /= 2;
 					}
-					else if ((_skillId == HASTE) && _player.Inventory.checkEquipped(20013))
+					else if (( _skillId == L1SkillId.HASTE ) && _player.Inventory.checkEquipped(20013))
 					{ // 敏捷魔法頭盔使用加速術
 						_mpConsume /= 2;
 					}
-					else if ((_skillId == HEAL) && _player.Inventory.checkEquipped(20014))
+					else if (( _skillId == L1SkillId.HEAL ) && _player.Inventory.checkEquipped(20014))
 					{ // 治癒魔法頭盔使用初級治癒術
 						_mpConsume /= 2;
 					}
-					else if ((_skillId == EXTRA_HEAL) && _player.Inventory.checkEquipped(20014))
+					else if (( _skillId == L1SkillId.EXTRA_HEAL ) && _player.Inventory.checkEquipped(20014))
 					{ // 治癒魔法頭盔使用中級治癒術
 						_mpConsume /= 2;
 					}
-					else if ((_skillId == ENCHANT_WEAPON) && _player.Inventory.checkEquipped(20015))
+					else if (( _skillId == L1SkillId.ENCHANT_WEAPON ) && _player.Inventory.checkEquipped(20015))
 					{ // 力量魔法頭盔使用擬似魔法武器
 						_mpConsume /= 2;
 					}
-					else if ((_skillId == DETECTION) && _player.Inventory.checkEquipped(20015))
+					else if (( _skillId == L1SkillId.DETECTION ) && _player.Inventory.checkEquipped(20015))
 					{ // 力量魔法頭盔使用無所遁形術
 						_mpConsume /= 2;
 					}
-					else if ((_skillId == PHYSICAL_ENCHANT_STR) && _player.Inventory.checkEquipped(20015))
+					else if (( _skillId == L1SkillId.PHYSICAL_ENCHANT_STR ) && _player.Inventory.checkEquipped(20015))
 					{ // 力量魔法頭盔使用體魄強健術
 						_mpConsume /= 2;
 					}
-					else if ((_skillId == HASTE) && _player.Inventory.checkEquipped(20008))
+					else if (( _skillId == L1SkillId.HASTE ) && _player.Inventory.checkEquipped(20008))
 					{ // 小型風之頭盔使用加速術
 						_mpConsume /= 2;
 					}
-					else if ((_skillId == HASTE) && _player.Inventory.checkEquipped(20023))
+					else if (( _skillId == L1SkillId.HASTE ) && _player.Inventory.checkEquipped(20023))
 					{ // 風之頭盔使用加速術
 						_mpConsume = 25;
 					}
-					else if ((_skillId == GREATER_HASTE) && _player.Inventory.checkEquipped(20023))
+					else if (( _skillId == L1SkillId.GREATER_HASTE ) && _player.Inventory.checkEquipped(20023))
 					{ // 風之頭盔使用強力加速術
 						_mpConsume /= 2;
 					}
-    
+
 					// 初始能力減免
 					if (_player.OriginalMagicConsumeReduction > 0)
 					{
 						_mpConsume -= _player.OriginalMagicConsumeReduction;
 					}
-    
+
 					if (0 < _skill.MpConsume)
 					{
 						_mpConsume = Math.Max(_mpConsume, 1); // 最小值 1
 					}
 				}
-    
+
 				if (currentHp < _hpConsume + 1)
 				{
 					if (_user is L1PcInstance)
@@ -1292,7 +1284,7 @@ namespace LineageServer.Server.Server.Model.skill
 					}
 					return false;
 				}
-    
+
 				return true;
 			}
 		}
@@ -1302,20 +1294,20 @@ namespace LineageServer.Server.Server.Model.skill
 		{
 			get
 			{
-    
+
 				int itemConsume = _skill.ItemConsumeId;
 				int itemConsumeCount = _skill.ItemConsumeCount;
-    
+
 				if (itemConsume == 0)
 				{
 					return true; // 材料を必要としない魔法
 				}
-    
+
 				if (!_player.Inventory.checkItem(itemConsume, itemConsumeCount))
 				{
 					return false; // 必要材料が足りなかった。
 				}
-    
+
 				return true;
 			}
 		}
@@ -1335,10 +1327,10 @@ namespace LineageServer.Server.Server.Model.skill
 			}
 
 			// HP・MP花費 已經計算使用量
-			if (_skillId == FINAL_BURN)
+			if (_skillId == L1SkillId.FINAL_BURN)
 			{ // 會心一擊
-					_player.CurrentHp = 1;
-					_player.CurrentMp = 0;
+				_player.CurrentHp = 1;
+				_player.CurrentMp = 0;
 			}
 			else
 			{
@@ -1381,9 +1373,9 @@ namespace LineageServer.Server.Server.Model.skill
 				_getBuffDuration = _skill.BuffDuration * 1000; // 効果時間
 				if (_skill.BuffDuration == 0)
 				{
-					if (_skillId == INVISIBILITY)
+					if (_skillId == L1SkillId.INVISIBILITY)
 					{ // インビジビリティ
-						cha.setSkillEffect(INVISIBILITY, 0);
+						cha.setSkillEffect(L1SkillId.INVISIBILITY, 0);
 					}
 					return;
 				}
@@ -1393,43 +1385,43 @@ namespace LineageServer.Server.Server.Model.skill
 				_getBuffDuration = _skillTime * 1000; // パラメータのtimeが0以外なら、効果時間として設定する
 			}
 
-			if (_skillId == SHOCK_STUN)
+			if (_skillId == L1SkillId.SHOCK_STUN)
 			{
 				_getBuffDuration = _shockStunDuration;
 			}
 
-			if (_skillId == CURSE_POISON)
+			if (_skillId == L1SkillId.CURSE_POISON)
 			{ // 毒咒持續時間移至 L1Poison 處理。
 				return;
 			}
-			if ((_skillId == CURSE_PARALYZE) || (_skillId == CURSE_PARALYZE2))
+			if (( _skillId == L1SkillId.CURSE_PARALYZE ) || ( _skillId == L1SkillId.CURSE_PARALYZE2 ))
 			{ // 木乃伊的咀咒、石化持續時間移至 L1CurseParalysis 處理。
 				return;
 			}
-			if (_skillId == SHAPE_CHANGE)
+			if (_skillId == L1SkillId.SHAPE_CHANGE)
 			{ // 變形術持續時間移至 L1PolyMorph 處理。
 				return;
 			}
-			if ((_skillId == BLESSED_ARMOR) || (_skillId == HOLY_WEAPON) || (_skillId == ENCHANT_WEAPON) || (_skillId == BLESS_WEAPON) || (_skillId == SHADOW_FANG))
+			if (( _skillId == L1SkillId.BLESSED_ARMOR ) || ( _skillId == L1SkillId.HOLY_WEAPON ) || ( _skillId == L1SkillId.ENCHANT_WEAPON ) || ( _skillId == L1SkillId.BLESS_WEAPON ) || ( _skillId == L1SkillId.SHADOW_FANG ))
 			{
 				return;
 			}
-			if (((_skillId == ICE_LANCE) || (_skillId == FREEZING_BLIZZARD) || (_skillId == FREEZING_BREATH) || (_skillId == ICE_LANCE_COCKATRICE) || (_skillId == ICE_LANCE_BASILISK)) && !_isFreeze)
+			if (( ( _skillId == L1SkillId.ICE_LANCE ) || ( _skillId == L1SkillId.FREEZING_BLIZZARD ) || ( _skillId == L1SkillId.FREEZING_BREATH ) || ( _skillId == L1SkillId.ICE_LANCE_COCKATRICE ) || ( _skillId == L1SkillId.ICE_LANCE_BASILISK ) ) && !_isFreeze)
 			{ // 凍結失敗
 				return;
 			}
-			if ((_skillId == AWAKEN_ANTHARAS) || (_skillId == AWAKEN_FAFURION) || (_skillId == AWAKEN_VALAKAS))
+			if (( _skillId == L1SkillId.AWAKEN_ANTHARAS ) || ( _skillId == L1SkillId.AWAKEN_FAFURION ) || ( _skillId == L1SkillId.AWAKEN_VALAKAS ))
 			{ // 覚醒の効果処理はL1Awakeに移譲。
 				return;
 			}
 			// 骷髏毀壞持續時間另外處理
-			if (_skillId == BONE_BREAK || _skillId == CONFUSION)
+			if (_skillId == L1SkillId.BONE_BREAK || _skillId == L1SkillId.CONFUSION)
 			{
 				return;
 			}
 			cha.setSkillEffect(_skillId, _getBuffDuration);
 
-			if (_skillId == ELEMENTAL_FALL_DOWN && repetition)
+			if (_skillId == L1SkillId.ELEMENTAL_FALL_DOWN && repetition)
 			{ // 弱化屬性重複施放
 				if (_skillTime == 0)
 				{
@@ -1439,13 +1431,13 @@ namespace LineageServer.Server.Server.Model.skill
 				{
 					_getBuffIconDuration = _skillTime;
 				}
-				_target.removeSkillEffect(ELEMENTAL_FALL_DOWN);
+				_target.removeSkillEffect(L1SkillId.ELEMENTAL_FALL_DOWN);
 				runSkill();
 				return;
 			}
-			if ((cha is L1PcInstance) && repetition)
+			if (( cha is L1PcInstance ) && repetition)
 			{ // 対象がPCで既にスキルが重複している場合
-				L1PcInstance pc = (L1PcInstance) cha;
+				L1PcInstance pc = (L1PcInstance)cha;
 				sendIcon(pc);
 			}
 		}
@@ -1462,103 +1454,103 @@ namespace LineageServer.Server.Server.Model.skill
 				_getBuffIconDuration = _skillTime; // パラメータのtimeが0以外なら、効果時間として設定する
 			}
 
-			if (_skillId == SHIELD)
+			if (_skillId == L1SkillId.SHIELD)
 			{ // シールド
 				pc.sendPackets(new S_SkillIconShield(2, _getBuffIconDuration));
 			}
-			else if (_skillId == SHADOW_ARMOR)
+			else if (_skillId == L1SkillId.SHADOW_ARMOR)
 			{ // シャドウ アーマー
 				pc.sendPackets(new S_SkillIconShield(3, _getBuffIconDuration));
 			}
-			else if (_skillId == DRESS_DEXTERITY)
+			else if (_skillId == L1SkillId.DRESS_DEXTERITY)
 			{ // ドレス デクスタリティー
 				pc.sendPackets(new S_Dexup(pc, 2, _getBuffIconDuration));
 			}
-			else if (_skillId == DRESS_MIGHTY)
+			else if (_skillId == L1SkillId.DRESS_MIGHTY)
 			{ // ドレス マイティー
 				pc.sendPackets(new S_Strup(pc, 2, _getBuffIconDuration));
 			}
-			else if (_skillId == GLOWING_AURA)
+			else if (_skillId == L1SkillId.GLOWING_AURA)
 			{ // グローウィング オーラ
 				pc.sendPackets(new S_SkillIconAura(113, _getBuffIconDuration));
 			}
-			else if (_skillId == SHINING_AURA)
+			else if (_skillId == L1SkillId.SHINING_AURA)
 			{ // シャイニング オーラ
 				pc.sendPackets(new S_SkillIconAura(114, _getBuffIconDuration));
 			}
-			else if (_skillId == BRAVE_AURA)
+			else if (_skillId == L1SkillId.BRAVE_AURA)
 			{ // ブレイブ オーラ
 				pc.sendPackets(new S_SkillIconAura(116, _getBuffIconDuration));
 			}
-			else if (_skillId == FIRE_WEAPON)
+			else if (_skillId == L1SkillId.FIRE_WEAPON)
 			{ // ファイアー ウェポン
 				pc.sendPackets(new S_SkillIconAura(147, _getBuffIconDuration));
 			}
-			else if (_skillId == WIND_SHOT)
+			else if (_skillId == L1SkillId.WIND_SHOT)
 			{ // ウィンド ショット
 				pc.sendPackets(new S_SkillIconAura(148, _getBuffIconDuration));
 			}
-			else if (_skillId == FIRE_BLESS)
+			else if (_skillId == L1SkillId.FIRE_BLESS)
 			{ // ファイアー ブレス
 				pc.sendPackets(new S_SkillIconAura(154, _getBuffIconDuration));
 			}
-			else if (_skillId == STORM_EYE)
+			else if (_skillId == L1SkillId.STORM_EYE)
 			{ // ストーム アイ
 				pc.sendPackets(new S_SkillIconAura(155, _getBuffIconDuration));
 			}
-			else if (_skillId == EARTH_BLESS)
+			else if (_skillId == L1SkillId.EARTH_BLESS)
 			{ // アース ブレス
 				pc.sendPackets(new S_SkillIconShield(7, _getBuffIconDuration));
 			}
-			else if (_skillId == BURNING_WEAPON)
+			else if (_skillId == L1SkillId.BURNING_WEAPON)
 			{ // バーニング ウェポン
 				pc.sendPackets(new S_SkillIconAura(162, _getBuffIconDuration));
 			}
-			else if (_skillId == STORM_SHOT)
+			else if (_skillId == L1SkillId.STORM_SHOT)
 			{ // ストーム ショット
 				pc.sendPackets(new S_SkillIconAura(165, _getBuffIconDuration));
 			}
-			else if (_skillId == IRON_SKIN)
+			else if (_skillId == L1SkillId.IRON_SKIN)
 			{ // アイアン スキン
 				pc.sendPackets(new S_SkillIconShield(10, _getBuffIconDuration));
 			}
-			else if (_skillId == EARTH_SKIN)
+			else if (_skillId == L1SkillId.EARTH_SKIN)
 			{ // アース スキン
 				pc.sendPackets(new S_SkillIconShield(6, _getBuffIconDuration));
 			}
-			else if (_skillId == PHYSICAL_ENCHANT_STR)
+			else if (_skillId == L1SkillId.PHYSICAL_ENCHANT_STR)
 			{ // フィジカル エンチャント：STR
 				pc.sendPackets(new S_Strup(pc, 5, _getBuffIconDuration));
 			}
-			else if (_skillId == PHYSICAL_ENCHANT_DEX)
+			else if (_skillId == L1SkillId.PHYSICAL_ENCHANT_DEX)
 			{ // フィジカル エンチャント：DEX
 				pc.sendPackets(new S_Dexup(pc, 5, _getBuffIconDuration));
 			}
-			else if ((_skillId == HASTE) || (_skillId == GREATER_HASTE))
+			else if (( _skillId == L1SkillId.HASTE ) || ( _skillId == L1SkillId.GREATER_HASTE ))
 			{ // グレーターヘイスト
 				pc.sendPackets(new S_SkillHaste(pc.Id, 1, _getBuffIconDuration));
 				pc.broadcastPacket(new S_SkillHaste(pc.Id, 1, 0));
 			}
-			else if ((_skillId == HOLY_WALK) || (_skillId == MOVING_ACCELERATION) || (_skillId == WIND_WALK))
+			else if (( _skillId == L1SkillId.HOLY_WALK ) || ( _skillId == L1SkillId.MOVING_ACCELERATION ) || ( _skillId == L1SkillId.WIND_WALK ))
 			{ // ホーリーウォーク、ムービングアクセレーション、ウィンドウォーク
 				pc.sendPackets(new S_SkillBrave(pc.Id, 4, _getBuffIconDuration));
 				pc.broadcastPacket(new S_SkillBrave(pc.Id, 4, 0));
 			}
-			else if (_skillId == BLOODLUST)
+			else if (_skillId == L1SkillId.BLOODLUST)
 			{ // ブラッドラスト
 				pc.sendPackets(new S_SkillBrave(pc.Id, 6, _getBuffIconDuration));
 				pc.broadcastPacket(new S_SkillBrave(pc.Id, 6, 0));
 			}
-			else if ((_skillId == SLOW) || (_skillId == MASS_SLOW) || (_skillId == ENTANGLE))
+			else if (( _skillId == L1SkillId.SLOW ) || ( _skillId == L1SkillId.MASS_SLOW ) || ( _skillId == L1SkillId.ENTANGLE ))
 			{ // スロー、エンタングル、マススロー
 				pc.sendPackets(new S_SkillHaste(pc.Id, 2, _getBuffIconDuration));
 				pc.broadcastPacket(new S_SkillHaste(pc.Id, 2, 0));
 			}
-			else if (_skillId == IMMUNE_TO_HARM)
+			else if (_skillId == L1SkillId.IMMUNE_TO_HARM)
 			{
 				pc.sendPackets(new S_SkillIconGFX(40, _getBuffIconDuration));
 			}
-			else if (_skillId == WIND_SHACKLE)
+			else if (_skillId == L1SkillId.WIND_SHACKLE)
 			{ // 風之枷鎖
 				pc.sendPackets(new S_SkillIconWindShackle(pc.Id, _getBuffIconDuration));
 				pc.broadcastPacket(new S_SkillIconWindShackle(pc.Id, _getBuffIconDuration));
@@ -1587,18 +1579,18 @@ namespace LineageServer.Server.Server.Model.skill
 			{
 
 				int targetid = 0;
-				if (_skillId != FIRE_WALL && _skillId != LIFE_STREAM)
+				if (_skillId != L1SkillId.FIRE_WALL && _skillId != L1SkillId.LIFE_STREAM)
 				{
 					targetid = _target.Id;
 				}
-				L1PcInstance pc = (L1PcInstance) _user;
+				L1PcInstance pc = (L1PcInstance)_user;
 
 				switch (_skillId)
 				{
-					case FIRE_WALL: // 火牢
-					case LIFE_STREAM: // 治癒能量風暴
-					case ELEMENTAL_FALL_DOWN: // 弱化屬性
-						if (_skillId == FIRE_WALL)
+					case L1SkillId.FIRE_WALL: // 火牢
+					case L1SkillId.LIFE_STREAM: // 治癒能量風暴
+					case L1SkillId.ELEMENTAL_FALL_DOWN: // 弱化屬性
+						if (_skillId == L1SkillId.FIRE_WALL)
 						{
 							pc.Heading = pc.targetDirection(_targetX, _targetY);
 							pc.sendPackets(new S_ChangeHeading(pc));
@@ -1608,7 +1600,7 @@ namespace LineageServer.Server.Server.Model.skill
 						pc.sendPackets(gfx);
 						pc.broadcastPacket(gfx);
 						return;
-					case SHOCK_STUN: // 衝擊之暈
+					case L1SkillId.SHOCK_STUN: // 衝擊之暈
 						if (_targetList.Count == 0)
 						{ // 失敗
 							return;
@@ -1617,7 +1609,7 @@ namespace LineageServer.Server.Server.Model.skill
 						{
 							if (_target is L1PcInstance)
 							{
-								L1PcInstance targetPc = (L1PcInstance) _target;
+								L1PcInstance targetPc = (L1PcInstance)_target;
 								targetPc.sendPackets(new S_SkillSound(targetid, 4434));
 								targetPc.broadcastPacket(new S_SkillSound(targetid, 4434));
 							}
@@ -1627,27 +1619,27 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							return;
 						}
-					case LIGHT: // 日光術
+					case L1SkillId.LIGHT: // 日光術
 						pc.sendPackets(new S_Sound(145));
 						break;
-					case MIND_BREAK: // 心靈破壞
-					case JOY_OF_PAIN: // 疼痛的歡愉
-						data = new int[] {_actid, _dmg, 0}; // data = {actid, dmg, effect}
+					case L1SkillId.MIND_BREAK: // 心靈破壞
+					case L1SkillId.JOY_OF_PAIN: // 疼痛的歡愉
+						data = new int[] { _actid, _dmg, 0 }; // data = {actid, dmg, effect}
 						pc.sendPackets(new S_AttackPacket(pc, targetid, data));
 						pc.broadcastPacket(new S_AttackPacket(pc, targetid, data));
 						pc.sendPackets(new S_SkillSound(targetid, _gfxid));
 						pc.broadcastPacket(new S_SkillSound(targetid, _gfxid));
 						return;
-					case CONFUSION: // 混亂
-						data = new int[] {_actid, _dmg, 0}; // data = {actid, dmg, effect}
+					case L1SkillId.CONFUSION: // 混亂
+						data = new int[] { _actid, _dmg, 0 }; // data = {actid, dmg, effect}
 						pc.sendPackets(new S_AttackPacket(pc, targetid, data));
 						pc.broadcastPacket(new S_AttackPacket(pc, targetid, data));
 						return;
-					case SMASH: // 暴擊
+					case L1SkillId.SMASH: // 暴擊
 						pc.sendPackets(new S_SkillSound(targetid, _gfxid));
 						pc.broadcastPacket(new S_SkillSound(targetid, _gfxid));
 						return;
-					case TAMING_MONSTER: // 迷魅
+					case L1SkillId.TAMING_MONSTER: // 迷魅
 						pc.sendPackets(new S_EffectLocation(_targetX, _targetY, _gfxid));
 						pc.broadcastPacket(new S_EffectLocation(_targetX, _targetY, _gfxid));
 						return;
@@ -1655,15 +1647,15 @@ namespace LineageServer.Server.Server.Model.skill
 						break;
 				}
 
-				if (_targetList.Count == 0 && !(_skill.Target.Equals("none")))
+				if (_targetList.Count == 0 && !( _skill.Target.Equals("none") ))
 				{
 					// ターゲット数が０で対象を指定するスキルの場合、魔法使用エフェクトだけ表示して終了
 					int tempchargfx = _player.TempCharGfx;
-					if ((tempchargfx == 5727) || (tempchargfx == 5730))
+					if (( tempchargfx == 5727 ) || ( tempchargfx == 5730 ))
 					{ // シャドウ系変身のモーション対応
 						_actid = ActionCodes.ACTION_SkillBuff;
 					}
-					else if ((tempchargfx == 5733) || (tempchargfx == 5736))
+					else if (( tempchargfx == 5733 ) || ( tempchargfx == 5736 ))
 					{
 						_actid = ActionCodes.ACTION_Attack;
 					}
@@ -1676,13 +1668,13 @@ namespace LineageServer.Server.Server.Model.skill
 					return;
 				}
 
-				if (_skill.Target.Equals("attack") && (_skillId != 18))
+				if (_skill.Target.Equals("attack") && ( _skillId != L1SkillId.TURN_UNDEAD ))
 				{
 					if (isPcSummonPet(_target))
 					{ // 目標玩家、寵物、召喚獸
-						if ((_player.ZoneType == 1) || (_target.ZoneType == 1) || _player.checkNonPvP(_player, _target))
+						if (( _player.ZoneType == 1 ) || ( _target.ZoneType == 1 ) || _player.checkNonPvP(_player, _target))
 						{ // Non-PvP設定
-							data = new int[] {_actid, 0, _gfxid, 6};
+							data = new int[] { _actid, 0, _gfxid, 6 };
 							_player.sendPackets(new S_UseAttackSkill(_player, _target.Id, _targetX, _targetY, data));
 							_player.broadcastPacket(new S_UseAttackSkill(_player, _target.Id, _targetX, _targetY, data));
 							return;
@@ -1691,7 +1683,7 @@ namespace LineageServer.Server.Server.Model.skill
 
 					if (SkillArea == 0)
 					{ // 單體攻擊魔法
-						data = new int[] {_actid, _dmg, _gfxid, 6};
+						data = new int[] { _actid, _dmg, _gfxid, 6 };
 						_player.sendPackets(new S_UseAttackSkill(_player, targetid, _targetX, _targetY, data));
 						_player.broadcastPacket(new S_UseAttackSkill(_player, targetid, _targetX, _targetY, data));
 						_target.broadcastPacketExceptTargetSight(new S_DoActionGFX(targetid, ActionCodes.ACTION_Damage), _player);
@@ -1709,7 +1701,7 @@ namespace LineageServer.Server.Server.Model.skill
 						_player.broadcastPacket(new S_RangeSkill(_player, cha, _gfxid, _actid, S_RangeSkill.TYPE_DIR));
 					}
 				}
-				else if (_skill.Target.Equals("none") && (_skill.Type == L1Skills.TYPE_ATTACK))
+				else if (_skill.Target.Equals("none") && ( _skill.Type == L1Skills.TYPE_ATTACK ))
 				{ // 無方向範囲攻撃魔法
 					L1Character[] cha = new L1Character[_targetList.Count];
 					int i = 0;
@@ -1724,8 +1716,8 @@ namespace LineageServer.Server.Server.Model.skill
 				}
 				else
 				{ // 補助魔法
-					// 指定傳送、集體傳送術、世界樹的呼喚以外
-					if ((_skillId != TELEPORT) && (_skillId != MASS_TELEPORT) && (_skillId != TELEPORT_TO_MATHER))
+				  // 指定傳送、集體傳送術、世界樹的呼喚以外
+					if (( _skillId != L1SkillId.TELEPORT ) && ( _skillId != L1SkillId.MASS_TELEPORT ) && ( _skillId != L1SkillId.TELEPORT_TO_MATHER ))
 					{
 						// 施法動作
 						if (isSkillAction)
@@ -1735,11 +1727,11 @@ namespace LineageServer.Server.Server.Model.skill
 							_player.broadcastPacket(gfx);
 						}
 						// 魔法屏障、反擊屏障、鏡反射 魔法效果只有自身顯示
-						if ((_skillId == COUNTER_MAGIC) || (_skillId == COUNTER_BARRIER) || (_skillId == COUNTER_MIRROR))
+						if (( _skillId == L1SkillId.COUNTER_MAGIC ) || ( _skillId == L1SkillId.COUNTER_BARRIER ) || ( _skillId == L1SkillId.COUNTER_MIRROR ))
 						{
 							_player.sendPackets(new S_SkillSound(targetid, _gfxid));
 						}
-						else if ((_skillId == AWAKEN_ANTHARAS) || (_skillId == AWAKEN_FAFURION) || (_skillId == AWAKEN_VALAKAS))
+						else if (( _skillId == L1SkillId.AWAKEN_ANTHARAS ) || ( _skillId == L1SkillId.AWAKEN_FAFURION ) || ( _skillId == L1SkillId.AWAKEN_VALAKAS ))
 						{ // 覚醒：ヴァラカス
 							if (_skillId == _player.AwakeSkillId)
 							{ // 再詠唱なら解除でエフェクトなし
@@ -1764,7 +1756,7 @@ namespace LineageServer.Server.Server.Model.skill
 						L1Character cha = ts.Target;
 						if (cha is L1PcInstance)
 						{
-							L1PcInstance chaPc = (L1PcInstance) cha;
+							L1PcInstance chaPc = (L1PcInstance)cha;
 							chaPc.sendPackets(new S_OwnCharStatus(chaPc));
 						}
 					}
@@ -1780,13 +1772,13 @@ namespace LineageServer.Server.Server.Model.skill
 					return;
 				}
 
-				if (_skillId == CURSE_PARALYZE || _skillId == WEAKNESS || _skillId == DISEASE)
+				if (_skillId == L1SkillId.CURSE_PARALYZE || _skillId == L1SkillId.WEAKNESS || _skillId == L1SkillId.DISEASE)
 				{ // 木乃伊的詛咒、弱化術、疾病術
 					_user.Heading = _user.targetDirection(_targetX, _targetY); // 改變面向
 					_user.broadcastPacket(new S_ChangeHeading(_user));
 				}
 
-				if (_targetList.Count == 0 && !(_skill.Target.Equals("none")))
+				if (_targetList.Count == 0 && !( _skill.Target.Equals("none") ))
 				{
 					// ターゲット数が０で対象を指定するスキルの場合、魔法使用エフェクトだけ表示して終了
 					S_DoActionGFX gfx = new S_DoActionGFX(_user.Id, _actid);
@@ -1794,11 +1786,11 @@ namespace LineageServer.Server.Server.Model.skill
 					return;
 				}
 
-				if (_skill.Target.Equals("attack") && (_skillId != 18))
+				if (_skill.Target.Equals("attack") && ( _skillId != L1SkillId.TURN_UNDEAD ))
 				{
 					if (SkillArea == 0)
 					{ // 單體攻擊魔法
-						data = new int[] {_actid, _dmg, _gfxid, 6};
+						data = new int[] { _actid, _dmg, _gfxid, 6 };
 						_user.broadcastPacket(new S_UseAttackSkill(_user, targetid, _targetX, _targetY, data));
 						_target.broadcastPacketExceptTargetSight(new S_DoActionGFX(targetid, ActionCodes.ACTION_Damage), _user);
 					}
@@ -1815,7 +1807,7 @@ namespace LineageServer.Server.Server.Model.skill
 						_user.broadcastPacket(new S_RangeSkill(_user, cha, _gfxid, _actid, S_RangeSkill.TYPE_DIR));
 					}
 				}
-				else if (_skill.Target.Equals("none") && (_skill.Type == L1Skills.TYPE_ATTACK))
+				else if (_skill.Target.Equals("none") && ( _skill.Type == L1Skills.TYPE_ATTACK ))
 				{ // 無方向範囲攻撃魔法
 					L1Character[] cha = new L1Character[_targetList.Count];
 					int i = 0;
@@ -1828,8 +1820,8 @@ namespace LineageServer.Server.Server.Model.skill
 				}
 				else
 				{ // 補助魔法
-						// テレポート、マステレ、テレポートトゥマザー以外
-					if ((_skillId != 5) && (_skillId != 69) && (_skillId != 131))
+				  // テレポート、マステレ、テレポートトゥマザー以外
+					if (( _skillId != L1SkillId.TELEPORT ) && ( _skillId != L1SkillId.MASS_TELEPORT ) && ( _skillId != L1SkillId.TELEPORT_TO_MATHER ))
 					{
 						// 魔法を使う動作のエフェクトは使用者だけ
 						S_DoActionGFX gfx = new S_DoActionGFX(_user.Id, _actid);
@@ -1844,19 +1836,17 @@ namespace LineageServer.Server.Server.Model.skill
 		/// 刪除重複的魔法狀態 </summary>
 		private void deleteRepeatedSkills(L1Character cha)
 		{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int[][] repeatedSkills = { { FIRE_WEAPON, WIND_SHOT, FIRE_BLESS, STORM_EYE, BURNING_WEAPON, STORM_SHOT, EFFECT_BLESS_OF_MAZU }, { SHIELD, SHADOW_ARMOR, EARTH_SKIN, EARTH_BLESS, IRON_SKIN }, { STATUS_BRAVE, STATUS_ELFBRAVE, HOLY_WALK, MOVING_ACCELERATION, WIND_WALK, STATUS_BRAVE2, BLOODLUST }, { HASTE, GREATER_HASTE, STATUS_HASTE }, { SLOW, MASS_SLOW, ENTANGLE }, { PHYSICAL_ENCHANT_DEX, DRESS_DEXTERITY }, { PHYSICAL_ENCHANT_STR, DRESS_MIGHTY }, { GLOWING_AURA, SHINING_AURA }, { MIRROR_IMAGE, UNCANNY_DODGE } };
 			int[][] repeatedSkills = new int[][]
 			{
-				new int[] {FIRE_WEAPON, WIND_SHOT, FIRE_BLESS, STORM_EYE, BURNING_WEAPON, STORM_SHOT, EFFECT_BLESS_OF_MAZU},
-				new int[] {SHIELD, SHADOW_ARMOR, EARTH_SKIN, EARTH_BLESS, IRON_SKIN},
-				new int[] {STATUS_BRAVE, STATUS_ELFBRAVE, HOLY_WALK, MOVING_ACCELERATION, WIND_WALK, STATUS_BRAVE2, BLOODLUST},
-				new int[] {HASTE, GREATER_HASTE, STATUS_HASTE},
-				new int[] {SLOW, MASS_SLOW, ENTANGLE},
-				new int[] {PHYSICAL_ENCHANT_DEX, DRESS_DEXTERITY},
-				new int[] {PHYSICAL_ENCHANT_STR, DRESS_MIGHTY},
-				new int[] {GLOWING_AURA, SHINING_AURA},
-				new int[] {MIRROR_IMAGE, UNCANNY_DODGE}
+				new int[] { L1SkillId.FIRE_WEAPON, L1SkillId.WIND_SHOT, L1SkillId.FIRE_BLESS, L1SkillId.STORM_EYE, L1SkillId.BURNING_WEAPON, L1SkillId.STORM_SHOT, L1SkillId.EFFECT_BLESS_OF_MAZU },
+				new int[] { L1SkillId.SHIELD, L1SkillId.SHADOW_ARMOR, L1SkillId.EARTH_SKIN, L1SkillId.EARTH_BLESS, L1SkillId.IRON_SKIN },
+				new int[] { L1SkillId.STATUS_BRAVE, L1SkillId.STATUS_ELFBRAVE, L1SkillId.HOLY_WALK, L1SkillId.MOVING_ACCELERATION, L1SkillId.WIND_WALK, L1SkillId.STATUS_BRAVE2, L1SkillId.BLOODLUST },
+				new int[] { L1SkillId.HASTE, L1SkillId.GREATER_HASTE, L1SkillId.STATUS_HASTE },
+				new int[] { L1SkillId.SLOW, L1SkillId.MASS_SLOW, L1SkillId.ENTANGLE },
+				new int[] { L1SkillId.PHYSICAL_ENCHANT_DEX, L1SkillId.DRESS_DEXTERITY },
+				new int[] { L1SkillId.PHYSICAL_ENCHANT_STR, L1SkillId.DRESS_MIGHTY },
+				new int[] { L1SkillId.GLOWING_AURA, L1SkillId.SHINING_AURA },
+				new int[] { L1SkillId.MIRROR_IMAGE, L1SkillId.UNCANNY_DODGE }
 			};
 
 
@@ -1898,28 +1888,28 @@ namespace LineageServer.Server.Server.Model.skill
 
 			switch (_skillId)
 			{
-				case LIFE_STREAM:
+				case L1SkillId.LIFE_STREAM:
 					L1EffectSpawn.Instance.spawnEffect(81169, _skill.BuffDuration * 1000, _targetX, _targetY, _user.MapId);
 					return;
-				case CUBE_IGNITION:
-					L1EffectSpawn.Instance.spawnEffect(80149, _skill.BuffDuration * 1000, _targetX, _targetY, _user.MapId, (L1PcInstance) _user, _skillId);
+				case L1SkillId.CUBE_IGNITION:
+					L1EffectSpawn.Instance.spawnEffect(80149, _skill.BuffDuration * 1000, _targetX, _targetY, _user.MapId, (L1PcInstance)_user, _skillId);
 					return;
-				case CUBE_QUAKE:
-					L1EffectSpawn.Instance.spawnEffect(80150, _skill.BuffDuration * 1000, _targetX, _targetY, _user.MapId, (L1PcInstance) _user, _skillId);
+				case L1SkillId.CUBE_QUAKE:
+					L1EffectSpawn.Instance.spawnEffect(80150, _skill.BuffDuration * 1000, _targetX, _targetY, _user.MapId, (L1PcInstance)_user, _skillId);
 					return;
-				case CUBE_SHOCK:
-					L1EffectSpawn.Instance.spawnEffect(80151, _skill.BuffDuration * 1000, _targetX, _targetY, _user.MapId, (L1PcInstance) _user, _skillId);
+				case L1SkillId.CUBE_SHOCK:
+					L1EffectSpawn.Instance.spawnEffect(80151, _skill.BuffDuration * 1000, _targetX, _targetY, _user.MapId, (L1PcInstance)_user, _skillId);
 					return;
-				case CUBE_BALANCE:
-					L1EffectSpawn.Instance.spawnEffect(80152, _skill.BuffDuration * 1000, _targetX, _targetY, _user.MapId, (L1PcInstance) _user, _skillId);
+				case L1SkillId.CUBE_BALANCE:
+					L1EffectSpawn.Instance.spawnEffect(80152, _skill.BuffDuration * 1000, _targetX, _targetY, _user.MapId, (L1PcInstance)_user, _skillId);
 					return;
-				case FIRE_WALL: // 火牢
+				case L1SkillId.FIRE_WALL: // 火牢
 					L1EffectSpawn.Instance.doSpawnFireWall(_user, _targetX, _targetY);
 					return;
-				case TRUE_TARGET: // 精準目標
+				case L1SkillId.TRUE_TARGET: // 精準目標
 					if (_user is L1PcInstance)
 					{
-						L1PcInstance pri = (L1PcInstance) _user;
+						L1PcInstance pri = (L1PcInstance)_user;
 						L1EffectInstance effect = L1EffectSpawn.Instance.spawnEffect(80153, 5 * 1000, _targetX + 2, _targetY - 1, _user.MapId);
 						if (_targetID != 0)
 						{
@@ -1963,7 +1953,7 @@ namespace LineageServer.Server.Server.Model.skill
 
 			// NPCにショックスタンを使用させるとonActionでNullPointerExceptionが発生するため
 			// とりあえずPCが使用した時のみ
-			if ((_skillId == SHOCK_STUN) && (_user is L1PcInstance))
+			if (( _skillId == L1SkillId.SHOCK_STUN ) && ( _user is L1PcInstance ))
 			{
 				_target.onAction(_player);
 			}
@@ -1982,17 +1972,16 @@ namespace LineageServer.Server.Server.Model.skill
 				int heal = 0;
 				bool isSuccess = false;
 				int undeadType = 0;
-
-				for (IEnumerator<TargetStatus> iter = _targetList.GetEnumerator(); iter.MoveNext();)
+				TargetStatus[] targetStatuses = _targetList.ToArray();
+				for (int currentIndex = 0; currentIndex < targetStatuses.Length; currentIndex++)
 				{
-					ts = null;
+					ts = targetStatuses[currentIndex];
 					cha = null;
 					dmg = 0;
 					heal = 0;
 					isSuccess = false;
 					undeadType = 0;
 
-					ts = iter.Current;
 					cha = ts.Target;
 
 					if (!ts.Calc || !isTargetCalc(cha))
@@ -2005,14 +1994,13 @@ namespace LineageServer.Server.Server.Model.skill
 
 					if (cha is L1MonsterInstance)
 					{ // 不死係判斷
-						undeadType = ((L1MonsterInstance) cha).NpcTemplate.get_undead();
+						undeadType = ( (L1MonsterInstance)cha ).NpcTemplate.get_undead();
 					}
 
 					// 確率系スキルで失敗が確定している場合
-					if (((_skill.Type == L1Skills.TYPE_CURSE) || (_skill.Type == L1Skills.TYPE_PROBABILITY)) && isTargetFailure(cha))
+					if (( ( _skill.Type == L1Skills.TYPE_CURSE ) || ( _skill.Type == L1Skills.TYPE_PROBABILITY ) ) && isTargetFailure(cha))
 					{
-//JAVA TO C# CONVERTER TODO TASK: .NET enumerators are read-only:
-						iter.remove();
+						_targetList.Remove(ts);//先這樣吧
 						continue;
 					}
 
@@ -2030,47 +2018,45 @@ namespace LineageServer.Server.Server.Model.skill
 
 					deleteRepeatedSkills(cha); // 刪除無法共同存在的魔法狀態
 
-					if ((_skill.Type == L1Skills.TYPE_ATTACK) && (_user.Id != cha.Id))
+					if (( _skill.Type == L1Skills.TYPE_ATTACK ) && ( _user.Id != cha.Id ))
 					{ // 攻撃系スキル＆ターゲットが使用者以外であること。
 						if (isUseCounterMagic(cha))
-						{ // カウンターマジックが発動した場合、リストから削除
-//JAVA TO C# CONVERTER TODO TASK: .NET enumerators are read-only:
-							iter.remove();
+						{
+							// カウンターマジックが発動した場合、リストから削除
+							_targetList.Remove(ts);//先這樣吧
 							continue;
 						}
 						dmg = _magic.calcMagicDamage(_skillId);
 						_dmg = dmg;
-						cha.removeSkillEffect(ERASE_MAGIC); // イレースマジック中なら、攻撃魔法で解除
+						cha.removeSkillEffect(L1SkillId.ERASE_MAGIC); // イレースマジック中なら、攻撃魔法で解除
 					}
-					else if ((_skill.Type == L1Skills.TYPE_CURSE) || (_skill.Type == L1Skills.TYPE_PROBABILITY))
+					else if (( _skill.Type == L1Skills.TYPE_CURSE ) || ( _skill.Type == L1Skills.TYPE_PROBABILITY ))
 					{ // 確率系スキル
 						isSuccess = _magic.calcProbabilityMagic(_skillId);
-						if (_skillId != ERASE_MAGIC)
+						if (_skillId != L1SkillId.ERASE_MAGIC)
 						{
-							cha.removeSkillEffect(ERASE_MAGIC); // イレースマジック中なら、確率魔法で解除
+							cha.removeSkillEffect(L1SkillId.ERASE_MAGIC); // イレースマジック中なら、確率魔法で解除
 						}
-						if (_skillId != FOG_OF_SLEEPING)
+						if (_skillId != L1SkillId.FOG_OF_SLEEPING)
 						{
-							cha.removeSkillEffect(FOG_OF_SLEEPING); // フォグオブスリーピング中なら、確率魔法で解除
+							cha.removeSkillEffect(L1SkillId.FOG_OF_SLEEPING); // フォグオブスリーピング中なら、確率魔法で解除
 						}
 						if (isSuccess)
 						{ // 成功したがカウンターマジックが発動した場合、リストから削除
 							if (isUseCounterMagic(cha))
 							{ // カウンターマジックが発動したか
-//JAVA TO C# CONVERTER TODO TASK: .NET enumerators are read-only:
-								iter.remove();
+								_targetList.Remove(ts);//先這樣吧
 								continue;
 							}
 						}
 						else
 						{ // 失敗した場合、リストから削除
-							if ((_skillId == FOG_OF_SLEEPING) && (cha is L1PcInstance))
+							if (( _skillId == L1SkillId.FOG_OF_SLEEPING ) && ( cha is L1PcInstance ))
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								pc.sendPackets(new S_ServerMessage(297)); // 你感覺些微地暈眩。
 							}
-//JAVA TO C# CONVERTER TODO TASK: .NET enumerators are read-only:
-							iter.remove();
+							_targetList.Remove(ts);//先這樣吧
 							continue;
 						}
 					}
@@ -2079,27 +2065,27 @@ namespace LineageServer.Server.Server.Model.skill
 					{
 						// 回復量
 						dmg = -1 * _magic.calcHealing(_skillId);
-						if (cha.hasSkillEffect(WATER_LIFE))
+						if (cha.hasSkillEffect(L1SkillId.WATER_LIFE))
 						{ // 水之元氣-效果 2倍
 							dmg *= 2;
-							cha.killSkillEffectTimer(WATER_LIFE); // 效果只有一次
+							cha.killSkillEffectTimer(L1SkillId.WATER_LIFE); // 效果只有一次
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								pc.sendPackets(new S_SkillIconWaterLife());
 							}
 						}
-						if (cha.hasSkillEffect(POLLUTE_WATER))
+						if (cha.hasSkillEffect(L1SkillId.POLLUTE_WATER))
 						{ // 汙濁之水-效果減半
 							dmg /= 2;
 						}
 					}
 					// 顯示團體魔法效果在隊友或盟友
-					else if ((_skillId == FIRE_BLESS || _skillId == STORM_EYE || _skillId == EARTH_BLESS || _skillId == GLOWING_AURA || _skillId == SHINING_AURA || _skillId == BRAVE_AURA) && _user.Id != cha.Id)
+					else if (( _skillId == L1SkillId.FIRE_BLESS || _skillId == L1SkillId.STORM_EYE || _skillId == L1SkillId.EARTH_BLESS || _skillId == L1SkillId.GLOWING_AURA || _skillId == L1SkillId.SHINING_AURA || _skillId == L1SkillId.BRAVE_AURA ) && _user.Id != cha.Id)
 					{
 						if (cha is L1PcInstance)
 						{
-							L1PcInstance _targetPc = (L1PcInstance) cha;
+							L1PcInstance _targetPc = (L1PcInstance)cha;
 							_targetPc.sendPackets(new S_SkillSound(_targetPc.Id, _skill.CastGfx));
 							_targetPc.broadcastPacket(new S_SkillSound(_targetPc.Id, _skill.CastGfx));
 						}
@@ -2108,10 +2094,10 @@ namespace LineageServer.Server.Server.Model.skill
 					// ■■■■ 個別処理のあるスキルのみ書いてください。 ■■■■
 
 					// 除了衝暈、骷髏毀壞之外魔法效果存在時，只更新效果時間跟圖示。
-					if (cha.hasSkillEffect(_skillId) && (_skillId != SHOCK_STUN && _skillId != BONE_BREAK && _skillId != CONFUSION && _skillId != THUNDER_GRAB))
+					if (cha.hasSkillEffect(_skillId) && ( _skillId != L1SkillId.SHOCK_STUN && _skillId != L1SkillId.BONE_BREAK && _skillId != L1SkillId.CONFUSION && _skillId != L1SkillId.THUNDER_GRAB ))
 					{
 						addMagicList(cha, true); // 魔法效果已存在時
-						if (_skillId != SHAPE_CHANGE)
+						if (_skillId != L1SkillId.SHAPE_CHANGE)
 						{ // 除了變形術之外
 							continue;
 						}
@@ -2120,12 +2106,12 @@ namespace LineageServer.Server.Server.Model.skill
 					switch (_skillId)
 					{
 						// 加速術
-						case HASTE:
+						case L1SkillId.HASTE:
 							if (cha.MoveSpeed != 2)
 							{ // スロー中以外
 								if (cha is L1PcInstance)
 								{
-									L1PcInstance pc = (L1PcInstance) cha;
+									L1PcInstance pc = (L1PcInstance)cha;
 									if (pc.HasteItemEquipped > 0)
 									{
 										continue;
@@ -2139,32 +2125,32 @@ namespace LineageServer.Server.Server.Model.skill
 							else
 							{ // スロー中
 								int skillNum = 0;
-								if (cha.hasSkillEffect(SLOW))
+								if (cha.hasSkillEffect(L1SkillId.SLOW))
 								{
-									skillNum = SLOW;
+									skillNum = L1SkillId.SLOW;
 								}
-								else if (cha.hasSkillEffect(MASS_SLOW))
+								else if (cha.hasSkillEffect(L1SkillId.MASS_SLOW))
 								{
-									skillNum = MASS_SLOW;
+									skillNum = L1SkillId.MASS_SLOW;
 								}
-								else if (cha.hasSkillEffect(ENTANGLE))
+								else if (cha.hasSkillEffect(L1SkillId.ENTANGLE))
 								{
-									skillNum = ENTANGLE;
+									skillNum = L1SkillId.ENTANGLE;
 								}
 								if (skillNum != 0)
 								{
 									cha.removeSkillEffect(skillNum);
-									cha.removeSkillEffect(HASTE);
+									cha.removeSkillEffect(L1SkillId.HASTE);
 									cha.MoveSpeed = 0;
 									continue;
 								}
 							}
 							break;
 						// 強力加速術
-						case GREATER_HASTE:
+						case L1SkillId.GREATER_HASTE:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								if (pc.HasteItemEquipped > 0)
 								{
 									continue;
@@ -2181,19 +2167,19 @@ namespace LineageServer.Server.Server.Model.skill
 									int skillNum = 0;
 									if (pc.hasSkillEffect(L1SkillId.SLOW))
 									{
-										skillNum = SLOW;
+										skillNum = L1SkillId.SLOW;
 									}
 									else if (pc.hasSkillEffect(L1SkillId.MASS_SLOW))
 									{
-										skillNum = MASS_SLOW;
+										skillNum = L1SkillId.MASS_SLOW;
 									}
 									else if (pc.hasSkillEffect(L1SkillId.ENTANGLE))
 									{
-										skillNum = ENTANGLE;
+										skillNum = L1SkillId.ENTANGLE;
 									}
 									if (skillNum != 0)
 									{
-										pc.removeSkillEffect(L1SkillId.skillNum);
+										pc.removeSkillEffect(skillNum);
 										pc.removeSkillEffect(L1SkillId.GREATER_HASTE);
 										pc.MoveSpeed = 0;
 										continue;
@@ -2202,12 +2188,12 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 緩速術、集體緩速術、地面障礙
-						case SLOW:
-						case MASS_SLOW:
-						case ENTANGLE:
+						case L1SkillId.SLOW:
+						case L1SkillId.MASS_SLOW:
+						case L1SkillId.ENTANGLE:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								if (pc.HasteItemEquipped > 0)
 								{
 									continue;
@@ -2217,7 +2203,7 @@ namespace LineageServer.Server.Server.Model.skill
 							{
 								if (cha is L1PcInstance)
 								{
-									L1PcInstance pc = (L1PcInstance) cha;
+									L1PcInstance pc = (L1PcInstance)cha;
 									pc.sendPackets(new S_SkillHaste(pc.Id, 2, _getBuffIconDuration));
 								}
 								cha.broadcastPacket(new S_SkillHaste(cha.Id, 2, _getBuffIconDuration));
@@ -2226,17 +2212,17 @@ namespace LineageServer.Server.Server.Model.skill
 							else if (cha.MoveSpeed == 1)
 							{
 								int skillNum = 0;
-								if (cha.hasSkillEffect(HASTE))
+								if (cha.hasSkillEffect(L1SkillId.HASTE))
 								{
-									skillNum = HASTE;
+									skillNum = L1SkillId.HASTE;
 								}
-								else if (cha.hasSkillEffect(GREATER_HASTE))
+								else if (cha.hasSkillEffect(L1SkillId.GREATER_HASTE))
 								{
-									skillNum = GREATER_HASTE;
+									skillNum = L1SkillId.GREATER_HASTE;
 								}
-								else if (cha.hasSkillEffect(STATUS_HASTE))
+								else if (cha.hasSkillEffect(L1SkillId.STATUS_HASTE))
 								{
-									skillNum = STATUS_HASTE;
+									skillNum = L1SkillId.STATUS_HASTE;
 								}
 								if (skillNum != 0)
 								{
@@ -2248,18 +2234,18 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 寒冷戰慄、吸血鬼之吻
-						case CHILL_TOUCH:
-						case VAMPIRIC_TOUCH:
+						case L1SkillId.CHILL_TOUCH:
+						case L1SkillId.VAMPIRIC_TOUCH:
 							heal = dmg;
 							break;
 						// 亞力安冰矛圍籬
-						case ICE_LANCE_COCKATRICE:
+						case L1SkillId.ICE_LANCE_COCKATRICE:
 						// 邪惡蜥蜴冰矛圍籬
-						case ICE_LANCE_BASILISK:
+						case L1SkillId.ICE_LANCE_BASILISK:
 						// 冰毛圍籬、冰雪颶風、寒冰噴吐
-						case ICE_LANCE:
-						case FREEZING_BLIZZARD:
-						case FREEZING_BREATH:
+						case L1SkillId.ICE_LANCE:
+						case L1SkillId.FREEZING_BLIZZARD:
+						case L1SkillId.FREEZING_BREATH:
 							_isFreeze = _magic.calcProbabilityMagic(_skillId);
 							if (_isFreeze)
 							{
@@ -2267,14 +2253,14 @@ namespace LineageServer.Server.Server.Model.skill
 								L1EffectSpawn.Instance.spawnEffect(81168, time, cha.X, cha.Y, cha.MapId);
 								if (cha is L1PcInstance)
 								{
-									L1PcInstance pc = (L1PcInstance) cha;
+									L1PcInstance pc = (L1PcInstance)cha;
 									pc.sendPackets(new S_Poison(pc.Id, 2));
 									pc.broadcastPacket(new S_Poison(pc.Id, 2));
 									pc.sendPackets(new S_Paralysis(S_Paralysis.TYPE_FREEZE, true));
 								}
-								else if ((cha is L1MonsterInstance) || (cha is L1SummonInstance) || (cha is L1PetInstance))
+								else if (( cha is L1MonsterInstance ) || ( cha is L1SummonInstance ) || ( cha is L1PetInstance ))
 								{
-									L1NpcInstance npc = (L1NpcInstance) cha;
+									L1NpcInstance npc = (L1NpcInstance)cha;
 									npc.broadcastPacket(new S_Poison(npc.Id, 2));
 									npc.Paralyzed = true;
 									npc.ParalysisTime = time;
@@ -2282,23 +2268,23 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 大地屏障
-						case EARTH_BIND:
+						case L1SkillId.EARTH_BIND:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								pc.sendPackets(new S_Poison(pc.Id, 2));
 								pc.broadcastPacket(new S_Poison(pc.Id, 2));
 								pc.sendPackets(new S_Paralysis(S_Paralysis.TYPE_FREEZE, true));
 							}
-							else if ((cha is L1MonsterInstance) || (cha is L1SummonInstance) || (cha is L1PetInstance))
+							else if (( cha is L1MonsterInstance ) || ( cha is L1SummonInstance ) || ( cha is L1PetInstance ))
 							{
-								L1NpcInstance npc = (L1NpcInstance) cha;
+								L1NpcInstance npc = (L1NpcInstance)cha;
 								npc.broadcastPacket(new S_Poison(npc.Id, 2));
 								npc.Paralyzed = true;
 								npc.ParalysisTime = _skill.BuffDuration * 1000;
 							}
 							break;
-						case 20011: // 毒霧-前方 3X3
+						case L1SkillId.AREA_POISON: // 毒霧-前方 3X3
 							_user.Heading = _user.targetDirection(_targetX, _targetY); // 改變面向
 							int locX = 0;
 							int locY = 0;
@@ -2309,36 +2295,36 @@ namespace LineageServer.Server.Server.Model.skill
 									switch (_user.Heading)
 									{
 										case 0:
-											locX = (-1 + j);
-											locY = -1 * (-3 + i);
+											locX = ( -1 + j );
+											locY = -1 * ( -3 + i );
 											break;
 										case 1:
-											locX = -1 * (2 + j - i);
-											locY = -1 * (-4 + j + i);
+											locX = -1 * ( 2 + j - i );
+											locY = -1 * ( -4 + j + i );
 											break;
 										case 2:
-											locX = -1 * (3 - i);
-											locY = (-1 + j);
+											locX = -1 * ( 3 - i );
+											locY = ( -1 + j );
 											break;
 										case 3:
-											locX = -1 * (4 - j - i);
-											locY = -1 * (2 + j - i);
+											locX = -1 * ( 4 - j - i );
+											locY = -1 * ( 2 + j - i );
 											break;
 										case 4:
-											locX = (1 - j);
-											locY = -1 * (3 - i);
+											locX = ( 1 - j );
+											locY = -1 * ( 3 - i );
 											break;
 										case 5:
-											locX = -1 * (-2 - j + i);
-											locY = -1 * (4 - j - i);
+											locX = -1 * ( -2 - j + i );
+											locY = -1 * ( 4 - j - i );
 											break;
 										case 6:
-											locX = -1 * (-3 + i);
-											locY = (1 - j);
+											locX = -1 * ( -3 + i );
+											locY = ( 1 - j );
 											break;
 										case 7:
-											locX = -1 * (-4 + j + i);
-											locY = -1 * (-2 - j + i);
+											locX = -1 * ( -4 + j + i );
+											locY = -1 * ( -2 - j + i );
 											break;
 									}
 									L1EffectSpawn.Instance.spawnEffect(93002, 10000, _user.X - locX, _user.Y - locY, _user.MapId);
@@ -2346,74 +2332,74 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 衝擊之暈
-						case SHOCK_STUN:
-							int[] stunTimeArray = new int[] {500, 1000, 1500, 2000, 2500, 3000};
+						case L1SkillId.SHOCK_STUN:
+							int[] stunTimeArray = new int[] { 500, 1000, 1500, 2000, 2500, 3000 };
 							int rnd = RandomHelper.Next(stunTimeArray.Length);
 							_shockStunDuration = stunTimeArray[rnd];
-							if ((cha is L1PcInstance) && cha.hasSkillEffect(SHOCK_STUN))
+							if (( cha is L1PcInstance ) && cha.hasSkillEffect(L1SkillId.SHOCK_STUN))
 							{
-								_shockStunDuration += cha.getSkillEffectTimeSec(SHOCK_STUN) * 1000;
+								_shockStunDuration += cha.getSkillEffectTimeSec(L1SkillId.SHOCK_STUN) * 1000;
 							}
 
 							L1EffectSpawn.Instance.spawnEffect(81162, _shockStunDuration, cha.X, cha.Y, cha.MapId);
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								pc.sendPackets(new S_Paralysis(S_Paralysis.TYPE_STUN, true));
 							}
-							else if ((cha is L1MonsterInstance) || (cha is L1SummonInstance) || (cha is L1PetInstance))
+							else if (( cha is L1MonsterInstance ) || ( cha is L1SummonInstance ) || ( cha is L1PetInstance ))
 							{
-								L1NpcInstance npc = (L1NpcInstance) cha;
+								L1NpcInstance npc = (L1NpcInstance)cha;
 								npc.Paralyzed = true;
 								npc.ParalysisTime = _shockStunDuration;
 							}
 							break;
 						// 奪命之雷
-						case THUNDER_GRAB:
+						case L1SkillId.THUNDER_GRAB:
 							isSuccess = _magic.calcProbabilityMagic(_skillId);
 							if (isSuccess)
 							{
-								if (!cha.hasSkillEffect(THUNDER_GRAB_START) && !cha.hasSkillEffect(STATUS_FREEZE))
+								if (!cha.hasSkillEffect(L1SkillId.THUNDER_GRAB_START) && !cha.hasSkillEffect(L1SkillId.STATUS_FREEZE))
 								{
 									if (cha is L1PcInstance)
 									{
-										L1PcInstance pc = (L1PcInstance) cha;
+										L1PcInstance pc = (L1PcInstance)cha;
 										pc.sendPackets(new S_Paralysis(S_Paralysis.TYPE_BIND, true));
 										pc.sendPackets(new S_SkillSound(pc.Id, 4184));
 										pc.broadcastPacket(new S_SkillSound(pc.Id, 4184));
 									}
 									else if (cha is L1NpcInstance)
 									{
-										L1NpcInstance npc = (L1NpcInstance) cha;
+										L1NpcInstance npc = (L1NpcInstance)cha;
 										npc.Paralyzed = true;
 										npc.broadcastPacket(new S_SkillSound(npc.Id, 4184));
 									}
-									cha.setSkillEffect(THUNDER_GRAB_START, 500);
+									cha.setSkillEffect(L1SkillId.THUNDER_GRAB_START, 500);
 								}
 							}
 							break;
 						// 起死回生術
-						case TURN_UNDEAD:
+						case L1SkillId.TURN_UNDEAD:
 							if (undeadType == 1 || undeadType == 3)
 							{
 								dmg = cha.CurrentHp;
 							}
 							break;
 						// 魔力奪取
-						case MANA_DRAIN:
+						case L1SkillId.MANA_DRAIN:
 							int chance = RandomHelper.Next(10) + 5;
-							drainMana = chance + (_user.getInt() / 2);
+							drainMana = chance + ( _user.getInt() / 2 );
 							if (cha.CurrentMp < drainMana)
 							{
 								drainMana = cha.CurrentMp;
 							}
 							break;
 						// 指定傳送、集體傳送術
-						case TELEPORT:
-						case MASS_TELEPORT:
+						case L1SkillId.TELEPORT:
+						case L1SkillId.MASS_TELEPORT:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								L1BookMark bookm = pc.getBookMark(_bookmarkId);
 								if (bookm != null)
 								{ // ブックマークを取得出来たらテレポート
@@ -2423,12 +2409,12 @@ namespace LineageServer.Server.Server.Model.skill
 										int newY = bookm.LocY;
 										short mapId = bookm.MapId;
 
-										if (_skillId == MASS_TELEPORT)
+										if (_skillId == L1SkillId.MASS_TELEPORT)
 										{ // マステレポート
 											IList<L1PcInstance> clanMember = L1World.Instance.getVisiblePlayer(pc);
 											foreach (L1PcInstance member in clanMember)
 											{
-												if ((pc.Location.getTileLineDistance(member.Location) <= 3) && (member.Clanid == pc.Clanid) && (pc.Clanid != 0) && (member.Id != pc.Id))
+												if (( pc.Location.getTileLineDistance(member.Location) <= 3 ) && ( member.Clanid == pc.Clanid ) && ( pc.Clanid != 0 ) && ( member.Id != pc.Id ))
 												{
 													L1Teleport.teleport(member, newX, newY, mapId, 5, true);
 												}
@@ -2449,14 +2435,14 @@ namespace LineageServer.Server.Server.Model.skill
 										L1Location newLocation = pc.Location.randomLocation(200, true);
 										int newX = newLocation.X;
 										int newY = newLocation.Y;
-										short mapId = (short) newLocation.MapId;
+										short mapId = (short)newLocation.MapId;
 
-										if (_skillId == MASS_TELEPORT)
+										if (_skillId == L1SkillId.MASS_TELEPORT)
 										{
 											IList<L1PcInstance> clanMember = L1World.Instance.getVisiblePlayer(pc);
 											foreach (L1PcInstance member in clanMember)
 											{
-												if ((pc.Location.getTileLineDistance(member.Location) <= 3) && (member.Clanid == pc.Clanid) && (pc.Clanid != 0) && (member.Id != pc.Id))
+												if (( pc.Location.getTileLineDistance(member.Location) <= 3 ) && ( member.Clanid == pc.Clanid ) && ( pc.Clanid != 0 ) && ( member.Id != pc.Id ))
 												{
 													L1Teleport.teleport(member, newX, newY, mapId, 5, true);
 												}
@@ -2473,11 +2459,11 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 呼喚盟友
-						case CALL_CLAN:
+						case L1SkillId.CALL_CLAN:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
-								L1PcInstance clanPc = (L1PcInstance) L1World.Instance.findObject(_targetID);
+								L1PcInstance pc = (L1PcInstance)cha;
+								L1PcInstance clanPc = (L1PcInstance)L1World.Instance.findObject(_targetID);
 								if (clanPc != null)
 								{
 									clanPc.TempID = pc.Id;
@@ -2486,17 +2472,17 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 援護盟友
-						case RUN_CLAN:
+						case L1SkillId.RUN_CLAN:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
-								L1PcInstance clanPc = (L1PcInstance) L1World.Instance.findObject(_targetID);
+								L1PcInstance pc = (L1PcInstance)cha;
+								L1PcInstance clanPc = (L1PcInstance)L1World.Instance.findObject(_targetID);
 								if (clanPc != null)
 								{
 									if (pc.Map.Escapable || pc.Gm)
 									{
 										bool castle_area = L1CastleLocation.checkInAllWarArea(clanPc.X, clanPc.Y, clanPc.MapId);
-										if (((clanPc.MapId == 0) || (clanPc.MapId == 4) || (clanPc.MapId == 304)) && (castle_area == false))
+										if (( ( clanPc.MapId == 0 ) || ( clanPc.MapId == 4 ) || ( clanPc.MapId == 304 ) ) && ( castle_area == false ))
 										{
 											L1Teleport.teleport(pc, clanPc.X, clanPc.Y, clanPc.MapId, 5, true);
 										}
@@ -2515,14 +2501,14 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 強力無所遁形
-						case COUNTER_DETECTION:
+						case L1SkillId.COUNTER_DETECTION:
 							if (cha is L1PcInstance)
 							{
 								dmg = _magic.calcMagicDamage(_skillId);
 							}
 							else if (cha is L1NpcInstance)
 							{
-								L1NpcInstance npc = (L1NpcInstance) cha;
+								L1NpcInstance npc = (L1NpcInstance)cha;
 								int hiddenStatus = npc.HiddenStatus;
 								if (hiddenStatus == L1NpcInstance.HIDDEN_STATUS_SINK)
 								{
@@ -2539,12 +2525,12 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 創造魔法武器
-						case CREATE_MAGICAL_WEAPON:
+						case L1SkillId.CREATE_MAGICAL_WEAPON:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								L1ItemInstance item = pc.Inventory.getItem(_itemobjid);
-								if ((item != null) && (item.Item.Type2 == 1))
+								if (( item != null ) && ( item.Item.Type2 == 1 ))
 								{
 									int item_type = item.Item.Type2;
 									int safe_enchant = item.Item.get_safeenchant();
@@ -2558,7 +2544,7 @@ namespace LineageServer.Server.Server.Model.skill
 									{ // 安全圏+0
 										pc.sendPackets(new S_ServerMessage(79));
 									}
-									else if ((item_type == 1) && (enchant_level == 0))
+									else if (( item_type == 1 ) && ( enchant_level == 0 ))
 									{
 										if (!item.Identified)
 										{ // 未鑑定
@@ -2584,18 +2570,18 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 提煉魔石
-						case BRING_STONE:
+						case L1SkillId.BRING_STONE:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 
 								L1ItemInstance item = pc.Inventory.getItem(_itemobjid);
 								if (item != null)
 								{
-									int dark = (int)(10 + (pc.Level * 0.8) + (pc.Wis - 6) * 1.2);
-									int brave = (int)(dark / 2.1);
-									int wise = (int)(brave / 2.0);
-									int kayser = (int)(wise / 1.9);
+									int dark = (int)( 10 + ( pc.Level * 0.8 ) + ( pc.Wis - 6 ) * 1.2 );
+									int brave = (int)( dark / 2.1 );
+									int wise = (int)( brave / 2.0 );
+									int kayser = (int)( wise / 1.9 );
 									int run = RandomHelper.Next(100) + 1;
 									if (item.Item.ItemId == 40320)
 									{
@@ -2653,18 +2639,18 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 日光術
-						case LIGHT:
+						case L1SkillId.LIGHT:
 							if (cha is L1PcInstance)
 							{
 							}
 							break;
 						// 暗影之牙
-						case SHADOW_FANG:
+						case L1SkillId.SHADOW_FANG:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								L1ItemInstance item = pc.Inventory.getItem(_itemobjid);
-								if ((item != null) && (item.Item.Type2 == 1))
+								if (( item != null ) && ( item.Item.Type2 == 1 ))
 								{
 									item.setSkillWeaponEnchant(pc, _skillId, _skill.BuffDuration * 1000);
 								}
@@ -2675,12 +2661,12 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 擬似魔法武器
-						case ENCHANT_WEAPON:
+						case L1SkillId.ENCHANT_WEAPON:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								L1ItemInstance item = pc.Inventory.getItem(_itemobjid);
-								if ((item != null) && (item.Item.Type2 == 1))
+								if (( item != null ) && ( item.Item.Type2 == 1 ))
 								{
 									pc.sendPackets(new S_ServerMessage(161, item.LogName, "$245", "$247"));
 									item.setSkillWeaponEnchant(pc, _skillId, _skill.BuffDuration * 1000);
@@ -2692,15 +2678,15 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 神聖武器、祝福魔法武器
-						case HOLY_WEAPON:
-						case BLESS_WEAPON:
+						case L1SkillId.HOLY_WEAPON:
+						case L1SkillId.BLESS_WEAPON:
 							if (cha is L1PcInstance)
 							{
-								if (!(cha is L1PcInstance))
+								if (!( cha is L1PcInstance ))
 								{
 									return;
 								}
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								if (pc.Weapon == null)
 								{
 									pc.sendPackets(new S_ServerMessage(79));
@@ -2718,12 +2704,12 @@ namespace LineageServer.Server.Server.Model.skill
 							}
 							break;
 						// 鎧甲護持
-						case BLESSED_ARMOR:
+						case L1SkillId.BLESSED_ARMOR:
 							if (cha is L1PcInstance)
 							{
-								L1PcInstance pc = (L1PcInstance) cha;
+								L1PcInstance pc = (L1PcInstance)cha;
 								L1ItemInstance item = pc.Inventory.getItem(_itemobjid);
-								if ((item != null) && (item.Item.Type2 == 2) && (item.Item.Type == 2))
+								if (( item != null ) && ( item.Item.Type2 == 2 ) && ( item.Item.Type == 2 ))
 								{
 									pc.sendPackets(new S_ServerMessage(161, item.LogName, "$245", "$247"));
 									item.setSkillArmorEnchant(pc, _skillId, _skill.BuffDuration * 1000);
@@ -2741,30 +2727,30 @@ namespace LineageServer.Server.Server.Model.skill
 
 					// ■■■■ 個別処理ここまで ■■■■
 
-					 // 治癒性魔法攻擊不死係的怪物。
-					if ((_skill.Type == L1Skills.TYPE_HEAL) && (_calcType == PC_NPC) && (undeadType == 1))
+					// 治癒性魔法攻擊不死係的怪物。
+					if (( _skill.Type == L1Skills.TYPE_HEAL ) && ( _calcType == PC_NPC ) && ( undeadType == 1 ))
 					{
 						dmg *= -1;
 					}
 					// 治癒性魔法無法對此不死係起作用
-					if ((_skill.Type == L1Skills.TYPE_HEAL) && (_calcType == PC_NPC) && (undeadType == 3))
+					if (( _skill.Type == L1Skills.TYPE_HEAL ) && ( _calcType == PC_NPC ) && ( undeadType == 3 ))
 					{
 						dmg = 0;
 					}
 					// 無法對城門、守護塔補血
-					if (((cha is L1TowerInstance) || (cha is L1DoorInstance)) && (dmg < 0))
+					if (( ( cha is L1TowerInstance ) || ( cha is L1DoorInstance ) ) && ( dmg < 0 ))
 					{
 						dmg = 0;
 					}
-					 // 吸取魔力。
-					if ((dmg > 0) || (drainMana != 0))
+					// 吸取魔力。
+					if (( dmg > 0 ) || ( drainMana != 0 ))
 					{
 						_magic.commit(dmg, drainMana);
 					}
 					// 補血判斷
-					if ((_skill.Type == L1Skills.TYPE_HEAL) && (dmg < 0))
+					if (( _skill.Type == L1Skills.TYPE_HEAL ) && ( dmg < 0 ))
 					{
-						cha.CurrentHp = (dmg * -1) + cha.CurrentHp;
+						cha.CurrentHp = ( dmg * -1 ) + cha.CurrentHp;
 					}
 					// 非治癒性魔法補血判斷(寒戰、吸吻等)
 					if (heal > 0)
@@ -2774,7 +2760,7 @@ namespace LineageServer.Server.Server.Model.skill
 
 					if (cha is L1PcInstance)
 					{ // 更新自身狀態
-						L1PcInstance pc = (L1PcInstance) cha;
+						L1PcInstance pc = (L1PcInstance)cha;
 						pc.turnOnOffLight();
 						pc.sendPackets(new S_OwnCharAttrDef(pc));
 						pc.sendPackets(new S_OwnCharStatus(pc));
@@ -2785,13 +2771,13 @@ namespace LineageServer.Server.Server.Model.skill
 
 					if (cha is L1PcInstance)
 					{ // ターゲットがPCならば、ライト状態を更新
-						L1PcInstance pc = (L1PcInstance) cha;
+						L1PcInstance pc = (L1PcInstance)cha;
 						pc.turnOnOffLight();
 					}
 				}
 
 				// 解除隱身
-				if ((_skillId == DETECTION) || (_skillId == COUNTER_DETECTION))
+				if (( _skillId == L1SkillId.DETECTION ) || ( _skillId == L1SkillId.COUNTER_DETECTION ))
 				{ // 無所遁形、強力無所遁形
 					detection(_player);
 				}
@@ -2825,16 +2811,16 @@ namespace LineageServer.Server.Server.Model.skill
 		private bool isTargetCalc(L1Character cha)
 		{
 			// 三重矢、屠宰者、暴擊、骷髏毀壞
-			if ((_user is L1PcInstance) && (_skillId == TRIPLE_ARROW || _skillId == FOE_SLAYER || _skillId == SMASH || _skillId == BONE_BREAK))
+			if (( _user is L1PcInstance ) && ( _skillId == L1SkillId.TRIPLE_ARROW || _skillId == L1SkillId.FOE_SLAYER || _skillId == L1SkillId.SMASH || _skillId == L1SkillId.BONE_BREAK ))
 			{
 				return true;
 			}
 			// 攻撃魔法のNon－PvP判定
-			if (_skill.Target.Equals("attack") && (_skillId != 18))
+			if (_skill.Target.Equals("attack") && ( _skillId != L1SkillId.TURN_UNDEAD ))
 			{ // 攻撃魔法
 				if (isPcSummonPet(cha))
 				{ // 対象がPC、サモン、ペット
-					if ((_player.ZoneType == 1) || (cha.ZoneType == 1) || _player.checkNonPvP(_player, cha))
+					if (( _player.ZoneType == 1 ) || ( cha.ZoneType == 1 ) || _player.checkNonPvP(_player, cha))
 					{ // Non-PvP設定
 						return false;
 					}
@@ -2842,13 +2828,13 @@ namespace LineageServer.Server.Server.Model.skill
 			}
 
 			// フォグオブスリーピングは自分自身は対象外
-			if ((_skillId == FOG_OF_SLEEPING) && (_user.Id == cha.Id))
+			if (( _skillId == L1SkillId.FOG_OF_SLEEPING ) && ( _user.Id == cha.Id ))
 			{
 				return false;
 			}
 
 			// マススローは自分自身と自分のペットは対象外
-			if (_skillId == MASS_SLOW)
+			if (_skillId == L1SkillId.MASS_SLOW)
 			{
 				if (_user.Id == cha.Id)
 				{
@@ -2856,7 +2842,7 @@ namespace LineageServer.Server.Server.Model.skill
 				}
 				if (cha is L1SummonInstance)
 				{
-					L1SummonInstance summon = (L1SummonInstance) cha;
+					L1SummonInstance summon = (L1SummonInstance)cha;
 					if (_user.Id == summon.Master.Id)
 					{
 						return false;
@@ -2864,7 +2850,7 @@ namespace LineageServer.Server.Server.Model.skill
 				}
 				else if (cha is L1PetInstance)
 				{
-					L1PetInstance pet = (L1PetInstance) cha;
+					L1PetInstance pet = (L1PetInstance)cha;
 					if (_user.Id == pet.Master.Id)
 					{
 						return false;
@@ -2873,7 +2859,7 @@ namespace LineageServer.Server.Server.Model.skill
 			}
 
 			// マステレポートは自分自身のみ対象（同時にクラン員もテレポートさせる）
-			if (_skillId == MASS_TELEPORT)
+			if (_skillId == L1SkillId.MASS_TELEPORT)
 			{
 				if (_user.Id != cha.Id)
 				{
@@ -2896,7 +2882,7 @@ namespace LineageServer.Server.Server.Model.skill
 			{
 				if (cha is L1SummonInstance)
 				{ // 対象がサモン
-					L1SummonInstance summon = (L1SummonInstance) cha;
+					L1SummonInstance summon = (L1SummonInstance)cha;
 					if (summon.ExsistMaster)
 					{ // マスターが居る
 						return true;
@@ -2918,17 +2904,17 @@ namespace LineageServer.Server.Server.Model.skill
 			bool isManaDrain = false;
 			int undeadType = 0;
 
-			if ((cha is L1TowerInstance) || (cha is L1DoorInstance))
+			if (( cha is L1TowerInstance ) || ( cha is L1DoorInstance ))
 			{ // ガーディアンタワー、ドアには確率系スキル無効
 				return true;
 			}
 
 			if (cha is L1PcInstance)
 			{ // 対PCの場合
-				if ((_calcType == PC_PC) && _player.checkNonPvP(_player, cha))
+				if (( _calcType == PC_PC ) && _player.checkNonPvP(_player, cha))
 				{ // Non-PvP設定
-					L1PcInstance pc = (L1PcInstance) cha;
-					if ((_player.Id == pc.Id) || ((pc.Clanid != 0) && (_player.Clanid == pc.Clanid)))
+					L1PcInstance pc = (L1PcInstance)cha;
+					if (( _player.Id == pc.Id ) || ( ( pc.Clanid != 0 ) && ( _player.Clanid == pc.Clanid ) ))
 					{
 						return false;
 					}
@@ -2939,17 +2925,17 @@ namespace LineageServer.Server.Server.Model.skill
 
 			if (cha is L1MonsterInstance)
 			{ // ターンアンデット可能か判定
-				isTU = ((L1MonsterInstance) cha).NpcTemplate.get_IsTU();
+				isTU = ( (L1MonsterInstance)cha ).NpcTemplate.get_IsTU();
 			}
 
 			if (cha is L1MonsterInstance)
 			{ // イレースマジック可能か判定
-				isErase = ((L1MonsterInstance) cha).NpcTemplate.get_IsErase();
+				isErase = ( (L1MonsterInstance)cha ).NpcTemplate.get_IsErase();
 			}
 
 			if (cha is L1MonsterInstance)
 			{ // アンデットの判定
-				undeadType = ((L1MonsterInstance) cha).NpcTemplate.get_undead();
+				undeadType = ( (L1MonsterInstance)cha ).NpcTemplate.get_undead();
 			}
 
 			// マナドレインが可能か？
@@ -2962,7 +2948,7 @@ namespace LineageServer.Server.Server.Model.skill
 			 * 成功除外条件３：スロー、マススロー、マナドレイン、エンタングル、イレースマジック、ウィンドシャックル無効
 			 * 成功除外条件４：マナドレインが成功したが、モンスター以外の場合
 			 */
-			if (((_skillId == TURN_UNDEAD) && ((undeadType == 0) || (undeadType == 2))) || ((_skillId == TURN_UNDEAD) && (isTU == false)) || (((_skillId == ERASE_MAGIC) || (_skillId == SLOW) || (_skillId == MANA_DRAIN) || (_skillId == MASS_SLOW) || (_skillId == ENTANGLE) || (_skillId == WIND_SHACKLE)) && (isErase == false)) || ((_skillId == MANA_DRAIN) && (isManaDrain == false)))
+			if (( ( _skillId == L1SkillId.TURN_UNDEAD ) && ( ( undeadType == 0 ) || ( undeadType == 2 ) ) ) || ( ( _skillId == L1SkillId.TURN_UNDEAD ) && ( isTU == false ) ) || ( ( ( _skillId == L1SkillId.ERASE_MAGIC ) || ( _skillId == L1SkillId.SLOW ) || ( _skillId == L1SkillId.MANA_DRAIN ) || ( _skillId == L1SkillId.MASS_SLOW ) || ( _skillId == L1SkillId.ENTANGLE ) || ( _skillId == L1SkillId.WIND_SHACKLE ) ) && ( isErase == false ) ) || ( ( _skillId == L1SkillId.MANA_DRAIN ) && ( isManaDrain == false ) ))
 			{
 				return true;
 			}
@@ -2972,14 +2958,14 @@ namespace LineageServer.Server.Server.Model.skill
 		// 魔法屏障發動判斷
 		private bool isUseCounterMagic(L1Character cha)
 		{
-			if (_isCounterMagic && cha.hasSkillEffect(COUNTER_MAGIC))
+			if (_isCounterMagic && cha.hasSkillEffect(L1SkillId.COUNTER_MAGIC))
 			{
-				cha.removeSkillEffect(COUNTER_MAGIC);
-				int castgfx = SkillsTable.Instance.getTemplate(COUNTER_MAGIC).CastGfx;
+				cha.removeSkillEffect(L1SkillId.COUNTER_MAGIC);
+				int castgfx = SkillsTable.Instance.getTemplate(L1SkillId.COUNTER_MAGIC).CastGfx;
 				cha.broadcastPacket(new S_SkillSound(cha.Id, castgfx));
 				if (cha is L1PcInstance)
 				{
-					L1PcInstance pc = (L1PcInstance) cha;
+					L1PcInstance pc = (L1PcInstance)cha;
 					pc.sendPackets(new S_SkillSound(pc.Id, castgfx));
 				}
 				return true;

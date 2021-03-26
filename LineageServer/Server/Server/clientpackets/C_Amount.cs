@@ -2,8 +2,8 @@
 using LineageServer.Server.Server.Model;
 using LineageServer.Server.Server.Model.identity;
 using LineageServer.Server.Server.Model.Instance;
-using LineageServer.Server.Server.Model.npc;
-using LineageServer.Server.Server.Model.npc.action;
+using LineageServer.Server.Server.Model.Npc;
+using LineageServer.Server.Server.Model.Npc.Action;
 using LineageServer.Server.Server.serverpackets;
 using LineageServer.Server.Server.storage;
 using LineageServer.Server.Server.Templates;

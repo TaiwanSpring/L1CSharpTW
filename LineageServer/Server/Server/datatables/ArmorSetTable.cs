@@ -1,101 +1,79 @@
-﻿using LineageServer.Interfaces;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Server.Templates;
+using LineageServer.Server.Server.utils.collections;
 using System.Collections.Generic;
 namespace LineageServer.Server.Server.DataSources
 {
-    public class ArmorSetTable
-    {
-        private static ILogger _log = Logger.getLogger(nameof(ArmorSetTable));
+	public class ArmorSetTable
+	{
+		private static ArmorSetTable _instance;
 
-        private static ArmorSetTable _instance;
+		private readonly IList<L1ArmorSets> _armorSetList = Lists.newList<L1ArmorSets>();
 
-        private readonly IList<L1ArmorSets> _armorSetList = Lists.newList();
+		public static ArmorSetTable Instance
+		{
+			get
+			{
+				if (_instance == null)
+				{
+					_instance = new ArmorSetTable();
+				}
+				return _instance;
+			}
+		}
 
-        public static ArmorSetTable Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new ArmorSetTable();
-                }
-                return _instance;
-            }
-        }
+		private ArmorSetTable()
+		{
+			load();
+		}
 
-        private ArmorSetTable()
-        {
-            load();
-        }
+		private void load()
+		{
+			IDataSourceTable dataSourceTable = new EmptyDataSourceTable();
+			fillTable(dataSourceTable.Select());
+		}
+		private void fillTable(IDataSourceRow[] dataSourceRows)
+		{
+			foreach (IDataSourceRow rs in dataSourceRows)
+			{
+				L1ArmorSets l1ArmorSets = new L1ArmorSets();
+				l1ArmorSets.Id = rs.getInt("id");
+				l1ArmorSets.Sets = rs.getString("sets");
+				l1ArmorSets.PolyId = rs.getInt("polyid");
+				l1ArmorSets.Ac = rs.getInt("ac");
+				l1ArmorSets.Hp = rs.getInt("hp");
+				l1ArmorSets.Mp = rs.getInt("mp");
+				l1ArmorSets.Hpr = rs.getInt("hpr");
+				l1ArmorSets.Mpr = rs.getInt("mpr");
+				l1ArmorSets.Mr = rs.getInt("mr");
+				l1ArmorSets.Str = rs.getInt("str");
+				l1ArmorSets.Dex = rs.getInt("dex");
+				l1ArmorSets.Con = rs.getInt("con");
+				l1ArmorSets.Wis = rs.getInt("wis");
+				l1ArmorSets.Cha = rs.getInt("cha");
+				l1ArmorSets.Intl = rs.getInt("intl");
+				l1ArmorSets.HitModifier = rs.getInt("hit_modifier");
+				l1ArmorSets.DmgModifier = rs.getInt("dmg_modifier");
+				l1ArmorSets.BowHitModifier = rs.getInt("bow_hit_modifier");
+				l1ArmorSets.BowDmgModifier = rs.getInt("bow_dmg_modifier");
+				l1ArmorSets.Sp = rs.getInt("sp");
+				l1ArmorSets.DefenseWater = rs.getInt("defense_water");
+				l1ArmorSets.DefenseWind = rs.getInt("defense_wind");
+				l1ArmorSets.DefenseFire = rs.getInt("defense_fire");
+				l1ArmorSets.DefenseEarth = rs.getInt("defense_earth");
+				_armorSetList.Add(l1ArmorSets);
+			}
+		}
 
-        private void load()
-        {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            try
-            {
+		public virtual L1ArmorSets[] AllList
+		{
+			get
+			{
+				return ( (List<L1ArmorSets>)_armorSetList ).ToArray();
+			}
+		}
 
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("SELECT * FROM armor_set");
-                rs = pstm.executeQuery();
-                fillTable(rs);
-            }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, "error while creating armor_set table", e);
-            }
-            finally
-            {
-                SQLUtil.close(rs);
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
-            }
-        }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private void fillTable(java.sql.ResultSet rs) throws java.sql.SQLException
-        private void fillTable(ResultSet rs)
-        {
-            while (rs.next())
-            {
-                L1ArmorSets @as = new L1ArmorSets();
-                @as.Id = rs.getInt("id");
-                @as.Sets = rs.getString("sets");
-                @as.PolyId = rs.getInt("polyid");
-                @as.Ac = rs.getInt("ac");
-                @as.Hp = rs.getInt("hp");
-                @as.Mp = rs.getInt("mp");
-                @as.Hpr = rs.getInt("hpr");
-                @as.Mpr = rs.getInt("mpr");
-                @as.Mr = rs.getInt("mr");
-                @as.Str = rs.getInt("str");
-                @as.Dex = rs.getInt("dex");
-                @as.Con = rs.getInt("con");
-                @as.Wis = rs.getInt("wis");
-                @as.Cha = rs.getInt("cha");
-                @as.Intl = rs.getInt("intl");
-                @as.HitModifier = rs.getInt("hit_modifier");
-                @as.DmgModifier = rs.getInt("dmg_modifier");
-                @as.BowHitModifier = rs.getInt("bow_hit_modifier");
-                @as.BowDmgModifier = rs.getInt("bow_dmg_modifier");
-                @as.Sp = rs.getInt("sp");
-                @as.DefenseWater = rs.getInt("defense_water");
-                @as.DefenseWind = rs.getInt("defense_wind");
-                @as.DefenseFire = rs.getInt("defense_fire");
-                @as.DefenseEarth = rs.getInt("defense_earth");
-
-                _armorSetList.Add(@as);
-            }
-        }
-
-        public virtual L1ArmorSets[] AllList
-        {
-            get
-            {
-                return ((List<L1ArmorSets>)_armorSetList).ToArray();
-            }
-        }
-
-    }
+	}
 
 }

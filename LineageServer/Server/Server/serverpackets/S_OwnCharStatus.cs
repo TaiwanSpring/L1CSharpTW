@@ -29,7 +29,7 @@ namespace LineageServer.Server.Server.serverpackets
 
 		public S_OwnCharStatus(L1PcInstance pc)
 		{
-			int time = L1GameTimeClock.Instance.currentTime().Seconds;
+			int time = L1GameTimeClock.Instance.CurrentTime().Seconds;
 			time = time - (time % 300);
 			writeC(Opcodes.S_OPCODE_OWNCHARSTATUS);
 			writeD(pc.Id);

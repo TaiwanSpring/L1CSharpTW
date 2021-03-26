@@ -20,7 +20,7 @@ namespace LineageServer.Server.Server.Model
 
 	public class L1MapArea : Rectangle
 	{
-		private L1Map _map = L1Map.newNull();
+		private L1Map _map = L1Map.NullMap;
 
 		public virtual L1Map Map
 		{
@@ -46,12 +46,12 @@ namespace LineageServer.Server.Server.Model
 		public L1MapArea(int left, int top, int right, int bottom, int mapId) : base(left, top, right, bottom)
 		{
 
-			_map = L1WorldMap.Instance.getMap((short) mapId);
+			_map = L1WorldMap.Instance.getMap((short)mapId);
 		}
 
 		public virtual bool contains(L1Location loc)
 		{
-			return (_map.Id == loc.getMap().Id) && base.contains(loc);
+			return ( _map.Id == loc.getMap().Id ) && base.contains(loc);
 		}
 	}
 

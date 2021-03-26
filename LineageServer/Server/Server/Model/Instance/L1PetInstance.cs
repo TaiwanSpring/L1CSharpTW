@@ -933,9 +933,10 @@ namespace LineageServer.Server.Server.Model.Instance
 		}
 
         public int Level { get; internal set; }
+		public int MaxMp { get; internal set; }
 
-        // 寵物飽食度計時器
-        private L1PetFood _petFood;
+		// 寵物飽食度計時器
+		private L1PetFood _petFood;
 
 		public virtual void startFoodTimer(L1PetInstance pet)
 		{

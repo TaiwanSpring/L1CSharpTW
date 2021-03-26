@@ -194,7 +194,7 @@ namespace LineageServer.Server.Server.Model
 
 		public virtual bool dg(int locX, int locY, int mapId, L1PcInstance pc)
 		{
-			int servertime = L1GameTimeClock.Instance.currentTime().Seconds;
+			int servertime = L1GameTimeClock.Instance.CurrentTime().Seconds;
 			int nowtime = servertime % 86400;
 			string key = (new StringBuilder()).Append(mapId).Append(locX).Append(locY).ToString();
 			if (_dungeonMap.ContainsKey(key))

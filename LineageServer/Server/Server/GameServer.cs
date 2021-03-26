@@ -54,7 +54,7 @@ namespace LineageServer.Server.Server
 	using L1GameTimeClock = LineageServer.Server.Server.Model.Gametime.L1GameTimeClock;
 	using L1TreasureBox = LineageServer.Server.Server.Model.item.L1TreasureBox;
 	using L1WorldMap = LineageServer.Server.Server.Model.map.L1WorldMap;
-	using L1NpcDefaultAction = LineageServer.Server.Server.Model.npc.action.L1NpcDefaultAction;
+	using L1NpcDefaultAction = LineageServer.Server.Server.Model.Npc.Action.L1NpcDefaultAction;
 	using L1WorldTraps = LineageServer.Server.Server.Model.trap.L1WorldTraps;
 	using MysqlAutoBackup = LineageServer.Server.Server.storage.mysql.MysqlAutoBackup;
 	using MysqlAutoBackupTimer = LineageServer.Server.Server.utils.MysqlAutoBackupTimer;
@@ -181,7 +181,7 @@ namespace LineageServer.Server.Server
 			CharacterTable.clearOnlineStatus();
 
 			// 初始化遊戲時間
-			L1GameTimeClock.init();
+			L1GameTimeClock.Init();
 			// 伺服器自動重啟 
 			if (Config.REST_TIME != 0)
 			{

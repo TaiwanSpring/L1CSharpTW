@@ -1,58 +1,38 @@
-﻿using System;
+﻿using LineageServer.Models;
+using LineageServer.Server.Server.DataSources;
+using LineageServer.Server.Server.utils.collections;
+using System;
 using System.Collections.Generic;
 using System.IO;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Server.Model.map
 {
-
-	using MapsTable = LineageServer.Server.Server.DataSources.MapsTable;
-	using FileUtil = LineageServer.Server.Server.utils.FileUtil;
-	using Lists = LineageServer.Server.Server.utils.collections.Lists;
-	using Maps = LineageServer.Server.Server.utils.collections.Maps;
-
 	/// <summary>
 	/// 地圖 (maps/\d*.txt)讀取
 	/// </summary>
 	public class TextMapReader : MapReader
 	{
-
-		/// <summary>
-		/// 紀錄用 </summary>
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.getLogger(typeof(TextMapReader).FullName);
-
 		/// <summary>
 		/// 地圖的路徑 </summary>
 		private const string MAP_DIR = "./maps/";
 
 		/// <summary>
-		/// MAP_INFO 中編號的位置 </summary>
+		/// MAP_INFO 中編號的位置
+		/// </summary>
 		public const int MAPINFO_MAP_NO = 0;
 
 		/// <summary>
-		/// MAP_INFO 開始X座標的位置 </summary>
+		/// MAP_INFO 開始X座標的位置
+		/// </summary>
 		public const int MAPINFO_START_X = 1;
 
 		/// <summary>
-		/// MAP_INFO 結束X座標的位置 </summary>
+		/// MAP_INFO 結束X座標的位置
+		/// </summary>
 		public const int MAPINFO_END_X = 2;
 
 		/// <summary>
-		/// MAP_INFO 開始Y座標的位置 </summary>
+		/// MAP_INFO 開始Y座標的位置
+		/// </summary>
 		public const int MAPINFO_START_Y = 3;
 
 		/// <summary>
@@ -62,44 +42,48 @@ namespace LineageServer.Server.Server.Model.map
 		/// <summary>
 		/// 依照輸入大小讀取指定編號地圖
 		/// </summary>
-		/// <param name="mapId">
-		///            地圖編號 </param>
-		/// <param name="xSize">
-		///            X座標大小 </param>
-		/// <param name="ySize">
-		///            Y座標大小 </param>
+		/// <param name="mapId">地圖編號 </param>
+		/// <param name="xSize">X座標大小 </param>
+		/// <param name="ySize">Y座標大小 </param>
 		/// <returns> byte[][] </returns>
-		/// <exception cref="IOException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: public byte[][] read(final int mapId, final int xSize, final int ySize) throws java.io.IOException
-		public virtual sbyte[][] read(in int mapId, in int xSize, in int ySize)
+		public virtual byte[][] read(in int mapId, in int xSize, in int ySize)
 		{
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: sbyte[][] map = new sbyte[xSize][ySize];
-			sbyte[][] map = RectangularArrays.RectangularSbyteArray(xSize, ySize);
-			LineNumberReader @in = new LineNumberReader(new StreamReader(MAP_DIR + mapId + ".txt"));
-
-			int y = 0;
-			string line;
-			while (!string.ReferenceEquals((line = @in.readLine()), null))
+			byte[][] map = new byte[xSize][];
+			for (int i = 0; i < map.Length; i++)
 			{
-				if ((line.Trim().Length == 0) || line.StartsWith("#", StringComparison.Ordinal))
-				{
-					continue; // 跳過空行與註解
-				}
-
-				int x = 0;
-				StringTokenizer tok = new StringTokenizer(line, ",");
-				while (tok.hasMoreTokens())
-				{
-					sbyte tile = sbyte.Parse(tok.nextToken());
-					map[x][y] = tile;
-
-					x++;
-				}
-				y++;
+				map[i] = new byte[ySize];
 			}
-			@in.close();
+
+			FileInfo fileInfo = new FileInfo($"{MAP_DIR}{mapId}.txt");
+
+			if (fileInfo.Exists)
+			{
+				byte[] buffer = File.ReadAllBytes(fileInfo.FullName);
+				byte value = 0;
+				int x = 0;
+				int y = 0;
+				for (int i = 0; i < buffer.Length; i++)
+				{
+					if (buffer[i] == ',')
+					{
+						map[x][y] = value;
+						x++;
+						value = 0x00;
+					}
+					else if (buffer[i] >= '0' && buffer[i] <= '9')
+					{
+						value = (byte)( value * 10 + ( buffer[i] - '0' ) );
+					}
+					else if (buffer[i] == 0x0A)//換行
+					{
+						y++;
+					}
+				}
+			}
+			else
+			{
+				throw new FileNotFoundException(fileInfo.FullName);
+			}
 			return map;
 		}
 
@@ -109,10 +93,7 @@ namespace LineageServer.Server.Server.Model.map
 		/// <param name="id">
 		///            地圖編號 </param>
 		/// <returns> L1Map </returns>
-		/// <exception cref="IOException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: @Override public L1Map read(final int id) throws java.io.IOException
-		public override L1Map read(in int id)
+		public override L1Map read(int id)
 		{
 			foreach (int[] info in MAP_INFO)
 			{
@@ -122,7 +103,7 @@ namespace LineageServer.Server.Server.Model.map
 
 				if (mapId == id)
 				{
-					L1V1Map map = new L1V1Map((short) mapId, this.read(mapId, xSize, ySize), info[MAPINFO_START_X], info[MAPINFO_START_Y], MapsTable.Instance.isUnderwater(mapId), MapsTable.Instance.isMarkable(mapId), MapsTable.Instance.isTeleportable(mapId), MapsTable.Instance.isEscapable(mapId), MapsTable.Instance.isUseResurrection(mapId), MapsTable.Instance.isUsePainwand(mapId), MapsTable.Instance.isEnabledDeathPenalty(mapId), MapsTable.Instance.isTakePets(mapId), MapsTable.Instance.isRecallPets(mapId), MapsTable.Instance.isUsableItem(mapId), MapsTable.Instance.isUsableSkill(mapId));
+					L1V1Map map = new L1V1Map((short)mapId, this.read(mapId, xSize, ySize), info[MAPINFO_START_X], info[MAPINFO_START_Y], MapsTable.Instance.isUnderwater(mapId), MapsTable.Instance.isMarkable(mapId), MapsTable.Instance.isTeleportable(mapId), MapsTable.Instance.isEscapable(mapId), MapsTable.Instance.isUseResurrection(mapId), MapsTable.Instance.isUsePainwand(mapId), MapsTable.Instance.isEnabledDeathPenalty(mapId), MapsTable.Instance.isTakePets(mapId), MapsTable.Instance.isRecallPets(mapId), MapsTable.Instance.isUsableItem(mapId), MapsTable.Instance.isUsableSkill(mapId));
 					return map;
 				}
 			}
@@ -133,12 +114,9 @@ namespace LineageServer.Server.Server.Model.map
 		/// 取得所有地圖與編號的 Mapping
 		/// </summary>
 		/// <returns> Map </returns>
-		/// <exception cref="IOException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: @Override public java.util.Map<int, L1Map> read() throws java.io.IOException
 		public override IDictionary<int, L1Map> read()
 		{
-			IDictionary<int, L1Map> maps = Maps.newMap();
+			IDictionary<int, L1Map> maps = Maps.newMap<int, L1Map>();
 
 			foreach (int[] info in MAP_INFO)
 			{
@@ -146,54 +124,24 @@ namespace LineageServer.Server.Server.Model.map
 				int xSize = info[MAPINFO_END_X] - info[MAPINFO_START_X] + 1;
 				int ySize = info[MAPINFO_END_Y] - info[MAPINFO_START_Y] + 1;
 
-				try
-				{
-					L1V1Map map = new L1V1Map((short) mapId, this.read(mapId, xSize, ySize), info[MAPINFO_START_X], info[MAPINFO_START_Y], MapsTable.Instance.isUnderwater(mapId), MapsTable.Instance.isMarkable(mapId), MapsTable.Instance.isTeleportable(mapId), MapsTable.Instance.isEscapable(mapId), MapsTable.Instance.isUseResurrection(mapId), MapsTable.Instance.isUsePainwand(mapId), MapsTable.Instance.isEnabledDeathPenalty(mapId), MapsTable.Instance.isTakePets(mapId), MapsTable.Instance.isRecallPets(mapId), MapsTable.Instance.isUsableItem(mapId), MapsTable.Instance.isUsableSkill(mapId));
+				L1V1Map map = new L1V1Map((short)mapId, this.read(mapId, xSize, ySize),
+					info[MAPINFO_START_X], info[MAPINFO_START_Y],
+					MapsTable.Instance.isUnderwater(mapId),
+					MapsTable.Instance.isMarkable(mapId),
+					MapsTable.Instance.isTeleportable(mapId),
+					MapsTable.Instance.isEscapable(mapId),
+					MapsTable.Instance.isUseResurrection(mapId),
+					MapsTable.Instance.isUsePainwand(mapId),
+					MapsTable.Instance.isEnabledDeathPenalty(mapId),
+					MapsTable.Instance.isTakePets(mapId),
+					MapsTable.Instance.isRecallPets(mapId),
+					MapsTable.Instance.isUsableItem(mapId),
+					MapsTable.Instance.isUsableSkill(mapId));
 
-					maps[mapId] = map;
-				}
-				catch (IOException e)
-				{
-					_log.log(Enum.Level.Server, e.Message, e);
-				}
+				maps[mapId] = map;
 			}
 
 			return maps;
-		}
-
-		/// <summary>
-		/// 傳回所有地圖的編號
-		/// </summary>
-		/// <returns> ArraryList </returns>
-		public static IList<int> listMapIds()
-		{
-			IList<int> ids = Lists.newList();
-
-			File mapDir = new File(MAP_DIR);
-			foreach (string name in mapDir.list())
-			{
-				File mapFile = new File(mapDir, name);
-				if (!mapFile.exists())
-				{
-					continue;
-				}
-				if (!FileUtil.getExtension(mapFile).ToLower().Equals("txt"))
-				{
-					continue;
-				}
-				int id = 0;
-				try
-				{
-					string idStr = FileUtil.getNameWithoutExtension(mapFile);
-					id = int.Parse(idStr);
-				}
-				catch (System.FormatException)
-				{
-					continue;
-				}
-				ids.Add(id);
-			}
-			return ids;
 		}
 
 		/// <summary>

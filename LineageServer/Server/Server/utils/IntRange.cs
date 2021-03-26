@@ -1,4 +1,5 @@
-﻿/// <summary>
+﻿using System;
+/// <summary>
 ///                            License
 /// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
 /// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
@@ -46,12 +47,12 @@ namespace LineageServer.Server.Server.utils
 		/// <returns> 範囲内であればtrue </returns>
 		public virtual bool includes(int i)
 		{
-			return (_low <= i) && (i <= _high);
+			return ( _low <= i ) && ( i <= _high );
 		}
 
 		public static bool includes(int i, int low, int high)
 		{
-			return (low <= i) && (i <= high);
+			return ( low <= i ) && ( i <= high );
 		}
 
 		/// <summary>
@@ -63,16 +64,16 @@ namespace LineageServer.Server.Server.utils
 		public virtual int ensure(int i)
 		{
 			int r = i;
-			r = (_low <= r) ? r : _low;
-			r = (r <= _high) ? r : _high;
+			r = ( _low <= r ) ? r : _low;
+			r = ( r <= _high ) ? r : _high;
 			return r;
 		}
 
 		public static int ensure(int n, int low, int high)
 		{
 			int r = n;
-			r = (low <= r) ? r : low;
-			r = (r <= high) ? r : high;
+			r = ( low <= r ) ? r : low;
+			r = ( r <= high ) ? r : high;
 			return r;
 		}
 
@@ -111,17 +112,24 @@ namespace LineageServer.Server.Server.utils
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is IntRange))
+			if (obj is IntRange other)
+			{
+				return ( this._low == other._low ) && ( this._high == other._high );
+			}
+			else
 			{
 				return false;
 			}
-			IntRange range = (IntRange) obj;
-			return (this._low == range._low) && (this._high == range._high);
 		}
 
 		public override string ToString()
 		{
 			return "low=" + _low + ", high=" + _high;
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(this._low, this._high);
 		}
 	}
 
