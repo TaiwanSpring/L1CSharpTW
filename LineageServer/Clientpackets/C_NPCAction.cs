@@ -1,4 +1,6 @@
 ﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server;
 using LineageServer.Server.DataSources;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Game;
@@ -7,10 +9,10 @@ using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.Npc;
 using LineageServer.Server.Model.Npc.Action;
 using LineageServer.Server.Model.skill;
-using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
+using LineageServer.Serverpackets;
+using LineageServer.Utils;
 using System;
-using LineageServer.Server;
 
 namespace LineageServer.Clientpackets
 {
@@ -5045,8 +5047,7 @@ namespace LineageServer.Clientpackets
                     else if (pc.Inventory.checkItem(consumeItem, consumeItemCount))
                     {
                         pc.Inventory.consumeItem(consumeItem, consumeItemCount);
-                        L1PcInventory inv = pc.Inventory;
-                        L1ItemInstance petamu = inv.storeItem(petItemId, 1);
+                        L1ItemInstance petamu = pc.Inventory.storeItem(petItemId, 1);
                         if (petamu != null)
                         {
                             PetTable.Instance.buyNewPet(petNpcId, petamu.Id + 1, petamu.Id, upLv, lvExp);

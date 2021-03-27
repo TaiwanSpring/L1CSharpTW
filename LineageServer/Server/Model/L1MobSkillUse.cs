@@ -1,7 +1,11 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Models;
+using LineageServer.Server.DataSources;
 using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Model.skill;
 using LineageServer.Server.Templates;
+using LineageServer.Serverpackets;
+using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -280,7 +284,7 @@ namespace LineageServer.Server.Model
                 switch (_attacker.NpcTemplate.get_npcId())
                 {
                     case 81082: // 火焰之影
-                        pc.Inventory.takeoffEquip(945); // 將目標裝備卸下。
+                        (pc.Inventory as L1PcInventory).takeoffEquip(945); // 將目標裝備卸下。
                         break;
                     default:
                         break;
@@ -309,7 +313,7 @@ namespace LineageServer.Server.Model
             }
 
             L1Skills skill = SkillsTable.Instance.getTemplate(skillid);
-            if (skill.Target.Equals("buff") && _target.hasSkillEffect(L1SkillId.skillid))
+            if (skill.Target.Equals("buff") && _target.hasSkillEffect(skillid))
             {
                 return false;
             }
@@ -339,7 +343,7 @@ namespace LineageServer.Server.Model
 		 */
         private bool physicalAttack(int idx)
         {
-            IDictionary<int, int> targetList = MapFactory.newConcurrentMap();
+            IDictionary<int, int> targetList = MapFactory.NewMap<int, int>();
             int areaWidth = MobSkillTemplate.getAreaWidth(idx);
             int areaHeight = MobSkillTemplate.getAreaHeight(idx);
             int range = MobSkillTemplate.getRange(idx);
@@ -612,7 +616,7 @@ namespace LineageServer.Server.Model
                         mob.HomeX = loc.X;
                         mob.HomeY = loc.Y;
                         short mapid = _attacker.MapId;
-                        mob.Map = mapid;
+                        mob.MapId = mapid;
                         mob.Heading = heading;
                         L1World.Instance.storeObject(mob);
                         L1World.Instance.addVisibleObject(mob);
@@ -660,7 +664,7 @@ namespace LineageServer.Server.Model
                     break;
                 case L1MobSkill.CHANGE_TARGET_RANDOM:
                     // ターゲット候補の選定
-                    IList<L1Character> targetList = ListFactory.newList();
+                    IList<L1Character> targetList = ListFactory.NewList<L1Character>();
                     foreach (GameObject obj in L1World.Instance.getVisibleObjects(_attacker))
                     {
                         if ((obj is L1PcInstance) || (obj is L1PetInstance) || (obj is L1SummonInstance))

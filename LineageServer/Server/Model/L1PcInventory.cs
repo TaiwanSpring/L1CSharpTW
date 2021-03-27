@@ -1,54 +1,23 @@
-﻿using System;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.DataSources;
+using LineageServer.Server.Model.identity;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.storage;
+using LineageServer.Server.Templates;
+using LineageServer.Serverpackets;
+using LineageServer.Utils;
+using System;
+using System.Linq;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Model
 {
-
-    using Random = LineageServer.Utils.Random;
-
-
-    using Config = LineageServer.Server.Config;
-    using RaceTicketTable = LineageServer.Server.DataSources.RaceTicketTable;
-    using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
-    using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-    using L1PetInstance = LineageServer.Server.Model.Instance.L1PetInstance;
-    using L1ItemId = LineageServer.Server.Model.identity.L1ItemId;
-    using S_AddItem = LineageServer.Serverpackets.S_AddItem;
-    using S_CharVisualUpdate = LineageServer.Serverpackets.S_CharVisualUpdate;
-    using S_DeleteInventoryItem = LineageServer.Serverpackets.S_DeleteInventoryItem;
-    using S_EquipmentWindow = LineageServer.Serverpackets.S_EquipmentWindow;
-    using S_ItemColor = LineageServer.Serverpackets.S_ItemColor;
-    using S_ItemStatus = LineageServer.Serverpackets.S_ItemStatus;
-    using S_OwnCharStatus = LineageServer.Serverpackets.S_OwnCharStatus;
-    using S_ItemName = LineageServer.Serverpackets.S_ItemName;
-    using S_ItemAmount = LineageServer.Serverpackets.S_ItemAmount;
-    using S_PacketBox = LineageServer.Serverpackets.S_PacketBox;
-    using S_ServerMessage = LineageServer.Serverpackets.S_ServerMessage;
-    using CharactersItemStorage = LineageServer.Server.storage.CharactersItemStorage;
-    using L1Item = LineageServer.Server.Templates.L1Item;
-    using L1RaceTicket = LineageServer.Server.Templates.L1RaceTicket;
-
-    [Serializable]
-    public class L1PcInventory : L1Inventory
+    class L1PcInventory : L1Inventory
     {
 
         private const long serialVersionUID = 1L;
 
-        //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-        private static Logger _log = Logger.GetLogger(typeof(L1PcInventory).FullName);
+        private static ILogger _log = Logger.GetLogger(nameof(L1PcInventory));
 
         private const int MAX_SIZE = 180;
 
@@ -95,9 +64,7 @@ namespace LineageServer.Server.Model
                 }
                 else
                 {
-                    double wpTemp = (weight * 100 / maxWeight) * 242.00 / 100.00;
-                    DecimalFormat df = new DecimalFormat("00.##");
-                    df.format(wpTemp);
+                    double wpTemp = weight * 100 / maxWeight * 242.00 / 100.00;
                     wpTemp = (long)Math.Round(wpTemp, MidpointRounding.AwayFromZero);
                     weight242 = (int)(wpTemp);
                 }
@@ -1055,8 +1022,8 @@ namespace LineageServer.Server.Model
             {
                 return null;
             }
-            object[] petlist = _owner.PetList.Values.ToArray();
-            foreach (object petObject in petlist)
+            var petlist = _owner.PetList.Values.ToArray();
+            foreach (var petObject in petlist)
             {
                 if (petObject is L1PetInstance)
                 {

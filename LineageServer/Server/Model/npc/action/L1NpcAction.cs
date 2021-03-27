@@ -2,12 +2,12 @@
 
 namespace LineageServer.Server.Model.Npc.Action
 {
-	interface INpcAction
-	{
-		bool acceptsRequest(string actionName, L1PcInstance pc, GameObject obj);
+    interface INpcAction
+    {
+        bool acceptsRequest(string actionName, L1PcInstance pc, GameObject obj);
 
-		L1NpcHtml execute(string actionName, L1PcInstance pc, GameObject obj, sbyte[] args);
+        L1NpcHtml execute(string actionName, L1PcInstance pc, GameObject obj, byte[] args);
 
-		L1NpcHtml executeWithAmount(string actionName, L1PcInstance pc, GameObject obj, int amount);
-	}
+        L1NpcHtml executeWithAmount(string actionName, L1PcInstance pc, GameObject obj, int amount);
+    }
 }

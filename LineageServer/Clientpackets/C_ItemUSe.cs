@@ -335,12 +335,12 @@ namespace LineageServer.Clientpackets
 
                     if (l1iteminstance.Item.Type == 0)
                     { // アロー
-                        pcInventory.Arrow = l1iteminstance.Item.ItemId;
+                        pcInventory.Arrow = l1iteminstance;
                         pc.sendPackets(new S_ServerMessage(452, l1iteminstance.LogName)); // %0%s 被選擇了。
                     }
                     else if (l1iteminstance.Item.Type == 15)
                     { // スティング
-                        pcInventory.Sting = l1iteminstance.Item.ItemId;
+                        pcInventory.Sting = l1iteminstance;
                         pc.sendPackets(new S_ServerMessage(452, l1iteminstance.LogName));
                     }
                     else if (l1iteminstance.Item.Type == 16)
@@ -6132,7 +6132,7 @@ namespace LineageServer.Clientpackets
             }
             if ((attacker.Id != cha.Id) && !isSameClan)
             { // 非自身及盟友
-                int probability = 3 * (attacker.Level - cha.getLevel()) + 100 - cha.Mr;
+                int probability = 3 * (attacker.Level - cha.Level) + 100 - cha.Mr;
                 int rnd = RandomHelper.Next(100) + 1;
                 if (rnd > probability)
                 {

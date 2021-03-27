@@ -6,7 +6,7 @@ namespace LineageServer.Server.Model
     /// <summary>
     /// 所有對象的基底
     /// </summary>
-    class GameObject
+    class GameObject : ICloneable
     {
         /// <summary>
         /// 取得對象所存在的地圖ID
