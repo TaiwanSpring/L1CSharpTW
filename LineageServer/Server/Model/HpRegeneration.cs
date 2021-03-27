@@ -3,6 +3,8 @@ using LineageServer.Server.Model.skill;
 using LineageServer.Serverpackets;
 using LineageServer.Server.Types;
 using System;
+using LineageServer.Utils;
+
 namespace LineageServer.Server.Model
 {
 
@@ -13,8 +15,6 @@ namespace LineageServer.Server.Model
         private int _regenPoint = 0;
 
         private int _curPoint = 4;
-
-        readonly Random random = new Random(DateTime.Now.Millisecond);
 
         public HpRegeneration(L1PcInstance pc) : base(pc)
         {
@@ -68,7 +68,7 @@ namespace LineageServer.Server.Model
                 }
             }
 
-            int equipHpr = _pc.Inventory.hpRegenPerTick();
+            int equipHpr = pcInventory.hpRegenPerTick();
             equipHpr += _pc.Hpr;
             int bonus = RandomHelper.Next(maxBonus) + 1;
 
@@ -202,7 +202,7 @@ namespace LineageServer.Server.Model
         private bool isUnderwater(L1PcInstance pc)
         {
             // ウォーターブーツ装備時か、 エヴァの祝福状態、修理された装備セットであれば水中では無いとみなす。
-            if (pc.Inventory.checkEquipped(20207))
+            if (pcInventory.checkEquipped(20207))
             {
                 return false;
             }
@@ -210,7 +210,7 @@ namespace LineageServer.Server.Model
             {
                 return false;
             }
-            if (pc.Inventory.checkEquipped(21048) && pc.Inventory.checkEquipped(21049) && pc.Inventory.checkEquipped(21050))
+            if (pcInventory.checkEquipped(21048) && pcInventory.checkEquipped(21049) && pcInventory.checkEquipped(21050))
             {
                 return false;
             }
@@ -226,12 +226,12 @@ namespace LineageServer.Server.Model
             {
                 return false;
             }
-            if (pc.Inventory.checkEquipped(20049))
+            if (pcInventory.checkEquipped(20049))
             {
                 return false;
             }
 
-            return (121 <= pc.Inventory.Weight242) ? true : false;
+            return (121 <= pcInventory.Weight242) ? true : false;
         }
 
         private bool isLv50Quest(L1PcInstance pc)

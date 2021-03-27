@@ -8,10 +8,12 @@ namespace LineageServer.Server.Model
     abstract class PcInstanceRunnableBase : TimerTask
     {
         protected readonly L1PcInstance _pc;
+        protected readonly L1PcInventory pcInventory;
         public bool IsCancelled { get; private set; }
         public PcInstanceRunnableBase(L1PcInstance pc)
         {
             _pc = pc;
+            this.pcInventory = pc.Inventory as L1PcInventory;
         }
         public void run()
         {

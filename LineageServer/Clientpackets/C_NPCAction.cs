@@ -31,6 +31,7 @@ namespace LineageServer.Clientpackets
             {
                 return;
             }
+            L1PcInventory l1PcInventory = pc.Inventory as L1PcInventory;
 
             int objid = ReadD();
             string s = ReadS();
@@ -822,7 +823,7 @@ namespace LineageServer.Clientpackets
             }
             else if (s == "enca")
             { // 防具専門家 / 防具の強化魔法を受ける
-                L1ItemInstance item = pc.Inventory.getItemEquipped(2, 2);
+                L1ItemInstance item = l1PcInventory.getItemEquipped(2, 2);
                 if (item != null)
                 {
                     L1SkillUse l1skilluse = new L1SkillUse();
@@ -1290,7 +1291,7 @@ namespace LineageServer.Clientpackets
                     }
                     L1SkillUse l1skilluse = new L1SkillUse();
                     l1skilluse.handleCommands(pc, L1SkillId.CANCELLATION, pc.Id, pc.X, pc.Y, null, 0, L1SkillUse.TYPE_LOGIN);
-                    pc.Inventory.takeoffEquip(945); // 牛のpolyIdで装備を全部外す。
+                    l1PcInventory.takeoffEquip(945); // 牛のpolyIdで装備を全部外す。
                     L1Teleport.teleport(pc, 32737, 32789, (short)997, 4, false);
                     int initStatusPoint = 75 + pc.ElixirStats;
                     int pcStatusPoint = pc.BaseStr + pc.BaseInt + pc.BaseWis + pc.BaseDex + pc.BaseCon + pc.BaseCha;
@@ -2804,7 +2805,7 @@ namespace LineageServer.Clientpackets
                 }
                 else if (s == "b")
                 {
-                    if (pc.Inventory.checkEquipped(246) || pc.Inventory.checkEquipped(247) || pc.Inventory.checkEquipped(248) || pc.Inventory.checkEquipped(249))
+                    if (l1PcInventory.checkEquipped(246) || l1PcInventory.checkEquipped(247) || l1PcInventory.checkEquipped(248) || l1PcInventory.checkEquipped(249))
                     {
                         htmlid = "jcrystal5";
                     }
@@ -2825,7 +2826,7 @@ namespace LineageServer.Clientpackets
                 }
                 else if (s == "c")
                 {
-                    if (pc.Inventory.checkEquipped(246) || pc.Inventory.checkEquipped(247) || pc.Inventory.checkEquipped(248) || pc.Inventory.checkEquipped(249))
+                    if (l1PcInventory.checkEquipped(246) || l1PcInventory.checkEquipped(247) || l1PcInventory.checkEquipped(248) || l1PcInventory.checkEquipped(249))
                     {
                         htmlid = "jcrystal5";
                     }
@@ -3673,7 +3674,7 @@ namespace LineageServer.Clientpackets
                 { // １段階イアリング(霊魂のイアリング)
                     int earinga = 0;
                     int earingb = 0;
-                    if (pc.Inventory.checkEquipped(21014) || pc.Inventory.checkEquipped(21006) || pc.Inventory.checkEquipped(21007))
+                    if (l1PcInventory.checkEquipped(21014) || l1PcInventory.checkEquipped(21006) || l1PcInventory.checkEquipped(21007))
                     {
                         htmlid = "perita36";
                     }
@@ -3706,7 +3707,7 @@ namespace LineageServer.Clientpackets
                 }
                 else if (s == "L")
                 { // ２段階イアリング(知恵のイアリング)
-                    if (pc.Inventory.checkEquipped(21015))
+                    if (l1PcInventory.checkEquipped(21015))
                     {
                         htmlid = "perita22";
                     }
@@ -3724,7 +3725,7 @@ namespace LineageServer.Clientpackets
                 }
                 else if (s == "M")
                 { // ３段階イアリング(真実のイアリング)
-                    if (pc.Inventory.checkEquipped(21016))
+                    if (l1PcInventory.checkEquipped(21016))
                     {
                         htmlid = "perita26";
                     }
@@ -3742,7 +3743,7 @@ namespace LineageServer.Clientpackets
                 }
                 else if (s == "b")
                 { // ２段階イアリング(情熱のイアリング)
-                    if (pc.Inventory.checkEquipped(21009))
+                    if (l1PcInventory.checkEquipped(21009))
                     {
                         htmlid = "perita39";
                     }
@@ -3760,7 +3761,7 @@ namespace LineageServer.Clientpackets
                 }
                 else if (s == "d")
                 { // ３段階イアリング(名誉のイアリング)
-                    if (pc.Inventory.checkEquipped(21012))
+                    if (l1PcInventory.checkEquipped(21012))
                     {
                         htmlid = "perita41";
                     }
@@ -3778,7 +3779,7 @@ namespace LineageServer.Clientpackets
                 }
                 else if (s == "a")
                 { // ２段階イアリング(憤怒のイアリング)
-                    if (pc.Inventory.checkEquipped(21008))
+                    if (l1PcInventory.checkEquipped(21008))
                     {
                         htmlid = "perita38";
                     }
@@ -3796,7 +3797,7 @@ namespace LineageServer.Clientpackets
                 }
                 else if (s == "c")
                 { // ３段階イアリング(勇猛のイアリング)
-                    if (pc.Inventory.checkEquipped(21010))
+                    if (l1PcInventory.checkEquipped(21010))
                     {
                         htmlid = "perita40";
                     }

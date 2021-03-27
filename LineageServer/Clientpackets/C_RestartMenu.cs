@@ -4,6 +4,7 @@ using LineageServer.Server.Model;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
+using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
 
@@ -216,7 +217,7 @@ namespace LineageServer.Clientpackets
                     int addHp = 0;
                     int gfxId1 = 8683;
                     int gfxId2 = 829;
-                    long curTime = DateTimeHelper.CurrentUnixTimeMillis() / 1000; // 現在時間
+                    long curTime = DateTime.Now.Millisecond / 1000; // 現在時間
                     int fullTime = (int)((curTime - pc.CryOfSurvivalTime) / 60); // 飽食經過時間(分)
                     if (fullTime <= 0)
                     {
@@ -275,7 +276,7 @@ namespace LineageServer.Clientpackets
             else if (data == 6)
             { // 請求顯示 生存吶喊 頭頂動畫(ALT+0)
                 int gfxId = 8683;
-                long curTime = DateTimeHelper.CurrentUnixTimeMillis() / 1000; // 現在時間
+                long curTime = DateTime.Now.Millisecond / 1000; // 現在時間
                 int fullTime = (int)((curTime - pc.CryOfSurvivalTime) / 60); // 飽食經過時間(分)
                 if (pc.Weapon == null)
                 {

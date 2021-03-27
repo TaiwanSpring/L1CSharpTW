@@ -1,7 +1,9 @@
-﻿using LineageServer.Server.DataSources;
+﻿using LineageServer.Server;
+using LineageServer.Server.DataSources;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.skill;
 using LineageServer.Utils;
+using System;
 
 namespace LineageServer.Serverpackets
 {
@@ -27,7 +29,7 @@ namespace LineageServer.Serverpackets
                 }
                 else
                 {
-                    WriteD((int)(DateTimeHelper.CurrentUnixTimeMillis() / 1000));
+                    WriteD((int)(DateTime.Now.Millisecond / 1000));
                 }
             }
             WriteByte(randBox);

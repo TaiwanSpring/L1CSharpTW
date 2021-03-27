@@ -1,10 +1,11 @@
 ﻿
+using LineageServer.Server;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.skill;
 
 namespace LineageServer.Serverpackets
 {
-	class S_OwnCharPack : ServerBasePacket
+    class S_OwnCharPack : ServerBasePacket
 	{
 
 		private const string S_OWN_CHAR_PACK = "[S] S_OwnCharPack";

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using LineageServer.Models;
+using System;
+using System.Extensions;
 using System.IO;
 namespace LineageServer
 {
     static class Config
     {
-        #region server.properties
+        #region server.ConfigLoader
         /// <summary>
         /// Server listener ip, * = all ip
         /// </summary>
@@ -124,7 +126,7 @@ namespace LineageServer
         /// </summary>
         public static bool CONSOLE_COMMAND_ACTIVE;
 
-        #endregion server.properties
+        #endregion server.ConfigLoader
 
         /// <summary>
         /// Rate control </summary>
@@ -172,7 +174,7 @@ namespace LineageServer
 
         public static int MAGIC_STONE_LEVEL; // 附魔石階級
 
-        #region altsettings.properties
+        #region configLoader.ConfigLoader
         /// <summary>
         /// 全體聊天最低等級限制
         /// </summary>
@@ -448,10 +450,10 @@ namespace LineageServer
         /// GM偷聽聯盟對話 True=是, False=否
         /// </summary>
         public static bool GM_OVERHEARD13;
-        #endregion altsettings.properties
+        #endregion configLoader.ConfigLoader
 
         /// <summary>
-        /// CharSettings control 
+        /// configLoader control 
         /// </summary>
         public static int PRINCE_MAX_HP;
 
@@ -604,7 +606,7 @@ namespace LineageServer
         public static int LV110_EXP;
 
         /// <summary>
-        /// FightSettings control </summary>
+        /// configLoader control </summary>
         public static bool FIGHT_IS_ACTIVE;
 
         public static bool NOVICE_PROTECTION_IS_ACTIVE;
@@ -647,17 +649,17 @@ namespace LineageServer
 
         /// <summary>
         /// Configuration files </summary>
-        public const string SERVER_CONFIG_FILE = "./config/server.properties";
+        public const string SERVER_CONFIG_FILE = "./config/server.ConfigLoader";
 
-        public const string RATES_CONFIG_FILE = "./config/rates.properties";
+        public const string RATES_CONFIG_FILE = "./config/rates.ConfigLoader";
 
-        public const string ALT_SETTINGS_FILE = "./config/altsettings.properties";
+        public const string ALT_SETTINGS_FILE = "./config/configLoader.ConfigLoader";
 
-        public const string CHAR_SETTINGS_CONFIG_FILE = "./config/charsettings.properties";
+        public const string CHAR_SETTINGS_CONFIG_FILE = "./config/configLoader.ConfigLoader";
 
-        public const string FIGHT_SETTINGS_CONFIG_FILE = "./config/fights.properties";
+        public const string FIGHT_SETTINGS_CONFIG_FILE = "./config/fights.ConfigLoader";
 
-        public const string RECORD_SETTINGS_CONFIG_FILE = "./config/record.properties";
+        public const string RECORD_SETTINGS_CONFIG_FILE = "./config/record.ConfigLoader";
 
         /// <summary>
         /// 其他設定 </summary>
@@ -670,349 +672,316 @@ namespace LineageServer
 
         public static void load()
         {
-            _log.Info("loading gameserver config");
-            // server.properties
+            // server.ConfigLoader
             try
             {
-                Properties serverSettings = new Properties();
-                Stream @is = new FileStream(SERVER_CONFIG_FILE, FileMode.Open, FileAccess.Read);
-                serverSettings.load(@is);
-                @is.Close();
-
-                GAME_SERVER_HOST_NAME = serverSettings.getProperty("GameserverHostname", "*");
-                GAME_SERVER_PORT = int.Parse(serverSettings.getProperty("GameserverPort", "2000"));
-                DB_DRIVER = serverSettings.getProperty("Driver", "com.mysql.jdbc.Driver");
-                DB_URL = serverSettings.getProperty("URL", "jdbc:mysql://localhost/l1jdb?useUnicode=true&characterEncoding=utf8");
-                DB_LOGIN = serverSettings.getProperty("Login", "root");
-                DB_PASSWORD = serverSettings.getProperty("Password", "");
-                THREAD_P_TYPE_GENERAL = Convert.ToInt32(serverSettings.getProperty("RunnableExecuterType", "0"), 10);
-                THREAD_P_SIZE_GENERAL = Convert.ToInt32(serverSettings.getProperty("RunnableExecuterSize", "0"), 10);
-                CLIENT_LANGUAGE = int.Parse(serverSettings.getProperty("ClientLanguage", "4"));
+                ConfigLoader configLoader = new ConfigLoader(SERVER_CONFIG_FILE);
+                GAME_SERVER_HOST_NAME = configLoader.GetProperty("GameserverHostname", "*");
+                GAME_SERVER_PORT = int.Parse(configLoader.GetProperty("GameserverPort", "2000"));
+                DB_LOGIN = configLoader.GetProperty("Login", "root");
+                DB_PASSWORD = configLoader.GetProperty("Password", "");
+                CLIENT_LANGUAGE = int.Parse(configLoader.GetProperty("ClientLanguage", "4"));
                 CLIENT_LANGUAGE_CODE = LANGUAGE_CODE_ARRAY[CLIENT_LANGUAGE];
-                TIME_ZONE = serverSettings.getProperty("TimeZone", "Asia/Taipei");
-                HOSTNAME_LOOKUPS = bool.Parse(serverSettings.getProperty("HostnameLookups", "false"));
-                AUTOMATIC_KICK = int.Parse(serverSettings.getProperty("AutomaticKick", "10"));
-                AUTO_CREATE_ACCOUNTS = bool.Parse(serverSettings.getProperty("AutoCreateAccounts", "true"));
-                MAX_ONLINE_USERS = short.Parse(serverSettings.getProperty("MaximumOnlineUsers", "30"));
-                CACHE_MAP_FILES = bool.Parse(serverSettings.getProperty("CacheMapFiles", "false"));
-                LOAD_V2_MAP_FILES = bool.Parse(serverSettings.getProperty("LoadV2MapFiles", "false"));
-                CHECK_MOVE_INTERVAL = bool.Parse(serverSettings.getProperty("CheckMoveInterval", "false"));
-                CHECK_ATTACK_INTERVAL = bool.Parse(serverSettings.getProperty("CheckAttackInterval", "false"));
-                CHECK_SPELL_INTERVAL = bool.Parse(serverSettings.getProperty("CheckSpellInterval", "false"));
-                INJUSTICE_COUNT = short.Parse(serverSettings.getProperty("InjusticeCount", "10"));
-                JUSTICE_COUNT = int.Parse(serverSettings.getProperty("JusticeCount", "4"));
-                CHECK_STRICTNESS = int.Parse(serverSettings.getProperty("CheckStrictness", "102"));
-                ILLEGAL_SPEEDUP_PUNISHMENT = int.Parse(serverSettings.getProperty("Punishment", "0"));
-                AUTOSAVE_INTERVAL = Convert.ToInt32(serverSettings.getProperty("AutosaveInterval", "1200"), 10);
-                AUTOSAVE_INTERVAL_INVENTORY = Convert.ToInt32(serverSettings.getProperty("AutosaveIntervalOfInventory", "300"), 10);
-                SKILLTIMER_IMPLTYPE = int.Parse(serverSettings.getProperty("SkillTimerImplType", "1"));
-                NPCAI_IMPLTYPE = int.Parse(serverSettings.getProperty("NpcAIImplType", "1"));
-                TELNET_SERVER = bool.Parse(serverSettings.getProperty("TelnetServer", "false"));
-                TELNET_SERVER_PORT = int.Parse(serverSettings.getProperty("TelnetServerPort", "23"));
-                PC_RECOGNIZE_RANGE = int.Parse(serverSettings.getProperty("PcRecognizeRange", "20"));
-                CHARACTER_CONFIG_IN_SERVER_SIDE = bool.Parse(serverSettings.getProperty("CharacterConfigInServerSide", "true"));
-                ALLOW_2PC = bool.Parse(serverSettings.getProperty("Allow2PC", "true"));
-                LEVEL_DOWN_RANGE = int.Parse(serverSettings.getProperty("LevelDownRange", "0"));
-                SEND_PACKET_BEFORE_TELEPORT = bool.Parse(serverSettings.getProperty("SendPacketBeforeTeleport", "false"));
-                DETECT_DATABASE_LEAKS = bool.Parse(serverSettings.getProperty("EnableDatabaseResourceLeaksDetection", "false"));
-                CONSOLE_COMMAND_ACTIVE = bool.Parse(serverSettings.getProperty("CmdActive", "false"));
+                HOSTNAME_LOOKUPS = bool.Parse(configLoader.GetProperty("HostnameLookups", "false"));
+                AUTOMATIC_KICK = int.Parse(configLoader.GetProperty("AutomaticKick", "10"));
+                AUTO_CREATE_ACCOUNTS = bool.Parse(configLoader.GetProperty("AutoCreateAccounts", "true"));
+                MAX_ONLINE_USERS = short.Parse(configLoader.GetProperty("MaximumOnlineUsers", "30"));
+                CACHE_MAP_FILES = bool.Parse(configLoader.GetProperty("CacheMapFiles", "false"));
+                LOAD_V2_MAP_FILES = bool.Parse(configLoader.GetProperty("LoadV2MapFiles", "false"));
+                CHECK_MOVE_INTERVAL = bool.Parse(configLoader.GetProperty("CheckMoveInterval", "false"));
+                CHECK_ATTACK_INTERVAL = bool.Parse(configLoader.GetProperty("CheckAttackInterval", "false"));
+                CHECK_SPELL_INTERVAL = bool.Parse(configLoader.GetProperty("CheckSpellInterval", "false"));
+                INJUSTICE_COUNT = short.Parse(configLoader.GetProperty("InjusticeCount", "10"));
+                JUSTICE_COUNT = int.Parse(configLoader.GetProperty("JusticeCount", "4"));
+                CHECK_STRICTNESS = int.Parse(configLoader.GetProperty("CheckStrictness", "102"));
+                ILLEGAL_SPEEDUP_PUNISHMENT = int.Parse(configLoader.GetProperty("Punishment", "0"));
+                AUTOSAVE_INTERVAL = Convert.ToInt32(configLoader.GetProperty("AutosaveInterval", "1200"), 10);
+                AUTOSAVE_INTERVAL_INVENTORY = Convert.ToInt32(configLoader.GetProperty("AutosaveIntervalOfInventory", "300"), 10);
+
+                PC_RECOGNIZE_RANGE = int.Parse(configLoader.GetProperty("PcRecognizeRange", "20"));
+                CHARACTER_CONFIG_IN_SERVER_SIDE = bool.Parse(configLoader.GetProperty("CharacterConfigInServerSide", "true"));
+                ALLOW_2PC = bool.Parse(configLoader.GetProperty("Allow2PC", "true"));
+                LEVEL_DOWN_RANGE = int.Parse(configLoader.GetProperty("LevelDownRange", "0"));
+                SEND_PACKET_BEFORE_TELEPORT = bool.Parse(configLoader.GetProperty("SendPacketBeforeTeleport", "false"));
+                DETECT_DATABASE_LEAKS = bool.Parse(configLoader.GetProperty("EnableDatabaseResourceLeaksDetection", "false"));
+                CONSOLE_COMMAND_ACTIVE = bool.Parse(configLoader.GetProperty("CmdActive", "false"));
             }
             catch (Exception e)
             {
-                _log.Error(e);
                 throw new Exception("Failed to Load " + SERVER_CONFIG_FILE + " File.");
             }
 
-            // rates.properties
+            // rates.ConfigLoader
             try
             {
-                Properties rateSettings = new Properties();
-                Stream @is = new FileStream(RATES_CONFIG_FILE, FileMode.Open, FileAccess.Read);
-                rateSettings.load(@is);
-                @is.Close();
+                ConfigLoader configLoader = new ConfigLoader(RATES_CONFIG_FILE);
 
-                RATE_XP = double.Parse(rateSettings.getProperty("RateXp", "1.0"));
-                RATE_LA = double.Parse(rateSettings.getProperty("RateLawful", "1.0"));
-                RATE_KARMA = double.Parse(rateSettings.getProperty("RateKarma", "1.0"));
-                RATE_DROP_ADENA = double.Parse(rateSettings.getProperty("RateDropAdena", "1.0"));
-                RATE_DROP_ITEMS = double.Parse(rateSettings.getProperty("RateDropItems", "1.0"));
-                ENCHANT_CHANCE_WEAPON = int.Parse(rateSettings.getProperty("EnchantChanceWeapon", "68"));
-                ENCHANT_CHANCE_ARMOR = int.Parse(rateSettings.getProperty("EnchantChanceArmor", "52"));
-                ATTR_ENCHANT_CHANCE = int.Parse(rateSettings.getProperty("AttrEnchantChance", "10"));
-                RATE_WEIGHT_LIMIT = double.Parse(rateSettings.getProperty("RateWeightLimit", "1"));
-                RATE_WEIGHT_LIMIT_PET = double.Parse(rateSettings.getProperty("RateWeightLimitforPet", "1"));
-                RATE_SHOP_SELLING_PRICE = double.Parse(rateSettings.getProperty("RateShopSellingPrice", "1.0"));
-                RATE_SHOP_PURCHASING_PRICE = double.Parse(rateSettings.getProperty("RateShopPurchasingPrice", "1.0"));
-                CREATE_CHANCE_DIARY = int.Parse(rateSettings.getProperty("CreateChanceDiary", "33"));
-                CREATE_CHANCE_RECOLLECTION = int.Parse(rateSettings.getProperty("CreateChanceRecollection", "90"));
-                CREATE_CHANCE_MYSTERIOUS = int.Parse(rateSettings.getProperty("CreateChanceMysterious", "90"));
-                CREATE_CHANCE_PROCESSING = int.Parse(rateSettings.getProperty("CreateChanceProcessing", "90"));
-                CREATE_CHANCE_PROCESSING_DIAMOND = int.Parse(rateSettings.getProperty("CreateChanceProcessingDiamond", "90"));
-                CREATE_CHANCE_DANTES = int.Parse(rateSettings.getProperty("CreateChanceDantes", "50"));
-                CREATE_CHANCE_ANCIENT_AMULET = int.Parse(rateSettings.getProperty("CreateChanceAncientAmulet", "90"));
-                CREATE_CHANCE_HISTORY_BOOK = int.Parse(rateSettings.getProperty("CreateChanceHistoryBook", "50"));
-                MAGIC_STONE_TYPE = int.Parse(rateSettings.getProperty("MagicStoneAttr", "50"));
-                MAGIC_STONE_LEVEL = int.Parse(rateSettings.getProperty("MagicStoneLevel", "50"));
+                RATE_XP = double.Parse(configLoader.GetProperty("RateXp", "1.0"));
+                RATE_LA = double.Parse(configLoader.GetProperty("RateLawful", "1.0"));
+                RATE_KARMA = double.Parse(configLoader.GetProperty("RateKarma", "1.0"));
+                RATE_DROP_ADENA = double.Parse(configLoader.GetProperty("RateDropAdena", "1.0"));
+                RATE_DROP_ITEMS = double.Parse(configLoader.GetProperty("RateDropItems", "1.0"));
+                ENCHANT_CHANCE_WEAPON = int.Parse(configLoader.GetProperty("EnchantChanceWeapon", "68"));
+                ENCHANT_CHANCE_ARMOR = int.Parse(configLoader.GetProperty("EnchantChanceArmor", "52"));
+                ATTR_ENCHANT_CHANCE = int.Parse(configLoader.GetProperty("AttrEnchantChance", "10"));
+                RATE_WEIGHT_LIMIT = double.Parse(configLoader.GetProperty("RateWeightLimit", "1"));
+                RATE_WEIGHT_LIMIT_PET = double.Parse(configLoader.GetProperty("RateWeightLimitforPet", "1"));
+                RATE_SHOP_SELLING_PRICE = double.Parse(configLoader.GetProperty("RateShopSellingPrice", "1.0"));
+                RATE_SHOP_PURCHASING_PRICE = double.Parse(configLoader.GetProperty("RateShopPurchasingPrice", "1.0"));
+                CREATE_CHANCE_DIARY = int.Parse(configLoader.GetProperty("CreateChanceDiary", "33"));
+                CREATE_CHANCE_RECOLLECTION = int.Parse(configLoader.GetProperty("CreateChanceRecollection", "90"));
+                CREATE_CHANCE_MYSTERIOUS = int.Parse(configLoader.GetProperty("CreateChanceMysterious", "90"));
+                CREATE_CHANCE_PROCESSING = int.Parse(configLoader.GetProperty("CreateChanceProcessing", "90"));
+                CREATE_CHANCE_PROCESSING_DIAMOND = int.Parse(configLoader.GetProperty("CreateChanceProcessingDiamond", "90"));
+                CREATE_CHANCE_DANTES = int.Parse(configLoader.GetProperty("CreateChanceDantes", "50"));
+                CREATE_CHANCE_ANCIENT_AMULET = int.Parse(configLoader.GetProperty("CreateChanceAncientAmulet", "90"));
+                CREATE_CHANCE_HISTORY_BOOK = int.Parse(configLoader.GetProperty("CreateChanceHistoryBook", "50"));
+                MAGIC_STONE_TYPE = int.Parse(configLoader.GetProperty("MagicStoneAttr", "50"));
+                MAGIC_STONE_LEVEL = int.Parse(configLoader.GetProperty("MagicStoneLevel", "50"));
             }
             catch (Exception e)
             {
-                _log.Error(e);
                 throw new Exception("Failed to Load " + RATES_CONFIG_FILE + " File.");
             }
 
-            // altsettings.properties
+            // configLoader.ConfigLoader
             try
             {
-                Properties altSettings = new Properties();
-                Stream @is = new FileStream(ALT_SETTINGS_FILE, FileMode.Open, FileAccess.Read);
-                altSettings.load(@is);
-                @is.Close();
+                ConfigLoader configLoader = new ConfigLoader(ALT_SETTINGS_FILE);
 
-                GLOBAL_CHAT_LEVEL = short.Parse(altSettings.getProperty("GlobalChatLevel", "30"));
-                WHISPER_CHAT_LEVEL = short.Parse(altSettings.getProperty("WhisperChatLevel", "5"));
-                AUTO_LOOT = sbyte.Parse(altSettings.getProperty("AutoLoot", "2"));
-                LOOTING_RANGE = int.Parse(altSettings.getProperty("LootingRange", "3"));
-                ALT_NONPVP = bool.Parse(altSettings.getProperty("NonPvP", "true"));
-                ALT_ATKMSG = bool.Parse(altSettings.getProperty("AttackMessageOn", "true"));
-                CHANGE_TITLE_BY_ONESELF = bool.Parse(altSettings.getProperty("ChangeTitleByOneself", "false"));
-                MAX_CLAN_MEMBER = int.Parse(altSettings.getProperty("MaxClanMember", "0"));
-                CLAN_ALLIANCE = bool.Parse(altSettings.getProperty("ClanAlliance", "true"));
-                MAX_PT = int.Parse(altSettings.getProperty("MaxPT", "8"));
-                MAX_CHAT_PT = int.Parse(altSettings.getProperty("MaxChatPT", "8"));
-                SIM_WAR_PENALTY = bool.Parse(altSettings.getProperty("SimWarPenalty", "true"));
-                GET_BACK = bool.Parse(altSettings.getProperty("GetBack", "false"));
-                ALT_ITEM_DELETION_TYPE = altSettings.getProperty("ItemDeletionType", "auto");
-                ALT_ITEM_DELETION_TIME = int.Parse(altSettings.getProperty("ItemDeletionTime", "10"));
-                ALT_ITEM_DELETION_RANGE = int.Parse(altSettings.getProperty("ItemDeletionRange", "5"));
-                ALT_GMSHOP = bool.Parse(altSettings.getProperty("GMshop", "false"));
-                ALT_GMSHOP_MIN_ID = int.Parse(altSettings.getProperty("GMshopMinID", "0xffffffff")); // 設定錯誤時就取消GM商店
-                ALT_GMSHOP_MAX_ID = int.Parse(altSettings.getProperty("GMshopMaxID", "0xffffffff")); // 設定錯誤時就取消GM商店
-                ALT_HALLOWEENIVENT = bool.Parse(altSettings.getProperty("HalloweenIvent", "true"));
-                ALT_JPPRIVILEGED = bool.Parse(altSettings.getProperty("JpPrivileged", "false"));
-                ALT_TALKINGSCROLLQUEST = bool.Parse(altSettings.getProperty("TalkingScrollQuest", "false"));
-                ALT_WHO_COMMAND = bool.Parse(altSettings.getProperty("WhoCommand", "false"));
-                ALT_REVIVAL_POTION = bool.Parse(altSettings.getProperty("RevivalPotion", "false"));
-                GDROPITEM_TIME = int.Parse(altSettings.getProperty("GDropItemTime", "10"));
-                REST_TIME = int.Parse(altSettings.getProperty("RestartTime", "60"));
-                Use_Show_Announcecycle = bool.Parse(altSettings.getProperty("UseShowAnnouncecycle", "false")); // 循環公告 2/3by 丫傑
-                Show_Announcecycle_Time = int.Parse(altSettings.getProperty("ShowAnnouncecycleTime", "30")); // 循環時間 2/3 by 丫傑
-                ALT_WHO_TYPE = int.Parse(altSettings.getProperty("ALTWHOTYPE", "1"));
-                GM_TALK = bool.Parse(altSettings.getProperty("GMSpeakName", "false")); //TODO ＧＭ使用公頻(&)顯示方式 2/3
-                Attack_Mob_HP_Bar = bool.Parse(altSettings.getProperty("AttackMobHPBar", "false")); // 攻擊顯示怪物血條
-                ALL_ITEM_SELL = bool.Parse(altSettings.getProperty("AllItemSell", "false")); // 全道具販賣 by 丫傑 end
-                SHOW_NPC_ID = bool.Parse(altSettings.getProperty("SHOWNPCID", "true"));
-                RATE_AIN_TIME = int.Parse(altSettings.getProperty("RateAinTime", "30")); //TODO 殷海薩的祝福
-                RATE_AIN_OUTTIME = int.Parse(altSettings.getProperty("RateAinOutTime", "30")); //TODO 殷海薩的祝福
-                RATE_MAX_CHARGE_PERCENT = int.Parse(altSettings.getProperty("RateMaxChargePercent", "200")); //TODO 殷海薩的祝福
-                BONUS_STATS1 = int.Parse(altSettings.getProperty("BONUS_STATS1", "25")); //調整能力值上限 by 丫傑 end
-                BONUS_STATS2 = int.Parse(altSettings.getProperty("BONUS_STATS2", "5")); //調整能力值上限 by 丫傑 end
-                BONUS_STATS3 = int.Parse(altSettings.getProperty("BONUS_STATS3", "25")); //調整能力值上限 by 丫傑 end
-                Drop_Item = bool.Parse(altSettings.getProperty("DropItem", "false")); //TODO　刪除丟棄物品 by bill00148
-                DropItemMinLv = sbyte.Parse(altSettings.getProperty("DropItemMinLv", "200")); //TODO　刪除丟棄物品 by bill00148
-                MaxHPMP = bool.Parse(altSettings.getProperty("FullHPMP", "false")); //TODO 升級血魔滿
-                DeleteFood = bool.Parse(altSettings.getProperty("DeleteFood", "false")); //TODO 廣播扣飽食度
-                Gamesleep = int.Parse(altSettings.getProperty("Gamesleep", "30"));
-                RATE_XP_PET = double.Parse(altSettings.getProperty("PetRateXp", "1.0")); //TODO 寵物經驗倍率
-                Pet_Max_LV = int.Parse(altSettings.getProperty("PetMaxLV", "50")); //TODO 寵物最高等級設定
-                GM_OVERHEARD = bool.Parse(altSettings.getProperty("GM_OVERHEARD", "false")); // 密語頻道
-                GM_OVERHEARD0 = bool.Parse(altSettings.getProperty("GM_OVERHEARD0", "false")); // 一般頻道
-                GM_OVERHEARD4 = bool.Parse(altSettings.getProperty("GM_OVERHEARD4", "false")); // 血盟頻道
-                GM_OVERHEARD11 = bool.Parse(altSettings.getProperty("GM_OVERHEARD11", "false")); // 組隊頻道
-                GM_OVERHEARD13 = bool.Parse(altSettings.getProperty("GM_OVERHEARD13", "false")); // 聯盟頻道
+                GLOBAL_CHAT_LEVEL = short.Parse(configLoader.GetProperty("GlobalChatLevel", "30"));
+                WHISPER_CHAT_LEVEL = short.Parse(configLoader.GetProperty("WhisperChatLevel", "5"));
+                AUTO_LOOT = sbyte.Parse(configLoader.GetProperty("AutoLoot", "2"));
+                LOOTING_RANGE = int.Parse(configLoader.GetProperty("LootingRange", "3"));
+                ALT_NONPVP = bool.Parse(configLoader.GetProperty("NonPvP", "true"));
+                ALT_ATKMSG = bool.Parse(configLoader.GetProperty("AttackMessageOn", "true"));
+                CHANGE_TITLE_BY_ONESELF = bool.Parse(configLoader.GetProperty("ChangeTitleByOneself", "false"));
+                MAX_CLAN_MEMBER = int.Parse(configLoader.GetProperty("MaxClanMember", "0"));
+                CLAN_ALLIANCE = bool.Parse(configLoader.GetProperty("ClanAlliance", "true"));
+                MAX_PT = int.Parse(configLoader.GetProperty("MaxPT", "8"));
+                MAX_CHAT_PT = int.Parse(configLoader.GetProperty("MaxChatPT", "8"));
+                SIM_WAR_PENALTY = bool.Parse(configLoader.GetProperty("SimWarPenalty", "true"));
+                GET_BACK = bool.Parse(configLoader.GetProperty("GetBack", "false"));
+                ALT_ITEM_DELETION_TYPE = configLoader.GetProperty("ItemDeletionType", "auto");
+                ALT_ITEM_DELETION_TIME = int.Parse(configLoader.GetProperty("ItemDeletionTime", "10"));
+                ALT_ITEM_DELETION_RANGE = int.Parse(configLoader.GetProperty("ItemDeletionRange", "5"));
+                ALT_GMSHOP = bool.Parse(configLoader.GetProperty("GMshop", "false"));
+                ALT_GMSHOP_MIN_ID = int.Parse(configLoader.GetProperty("GMshopMinID", "0xffffffff")); // 設定錯誤時就取消GM商店
+                ALT_GMSHOP_MAX_ID = int.Parse(configLoader.GetProperty("GMshopMaxID", "0xffffffff")); // 設定錯誤時就取消GM商店
+                ALT_HALLOWEENIVENT = bool.Parse(configLoader.GetProperty("HalloweenIvent", "true"));
+                ALT_JPPRIVILEGED = bool.Parse(configLoader.GetProperty("JpPrivileged", "false"));
+                ALT_TALKINGSCROLLQUEST = bool.Parse(configLoader.GetProperty("TalkingScrollQuest", "false"));
+                ALT_WHO_COMMAND = bool.Parse(configLoader.GetProperty("WhoCommand", "false"));
+                ALT_REVIVAL_POTION = bool.Parse(configLoader.GetProperty("RevivalPotion", "false"));
+                GDROPITEM_TIME = int.Parse(configLoader.GetProperty("GDropItemTime", "10"));
+                REST_TIME = int.Parse(configLoader.GetProperty("RestartTime", "60"));
+                Use_Show_Announcecycle = bool.Parse(configLoader.GetProperty("UseShowAnnouncecycle", "false")); // 循環公告 2/3by 丫傑
+                Show_Announcecycle_Time = int.Parse(configLoader.GetProperty("ShowAnnouncecycleTime", "30")); // 循環時間 2/3 by 丫傑
+                ALT_WHO_TYPE = int.Parse(configLoader.GetProperty("ALTWHOTYPE", "1"));
+                GM_TALK = bool.Parse(configLoader.GetProperty("GMSpeakName", "false")); //TODO ＧＭ使用公頻(&)顯示方式 2/3
+                Attack_Mob_HP_Bar = bool.Parse(configLoader.GetProperty("AttackMobHPBar", "false")); // 攻擊顯示怪物血條
+                ALL_ITEM_SELL = bool.Parse(configLoader.GetProperty("AllItemSell", "false")); // 全道具販賣 by 丫傑 end
+                SHOW_NPC_ID = bool.Parse(configLoader.GetProperty("SHOWNPCID", "true"));
+                RATE_AIN_TIME = int.Parse(configLoader.GetProperty("RateAinTime", "30")); //TODO 殷海薩的祝福
+                RATE_AIN_OUTTIME = int.Parse(configLoader.GetProperty("RateAinOutTime", "30")); //TODO 殷海薩的祝福
+                RATE_MAX_CHARGE_PERCENT = int.Parse(configLoader.GetProperty("RateMaxChargePercent", "200")); //TODO 殷海薩的祝福
+                BONUS_STATS1 = int.Parse(configLoader.GetProperty("BONUS_STATS1", "25")); //調整能力值上限 by 丫傑 end
+                BONUS_STATS2 = int.Parse(configLoader.GetProperty("BONUS_STATS2", "5")); //調整能力值上限 by 丫傑 end
+                BONUS_STATS3 = int.Parse(configLoader.GetProperty("BONUS_STATS3", "25")); //調整能力值上限 by 丫傑 end
+                Drop_Item = bool.Parse(configLoader.GetProperty("DropItem", "false")); //TODO　刪除丟棄物品 by bill00148
+                DropItemMinLv = sbyte.Parse(configLoader.GetProperty("DropItemMinLv", "200")); //TODO　刪除丟棄物品 by bill00148
+                MaxHPMP = bool.Parse(configLoader.GetProperty("FullHPMP", "false")); //TODO 升級血魔滿
+                DeleteFood = bool.Parse(configLoader.GetProperty("DeleteFood", "false")); //TODO 廣播扣飽食度
+                Gamesleep = int.Parse(configLoader.GetProperty("Gamesleep", "30"));
+                RATE_XP_PET = double.Parse(configLoader.GetProperty("PetRateXp", "1.0")); //TODO 寵物經驗倍率
+                Pet_Max_LV = int.Parse(configLoader.GetProperty("PetMaxLV", "50")); //TODO 寵物最高等級設定
+                GM_OVERHEARD = bool.Parse(configLoader.GetProperty("GM_OVERHEARD", "false")); // 密語頻道
+                GM_OVERHEARD0 = bool.Parse(configLoader.GetProperty("GM_OVERHEARD0", "false")); // 一般頻道
+                GM_OVERHEARD4 = bool.Parse(configLoader.GetProperty("GM_OVERHEARD4", "false")); // 血盟頻道
+                GM_OVERHEARD11 = bool.Parse(configLoader.GetProperty("GM_OVERHEARD11", "false")); // 組隊頻道
+                GM_OVERHEARD13 = bool.Parse(configLoader.GetProperty("GM_OVERHEARD13", "false")); // 聯盟頻道
                 string strWar;
-                strWar = altSettings.getProperty("WarTime", "2h");
+                strWar = configLoader.GetProperty("WarTime", "2h");
+                int minute = 0;
                 if (strWar.IndexOf("d", StringComparison.Ordinal) >= 0)
                 {
-                    ALT_WAR_TIME_UNIT = DateTime.DATE;
+                    minute = 24 * 60;
                     strWar = strWar.Replace("d", "");
                 }
                 else if (strWar.IndexOf("h", StringComparison.Ordinal) >= 0)
                 {
-                    ALT_WAR_TIME_UNIT = DateTime.HOUR_OF_DAY;
+                    minute = 60;
                     strWar = strWar.Replace("h", "");
                 }
                 else if (strWar.IndexOf("m", StringComparison.Ordinal) >= 0)
                 {
-                    ALT_WAR_TIME_UNIT = DateTime.MINUTE;
+                    minute = 1;
                     strWar = strWar.Replace("m", "");
                 }
-                ALT_WAR_TIME = int.Parse(strWar);
-                strWar = altSettings.getProperty("WarInterval", "4d");
+                ALT_WAR_TIME = TimeSpan.FromMinutes(int.Parse(strWar) * minute);
+                strWar = configLoader.GetProperty("WarInterval", "4d");
+                minute = 0;
                 if (strWar.IndexOf("d", StringComparison.Ordinal) >= 0)
                 {
-                    ALT_WAR_INTERVAL_UNIT = DateTimeFielTypeEnum.DATE;
+                    minute = 24 * 60;
                     strWar = strWar.Replace("d", "");
                 }
                 else if (strWar.IndexOf("h", StringComparison.Ordinal) >= 0)
                 {
-                    ALT_WAR_INTERVAL_UNIT = DateTime.HOUR_OF_DAY;
+                    minute = 60;
                     strWar = strWar.Replace("h", "");
                 }
                 else if (strWar.IndexOf("m", StringComparison.Ordinal) >= 0)
                 {
-                    ALT_WAR_INTERVAL_UNIT = DateTime.MINUTE;
+                    minute = 1;
                     strWar = strWar.Replace("m", "");
                 }
-                ALT_WAR_INTERVAL = int.Parse(strWar);
-                SPAWN_HOME_POINT = bool.Parse(altSettings.getProperty("SpawnHomePoint", "true"));
-                SPAWN_HOME_POINT_COUNT = int.Parse(altSettings.getProperty("SpawnHomePointCount", "2"));
-                SPAWN_HOME_POINT_DELAY = int.Parse(altSettings.getProperty("SpawnHomePointDelay", "100"));
-                SPAWN_HOME_POINT_RANGE = int.Parse(altSettings.getProperty("SpawnHomePointRange", "8"));
-                INIT_BOSS_SPAWN = bool.Parse(altSettings.getProperty("InitBossSpawn", "true"));
-                ELEMENTAL_STONE_AMOUNT = int.Parse(altSettings.getProperty("ElementalStoneAmount", "300"));
-                HOUSE_TAX_INTERVAL = int.Parse(altSettings.getProperty("HouseTaxInterval", "10"));
-                MAX_DOLL_COUNT = int.Parse(altSettings.getProperty("MaxDollCount", "1"));
-                RETURN_TO_NATURE = bool.Parse(altSettings.getProperty("ReturnToNature", "false"));
-                MAX_NPC_ITEM = int.Parse(altSettings.getProperty("MaxNpcItem", "8"));
-                MAX_PERSONAL_WAREHOUSE_ITEM = int.Parse(altSettings.getProperty("MaxPersonalWarehouseItem", "100"));
-                MAX_CLAN_WAREHOUSE_ITEM = int.Parse(altSettings.getProperty("MaxClanWarehouseItem", "200"));
-                DELETE_CHARACTER_AFTER_7DAYS = bool.Parse(altSettings.getProperty("DeleteCharacterAfter7Days", "True"));
-                NPC_DELETION_TIME = int.Parse(altSettings.getProperty("NpcDeletionTime", "10"));
-                DEFAULT_CHARACTER_SLOT = int.Parse(altSettings.getProperty("DefaultCharacterSlot", "6"));
+                ALT_WAR_INTERVAL = TimeSpan.FromMinutes(int.Parse(strWar) * minute);
+                SPAWN_HOME_POINT = bool.Parse(configLoader.GetProperty("SpawnHomePoint", "true"));
+                SPAWN_HOME_POINT_COUNT = int.Parse(configLoader.GetProperty("SpawnHomePointCount", "2"));
+                SPAWN_HOME_POINT_DELAY = int.Parse(configLoader.GetProperty("SpawnHomePointDelay", "100"));
+                SPAWN_HOME_POINT_RANGE = int.Parse(configLoader.GetProperty("SpawnHomePointRange", "8"));
+                INIT_BOSS_SPAWN = bool.Parse(configLoader.GetProperty("InitBossSpawn", "true"));
+                ELEMENTAL_STONE_AMOUNT = int.Parse(configLoader.GetProperty("ElementalStoneAmount", "300"));
+                HOUSE_TAX_INTERVAL = int.Parse(configLoader.GetProperty("HouseTaxInterval", "10"));
+                MAX_DOLL_COUNT = int.Parse(configLoader.GetProperty("MaxDollCount", "1"));
+                RETURN_TO_NATURE = bool.Parse(configLoader.GetProperty("ReturnToNature", "false"));
+                MAX_NPC_ITEM = int.Parse(configLoader.GetProperty("MaxNpcItem", "8"));
+                MAX_PERSONAL_WAREHOUSE_ITEM = int.Parse(configLoader.GetProperty("MaxPersonalWarehouseItem", "100"));
+                MAX_CLAN_WAREHOUSE_ITEM = int.Parse(configLoader.GetProperty("MaxClanWarehouseItem", "200"));
+                DELETE_CHARACTER_AFTER_7DAYS = bool.Parse(configLoader.GetProperty("DeleteCharacterAfter7Days", "True"));
+                NPC_DELETION_TIME = int.Parse(configLoader.GetProperty("NpcDeletionTime", "10"));
+                DEFAULT_CHARACTER_SLOT = int.Parse(configLoader.GetProperty("DefaultCharacterSlot", "6"));
             }
             catch (Exception e)
             {
-                _log.Error(e);
                 throw new Exception("Failed to Load " + ALT_SETTINGS_FILE + " File.");
             }
 
-            // charsettings.properties
+            // configLoader.ConfigLoader
             try
             {
-                Properties charSettings = new Properties();
-                Stream @is = new FileStream(CHAR_SETTINGS_CONFIG_FILE, FileMode.Open, FileAccess.Read);
-                charSettings.load(@is);
-                @is.Close();
+                ConfigLoader configLoader = new ConfigLoader(CHAR_SETTINGS_CONFIG_FILE);
 
-                PRINCE_MAX_HP = int.Parse(charSettings.getProperty("PrinceMaxHP", "1000"));
-                PRINCE_MAX_MP = int.Parse(charSettings.getProperty("PrinceMaxMP", "800"));
-                KNIGHT_MAX_HP = int.Parse(charSettings.getProperty("KnightMaxHP", "1400"));
-                KNIGHT_MAX_MP = int.Parse(charSettings.getProperty("KnightMaxMP", "600"));
-                ELF_MAX_HP = int.Parse(charSettings.getProperty("ElfMaxHP", "1000"));
-                ELF_MAX_MP = int.Parse(charSettings.getProperty("ElfMaxMP", "900"));
-                WIZARD_MAX_HP = int.Parse(charSettings.getProperty("WizardMaxHP", "800"));
-                WIZARD_MAX_MP = int.Parse(charSettings.getProperty("WizardMaxMP", "1200"));
-                DARKELF_MAX_HP = int.Parse(charSettings.getProperty("DarkelfMaxHP", "1000"));
-                DARKELF_MAX_MP = int.Parse(charSettings.getProperty("DarkelfMaxMP", "900"));
-                DRAGONKNIGHT_MAX_HP = int.Parse(charSettings.getProperty("DragonKnightMaxHP", "1400"));
-                DRAGONKNIGHT_MAX_MP = int.Parse(charSettings.getProperty("DragonKnightMaxMP", "600"));
-                ILLUSIONIST_MAX_HP = int.Parse(charSettings.getProperty("IllusionistMaxHP", "900"));
-                ILLUSIONIST_MAX_MP = int.Parse(charSettings.getProperty("IllusionistMaxMP", "1100"));
-                LV50_EXP = int.Parse(charSettings.getProperty("Lv50Exp", "1"));
-                LV51_EXP = int.Parse(charSettings.getProperty("Lv51Exp", "1"));
-                LV52_EXP = int.Parse(charSettings.getProperty("Lv52Exp", "1"));
-                LV53_EXP = int.Parse(charSettings.getProperty("Lv53Exp", "1"));
-                LV54_EXP = int.Parse(charSettings.getProperty("Lv54Exp", "1"));
-                LV55_EXP = int.Parse(charSettings.getProperty("Lv55Exp", "1"));
-                LV56_EXP = int.Parse(charSettings.getProperty("Lv56Exp", "1"));
-                LV57_EXP = int.Parse(charSettings.getProperty("Lv57Exp", "1"));
-                LV58_EXP = int.Parse(charSettings.getProperty("Lv58Exp", "1"));
-                LV59_EXP = int.Parse(charSettings.getProperty("Lv59Exp", "1"));
-                LV60_EXP = int.Parse(charSettings.getProperty("Lv60Exp", "1"));
-                LV61_EXP = int.Parse(charSettings.getProperty("Lv61Exp", "1"));
-                LV62_EXP = int.Parse(charSettings.getProperty("Lv62Exp", "1"));
-                LV63_EXP = int.Parse(charSettings.getProperty("Lv63Exp", "1"));
-                LV64_EXP = int.Parse(charSettings.getProperty("Lv64Exp", "1"));
-                LV65_EXP = int.Parse(charSettings.getProperty("Lv65Exp", "2"));
-                LV66_EXP = int.Parse(charSettings.getProperty("Lv66Exp", "2"));
-                LV67_EXP = int.Parse(charSettings.getProperty("Lv67Exp", "2"));
-                LV68_EXP = int.Parse(charSettings.getProperty("Lv68Exp", "2"));
-                LV69_EXP = int.Parse(charSettings.getProperty("Lv69Exp", "2"));
-                LV70_EXP = int.Parse(charSettings.getProperty("Lv70Exp", "4"));
-                LV71_EXP = int.Parse(charSettings.getProperty("Lv71Exp", "4"));
-                LV72_EXP = int.Parse(charSettings.getProperty("Lv72Exp", "4"));
-                LV73_EXP = int.Parse(charSettings.getProperty("Lv73Exp", "4"));
-                LV74_EXP = int.Parse(charSettings.getProperty("Lv74Exp", "4"));
-                LV75_EXP = int.Parse(charSettings.getProperty("Lv75Exp", "8"));
-                LV76_EXP = int.Parse(charSettings.getProperty("Lv76Exp", "8"));
-                LV77_EXP = int.Parse(charSettings.getProperty("Lv77Exp", "8"));
-                LV78_EXP = int.Parse(charSettings.getProperty("Lv78Exp", "8"));
-                LV79_EXP = int.Parse(charSettings.getProperty("Lv79Exp", "16"));
-                LV80_EXP = int.Parse(charSettings.getProperty("Lv80Exp", "32"));
-                LV81_EXP = int.Parse(charSettings.getProperty("Lv81Exp", "64"));
-                LV82_EXP = int.Parse(charSettings.getProperty("Lv82Exp", "128"));
-                LV83_EXP = int.Parse(charSettings.getProperty("Lv83Exp", "256"));
-                LV84_EXP = int.Parse(charSettings.getProperty("Lv84Exp", "512"));
-                LV85_EXP = int.Parse(charSettings.getProperty("Lv85Exp", "1024"));
-                LV86_EXP = int.Parse(charSettings.getProperty("Lv86Exp", "2048"));
-                LV87_EXP = int.Parse(charSettings.getProperty("Lv87Exp", "4096"));
-                LV88_EXP = int.Parse(charSettings.getProperty("Lv88Exp", "8192"));
-                LV89_EXP = int.Parse(charSettings.getProperty("Lv89Exp", "16384"));
-                LV90_EXP = int.Parse(charSettings.getProperty("Lv90Exp", "32768"));
-                LV91_EXP = int.Parse(charSettings.getProperty("Lv91Exp", "65536"));
-                LV92_EXP = int.Parse(charSettings.getProperty("Lv92Exp", "131072"));
-                LV93_EXP = int.Parse(charSettings.getProperty("Lv93Exp", "262144"));
-                LV94_EXP = int.Parse(charSettings.getProperty("Lv94Exp", "524288"));
-                LV95_EXP = int.Parse(charSettings.getProperty("Lv95Exp", "1048576"));
-                LV96_EXP = int.Parse(charSettings.getProperty("Lv96Exp", "2097152"));
-                LV97_EXP = int.Parse(charSettings.getProperty("Lv97Exp", "4194304"));
-                LV98_EXP = int.Parse(charSettings.getProperty("Lv98Exp", "8388608"));
-                LV99_EXP = int.Parse(charSettings.getProperty("Lv99Exp", "16777216"));
-                LV100_EXP = int.Parse(charSettings.getProperty("Lv100Exp", "16777216"));
-                LV101_EXP = int.Parse(charSettings.getProperty("Lv101Exp", "65536"));
-                LV102_EXP = int.Parse(charSettings.getProperty("Lv102Exp", "131072"));
-                LV103_EXP = int.Parse(charSettings.getProperty("Lv103Exp", "262144"));
-                LV104_EXP = int.Parse(charSettings.getProperty("Lv104Exp", "524288"));
-                LV105_EXP = int.Parse(charSettings.getProperty("Lv105Exp", "1048576"));
-                LV106_EXP = int.Parse(charSettings.getProperty("Lv106Exp", "2097152"));
-                LV107_EXP = int.Parse(charSettings.getProperty("Lv107Exp", "4194304"));
-                LV108_EXP = int.Parse(charSettings.getProperty("Lv108Exp", "8388608"));
-                LV109_EXP = int.Parse(charSettings.getProperty("Lv109Exp", "16777216"));
-                LV110_EXP = int.Parse(charSettings.getProperty("Lv110Exp", "16777216"));
+                PRINCE_MAX_HP = int.Parse(configLoader.GetProperty("PrinceMaxHP", "1000"));
+                PRINCE_MAX_MP = int.Parse(configLoader.GetProperty("PrinceMaxMP", "800"));
+                KNIGHT_MAX_HP = int.Parse(configLoader.GetProperty("KnightMaxHP", "1400"));
+                KNIGHT_MAX_MP = int.Parse(configLoader.GetProperty("KnightMaxMP", "600"));
+                ELF_MAX_HP = int.Parse(configLoader.GetProperty("ElfMaxHP", "1000"));
+                ELF_MAX_MP = int.Parse(configLoader.GetProperty("ElfMaxMP", "900"));
+                WIZARD_MAX_HP = int.Parse(configLoader.GetProperty("WizardMaxHP", "800"));
+                WIZARD_MAX_MP = int.Parse(configLoader.GetProperty("WizardMaxMP", "1200"));
+                DARKELF_MAX_HP = int.Parse(configLoader.GetProperty("DarkelfMaxHP", "1000"));
+                DARKELF_MAX_MP = int.Parse(configLoader.GetProperty("DarkelfMaxMP", "900"));
+                DRAGONKNIGHT_MAX_HP = int.Parse(configLoader.GetProperty("DragonKnightMaxHP", "1400"));
+                DRAGONKNIGHT_MAX_MP = int.Parse(configLoader.GetProperty("DragonKnightMaxMP", "600"));
+                ILLUSIONIST_MAX_HP = int.Parse(configLoader.GetProperty("IllusionistMaxHP", "900"));
+                ILLUSIONIST_MAX_MP = int.Parse(configLoader.GetProperty("IllusionistMaxMP", "1100"));
+                LV50_EXP = int.Parse(configLoader.GetProperty("Lv50Exp", "1"));
+                LV51_EXP = int.Parse(configLoader.GetProperty("Lv51Exp", "1"));
+                LV52_EXP = int.Parse(configLoader.GetProperty("Lv52Exp", "1"));
+                LV53_EXP = int.Parse(configLoader.GetProperty("Lv53Exp", "1"));
+                LV54_EXP = int.Parse(configLoader.GetProperty("Lv54Exp", "1"));
+                LV55_EXP = int.Parse(configLoader.GetProperty("Lv55Exp", "1"));
+                LV56_EXP = int.Parse(configLoader.GetProperty("Lv56Exp", "1"));
+                LV57_EXP = int.Parse(configLoader.GetProperty("Lv57Exp", "1"));
+                LV58_EXP = int.Parse(configLoader.GetProperty("Lv58Exp", "1"));
+                LV59_EXP = int.Parse(configLoader.GetProperty("Lv59Exp", "1"));
+                LV60_EXP = int.Parse(configLoader.GetProperty("Lv60Exp", "1"));
+                LV61_EXP = int.Parse(configLoader.GetProperty("Lv61Exp", "1"));
+                LV62_EXP = int.Parse(configLoader.GetProperty("Lv62Exp", "1"));
+                LV63_EXP = int.Parse(configLoader.GetProperty("Lv63Exp", "1"));
+                LV64_EXP = int.Parse(configLoader.GetProperty("Lv64Exp", "1"));
+                LV65_EXP = int.Parse(configLoader.GetProperty("Lv65Exp", "2"));
+                LV66_EXP = int.Parse(configLoader.GetProperty("Lv66Exp", "2"));
+                LV67_EXP = int.Parse(configLoader.GetProperty("Lv67Exp", "2"));
+                LV68_EXP = int.Parse(configLoader.GetProperty("Lv68Exp", "2"));
+                LV69_EXP = int.Parse(configLoader.GetProperty("Lv69Exp", "2"));
+                LV70_EXP = int.Parse(configLoader.GetProperty("Lv70Exp", "4"));
+                LV71_EXP = int.Parse(configLoader.GetProperty("Lv71Exp", "4"));
+                LV72_EXP = int.Parse(configLoader.GetProperty("Lv72Exp", "4"));
+                LV73_EXP = int.Parse(configLoader.GetProperty("Lv73Exp", "4"));
+                LV74_EXP = int.Parse(configLoader.GetProperty("Lv74Exp", "4"));
+                LV75_EXP = int.Parse(configLoader.GetProperty("Lv75Exp", "8"));
+                LV76_EXP = int.Parse(configLoader.GetProperty("Lv76Exp", "8"));
+                LV77_EXP = int.Parse(configLoader.GetProperty("Lv77Exp", "8"));
+                LV78_EXP = int.Parse(configLoader.GetProperty("Lv78Exp", "8"));
+                LV79_EXP = int.Parse(configLoader.GetProperty("Lv79Exp", "16"));
+                LV80_EXP = int.Parse(configLoader.GetProperty("Lv80Exp", "32"));
+                LV81_EXP = int.Parse(configLoader.GetProperty("Lv81Exp", "64"));
+                LV82_EXP = int.Parse(configLoader.GetProperty("Lv82Exp", "128"));
+                LV83_EXP = int.Parse(configLoader.GetProperty("Lv83Exp", "256"));
+                LV84_EXP = int.Parse(configLoader.GetProperty("Lv84Exp", "512"));
+                LV85_EXP = int.Parse(configLoader.GetProperty("Lv85Exp", "1024"));
+                LV86_EXP = int.Parse(configLoader.GetProperty("Lv86Exp", "2048"));
+                LV87_EXP = int.Parse(configLoader.GetProperty("Lv87Exp", "4096"));
+                LV88_EXP = int.Parse(configLoader.GetProperty("Lv88Exp", "8192"));
+                LV89_EXP = int.Parse(configLoader.GetProperty("Lv89Exp", "16384"));
+                LV90_EXP = int.Parse(configLoader.GetProperty("Lv90Exp", "32768"));
+                LV91_EXP = int.Parse(configLoader.GetProperty("Lv91Exp", "65536"));
+                LV92_EXP = int.Parse(configLoader.GetProperty("Lv92Exp", "131072"));
+                LV93_EXP = int.Parse(configLoader.GetProperty("Lv93Exp", "262144"));
+                LV94_EXP = int.Parse(configLoader.GetProperty("Lv94Exp", "524288"));
+                LV95_EXP = int.Parse(configLoader.GetProperty("Lv95Exp", "1048576"));
+                LV96_EXP = int.Parse(configLoader.GetProperty("Lv96Exp", "2097152"));
+                LV97_EXP = int.Parse(configLoader.GetProperty("Lv97Exp", "4194304"));
+                LV98_EXP = int.Parse(configLoader.GetProperty("Lv98Exp", "8388608"));
+                LV99_EXP = int.Parse(configLoader.GetProperty("Lv99Exp", "16777216"));
+                LV100_EXP = int.Parse(configLoader.GetProperty("Lv100Exp", "16777216"));
+                LV101_EXP = int.Parse(configLoader.GetProperty("Lv101Exp", "65536"));
+                LV102_EXP = int.Parse(configLoader.GetProperty("Lv102Exp", "131072"));
+                LV103_EXP = int.Parse(configLoader.GetProperty("Lv103Exp", "262144"));
+                LV104_EXP = int.Parse(configLoader.GetProperty("Lv104Exp", "524288"));
+                LV105_EXP = int.Parse(configLoader.GetProperty("Lv105Exp", "1048576"));
+                LV106_EXP = int.Parse(configLoader.GetProperty("Lv106Exp", "2097152"));
+                LV107_EXP = int.Parse(configLoader.GetProperty("Lv107Exp", "4194304"));
+                LV108_EXP = int.Parse(configLoader.GetProperty("Lv108Exp", "8388608"));
+                LV109_EXP = int.Parse(configLoader.GetProperty("Lv109Exp", "16777216"));
+                LV110_EXP = int.Parse(configLoader.GetProperty("Lv110Exp", "16777216"));
             }
             catch (Exception e)
             {
-                _log.Error(e);
                 throw new Exception("Failed to Load " + CHAR_SETTINGS_CONFIG_FILE + " File.");
             }
 
-            // fights.properties
-            Properties fightSettings = new Properties();
             try
             {
-                Stream @is = new FileStream(FIGHT_SETTINGS_CONFIG_FILE, FileMode.Open, FileAccess.Read);
-                fightSettings.load(@is);
-                @is.Close();
+                ConfigLoader configLoader = new ConfigLoader(FIGHT_SETTINGS_CONFIG_FILE);
 
-                FIGHT_IS_ACTIVE = bool.Parse(fightSettings.getProperty("FightIsActive", "False"));
-                NOVICE_PROTECTION_IS_ACTIVE = bool.Parse(fightSettings.getProperty("NoviceProtectionIsActive", "False"));
-                NOVICE_MAX_LEVEL = int.Parse(fightSettings.getProperty("NoviceMaxLevel", "20"));
-                NOVICE_PROTECTION_LEVEL_RANGE = int.Parse(fightSettings.getProperty("ProtectionLevelRange", "10"));
+                FIGHT_IS_ACTIVE = bool.Parse(configLoader.GetProperty("FightIsActive", "False"));
+                NOVICE_PROTECTION_IS_ACTIVE = bool.Parse(configLoader.GetProperty("NoviceProtectionIsActive", "False"));
+                NOVICE_MAX_LEVEL = int.Parse(configLoader.GetProperty("NoviceMaxLevel", "20"));
+                NOVICE_PROTECTION_LEVEL_RANGE = int.Parse(configLoader.GetProperty("ProtectionLevelRange", "10"));
             }
             catch (Exception e)
             {
-                _log.Error(e);
                 throw new Exception("無法讀取設定檔: " + FIGHT_SETTINGS_CONFIG_FILE);
             }
 
-            // record.properties
+            // record.ConfigLoader
             try
             {
-                Properties recordSettings = new Properties();
-                Stream @is = new FileStream(RECORD_SETTINGS_CONFIG_FILE, FileMode.Open, FileAccess.Read);
-                recordSettings.load(@is);
-                @is.Close();
+                ConfigLoader configLoader = new ConfigLoader(RECORD_SETTINGS_CONFIG_FILE);
 
-                LOGGING_WEAPON_ENCHANT = sbyte.Parse(recordSettings.getProperty("LoggingWeaponEnchant", "0"));
-                LOGGING_ARMOR_ENCHANT = sbyte.Parse(recordSettings.getProperty("LoggingArmorEnchant", "0"));
-                LOGGING_CHAT_NORMAL = bool.Parse(recordSettings.getProperty("LoggingChatNormal", "false"));
-                LOGGING_CHAT_WHISPER = bool.Parse(recordSettings.getProperty("LoggingChatWhisper", "false"));
-                LOGGING_CHAT_SHOUT = bool.Parse(recordSettings.getProperty("LoggingChatShout", "false"));
-                LOGGING_CHAT_WORLD = bool.Parse(recordSettings.getProperty("LoggingChatWorld", "false"));
-                LOGGING_CHAT_CLAN = bool.Parse(recordSettings.getProperty("LoggingChatClan", "false"));
-                LOGGING_CHAT_PARTY = bool.Parse(recordSettings.getProperty("LoggingChatParty", "false"));
-                LOGGING_CHAT_COMBINED = bool.Parse(recordSettings.getProperty("LoggingChatCombined", "false"));
-                LOGGING_CHAT_CHAT_PARTY = bool.Parse(recordSettings.getProperty("LoggingChatChatParty", "false"));
-                writeTradeLog = bool.Parse(recordSettings.getProperty("writeTradeLog", "false"));
-                writeRobotsLog = bool.Parse(recordSettings.getProperty("writeRobotsLog", "false"));
-                writeDropLog = bool.Parse(recordSettings.getProperty("writeDropLog", "false"));
-                MysqlAutoBackup = int.Parse(recordSettings.getProperty("MysqlAutoBackup", "false"));
-                CompressGzip = bool.Parse(recordSettings.getProperty("CompressGzip", "false"));
+                LOGGING_WEAPON_ENCHANT = sbyte.Parse(configLoader.GetProperty("LoggingWeaponEnchant", "0"));
+                LOGGING_ARMOR_ENCHANT = sbyte.Parse(configLoader.GetProperty("LoggingArmorEnchant", "0"));
+                LOGGING_CHAT_NORMAL = bool.Parse(configLoader.GetProperty("LoggingChatNormal", "false"));
+                LOGGING_CHAT_WHISPER = bool.Parse(configLoader.GetProperty("LoggingChatWhisper", "false"));
+                LOGGING_CHAT_SHOUT = bool.Parse(configLoader.GetProperty("LoggingChatShout", "false"));
+                LOGGING_CHAT_WORLD = bool.Parse(configLoader.GetProperty("LoggingChatWorld", "false"));
+                LOGGING_CHAT_CLAN = bool.Parse(configLoader.GetProperty("LoggingChatClan", "false"));
+                LOGGING_CHAT_PARTY = bool.Parse(configLoader.GetProperty("LoggingChatParty", "false"));
+                LOGGING_CHAT_COMBINED = bool.Parse(configLoader.GetProperty("LoggingChatCombined", "false"));
+                LOGGING_CHAT_CHAT_PARTY = bool.Parse(configLoader.GetProperty("LoggingChatChatParty", "false"));
+                writeTradeLog = bool.Parse(configLoader.GetProperty("writeTradeLog", "false"));
+                writeRobotsLog = bool.Parse(configLoader.GetProperty("writeRobotsLog", "false"));
+                writeDropLog = bool.Parse(configLoader.GetProperty("writeDropLog", "false"));
+                MysqlAutoBackup = int.Parse(configLoader.GetProperty("MysqlAutoBackup", "false"));
+                CompressGzip = bool.Parse(configLoader.GetProperty("CompressGzip", "false"));
 
             }
             catch (Exception e)
             {
-                _log.Error(e);
                 throw new Exception("Failed to Load: " + RECORD_SETTINGS_CONFIG_FILE);
             }
 
@@ -1021,12 +990,12 @@ namespace LineageServer
 
         private static void validate()
         {
-            if (!IntRange.includes(Config.ALT_ITEM_DELETION_RANGE, 0, 5))
+            if (!Config.ALT_ITEM_DELETION_RANGE.Includes(0, 5))
             {
                 throw new System.InvalidOperationException("ItemDeletionRange 的設定值超出範圍。");
             }
 
-            if (!IntRange.includes(Config.ALT_ITEM_DELETION_TIME, 1, 35791))
+            if (!Config.ALT_ITEM_DELETION_TIME.Includes(1, 35791))
             {
                 throw new System.InvalidOperationException("ItemDeletionTime 的設定值超出範圍。");
             }
@@ -1034,7 +1003,7 @@ namespace LineageServer
 
         public static bool setParameterValue(string pName, string pValue)
         {
-            // server.properties
+            // server.ConfigLoader
             if (pName == "GameserverHostname")
             {
                 GAME_SERVER_HOST_NAME = pValue;
@@ -1042,14 +1011,6 @@ namespace LineageServer
             else if (pName == "GameserverPort")
             {
                 GAME_SERVER_PORT = int.Parse(pValue);
-            }
-            else if (pName == "Driver")
-            {
-                DB_DRIVER = pValue;
-            }
-            else if (pName == "URL")
-            {
-                DB_URL = pValue;
             }
             else if (pName == "Login")
             {
@@ -1095,7 +1056,7 @@ namespace LineageServer
             {
                 ILLEGAL_SPEEDUP_PUNISHMENT = int.Parse(pValue);
             }
-            // rates.properties
+            // rates.ConfigLoader
             else if (pName == "RateXp")
             {
                 RATE_XP = double.Parse(pValue);
@@ -1132,7 +1093,7 @@ namespace LineageServer
             {
                 RATE_WEIGHT_LIMIT = sbyte.Parse(pValue);
             }
-            // altsettings.properties
+            // configLoader.ConfigLoader
             else if (pName == "GlobalChatLevel")
             {
                 GLOBAL_CHAT_LEVEL = short.Parse(pValue);
@@ -1258,7 +1219,7 @@ namespace LineageServer
                 GDROPITEM_TIME = int.Parse(pValue);
             }
 
-            // charsettings.properties
+            // configLoader.ConfigLoader
             else if (pName == "PrinceMaxHP")
             {
                 PRINCE_MAX_HP = int.Parse(pValue);
@@ -1559,7 +1520,7 @@ namespace LineageServer
             {
                 LV110_EXP = int.Parse(pValue);
             }
-            //record.properties
+            //record.ConfigLoader
             else if (pName == "LoggingWeaponEnchant")
             {
                 LOGGING_WEAPON_ENCHANT = sbyte.Parse(pValue);

@@ -1,12 +1,14 @@
 ﻿using LineageServer.Interfaces;
+using LineageServer.Models;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.Map;
-using LineageServer.Serverpackets;
 using LineageServer.Server.Types;
+using LineageServer.Serverpackets;
 using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace LineageServer.Server.Model
 {
     class L1World
@@ -347,18 +349,19 @@ namespace LineageServer.Server.Model
 
         public virtual IList<GameObject> getVisibleObjects(GameObject l1Object, int radius)
         {
-            L1Map map = l1Object.getMap();
+            L1Map map = l1Object.Map;
             Point pt = l1Object.Location;
             IList<GameObject> result = ListFactory.NewList<GameObject>();
             if (map.Id <= MAX_MAP_ID)
             {
                 foreach (GameObject element in _visibleObjects[map.Id].Values)
                 {
-                    if (element.Equals(l1Object))
+                    if (element == l1Object)
                     {
                         continue;
                     }
-                    if (map != element.getMap())
+
+                    if (map.Id != element.Map.Id)
                     {
                         continue;
                     }
