@@ -1035,540 +1035,536 @@ namespace LineageServer
         public static bool setParameterValue(string pName, string pValue)
         {
             // server.properties
-            if (pName.Equals("GameserverHostname", StringComparison.OrdinalIgnoreCase))
+            if (pName == "GameserverHostname")
             {
                 GAME_SERVER_HOST_NAME = pValue;
             }
-            else if (pName.Equals("GameserverPort", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "GameserverPort")
             {
                 GAME_SERVER_PORT = int.Parse(pValue);
             }
-            else if (pName.Equals("Driver", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Driver")
             {
                 DB_DRIVER = pValue;
             }
-            else if (pName.Equals("URL", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "URL")
             {
                 DB_URL = pValue;
             }
-            else if (pName.Equals("Login", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Login")
             {
                 DB_LOGIN = pValue;
             }
-            else if (pName.Equals("Password", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Password")
             {
                 DB_PASSWORD = pValue;
             }
-            else if (pName.Equals("ClientLanguage", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "ClientLanguage")
             {
                 CLIENT_LANGUAGE = int.Parse(pValue);
             }
-            else if (pName.Equals("TimeZone", StringComparison.OrdinalIgnoreCase))
-            {
-                TIME_ZONE = pValue;
-            }
-            else if (pName.Equals("AutomaticKick", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "AutomaticKick")
             {
                 AUTOMATIC_KICK = int.Parse(pValue);
             }
-            else if (pName.Equals("AutoCreateAccounts", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "AutoCreateAccounts")
             {
                 AUTO_CREATE_ACCOUNTS = bool.Parse(pValue);
             }
-            else if (pName.Equals("MaximumOnlineUsers", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "MaximumOnlineUsers")
             {
                 MAX_ONLINE_USERS = short.Parse(pValue);
             }
-            else if (pName.Equals("CharacterConfigInServerSide", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "CharacterConfigInServerSide")
             {
                 CHARACTER_CONFIG_IN_SERVER_SIDE = bool.Parse(pValue);
             }
-            else if (pName.Equals("Allow2PC", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Allow2PC")
             {
                 ALLOW_2PC = bool.Parse(pValue);
             }
-            else if (pName.Equals("LevelDownRange", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "LevelDownRange")
             {
                 LEVEL_DOWN_RANGE = int.Parse(pValue);
             }
-            else if (pName.Equals("SendPacketBeforeTeleport", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "SendPacketBeforeTeleport")
             {
                 SEND_PACKET_BEFORE_TELEPORT = bool.Parse(pValue);
             }
-            else if (pName.Equals("Punishment", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Punishment")
             {
                 ILLEGAL_SPEEDUP_PUNISHMENT = int.Parse(pValue);
             }
             // rates.properties
-            else if (pName.Equals("RateXp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "RateXp")
             {
                 RATE_XP = double.Parse(pValue);
             }
-            else if (pName.Equals("RateLawful", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "RateLawful")
             {
                 RATE_LA = double.Parse(pValue);
             }
-            else if (pName.Equals("RateKarma", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "RateKarma")
             {
                 RATE_KARMA = double.Parse(pValue);
             }
-            else if (pName.Equals("RateDropAdena", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "RateDropAdena")
             {
                 RATE_DROP_ADENA = double.Parse(pValue);
             }
-            else if (pName.Equals("RateDropItems", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "RateDropItems")
             {
                 RATE_DROP_ITEMS = double.Parse(pValue);
             }
-            else if (pName.Equals("EnchantChanceWeapon", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "EnchantChanceWeapon")
             {
                 ENCHANT_CHANCE_WEAPON = int.Parse(pValue);
             }
-            else if (pName.Equals("EnchantChanceArmor", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "EnchantChanceArmor")
             {
                 ENCHANT_CHANCE_ARMOR = int.Parse(pValue);
             }
-            else if (pName.Equals("AttrEnchantChance", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "AttrEnchantChance")
             {
                 ATTR_ENCHANT_CHANCE = int.Parse(pValue);
             }
-            else if (pName.Equals("Weightrate", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Weightrate")
             {
                 RATE_WEIGHT_LIMIT = sbyte.Parse(pValue);
             }
             // altsettings.properties
-            else if (pName.Equals("GlobalChatLevel", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "GlobalChatLevel")
             {
                 GLOBAL_CHAT_LEVEL = short.Parse(pValue);
             }
-            else if (pName.Equals("WhisperChatLevel", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "WhisperChatLevel")
             {
                 WHISPER_CHAT_LEVEL = short.Parse(pValue);
             }
-            else if (pName.Equals("AutoLoot", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "AutoLoot")
             {
                 AUTO_LOOT = sbyte.Parse(pValue);
             }
-            else if (pName.Equals("LOOTING_RANGE", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "LOOTING_RANGE")
             {
                 LOOTING_RANGE = int.Parse(pValue);
             }
-            else if (pName.Equals("AltNonPvP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "AltNonPvP")
             {
                 ALT_NONPVP = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("AttackMessageOn", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "AttackMessageOn")
             {
                 ALT_ATKMSG = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("ChangeTitleByOneself", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "ChangeTitleByOneself")
             {
                 CHANGE_TITLE_BY_ONESELF = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("MaxClanMember", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "MaxClanMember")
             {
                 MAX_CLAN_MEMBER = int.Parse(pValue);
             }
-            else if (pName.Equals("ClanAlliance", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "ClanAlliance")
             {
                 CLAN_ALLIANCE = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("MaxPT", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "MaxPT")
             {
                 MAX_PT = int.Parse(pValue);
             }
-            else if (pName.Equals("MaxChatPT", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "MaxChatPT")
             {
                 MAX_CHAT_PT = int.Parse(pValue);
             }
-            else if (pName.Equals("SimWarPenalty", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "SimWarPenalty")
             {
                 SIM_WAR_PENALTY = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("GetBack", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "GetBack")
             {
                 GET_BACK = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("AutomaticItemDeletionTime", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "AutomaticItemDeletionTime")
             {
                 ALT_ITEM_DELETION_TIME = int.Parse(pValue);
             }
-            else if (pName.Equals("AutomaticItemDeletionRange", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "AutomaticItemDeletionRange")
             {
                 ALT_ITEM_DELETION_RANGE = sbyte.Parse(pValue);
             }
-            else if (pName.Equals("GMshop", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "GMshop")
             {
                 ALT_GMSHOP = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("GMshopMinID", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "GMshopMinID")
             {
                 ALT_GMSHOP_MIN_ID = int.Parse(pValue);
             }
-            else if (pName.Equals("GMshopMaxID", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "GMshopMaxID")
             {
                 ALT_GMSHOP_MAX_ID = int.Parse(pValue);
             }
-            else if (pName.Equals("HalloweenIvent", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "HalloweenIvent")
             {
                 ALT_HALLOWEENIVENT = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("JpPrivileged", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "JpPrivileged")
             {
                 ALT_JPPRIVILEGED = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("TalkingScrollQuest", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "TalkingScrollQuest")
             {
                 ALT_TALKINGSCROLLQUEST = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("HouseTaxInterval", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "HouseTaxInterval")
             {
                 HOUSE_TAX_INTERVAL = Convert.ToInt32(pValue);
             }
-            else if (pName.Equals("MaxDollCount", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "MaxDollCount")
             {
                 MAX_DOLL_COUNT = Convert.ToInt32(pValue);
             }
-            else if (pName.Equals("ReturnToNature", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "ReturnToNature")
             {
                 RETURN_TO_NATURE = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("MaxNpcItem", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "MaxNpcItem")
             {
                 MAX_NPC_ITEM = Convert.ToInt32(pValue);
             }
-            else if (pName.Equals("MaxPersonalWarehouseItem", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "MaxPersonalWarehouseItem")
             {
                 MAX_PERSONAL_WAREHOUSE_ITEM = Convert.ToInt32(pValue);
             }
-            else if (pName.Equals("MaxClanWarehouseItem", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "MaxClanWarehouseItem")
             {
                 MAX_CLAN_WAREHOUSE_ITEM = Convert.ToInt32(pValue);
             }
-            else if (pName.Equals("DeleteCharacterAfter7Days", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "DeleteCharacterAfter7Days")
             {
                 DELETE_CHARACTER_AFTER_7DAYS = Convert.ToBoolean(pValue);
             }
-            else if (pName.Equals("NpcDeletionTime", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "NpcDeletionTime")
             {
                 NPC_DELETION_TIME = Convert.ToInt32(pValue);
             }
-            else if (pName.Equals("DefaultCharacterSlot", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "DefaultCharacterSlot")
             {
                 DEFAULT_CHARACTER_SLOT = Convert.ToInt32(pValue);
             }
-            else if (pName.Equals("GDropItemTime", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "GDropItemTime")
             {
                 GDROPITEM_TIME = int.Parse(pValue);
             }
 
             // charsettings.properties
-            else if (pName.Equals("PrinceMaxHP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "PrinceMaxHP")
             {
                 PRINCE_MAX_HP = int.Parse(pValue);
             }
-            else if (pName.Equals("PrinceMaxMP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "PrinceMaxMP")
             {
                 PRINCE_MAX_MP = int.Parse(pValue);
             }
-            else if (pName.Equals("KnightMaxHP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "KnightMaxHP")
             {
                 KNIGHT_MAX_HP = int.Parse(pValue);
             }
-            else if (pName.Equals("KnightMaxMP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "KnightMaxMP")
             {
                 KNIGHT_MAX_MP = int.Parse(pValue);
             }
-            else if (pName.Equals("ElfMaxHP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "ElfMaxHP")
             {
                 ELF_MAX_HP = int.Parse(pValue);
             }
-            else if (pName.Equals("ElfMaxMP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "ElfMaxMP")
             {
                 ELF_MAX_MP = int.Parse(pValue);
             }
-            else if (pName.Equals("WizardMaxHP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "WizardMaxHP")
             {
                 WIZARD_MAX_HP = int.Parse(pValue);
             }
-            else if (pName.Equals("WizardMaxMP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "WizardMaxMP")
             {
                 WIZARD_MAX_MP = int.Parse(pValue);
             }
-            else if (pName.Equals("DarkelfMaxHP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "DarkelfMaxHP")
             {
                 DARKELF_MAX_HP = int.Parse(pValue);
             }
-            else if (pName.Equals("DarkelfMaxMP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "DarkelfMaxMP")
             {
                 DARKELF_MAX_MP = int.Parse(pValue);
             }
-            else if (pName.Equals("DragonKnightMaxHP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "DragonKnightMaxHP")
             {
                 DRAGONKNIGHT_MAX_HP = int.Parse(pValue);
             }
-            else if (pName.Equals("DragonKnightMaxMP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "DragonKnightMaxMP")
             {
                 DRAGONKNIGHT_MAX_MP = int.Parse(pValue);
             }
-            else if (pName.Equals("IllusionistMaxHP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "IllusionistMaxHP")
             {
                 ILLUSIONIST_MAX_HP = int.Parse(pValue);
             }
-            else if (pName.Equals("IllusionistMaxMP", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "IllusionistMaxMP")
             {
                 ILLUSIONIST_MAX_MP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv50Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv50Exp")
             {
                 LV50_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv51Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv51Exp")
             {
                 LV51_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv52Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv52Exp")
             {
                 LV52_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv53Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv53Exp")
             {
                 LV53_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv54Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv54Exp")
             {
                 LV54_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv55Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv55Exp")
             {
                 LV55_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv56Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv56Exp")
             {
                 LV56_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv57Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv57Exp")
             {
                 LV57_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv58Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv58Exp")
             {
                 LV58_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv59Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv59Exp")
             {
                 LV59_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv60Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv60Exp")
             {
                 LV60_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv61Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv61Exp")
             {
                 LV61_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv62Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv62Exp")
             {
                 LV62_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv63Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv63Exp")
             {
                 LV63_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv64Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv64Exp")
             {
                 LV64_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv65Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv65Exp")
             {
                 LV65_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv66Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv66Exp")
             {
                 LV66_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv67Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv67Exp")
             {
                 LV67_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv68Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv68Exp")
             {
                 LV68_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv69Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv69Exp")
             {
                 LV69_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv70Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv70Exp")
             {
                 LV70_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv71Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv71Exp")
             {
                 LV71_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv72Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv72Exp")
             {
                 LV72_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv73Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv73Exp")
             {
                 LV73_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv74Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv74Exp")
             {
                 LV74_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv75Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv75Exp")
             {
                 LV75_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv76Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv76Exp")
             {
                 LV76_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv77Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv77Exp")
             {
                 LV77_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv78Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv78Exp")
             {
                 LV78_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv79Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv79Exp")
             {
                 LV79_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv80Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv80Exp")
             {
                 LV80_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv81Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv81Exp")
             {
                 LV81_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv82Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv82Exp")
             {
                 LV82_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv83Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv83Exp")
             {
                 LV83_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv84Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv84Exp")
             {
                 LV84_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv85Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv85Exp")
             {
                 LV85_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv86Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv86Exp")
             {
                 LV86_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv87Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv87Exp")
             {
                 LV87_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv88Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv88Exp")
             {
                 LV88_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv89Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv89Exp")
             {
                 LV89_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv90Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv90Exp")
             {
                 LV90_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv91Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv91Exp")
             {
                 LV91_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv92Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv92Exp")
             {
                 LV92_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv93Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv93Exp")
             {
                 LV93_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv94Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv94Exp")
             {
                 LV94_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv95Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv95Exp")
             {
                 LV95_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv96Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv96Exp")
             {
                 LV96_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv97Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv97Exp")
             {
                 LV97_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv98Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv98Exp")
             {
                 LV98_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv99Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv99Exp")
             {
                 LV99_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv100Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv100Exp")
             {
                 LV100_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv101Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv101Exp")
             {
                 LV101_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv102Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv102Exp")
             {
                 LV102_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv103Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv103Exp")
             {
                 LV103_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv104Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv104Exp")
             {
                 LV104_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv105Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv105Exp")
             {
                 LV105_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv106Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv106Exp")
             {
                 LV106_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv107Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv107Exp")
             {
                 LV107_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv108Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv108Exp")
             {
                 LV108_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv109Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv109Exp")
             {
                 LV109_EXP = int.Parse(pValue);
             }
-            else if (pName.Equals("Lv110Exp", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "Lv110Exp")
             {
                 LV110_EXP = int.Parse(pValue);
             }
             //record.properties
-            else if (pName.Equals("LoggingWeaponEnchant", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "LoggingWeaponEnchant")
             {
                 LOGGING_WEAPON_ENCHANT = sbyte.Parse(pValue);
             }
-            else if (pName.Equals("LoggingArmorEnchant", StringComparison.OrdinalIgnoreCase))
+            else if (pName == "LoggingArmorEnchant")
             {
                 LOGGING_ARMOR_ENCHANT = sbyte.Parse(pValue);
             }
@@ -1577,10 +1573,6 @@ namespace LineageServer
                 return false;
             }
             return true;
-        }
-
-        private Config()
-        {
         }
     }
 }

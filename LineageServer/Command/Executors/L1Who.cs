@@ -19,7 +19,7 @@ namespace LineageServer.Command.Executors
                 pc.sendPackets(s_whoamount);
 
                 // オンラインのプレイヤーリストを表示
-                if (arg.Equals("all", StringComparison.OrdinalIgnoreCase))
+                if (arg == "all")
                 {
                     pc.sendPackets(new S_SystemMessage("-- 線上玩家 --"));
                     StringBuilder buf = new StringBuilder();

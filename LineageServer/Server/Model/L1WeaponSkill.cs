@@ -207,7 +207,7 @@ namespace LineageServer.Server.Model
 				{
 					if (!isFreeze(cha))
 					{ // 凍結状態orカウンターマジック中
-						cha.setSkillEffect(skillId, weaponSkill.SkillTime * 1000);
+						cha.setSkillEffect(L1SkillId.skillId, weaponSkill.SkillTime * 1000);
 					}
 				}
 			}
@@ -598,7 +598,7 @@ namespace LineageServer.Server.Model
 				if (cha is L1PcInstance)
 				{
 					L1PcInstance targetPc = (L1PcInstance) cha;
-					targetPc.setSkillEffect(STATUS_FREEZE, fettersTime);
+					targetPc.setSkillEffect(L1SkillId.STATUS_FREEZE, fettersTime);
 					targetPc.sendPackets(new S_SkillSound(targetPc.Id, 4184));
 					targetPc.broadcastPacket(new S_SkillSound(targetPc.Id, 4184));
 					targetPc.sendPackets(new S_Paralysis(S_Paralysis.TYPE_BIND, true));
@@ -606,7 +606,7 @@ namespace LineageServer.Server.Model
 				else if ((cha is L1MonsterInstance) || (cha is L1SummonInstance) || (cha is L1PetInstance))
 				{
 					L1NpcInstance npc = (L1NpcInstance) cha;
-					npc.setSkillEffect(STATUS_FREEZE, fettersTime);
+					npc.setSkillEffect(L1SkillId.STATUS_FREEZE, fettersTime);
 					npc.broadcastPacket(new S_SkillSound(npc.Id, 4184));
 					npc.Paralyzed = true;
 				}
@@ -678,35 +678,35 @@ namespace LineageServer.Server.Model
 
 		private static bool isFreeze(L1Character cha)
 		{
-			if (cha.hasSkillEffect(STATUS_FREEZE))
+			if (cha.hasSkillEffect(L1SkillId.STATUS_FREEZE))
 			{
 				return true;
 			}
-			if (cha.hasSkillEffect(ABSOLUTE_BARRIER))
+			if (cha.hasSkillEffect(L1SkillId.ABSOLUTE_BARRIER))
 			{
 				return true;
 			}
-			if (cha.hasSkillEffect(ICE_LANCE))
+			if (cha.hasSkillEffect(L1SkillId.ICE_LANCE))
 			{
 				return true;
 			}
-			if (cha.hasSkillEffect(FREEZING_BLIZZARD))
+			if (cha.hasSkillEffect(L1SkillId.FREEZING_BLIZZARD))
 			{
 				return true;
 			}
-			if (cha.hasSkillEffect(FREEZING_BREATH))
+			if (cha.hasSkillEffect(L1SkillId.FREEZING_BREATH))
 			{
 				return true;
 			}
-			if (cha.hasSkillEffect(EARTH_BIND))
+			if (cha.hasSkillEffect(L1SkillId.EARTH_BIND))
 			{
 				return true;
 			}
 
 			// カウンターマジック判定
-			if (cha.hasSkillEffect(COUNTER_MAGIC))
+			if (cha.hasSkillEffect(L1SkillId.COUNTER_MAGIC))
 			{
-				cha.removeSkillEffect(COUNTER_MAGIC);
+				cha.removeSkillEffect(L1SkillId.COUNTER_MAGIC);
 				int castgfx = SkillsTable.Instance.getTemplate(COUNTER_MAGIC).CastGfx;
 				cha.broadcastPacket(new S_SkillSound(cha.Id, castgfx));
 				if (cha is L1PcInstance)

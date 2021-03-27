@@ -1,4 +1,5 @@
-﻿/// <summary>
+﻿using System;
+/// <summary>
 ///                            License
 /// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
 /// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
@@ -15,147 +16,147 @@
 namespace LineageServer.Server.Templates
 {
 
-	public class L1Mail
-	{
-		public L1Mail()
-		{
-		}
+    public class L1Mail
+    {
+        public L1Mail()
+        {
+        }
 
-		private int _id;
+        private int _id;
 
-		public virtual int Id
-		{
-			get
-			{
-				return _id;
-			}
-			set
-			{
-				_id = value;
-			}
-		}
-
-
-		private int _type;
-
-		public virtual int Type
-		{
-			get
-			{
-				return _type;
-			}
-			set
-			{
-				_type = value;
-			}
-		}
+        public virtual int Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
 
 
-		private string _senderName;
+        private int _type;
 
-		public virtual string SenderName
-		{
-			get
-			{
-				return _senderName;
-			}
-			set
-			{
-				_senderName = value;
-			}
-		}
-
-
-		private string _receiverName;
-
-		public virtual string ReceiverName
-		{
-			get
-			{
-				return _receiverName;
-			}
-			set
-			{
-				_receiverName = value;
-			}
-		}
+        public virtual int Type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                _type = value;
+            }
+        }
 
 
-		private Timestamp _date = null;
+        private string _senderName;
 
-		public virtual Timestamp Date
-		{
-			get
-			{
-				return _date;
-			}
-			set
-			{
-				_date = value;
-			}
-		}
-
-
-		private int _readStatus = 0;
-
-		public virtual int ReadStatus
-		{
-			get
-			{
-				return _readStatus;
-			}
-			set
-			{
-				_readStatus = value;
-			}
-		}
+        public virtual string SenderName
+        {
+            get
+            {
+                return _senderName;
+            }
+            set
+            {
+                _senderName = value;
+            }
+        }
 
 
-		private sbyte[] _subject = null;
+        private string _receiverName;
 
-		public virtual sbyte[] Subject
-		{
-			get
-			{
-				return _subject;
-			}
-			set
-			{
-				_subject = value;
-			}
-		}
-
-
-		private sbyte[] _content = null;
-
-		public virtual sbyte[] Content
-		{
-			get
-			{
-				return _content;
-			}
-			set
-			{
-				_content = value;
-			}
-		}
+        public virtual string ReceiverName
+        {
+            get
+            {
+                return _receiverName;
+            }
+            set
+            {
+                _receiverName = value;
+            }
+        }
 
 
-		private int _inBoxId = 0;
+        private DateTime _date = default(DateTime);
 
-		public virtual int InBoxId
-		{
-			get
-			{
-				return _inBoxId;
-			}
-			set
-			{
-				_inBoxId = value;
-			}
-		}
+        public virtual DateTime Date
+        {
+            get
+            {
+                return _date;
+            }
+            set
+            {
+                _date = value;
+            }
+        }
 
 
-	}
+        private int _readStatus = 0;
+
+        public virtual int ReadStatus
+        {
+            get
+            {
+                return _readStatus;
+            }
+            set
+            {
+                _readStatus = value;
+            }
+        }
+
+
+        private byte[] _subject = null;
+
+        public virtual byte[] Subject
+        {
+            get
+            {
+                return _subject;
+            }
+            set
+            {
+                _subject = value;
+            }
+        }
+
+
+        private byte[] _content = null;
+
+        public virtual byte[] Content
+        {
+            get
+            {
+                return _content;
+            }
+            set
+            {
+                _content = value;
+            }
+        }
+
+
+        private int _inBoxId = 0;
+
+        public virtual int InBoxId
+        {
+            get
+            {
+                return _inBoxId;
+            }
+            set
+            {
+                _inBoxId = value;
+            }
+        }
+
+
+    }
 
 }

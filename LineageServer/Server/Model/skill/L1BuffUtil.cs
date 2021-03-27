@@ -133,7 +133,7 @@ namespace LineageServer.Server.Model.skill
 			int iconType = 0;
 			if (type == 0)
 			{ // 安塔瑞斯
-				if (!pc.hasSkillEffect(skillId))
+				if (!pc.hasSkillEffect(L1SkillId.skillId))
 				{
 					pc.addAc(-2); // 防禦 -2
 					pc.addWater(50); // 水屬性 +50
@@ -144,7 +144,7 @@ namespace LineageServer.Server.Model.skill
 			else if (type == 1)
 			{ // 法利昂
 				skillId = L1SkillId.EFFECT_BLOODSTAIN_OF_FAFURION;
-				if (!pc.hasSkillEffect(skillId))
+				if (!pc.hasSkillEffect(L1SkillId.skillId))
 				{
 					pc.addWind(50); // 風屬性 +50
 				}
@@ -152,7 +152,7 @@ namespace LineageServer.Server.Model.skill
 			}
 			pc.sendPackets(new S_OwnCharAttrDef(pc));
 			pc.sendPackets(new S_SkillIconBloodstain(iconType, time));
-			pc.setSkillEffect(skillId, ( time * 60 * 1000 ));
+			pc.setSkillEffect(L1SkillId.skillId, ( time * 60 * 1000 ));
 		}
 
 		public static void effectBlessOfDragonSlayer(L1PcInstance pc, int skillId, int time, int showGfx)
@@ -163,7 +163,7 @@ namespace LineageServer.Server.Model.skill
 				pc.broadcastPacket(new S_SkillSound(pc.Id, showGfx));
 			}
 
-			if (!pc.hasSkillEffect(skillId))
+			if (!pc.hasSkillEffect(L1SkillId.skillId))
 			{
 				switch (skillId)
 				{
@@ -201,7 +201,7 @@ namespace LineageServer.Server.Model.skill
 				pc.sendPackets(new S_OwnCharStatus2(pc, 0));
 				pc.sendPackets(new S_OwnCharAttrDef(pc));
 			}
-			pc.setSkillEffect(skillId, ( time * 1000 ));
+			pc.setSkillEffect(L1SkillId.skillId, ( time * 1000 ));
 		}
 		static readonly int[] BowGFX = new int[]
 				{
@@ -214,7 +214,7 @@ namespace LineageServer.Server.Model.skill
 						6847, 6856, 6857, 6866, 6867, 6876,
 						6877, 6886, 6887, 8719, 8786, 8792,
 						8798, 8804, 8808, 8900, 8913 };
-		public static int skillEffect(L1Character _user, L1Character cha, L1Character _target, int skillId, int _getBuffIconDuration, int dmg)
+		public static int SkillEffect(L1SkillId.L1Character _user, L1Character cha, L1Character _target, int skillId, int _getBuffIconDuration, int dmg)
 		{
 			L1PcInstance _player = null;
 			if (_user is L1PcInstance)
@@ -667,7 +667,7 @@ namespace LineageServer.Server.Model.skill
 						{
 							continue;
 						}
-						cha.removeSkillEffect(skillNum);
+						cha.removeSkillEffect(L1SkillId.skillNum);
 					}
 
 					// ステータス強化、異常の解除
@@ -679,7 +679,7 @@ namespace LineageServer.Server.Model.skill
 						{ // 禁言
 							continue;
 						}
-						cha.removeSkillEffect(skillNum);
+						cha.removeSkillEffect(L1SkillId.skillNum);
 					}
 
 					if (cha is L1PcInstance)
@@ -693,7 +693,7 @@ namespace LineageServer.Server.Model.skill
 						{
 							continue;
 						}
-						cha.removeSkillEffect(skillNum);
+						cha.removeSkillEffect(L1SkillId.skillNum);
 					}
 
 					if (cha is L1PcInstance)
@@ -1533,7 +1533,7 @@ namespace LineageServer.Server.Model.skill
 			// サモンの種類、必要Lv、ペットコストを得る
 			for (int loop = 0; loop < summonstr_list.Length; loop++)
 			{
-				if (s.Equals(summonstr_list[loop], StringComparison.OrdinalIgnoreCase))
+				if (s == summonstr_list[loop])
 				{
 					summonid = summonid_list[loop];
 					levelrange = summonlvl_list[loop];

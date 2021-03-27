@@ -144,7 +144,7 @@ namespace LineageServer.Command.Executors
                             }
                             else if (item.Item.Type2 == 1)
                             { // 武器類
-                                if (attr.Equals("地", StringComparison.OrdinalIgnoreCase) || attr.Equals("1", StringComparison.OrdinalIgnoreCase))
+                                if (attr == "地" || attr == "1")
                                 {
                                     if (attLevel > 0 && attLevel <= 3)
                                     {
@@ -152,7 +152,7 @@ namespace LineageServer.Command.Executors
                                         item.AttrEnchantLevel = attLevel;
                                     }
                                 }
-                                else if (attr.Equals("火", StringComparison.OrdinalIgnoreCase) || attr.Equals("2", StringComparison.OrdinalIgnoreCase))
+                                else if (attr == "火" || attr == "2")
                                 {
                                     if (attLevel > 0 && attLevel <= 3)
                                     {
@@ -160,7 +160,7 @@ namespace LineageServer.Command.Executors
                                         item.AttrEnchantLevel = attLevel;
                                     }
                                 }
-                                else if (attr.Equals("水", StringComparison.OrdinalIgnoreCase) || attr.Equals("4", StringComparison.OrdinalIgnoreCase))
+                                else if (attr == "水" || attr == "4")
                                 {
                                     if (attLevel > 0 && attLevel <= 3)
                                     {
@@ -168,7 +168,7 @@ namespace LineageServer.Command.Executors
                                         item.AttrEnchantLevel = attLevel;
                                     }
                                 }
-                                else if (attr.Equals("風", StringComparison.OrdinalIgnoreCase) || attr.Equals("8", StringComparison.OrdinalIgnoreCase))
+                                else if (attr == "風" || attr == "8")
                                 {
                                     if (attLevel > 0 && attLevel <= 3)
                                     {

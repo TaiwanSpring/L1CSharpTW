@@ -1,6 +1,6 @@
 ﻿using LineageServer.Server.Types;
 
-namespace LineageServer.Server.Model.map
+namespace LineageServer.Server.Model.Map
 {
 	/// <summary>
 	/// L1Map マップ情報を保持し、それに対する様々なインターフェースを提供する。

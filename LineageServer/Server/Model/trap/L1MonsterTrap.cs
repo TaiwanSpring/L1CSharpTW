@@ -25,7 +25,7 @@ namespace LineageServer.Server.Model.trap
 	using L1World = LineageServer.Server.Model.L1World;
 	using L1NpcInstance = LineageServer.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using L1Map = LineageServer.Server.Model.map.L1Map;
+	using L1Map = LineageServer.Server.Model.Map.L1Map;
 	using TrapStorage = LineageServer.Server.storage.TrapStorage;
 	using L1Npc = LineageServer.Server.Templates.L1Npc;
 	using Point = LineageServer.Server.Types.Point;

@@ -4,7 +4,7 @@ using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
-namespace LineageServer.Server.Model.map
+namespace LineageServer.Server.Model.Map
 {
 	/// <summary>
 	/// 地圖 (maps/\d*.txt)讀取

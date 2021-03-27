@@ -1,9 +1,10 @@
-﻿using LineageServer.Server.DataSources;
+﻿using LineageServer.Server;
+using LineageServer.Server.DataSources;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
-using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
-using System;
+using LineageServer.Serverpackets;
+
 namespace LineageServer.Clientpackets
 {
     /// <summary>
@@ -27,7 +28,7 @@ namespace LineageServer.Clientpackets
             L1Buddy buddyList = buddyTable.getBuddyTable(pc.Id);
             string charName = ReadS();
 
-            if (charName.Equals(pc.Name, StringComparison.OrdinalIgnoreCase))
+            if (charName == pc.Name)
             {
                 return;
             }
@@ -40,7 +41,7 @@ namespace LineageServer.Clientpackets
 
             foreach (L1CharName cn in CharacterTable.Instance.CharNameList)
             {
-                if (charName.Equals(cn.Name, StringComparison.OrdinalIgnoreCase))
+                if (charName == cn.Name)
                 {
                     int objId = cn.Id;
                     string name = cn.Name;

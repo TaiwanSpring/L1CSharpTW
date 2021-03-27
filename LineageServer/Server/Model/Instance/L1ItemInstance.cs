@@ -1,24 +1,23 @@
 ﻿using LineageServer.Server.DataSources;
 using LineageServer.Server.Model.identity;
-using LineageServer.Server.Model.map;
+using LineageServer.Server.Model.Map;
 using LineageServer.Server.Model.skill;
 using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
 using LineageServer.Utils;
 using System;
 using System.Text;
+using LineageServer.Models;
 
 namespace LineageServer.Server.Model.Instance
 {
-    // L1Object, L1PcInstance
-    [Serializable]
     class L1ItemInstance : GameObject
     {
         private bool InstanceFieldsInitialized = false;
 
         private void InitializeInstanceFields()
         {
-            _lastStatus = new LastStatus(this);
+            _lastStatus = new DataLastStatus(this);
         }
 
         private const long serialVersionUID = 1L;
@@ -45,7 +44,7 @@ namespace LineageServer.Server.Model.Instance
 
         private int _lastWeight;
 
-        private LastStatus _lastStatus;
+        private DataLastStatus _lastStatus;
 
         private L1PcInstance _pc;
 
@@ -350,11 +349,11 @@ namespace LineageServer.Server.Model.Instance
         /// <summary>
         /// 前回DBへ保存した際のアイテムのステータスを格納するクラス
         /// </summary>
-        public class LastStatus
+        public class DataLastStatus
         {
             private readonly L1ItemInstance outerInstance;
 
-            public LastStatus(L1ItemInstance outerInstance)
+            public DataLastStatus(L1ItemInstance outerInstance)
             {
                 this.outerInstance = outerInstance;
             }
@@ -540,7 +539,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        public virtual LastStatus LastStatus
+        public virtual DataLastStatus LastStatus
         {
             get
             {
@@ -1571,7 +1570,7 @@ namespace LineageServer.Server.Model.Instance
             AcByMagic = 3;
             _pc = pc;
             _timer = new EnchantTimer(this);
-            (new Timer()).schedule(_timer, skillTime);
+            RunnableExecuter.Instance.execute(_timer, skillTime);
             _isRunning = true;
         }
 
@@ -1617,7 +1616,7 @@ namespace LineageServer.Server.Model.Instance
 
             _pc = pc;
             _timer = new EnchantTimer(this);
-            (new Timer()).schedule(_timer, skillTime);
+            RunnableExecuter.Instance.execute(_timer, skillTime);
             _isRunning = true;
         }
 
@@ -1650,8 +1649,7 @@ namespace LineageServer.Server.Model.Instance
             if (RemainingTime > 0)
             {
                 _equipmentTimer = new L1EquipmentTimer(pc, this);
-                Timer timer = new Timer(true);
-                timer.scheduleAtFixedRate(_equipmentTimer, 1000, 1000);
+                RunnableExecuter.Instance.scheduleAtFixedRate(_equipmentTimer, 1000, 1000);
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿using LineageServer.Server.Model.Instance;
-using LineageServer.Server.Model.map;
+using LineageServer.Server.Model.Map;
 using LineageServer.Serverpackets;
 using LineageServer.Utils;
 using System;

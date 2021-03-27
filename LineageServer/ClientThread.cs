@@ -509,7 +509,7 @@ namespace LineageServer.Server
         private static Timer _observerTimer = new Timer();
 
         // 定時監控客戶端
-        internal class ClientThreadObserver : TimerTask
+        internal class ClientThreadObserver : Models.TimerTask
         {
             private readonly ClientThread outerInstance;
 

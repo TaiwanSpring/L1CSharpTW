@@ -272,7 +272,7 @@ namespace LineageServer.Server.Model
         }
 
         // 計時器
-        public class DragonSlayerTimer : TimerTask
+        public class DragonSlayerTimer : Models.TimerTask
         {
             private readonly L1DragonSlayer outerInstance;
 

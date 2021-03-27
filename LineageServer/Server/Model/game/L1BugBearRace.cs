@@ -1,7 +1,7 @@
 ﻿using LineageServer.Models;
 using LineageServer.Server.DataSources;
 using LineageServer.Server.Model.Instance;
-using LineageServer.Server.Model.map;
+using LineageServer.Server.Model.Map;
 using LineageServer.Server.Model.shop;
 using LineageServer.Server.Templates;
 using LineageServer.Serverpackets;

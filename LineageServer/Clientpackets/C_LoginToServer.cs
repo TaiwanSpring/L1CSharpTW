@@ -2,11 +2,13 @@
 using LineageServer.Server.DataSources;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
-using LineageServer.Server.Model.map;
+using LineageServer.Server.Model.Map;
 using LineageServer.Server.Model.skill;
 using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
 using System;
+using LineageServer.Server;
+using LineageServer.Models;
 
 namespace LineageServer.Clientpackets
 {
@@ -543,33 +545,33 @@ namespace LineageServer.Clientpackets
                             pc.sendPackets(new S_SkillBrave(pc.Id, 1, remaining_time));
                             pc.broadcastPacket(new S_SkillBrave(pc.Id, 1, 0));
                             pc.BraveSpeed = 1;
-                            pc.setSkillEffect(skillid, remaining_time * 1000);
+                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
                             break;
                         case L1SkillId.STATUS_ELFBRAVE: // 精靈餅乾
                             pc.sendPackets(new S_SkillBrave(pc.Id, 3, remaining_time));
                             pc.broadcastPacket(new S_SkillBrave(pc.Id, 3, 0));
                             pc.BraveSpeed = 3;
-                            pc.setSkillEffect(skillid, remaining_time * 1000);
+                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
                             break;
                         case L1SkillId.STATUS_BRAVE2: // 超級加速
                             pc.sendPackets(new S_SkillBrave(pc.Id, 5, remaining_time));
                             pc.broadcastPacket(new S_SkillBrave(pc.Id, 5, 0));
                             pc.BraveSpeed = 5;
-                            pc.setSkillEffect(skillid, remaining_time * 1000);
+                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
                             break;
                         case L1SkillId.STATUS_HASTE: // 加速
                             pc.sendPackets(new S_SkillHaste(pc.Id, 1, remaining_time));
                             pc.broadcastPacket(new S_SkillHaste(pc.Id, 1, 0));
                             pc.MoveSpeed = 1;
-                            pc.setSkillEffect(skillid, remaining_time * 1000);
+                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
                             break;
                         case L1SkillId.STATUS_BLUE_POTION: // 藍色藥水
                             pc.sendPackets(new S_SkillIconGFX(34, remaining_time));
-                            pc.setSkillEffect(skillid, remaining_time * 1000);
+                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
                             break;
                         case L1SkillId.STATUS_CHAT_PROHIBITED: // 禁言
                             pc.sendPackets(new S_SkillIconGFX(36, remaining_time));
-                            pc.setSkillEffect(skillid, remaining_time * 1000);
+                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
                             break;
                         case L1SkillId.STATUS_THIRD_SPEED: // 三段加速
                             time = remaining_time / 4;
@@ -578,7 +580,7 @@ namespace LineageServer.Clientpackets
                             pc.broadcastPacket(new S_Liquor(pc.Id, 8)); // 人物 *
                                                                         // 1.15
                             pc.sendPackets(new S_SkillIconThirdSpeed(time));
-                            pc.setSkillEffect(skillid, time * 4 * 1000);
+                            pc.setSkillEffect(L1SkillId.skillid, time * 4 * 1000);
                             break;
                         case L1SkillId.MIRROR_IMAGE: // 鏡像
                         case L1SkillId.UNCANNY_DODGE: // 暗影閃避
@@ -587,7 +589,7 @@ namespace LineageServer.Clientpackets
                                                    // 更新閃避率顯示
                             pc.sendPackets(new S_PacketBox(88, pc.Dodge));
                             pc.sendPackets(new S_PacketBox(21, time));
-                            pc.setSkillEffect(skillid, time * 16 * 1000);
+                            pc.setSkillEffect(L1SkillId.skillid, time * 16 * 1000);
                             break;
                         case L1SkillId.EFFECT_BLOODSTAIN_OF_ANTHARAS: // 安塔瑞斯的血痕
                             remaining_time = remaining_time / 60;

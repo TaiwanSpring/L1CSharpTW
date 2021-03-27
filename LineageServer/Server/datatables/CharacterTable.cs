@@ -21,8 +21,8 @@ namespace LineageServer.Server.DataSources
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using L1Map = LineageServer.Server.Model.map.L1Map;
-	using L1WorldMap = LineageServer.Server.Model.map.L1WorldMap;
+	using L1Map = LineageServer.Server.Model.Map.L1Map;
+	using L1WorldMap = LineageServer.Server.Model.Map.L1WorldMap;
 	using CharacterStorage = LineageServer.Server.storage.CharacterStorage;
 	using MySqlCharacterStorage = LineageServer.Server.storage.mysql.MySqlCharacterStorage;
 	using L1CharName = LineageServer.Server.Templates.L1CharName;

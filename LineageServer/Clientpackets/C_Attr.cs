@@ -2,11 +2,12 @@
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
-using LineageServer.Server.Model.map;
+using LineageServer.Server.Model.Map;
 using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
 using System;
 using System.IO;
+using LineageServer.Server;
 
 namespace LineageServer.Clientpackets
 {
@@ -679,7 +680,7 @@ namespace LineageServer.Clientpackets
                         }
                         catch (Exception e)
                         {
-                           // _log.log(Enum.Level.Server, e.Message, e);
+                            // _log.log(Enum.Level.Server, e.Message, e);
                         }
                         clan.addMemberName(oldClanMember.Name);
                         ClanMembersTable.Instance.newMember(oldClanMember); // 加入成員資料
@@ -721,7 +722,7 @@ namespace LineageServer.Clientpackets
                 {
                     File.Delete(fileFullName);
                 }
-             
+
                 ClanTable.Instance.deleteClan(oldClanName);
             }
         }
@@ -747,7 +748,7 @@ namespace LineageServer.Clientpackets
                 return;
             }
             L1Npc l1npc = NpcTable.Instance.getTemplate(pet.NpcId);
-            if (!(pet.Name.Equals(l1npc.get_name(), StringComparison.OrdinalIgnoreCase)))
+            if (!(pet.Name == l1npc.get_name()))
             {
                 pc.sendPackets(new S_ServerMessage(326)); // 一旦你已決定就不能再變更。
                 return;

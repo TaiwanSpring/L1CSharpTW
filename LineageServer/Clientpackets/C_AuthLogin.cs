@@ -1,4 +1,7 @@
-﻿using LineageServer.Interfaces;
+﻿using LineageServer.Exceptions;
+using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server;
 using LineageServer.Server.Model;
 using LineageServer.Serverpackets;
 using System;
@@ -31,7 +34,7 @@ namespace LineageServer.Clientpackets
                     {
                         foreach (ClientThread tempClient in LoginController.Instance.AllAccounts)
                         {
-                            if (ip.Equals(tempClient.Ip, StringComparison.OrdinalIgnoreCase))
+                            if (ip == tempClient.Ip)
                             {
                                 _log.Info("拒絕 2P 登入。account=" + accountName + " host=" + host);
                                 client.SendPacket(new S_LoginResult(S_LoginResult.REASON_USER_OR_PASS_WRONG));
@@ -57,7 +60,7 @@ namespace LineageServer.Clientpackets
                         client.SendPacket(new S_LoginResult(S_LoginResult.REASON_USER_OR_PASS_WRONG));
                         return;
                     }
-                    if (account.Onlined)
+                    if (account.Online)
                     {
                         client.SendPacket(new S_LoginResult(S_LoginResult.REASON_ACCOUNT_ALREADY_EXISTS)); //原碼 REASON_ACCOUNT_IN_USE
                         return;

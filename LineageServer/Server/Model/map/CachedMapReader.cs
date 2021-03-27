@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-namespace LineageServer.Server.Model.map
+namespace LineageServer.Server.Model.Map
 {
 	//之後再補
 

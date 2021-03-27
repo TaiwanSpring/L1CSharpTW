@@ -4,7 +4,7 @@ using LineageServer.Server.Model;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.item;
-using LineageServer.Server.Model.item.action;
+using LineageServer.Server.Model.item.Action;
 using LineageServer.Server.Model.poison;
 using LineageServer.Server.Model.skill;
 using LineageServer.Serverpackets;
@@ -14,6 +14,9 @@ using LineageServer.Server.Types;
 using LineageServer.Utils;
 using System;
 using System.Text;
+using LineageServer.Server;
+using LineageServer.Models;
+
 namespace LineageServer.Clientpackets
 {
     /// <summary>
@@ -28,6 +31,7 @@ namespace LineageServer.Clientpackets
         {
 
             L1PcInstance pc = client.ActiveChar;
+            L1PcInventory pcInventory = pc.Inventory as L1PcInventory;
             if ((pc == null) || pc.Ghost || pc.Dead)
             {
                 return;
@@ -68,9 +72,7 @@ namespace LineageServer.Clientpackets
             }
             int l = 0;
 
-            string s = "";
-            //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-            //ORIGINAL LINE: @SuppressWarnings("unused") int bmapid = 0;
+            string s = string.Empty;
             int bmapid = 0;
             int btele = 0;
             int blanksc_skillid = 0;
@@ -80,7 +82,7 @@ namespace LineageServer.Clientpackets
             int resid = 0;
             int letterCode = 0;
             string letterReceiver = "";
-            sbyte[] letterText = null;
+            byte[] letterText = null;
             int cookStatus = 0;
             int cookNo = 0;
             int fishX = 0;
@@ -333,12 +335,12 @@ namespace LineageServer.Clientpackets
 
                     if (l1iteminstance.Item.Type == 0)
                     { // アロー
-                        pc.Inventory.Arrow = l1iteminstance.Item.ItemId;
+                        pcInventory.Arrow = l1iteminstance.Item.ItemId;
                         pc.sendPackets(new S_ServerMessage(452, l1iteminstance.LogName)); // %0%s 被選擇了。
                     }
                     else if (l1iteminstance.Item.Type == 15)
                     { // スティング
-                        pc.Inventory.Sting = l1iteminstance.Item.ItemId;
+                        pcInventory.Sting = l1iteminstance.Item.ItemId;
                         pc.sendPackets(new S_ServerMessage(452, l1iteminstance.LogName));
                     }
                     else if (l1iteminstance.Item.Type == 16)
@@ -974,7 +976,7 @@ namespace LineageServer.Clientpackets
 
                             l1iteminstance1.Item = template;
                             pc.Inventory.updateItem(l1iteminstance1, L1PcInventory.COL_ITEMID);
-                            pc.Inventory.saveItem(l1iteminstance1, L1PcInventory.COL_ITEMID);
+                            pcInventory.saveItem(l1iteminstance1, L1PcInventory.COL_ITEMID);
                         }
                         else
                         {
@@ -1079,7 +1081,7 @@ namespace LineageServer.Clientpackets
                             {
                                 eachItem.Item = template;
                                 pc.Inventory.updateItem(eachItem, L1PcInventory.COL_ITEMID);
-                                pc.Inventory.saveItem(eachItem, L1PcInventory.COL_ITEMID);
+                                pcInventory.saveItem(eachItem, L1PcInventory.COL_ITEMID);
                             }
                         }
                         pc.Inventory.removeItem(l1iteminstance, 1);
@@ -1487,7 +1489,7 @@ namespace LineageServer.Clientpackets
                         pc.sendPackets(new S_Letter(l1iteminstance));
                         l1iteminstance.ItemId = itemId + 1;
                         pc.Inventory.updateItem(l1iteminstance, L1PcInventory.COL_ITEMID);
-                        pc.Inventory.saveItem(l1iteminstance, L1PcInventory.COL_ITEMID);
+                        pcInventory.saveItem(l1iteminstance, L1PcInventory.COL_ITEMID);
                     }
                     else if ((itemId == 49017) || (itemId == 49019) || (itemId == 49021) || (itemId == 49023) || (itemId == 49025))
                     { // 便箋(開封済み)
@@ -3276,7 +3278,7 @@ namespace LineageServer.Clientpackets
                         }
                         if (pc.hasSkillEffect(L1SkillId.STATUS_HOLY_MITHRIL_POWDER))
                         {
-                            pc.removeSkillEffect(L1SkillId.L1SkillId.STATUS_HOLY_MITHRIL_POWDER);
+                            pc.removeSkillEffect(L1SkillId.STATUS_HOLY_MITHRIL_POWDER);
                         }
                         pc.setSkillEffect(L1SkillId.STATUS_HOLY_WATER, 900 * 1000);
                         pc.sendPackets(new S_SkillSound(pc.Id, 190));
@@ -3293,7 +3295,7 @@ namespace LineageServer.Clientpackets
                         }
                         if (pc.hasSkillEffect(L1SkillId.STATUS_HOLY_WATER))
                         {
-                            pc.removeSkillEffect(L1SkillId.L1SkillId.STATUS_HOLY_WATER);
+                            pc.removeSkillEffect(L1SkillId.STATUS_HOLY_WATER);
                         }
                         pc.setSkillEffect(L1SkillId.STATUS_HOLY_MITHRIL_POWDER, 900 * 1000);
                         pc.sendPackets(new S_SkillSound(pc.Id, 190));
@@ -3443,7 +3445,7 @@ namespace LineageServer.Clientpackets
                                 }
                                 lockItem.Bless = bless;
                                 pc.Inventory.updateItem(lockItem, L1PcInventory.COL_BLESS);
-                                pc.Inventory.saveItem(lockItem, L1PcInventory.COL_BLESS);
+                                pcInventory.saveItem(lockItem, L1PcInventory.COL_BLESS);
                                 pc.Inventory.removeItem(l1iteminstance, 1);
                             }
                             else
@@ -3481,7 +3483,7 @@ namespace LineageServer.Clientpackets
                                 }
                                 lockItem.Bless = bless;
                                 pc.Inventory.updateItem(lockItem, L1PcInventory.COL_BLESS);
-                                pc.Inventory.saveItem(lockItem, L1PcInventory.COL_BLESS);
+                                pcInventory.saveItem(lockItem, L1PcInventory.COL_BLESS);
                                 pc.Inventory.removeItem(l1iteminstance, 1);
                             }
                             else
@@ -3961,7 +3963,7 @@ namespace LineageServer.Clientpackets
                 {
                     l1iteminstance.LastUsed = DateTime.Now;
                     pc.Inventory.updateItem(l1iteminstance, L1PcInventory.COL_DELAY_EFFECT);
-                    pc.Inventory.saveItem(l1iteminstance, L1PcInventory.COL_DELAY_EFFECT);
+                    pcInventory.saveItem(l1iteminstance, L1PcInventory.COL_DELAY_EFFECT);
                 }
 
                 L1ItemDelay.onItemUse(client, l1iteminstance); // アイテムディレイ開始
@@ -4004,7 +4006,7 @@ namespace LineageServer.Clientpackets
                     }
                     else
                     {
-                        pc.removeSkillEffect(L1SkillId.L1SkillId.SHAPE_CHANGE);
+                        pc.removeSkillEffect(L1SkillId.SHAPE_CHANGE);
                         return true;
                     }
                 }
@@ -4485,7 +4487,7 @@ namespace LineageServer.Clientpackets
         private void UseArmor(L1PcInstance activeChar, L1ItemInstance armor)
         {
             int type = armor.Item.Type;
-            L1PcInventory pcInventory = activeChar.Inventory;
+            L1PcInventory pcInventory = activeChar.Inventory as L1PcInventory;
             bool equipeSpace; // 装備する箇所が空いているか
             if (type == 9)
             { // リングの場合
@@ -4577,7 +4579,7 @@ namespace LineageServer.Clientpackets
 
         private void UseWeapon(L1PcInstance activeChar, L1ItemInstance weapon)
         {
-            L1PcInventory pcInventory = activeChar.Inventory;
+            L1PcInventory pcInventory = activeChar.Inventory as L1PcInventory;
             if ((activeChar.Weapon == null) || !activeChar.Weapon.Equals(weapon))
             { // 指定された武器が装備している武器と違う場合、装備できるか確認
                 int weapon_type = weapon.Item.Type;
@@ -4941,7 +4943,7 @@ namespace LineageServer.Clientpackets
                 {
                     s1 = (new StringBuilder()).Append("魔法書(").Append(l1skills.Name).Append(")").ToString();
                 }
-                if (item.Item.Name.Equals(s1, StringComparison.OrdinalIgnoreCase))
+                if (item.Item.Name == s1)
                 {
                     int skillLevel = l1skills.SkillLevel;
                     int i7 = l1skills.Id;
@@ -5101,7 +5103,7 @@ namespace LineageServer.Clientpackets
                 {
                     s1 = (new StringBuilder()).Append("闇精霊の水晶(").Append(l1skills.Name).Append(")").ToString();
                 }
-                if (l1iteminstance.Item.Name.Equals(s1, StringComparison.OrdinalIgnoreCase))
+                if (l1iteminstance.Item.Name == s1)
                 {
                     int l6 = l1skills.SkillLevel;
                     int i7 = l1skills.Id;
@@ -5261,7 +5263,7 @@ namespace LineageServer.Clientpackets
                 {
                     s1 = (new StringBuilder()).Append("精霊の水晶(").Append(l1skills.Name).Append(")").ToString();
                 }
-                if (l1iteminstance.Item.Name.Equals(s1, StringComparison.OrdinalIgnoreCase))
+                if (l1iteminstance.Item.Name == s1)
                 {
                     if (!pc.Gm && (l1skills.Attr != 0) && (pc.ElfAttr != l1skills.Attr))
                     {
@@ -5430,7 +5432,7 @@ namespace LineageServer.Clientpackets
                 {
                     s1 = (new StringBuilder()).Append("技術書(").Append(l1skills.Name).Append(")").ToString();
                 }
-                if (l1iteminstance.Item.Name.Equals(s1, StringComparison.OrdinalIgnoreCase))
+                if (l1iteminstance.Item.Name == s1)
                 {
                     int l6 = l1skills.SkillLevel;
                     int i7 = l1skills.Id;
@@ -5590,7 +5592,7 @@ namespace LineageServer.Clientpackets
                 {
                     s1 = (new StringBuilder()).Append("魔法書(").Append(l1skills.Name).Append(")").ToString();
                 }
-                if (l1iteminstance.Item.Name.Equals(s1, StringComparison.OrdinalIgnoreCase))
+                if (l1iteminstance.Item.Name == s1)
                 {
                     int l6 = l1skills.SkillLevel;
                     int i7 = l1skills.Id;
@@ -5754,7 +5756,7 @@ namespace LineageServer.Clientpackets
                 {
                     s1 = (new StringBuilder()).Append("ドラゴンナイトの書板（").Append(l1skills.Name).Append("）").ToString();
                 }
-                if (l1iteminstance.Item.Name.Equals(s1, StringComparison.OrdinalIgnoreCase))
+                if (l1iteminstance.Item.Name == s1)
                 {
                     int l6 = l1skills.SkillLevel;
                     int i7 = l1skills.Id;
@@ -5933,7 +5935,7 @@ namespace LineageServer.Clientpackets
                 {
                     s1 = (new StringBuilder()).Append("記憶の水晶(").Append(l1skills.Name).Append("）").ToString();
                 }
-                if (l1iteminstance.Item.Name.Equals(s1, StringComparison.OrdinalIgnoreCase))
+                if (l1iteminstance.Item.Name == s1)
                 {
                     int l6 = l1skills.SkillLevel;
                     int i7 = l1skills.Id;
@@ -6163,7 +6165,7 @@ namespace LineageServer.Clientpackets
                     return;
                 }
 
-                if (pc.Inventory.checkEquipped(20281))
+                if (pc.Inventory is L1PcInventory pcInventory && pcInventory.checkEquipped(20281))
                 { // 裝備變形控制戒指
                     pc.sendPackets(new S_ShowPolyList(pc.Id));
                     if (!pc.ShapeChange)
@@ -6268,7 +6270,7 @@ namespace LineageServer.Clientpackets
             }
         }
 
-        private bool writeLetter(int itemId, L1PcInstance pc, int letterCode, string letterReceiver, sbyte[] letterText)
+        private bool writeLetter(int itemId, L1PcInstance pc, int letterCode, string letterReceiver, byte[] letterText)
         {
 
             int newItemId = 0;
@@ -6306,7 +6308,7 @@ namespace LineageServer.Clientpackets
             return true;
         }
 
-        private bool writeClanLetter(int itemId, L1PcInstance pc, int letterCode, string letterReceiver, sbyte[] letterText)
+        private bool writeClanLetter(int itemId, L1PcInstance pc, int letterCode, string letterReceiver, byte[] letterText)
         {
             L1Clan targetClan = null;
             foreach (L1Clan clan in L1World.Instance.AllClans)
@@ -6400,7 +6402,7 @@ namespace LineageServer.Clientpackets
             return true;
         }
 
-        private void saveLetter(int itemObjectId, int code, string sender, string receiver, sbyte[] text)
+        private void saveLetter(int itemObjectId, int code, string sender, string receiver, byte[] text)
         {
             // 日付を取得する
             //SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
@@ -6539,7 +6541,7 @@ namespace LineageServer.Clientpackets
                         pc.sendPackets(new S_Fishing(pc.Id, ActionCodes.ACTION_Fishing, fishX, fishY));
                         pc.broadcastPacket(new S_Fishing(pc.Id, ActionCodes.ACTION_Fishing, fishX, fishY));
                         pc.Fishing = true;
-                        long time = DateTimeHelper.CurrentUnixTimeMillis() + 10000 + RandomHelper.Next(5) * 1000;
+                        long time = DateTime.Now.Ticks + 10000 + (RandomHelper.Next(5) * 1000);
                         pc.FishingTime = time;
                         FishingTimeController.Instance.addMember(pc);
                     }

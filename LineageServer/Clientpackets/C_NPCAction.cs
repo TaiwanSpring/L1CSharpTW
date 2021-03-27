@@ -10,6 +10,7 @@ using LineageServer.Server.Model.skill;
 using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
 using System;
+using LineageServer.Server;
 
 namespace LineageServer.Clientpackets
 {

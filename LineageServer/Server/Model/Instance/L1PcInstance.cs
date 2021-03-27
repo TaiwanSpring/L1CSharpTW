@@ -1,24 +1,22 @@
-﻿using LineageServer.Serverpackets;
+﻿using LineageServer.Command.Executors;
+using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.DataSources;
+using LineageServer.Server.Model.Classes;
+using LineageServer.Server.Model.Gametime;
+using LineageServer.Server.Model.Map;
+using LineageServer.Server.Model.monitor;
+using LineageServer.Server.Model.skill;
 using LineageServer.Server.Templates;
-using LineageServer.Server.model;
+using LineageServer.Serverpackets;
+using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using LineageServer.Server.Model.monitor;
-using LineageServer.Server.DataSources;
-using LineageServer.Server.Model.skill;
-using LineageServer.Command.Executors;
-using LineageServer.Utils;
-using LineageServer.Server.Model.Classes;
 using System.Linq;
-using LineageServer.Interfaces;
-using LineageServer.Server.Model.map;
-using LineageServer.Utils;
-using LineageServer.Server.Model.Gametime;
+using System.Threading;
 
 namespace LineageServer.Server.Model.Instance
 {
-    [Serializable]
     class L1PcInstance : L1Character
     {
         private bool InstanceFieldsInitialized = false;
@@ -277,7 +275,8 @@ namespace LineageServer.Server.Model.Instance
         public virtual void startObjectAutoUpdate()
         {
             removeAllKnownObjects();
-            _autoUpdateFuture = RunnableExecuter.Instance.pcScheduleAtFixedRate(new L1PcAutoUpdate(Id), 0, INTERVAL_AUTO_UPDATE);
+            _autoUpdateFuture = new L1PcAutoUpdate(Id);
+            RunnableExecuter.Instance.scheduleAtFixedRate(_autoUpdateFuture, 0, INTERVAL_AUTO_UPDATE);
         }
 
         /// <summary>
@@ -297,13 +296,13 @@ namespace LineageServer.Server.Model.Instance
             }
             if (_ghostFuture != null)
             {
-                _ghostFuture.cancel(true);
+                _ghostFuture.cancel();
                 _ghostFuture = null;
             }
 
             if (_hellFuture != null)
             {
-                _hellFuture.cancel(true);
+                _hellFuture.cancel();
                 _hellFuture = null;
             }
 
@@ -313,13 +312,13 @@ namespace LineageServer.Server.Model.Instance
 
         //JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
         //ORIGINAL LINE: private java.util.concurrent.ScheduledFuture<?> _autoUpdateFuture;
-        private ICancel _autoUpdateFuture;
+        private ITimerTask _autoUpdateFuture;
 
         private const int INTERVAL_EXP_MONITOR = 500;
 
         //JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
         //ORIGINAL LINE: private java.util.concurrent.ScheduledFuture<?> _expMonitorFuture;
-        private ICancel _expMonitorFuture;
+        private ITimerTask _expMonitorFuture;
         /// <summary>
         /// 等級
         /// </summary>
@@ -673,7 +672,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        public override L1PcInventory Inventory
+        public override L1Inventory Inventory
         {
             get
             {
@@ -1398,7 +1397,7 @@ namespace LineageServer.Server.Model.Instance
             }
             if (!Config.ALT_NONPVP)
             { // Non-PvP設定
-                if (System.Collections.IDictionary.isCombatZone(Location))
+                if (Map.isCombatZone(Location))
                 {
                     return false;
                 }
@@ -1541,7 +1540,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        public TimeSpan _oldTime; // 連続魔法ダメージの軽減に使用する
+        public DateTime _oldTime; // 連続魔法ダメージの軽減に使用する
 
         public virtual void receiveDamage(L1Character attacker, double damage, bool isMagicDamage)
         { // 攻撃でＨＰを減らすときはここを使用
@@ -1557,7 +1556,7 @@ namespace LineageServer.Server.Model.Instance
 
                 if (isMagicDamage == true)
                 { // 連続魔法ダメージによる軽減
-                    TimeSpan nowTime = TimeSpan.FromMilliseconds(DateTimeHelper.CurrentUnixTimeMillis());
+                    DateTime nowTime = DateTime.Now;
                     double interval = (20D - (nowTime - _oldTime).TotalMilliseconds / 100D) % 20D;
 
                     if (damage > 0)
@@ -1617,7 +1616,7 @@ namespace LineageServer.Server.Model.Instance
                         }
                     }
                 }
-                if (Inventory.checkEquipped(145) || Inventory.checkEquipped(149))
+                if (_inventory.checkEquipped(145) || _inventory.checkEquipped(149))
                 { // ミノタウルスアックス
                     damage *= 1.5; // 被ダメ1.5倍
                 }
@@ -1850,7 +1849,7 @@ namespace LineageServer.Server.Model.Instance
                     {
                         outerInstance.set_PKcount(outerInstance.get_PKcount() - 1);
                     }
-                    outerInstance.LastPk = null;
+                    outerInstance.LastPk = default(DateTime);
                 }
                 if (lastAttacker is L1GuardianInstance)
                 {
@@ -1858,7 +1857,7 @@ namespace LineageServer.Server.Model.Instance
                     {
                         outerInstance.PkCountForElf = outerInstance.PkCountForElf - 1;
                     }
-                    outerInstance.LastPkForElf = null;
+                    outerInstance.LastPkForElf = default(DateTime);
                 }
 
                 // 增加新手保護階段, 將不會損失道具(不會噴裝)
@@ -1923,7 +1922,7 @@ namespace LineageServer.Server.Model.Instance
                 {
                     outerInstance.set_PKcount(outerInstance.get_PKcount() - 1);
                 }
-                outerInstance.LastPk = null;
+                outerInstance.LastPk = default(DateTime); ;
 
                 // 最後に殺したキャラがプレイヤーだったら、赤ネームにする
                 if (lastAttacker is L1PcInstance)
@@ -1950,7 +1949,7 @@ namespace LineageServer.Server.Model.Instance
                         /// 正義值滿不會被警衛追殺 </summary>
                         if (player.Lawful == 32767)
                         {
-                            player.LastPk = null;
+                            player.LastPk = default(DateTime);
                         }
                         if (player.Elf && outerInstance.Elf)
                         {
@@ -2025,11 +2024,11 @@ namespace LineageServer.Server.Model.Instance
         {
             for (int i = 0; i < count; i++)
             {
-                L1ItemInstance item = Inventory.CaoPenalty();
+                L1ItemInstance item = _inventory.CaoPenalty();
 
                 if (item != null)
                 {
-                    Inventory.tradeItem(item, item.Stackable ? item.Count : 1, L1World.Instance.getInventory(X, Y, MapId));
+                    _inventory.tradeItem(item, item.Stackable ? item.Count : 1, L1World.Instance.getInventory(X, Y, MapId));
                     sendPackets(new S_ServerMessage(638, item.LogName)); // %0を失いました。
                 }
                 else
@@ -2281,7 +2280,7 @@ namespace LineageServer.Server.Model.Instance
             for (int i = 0; i < _bookmarks.Count; i++)
             {
                 L1BookMark element = _bookmarks[i];
-                if (element.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                if (element.Name == name)
                 {
                     return element;
                 }
@@ -3179,7 +3178,7 @@ namespace LineageServer.Server.Model.Instance
         {
             if (get_food() >= 225)
             {
-                _cryofsurvivaltime = DateTimeHelper.CurrentUnixTimeMillis() / 1000;
+                _cryofsurvivaltime = DateTime.Now.Ticks / 1000;
             }
         }
 
@@ -3302,10 +3301,10 @@ namespace LineageServer.Server.Model.Instance
         /// </summary>
         public virtual void saveInventory()
         {
-            foreach (L1ItemInstance item in Inventory.Items)
+            foreach (L1ItemInstance item in _inventory.Items)
             {
-                Inventory.saveItem(item, item.RecordingColumns);
-                Inventory.saveEnchantAccessory(item, item.RecordingColumnsEnchantAccessory);
+                _inventory.saveItem(item, item.RecordingColumns);
+                _inventory.saveEnchantAccessory(item, item.RecordingColumnsEnchantAccessory);
             }
         }
 
@@ -3407,7 +3406,7 @@ namespace LineageServer.Server.Model.Instance
         public virtual void beginInvisTimer()
         {
             addInvisDelayCounter(1);
-            RunnableExecuter.Instance.pcSchedule(new L1PcInvisDelay(Id), 3000);
+            RunnableExecuter.Instance.execute(new L1PcInvisDelay(Id), 3000);
         }
 
         public virtual void addExp(long exp)
@@ -3432,7 +3431,8 @@ namespace LineageServer.Server.Model.Instance
 
         public virtual void beginExpMonitor()
         {
-            _expMonitorFuture = RunnableExecuter.Instance.pcScheduleAtFixedRate(new L1PcExpMonitor(Id), 0, INTERVAL_EXP_MONITOR);
+            _expMonitorFuture = new L1PcExpMonitor(Id);
+            RunnableExecuter.Instance.scheduleAtFixedRate(_expMonitorFuture, 0, INTERVAL_EXP_MONITOR);
         }
 
         private void levelUp(int gap)
@@ -3440,14 +3440,14 @@ namespace LineageServer.Server.Model.Instance
             resetLevel();
 
             // 復活のポーション
-            if (Level == 110 && Config.ALT_REVIVAL_POTION && !Inventory.checkItem(43000, 1))
+            if (Level == 110 && Config.ALT_REVIVAL_POTION && !_inventory.checkItem(43000, 1))
             {
                 try
                 {
                     L1Item l1item = ItemTable.Instance.getTemplate(43000);
                     if (l1item != null)
                     {
-                        Inventory.storeItem(43000, 1);
+                        _inventory.storeItem(43000, 1);
                         sendPackets(new S_ServerMessage(403, l1item.Name));
                     }
                     else
@@ -3643,7 +3643,8 @@ namespace LineageServer.Server.Model.Instance
             L1Teleport.teleport(this, locx, locy, mapid, 5, true);
             if (sec > 0)
             {
-                _ghostFuture = RunnableExecuter.Instance.pcSchedule(new L1PcGhostMonitor(Id), sec * 1000);
+                _ghostFuture = new L1PcGhostMonitor(Id);
+                RunnableExecuter.Instance.execute(_ghostFuture, sec * 1000);
             }
         }
 
@@ -3662,7 +3663,7 @@ namespace LineageServer.Server.Model.Instance
 
         //JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
         //ORIGINAL LINE: private java.util.concurrent.ScheduledFuture<?> _ghostFuture;
-        private ICancel _ghostFuture;
+        private ITimerTask _ghostFuture;
 
         private int _ghostSaveLocX = 0;
 
@@ -3674,7 +3675,7 @@ namespace LineageServer.Server.Model.Instance
 
         //JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
         //ORIGINAL LINE: private java.util.concurrent.ScheduledFuture<?> _hellFuture;
-        private ICancel _hellFuture;
+        private ITimerTask _hellFuture;
 
         public virtual void beginHell(bool isFirst)
         {
@@ -3707,7 +3708,8 @@ namespace LineageServer.Server.Model.Instance
             }
             if (_hellFuture == null)
             {
-                _hellFuture = RunnableExecuter.Instance.pcScheduleAtFixedRate(new L1PcHellMonitor(Id), 0, 1000);
+                _hellFuture = new L1PcHellMonitor(Id);
+                RunnableExecuter.Instance.scheduleAtFixedRate(_hellFuture, 0, 1000);
             }
         }
 
@@ -3715,7 +3717,7 @@ namespace LineageServer.Server.Model.Instance
         {
             if (_hellFuture != null)
             {
-                _hellFuture.cancel(false);
+                _hellFuture.cancel();
                 _hellFuture = null;
             }
             // 地獄から脱出したら火田村へ帰還させる。
@@ -6175,7 +6177,7 @@ namespace LineageServer.Server.Model.Instance
 
         public virtual void checkChatInterval()
         {
-            long nowChatTimeInMillis = DateTimeHelper.CurrentUnixTimeMillis();
+            long nowChatTimeInMillis = DateTime.Now.Ticks;
             if (_chatCount == 0)
             {
                 _chatCount++;
@@ -6359,7 +6361,7 @@ namespace LineageServer.Server.Model.Instance
 
         public virtual void setEquipped(L1PcInstance pc, bool isEq)
         {
-            foreach (L1ItemInstance item in pc.Inventory.Items)
+            foreach (L1ItemInstance item in pc._inventory.Items)
             {
                 //3.63　新增裝備欄
                 if ((item.Item.Type2 == 2) && (item.Equipped))
@@ -6618,11 +6620,6 @@ namespace LineageServer.Server.Model.Instance
                     sendPackets(new S_Fight(S_Fight.TYPE_ENCOUNTER, S_Fight.FLAG_ON));
                 }
             }
-        }
-
-        internal void setSkillEffect(object sTATUS_CHAT_PROHIBITED, int v)
-        {
-            throw new NotImplementedException();
         }
     }
 

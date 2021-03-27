@@ -1,27 +1,18 @@
 ﻿using LineageServer.Interfaces;
+using LineageServer.Models;
 using LineageServer.Server.Model.Instance;
 using System;
 
 namespace LineageServer.Server.Model
 {
-    abstract class PcInstanceRunnableBase : ICancel
+    abstract class PcInstanceRunnableBase : TimerTask
     {
         protected readonly L1PcInstance _pc;
-        public event Action<ICancel> Cancel;
         public bool IsCancelled { get; private set; }
         public PcInstanceRunnableBase(L1PcInstance pc)
         {
             _pc = pc;
         }
-        public void cancel()
-        {
-            IsCancelled = true;
-            if (Cancel != null)
-            {
-                Cancel.Invoke(this);
-            }
-        }
-
         public void run()
         {
             try
@@ -38,7 +29,6 @@ namespace LineageServer.Server.Model
                 throw;
             }
         }
-
         protected abstract void DoRun();
     }
 }

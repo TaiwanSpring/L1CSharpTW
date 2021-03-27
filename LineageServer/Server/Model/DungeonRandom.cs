@@ -144,7 +144,7 @@ namespace LineageServer.Server.Model
 				int heading = newDungeonRandom._heading;
 
 				// 2秒無敵狀態。
-				pc.setSkillEffect(ABSOLUTE_BARRIER, 2000);
+				pc.setSkillEffect(L1SkillId.ABSOLUTE_BARRIER, 2000);
 				pc.stopHpRegeneration();
 				pc.stopMpRegeneration();
 				pc.stopHpRegenerationByDoll();

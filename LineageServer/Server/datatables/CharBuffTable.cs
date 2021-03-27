@@ -1,6 +1,6 @@
 ﻿
 using LineageServer.Server.Model.Instance;
-using LineageServer.Server.Model.item.action;
+using LineageServer.Server.Model.item.Action;
 using LineageServer.Server.Model.skill;
 using LineageServer.Serverpackets;
 using System;
@@ -84,13 +84,13 @@ namespace LineageServer.Server.DataSources
                     case L1SkillId.STATUS_RIBRAVE: // 生命之樹果實
                     case L1SkillId.DRESS_EVASION: // 迴避提升
                         remaining_time = remaining_time / 4;
-                        pc.setSkillEffect(skillid, remaining_time * 4 * 1000);
+                        pc.setSkillEffect(L1SkillId.skillid, remaining_time * 4 * 1000);
                         break;
                     case L1SkillId.COOKING_WONDER_DRUG: // 象牙塔妙藥
                         pc.addHpr(10);
                         pc.addMpr(2);
                         remaining_time = remaining_time / 4;
-                        pc.setSkillEffect(skillid, remaining_time * 4 * 1000);
+                        pc.setSkillEffect(L1SkillId.skillid, remaining_time * 4 * 1000);
                         break;
                     case L1SkillId.EFFECT_BLESS_OF_MAZU: // 媽祖的祝福
                     case L1SkillId.EFFECT_ENCHANTING_BATTLE: // 強化戰鬥卷軸
@@ -106,7 +106,7 @@ namespace LineageServer.Server.DataSources
                     case L1SkillId.EFFECT_POTION_OF_EXP_225:
                     case L1SkillId.EFFECT_POTION_OF_EXP_250:
                         remaining_time = remaining_time / 16;
-                        pc.setSkillEffect(skillid, remaining_time * 16 * 1000);
+                        pc.setSkillEffect(L1SkillId.skillid, remaining_time * 16 * 1000);
                         break;
                     case L1SkillId.EFFECT_MAGIC_EYE_OF_AHTHARTS: // 魔眼
                     case L1SkillId.EFFECT_MAGIC_EYE_OF_FAFURION:
@@ -123,7 +123,7 @@ namespace LineageServer.Server.DataSources
                         pc.addNdodge((sbyte)5); // 閃避率 - 50%
                                                 // 更新閃避率顯示
                         pc.sendPackets(new S_PacketBox(101, pc.Ndodge));
-                        pc.setSkillEffect(skillid, remaining_time * 4 * 1000);
+                        pc.setSkillEffect(L1SkillId.skillid, remaining_time * 4 * 1000);
                         break;
                     case L1SkillId.EFFECT_BLESS_OF_CRAY: // 卡瑞、莎爾的祝福
                     case L1SkillId.EFFECT_BLESS_OF_SAELL:

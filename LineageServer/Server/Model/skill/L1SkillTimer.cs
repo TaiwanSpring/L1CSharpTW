@@ -1746,7 +1746,7 @@ namespace LineageServer.Server.Model.skill
 				Thread.Sleep(1000);
 				_remainingTime = timeCount;
 			}
-			_cha.removeSkillEffect(_skillId);
+			_cha.removeSkillEffect(L1SkillId._skillId);
 		}
 
 		public virtual int RemainingTime
@@ -1786,7 +1786,7 @@ namespace LineageServer.Server.Model.skill
 		private int _remainingTime;
 	}
 	*/
-	internal class L1SkillTimerTimerImpl : TimerTask, IL1SkillTimer
+	internal class L1SkillTimerTimerImpl : Models.TimerTask, IL1SkillTimer
 	{
 		public L1SkillTimerTimerImpl(L1Character cha, int skillId, int timeMillis)
 		{
@@ -1802,7 +1802,7 @@ namespace LineageServer.Server.Model.skill
 			_remainingTime--;
 			if (_remainingTime <= 0)
 			{
-				_cha.removeSkillEffect(_skillId);
+				_cha.removeSkillEffect(L1SkillId._skillId);
 			}
 		}
 

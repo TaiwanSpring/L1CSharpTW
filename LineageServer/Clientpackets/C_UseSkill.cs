@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.DataSources;
+﻿using LineageServer.Server;
+using LineageServer.Server.DataSources;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.skill;
@@ -85,7 +86,7 @@ namespace LineageServer.Clientpackets
                     }
                     else if (skillId == L1SkillId.SUMMON_MONSTER)
                     { // 法師魔法 (召喚術)
-                        if (pc.Inventory.checkEquipped(20284))
+                        if (pc.Inventory is L1PcInventory pcInventory && pcInventory.checkEquipped(20284))
                         { // 有裝備召喚戒指
                             int summonId = ReadD();
                             pc.SummonId = summonId;

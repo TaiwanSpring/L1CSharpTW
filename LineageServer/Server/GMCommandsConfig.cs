@@ -1,6 +1,6 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Server.Model;
-using LineageServer.Server.Model.map;
+using LineageServer.Server.Model.Map;
 using LineageServer.Server.Templates;
 using LineageServer.Utils;
 using System.Collections.Generic;

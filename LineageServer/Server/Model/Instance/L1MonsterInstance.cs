@@ -1,70 +1,19 @@
-﻿using LineageServer.Server.Model.skill;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.DataSources;
+using LineageServer.Server.Model.skill;
+using LineageServer.Server.Templates;
+using LineageServer.Serverpackets;
+using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
+using System.Extensions;
 using System.Threading;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Model.Instance
 {
-    //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-    //	import static l1j.server.server.model.skill.L1SkillId.EFFECT_BLOODSTAIN_OF_ANTHARAS;
-    //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-    //	import static l1j.server.server.model.skill.L1SkillId.FOG_OF_SLEEPING;
-
-
-    using Config = LineageServer.Server.Config;
-    using ActionCodes = LineageServer.Server.ActionCodes;
-    using RunnableExecuter = LineageServer.Server.RunnableExecuter;
-    using IdFactory = LineageServer.Server.IdFactory;
-    using DropTable = LineageServer.Server.DataSources.DropTable;
-    using NPCTalkDataTable = LineageServer.Server.DataSources.NPCTalkDataTable;
-    using NpcTable = LineageServer.Server.DataSources.NpcTable;
-    using SprTable = LineageServer.Server.DataSources.SprTable;
-    using UBTable = LineageServer.Server.DataSources.UBTable;
-    using L1Attack = LineageServer.Server.Model.L1Attack;
-    using L1Character = LineageServer.Server.Model.L1Character;
-    using L1DragonSlayer = LineageServer.Server.Model.L1DragonSlayer;
-    using L1Location = LineageServer.Server.Model.L1Location;
-    using L1NpcTalkData = LineageServer.Server.Model.L1NpcTalkData;
-    using GameObject = LineageServer.Server.Model.GameObject;
-    using L1UltimateBattle = LineageServer.Server.Model.L1UltimateBattle;
-    using L1World = LineageServer.Server.Model.L1World;
-    using L1BuffUtil = LineageServer.Server.Model.skill.L1BuffUtil;
-    using S_ChangeName = LineageServer.Serverpackets.S_ChangeName;
-    using S_CharVisualUpdate = LineageServer.Serverpackets.S_CharVisualUpdate;
-    using S_DoActionGFX = LineageServer.Serverpackets.S_DoActionGFX;
-    using S_NPCPack = LineageServer.Serverpackets.S_NPCPack;
-    using S_NPCTalkReturn = LineageServer.Serverpackets.S_NPCTalkReturn;
-    using S_NpcChangeShape = LineageServer.Serverpackets.S_NpcChangeShape;
-    using S_ServerMessage = LineageServer.Serverpackets.S_ServerMessage;
-    using S_SkillBrave = LineageServer.Serverpackets.S_SkillBrave;
-    using L1Npc = LineageServer.Server.Templates.L1Npc;
-    using CalcExp = LineageServer.Utils.CalcExp;
-    using Random = LineageServer.Utils.Random;
-    using S_HPMeter = LineageServer.Serverpackets.S_HPMeter;
-
-    [Serializable]
-    public class L1MonsterInstance : L1NpcInstance
+    class L1MonsterInstance : L1NpcInstance
     {
-
-        /// 
-        private const long serialVersionUID = 1L;
-
-        //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-        private static Logger _log = Logger.GetLogger(typeof(L1MonsterInstance).FullName);
+        private static ILogger _log = Logger.GetLogger(nameof(L1MonsterInstance));
 
         private bool _storeDroped; // ドロップアイテムの読込が完了したか
 
@@ -390,7 +339,8 @@ namespace LineageServer.Server.Model.Instance
         }
 
         public override void receiveDamage(L1Character attacker, int damage)
-        { // 攻撃でＨＰを減らすときはここを使用
+        {
+            // 攻撃でＨＰを減らすときはここを使用
             if ((CurrentHp > 0) && !Dead)
             {
                 if ((HiddenStatus == HIDDEN_STATUS_SINK) || (HiddenStatus == HIDDEN_STATUS_FLY))
@@ -406,7 +356,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 if (damage > 0)
                 {
-                    removeSkillEffect(FOG_OF_SLEEPING);
+                    removeSkillEffect(L1SkillId.FOG_OF_SLEEPING);
                 }
 
                 onNpcAI();
@@ -432,9 +382,9 @@ namespace LineageServer.Server.Model.Instance
                 }
                 // 怪物血條判斷功能 end
                 // 血痕相剋傷害增加 1.5倍
-                if ((NpcTemplate.get_npcId() == 97044 || NpcTemplate.get_npcId() == 97045 || NpcTemplate.get_npcId() == 97046) && (attacker.hasSkillEffect(EFFECT_BLOODSTAIN_OF_ANTHARAS)))
+                if ((NpcTemplate.get_npcId() == 97044 || NpcTemplate.get_npcId() == 97045 || NpcTemplate.get_npcId() == 97046) && (attacker.hasSkillEffect(L1SkillId.EFFECT_BLOODSTAIN_OF_ANTHARAS)))
                 { // 有安塔瑞斯的血痕時對法利昂增傷
-                    damage *= 1.5;
+                    damage = (int)(damage * 1.5);
                 }
 
                 if ((attacker is L1PcInstance) && (damage > 0))
@@ -586,7 +536,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        internal class Death : IRunnableStart
+        internal class Death : IRunnable
         {
             private readonly L1MonsterInstance outerInstance;
 
@@ -598,7 +548,7 @@ namespace LineageServer.Server.Model.Instance
                 _lastAttacker = lastAttacker;
             }
 
-            public override void run()
+            public void run()
             {
                 outerInstance.DeathProcessing = true;
                 outerInstance.CurrentHpDirect = 0;
@@ -712,7 +662,7 @@ namespace LineageServer.Server.Model.Instance
                 int npcId = NpcTemplate.get_npcId();
                 if ((npcId != 45640) || ((npcId == 45640) && (TempCharGfx == 2332)))
                 {
-                    DropTable.Instance.dropShare(L1MonsterInstance.this, dropTargetList, dropHateList);
+                    DropTable.Instance.dropShare(this, dropTargetList, dropHateList);
                 }
             }
             catch (Exception e)
@@ -726,9 +676,9 @@ namespace LineageServer.Server.Model.Instance
             int karma = Karma;
             if (karma != 0)
             {
-                int karmaSign = Integer.signum(karma);
+                int karmaSign = karma.Signum();
                 int pcKarmaLevel = pc.KarmaLevel;
-                int pcKarmaLevelSign = Integer.signum(pcKarmaLevel);
+                int pcKarmaLevelSign = pcKarmaLevel.Signum();
                 // カルマ背信行為は5倍
                 if ((pcKarmaLevelSign != 0) && (karmaSign != pcKarmaLevelSign))
                 {
@@ -1059,7 +1009,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        internal class NextDragonStep : IRunnableStart
+        internal class NextDragonStep : IRunnable
         {
             private readonly L1MonsterInstance outerInstance;
 
@@ -1086,7 +1036,7 @@ namespace LineageServer.Server.Model.Instance
                 _loc = mob.Location;
             }
 
-            public override void run()
+            public void run()
             {
                 outerInstance.NextDragonStepRunning = true;
                 try
@@ -1094,7 +1044,7 @@ namespace LineageServer.Server.Model.Instance
                     Thread.Sleep(10500);
                     L1NpcInstance npc = NpcTable.Instance.newNpcInstance(_transformId);
                     npc.Id = IdFactory.Instance.nextId();
-                    npc.Map = (short)_m;
+                    npc.MapId = (short)_m;
                     npc.HomeX = _x;
                     npc.HomeY = _y;
                     npc.Heading = _h;
@@ -1111,8 +1061,9 @@ namespace LineageServer.Server.Model.Instance
                     npc.startChat(L1NpcInstance.CHAT_TIMING_APPEARANCE); // チャット開始
                     outerInstance.NextDragonStepRunning = false;
                 }
-                catch (InterruptedException)
+                catch (Exception e)
                 {
+                    _log.Error(e);
                 }
             }
         }

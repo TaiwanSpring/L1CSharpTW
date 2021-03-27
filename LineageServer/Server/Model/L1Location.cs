@@ -1,4 +1,4 @@
-﻿using LineageServer.Server.Model.map;
+﻿using LineageServer.Server.Model.Map;
 using LineageServer.Server.Types;
 using System;
 

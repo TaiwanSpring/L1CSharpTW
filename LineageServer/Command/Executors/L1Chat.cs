@@ -20,12 +20,12 @@ namespace LineageServer.Command.Executors
                 {
                     string flag = st.nextToken();
                     string msg;
-                    if (string.Compare(flag, "on", StringComparison.OrdinalIgnoreCase) == 0)
+                    if (flag == "on")
                     {
                         L1World.Instance.set_worldChatElabled(true);
                         msg = "開啟全體聊天。";
                     }
-                    else if (string.Compare(flag, "off", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (flag == "off")
                     {
                         L1World.Instance.set_worldChatElabled(false);
                         msg = "關閉全體聊天。";

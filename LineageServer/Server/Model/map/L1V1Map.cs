@@ -3,7 +3,7 @@ using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Types;
 using System;
 
-namespace LineageServer.Server.Model.map
+namespace LineageServer.Server.Model.Map
 {
 	class L1V1Map : L1Map
 	{

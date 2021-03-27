@@ -84,14 +84,14 @@ namespace LineageServer.Server.DataSources
 					string reip = BanIpAddress.Substring(0, fStarindex);
 					// 抓得Banip表單內ip在*號前的子字串 xxx.xxx||xxx.xxx.xxx
 					string newaddress = s.Substring(0, fStarindex);
-					if (newaddress.Equals(reip, StringComparison.OrdinalIgnoreCase))
+					if (newaddress == reip)
 					{
 						return true;
 					}
 				}
 				else
 				{
-					if (s.Equals(BanIpAddress, StringComparison.OrdinalIgnoreCase))
+					if (s == BanIpAddress)
 					{
 						return true;
 					}

@@ -1,9 +1,8 @@
 ﻿using LineageServer.Models;
 using LineageServer.Server.Model.Instance;
-using System.Threading;
 namespace LineageServer.Server.Model.monitor
 {
-	class L1PcGhostMonitor : L1PcMonitor
+    class L1PcGhostMonitor : L1PcMonitor
 	{
 
 		public L1PcGhostMonitor(int oId) : base(oId)

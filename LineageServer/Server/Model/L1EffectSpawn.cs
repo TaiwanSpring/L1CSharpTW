@@ -26,8 +26,8 @@ namespace LineageServer.Server.Model
 	using SkillsTable = LineageServer.Server.DataSources.SkillsTable;
 	using L1EffectInstance = LineageServer.Server.Model.Instance.L1EffectInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using L1Map = LineageServer.Server.Model.map.L1Map;
-	using L1WorldMap = LineageServer.Server.Model.map.L1WorldMap;
+	using L1Map = LineageServer.Server.Model.Map.L1Map;
+	using L1WorldMap = LineageServer.Server.Model.Map.L1WorldMap;
 	using S_NPCPack = LineageServer.Serverpackets.S_NPCPack;
 	using L1Npc = LineageServer.Server.Templates.L1Npc;
 

@@ -1,6 +1,6 @@
 ﻿using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
-using LineageServer.Server.Model.map;
+using LineageServer.Server.Model.Map;
 using LineageServer.Server.Model.skill;
 using LineageServer.Serverpackets;
 using System.Collections.Generic;

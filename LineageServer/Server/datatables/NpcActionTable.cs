@@ -76,7 +76,7 @@ namespace LineageServer.Server.DataSources
 			foreach (string file in dir.list())
 			{
 				File f = new File(dir, file);
-				if (FileUtil.getExtension(f).Equals("xml", StringComparison.OrdinalIgnoreCase))
+				if (FileUtil.getExtension(f) == "xml")
 				{
 					loadAction(f);
 					loadTalkAction(f);

@@ -23,8 +23,8 @@ namespace LineageServer.Server.Model
 	using Config = LineageServer.Server.Config;
 	using ItemTable = LineageServer.Server.DataSources.ItemTable;
 	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
-	using L1Map = LineageServer.Server.Model.map.L1Map;
-	using L1WorldMap = LineageServer.Server.Model.map.L1WorldMap;
+	using L1Map = LineageServer.Server.Model.Map.L1Map;
+	using L1WorldMap = LineageServer.Server.Model.Map.L1WorldMap;
 	using Point = LineageServer.Server.Types.Point;
 
 	public class ElementalStoneGenerator : IRunnableStart

@@ -77,7 +77,7 @@ namespace LineageServer.Models
             throw new NotImplementedException();
         }
 
-        public void scheduleAtFixedRate(TimerTask task, int delay)
+        public void scheduleAtFixedRate(ITimerTask task, int delay)
         {
             this.timerTaskMapping.Add(task, new TimerTaskArgs()
             {
@@ -85,7 +85,7 @@ namespace LineageServer.Models
                 Interval = 0
             });
         }
-        public void scheduleAtFixedRate(TimerTask task, int delay, int period)
+        public void scheduleAtFixedRate(ITimerTask task, int delay, int period)
         {
             this.timerTaskMapping.Add(task, new TimerTaskArgs()
             {

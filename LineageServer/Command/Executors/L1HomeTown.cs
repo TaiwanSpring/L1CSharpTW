@@ -14,11 +14,11 @@ namespace LineageServer.Command.Executors
 			{
 				StringTokenizer st = new StringTokenizer(arg);
 				string para1 = st.nextToken();
-				if (para1.Equals("daily", StringComparison.OrdinalIgnoreCase))
+				if (para1 == "daily")
 				{
 					HomeTownTimeController.Instance.dailyProc();
 				}
-				else if (para1.Equals("monthly", StringComparison.OrdinalIgnoreCase))
+				else if (para1 == "monthly")
 				{
 					HomeTownTimeController.Instance.monthlyProc();
 				}

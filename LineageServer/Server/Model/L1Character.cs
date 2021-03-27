@@ -11,9 +11,6 @@ namespace LineageServer.Server.Model
 {
     class L1Character : GameObject
     {
-
-        private const long serialVersionUID = 1L;
-
         private L1Poison _poison = null;
 
         private bool _paralyzed;
@@ -421,7 +418,7 @@ namespace LineageServer.Server.Model
                     break;
                 }
 
-                if (!System.Collections.IDictionary.isArrowPassable(chx, chy, targetDirection(tx, ty)))
+                if (!Map.isArrowPassable(chx, chy, targetDirection(tx, ty)))
                 {
                     return false;
                 }
@@ -471,6 +468,10 @@ namespace LineageServer.Server.Model
             get
             {
                 return null;
+            }
+            set
+            {
+
             }
         }
 
@@ -837,11 +838,11 @@ namespace LineageServer.Server.Model
         {
             get
             {
-                if (System.Collections.IDictionary.isSafetyZone(Location))
+                if (Map.isSafetyZone(Location))
                 {
                     return 1;
                 }
-                else if (System.Collections.IDictionary.isCombatZone(Location))
+                else if (Map.isCombatZone(Location))
                 {
                     return -1;
                 }
@@ -970,19 +971,21 @@ namespace LineageServer.Server.Model
 
         private int _level; // ● レベル
 
-        public virtual int getLevel()
+        public virtual int Level
         {
-            lock (this)
+            get
             {
-                return _level;
+                lock (this)
+                {
+                    return _level;
+                }
             }
-        }
-
-        public virtual void setLevel(long level)
-        {
-            lock (this)
+            set
             {
-                _level = (int)level;
+                lock (this)
+                {
+                    _level = value;
+                }
             }
         }
 
@@ -1606,7 +1609,7 @@ namespace LineageServer.Server.Model
         {
             get
             {
-                if (hasSkillEffect(153) == true)
+                if (hasSkillEffect(L1SkillId.ERASE_MAGIC) == true)
                 {
                     return _mr / 4;
                 }
@@ -1828,7 +1831,7 @@ namespace LineageServer.Server.Model
         {
             get
             {
-                return getLevel() / 4;
+                return Level / 4;
             }
         }
 

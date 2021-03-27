@@ -38,7 +38,7 @@ namespace LineageServer.Command.Executors
                     }
                     StringBuilder cmd = new StringBuilder();
                     string temp = st.nextToken(); // コマンドタイプ
-                    if (temp.Equals(cmdName, StringComparison.OrdinalIgnoreCase))
+                    if (temp == cmdName)
                     {
                         pc.sendPackets(new S_SystemMessage(cmdName + " 不能加入自己的名字。"));
                         return;

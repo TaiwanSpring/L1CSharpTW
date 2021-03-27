@@ -1,4 +1,5 @@
 ﻿using LineageServer.Interfaces;
+using LineageServer.Models;
 using System;
 using System.IO;
 using System.Text;
@@ -87,7 +88,7 @@ namespace LineageServer.Serverpackets
             this.memoryStream.Write(buffer, 0, buffer.Length);
         }
 
-        public byte[] BuildBuffer()
+        public virtual byte[] BuildBuffer()
         {
             byte padding = (byte)(this.memoryStream.Length % 4);
 

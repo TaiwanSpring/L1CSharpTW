@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.DataSources;
+﻿using LineageServer.Server;
+using LineageServer.Server.DataSources;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
@@ -45,7 +46,7 @@ namespace LineageServer.Clientpackets
                     return;
                 }
 
-                if (name.Equals(pc.Name, StringComparison.OrdinalIgnoreCase))
+                if (name == pc.Name)
                 {
                     pc.sendPackets(new S_ServerMessage(2068));
                     return;

@@ -1,28 +1,12 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Models;
+using LineageServer.Server.DataSources;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
+using LineageServer.Serverpackets;
+
 namespace LineageServer.Server.Model
 {
-
-	using PetTable = LineageServer.Server.DataSources.PetTable;
-	using PetTypeTable = LineageServer.Server.DataSources.PetTypeTable;
-	using L1PetInstance = LineageServer.Server.Model.Instance.L1PetInstance;
-	using S_NpcChatPacket = LineageServer.Serverpackets.S_NpcChatPacket;
-	using L1Pet = LineageServer.Server.Templates.L1Pet;
-	using L1PetType = LineageServer.Server.Templates.L1PetType;
-
-	public class L1PetFood : TimerTask
+    class L1PetFood : TimerTask
 	{
 		/// <summary>
 		/// 寵物飽食度計時器 </summary>

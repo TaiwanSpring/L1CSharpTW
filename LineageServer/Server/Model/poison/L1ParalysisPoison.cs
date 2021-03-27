@@ -16,7 +16,7 @@ namespace LineageServer.Server.Model.poison
 
 		private readonly L1Character _target;
 
-		private ITimerTask _timer;
+		private Interfaces.ITimerTask _timer;
 
 		private readonly int _delay;
 
@@ -24,7 +24,7 @@ namespace LineageServer.Server.Model.poison
 
 		private int _effectId = 1;
 
-		private class ParalysisPoisonTimer : TimerTask
+		private class ParalysisPoisonTimer : Models.TimerTask
 		{
 			private readonly L1ParalysisPoison outerInstance;
 
@@ -60,7 +60,7 @@ namespace LineageServer.Server.Model.poison
 			}
 		}
 
-		private class ParalysisTimer : TimerTask
+		private class ParalysisTimer : Models.TimerTask
 		{
 			private readonly L1ParalysisPoison outerInstance;
 

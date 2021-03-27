@@ -1,17 +1,19 @@
-﻿using LineageServer.Enum;
-using LineageServer.Interfaces;
+﻿using LineageServer.Interfaces;
 using LineageServer.Models;
 using LineageServer.Server.DataSources;
-using LineageServer.Server.Model.map;
+using LineageServer.Server.Model.identity;
+using LineageServer.Server.Model.Map;
 using LineageServer.Server.Model.npc.action;
 using LineageServer.Server.Model.skill;
-using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
+using LineageServer.Server.Types;
+using LineageServer.Serverpackets;
 using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+
 namespace LineageServer.Server.Model.Instance
 {
     class L1NpcInstance : L1Character
@@ -40,7 +42,6 @@ namespace LineageServer.Server.Model.Instance
 
         public const int CHAT_TIMING_GAME_TIME = 3;
 
-        //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
         private static ILogger _log = Logger.GetLogger(nameof(L1NpcInstance));
 
         private L1Npc _npcTemplate;
@@ -74,33 +75,16 @@ namespace LineageServer.Server.Model.Instance
 
         // ■■■■■■■■■■■■■ ＡＩ関連 ■■■■■■■■■■■
 
-        internal interface NpcAI
-        {
-            void start();
-        }
-
         protected internal virtual void startAI()
         {
-            if (Config.NPCAI_IMPLTYPE == 1)
-            {
-                (new NpcAITimerImpl(this)).start();
-            }
-            else if (Config.NPCAI_IMPLTYPE == 2)
-            {
-                (new NpcAIThreadImpl(this)).start();
-            }
-            else
-            {
-                (new NpcAITimerImpl(this)).start();
-            }
+            new NpcAITimerImpl(this).start();
         }
 
         /// <summary>
         /// マルチ(コア)プロセッサをサポートする為のタイマープール。 AIの実装タイプがタイマーの場合に使用される。
         /// </summary>
-        //private static readonly TimerPool _timerPool = new TimerPool(4);
 
-        internal class NpcAITimerImpl : TimerTask, NpcAI
+        internal class NpcAITimerImpl : TimerTask, IStartable
         {
             private readonly L1NpcInstance outerInstance;
 
@@ -112,7 +96,7 @@ namespace LineageServer.Server.Model.Instance
             /// <summary>
             /// 死亡処理の終了を待つタイマー
             /// </summary>
-            private class DeathSyncTimer : TimerTask
+            private class DeathSyncTimer : Models.TimerTask
             {
                 private readonly L1NpcInstance.NpcAITimerImpl outerInstance;
 
@@ -141,13 +125,13 @@ namespace LineageServer.Server.Model.Instance
             public virtual void start()
             {
                 outerInstance.AiRunning = true;
-                RunnableExecuter.Instance.execute(this, 0);
+                RunnableExecuter.Instance.execute(this);
             }
 
             internal virtual void stop()
             {
                 outerInstance.mobSkill.resetAllSkillUseCount();
-                RunnableExecuter.Instance.execute(new DeathSyncTimer(this), 0); // 死亡同期を開始
+                RunnableExecuter.Instance.execute(new DeathSyncTimer(this)); // 死亡同期を開始
             }
 
             // 同じインスタンスをTimerへ登録できない為、苦肉の策。
@@ -189,7 +173,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 catch (Exception e)
                 {
-                    _log.log(Level.WARNING, "NpcAIで例外が発生しました。", e);
+                    _log.Error(e);
                 }
             }
 
@@ -199,7 +183,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        internal class NpcAIThreadImpl : IRunnable, NpcAI
+        internal class NpcAIThreadImpl : IRunnable, IStartable
         {
             private readonly L1NpcInstance outerInstance;
 
@@ -262,7 +246,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 catch (Exception e)
                 {
-                    _log.log(Level.WARNING, "NpcAIで例外が発生しました。", e);
+                    _log.Error(e);
                 }
             }
         }
@@ -1157,7 +1141,7 @@ namespace LineageServer.Server.Model.Instance
 
         private HprTimer _hprTimer;
 
-        internal class HprTimer : TimerTask
+        internal class HprTimer : Models.TimerTask
         {
             private readonly L1NpcInstance outerInstance;
 
@@ -1199,7 +1183,7 @@ namespace LineageServer.Server.Model.Instance
 
         private MprTimer _mprTimer;
 
-        internal class MprTimer : TimerTask
+        internal class MprTimer : Models.TimerTask
         {
             private readonly L1NpcInstance outerInstance;
 
@@ -1587,7 +1571,7 @@ namespace LineageServer.Server.Model.Instance
             {
                 id = 0;
             }
-            _spawn.executeSpawnTask(_spawnNumber, id);
+            _spawn.ExecuteSpawnTask(_spawnNumber, id);
         }
 
         public override void onPerceive(L1PcInstance perceivedFrom)
@@ -1679,7 +1663,7 @@ namespace LineageServer.Server.Model.Instance
 
         public virtual void approachPlayer(L1PcInstance pc)
         {
-            if (pc.hasSkillEffect(L1SkillId.L1SkillId.60) || pc.hasSkillEffect(L1SkillId.L1SkillId.97))
+            if (pc.hasSkillEffect(L1SkillId.INVISIBILITY) || pc.hasSkillEffect(L1SkillId.BLIND_HIDING))
             { // インビジビリティ、ブラインドハイディング中
                 return;
             }
@@ -1726,7 +1710,7 @@ namespace LineageServer.Server.Model.Instance
                 Status = L1NpcDefaultAction.Instance.getStatus(TempCharGfx);
                 broadcastPacket(new S_DoActionGFX(Id, ActionCodes.ACTION_Appear));
                 broadcastPacket(new S_CharVisualUpdate(this, Status));
-                if (!pc.hasSkillEffect(L1SkillId.L1SkillId.60) && !pc.hasSkillEffect(L1SkillId.L1SkillId.97) && !pc.Gm)
+                if (!pc.hasSkillEffect(L1SkillId.INVISIBILITY) && !pc.hasSkillEffect(L1SkillId.BLIND_HIDING) && !pc.Gm)
                 {
                     _hateList.add(pc, 0);
                     _target = pc;
@@ -1739,7 +1723,7 @@ namespace LineageServer.Server.Model.Instance
                 HiddenStatus = HIDDEN_STATUS_NONE;
                 Status = L1NpcDefaultAction.Instance.getStatus(TempCharGfx);
                 broadcastPacket(new S_DoActionGFX(Id, ActionCodes.ACTION_Movedown));
-                if (!pc.hasSkillEffect(L1SkillId.L1SkillId.60) && !pc.hasSkillEffect(L1SkillId.L1SkillId.97) && !pc.Gm)
+                if (!pc.hasSkillEffect(L1SkillId.INVISIBILITY) && !pc.hasSkillEffect(L1SkillId.BLIND_HIDING) && !pc.Gm)
                 {
                     _hateList.add(pc, 0);
                     _target = pc;
@@ -1753,7 +1737,7 @@ namespace LineageServer.Server.Model.Instance
                 Status = L1NpcDefaultAction.Instance.getStatus(TempCharGfx);
                 broadcastPacket(new S_DoActionGFX(Id, ActionCodes.ACTION_AxeWalk));
                 broadcastPacket(new S_CharVisualUpdate(this, Status));
-                if (!pc.hasSkillEffect(L1SkillId.L1SkillId.60) && !pc.hasSkillEffect(L1SkillId.L1SkillId.97) && !pc.Gm)
+                if (!pc.hasSkillEffect(L1SkillId.INVISIBILITY) && !pc.hasSkillEffect(L1SkillId.BLIND_HIDING) && !pc.Gm)
                 {
                     _hateList.add(pc, 0);
                     _target = pc;
@@ -1830,14 +1814,14 @@ namespace LineageServer.Server.Model.Instance
 
                     }
 
-                    System.Collections.IDictionary.setPassable(Location, true);
+                    Map.setPassable(Location, true);
 
                     int nnx = X + nx;
                     int nny = Y + ny;
                     X = nnx;
                     Y = nny;
 
-                    System.Collections.IDictionary.setPassable(Location, false);
+                    Map.setPassable(Location, false);
 
                     broadcastPacket(new S_MoveCharPacket(this));
 
@@ -1873,7 +1857,7 @@ namespace LineageServer.Server.Model.Instance
         public virtual int moveDirection(int x, int y, double d)
         { // 目標点Ｘ 目標点Ｙ 目標までの距離
             int dir = 0;
-            if ((hasSkillEffect(L1SkillId.40) == true) && (d >= 2D))
+            if ((hasSkillEffect(L1SkillId.DARKNESS) == true) && (d >= 2D))
             { // ダークネスが掛かっていて、距離が2以上の場合追跡終了
                 return -1;
             }
@@ -2138,12 +2122,13 @@ namespace LineageServer.Server.Model.Instance
             int[] dirFront = new int[5];
             //JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
             //ORIGINAL LINE: bool[][] serchMap = new bool[locCenter * 2 + 1][locCenter * 2 + 1];
-            bool[][] serchMap = RectangularArrays.RectangularBoolArray(locCenter * 2 + 1, locCenter * 2 + 1);
-            LinkedList<int[]> queueSerch = new LinkedList<int[]>();
+            bool[][] serchMap = new bool[(locCenter * 2) + 1][];
+            Queue<int[]> queueSerch = new Queue<int[]>();
 
             // 探索用マップの設定
-            for (int j = courceRange * 2 + 1; j > 0; j--)
+            for (int j = serchMap.Length; j > 0; j--)
             {
+                serchMap[j] = new bool[(locCenter * 2) + 1];
                 for (i = courceRange - Math.Abs(locCenter - j); i >= 0; i--)
                 {
                     serchMap[j][locCenter + i] = true;
@@ -2169,35 +2154,35 @@ namespace LineageServer.Server.Model.Instance
                     bool found = false;
                     if (i == 0)
                     {
-                        found = System.Collections.IDictionary.isPassable(tmpX, tmpY + 1, i);
+                        found = Map.isPassable(tmpX, tmpY + 1, i);
                     }
                     else if (i == 1)
                     {
-                        found = System.Collections.IDictionary.isPassable(tmpX - 1, tmpY + 1, i);
+                        found = Map.isPassable(tmpX - 1, tmpY + 1, i);
                     }
                     else if (i == 2)
                     {
-                        found = System.Collections.IDictionary.isPassable(tmpX - 1, tmpY, i);
+                        found = Map.isPassable(tmpX - 1, tmpY, i);
                     }
                     else if (i == 3)
                     {
-                        found = System.Collections.IDictionary.isPassable(tmpX - 1, tmpY - 1, i);
+                        found = Map.isPassable(tmpX - 1, tmpY - 1, i);
                     }
                     else if (i == 4)
                     {
-                        found = System.Collections.IDictionary.isPassable(tmpX, tmpY - 1, i);
+                        found = Map.isPassable(tmpX, tmpY - 1, i);
                     }
                     else if (i == 5)
                     {
-                        found = System.Collections.IDictionary.isPassable(tmpX + 1, tmpY - 1, i);
+                        found = Map.isPassable(tmpX + 1, tmpY - 1, i);
                     }
                     else if (i == 6)
                     {
-                        found = System.Collections.IDictionary.isPassable(tmpX + 1, tmpY, i);
+                        found = Map.isPassable(tmpX + 1, tmpY, i);
                     }
                     else if (i == 7)
                     {
-                        found = System.Collections.IDictionary.isPassable(tmpX + 1, tmpY + 1, i);
+                        found = Map.isPassable(tmpX + 1, tmpY + 1, i);
                     }
                     if (found) // 移動経路があった場合
                     {
@@ -2205,7 +2190,7 @@ namespace LineageServer.Server.Model.Instance
                         Array.Copy(locNext, 0, locCopy, 0, 4);
                         locCopy[2] = firstCource[i];
                         locCopy[3] = firstCource[i];
-                        queueSerch.AddLast(locCopy);
+                        queueSerch.Enqueue(locCopy);
                     }
                     serchMap[locNext[0]][locNext[1]] = false;
                 }
@@ -2215,7 +2200,7 @@ namespace LineageServer.Server.Model.Instance
             // 最短経路を探索
             while (queueSerch.Count > 0)
             {
-                locBace = queueSerch.RemoveFirst();
+                locBace = queueSerch.Dequeue();
                 _getFront(dirFront, locBace[2]);
                 for (i = 4; i >= 0; i--)
                 {
@@ -2232,30 +2217,30 @@ namespace LineageServer.Server.Model.Instance
                         bool found = false;
                         if (i == 0)
                         {
-                            found = System.Collections.IDictionary.isPassable(tmpX, tmpY + 1, i);
+                            found = Map.isPassable(tmpX, tmpY + 1, i);
                         }
                         else if (i == 1)
                         {
-                            found = System.Collections.IDictionary.isPassable(tmpX - 1, tmpY + 1, i);
+                            found = Map.isPassable(tmpX - 1, tmpY + 1, i);
                         }
                         else if (i == 2)
                         {
-                            found = System.Collections.IDictionary.isPassable(tmpX - 1, tmpY, i);
+                            found = Map.isPassable(tmpX - 1, tmpY, i);
                         }
                         else if (i == 3)
                         {
-                            found = System.Collections.IDictionary.isPassable(tmpX - 1, tmpY - 1, i);
+                            found = Map.isPassable(tmpX - 1, tmpY - 1, i);
                         }
                         else if (i == 4)
                         {
-                            found = System.Collections.IDictionary.isPassable(tmpX, tmpY - 1, i);
+                            found = Map.isPassable(tmpX, tmpY - 1, i);
                         }
                         if (found) // 移動経路があった場合
                         {
                             locCopy = new int[4];
                             Array.Copy(locNext, 0, locCopy, 0, 4);
                             locCopy[2] = dirFront[i];
-                            queueSerch.AddLast(locCopy);
+                            queueSerch.Enqueue(locCopy);
                         }
                         serchMap[locNext[0]][locNext[1]] = false;
                     }
@@ -2402,7 +2387,7 @@ namespace LineageServer.Server.Model.Instance
             broadcastPacket(new S_SkillHaste(Id, 1, time));
             broadcastPacket(new S_SkillSound(Id, 191));
             MoveSpeed = 1;
-            setSkillEffect(STATUS_HASTE, time * 1000);
+            setSkillEffect(L1SkillId.STATUS_HASTE, time * 1000);
         }
 
         // アイテムの使用判定及び使用
@@ -2410,13 +2395,13 @@ namespace LineageServer.Server.Model.Instance
 
         public const int USEITEM_HASTE = 1;
 
-        public static int[] healPotions = new int[] { POTION_OF_GREATER_HEALING, POTION_OF_EXTRA_HEALING, POTION_OF_HEALING };
+        public static int[] healPotions = new int[] { L1ItemId.POTION_OF_GREATER_HEALING, L1ItemId.POTION_OF_EXTRA_HEALING, L1ItemId.POTION_OF_HEALING };
 
-        public static int[] haestPotions = new int[] { B_POTION_OF_GREATER_HASTE_SELF, POTION_OF_GREATER_HASTE_SELF, B_POTION_OF_HASTE_SELF, POTION_OF_HASTE_SELF };
+        public static int[] haestPotions = new int[] { L1ItemId.B_POTION_OF_GREATER_HASTE_SELF, L1ItemId.POTION_OF_GREATER_HASTE_SELF, L1ItemId.B_POTION_OF_HASTE_SELF, L1ItemId.POTION_OF_HASTE_SELF };
 
         public virtual void useItem(int type, int chance)
         { // 使用する種類 使用する可能性(％)
-            if (hasSkillEffect(L1SkillId.71))
+            if (hasSkillEffect(L1SkillId.DECAY_POTION))
             {
                 return; // ディケイ ポーション状態かチェック
             }
@@ -2429,40 +2414,40 @@ namespace LineageServer.Server.Model.Instance
             if (type == USEITEM_HEAL)
             { // 回復系ポーション
               // 回復量の大きい順
-                if (Inventory.consumeItem(POTION_OF_GREATER_HEALING, 1))
+                if (Inventory.consumeItem(L1ItemId.POTION_OF_GREATER_HEALING, 1))
                 {
                     useHealPotion(75, 197);
                 }
-                else if (Inventory.consumeItem(POTION_OF_EXTRA_HEALING, 1))
+                else if (Inventory.consumeItem(L1ItemId.POTION_OF_EXTRA_HEALING, 1))
                 {
                     useHealPotion(45, 194);
                 }
-                else if (Inventory.consumeItem(POTION_OF_HEALING, 1))
+                else if (Inventory.consumeItem(L1ItemId.POTION_OF_HEALING, 1))
                 {
                     useHealPotion(15, 189);
                 }
             }
             else if (type == USEITEM_HASTE)
             { // ヘイスト系ポーション
-                if (hasSkillEffect(L1SkillId.1001))
+                if (hasSkillEffect(L1SkillId.STATUS_HASTE))
                 {
                     return; // ヘイスト状態チェック
                 }
 
                 // 効果の長い順
-                if (Inventory.consumeItem(B_POTION_OF_GREATER_HASTE_SELF, 1))
+                if (Inventory.consumeItem(L1ItemId.B_POTION_OF_GREATER_HASTE_SELF, 1))
                 {
                     useHastePotion(2100);
                 }
-                else if (Inventory.consumeItem(POTION_OF_GREATER_HASTE_SELF, 1))
+                else if (Inventory.consumeItem(L1ItemId.POTION_OF_GREATER_HASTE_SELF, 1))
                 {
                     useHastePotion(1800);
                 }
-                else if (Inventory.consumeItem(B_POTION_OF_HASTE_SELF, 1))
+                else if (Inventory.consumeItem(L1ItemId.B_POTION_OF_HASTE_SELF, 1))
                 {
                     useHastePotion(350);
                 }
-                else if (Inventory.consumeItem(POTION_OF_HASTE_SELF, 1))
+                else if (Inventory.consumeItem(L1ItemId.POTION_OF_HASTE_SELF, 1))
                 {
                     useHastePotion(300);
                 }
@@ -2519,7 +2504,7 @@ namespace LineageServer.Server.Model.Instance
                 {
                     ny--;
                 }
-                if (System.Collections.IDictionary.isPassable(nx, ny))
+                if (Map.isPassable(nx, ny))
                 {
                     dir += 4;
                     if (dir > 7)
@@ -2933,10 +2918,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 if (_deleteTask != null)
                 {
-                    if (!_future.cancel(false))
-                    { // キャンセルできない
-                        return;
-                    }
+                    _future.cancel();
                     _deleteTask = null;
                     _future = null;
                 }
@@ -2945,7 +2927,7 @@ namespace LineageServer.Server.Model.Instance
                 // キャンセレーションをエフェクトなしでかける
                 // 本来は死亡時に行うべきだが、負荷が大きくなるため復活時に行う
                 L1SkillUse skill = new L1SkillUse();
-                skill.handleCommands(null, CANCELLATION, Id, X, Y, null, 0, L1SkillUse.TYPE_LOGIN, this);
+                skill.handleCommands(null, L1SkillId.CANCELLATION, Id, X, Y, null, 0, L1SkillUse.TYPE_LOGIN, this);
             }
         }
 
@@ -2954,7 +2936,7 @@ namespace LineageServer.Server.Model.Instance
 
         //JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
         //ORIGINAL LINE: private java.util.concurrent.ScheduledFuture<?> _future = null;
-        private ScheduledFuture<object> _future = null;
+        private TimerTask _future = null;
 
         protected internal virtual void startDeleteTimer()
         {
@@ -2965,7 +2947,8 @@ namespace LineageServer.Server.Model.Instance
                     return;
                 }
                 _deleteTask = new DeleteTimer(Id);
-                _future = RunnableExecuter.Instance.schedule(_deleteTask, Config.NPC_DELETION_TIME * 1000);
+                _future = _deleteTask;
+                RunnableExecuter.Instance.execute(_deleteTask, Config.NPC_DELETION_TIME * 1000);
             }
         }
 
@@ -2982,7 +2965,7 @@ namespace LineageServer.Server.Model.Instance
                 }
             }
 
-            public override void run()
+            public void run()
             {
                 L1NpcInstance npc = (L1NpcInstance)L1World.Instance.findObject(_id);
                 if ((npc == null) || !npc.Dead || npc._destroyed)
@@ -3082,15 +3065,14 @@ namespace LineageServer.Server.Model.Instance
                 return;
             }
 
-            Timer timer = new Timer(true);
             L1NpcChatTimer npcChatTimer = new L1NpcChatTimer(this, npcChat);
             if (!npcChat.Repeat)
             {
-                timer.schedule(npcChatTimer, npcChat.StartDelayTime);
+                RunnableExecuter.Instance.execute(npcChatTimer, npcChat.StartDelayTime);
             }
             else
             {
-                timer.scheduleAtFixedRate(npcChatTimer, npcChat.StartDelayTime, npcChat.RepeatInterval);
+                RunnableExecuter.Instance.scheduleAtFixedRate(npcChatTimer, npcChat.StartDelayTime, npcChat.RepeatInterval);
             }
         }
 
@@ -3136,14 +3118,13 @@ namespace LineageServer.Server.Model.Instance
         }
 
         public int MaxHp { get; internal set; }
-        public L1Map Map { get; internal set; }
-        public int MaxMp { get; private set; }
-        public int Level { get; private set; }
-        public sbyte Str { get; private set; }
-        public sbyte Con { get; private set; }
-        public sbyte Dex { get; private set; }
-        public sbyte Int { get; private set; }
-        public sbyte Wis { get; private set; }
+        public int MaxMp { get; internal set; }
+        public int Level { get; internal set; }
+        public sbyte Str { get; internal set; }
+        public sbyte Con { get; internal set; }
+        public sbyte Dex { get; internal set; }
+        public sbyte Int { get; internal set; }
+        public sbyte Wis { get; internal set; }
     }
 
 }

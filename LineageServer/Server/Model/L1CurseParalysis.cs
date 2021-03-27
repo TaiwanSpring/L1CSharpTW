@@ -1,176 +1,143 @@
-﻿using System.Threading;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Model.skill;
+using LineageServer.Serverpackets;
+using System.Threading;
 namespace LineageServer.Server.Model
 {
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.STATUS_CURSE_PARALYZED;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.model.skill.L1SkillId.STATUS_CURSE_PARALYZING;
-	using RunnableExecuter = LineageServer.Server.RunnableExecuter;
-	using L1MonsterInstance = LineageServer.Server.Model.Instance.L1MonsterInstance;
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using S_Paralysis = LineageServer.Serverpackets.S_Paralysis;
-	using S_ServerMessage = LineageServer.Serverpackets.S_ServerMessage;
-
-	/*
+    /*
 	 * L1ParalysisPoisonと被るコードが多い。特にタイマー。何とか共通化したいが難しい。
 	 */
-	public class L1CurseParalysis : L1Paralysis
-	{
-		private readonly L1Character _target;
+    class L1CurseParalysis : L1Paralysis
+    {
+        private readonly L1Character _target;
 
-		private readonly int _delay;
+        private readonly int _delay;
 
-		private readonly int _time;
+        private readonly int _time;
 
-		private Thread _timer;
+        private ITimerTask _timer;
 
-		private class ParalysisDelayTimer : IRunnable
-		{
-			private readonly L1CurseParalysis outerInstance;
+        private class ParalysisDelayTimer : TimerTask
+        {
+            private readonly L1CurseParalysis outerInstance;
 
-			public ParalysisDelayTimer(L1CurseParalysis outerInstance)
-			{
-				this.outerInstance = outerInstance;
-			}
+            public ParalysisDelayTimer(L1CurseParalysis outerInstance)
+            {
+                this.outerInstance = outerInstance;
+            }
 
-			public override void run()
-			{
-				outerInstance._target.setSkillEffect(STATUS_CURSE_PARALYZING, 0);
+            public void run()
+            {
+                outerInstance._target.setSkillEffect(L1SkillId.STATUS_CURSE_PARALYZING, 0);
 
-				try
-				{
-					Thread.Sleep(outerInstance._delay); // 麻痺するまでの猶予時間を待つ。
-				}
-				catch (InterruptedException)
-				{
-					outerInstance._target.killSkillEffectTimer(STATUS_CURSE_PARALYZING);
-					return;
-				}
+                Thread.Sleep(outerInstance._delay); // 麻痺するまでの猶予時間を待つ。
 
-				if (outerInstance._target is L1PcInstance)
-				{
-					L1PcInstance player = (L1PcInstance) outerInstance._target;
-					if (!player.Dead)
-					{
-						player.sendPackets(new S_Paralysis(1, true)); // 麻痺状態にする
-					}
-				}
-				outerInstance._target.Paralyzed = true;
-				outerInstance._timer = new ParalysisTimer(outerInstance);
-				RunnableExecuter.Instance.execute(outerInstance._timer); // 麻痺タイマー開始
-				if (Interrupted)
-				{
-					outerInstance._timer.Interrupt();
-				}
-			}
-		}
+                if (outerInstance._target is L1PcInstance)
+                {
+                    L1PcInstance player = (L1PcInstance)outerInstance._target;
+                    if (!player.Dead)
+                    {
+                        player.sendPackets(new S_Paralysis(1, true)); // 麻痺状態にする
+                    }
+                }
+                outerInstance._target.Paralyzed = true;
+                outerInstance._timer = new ParalysisTimer(outerInstance);
+                RunnableExecuter.Instance.execute(outerInstance._timer); // 麻痺タイマー開始
+                if (IsCancel)
+                {
+                    outerInstance._timer.cancel();
+                }
+            }
+        }
 
-		private class ParalysisTimer : IRunnable
-		{
-			private readonly L1CurseParalysis outerInstance;
+        private class ParalysisTimer : TimerTask
+        {
+            private readonly L1CurseParalysis outerInstance;
 
-			public ParalysisTimer(L1CurseParalysis outerInstance)
-			{
-				this.outerInstance = outerInstance;
-			}
+            public ParalysisTimer(L1CurseParalysis outerInstance)
+            {
+                this.outerInstance = outerInstance;
+            }
 
-			public override void run()
-			{
-				outerInstance._target.killSkillEffectTimer(STATUS_CURSE_PARALYZING);
-				outerInstance._target.setSkillEffect(STATUS_CURSE_PARALYZED, 0);
-				try
-				{
-					Thread.Sleep(outerInstance._time);
-				}
-				catch (InterruptedException)
-				{
-				}
+            public void run()
+            {
+                outerInstance._target.killSkillEffectTimer(L1SkillId.STATUS_CURSE_PARALYZING);
+                outerInstance._target.setSkillEffect(L1SkillId.STATUS_CURSE_PARALYZED, 0);
 
-				outerInstance._target.killSkillEffectTimer(STATUS_CURSE_PARALYZED);
-				if (outerInstance._target is L1PcInstance)
-				{
-					L1PcInstance player = (L1PcInstance) outerInstance._target;
-					if (!player.Dead)
-					{
-						player.sendPackets(new S_Paralysis(1, false)); // 麻痺状態を解除する
-					}
-				}
-				outerInstance._target.Paralyzed = false;
-				outerInstance.cure(); // 解呪処理
-			}
-		}
+                Thread.Sleep(outerInstance._time);
 
-		private L1CurseParalysis(L1Character cha, int delay, int time)
-		{
-			_target = cha;
-			_delay = delay;
-			_time = time;
+                outerInstance._target.killSkillEffectTimer(L1SkillId.STATUS_CURSE_PARALYZED);
+                if (outerInstance._target is L1PcInstance)
+                {
+                    L1PcInstance player = (L1PcInstance)outerInstance._target;
+                    if (!player.Dead)
+                    {
+                        player.sendPackets(new S_Paralysis(1, false)); // 麻痺状態を解除する
+                    }
+                }
+                outerInstance._target.Paralyzed = false;
+                outerInstance.cure(); // 解呪処理
+            }
+        }
 
-			curse();
-		}
+        private L1CurseParalysis(L1Character cha, int delay, int time)
+        {
+            _target = cha;
+            _delay = delay;
+            _time = time;
 
-		private void curse()
-		{
-			if (_target is L1PcInstance)
-			{
-				L1PcInstance player = (L1PcInstance) _target;
-				player.sendPackets(new S_ServerMessage(212));
-			}
+            curse();
+        }
 
-			_target.PoisonEffect = 2;
+        private void curse()
+        {
+            if (_target is L1PcInstance)
+            {
+                L1PcInstance player = (L1PcInstance)_target;
+                player.sendPackets(new S_ServerMessage(212));
+            }
 
-			_timer = new ParalysisDelayTimer(this);
-			RunnableExecuter.Instance.execute(_timer);
-		}
+            _target.PoisonEffect = 2;
 
-		public static bool curse(L1Character cha, int delay, int time)
-		{
-			if (!((cha is L1PcInstance) || (cha is L1MonsterInstance)))
-			{
-				return false;
-			}
-			if (cha.hasSkillEffect(STATUS_CURSE_PARALYZING) || cha.hasSkillEffect(STATUS_CURSE_PARALYZED))
-			{
-				return false; // 既に麻痺している
-			}
+            _timer = new ParalysisDelayTimer(this);
+            RunnableExecuter.Instance.execute(_timer);
+        }
 
-			cha.Paralaysis = new L1CurseParalysis(cha, delay, time);
-			return true;
-		}
+        public static bool curse(L1Character cha, int delay, int time)
+        {
+            if (!((cha is L1PcInstance) || (cha is L1MonsterInstance)))
+            {
+                return false;
+            }
+            if (cha.hasSkillEffect(L1SkillId.STATUS_CURSE_PARALYZING) || cha.hasSkillEffect(L1SkillId.STATUS_CURSE_PARALYZED))
+            {
+                return false; // 既に麻痺している
+            }
 
-		public override int EffectId
-		{
-			get
-			{
-				return 2;
-			}
-		}
+            cha.Paralaysis = new L1CurseParalysis(cha, delay, time);
+            return true;
+        }
 
-		public override void cure()
-		{
-			if (_timer != null)
-			{
-				_timer.Interrupt(); // 麻痺タイマー解除
-			}
+        public override int EffectId
+        {
+            get
+            {
+                return 2;
+            }
+        }
 
-			_target.PoisonEffect = 0;
-			_target.Paralaysis = null;
-		}
-	}
+        public override void cure()
+        {
+            if (_timer != null)
+            {
+                _timer.cancel(); // 麻痺タイマー解除
+            }
+
+            _target.PoisonEffect = 0;
+            _target.Paralaysis = null;
+        }
+    }
 
 }

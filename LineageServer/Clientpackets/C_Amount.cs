@@ -1,13 +1,15 @@
-﻿using LineageServer.Server.DataSources;
+﻿using LineageServer.Server;
+using LineageServer.Server.DataSources;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.Npc;
 using LineageServer.Server.Model.Npc.Action;
-using LineageServer.Serverpackets;
 using LineageServer.Server.storage;
 using LineageServer.Server.Templates;
+using LineageServer.Serverpackets;
 using System;
+
 namespace LineageServer.Clientpackets
 {
     /// <summary>
@@ -57,7 +59,7 @@ namespace LineageServer.Clientpackets
                 AuctionBoardTable boardTable = new AuctionBoardTable();
                 foreach (L1AuctionBoard item in boardTable.AuctionBoardTableList)
                 {
-                    if (pcName.Equals(item.Bidder, StringComparison.OrdinalIgnoreCase))
+                    if (pcName == item.Bidder)
                     {
                         pc.sendPackets(new S_ServerMessage(523)); // すでに他の家の競売に参加しています。
                         return;

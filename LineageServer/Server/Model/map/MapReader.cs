@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace LineageServer.Server.Model.map
+namespace LineageServer.Server.Model.Map
 {
 	/// <summary>
 	/// 讀取地圖的 abstract 類別

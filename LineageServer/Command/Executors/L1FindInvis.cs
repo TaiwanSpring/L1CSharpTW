@@ -10,13 +10,13 @@ namespace LineageServer.Command.Executors
     {
         public void Execute(L1PcInstance pc, string cmdName, string arg)
         {
-            if (arg.Equals("on", StringComparison.OrdinalIgnoreCase))
+            if (arg == "on")
             {
                 pc.setSkillEffect(L1SkillId.GMSTATUS_FINDINVIS, 0);
                 pc.removeAllKnownObjects();
                 pc.updateObject();
             }
-            else if (arg.Equals("off", StringComparison.OrdinalIgnoreCase))
+            else if (arg == "off")
             {
                 pc.removeSkillEffect(L1SkillId.GMSTATUS_FINDINVIS);
                 foreach (L1PcInstance visible in L1World.Instance.getVisiblePlayer(pc))

@@ -29,7 +29,7 @@ namespace LineageServer.Command.Executors
                     msg = "找不到符合條件的NPC。";
                     return;
                 }
-                if (type.Equals("mob", StringComparison.OrdinalIgnoreCase))
+                if (type == "mob")
                 {
                     if (!template.Impl.Equals("L1Monster"))
                     {
@@ -38,7 +38,7 @@ namespace LineageServer.Command.Executors
                     }
                     SpawnTable.storeSpawn(pc, template);
                 }
-                else if (type.Equals("npc", StringComparison.OrdinalIgnoreCase))
+                else if (type == "npc")
                 {
                     NpcSpawnTable.Instance.storeSpawn(pc, template);
                 }

@@ -305,7 +305,7 @@ namespace LineageServer.Server.Model
 					return;
 				}
 				pc.killSkillEffectTimer(SHAPE_CHANGE);
-				pc.setSkillEffect(SHAPE_CHANGE, timeSecs * 1000);
+				pc.setSkillEffect(L1SkillId.SHAPE_CHANGE, timeSecs * 1000);
 				if (pc.TempCharGfx != polyId)
 				{
 					L1ItemInstance weapon = pc.Weapon;
@@ -335,7 +335,7 @@ namespace LineageServer.Server.Model
 			{ // 怪物變身
 				L1MonsterInstance mob = (L1MonsterInstance) cha;
 				mob.killSkillEffectTimer(SHAPE_CHANGE);
-				mob.setSkillEffect(SHAPE_CHANGE, timeSecs * 1000);
+				mob.setSkillEffect(L1SkillId.SHAPE_CHANGE, timeSecs * 1000);
 				if (mob.TempCharGfx != polyId)
 				{
 					mob.TempCharGfx = polyId;

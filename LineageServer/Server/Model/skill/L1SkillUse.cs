@@ -1419,7 +1419,7 @@ namespace LineageServer.Server.Model.skill
 			{
 				return;
 			}
-			cha.setSkillEffect(_skillId, _getBuffDuration);
+			cha.setSkillEffect(L1SkillId._skillId, _getBuffDuration);
 
 			if (_skillId == L1SkillId.ELEMENTAL_FALL_DOWN && repetition)
 			{ // 弱化屬性重複施放
@@ -1869,7 +1869,7 @@ namespace LineageServer.Server.Model.skill
 			{
 				if (skillId != _skillId)
 				{
-					cha.removeSkillEffect(skillId);
+					cha.removeSkillEffect(L1SkillId.skillId);
 				}
 			}
 		}
@@ -2094,7 +2094,7 @@ namespace LineageServer.Server.Model.skill
 					// ■■■■ 個別処理のあるスキルのみ書いてください。 ■■■■
 
 					// 除了衝暈、骷髏毀壞之外魔法效果存在時，只更新效果時間跟圖示。
-					if (cha.hasSkillEffect(_skillId) && ( _skillId != L1SkillId.SHOCK_STUN && _skillId != L1SkillId.BONE_BREAK && _skillId != L1SkillId.CONFUSION && _skillId != L1SkillId.THUNDER_GRAB ))
+					if (cha.hasSkillEffect(L1SkillId._skillId) && ( _skillId != L1SkillId.SHOCK_STUN && _skillId != L1SkillId.BONE_BREAK && _skillId != L1SkillId.CONFUSION && _skillId != L1SkillId.THUNDER_GRAB ))
 					{
 						addMagicList(cha, true); // 魔法效果已存在時
 						if (_skillId != L1SkillId.SHAPE_CHANGE)
@@ -2139,7 +2139,7 @@ namespace LineageServer.Server.Model.skill
 								}
 								if (skillNum != 0)
 								{
-									cha.removeSkillEffect(skillNum);
+									cha.removeSkillEffect(L1SkillId.skillNum);
 									cha.removeSkillEffect(L1SkillId.HASTE);
 									cha.MoveSpeed = 0;
 									continue;
@@ -2179,7 +2179,7 @@ namespace LineageServer.Server.Model.skill
 									}
 									if (skillNum != 0)
 									{
-										pc.removeSkillEffect(skillNum);
+										pc.removeSkillEffect(L1SkillId.skillNum);
 										pc.removeSkillEffect(L1SkillId.GREATER_HASTE);
 										pc.MoveSpeed = 0;
 										continue;
@@ -2226,8 +2226,8 @@ namespace LineageServer.Server.Model.skill
 								}
 								if (skillNum != 0)
 								{
-									cha.removeSkillEffect(skillNum);
-									cha.removeSkillEffect(_skillId);
+									cha.removeSkillEffect(L1SkillId.skillNum);
+									cha.removeSkillEffect(L1SkillId._skillId);
 									cha.MoveSpeed = 0;
 									continue;
 								}
@@ -2721,7 +2721,7 @@ namespace LineageServer.Server.Model.skill
 							}
 							break;
 						default:
-							L1BuffUtil.skillEffect(_user, cha, _target, _skillId, _getBuffIconDuration, dmg);
+							L1BuffUtil.SkillEffect(L1SkillId._user, cha, _target, _skillId, _getBuffIconDuration, dmg);
 							break;
 					}
 

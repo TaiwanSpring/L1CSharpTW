@@ -53,7 +53,7 @@ namespace LineageServer.Server
 	using L1BugBearRace = LineageServer.Server.Model.Game.L1BugBearRace;
 	using L1GameTimeClock = LineageServer.Server.Model.Gametime.L1GameTimeClock;
 	using L1TreasureBox = LineageServer.Server.Model.item.L1TreasureBox;
-	using L1WorldMap = LineageServer.Server.Model.map.L1WorldMap;
+	using L1WorldMap = LineageServer.Server.Model.Map.L1WorldMap;
 	using L1NpcDefaultAction = LineageServer.Server.Model.Npc.Action.L1NpcDefaultAction;
 	using L1WorldTraps = LineageServer.Server.Model.trap.L1WorldTraps;
 	using MysqlAutoBackup = LineageServer.Server.storage.mysql.MysqlAutoBackup;

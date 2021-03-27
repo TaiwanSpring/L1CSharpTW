@@ -1,6 +1,6 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Server.Model.Instance;
-using LineageServer.Server.Model.map;
+using LineageServer.Server.Model.Map;
 using LineageServer.Serverpackets;
 using LineageServer.Server.Types;
 using LineageServer.Utils;
@@ -541,7 +541,7 @@ namespace LineageServer.Server.Model
             }
             foreach (L1PcInstance each in AllPlayers)
             {
-                if (each.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                if (each.Name == name)
                 {
                     return each;
                 }
