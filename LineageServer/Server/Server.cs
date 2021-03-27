@@ -18,7 +18,7 @@ using System.IO;
 /// </summary>
 namespace LineageServer.Server
 {
-    using GameServer = LineageServer.Server.Server.GameServer;
+    using GameServer = LineageServer.Server.GameServer;
     using TelnetServer = LineageServer.Server.telnet.TelnetServer;
 
     /// <summary>
@@ -28,7 +28,7 @@ namespace LineageServer.Server
     {
         /// <summary>
         /// 紀錄用 </summary>
-        private static ILogger _log = Logger.getLogger(nameof(Program));
+        private static ILogger _log = Logger.GetLogger(nameof(Program));
 
         /// <summary>
         /// 紀錄檔的路徑 </summary>

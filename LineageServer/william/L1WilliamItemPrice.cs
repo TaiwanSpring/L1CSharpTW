@@ -25,7 +25,7 @@ namespace LineageServer.william
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @SuppressWarnings("unused") private static java.util.logging.Logger _log = java.util.logging.Logger.getLogger(L1WilliamItemPrice.class.getName());
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.getLogger(typeof(L1WilliamItemPrice).FullName);
+		private static Logger _log = Logger.GetLogger(typeof(L1WilliamItemPrice).FullName);
 
 		private int _itemId;
 

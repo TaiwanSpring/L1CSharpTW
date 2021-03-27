@@ -7,15 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LineageServer", "LineageServer\LineageServer.csproj", "{ECF7432B-AE16-4670-A98A-73289C9ED210}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseModule", "DataBaseModule\DataBaseModule.csproj", "{0329C63C-0A33-4A92-9976-C6E0715F7FC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseModule", "DataBaseModule\DataBaseModule.csproj", "{0329C63C-0A33-4A92-9976-C6E0715F7FC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseSourceCodeMaker", "DataBaseSourceCodeMaker\DataBaseSourceCodeMaker.csproj", "{E1B66029-CDBD-4FE4-8514-04D92AAEFEDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseSourceCodeMaker", "DataBaseSourceCodeMaker\DataBaseSourceCodeMaker.csproj", "{E1B66029-CDBD-4FE4-8514-04D92AAEFEDE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00.Server", "00.Server", "{FFADFBA4-189F-4AAC-878F-4B6CA7219BAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Modules", "01.Modules", "{B39D6399-EA33-4B67-9F7D-AD0607F65E8C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99.Tool", "99.Tool", "{03096B7C-B345-4443-AF2A-15E913E7FC21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSourceCRUDCodeMaker", "DataSourceCRUDCodeMaker\DataSourceCRUDCodeMaker.csproj", "{DF70DFC8-4789-463A-A41E-9D8354E95AB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{E1B66029-CDBD-4FE4-8514-04D92AAEFEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1B66029-CDBD-4FE4-8514-04D92AAEFEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1B66029-CDBD-4FE4-8514-04D92AAEFEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF70DFC8-4789-463A-A41E-9D8354E95AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF70DFC8-4789-463A-A41E-9D8354E95AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF70DFC8-4789-463A-A41E-9D8354E95AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF70DFC8-4789-463A-A41E-9D8354E95AB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +53,7 @@ Global
 		{ECF7432B-AE16-4670-A98A-73289C9ED210} = {FFADFBA4-189F-4AAC-878F-4B6CA7219BAD}
 		{0329C63C-0A33-4A92-9976-C6E0715F7FC5} = {B39D6399-EA33-4B67-9F7D-AD0607F65E8C}
 		{E1B66029-CDBD-4FE4-8514-04D92AAEFEDE} = {03096B7C-B345-4443-AF2A-15E913E7FC21}
+		{DF70DFC8-4789-463A-A41E-9D8354E95AB9} = {03096B7C-B345-4443-AF2A-15E913E7FC21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F570574-222C-40C3-94E2-03E410E41344}

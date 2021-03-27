@@ -16,7 +16,7 @@
 /// </summary>
 namespace LineageServer.Server
 {
-	using LineageServer.Server.Server.Utils.Internationalization;
+	using LineageServer.Utils.Internationalization;
 
 	/// <summary>
 	/// 國際化的英文是Internationalization 因為單字中總共有18個字母，簡稱I18N， 目的是讓應用程式可以應地區不同而顯示不同的訊息。
@@ -31,7 +31,6 @@ namespace LineageServer.Server
 		{
 			try
 			{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
 				resource = ResourceBundle.getBundle(typeof(messages).FullName);
 				initLocaleMessage();
 			}

@@ -1,0 +1,38 @@
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.Model;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Model.skill;
+using LineageServer.Serverpackets;
+using System;
+namespace LineageServer.Command.Executors
+{
+    class L1FindInvis : ILineageCommand
+    {
+        public void Execute(L1PcInstance pc, string cmdName, string arg)
+        {
+            if (arg.Equals("on", StringComparison.OrdinalIgnoreCase))
+            {
+                pc.setSkillEffect(L1SkillId.GMSTATUS_FINDINVIS, 0);
+                pc.removeAllKnownObjects();
+                pc.updateObject();
+            }
+            else if (arg.Equals("off", StringComparison.OrdinalIgnoreCase))
+            {
+                pc.removeSkillEffect(L1SkillId.GMSTATUS_FINDINVIS);
+                foreach (L1PcInstance visible in L1World.Instance.getVisiblePlayer(pc))
+                {
+                    if (visible.Invisble)
+                    {
+                        pc.sendPackets(new S_RemoveObject(visible));
+                    }
+                }
+            }
+            else
+            {
+                pc.sendPackets(new S_SystemMessage(cmdName + "請輸入  on|off 。"));
+            }
+        }
+
+    }
+
+}

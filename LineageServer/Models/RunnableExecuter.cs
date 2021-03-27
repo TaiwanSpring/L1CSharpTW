@@ -44,6 +44,7 @@ namespace LineageServer.Models
                 long currentTicks = DateTime.Now.Ticks;//現在時間
                 IEnumerable<KeyValuePair<ITimerTask, TimerTaskArgs>> items = this.timerTaskMapping.ToArray();//Jobs
                 long ticks = currentTicks - oldTicks;//經過時間
+                oldTicks = currentTicks;
                 foreach (var item in items)//For loop
                 {
                     if (item.Key.IsCancel)//已取消
@@ -56,7 +57,7 @@ namespace LineageServer.Models
 
                         if (item.Value.Ticks <= 0) // 檢查是否要執行
                         {
-                            if (item.Value.Interval == 0)// Interval 為0代表執行一次
+                            if (item.Value.Interval <= 0)// Interval 為0代表執行一次
                             {
                                 this.timerTaskMapping.Remove(item.Key);
                             }
@@ -70,6 +71,12 @@ namespace LineageServer.Models
                 }
             }
         }
+
+        internal void execute(Action p)
+        {
+            throw new NotImplementedException();
+        }
+
         public void scheduleAtFixedRate(TimerTask task, int delay)
         {
             this.timerTaskMapping.Add(task, new TimerTaskArgs()

@@ -3,7 +3,7 @@
     /// <summary>
     /// 資料庫所有Table
     /// </summary>
-    enum DataSourceTypeEnum : byte
+    public enum DataSourceTypeEnum : byte
     {
         Unknow,
         Accounts,
