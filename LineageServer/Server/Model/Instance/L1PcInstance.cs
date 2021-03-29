@@ -1,7 +1,7 @@
 ﻿using LineageServer.Command.Executors;
 using LineageServer.Interfaces;
 using LineageServer.Models;
-using LineageServer.Server.DataSources;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Classes;
 using LineageServer.Server.Model.Gametime;
 using LineageServer.Server.Model.Map;
@@ -315,9 +315,7 @@ namespace LineageServer.Server.Model.Instance
         private ITimerTask _autoUpdateFuture;
 
         private const int INTERVAL_EXP_MONITOR = 500;
-
-        //JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-        //ORIGINAL LINE: private java.util.concurrent.ScheduledFuture<?> _expMonitorFuture;
+        
         private ITimerTask _expMonitorFuture;
         /// <summary>
         /// 等級
@@ -940,16 +938,16 @@ namespace LineageServer.Server.Model.Instance
             _birthday = DateTime.Now;
         }
 
-        private sbyte _sex; // ● 性別
+        private byte _sex; // ● 性別
 
-        public virtual sbyte get_sex()
+        public virtual byte get_sex()
         {
             return _sex;
         }
 
         public virtual void set_sex(int i)
         {
-            _sex = (sbyte)i;
+            _sex = (byte)i;
         }
 
         public virtual bool Gm
@@ -1215,9 +1213,9 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        private sbyte[] _shopChat;
+        private byte[] _shopChat;
 
-        public virtual sbyte[] ShopChat
+        public virtual byte[] ShopChat
         {
             set
             {
@@ -2527,9 +2525,9 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        private sbyte _baseStr = 0; // ● ＳＴＲベース（1～127）
+        private byte _baseStr = 0; // ● ＳＴＲベース（1～127）
 
-        public virtual sbyte BaseStr
+        public virtual byte BaseStr
         {
             get
             {
@@ -2537,7 +2535,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        public virtual void addBaseStr(sbyte i)
+        public virtual void addBaseStr(byte i)
         {
             i += _baseStr;
             if (i >= 127)
@@ -2548,13 +2546,13 @@ namespace LineageServer.Server.Model.Instance
             {
                 i = 1;
             }
-            addStr((sbyte)(i - _baseStr));
+            addStr((byte)(i - _baseStr));
             _baseStr = i;
         }
 
-        private sbyte _baseCon = 0; // ● ＣＯＮベース（1～127）
+        private byte _baseCon = 0; // ● ＣＯＮベース（1～127）
 
-        public virtual sbyte BaseCon
+        public virtual byte BaseCon
         {
             get
             {
@@ -2562,7 +2560,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        public virtual void addBaseCon(sbyte i)
+        public virtual void addBaseCon(byte i)
         {
             i += _baseCon;
             if (i >= 127)
@@ -2573,13 +2571,13 @@ namespace LineageServer.Server.Model.Instance
             {
                 i = 1;
             }
-            addCon((sbyte)(i - _baseCon));
+            addCon((byte)(i - _baseCon));
             _baseCon = i;
         }
 
-        private sbyte _baseDex = 0; // ● ＤＥＸベース（1～127）
+        private byte _baseDex = 0; // ● ＤＥＸベース（1～127）
 
-        public virtual sbyte BaseDex
+        public virtual byte BaseDex
         {
             get
             {
@@ -2587,7 +2585,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        public virtual void addBaseDex(sbyte i)
+        public virtual void addBaseDex(byte i)
         {
             i += _baseDex;
             if (i >= 127)
@@ -2598,13 +2596,13 @@ namespace LineageServer.Server.Model.Instance
             {
                 i = 1;
             }
-            addDex((sbyte)(i - _baseDex));
+            addDex((byte)(i - _baseDex));
             _baseDex = i;
         }
 
-        private sbyte _baseCha = 0; // ● ＣＨＡベース（1～127）
+        private byte _baseCha = 0; // ● ＣＨＡベース（1～127）
 
-        public virtual sbyte BaseCha
+        public virtual byte BaseCha
         {
             get
             {
@@ -2612,7 +2610,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        public virtual void addBaseCha(sbyte i)
+        public virtual void addBaseCha(byte i)
         {
             i += _baseCha;
             if (i >= 127)
@@ -2623,13 +2621,13 @@ namespace LineageServer.Server.Model.Instance
             {
                 i = 1;
             }
-            addCha((sbyte)(i - _baseCha));
+            addCha((byte)(i - _baseCha));
             _baseCha = i;
         }
 
-        private sbyte _baseInt = 0; // ● ＩＮＴベース（1～127）
+        private byte _baseInt = 0; // ● ＩＮＴベース（1～127）
 
-        public virtual sbyte BaseInt
+        public virtual byte BaseInt
         {
             get
             {
@@ -2637,7 +2635,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        public virtual void addBaseInt(sbyte i)
+        public virtual void addBaseInt(byte i)
         {
             i += _baseInt;
             if (i >= 127)
@@ -2648,13 +2646,13 @@ namespace LineageServer.Server.Model.Instance
             {
                 i = 1;
             }
-            addInt((sbyte)(i - _baseInt));
+            addInt((byte)(i - _baseInt));
             _baseInt = i;
         }
 
-        private sbyte _baseWis = 0; // ● ＷＩＳベース（1～127）
+        private byte _baseWis = 0; // ● ＷＩＳベース（1～127）
 
-        public virtual sbyte BaseWis
+        public virtual byte BaseWis
         {
             get
             {
@@ -2662,7 +2660,7 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
-        public virtual void addBaseWis(sbyte i)
+        public virtual void addBaseWis(byte i)
         {
             i += _baseWis;
             if (i >= 127)
@@ -2673,7 +2671,7 @@ namespace LineageServer.Server.Model.Instance
             {
                 i = 1;
             }
-            addWis((sbyte)(i - _baseWis));
+            addWis((byte)(i - _baseWis));
             _baseWis = i;
         }
 
@@ -6171,7 +6169,7 @@ namespace LineageServer.Server.Model.Instance
         }
 
 
-        private sbyte _chatCount = 0;
+        private byte _chatCount = 0;
 
         private long _oldChatTimeInMillis = 0L;
 

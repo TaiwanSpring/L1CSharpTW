@@ -14,7 +14,7 @@
 /// </summary>
 namespace LineageServer.Server.Model
 {
-	using TownTable = LineageServer.Server.DataSources.TownTable;
+	using TownTable = LineageServer.Server.DataTables.TownTable;
 	using L1Town = LineageServer.Server.Templates.L1Town;
 	using Point = LineageServer.Server.Types.Point;
 	using Random = LineageServer.Utils.Random;

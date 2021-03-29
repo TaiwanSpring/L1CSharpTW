@@ -16,7 +16,7 @@ namespace LineageServer.Server.Model.trap
 {
 	using GameObject = LineageServer.Server.Model.GameObject;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using TrapStorage = LineageServer.Server.storage.TrapStorage;
+	using TrapStorage = LineageServer.Server.Storage.TrapStorage;
 	using Dice = LineageServer.Utils.Dice;
 
 	public class L1DamageTrap : L1Trap

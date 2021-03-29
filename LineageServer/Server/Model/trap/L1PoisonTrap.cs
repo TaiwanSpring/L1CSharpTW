@@ -19,7 +19,7 @@ namespace LineageServer.Server.Model.trap
 	using L1DamagePoison = LineageServer.Server.Model.poison.L1DamagePoison;
 	using L1ParalysisPoison = LineageServer.Server.Model.poison.L1ParalysisPoison;
 	using L1SilencePoison = LineageServer.Server.Model.poison.L1SilencePoison;
-	using TrapStorage = LineageServer.Server.storage.TrapStorage;
+	using TrapStorage = LineageServer.Server.Storage.TrapStorage;
 
 	public class L1PoisonTrap : L1Trap
 	{

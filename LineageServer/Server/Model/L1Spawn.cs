@@ -1,6 +1,6 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Models;
-using LineageServer.Server.DataSources;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Gametime;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.Map;
@@ -675,7 +675,7 @@ namespace LineageServer.Server.Model
 
         private const int PC_AROUND_DISTANCE = 30;
 
-        private int SpawnType
+        public int SpawnType
         {
             get
             {

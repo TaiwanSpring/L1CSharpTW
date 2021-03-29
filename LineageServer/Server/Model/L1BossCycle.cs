@@ -19,7 +19,7 @@ namespace LineageServer.Server.Model
 {
 
 
-	using BossSpawnTable = LineageServer.Server.DataSources.BossSpawnTable;
+	using BossSpawnTable = LineageServer.Server.DataTables.BossSpawnTable;
 	using PerformanceTimer = LineageServer.Utils.PerformanceTimer;
 	using Random = LineageServer.Utils.Random;
 	using MapFactory = LineageServer.Utils.MapFactory;

@@ -18,7 +18,7 @@ namespace LineageServer.Server.Model.trap
 	using GameObject = LineageServer.Server.Model.GameObject;
 	using L1Teleport = LineageServer.Server.Model.L1Teleport;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using TrapStorage = LineageServer.Server.storage.TrapStorage;
+	using TrapStorage = LineageServer.Server.Storage.TrapStorage;
 
 	public class L1TeleportTrap : L1Trap
 	{

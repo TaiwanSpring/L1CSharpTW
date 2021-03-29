@@ -15,12 +15,12 @@ using System.Collections.Generic;
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.DataSources
+namespace LineageServer.Server.DataTables
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using L1Trap = LineageServer.Server.Model.trap.L1Trap;
-	using TrapStorage = LineageServer.Server.storage.TrapStorage;
+	using TrapStorage = LineageServer.Server.Storage.TrapStorage;
 	using SQLUtil = LineageServer.Utils.SQLUtil;
 	using MapFactory = LineageServer.Utils.MapFactory;
 

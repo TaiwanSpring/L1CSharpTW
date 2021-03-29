@@ -1,4 +1,4 @@
-﻿using LineageServer.Server.DataSources;
+﻿using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Map;
 using LineageServer.Server.Model.skill;
@@ -196,11 +196,6 @@ namespace LineageServer.Server.Model.Instance
             return _item.GfxId;
         }
 
-        public virtual int get_durability()
-        {
-            return _durability;
-        }
-
         public virtual int ChargeCount
         {
             get
@@ -314,6 +309,10 @@ namespace LineageServer.Server.Model.Instance
             }
         }
 
+        public virtual int get_durability()
+        {
+            return _durability;
+        }
         /*
 		 * 耐久性、0~127まで -の値は許可しない。
 		 */

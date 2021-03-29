@@ -1,5 +1,5 @@
 ﻿using LineageServer.Models;
-using LineageServer.Server.storage.mysql;
+using LineageServer.Server.Storage.mysql;
 
 namespace LineageServer.Utils
 {

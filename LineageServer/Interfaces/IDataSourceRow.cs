@@ -16,8 +16,12 @@ namespace LineageServer.Interfaces
         IDataSourceRow Set(string column, object value);
         void Execute();
         bool FillData(IDataReader dataReader);
-
+        bool HaveData { get; }
         int getInt(string column);
+        byte getByte(string column);
+        long getLong(string column);
+        short getShort(string column);
+        bool getBoolean(string column);
         string getString(string column);
         DateTime getTimestamp(string column);
     }

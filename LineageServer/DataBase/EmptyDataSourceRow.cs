@@ -8,6 +8,8 @@ namespace LineageServer.DataBase
 {
     class EmptyDataSourceRow : IDataSourceRow, IDataSourceQuery
     {
+        public bool HaveData { get { return false; } }
+
         public IDataSourceRow Delete()
         {
             return this;
@@ -23,9 +25,19 @@ namespace LineageServer.DataBase
             return false;
         }
 
+        public bool getBoolean(string column)
+        {
+            throw new NotImplementedException();
+        }
+
         public int getInt(string column)
         {
             return 0;
+        }
+
+        public short getShort(string column)
+        {
+            throw new NotImplementedException();
         }
 
         public string getString(string column)

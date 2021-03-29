@@ -22,7 +22,7 @@ namespace LineageServer.Server.Model
 	using Config = LineageServer.Server.Config;
 	using RunnableExecuter = LineageServer.Server.RunnableExecuter;
 	using WarTimeController = LineageServer.Server.WarTimeController;
-	using CastleTable = LineageServer.Server.DataSources.CastleTable;
+	using CastleTable = LineageServer.Server.DataTables.CastleTable;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 	using S_ServerMessage = LineageServer.Serverpackets.S_ServerMessage;
 	using S_War = LineageServer.Serverpackets.S_War;

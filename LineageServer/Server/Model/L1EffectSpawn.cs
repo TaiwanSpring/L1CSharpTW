@@ -22,8 +22,8 @@ namespace LineageServer.Server.Model
 
 
 	using IdFactory = LineageServer.Server.IdFactory;
-	using NpcTable = LineageServer.Server.DataSources.NpcTable;
-	using SkillsTable = LineageServer.Server.DataSources.SkillsTable;
+	using NpcTable = LineageServer.Server.DataTables.NpcTable;
+	using SkillsTable = LineageServer.Server.DataTables.SkillsTable;
 	using L1EffectInstance = LineageServer.Server.Model.Instance.L1EffectInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 	using L1Map = LineageServer.Server.Model.Map.L1Map;

@@ -1,14 +1,7 @@
-﻿namespace LineageServer.Server.DataSources
+﻿namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1Clan = LineageServer.Server.Model.L1Clan;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-
-	public class ClanRecommendTable
+	class ClanRecommendTable
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(ClanRecommendTable).FullName);
 
 		private static ClanRecommendTable _instance;
 

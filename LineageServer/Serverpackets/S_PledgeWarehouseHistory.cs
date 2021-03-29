@@ -20,7 +20,7 @@ namespace LineageServer.Serverpackets
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static l1j.server.server.Opcodes.S_OPCODE_PACKETBOX;
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using ItemTable = LineageServer.Server.DataSources.ItemTable;
+	using ItemTable = LineageServer.Server.DataTables.ItemTable;
 	using L1Item = LineageServer.Server.Templates.L1Item;
 	using SQLUtil = LineageServer.Utils.SQLUtil;
 

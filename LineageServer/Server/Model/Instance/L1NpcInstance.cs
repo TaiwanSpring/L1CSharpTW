@@ -1,6 +1,6 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Models;
-using LineageServer.Server.DataSources;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Map;
 using LineageServer.Server.Model.npc.action;

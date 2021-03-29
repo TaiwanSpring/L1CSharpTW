@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace LineageServer.Server.Model.Npc.Action
 {
 
-    using ItemTable = LineageServer.Server.DataSources.ItemTable;
+    using ItemTable = LineageServer.Server.DataTables.ItemTable;
     using GameObject = LineageServer.Server.Model.GameObject;
     using LineageServer.Server.Model;
     using L1PcInventory = LineageServer.Server.Model.L1PcInventory;

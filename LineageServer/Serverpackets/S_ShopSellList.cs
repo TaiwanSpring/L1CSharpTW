@@ -19,8 +19,8 @@ namespace LineageServer.Serverpackets
 
 	using Config = LineageServer.Server.Config;
 	using Opcodes = LineageServer.Server.Opcodes;
-	using ShopTable = LineageServer.Server.DataSources.ShopTable;
-	using ItemTable = LineageServer.Server.DataSources.ItemTable;
+	using ShopTable = LineageServer.Server.DataTables.ShopTable;
+	using ItemTable = LineageServer.Server.DataTables.ItemTable;
 	using GameObject = LineageServer.Server.Model.GameObject;
 	using L1TaxCalculator = LineageServer.Server.Model.L1TaxCalculator;
 	using L1World = LineageServer.Server.Model.L1World;

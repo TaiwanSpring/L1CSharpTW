@@ -14,7 +14,7 @@
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.DataSources
+namespace LineageServer.Server.DataTables
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;

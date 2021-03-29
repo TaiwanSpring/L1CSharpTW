@@ -1,154 +1,93 @@
-﻿using System;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Templates;
+using LineageServer.Utils;
 using System.Collections.Generic;
 using System.Linq;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
-namespace LineageServer.Server.DataSources
+namespace LineageServer.Server.DataTables
 {
+    class CastleTable
+    {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.Castle);
+        private static CastleTable _instance;
 
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1Castle = LineageServer.Server.Templates.L1Castle;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
+        private readonly IDictionary<int, L1Castle> _castles = MapFactory.NewConcurrentMap<int, L1Castle>();
 
-	// Referenced classes of package l1j.server.server:
-	// IdFactory
+        public static CastleTable Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new CastleTable();
+                }
+                return _instance;
+            }
+        }
 
-	public class CastleTable
-	{
+        private CastleTable()
+        {
+            load();
+        }
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(CastleTable).FullName);
+        private void load()
+        {
+            IDataSource clanData =
+           Container.Instance.Resolve<IDataSourceFactory>()
+           .Factory(Enum.DataSourceTypeEnum.ClanData);
+            IList<IDataSourceRow> clanDatas = clanData.Select().Query();
+            IDictionary<int, int> clanDatasMapping = new Dictionary<int, int>();
+            for (int i = 0; i < clanDatas.Count; i++)
+            {
+                clanDatasMapping.Add(clanDatas[i].getInt(ClanData.Column_hascastle),
+                    clanDatas[i].getInt(ClanData.Column_clan_id));
+            }
 
-		private static CastleTable _instance;
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-		private readonly IDictionary<int, L1Castle> _castles = MapFactory.newConcurrentMap();
+            for (int i = 0; i < dataSourceRows.Count; i++)
+            {
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
 
-		public static CastleTable Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new CastleTable();
-				}
-				return _instance;
-			}
-		}
+                L1Castle castle = new L1Castle(dataSourceRow.getInt(Castle.Column_castle_id),
+                    dataSourceRow.getString(Castle.Column_name));
+                castle.WarTime = dataSourceRow.getTimestamp(Castle.Column_war_time);
+                castle.TaxRate = dataSourceRow.getInt(Castle.Column_tax_rate);
+                castle.PublicMoney = dataSourceRow.getInt(Castle.Column_public_money);
+                if (clanDatasMapping.ContainsKey(castle.Id))
+                {
+                    castle.HeldClan = clanDatasMapping[castle.Id];
+                }
+                _castles[castle.Id] = castle;
+            }
+        }
 
-		private CastleTable()
-		{
-			load();
-		}
+        public virtual L1Castle[] CastleTableList
+        {
+            get
+            {
+                return _castles.Values.ToArray();
+            }
+        }
 
-		private DateTime timestampToCalendar(Timestamp ts)
-		{
-			DateTime cal = new DateTime();
-			cal.TimeInMillis = ts.Time;
-			return cal;
-		}
+        public virtual L1Castle getCastleTable(int id)
+        {
+            return _castles[id];
+        }
 
-		private void load()
-		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM castle ORDER BY castle_id ASC");
-
-				rs = pstm.executeQuery();
-
-				while (rs.next())
-				{
-					L1Castle castle = new L1Castle(dataSourceRow.getInt(1), dataSourceRow.getString(2));
-					castle.WarTime = timestampToCalendar((Timestamp) dataSourceRow.getObject(3));
-					castle.TaxRate = dataSourceRow.getInt(4);
-					castle.PublicMoney = dataSourceRow.getInt(5);
-
-					/// <summary>
-					/// 設置擁有該城堡的血盟 </summary>
-					pstm = con.prepareStatement("SELECT clan_id FROM clan_data WHERE hascastle = ?");
-					pstm.setInt(1, castle.Id);
-					ResultSet rstemp = pstm.executeQuery();
-
-					while (rstemp.next())
-					{
-						castle.HeldClan = rstemp.getInt(1);
-					}
-
-					_castles[castle.Id] = castle;
-				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-		}
-
-		public virtual L1Castle[] CastleTableList
-		{
-			get
-			{
-				return _castles.Values.ToArray();
-			}
-		}
-
-		public virtual L1Castle getCastleTable(int id)
-		{
-			return _castles[id];
-		}
-
-		public virtual void updateCastle(L1Castle castle)
-		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("UPDATE castle SET name=?, war_time=?, tax_rate=?, public_money=? WHERE castle_id=?");
-				pstm.setString(1, castle.Name);
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				string fm = sdf.format(castle.WarTime);
-				pstm.setString(2, fm);
-				pstm.setInt(3, castle.TaxRate);
-				pstm.setInt(4, castle.PublicMoney);
-				pstm.setInt(5, castle.Id);
-				pstm.execute();
-
-				_castles[castle.Id] = castle;
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-		}
-
-	}
-
+        public virtual void updateCastle(L1Castle castle)
+        {
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Update()
+            .Where(Castle.Column_castle_id, castle.Id)
+            .Set(Castle.Column_name, castle.Name)
+            .Set(Castle.Column_war_time, castle.WarTime)
+            .Set(Castle.Column_tax_rate, castle.TaxRate)
+            .Set(Castle.Column_public_money, castle.PublicMoney)
+            .Execute();
+            _castles[castle.Id] = castle;
+        }
+    }
 }

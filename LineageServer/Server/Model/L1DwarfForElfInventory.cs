@@ -18,8 +18,8 @@ namespace LineageServer.Server.Model
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using InnKeyTable = LineageServer.Server.DataSources.InnKeyTable;
-	using ItemTable = LineageServer.Server.DataSources.ItemTable;
+	using InnKeyTable = LineageServer.Server.DataTables.InnKeyTable;
+	using ItemTable = LineageServer.Server.DataTables.ItemTable;
 	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 	using L1Item = LineageServer.Server.Templates.L1Item;

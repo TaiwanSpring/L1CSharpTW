@@ -21,8 +21,8 @@ namespace LineageServer.Serverpackets
 
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using CharacterTable = LineageServer.Server.DataSources.CharacterTable;
-	using ClanRecommendTable = LineageServer.Server.DataSources.ClanRecommendTable;
+	using CharacterTable = LineageServer.Server.DataTables.CharacterTable;
+	using ClanRecommendTable = LineageServer.Server.DataTables.ClanRecommendTable;
 	using L1Clan = LineageServer.Server.Model.L1Clan;
 	using L1World = LineageServer.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;

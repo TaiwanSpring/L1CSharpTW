@@ -18,7 +18,7 @@ namespace LineageServer.Server.Model.trap
 	using L1World = LineageServer.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 	using S_EffectLocation = LineageServer.Serverpackets.S_EffectLocation;
-	using TrapStorage = LineageServer.Server.storage.TrapStorage;
+	using TrapStorage = LineageServer.Server.Storage.TrapStorage;
 
 	public abstract class L1Trap
 	{

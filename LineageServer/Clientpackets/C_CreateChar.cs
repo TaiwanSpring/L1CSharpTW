@@ -1,5 +1,5 @@
 ﻿using LineageServer.Interfaces;
-using LineageServer.Server.DataSources;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.Map;
@@ -7,6 +7,7 @@ using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
 using LineageServer.Utils;
 using System;
+using LineageServer.Server;
 
 namespace LineageServer.Clientpackets
 {

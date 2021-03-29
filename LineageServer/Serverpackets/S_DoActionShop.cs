@@ -16,23 +16,15 @@ namespace LineageServer.Serverpackets
 {
 	using Opcodes = LineageServer.Server.Opcodes;
 
-	public class S_DoActionShop : ServerBasePacket
+	class S_DoActionShop : ServerBasePacket
 	{
 
-		public S_DoActionShop(int @object, int gfxid, sbyte[] message)
+		public S_DoActionShop(int obj, int gfxid, byte[] message)
 		{
 			WriteC(Opcodes.S_OPCODE_DOACTIONGFX);
-			WriteD(@object);
+			WriteD(obj);
 			WriteC(gfxid);
 			WriteByte(message);
-		}
-
-		public override sbyte[] Content
-		{
-			get
-			{
-				return Bytes;
-			}
 		}
 	}
 

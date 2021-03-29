@@ -133,7 +133,7 @@
         /// <param name="baseCon"> </param>
         /// <param name="originalHpup"> </param>
         /// <returns> HP上昇値 </returns>
-        public static short calcStatHp(int charType, int baseMaxHp, sbyte baseCon, int originalHpup)
+        public static short calcStatHp(int charType, int baseMaxHp, byte baseCon, int originalHpup)
         {
             short randomhp = 0;
             if (baseCon > 15)
@@ -221,7 +221,7 @@
         /// <param name="baseWis"> </param>
         /// <param name="originalMpup"> </param>
         /// <returns> MP上昇値 </returns>
-        public static short calcStatMp(int charType, int baseMaxMp, sbyte baseWis, int originalMpup)
+        public static short calcStatMp(int charType, int baseMaxMp, byte baseWis, int originalMpup)
         {
             int randommp = 0;
             int seedY = 0;

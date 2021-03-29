@@ -14,7 +14,7 @@ namespace DataBaseSourceCodeMaker
             MySqlConnection mySqlConnection = new MySqlConnection(connectString);
             mySqlConnection.Open();
             var command = mySqlConnection.CreateCommand();
-            command.CommandText = "SELECT TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA = 'l1jdbtw'";
+            command.CommandText = "SELECT TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA = 'l1csdb'";
 
             var dataReader = command.ExecuteReader();
             List<string> tableName = new List<string>();
@@ -109,7 +109,7 @@ select '        {' union all
 select '            ' union all
 select '        }' union all
 SELECT '    }' union all
-SELECT '}';".Replace("@schema", "'l1jdbtw'").Replace("@table", $"'{item}'").Replace("@className", $"'{className}'");
+SELECT '}';".Replace("@schema", "'l1csdb'").Replace("@table", $"'{item}'").Replace("@className", $"'{className}'");
 
                 dataReader = command2.ExecuteReader();
                 StringBuilder stringBuilder = new StringBuilder();

@@ -23,8 +23,8 @@ namespace LineageServer.Server.Model
 	using Config = LineageServer.Server.Config;
 	using ActionCodes = LineageServer.Server.ActionCodes;
 	using RunnableExecuter = LineageServer.Server.RunnableExecuter;
-	using ItemTable = LineageServer.Server.DataSources.ItemTable;
-	using UBSpawnTable = LineageServer.Server.DataSources.UBSpawnTable;
+	using ItemTable = LineageServer.Server.DataTables.ItemTable;
+	using UBSpawnTable = LineageServer.Server.DataTables.UBSpawnTable;
 	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
 	using L1MonsterInstance = LineageServer.Server.Model.Instance.L1MonsterInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;

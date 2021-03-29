@@ -17,8 +17,8 @@
 namespace LineageServer.Server.Model
 {
 	using IdFactory = LineageServer.Server.IdFactory;
-	using NpcTable = LineageServer.Server.DataSources.NpcTable;
-	using UBTable = LineageServer.Server.DataSources.UBTable;
+	using NpcTable = LineageServer.Server.DataTables.NpcTable;
+	using UBTable = LineageServer.Server.DataTables.UBTable;
 	using L1MonsterInstance = LineageServer.Server.Model.Instance.L1MonsterInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 	using S_NPCPack = LineageServer.Serverpackets.S_NPCPack;

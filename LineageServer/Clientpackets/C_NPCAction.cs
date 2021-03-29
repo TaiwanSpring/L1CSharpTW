@@ -1,7 +1,7 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Models;
 using LineageServer.Server;
-using LineageServer.Server.DataSources;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Game;
 using LineageServer.Server.Model.identity;

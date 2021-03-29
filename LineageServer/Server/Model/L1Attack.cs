@@ -1,4 +1,4 @@
-﻿using LineageServer.Server.DataSources;
+﻿using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Gametime;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.npc.action;

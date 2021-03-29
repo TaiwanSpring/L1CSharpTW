@@ -12,7 +12,7 @@
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.storage
+namespace LineageServer.Server.Storage
 {
 	public interface TrapStorage
 	{

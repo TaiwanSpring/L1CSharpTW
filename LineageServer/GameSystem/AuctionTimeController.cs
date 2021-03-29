@@ -1,11 +1,11 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Models;
-using LineageServer.Server.DataSources;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
-using LineageServer.Server.storage;
+using LineageServer.Server.Storage;
 using LineageServer.Server.Templates;
 using System;
 using System.Threading;

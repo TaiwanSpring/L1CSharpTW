@@ -19,7 +19,7 @@ namespace LineageServer.Server.Model.trap
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
 	using IdFactory = LineageServer.Server.IdFactory;
-	using TrapTable = LineageServer.Server.DataSources.TrapTable;
+	using TrapTable = LineageServer.Server.DataTables.TrapTable;
 	using L1Location = LineageServer.Server.Model.L1Location;
 	using L1World = LineageServer.Server.Model.L1World;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;

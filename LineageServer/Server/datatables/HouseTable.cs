@@ -16,7 +16,7 @@ using System.Linq;
 /// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
 /// 
 /// </summary>
-namespace LineageServer.Server.DataSources
+namespace LineageServer.Server.DataTables
 {
 
 	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
@@ -36,7 +36,7 @@ namespace LineageServer.Server.DataSources
 
 		private static HouseTable _instance;
 
-		private readonly IDictionary<int, L1House> _house = MapFactory.newConcurrentMap();
+		private readonly IDictionary<int, L1House> _house = MapFactory.NewConcurrentMap();
 
 		public static HouseTable Instance
 		{

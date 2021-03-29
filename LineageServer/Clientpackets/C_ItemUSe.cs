@@ -1,5 +1,5 @@
 ﻿using LineageServer.Interfaces;
-using LineageServer.Server.DataSources;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
@@ -8,7 +8,7 @@ using LineageServer.Server.Model.item.Action;
 using LineageServer.Server.Model.poison;
 using LineageServer.Server.Model.skill;
 using LineageServer.Serverpackets;
-using LineageServer.Server.storage;
+using LineageServer.Server.Storage;
 using LineageServer.Server.Templates;
 using LineageServer.Server.Types;
 using LineageServer.Utils;

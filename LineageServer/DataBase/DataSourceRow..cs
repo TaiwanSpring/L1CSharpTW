@@ -26,6 +26,8 @@ namespace LineageServer.DataBase
 
         private DataBaseRowStatusEnum dataBaseRowStatus;
 
+        public bool HaveData { get { return this.data.Count != 0; } }
+
         public DataSourceRow(string tableName, ColumnInfo[] columnInfos)
         {
             this.dbConnection = Container.Resolve<IDbConnection>();
@@ -373,6 +375,16 @@ namespace LineageServer.DataBase
         }
 
         public DateTime getTimestamp(string column)
+        {
+            throw new NotImplementedException();
+        }
+
+        public short getShort(string column)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool getBoolean(string column)
         {
             throw new NotImplementedException();
         }

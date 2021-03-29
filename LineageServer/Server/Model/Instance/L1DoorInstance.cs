@@ -1,4 +1,4 @@
-﻿using LineageServer.Server.DataSources;
+﻿using LineageServer.Server.DataTables;
 using LineageServer.Server.Templates;
 using LineageServer.Serverpackets;
 namespace LineageServer.Server.Model.Instance

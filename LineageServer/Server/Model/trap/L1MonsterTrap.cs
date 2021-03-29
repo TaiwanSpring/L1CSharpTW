@@ -19,14 +19,14 @@ namespace LineageServer.Server.Model.trap
 {
 
 	using IdFactory = LineageServer.Server.IdFactory;
-	using NpcTable = LineageServer.Server.DataSources.NpcTable;
+	using NpcTable = LineageServer.Server.DataTables.NpcTable;
 	using L1Location = LineageServer.Server.Model.L1Location;
 	using GameObject = LineageServer.Server.Model.GameObject;
 	using L1World = LineageServer.Server.Model.L1World;
 	using L1NpcInstance = LineageServer.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 	using L1Map = LineageServer.Server.Model.Map.L1Map;
-	using TrapStorage = LineageServer.Server.storage.TrapStorage;
+	using TrapStorage = LineageServer.Server.Storage.TrapStorage;
 	using L1Npc = LineageServer.Server.Templates.L1Npc;
 	using Point = LineageServer.Server.Types.Point;
 	using ListFactory = LineageServer.Utils.ListFactory;

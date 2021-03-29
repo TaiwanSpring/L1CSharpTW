@@ -5,7 +5,7 @@ using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
 
-namespace LineageServer.Server.DataSources
+namespace LineageServer.Server.DataTables
 {
     class ClanTable
     {

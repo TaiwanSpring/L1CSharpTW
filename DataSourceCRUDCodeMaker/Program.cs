@@ -14,7 +14,7 @@ namespace DataSourceCRUDCodeMaker
             MySqlConnection mySqlConnection = new MySqlConnection(connectString);
             mySqlConnection.Open();
             var command = mySqlConnection.CreateCommand();
-            command.CommandText = "SELECT TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA = 'l1jdbtw'";
+            command.CommandText = "SELECT TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA = 'l1csdb'";
 
             var dataReader = command.ExecuteReader();
             List<string> tableNames = new List<string>();
@@ -61,8 +61,8 @@ namespace DataSourceCRUDCodeMaker
                 command = mySqlConnection.CreateCommand();
                 command.CommandText = @"SELECT c.COLUMN_NAME,  IF(i.INDEX_NAME = 'PRIMARY', true, false) as IsPKey
 FROM columns AS c 
-LEFT JOIN STATISTICS AS i ON i.TABLE_SCHEMA = 'l1jdbtw' AND i.TABLE_NAME = '" + tableName + @"' AND c.COLUMN_NAME = i.COLUMN_NAME
-WHERE c.TABLE_SCHEMA = 'l1jdbtw' AND c.TABLE_NAME = '" + tableName + "'";
+LEFT JOIN STATISTICS AS i ON i.TABLE_SCHEMA = 'l1csdb' AND i.TABLE_NAME = '" + tableName + @"' AND c.COLUMN_NAME = i.COLUMN_NAME
+WHERE c.TABLE_SCHEMA = 'l1csdb' AND c.TABLE_NAME = '" + tableName + "'";
                 dataReader = command.ExecuteReader();
 
                 StringBuilder selectStringBuilder = new StringBuilder();
@@ -71,6 +71,7 @@ WHERE c.TABLE_SCHEMA = 'l1jdbtw' AND c.TABLE_NAME = '" + tableName + "'";
                 StringBuilder deleteStringBuilder = new StringBuilder();
                 StringBuilder selectGetValueStringBuilder = new StringBuilder();
                 string define = "private readonly static IDataSource dataSource = Container.Instance.Resolve<IDataSourceFactory>().Factory(Enum.DataSourceTypeEnum." + className + ");";
+                string query = "IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();";
                 selectStringBuilder.AppendLine("IDataSourceRow dataSourceRow = dataSource.NewRow();");
                 selectStringBuilder.AppendLine("dataSourceRow.Select()");
                 insertStringBuilder.AppendLine("IDataSourceRow dataSourceRow = dataSource.NewRow();");
@@ -82,22 +83,52 @@ WHERE c.TABLE_SCHEMA = 'l1jdbtw' AND c.TABLE_NAME = '" + tableName + "'";
                 while (dataReader.Read())
                 {
                     string columnName = dataReader.GetString(0);
+                    StringBuilder csCloumnNameBuilder = new StringBuilder();
+                    upper = false;
+                    for (int i = 0; i < columnName.Length; i++)
+                    {
+                        if (i == 0)
+                        {
+                            csCloumnNameBuilder.Append(columnName.ToUpper()[i]);
+                        }
+                        else
+                        {
+                            if (columnName[i] == '_')
+                            {
+                                upper = true;
+                            }
+                            else
+                            {
+                                if (upper)
+                                {
+                                    upper = false;
+                                    csCloumnNameBuilder.Append(columnName.ToUpper()[i]);
+                                }
+                                else
+                                {
+
+                                    csCloumnNameBuilder.Append(columnName[i]);
+                                }
+                            }
+                        }
+                    }
+                    string csColumnName = csCloumnNameBuilder.ToString();
                     bool isPKey = dataReader.GetBoolean(1);
                     if (isPKey)
                     {
-                        selectStringBuilder.AppendLine($".Where({className}.Column_{columnName}, name)");
-                        insertStringBuilder.AppendLine($".Set({className}.Column_{columnName}, name)");
-                        updateStringBuilder.AppendLine($".Where({className}.Column_{columnName}, name)");
-                        deleteStringBuilder.AppendLine($".Where({className}.Column_{columnName}, name)");
+                        selectStringBuilder.AppendLine($".Where({className}.Column_{columnName}, obj.{csColumnName})");
+                        insertStringBuilder.AppendLine($".Set({className}.Column_{columnName}, obj.{csColumnName})");
+                        updateStringBuilder.AppendLine($".Where({className}.Column_{columnName}, obj.{csColumnName})");
+                        deleteStringBuilder.AppendLine($".Where({className}.Column_{columnName}, obj.{csColumnName})");
 
                     }
                     else
                     {
-                        insertStringBuilder.AppendLine($".Set({className}.Column_{columnName}, name)");
-                        updateStringBuilder.AppendLine($".Set({className}.Column_{columnName}, name)");
+                        insertStringBuilder.AppendLine($".Set({className}.Column_{columnName}, obj.{csColumnName})");
+                        updateStringBuilder.AppendLine($".Set({className}.Column_{columnName}, obj.{csColumnName})");
                     }
 
-                    selectGetValueStringBuilder.AppendLine($"obj._{columnName} = dataSourceRow.getString({className}.Column_{columnName});");
+                    selectGetValueStringBuilder.AppendLine($"obj.{csColumnName} = dataSourceRow.getString({className}.Column_{columnName});");
                 }
                 dataReader.Close();
 
@@ -116,7 +147,7 @@ WHERE c.TABLE_SCHEMA = 'l1jdbtw' AND c.TABLE_NAME = '" + tableName + "'";
                     .AppendLine().AppendLine(updateStringBuilder.ToString())
                     .AppendLine().AppendLine(deleteStringBuilder.ToString())
                     .AppendLine().AppendLine(selectGetValueStringBuilder.ToString());
-                File.WriteAllText(Path.Combine(dir, "CRUD.cs"), $"{define}{Environment.NewLine}{selectStringBuilder}");
+                File.WriteAllText(Path.Combine(dir, "CRUD.cs"), $"{define}{Environment.NewLine}{query}{Environment.NewLine}{selectStringBuilder}");
             }
             mySqlConnection.Close();
 

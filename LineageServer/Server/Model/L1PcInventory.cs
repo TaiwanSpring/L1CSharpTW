@@ -1,9 +1,9 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Models;
-using LineageServer.Server.DataSources;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
-using LineageServer.Server.storage;
+using LineageServer.Server.Storage;
 using LineageServer.Server.Templates;
 using LineageServer.Serverpackets;
 using LineageServer.Utils;

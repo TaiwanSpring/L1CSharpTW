@@ -3,7 +3,7 @@ using LineageServer.Utils;
 using System;
 using System.IO;
 using System.Text;
-namespace LineageServer.Server.storage.mysql
+namespace LineageServer.Server.Storage.mysql
 {
     //再做 再做
     /*
