@@ -2695,7 +2695,7 @@ namespace LineageServer.Server.Model.skill
                                 }
                                 foreach (L1ItemInstance item in pc.Inventory.Items)
                                 {
-                                    if (pc.Weapon.Equals(item))
+                                    if (pc.Weapon == item)
                                     {
                                         pc.sendPackets(new S_ServerMessage(161, item.LogName, "$245", "$247"));
                                         item.setSkillWeaponEnchant(pc, _skillId, _skill.BuffDuration * 1000);

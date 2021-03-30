@@ -29,9 +29,9 @@ namespace LineageServer.Server.DataTables
 
 		private static PetItemTable _instance;
 
-		private readonly IDictionary<int, L1PetItem> _petItemIdIndex = MapFactory.newMap();
+		private readonly IDictionary<int, L1PetItem> _petItemIdIndex = MapFactory.NewMap();
 
-		private static readonly IDictionary<string, int> _useTypes = MapFactory.newMap();
+		private static readonly IDictionary<string, int> _useTypes = MapFactory.NewMap();
 
 		static PetItemTable()
 		{

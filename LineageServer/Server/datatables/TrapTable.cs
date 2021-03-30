@@ -31,7 +31,7 @@ namespace LineageServer.Server.DataTables
 
 		private static TrapTable _instance;
 
-		private IDictionary<int, L1Trap> _traps = MapFactory.newMap();
+		private IDictionary<int, L1Trap> _traps = MapFactory.NewMap();
 
 		private TrapTable()
 		{

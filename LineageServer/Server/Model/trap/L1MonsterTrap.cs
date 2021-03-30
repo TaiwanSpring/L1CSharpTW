@@ -63,7 +63,7 @@ namespace LineageServer.Server.Model.trap
 
 		private IList<Point> getSpawnablePoints(L1Location loc, int d)
 		{
-			IList<Point> result = ListFactory.newList();
+			IList<Point> result = ListFactory.NewList();
 			L1Map m = loc.getMap();
 			int x = loc.X;
 			int y = loc.Y;

@@ -31,7 +31,7 @@ namespace LineageServer.Server.DataTables
 
 		private static MobGroupTable _instance;
 
-		private readonly IDictionary<int, L1MobGroup> _mobGroupIndex = MapFactory.newMap();
+		private readonly IDictionary<int, L1MobGroup> _mobGroupIndex = MapFactory.NewMap();
 
 		public static MobGroupTable Instance
 		{
@@ -65,7 +65,7 @@ namespace LineageServer.Server.DataTables
 					int mobGroupId = dataSourceRow.getInt("id");
 					bool isRemoveGroup = (dataSourceRow.getBoolean("remove_group_if_leader_die"));
 					int leaderId = dataSourceRow.getInt("leader_id");
-					IList<L1NpcCount> minions = ListFactory.newList();
+					IList<L1NpcCount> minions = ListFactory.NewList();
 					for (int i = 1; i <= 7; i++)
 					{
 						int id = dataSourceRow.getInt("minion" + i + "_id");

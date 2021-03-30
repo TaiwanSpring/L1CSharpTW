@@ -86,18 +86,18 @@ namespace LineageServer.Server.DataTables
 
 		private class Spr
 		{
-			internal readonly IDictionary<int, int> moveSpeed = MapFactory.newMap();
+			internal readonly IDictionary<int, int> moveSpeed = MapFactory.NewMap();
 
-			internal readonly IDictionary<int, int> attackSpeed = MapFactory.newMap();
+			internal readonly IDictionary<int, int> attackSpeed = MapFactory.NewMap();
 
-			internal readonly IDictionary<int, int> specialSpeed = MapFactory.newMap();
+			internal readonly IDictionary<int, int> specialSpeed = MapFactory.NewMap();
 
 			internal int nodirSpellSpeed = 1200;
 
 			internal int dirSpellSpeed = 1200;
 		}
 
-		private static readonly IDictionary<int, Spr> _dataMap = MapFactory.newMap();
+		private static readonly IDictionary<int, Spr> _dataMap = MapFactory.NewMap();
 
 		private static readonly SprTable _instance = new SprTable();
 

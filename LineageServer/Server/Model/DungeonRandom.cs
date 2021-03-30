@@ -38,7 +38,7 @@ namespace LineageServer.Server.Model
 
 		private static DungeonRandom _instance = null;
 
-		private static IDictionary<string, NewDungeonRandom> _dungeonMap = MapFactory.newMap();
+		private static IDictionary<string, NewDungeonRandom> _dungeonMap = MapFactory.NewMap();
 
 		public static DungeonRandom Instance
 		{
@@ -72,24 +72,24 @@ namespace LineageServer.Server.Model
 					string key = (new StringBuilder()).Append(srcMapId).Append(srcX).Append(srcY).ToString();
 					int[] newX = new int[5];
 					int[] newY = new int[5];
-					short[] newMapId = new short[5];
+					short[] NewMapId = new short[5];
 					newX[0] = dataSourceRow.getInt("new_x1");
 					newY[0] = dataSourceRow.getInt("new_y1");
-					newMapId[0] = dataSourceRow.getShort("new_mapid1");
+					NewMapId[0] = dataSourceRow.getShort("new_mapid1");
 					newX[1] = dataSourceRow.getInt("new_x2");
 					newY[1] = dataSourceRow.getInt("new_y2");
-					newMapId[1] = dataSourceRow.getShort("new_mapid2");
+					NewMapId[1] = dataSourceRow.getShort("new_mapid2");
 					newX[2] = dataSourceRow.getInt("new_x3");
 					newY[2] = dataSourceRow.getInt("new_y3");
-					newMapId[2] = dataSourceRow.getShort("new_mapid3");
+					NewMapId[2] = dataSourceRow.getShort("new_mapid3");
 					newX[3] = dataSourceRow.getInt("new_x4");
 					newY[3] = dataSourceRow.getInt("new_y4");
-					newMapId[3] = dataSourceRow.getShort("new_mapid4");
+					NewMapId[3] = dataSourceRow.getShort("new_mapid4");
 					newX[4] = dataSourceRow.getInt("new_x5");
 					newY[4] = dataSourceRow.getInt("new_y5");
-					newMapId[4] = dataSourceRow.getShort("new_mapid5");
+					NewMapId[4] = dataSourceRow.getShort("new_mapid5");
 					int heading = dataSourceRow.getInt("new_heading");
-					NewDungeonRandom newDungeonRandom = new NewDungeonRandom(newX, newY, newMapId, heading);
+					NewDungeonRandom newDungeonRandom = new NewDungeonRandom(newX, newY, NewMapId, heading);
 					if (_dungeonMap.ContainsKey(key))
 					{
 						_log.log(Level.WARNING, "同じキーのdungeonデータがあります。key=" + key);
@@ -115,17 +115,17 @@ namespace LineageServer.Server.Model
 
 			internal int[] _newY = new int[5];
 
-			internal short[] _newMapId = new short[5];
+			internal short[] _NewMapId = new short[5];
 
 			internal int _heading;
 
-			internal NewDungeonRandom(int[] newX, int[] newY, short[] newMapId, int heading)
+			internal NewDungeonRandom(int[] newX, int[] newY, short[] NewMapId, int heading)
 			{
 				for (int i = 0; i < 5; i++)
 				{
 					_newX[i] = newX[i];
 					_newY[i] = newY[i];
-					_newMapId[i] = newMapId[i];
+					_NewMapId[i] = NewMapId[i];
 				}
 				_heading = heading;
 			}
@@ -138,7 +138,7 @@ namespace LineageServer.Server.Model
 			{
 				int rnd = RandomHelper.Next(5);
 				NewDungeonRandom newDungeonRandom = _dungeonMap[key];
-				short newMap = newDungeonRandom._newMapId[rnd];
+				short NewMap = newDungeonRandom._NewMapId[rnd];
 				int newX = newDungeonRandom._newX[rnd];
 				int newY = newDungeonRandom._newY[rnd];
 				int heading = newDungeonRandom._heading;
@@ -149,7 +149,7 @@ namespace LineageServer.Server.Model
 				pc.stopMpRegeneration();
 				pc.stopHpRegenerationByDoll();
 				pc.stopMpRegenerationByDoll();
-				L1Teleport.teleport(pc, newX, newY, newMap, heading, true);
+				L1Teleport.teleport(pc, newX, newY, NewMap, heading, true);
 				return true;
 			}
 			return false;

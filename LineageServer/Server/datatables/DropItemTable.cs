@@ -1,48 +1,17 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public sealed class DropItemTable
+	sealed class DropItemTable
 	{
-		private class dropItemData
-		{
-			private readonly DropItemTable outerInstance;
-
-			public dropItemData(DropItemTable outerInstance)
-			{
-				this.outerInstance = outerInstance;
-			}
-
-			public double dropRate = 1;
-
-			public double dropAmount = 1;
-		}
-
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(DropItemTable).FullName);
-
+		private readonly static IDataSource dataSource =
+			 Container.Instance.Resolve<IDataSourceFactory>()
+			 .Factory(Enum.DataSourceTypeEnum.DropItem);
 		private static DropItemTable _instance;
 
-		private readonly IDictionary<int, dropItemData> _dropItem = MapFactory.newMap();
+		private readonly IDictionary<int, dropItemData> _dropItem = MapFactory.NewMap<int, dropItemData>();
 
 		public static DropItemTable Instance
 		{
@@ -63,58 +32,48 @@ namespace LineageServer.Server.DataTables
 
 		private void loadMapsFromDatabase()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM drop_item");
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-				for (rs = pstm.executeQuery(); rs.next();)
-				{
-					dropItemData data = new dropItemData(this);
-					int itemId = dataSourceRow.getInt("item_id");
-					data.dropRate = dataSourceRow.getDouble("drop_rate");
-					data.dropAmount = dataSourceRow.getDouble("drop_amount");
-
-					_dropItem[itemId] = data;
-				}
-
-				_log.config("drop_item " + _dropItem.Count);
-			}
-			catch (SQLException e)
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				dropItemData data = new dropItemData();
+				int itemId = dataSourceRow.getInt(DropItem.Column_item_id);
+				data.dropRate = dataSourceRow.getDouble(DropItem.Column_drop_rate);
+				data.dropAmount = dataSourceRow.getDouble(DropItem.Column_drop_amount);
+				_dropItem[itemId] = data;
 			}
 		}
 
 		public double getDropRate(int itemId)
 		{
-			dropItemData data = _dropItem[itemId];
-			if (data == null)
+			if (_dropItem.ContainsKey(itemId))
 			{
-				return 1;
+				return _dropItem[itemId].dropRate;
 			}
-			return data.dropRate;
+			else
+			{
+				return 0;
+			}
 		}
 
 		public double getDropAmount(int itemId)
 		{
-			dropItemData data = _dropItem[itemId];
-			if (data == null)
+			if (_dropItem.ContainsKey(itemId))
 			{
-				return 1;
+				return _dropItem[itemId].dropAmount;
 			}
-			return data.dropAmount;
+			else
+			{
+				return 0;
+			}
+		}
+		struct dropItemData
+		{
+			public double dropRate;
+
+			public double dropAmount;
 		}
 
 	}
-
 }

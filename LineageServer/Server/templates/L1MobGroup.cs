@@ -24,7 +24,7 @@ namespace LineageServer.Server.Templates
 
 		private readonly int _leaderId;
 
-		private readonly IList<L1NpcCount> _minions = ListFactory.newList();
+		private readonly IList<L1NpcCount> _minions = ListFactory.NewList();
 
 		private readonly bool _isRemoveGroupIfLeaderDie;
 

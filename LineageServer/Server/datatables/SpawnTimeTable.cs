@@ -29,7 +29,7 @@ namespace LineageServer.Server.DataTables
 
 		private static SpawnTimeTable _instance;
 
-		private readonly IDictionary<int, L1SpawnTime> _times = MapFactory.newMap();
+		private readonly IDictionary<int, L1SpawnTime> _times = MapFactory.NewMap();
 
 		public static SpawnTimeTable Instance
 		{

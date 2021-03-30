@@ -37,7 +37,7 @@ namespace LineageServer.Server.Model.Npc.Action
 
 			_htmlId = element.getAttribute("HtmlId");
 			NodeList list = element.ChildNodes;
-			IList<string> dataList = ListFactory.newList();
+			IList<string> dataList = ListFactory.NewList();
 			foreach (Element elem in new IterableElementList(list))
 			{
 				if (elem.NodeName.equalsIgnoreCase("Data"))

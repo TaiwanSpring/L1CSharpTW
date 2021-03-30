@@ -30,12 +30,12 @@ namespace LineageServer.Server.Model.trap
 
 	public class L1WorldTraps
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
+		//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
 		private static Logger _log = Logger.GetLogger(typeof(L1WorldTraps).FullName);
 
-		private IList<L1TrapInstance> _allTraps = ListFactory.newList();
+		private IList<L1TrapInstance> _allTraps = ListFactory.NewList();
 
-		private IList<L1TrapInstance> _allBases = ListFactory.newList();
+		private IList<L1TrapInstance> _allBases = ListFactory.NewList();
 
 		private Timer _timer = new Timer();
 
@@ -163,7 +163,7 @@ namespace LineageServer.Server.Model.trap
 
 			foreach (L1TrapInstance trap in _allTraps)
 			{
-				if (trap.Enable && loc.Equals(trap.Location))
+				if (trap.Enable && loc == trap.Location)
 				{
 					trap.onTrod(player);
 					disableTrap(trap);

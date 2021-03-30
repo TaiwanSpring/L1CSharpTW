@@ -29,7 +29,7 @@ namespace LineageServer.Server.DataTables
 
 		private static UBTable _instance = new UBTable();
 
-		private IDictionary<int, L1UltimateBattle> _ub = MapFactory.newMap();
+		private IDictionary<int, L1UltimateBattle> _ub = MapFactory.NewMap();
 
 		public static UBTable Instance
 		{

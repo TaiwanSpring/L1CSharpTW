@@ -212,7 +212,7 @@ namespace LineageServer.Server.Model
 
 		private const short DIAD_INNER_CASTLE_MAP = 330;
 
-		private static readonly IDictionary<int, L1Location> _towers = MapFactory.newMap();
+		private static readonly IDictionary<int, L1Location> _towers = MapFactory.NewMap();
 
 		static L1CastleLocation()
 		{
@@ -232,25 +232,25 @@ namespace LineageServer.Server.Model
 			_areas[DOWA_CASTLE_ID] = new L1MapArea(DOWA_X1, DOWA_Y1, DOWA_X2, DOWA_Y2, DOWA_MAP);
 			_areas[ADEN_CASTLE_ID] = new L1MapArea(ADEN_X1, ADEN_Y1, ADEN_X2, ADEN_Y2, ADEN_MAP);
 			_areas[DIAD_CASTLE_ID] = new L1MapArea(DIAD_X1, DIAD_Y1, DIAD_X2, DIAD_Y2, DIAD_MAP);
-			_innerTowerMaps[KENT_CASTLE_ID] = (int) KENT_INNER_CASTLE_MAP;
-			_innerTowerMaps[WW_CASTLE_ID] = (int) WW_INNER_CASTLE_MAP;
-			_innerTowerMaps[GIRAN_CASTLE_ID] = (int) GIRAN_INNER_CASTLE_MAP;
-			_innerTowerMaps[HEINE_CASTLE_ID] = (int) HEINE_INNER_CASTLE_MAP;
-			_innerTowerMaps[ADEN_CASTLE_ID] = (int) ADEN_INNER_CASTLE_MAP;
-			_innerTowerMaps[DIAD_CASTLE_ID] = (int) DIAD_INNER_CASTLE_MAP;
+			_innerTowerMaps[KENT_CASTLE_ID] = (int)KENT_INNER_CASTLE_MAP;
+			_innerTowerMaps[WW_CASTLE_ID] = (int)WW_INNER_CASTLE_MAP;
+			_innerTowerMaps[GIRAN_CASTLE_ID] = (int)GIRAN_INNER_CASTLE_MAP;
+			_innerTowerMaps[HEINE_CASTLE_ID] = (int)HEINE_INNER_CASTLE_MAP;
+			_innerTowerMaps[ADEN_CASTLE_ID] = (int)ADEN_INNER_CASTLE_MAP;
+			_innerTowerMaps[DIAD_CASTLE_ID] = (int)DIAD_INNER_CASTLE_MAP;
 			_subTowers[1] = new L1Location(ADEN_SUB_TOWER1_X, ADEN_SUB_TOWER1_Y, ADEN_TOWER_MAP);
 			_subTowers[2] = new L1Location(ADEN_SUB_TOWER2_X, ADEN_SUB_TOWER2_Y, ADEN_TOWER_MAP);
 			_subTowers[3] = new L1Location(ADEN_SUB_TOWER3_X, ADEN_SUB_TOWER3_Y, ADEN_TOWER_MAP);
 			_subTowers[4] = new L1Location(ADEN_SUB_TOWER4_X, ADEN_SUB_TOWER4_Y, ADEN_TOWER_MAP);
 		}
 
-		private static readonly IDictionary<int, L1MapArea> _areas = MapFactory.newMap();
+		private static readonly IDictionary<int, L1MapArea> _areas = MapFactory.NewMap();
 
 
-		private static readonly IDictionary<int, int> _innerTowerMaps = MapFactory.newMap();
+		private static readonly IDictionary<int, int> _innerTowerMaps = MapFactory.NewMap();
 
 
-		private static readonly IDictionary<int, L1Location> _subTowers = MapFactory.newMap();
+		private static readonly IDictionary<int, L1Location> _subTowers = MapFactory.NewMap();
 
 
 		private L1CastleLocation()
@@ -261,7 +261,7 @@ namespace LineageServer.Server.Model
 		{
 			foreach (KeyValuePair<int, L1Location> entry in _towers.SetOfKeyValuePairs())
 			{
-				if (entry.Value.Equals(loc))
+				if (entry.Value == loc)
 				{
 					return entry.Key;
 				}
@@ -509,7 +509,7 @@ namespace LineageServer.Server.Model
 			}
 			else if (castle_id == DIAD_CASTLE_ID)
 			{ // ディアド要塞
-				// ディアド要塞の帰還先は未調査
+			  // ディアド要塞の帰還先は未調査
 				int rnd = RandomHelper.Next(3);
 				loc = new int[3];
 				if (rnd == 0)
@@ -614,7 +614,7 @@ namespace LineageServer.Server.Model
 		}
 
 		// 各城の税率を保管しておくHashMap(ショップ用)
-		private static IDictionary<int, int> _castleTaxRate = MapFactory.newMap();
+		private static IDictionary<int, int> _castleTaxRate = MapFactory.NewMap();
 
 		private static L1CastleTaxRateListener _listener;
 

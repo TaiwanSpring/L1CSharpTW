@@ -38,7 +38,7 @@ namespace LineageServer.Server.Model
 			 * 但し、今後このクラスの利用方法が変わった場合、 例えば多くのスレッドから同時に読み出しがかかるようになった場合は、
 			 * ConcurrentHashMapを利用した方が良いかもしれない。
 			 */
-			_hateMap = MapFactory.newMap();
+			_hateMap = MapFactory.NewMap();
 		}
 
 		public virtual void add(L1Character cha, int hate)
@@ -129,7 +129,7 @@ namespace LineageServer.Server.Model
 		{
 			lock (this)
 			{
-				IList<L1Character> invalidChars = ListFactory.newList();
+				IList<L1Character> invalidChars = ListFactory.NewList();
 				foreach (L1Character cha in _hateMap.Keys)
 				{
 					if ((cha == null) || cha.Dead || !npc.knownsObject(cha))

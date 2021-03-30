@@ -38,7 +38,7 @@ namespace LineageServer.Server.Model
 
 		private string _param2 = null;
 
-		private readonly IList<string> _attackClanList = ListFactory.newList();
+		private readonly IList<string> _attackClanList = ListFactory.NewList();
 
 		private string _defenceClanName = null;
 
@@ -65,7 +65,7 @@ namespace LineageServer.Server.Model
 
 			public override void run()
 			{
-				for (;;)
+				for (; ; )
 				{
 					try
 					{
@@ -142,7 +142,7 @@ namespace LineageServer.Server.Model
 				_castle = GetCastle();
 				if (_castle != null)
 				{
-					DateTime cal = (DateTime) _castle.WarTime.clone();
+					DateTime cal = _castle.WarTime;
 					cal.add(Config.ALT_WAR_TIME_UNIT, Config.ALT_WAR_TIME);
 					_warEndTime = cal;
 				}
@@ -160,7 +160,7 @@ namespace LineageServer.Server.Model
 
 		private void RequestCastleWar(int type, string clan1_name, string clan2_name)
 		{
-			if ((string.ReferenceEquals(clan1_name, null)) || (string.ReferenceEquals(clan2_name, null)))
+			if (( string.ReferenceEquals(clan1_name, null) ) || ( string.ReferenceEquals(clan2_name, null) ))
 			{
 				return;
 			}
@@ -177,7 +177,7 @@ namespace LineageServer.Server.Model
 
 			int attack_clan_num = GetAttackClanListSize();
 
-			if ((type == 1) || (type == 2) || (type == 3))
+			if (( type == 1 ) || ( type == 2 ) || ( type == 3 ))
 			{ // 宣戦布告、降伏、終結
 				L1Clan clan2 = L1World.Instance.getClan(clan2_name);
 				if (clan2 != null)
@@ -219,7 +219,7 @@ namespace LineageServer.Server.Model
 				}
 			}
 
-			if (((type == 2) || (type == 3)) && (attack_clan_num >= 1))
+			if (( ( type == 2 ) || ( type == 3 ) ) && ( attack_clan_num >= 1 ))
 			{ // 投降、終止後攻擊方大於或等於一
 				_isWarTimerDelete = true;
 				delete();
@@ -228,7 +228,7 @@ namespace LineageServer.Server.Model
 
 		private void RequestSimWar(int type, string clan1_name, string clan2_name)
 		{
-			if ((string.ReferenceEquals(clan1_name, null)) || (string.ReferenceEquals(clan2_name, null)))
+			if (( string.ReferenceEquals(clan1_name, null) ) || ( string.ReferenceEquals(clan2_name, null) ))
 			{
 				return;
 			}
@@ -243,7 +243,7 @@ namespace LineageServer.Server.Model
 				}
 			}
 
-			if ((type == 1) || (type == 2) || (type == 3))
+			if (( type == 1 ) || ( type == 2 ) || ( type == 3 ))
 			{ // 宣戦布告、降伏、終結
 				L1Clan clan2 = L1World.Instance.getClan(clan2_name);
 				if (clan2 != null)
@@ -255,7 +255,7 @@ namespace LineageServer.Server.Model
 						{ // 宣戦布告
 							element.sendPackets(new S_War(type, clan1_name, clan2_name));
 						}
-						else if ((type == 2) || (type == 3))
+						else if (( type == 2 ) || ( type == 3 ))
 						{ // 降伏、終結
 							element.sendPackets(new S_War(type, clan1_name, clan2_name));
 							element.sendPackets(new S_War(4, clan2_name, clan1_name));
@@ -264,7 +264,7 @@ namespace LineageServer.Server.Model
 				}
 			}
 
-			if ((type == 2) || (type == 3))
+			if (( type == 2 ) || ( type == 3 ))
 			{ // 降伏、終結
 				_isWarTimerDelete = true;
 				delete();
@@ -437,7 +437,7 @@ namespace LineageServer.Server.Model
 				target_clan_flag = CheckAttackClan(target_clan_name); // 相手クランに対して攻撃側クランをチェック
 			}
 
-			if ((player_clan_flag == true) && (target_clan_flag == true))
+			if (( player_clan_flag == true ) && ( target_clan_flag == true ))
 			{
 				return true;
 			}
@@ -527,7 +527,7 @@ namespace LineageServer.Server.Model
 
 		public virtual string[] GetAttackClanList()
 		{
-			return ((List<string>)_attackClanList).ToArray();
+			return ( (List<string>)_attackClanList ).ToArray();
 		}
 
 		public virtual int GetAttackClanListSize()

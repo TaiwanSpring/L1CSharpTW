@@ -103,7 +103,7 @@ namespace LineageServer.Server.Model
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
 		private static readonly Logger _log = Logger.GetLogger(typeof(L1UltimateBattle).FullName);
 
-		private readonly IList<L1PcInstance> _members = ListFactory.newList();
+		private readonly IList<L1PcInstance> _members = ListFactory.NewList();
 
 		/// <summary>
 		/// ラウンド開始時のメッセージを送信する。

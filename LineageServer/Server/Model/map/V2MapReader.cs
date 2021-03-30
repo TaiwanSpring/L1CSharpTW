@@ -21,7 +21,7 @@ namespace LineageServer.Server.Model.map
 		/// <returns> ArraryList </returns>
 		private IList<int> listMapIds()
 		{
-			IList<int> ids = Lists.newList();
+			IList<int> ids = Lists.NewList();
 
 			File mapDir = new File(MAP_DIR);
 			foreach (string name in mapDir.list())
@@ -59,7 +59,7 @@ namespace LineageServer.Server.Model.map
 		//ORIGINAL LINE: @Override public java.util.Map<int, L1Map> read() throws java.io.IOException
 		public override IDictionary<int, L1Map> read()
 		{
-			IDictionary<int, L1Map> maps = Maps.newMap();
+			IDictionary<int, L1Map> maps = Maps.NewMap();
 			foreach (int id in listMapIds())
 			{
 				maps[id] = read(id);

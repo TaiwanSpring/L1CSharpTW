@@ -41,7 +41,7 @@ namespace LineageServer.Server.DataTables
 		{
 			if (!isInitialized)
 			{
-				_banip = ListFactory.newList();
+				_banip = ListFactory.NewList();
 				IpTable;
 			}
 		}

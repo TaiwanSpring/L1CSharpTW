@@ -24,7 +24,7 @@ namespace LineageServer.Server.Model
 	{
 		private bool _isFrozen = false;
 
-		private IDictionary<int, IList<L1UbSpawn>> _groups = MapFactory.newMap();
+		private IDictionary<int, IList<L1UbSpawn>> _groups = MapFactory.NewMap();
 
 		public virtual void addSpawn(int groupNumber, L1UbSpawn spawn)
 		{
@@ -36,7 +36,7 @@ namespace LineageServer.Server.Model
 			IList<L1UbSpawn> spawnList = _groups[groupNumber];
 			if (spawnList == null)
 			{
-				spawnList = ListFactory.newList();
+				spawnList = ListFactory.NewList();
 				_groups[groupNumber] = spawnList;
 			}
 

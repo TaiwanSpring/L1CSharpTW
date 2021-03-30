@@ -36,17 +36,17 @@ namespace LineageServer.Server.DataTables
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
 		private static Logger _log = Logger.GetLogger(typeof(ItemTable).FullName);
 
-		private static readonly IDictionary<string, int> _armorTypes = MapFactory.newMap();
+		private static readonly IDictionary<string, int> _armorTypes = MapFactory.NewMap();
 
-		private static readonly IDictionary<string, int> _weaponTypes = MapFactory.newMap();
+		private static readonly IDictionary<string, int> _weaponTypes = MapFactory.NewMap();
 
-		private static readonly IDictionary<string, int> _weaponId = MapFactory.newMap();
+		private static readonly IDictionary<string, int> _weaponId = MapFactory.NewMap();
 
-		private static readonly IDictionary<string, int> _materialTypes = MapFactory.newMap();
+		private static readonly IDictionary<string, int> _materialTypes = MapFactory.NewMap();
 
-		private static readonly IDictionary<string, int> _etcItemTypes = MapFactory.newMap();
+		private static readonly IDictionary<string, int> _etcItemTypes = MapFactory.NewMap();
 
-		private static readonly IDictionary<string, int> _useTypes = MapFactory.newMap();
+		private static readonly IDictionary<string, int> _useTypes = MapFactory.NewMap();
 
 		private static ItemTable _instance;
 
@@ -233,7 +233,7 @@ namespace LineageServer.Server.DataTables
 
 		private IDictionary<int, L1EtcItem> allEtcItem()
 		{
-			IDictionary<int, L1EtcItem> result = MapFactory.newMap();
+			IDictionary<int, L1EtcItem> result = MapFactory.NewMap();
 
 			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
@@ -302,7 +302,7 @@ namespace LineageServer.Server.DataTables
 
 		private IDictionary<int, L1Weapon> allWeapon()
 		{
-			IDictionary<int, L1Weapon> result = MapFactory.newMap();
+			IDictionary<int, L1Weapon> result = MapFactory.NewMap();
 
 			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
@@ -390,7 +390,7 @@ namespace LineageServer.Server.DataTables
 
 		private IDictionary<int, L1Armor> allArmor()
 		{
-			IDictionary<int, L1Armor> result = MapFactory.newMap();
+			IDictionary<int, L1Armor> result = MapFactory.NewMap();
 			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
 			ResultSet rs = null;

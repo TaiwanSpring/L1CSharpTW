@@ -7,6 +7,8 @@ using LineageServer.Server.Model.Map;
 using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
 using System;
+using LineageServer.Server;
+
 namespace LineageServer.Command.Executors
 {
     class L1GfxId : ILineageCommand

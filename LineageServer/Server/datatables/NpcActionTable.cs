@@ -50,7 +50,7 @@ namespace LineageServer.Server.DataTables
 
 			if (!doc.DocumentElement.NodeName.equalsIgnoreCase(nodeName))
 			{
-				return ListFactory.newList();
+				return ListFactory.NewList();
 			}
 			return L1NpcXmlParser.listActions(doc.DocumentElement);
 		}

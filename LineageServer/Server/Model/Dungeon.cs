@@ -27,7 +27,7 @@ namespace LineageServer.Server.Model
 
 		private static Dungeon _instance = null;
 
-		private static IDictionary<string, NewDungeon> _dungeonMap = MapFactory.newMap();
+		private static IDictionary<string, NewDungeon> _dungeonMap = MapFactory.NewMap();
 
 		private enum DungeonType
 		{
@@ -79,7 +79,7 @@ namespace LineageServer.Server.Model
 					string key = (new StringBuilder()).Append(srcMapId).Append(srcX).Append(srcY).ToString();
 					int newX = dataSourceRow.getInt("new_x");
 					int newY = dataSourceRow.getInt("new_y");
-					int newMapId = dataSourceRow.getInt("new_mapid");
+					int NewMapId = dataSourceRow.getInt("new_mapid");
 					int heading = dataSourceRow.getInt("new_heading");
 					DungeonType dungeonType = DungeonType.NONE;
 					if ((((srcX == 33423) || (srcX == 33424) || (srcX == 33425) || (srcX == 33426)) && (srcY == 33502) && (srcMapId == 4)) || (((srcX == 32733) || (srcX == 32734) || (srcX == 32735) || (srcX == 32736)) && (srcY == 32794) && (srcMapId == 83)))
@@ -134,7 +134,7 @@ namespace LineageServer.Server.Model
 					{ // 歐瑞旅館
 						dungeonType = DungeonType.OREN_HOTEL;
 					}
-					NewDungeon newDungeon = new NewDungeon(newX, newY, (short) newMapId, heading, dungeonType);
+					NewDungeon newDungeon = new NewDungeon(newX, newY, (short) NewMapId, heading, dungeonType);
 					if (_dungeonMap.ContainsKey(key))
 					{
 						_log.log(Level.WARNING, "Navicat dungeon 傳送點重複。key=" + key);
@@ -160,17 +160,17 @@ namespace LineageServer.Server.Model
 
 			internal int _newY;
 
-			internal short _newMapId;
+			internal short _NewMapId;
 
 			internal int _heading;
 
 			internal DungeonType _dungeonType;
 
-			internal NewDungeon(int newX, int newY, short newMapId, int heading, DungeonType dungeonType)
+			internal NewDungeon(int newX, int newY, short NewMapId, int heading, DungeonType dungeonType)
 			{
 				_newX = newX;
 				_newY = newY;
-				_newMapId = newMapId;
+				_NewMapId = NewMapId;
 				_heading = heading;
 				_dungeonType = dungeonType;
 
@@ -185,7 +185,7 @@ namespace LineageServer.Server.Model
 			if (_dungeonMap.ContainsKey(key))
 			{
 				NewDungeon newDungeon = _dungeonMap[key];
-				short newMap = newDungeon._newMapId;
+				short NewMap = newDungeon._NewMapId;
 				int newX = newDungeon._newX;
 				int newY = newDungeon._newY;
 				int heading = newDungeon._heading;
@@ -244,7 +244,7 @@ namespace LineageServer.Server.Model
 						{ // 房間
 							newX = data[0];
 							newY = data[1];
-							newMap = (short) data[2];
+							NewMap = (short) data[2];
 							heading = 6;
 							teleportable = true;
 						}
@@ -252,7 +252,7 @@ namespace LineageServer.Server.Model
 						{ // 會議室
 							newX = data[3];
 							newY = data[4];
-							newMap = (short) data[5];
+							NewMap = (short) data[5];
 							heading = 6;
 							teleportable = true;
 						}
@@ -281,7 +281,7 @@ namespace LineageServer.Server.Model
 					pc.stopMpRegeneration();
 					pc.stopHpRegenerationByDoll();
 					pc.stopMpRegenerationByDoll();
-					L1Teleport.teleport(pc, newX, newY, newMap, heading, false);
+					L1Teleport.teleport(pc, newX, newY, NewMap, heading, false);
 					return true;
 				}
 			}

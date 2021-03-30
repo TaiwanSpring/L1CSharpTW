@@ -1,5 +1,6 @@
 ﻿using LineageServer.Server.Model.Map;
 using LineageServer.Server.Types;
+using LineageServer.Utils;
 using System;
 
 namespace LineageServer.Server.Model
@@ -92,14 +93,39 @@ namespace LineageServer.Server.Model
 
 		public override bool Equals(object obj)
 		{
-			if (!( obj is L1Location ))
+			if (obj is L1Location other)
+			{
+				return this == other;
+			}
+			else
 			{
 				return false;
 			}
-			L1Location loc = (L1Location)obj;
-			return ( getMap() == loc.getMap() ) && ( X == loc.X ) && ( Y == loc.Y );
 		}
 
+		public static bool operator ==(L1Location a, L1Location b)
+		{
+			if (a != null && b != null)
+			{
+				return ( a.getMap() == b.getMap() ) && ( a.X == b.X ) && ( a.Y == b.Y );
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public static bool operator !=(L1Location a, L1Location b)
+		{
+			if (a != null && b != null)
+			{
+				return !( a == b );
+			}
+			else
+			{
+				return true;
+			}
+		}
 		public override int GetHashCode()
 		{
 			return 7 * _map.Id + base.GetHashCode();

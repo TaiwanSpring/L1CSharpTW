@@ -28,7 +28,7 @@ namespace LineageServer.Server.DataTables
 
 		private static ResolventTable _instance;
 
-		private readonly IDictionary<int, int> _resolvent = MapFactory.newMap();
+		private readonly IDictionary<int, int> _resolvent = MapFactory.NewMap();
 
 		public static ResolventTable Instance
 		{

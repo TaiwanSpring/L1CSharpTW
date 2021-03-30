@@ -22,9 +22,9 @@ namespace LineageServer.Server.Model.Npc.Action
 
     class L1NpcMakeItemAction : L1NpcXmlAction
     {
-        private readonly IList<L1ObjectAmount<int>> _materials = ListFactory.newList();
+        private readonly IList<L1ObjectAmount<int>> _materials = ListFactory.NewList();
 
-        private readonly IList<L1ObjectAmount<int>> _items = ListFactory.newList();
+        private readonly IList<L1ObjectAmount<int>> _items = ListFactory.NewList();
 
         private readonly bool _isAmountInputable;
 

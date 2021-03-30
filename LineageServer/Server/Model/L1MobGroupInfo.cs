@@ -25,7 +25,7 @@ namespace LineageServer.Server.Model
 
 	public class L1MobGroupInfo
 	{
-		private readonly IList<L1NpcInstance> _membersList = ListFactory.newList();
+		private readonly IList<L1NpcInstance> _membersList = ListFactory.NewList();
 
 		private L1NpcInstance _leader;
 

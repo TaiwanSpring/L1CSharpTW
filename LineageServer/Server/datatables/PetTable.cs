@@ -38,7 +38,7 @@ namespace LineageServer.Server.DataTables
 
 		private static PetTable _instance;
 
-		private readonly IDictionary<int, L1Pet> _pets = MapFactory.newMap();
+		private readonly IDictionary<int, L1Pet> _pets = MapFactory.NewMap();
 
 		public static PetTable Instance
 		{

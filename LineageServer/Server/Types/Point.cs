@@ -133,12 +133,14 @@ namespace LineageServer.Server.Types
 		}
 		public override bool Equals(object obj)
 		{
-			if (!( obj is Point ))
+			if (obj is Point other)
+			{
+				return ( X == other.X ) && ( Y == other.Y );
+			}
+			else
 			{
 				return false;
 			}
-			Point pt = (Point)obj;
-			return ( X == pt.X ) && ( Y == pt.Y );
 		}
 		public override string ToString()
 		{

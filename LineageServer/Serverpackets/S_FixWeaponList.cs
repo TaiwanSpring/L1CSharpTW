@@ -40,7 +40,7 @@ namespace LineageServer.Serverpackets
 			WriteC(Opcodes.S_OPCODE_SELECTLIST);
 			WriteD(0x000000c8); // Price
 
-			IList<L1ItemInstance> weaponList = ListFactory.newList();
+			IList<L1ItemInstance> weaponList = ListFactory.NewList();
 			IList<L1ItemInstance> itemList = pc.Inventory.Items;
 			foreach (L1ItemInstance item in itemList)
 			{

@@ -113,7 +113,7 @@ namespace LineageServer.Server.Model
 				ResultSet rs = null;
 				try
 				{
-					_quest = MapFactory.newMap();
+					_quest = MapFactory.NewMap();
 
 					con = L1DatabaseFactory.Instance.Connection;
 					pstm = con.prepareStatement("SELECT * FROM character_quests WHERE char_id=?");

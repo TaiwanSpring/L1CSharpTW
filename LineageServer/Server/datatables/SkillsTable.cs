@@ -33,7 +33,7 @@ namespace LineageServer.Server.DataTables
 
 		private static SkillsTable _instance;
 
-		private readonly IDictionary<int, L1Skills> _skills = MapFactory.newMap();
+		private readonly IDictionary<int, L1Skills> _skills = MapFactory.NewMap();
 
 		private readonly bool _initialized;
 

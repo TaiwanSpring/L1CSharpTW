@@ -30,7 +30,7 @@ namespace LineageServer.Server.DataTables
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
 		private static Logger _log = Logger.GetLogger(typeof(PetTypeTable).FullName);
 
-		private IDictionary<int, L1PetType> _types = MapFactory.newMap();
+		private IDictionary<int, L1PetType> _types = MapFactory.NewMap();
 
 		private ISet<string> _defaultNames = new HashSet<string>();
 

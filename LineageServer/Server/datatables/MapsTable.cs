@@ -75,7 +75,7 @@ namespace LineageServer.Server.DataTables
 		/// <summary>
 		/// KeyにマップID、Valueにテレポート可否フラグが格納されるHashMap
 		/// </summary>
-		private readonly IDictionary<int, MapData> _maps = MapFactory.newMap();
+		private readonly IDictionary<int, MapData> _maps = MapFactory.NewMap();
 
 		/// <summary>
 		/// 新しくMapsTableオブジェクトを生成し、マップのテレポート可否フラグを読み込む。

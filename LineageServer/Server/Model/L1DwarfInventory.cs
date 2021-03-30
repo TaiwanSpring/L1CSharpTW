@@ -203,7 +203,7 @@ namespace LineageServer.Server.Model
                 }
                 rs = pstm.executeQuery();
 
-                IList<string> accountList = ListFactory.newList();
+                IList<string> accountList = ListFactory.NewList();
                 while (rs.next())
                 {
                     accountList.Add(dataSourceRow.getString("login"));
@@ -249,7 +249,7 @@ namespace LineageServer.Server.Model
                 pstm.setInt(2, maxlvl);
                 rs = pstm.executeQuery();
 
-                IList<string> accountList = ListFactory.newList();
+                IList<string> accountList = ListFactory.NewList();
                 while (rs.next())
                 {
                     accountList.Add(dataSourceRow.getString("account_name"));

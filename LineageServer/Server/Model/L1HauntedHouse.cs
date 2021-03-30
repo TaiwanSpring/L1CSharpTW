@@ -34,7 +34,7 @@ namespace LineageServer.Server.Model
 
 		public const int STATUS_PLAYING = 2;
 
-		private readonly IList<L1PcInstance> _members = ListFactory.newList();
+		private readonly IList<L1PcInstance> _members = ListFactory.NewList();
 
 		private int _hauntedHouseStatus = STATUS_NONE;
 

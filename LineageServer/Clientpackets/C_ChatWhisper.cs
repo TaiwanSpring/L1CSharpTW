@@ -37,8 +37,8 @@ namespace LineageServer.Clientpackets
 			if (whisperFrom.Level < Config.WHISPER_CHAT_LEVEL)
 			{
 				whisperFrom.sendPackets(new S_ServerMessage(404, Config.WHISPER_CHAT_LEVEL.ToString())); // 等級
-																												// %0
-																												// 以下無法使用密談。
+																										 // %0
+																										 // 以下無法使用密談。
 				return;
 			}
 			L1PcInstance whisperTo = L1World.Instance.getPlayer(targetName);
@@ -46,11 +46,11 @@ namespace LineageServer.Clientpackets
 			if (whisperTo == null)
 			{
 				whisperFrom.sendPackets(new S_ServerMessage(73, targetName)); // \f1%0%d
-																				// 不在線上。
+																			  // 不在線上。
 				return;
 			}
 			// 自己跟自己說話
-			if (whisperTo.Equals(whisperFrom))
+			if (whisperTo == whisperFrom)
 			{
 				return;
 			}
@@ -58,14 +58,14 @@ namespace LineageServer.Clientpackets
 			if (whisperTo.ExcludingList.contains(whisperFrom.Name))
 			{
 				whisperFrom.sendPackets(new S_ServerMessage(117, whisperTo.Name)); // %0%s
-																						// 斷絕你的密語。
+																				   // 斷絕你的密語。
 				return;
 			}
 			// 關閉密語
 			if (!whisperTo.CanWhisper)
 			{
 				whisperFrom.sendPackets(new S_ServerMessage(205, whisperTo.Name)); // \f1%0%d
-																						// 目前關閉悄悄話。
+																				   // 目前關閉悄悄話。
 				return;
 			}
 
@@ -79,7 +79,7 @@ namespace LineageServer.Clientpackets
 				{
 					if (visible is L1PcInstance)
 					{
-						L1PcInstance GM = (L1PcInstance) visible;
+						L1PcInstance GM = (L1PcInstance)visible;
 						if (GM.Gm && whisperFrom.Id != GM.Id)
 						{
 							GM.sendPackets(new S_SystemMessage("" + "【密語】" + whisperFrom.Name + "對" + targetName + ":" + text));

@@ -62,7 +62,7 @@ namespace LineageServer.Server.Model.Npc.Action
             return result;
         }
 
-        private static readonly IDictionary<string, int> _questIds = MapFactory.newMap();
+        private static readonly IDictionary<string, int> _questIds = MapFactory.NewMap();
         static L1NpcXmlParser()
         {
             _questIds["level15"] = L1Quest.QUEST_LEVEL15;

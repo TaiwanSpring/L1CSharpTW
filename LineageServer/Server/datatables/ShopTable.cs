@@ -34,7 +34,7 @@ namespace LineageServer.Server.DataTables
 
 		private static ShopTable _instance;
 
-		private readonly IDictionary<int, L1Shop> _allShops = MapFactory.newMap();
+		private readonly IDictionary<int, L1Shop> _allShops = MapFactory.NewMap();
 
 		public static ShopTable Instance
 		{
@@ -55,7 +55,7 @@ namespace LineageServer.Server.DataTables
 
 		private IList<int> enumNpcIds()
 		{
-			IList<int> ids = ListFactory.newList();
+			IList<int> ids = ListFactory.NewList();
 
 			IDataBaseConnection con = null;
 			PreparedStatement pstm = null;
@@ -85,8 +85,8 @@ namespace LineageServer.Server.DataTables
 //ORIGINAL LINE: private l1j.server.server.model.shop.L1Shop loadShop(int npcId, java.sql.ResultSet rs) throws java.sql.SQLException
 		private L1Shop loadShop(int npcId, ResultSet rs)
 		{
-			IList<L1ShopItem> sellingList = ListFactory.newList();
-			IList<L1ShopItem> purchasingList = ListFactory.newList();
+			IList<L1ShopItem> sellingList = ListFactory.NewList();
+			IList<L1ShopItem> purchasingList = ListFactory.NewList();
 			while (rs.next())
 			{
 				int itemId = dataSourceRow.getInt("item_id");

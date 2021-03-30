@@ -50,7 +50,7 @@ namespace LineageServer.Server.Model.Npc.Action
 			return level == 0 ? new IntRange(min, max) : new IntRange(level, level);
 		}
 
-		private static readonly IDictionary<char, int> _charTypes = Maps.newMap();
+		private static readonly IDictionary<char, int> _charTypes = Maps.NewMap();
 		static L1NpcXmlAction()
 		{
 			_charTypes['P'] = 0;

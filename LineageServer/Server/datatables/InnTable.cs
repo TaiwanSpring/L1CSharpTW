@@ -31,10 +31,10 @@ namespace LineageServer.Server.DataTables
 
 		private class Inn
 		{
-			internal readonly IDictionary<int, L1Inn> _inn = MapFactory.newMap();
+			internal readonly IDictionary<int, L1Inn> _inn = MapFactory.NewMap();
 		}
 
-		private static readonly IDictionary<int, Inn> _dataMap = MapFactory.newMap();
+		private static readonly IDictionary<int, Inn> _dataMap = MapFactory.NewMap();
 
 		private static InnTable _instance;
 

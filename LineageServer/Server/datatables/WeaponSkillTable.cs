@@ -29,7 +29,7 @@ namespace LineageServer.Server.DataTables
 
 		private static WeaponSkillTable _instance;
 
-		private readonly IDictionary<int, L1WeaponSkill> _weaponIdIndex = MapFactory.newMap();
+		private readonly IDictionary<int, L1WeaponSkill> _weaponIdIndex = MapFactory.NewMap();
 
 		public static WeaponSkillTable Instance
 		{

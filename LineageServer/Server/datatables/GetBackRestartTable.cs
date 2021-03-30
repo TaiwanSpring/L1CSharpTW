@@ -35,7 +35,7 @@ namespace LineageServer.Server.DataTables
 
 		private static GetBackRestartTable _instance;
 
-		private readonly IDictionary<int, L1GetBackRestart> _getbackrestart = MapFactory.newMap();
+		private readonly IDictionary<int, L1GetBackRestart> _getbackrestart = MapFactory.NewMap();
 
 		public static GetBackRestartTable Instance
 		{

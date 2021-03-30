@@ -56,7 +56,7 @@ namespace LineageServer.Server.DataTables
 
 		private MobSkillTable()
 		{
-			_mobskills = MapFactory.newMap();
+			_mobskills = MapFactory.NewMap();
 			loadMobSkillData();
 			_initialized = true;
 		}

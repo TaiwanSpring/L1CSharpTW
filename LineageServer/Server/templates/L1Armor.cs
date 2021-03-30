@@ -1,11 +1,8 @@
 ﻿namespace LineageServer.Server.Templates
 {
-    public class L1Armor : L1Item
+    [Serializable]
+    class L1Armor : L1Item
     {
-        public L1Armor()
-        {
-        }
-
         private int _ac = 0; // ● ＡＣ
 
         public override int get_ac()

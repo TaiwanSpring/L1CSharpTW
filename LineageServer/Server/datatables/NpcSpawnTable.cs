@@ -37,7 +37,7 @@ namespace LineageServer.Server.DataTables
 
 		private static NpcSpawnTable _instance;
 
-		private IDictionary<int, L1Spawn> _spawntable = MapFactory.newMap();
+		private IDictionary<int, L1Spawn> _spawntable = MapFactory.NewMap();
 
 		private int _highestId;
 

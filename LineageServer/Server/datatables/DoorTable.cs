@@ -1,41 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using LineageServer.Server.Model;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
+using LineageServer.Utils;
+using System.Collections.Generic;
 using System.Linq;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.DataTables
 {
-
-	using ActionCodes = LineageServer.Server.ActionCodes;
-	using IdFactory = LineageServer.Server.IdFactory;
-	using L1Location = LineageServer.Server.Model.L1Location;
-	using L1World = LineageServer.Server.Model.L1World;
-	using L1DoorInstance = LineageServer.Server.Model.Instance.L1DoorInstance;
-	using L1DoorGfx = LineageServer.Server.Templates.L1DoorGfx;
-	using L1DoorSpawn = LineageServer.Server.Templates.L1DoorSpawn;
-	using ListFactory = LineageServer.Utils.ListFactory;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public class DoorTable
+	class DoorTable
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(DoorTable).FullName);
 		private static DoorTable _instance;
 
-		private readonly IDictionary<L1Location, L1DoorInstance> _doors = MapFactory.newConcurrentHashMap();
-		private readonly IDictionary<L1Location, L1DoorInstance> _doorDirections = MapFactory.newConcurrentHashMap();
+		private readonly IDictionary<L1Location, L1DoorInstance> _doors = MapFactory.NewConcurrentMap<L1Location, L1DoorInstance>();
+		private readonly IDictionary<L1Location, L1DoorInstance> _doorDirections = MapFactory.NewConcurrentMap<L1Location, L1DoorInstance>();
 
 		public static void initialize()
 		{
@@ -62,7 +38,6 @@ namespace LineageServer.Server.DataTables
 				L1Location loc = spawn.Location;
 				if (_doors.ContainsKey(loc))
 				{
-					_log.log(Level.WARNING, string.Format("Duplicate door location: id = {0:D}", spawn.Id));
 					continue;
 				}
 				createDoor(spawn.Id, spawn.Gfx, loc, spawn.Hp, spawn.Keeper, spawn.Opening);
@@ -87,7 +62,7 @@ namespace LineageServer.Server.DataTables
 
 		private IList<L1Location> makeDirectionsKeys(L1DoorInstance door)
 		{
-			IList<L1Location> keys = ListFactory.newArrayList();
+			IList<L1Location> keys = ListFactory.NewList<L1Location>();
 			int left = door.LeftEdgeLocation;
 			int right = door.RightEdgeLocation;
 			if (door.Direction == 0)
@@ -127,11 +102,14 @@ namespace LineageServer.Server.DataTables
 
 		public virtual void deleteDoorByLocation(L1Location loc)
 		{
-			L1DoorInstance door = _doors.Remove(loc);
-			if (door != null)
+			if (_doors.ContainsKey(loc))
 			{
-				removeDirections(door);
-				door.deleteMe();
+				L1DoorInstance door = _doors[loc];
+				if (_doors.Remove(loc))
+				{
+					removeDirections(door);
+					door.deleteMe();
+				}
 			}
 		}
 

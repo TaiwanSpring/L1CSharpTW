@@ -35,7 +35,7 @@ namespace LineageServer.Server.DataTables
 
         private static SpawnTable _instance;
 
-        private IDictionary<int, L1Spawn> _spawntable = MapFactory.newMap();
+        private IDictionary<int, L1Spawn> _spawntable = MapFactory.NewMap();
 
         private int _highestId;
 

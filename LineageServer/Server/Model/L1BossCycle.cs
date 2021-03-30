@@ -24,28 +24,28 @@ namespace LineageServer.Server.Model
 	using Random = LineageServer.Utils.Random;
 	using MapFactory = LineageServer.Utils.MapFactory;
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) public class L1BossCycle
+	//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+	//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) public class L1BossCycle
 	public class L1BossCycle
 	{
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "Name") private String _name;
+		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+		//ORIGINAL LINE: @XmlAttribute(name = "Name") private String _name;
 		private string _name;
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlElement(name = "Base") private Base _base;
+		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+		//ORIGINAL LINE: @XmlElement(name = "Base") private Base _base;
 		private Base _base;
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) private static class Base
+		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+		//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) private static class Base
 		private class Base
 		{
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "Date") private String _date;
+			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+			//ORIGINAL LINE: @XmlAttribute(name = "Date") private String _date;
 			internal string _date;
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "Time") private String _time;
+			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+			//ORIGINAL LINE: @XmlAttribute(name = "Time") private String _time;
 			internal string _time;
 
 			public virtual string Date
@@ -75,24 +75,24 @@ namespace LineageServer.Server.Model
 
 		}
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlElement(name = "Cycle") private Cycle _cycle;
+		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+		//ORIGINAL LINE: @XmlElement(name = "Cycle") private Cycle _cycle;
 		private Cycle _cycle;
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) private static class Cycle
+		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+		//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) private static class Cycle
 		private class Cycle
 		{
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "Period") private String _period;
+			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+			//ORIGINAL LINE: @XmlAttribute(name = "Period") private String _period;
 			internal string _period;
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "Start") private String _start;
+			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+			//ORIGINAL LINE: @XmlAttribute(name = "Start") private String _start;
 			internal string _start;
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAttribute(name = "End") private String _end;
+			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+			//ORIGINAL LINE: @XmlAttribute(name = "End") private String _end;
 			internal string _end;
 
 			public virtual string Period
@@ -146,8 +146,8 @@ namespace LineageServer.Server.Model
 
 		private static readonly DateTime START_UP = new DateTime();
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: public void init() throws Exception
+		//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+		//ORIGINAL LINE: public void init() throws Exception
 		public virtual void init()
 		{
 			// 基準日時の設定
@@ -185,7 +185,7 @@ namespace LineageServer.Server.Model
 
 			// 出現周期の初期化,チェック
 			Cycle spawn = Cycle;
-			if ((spawn == null) || (string.ReferenceEquals(spawn.Period, null)))
+			if (( spawn == null ) || ( string.ReferenceEquals(spawn.Period, null) ))
 			{
 				throw new Exception("CycleのPeriodは必須");
 			}
@@ -205,20 +205,20 @@ namespace LineageServer.Server.Model
 			int eMinute = getTimeParse(end, "m");
 
 			// 分換算
-			_period = (_periodDay * 24 * 60) + (_periodHour * 60) + _periodMinute;
-			_startTime = (sDay * 24 * 60) + (sHour * 60) + sMinute;
-			_endTime = (eDay * 24 * 60) + (eHour * 60) + eMinute;
+			_period = ( _periodDay * 24 * 60 ) + ( _periodHour * 60 ) + _periodMinute;
+			_startTime = ( sDay * 24 * 60 ) + ( sHour * 60 ) + sMinute;
+			_endTime = ( eDay * 24 * 60 ) + ( eHour * 60 ) + eMinute;
 			if (_period <= 0)
 			{
 				throw new Exception("must be Period > 0");
 			}
 			// start補正
-			if ((_startTime < 0) || (_period < _startTime))
+			if (( _startTime < 0 ) || ( _period < _startTime ))
 			{ // 補正
 				_startTime = 0;
 			}
 			// end補正
-			if ((_endTime < 0) || (_period < _endTime) || (string.ReferenceEquals(end, null)))
+			if (( _endTime < 0 ) || ( _period < _endTime ) || ( string.ReferenceEquals(end, null) ))
 			{ // 補正
 				_endTime = _period;
 			}
@@ -241,7 +241,7 @@ namespace LineageServer.Server.Model
 			}
 
 			// 最近の周期まで補正(再計算するときに厳密に算出するので、ここでは近くまで適当に補正するだけ)
-			while (!(baseCal > START_UP))
+			while (!( baseCal > START_UP ))
 			{
 				baseCal.AddDays(_periodDay);
 				baseCal.AddHours(_periodHour);
@@ -258,7 +258,7 @@ namespace LineageServer.Server.Model
 		private DateTime getBaseCycleOnTarget(DateTime target)
 		{
 			// 基準日時取得
-			DateTime @base = (DateTime) _baseDate.clone();
+			DateTime @base = _baseDate;
 			if (target > @base)
 			{
 				// target <= baseとなるまで繰り返す
@@ -279,7 +279,7 @@ namespace LineageServer.Server.Model
 				}
 			}
 			// 終了時間を算出してみて、過去の時刻ならボス時間が過ぎている→次の周期を返す。
-			DateTime end = (DateTime) @base.clone();
+			DateTime end = @base;
 			end.AddMinutes(_endTime);
 			if (end < target)
 			{
@@ -301,7 +301,7 @@ namespace LineageServer.Server.Model
 			// 出現期間の計算
 			@base.AddMinutes(_startTime);
 			// 出現時間の決定 start～end迄の間でランダムの秒
-			int diff = (_endTime - _startTime) * 60;
+			int diff = ( _endTime - _startTime ) * 60;
 			int random = diff > 0 ? RandomHelper.Next(diff) : 0;
 			@base.AddSeconds(random);
 			return @base;
@@ -340,7 +340,7 @@ namespace LineageServer.Server.Model
 		public virtual DateTime nextSpawnTime(DateTime now)
 		{
 			// 基準日時取得
-			DateTime next = (DateTime) now.clone();
+			DateTime next = now;
 			next.AddDays(_periodDay);
 			next.AddHours(_periodHour);
 			next.AddMinutes(_periodMinute);
@@ -385,12 +385,12 @@ namespace LineageServer.Server.Model
 			return n;
 		}
 
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) @XmlRootElement(name = "BossCycleList") static class L1BossCycleList
+		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+		//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) @XmlRootElement(name = "BossCycleList") static class L1BossCycleList
 		internal class L1BossCycleList
 		{
-//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @XmlElement(name = "BossCycle") private java.util.List<L1BossCycle> bossCycles;
+			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+			//ORIGINAL LINE: @XmlElement(name = "BossCycle") private java.util.List<L1BossCycle> bossCycles;
 			internal IList<L1BossCycle> bossCycles;
 
 			public virtual IList<L1BossCycle> BossCycles
@@ -410,7 +410,7 @@ namespace LineageServer.Server.Model
 		public static void load()
 		{
 			PerformanceTimer timer = new PerformanceTimer();
-            System.Console.Write("【讀取】 【bosscycle】【設定】");
+			System.Console.Write("【讀取】 【bosscycle】【設定】");
 			try
 			{
 				// BookOrder クラスをバインディングするコンテキストを生成
@@ -420,7 +420,7 @@ namespace LineageServer.Server.Model
 
 				// XML -> POJO 変換
 				File file = new File("./data/xml/Cycle/BossCycle.xml");
-				L1BossCycleList bossList = (L1BossCycleList) um.unmarshal(file);
+				L1BossCycleList bossList = (L1BossCycleList)um.unmarshal(file);
 
 				foreach (L1BossCycle cycle in bossList.BossCycles)
 				{
@@ -432,7 +432,7 @@ namespace LineageServer.Server.Model
 				File userFile = new File("./data/xml/Cycle/users/BossCycle.xml");
 				if (userFile.exists())
 				{
-					bossList = (L1BossCycleList) um.unmarshal(userFile);
+					bossList = (L1BossCycleList)um.unmarshal(userFile);
 
 					foreach (L1BossCycle cycle in bossList.BossCycles)
 					{
@@ -448,7 +448,7 @@ namespace LineageServer.Server.Model
 				_log.Error(Enum.Level.Server, "找不到BossCycle.xml的檔案位置。", e);
 				Environment.Exit(0);
 			}
-            System.Console.WriteLine("【完成】【" + timer.get() + "】【毫秒】。");
+			System.Console.WriteLine("【完成】【" + timer.get() + "】【毫秒】。");
 		}
 
 		/// <summary>
@@ -458,13 +458,13 @@ namespace LineageServer.Server.Model
 		///            周期を出力する日時 </param>
 		public virtual void showData(DateTime now)
 		{
-            System.Console.WriteLine("[Type]" + Name);
-            System.Console.Write("  [出現期間]");
-            System.Console.Write(_sdf.format(getSpawnStartTime(now)) + " - ");
-            System.Console.WriteLine(_sdf.format(getSpawnEndTime(now)));
+			System.Console.WriteLine("[Type]" + Name);
+			System.Console.Write("  [出現期間]");
+			System.Console.Write(_sdf.format(getSpawnStartTime(now)) + " - ");
+			System.Console.WriteLine(_sdf.format(getSpawnEndTime(now)));
 		}
 
-		private static IDictionary<string, L1BossCycle> _cycleMap = MapFactory.newMap();
+		private static IDictionary<string, L1BossCycle> _cycleMap = MapFactory.NewMap();
 
 		public static L1BossCycle getBossCycle(string type)
 		{
@@ -510,7 +510,7 @@ namespace LineageServer.Server.Model
 		}
 
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
+		//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
 		private static Logger _log = Logger.GetLogger(typeof(L1BossCycle).FullName);
 	}
 

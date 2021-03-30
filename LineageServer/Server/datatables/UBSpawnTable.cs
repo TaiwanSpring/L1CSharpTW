@@ -31,7 +31,7 @@ namespace LineageServer.Server.DataTables
 
 		private static UBSpawnTable _instance;
 
-		private IDictionary<int, L1UbSpawn> _spawnTable = MapFactory.newMap();
+		private IDictionary<int, L1UbSpawn> _spawnTable = MapFactory.NewMap();
 
 		public static UBSpawnTable Instance
 		{

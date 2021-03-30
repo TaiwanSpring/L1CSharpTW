@@ -1,26 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using LineageServer.Server.Model.Instance;
+using LineageServer.Utils;
+using System;
+using System.Collections.Generic;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Model
 {
-
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using ListFactory = LineageServer.Utils.ListFactory;
-
-	public class L1Clan
+	class L1Clan
 	{
 		private bool InstanceFieldsInitialized = false;
 
@@ -70,7 +55,7 @@ namespace LineageServer.Server.Model
 
 		private string _clanName;
 
-		private Timestamp _foundDate;
+		private DateTime _foundDate;
 
 		private string _announcement;
 
@@ -90,7 +75,7 @@ namespace LineageServer.Server.Model
 
 		private L1DwarfForClanInventory _dwarfForClan;
 
-		private readonly IList<string> membersNameList = ListFactory.newList();
+		private readonly IList<string> membersNameList = ListFactory.NewList<string>();
 
 		public virtual int ClanId
 		{
@@ -118,7 +103,7 @@ namespace LineageServer.Server.Model
 		}
 
 
-		public virtual Timestamp FoundDate
+		public virtual DateTime FoundDate
 		{
 			get
 			{
@@ -242,16 +227,16 @@ namespace LineageServer.Server.Model
 		{
 			get
 			{
-				IList<L1PcInstance> onlineMembers = ListFactory.newList();
+				IList<L1PcInstance> onlineMembers = ListFactory.NewList<L1PcInstance>();
 				foreach (string name in membersNameList)
 				{
 					L1PcInstance pc = L1World.Instance.getPlayer(name);
-					if ((pc != null) && !onlineMembers.Contains(pc))
+					if (( pc != null ) && !onlineMembers.Contains(pc))
 					{
 						onlineMembers.Add(pc);
 					}
 				}
-				return ((List<L1PcInstance>)onlineMembers).ToArray();
+				return ( (List<L1PcInstance>)onlineMembers ).ToArray();
 			}
 		}
 
@@ -289,7 +274,7 @@ namespace LineageServer.Server.Model
 		{
 			get
 			{
-				return ((List<string>)membersNameList).ToArray();
+				return ( (List<string>)membersNameList ).ToArray();
 			}
 		}
 

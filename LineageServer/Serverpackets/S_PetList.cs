@@ -41,7 +41,7 @@ namespace LineageServer.Serverpackets
 
 		private void buildPacket(int npcObjId, L1PcInstance pc)
 		{
-			IList<L1ItemInstance> amuletList = ListFactory.newList();
+			IList<L1ItemInstance> amuletList = ListFactory.NewList();
 			// 判斷身上是否有寵物項圈！
 			foreach (L1ItemInstance item in pc.Inventory.Items)
 			{

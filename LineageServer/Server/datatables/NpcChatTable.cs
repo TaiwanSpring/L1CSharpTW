@@ -32,13 +32,13 @@ namespace LineageServer.Server.DataTables
 
 		private static NpcChatTable _instance;
 
-		private IDictionary<int, L1NpcChat> _npcChatAppearance = MapFactory.newMap();
+		private IDictionary<int, L1NpcChat> _npcChatAppearance = MapFactory.NewMap();
 
-		private IDictionary<int, L1NpcChat> _npcChatDead = MapFactory.newMap();
+		private IDictionary<int, L1NpcChat> _npcChatDead = MapFactory.NewMap();
 
-		private IDictionary<int, L1NpcChat> _npcChatHide = MapFactory.newMap();
+		private IDictionary<int, L1NpcChat> _npcChatHide = MapFactory.NewMap();
 
-		private IDictionary<int, L1NpcChat> _npcChatGameTime = MapFactory.newMap();
+		private IDictionary<int, L1NpcChat> _npcChatGameTime = MapFactory.NewMap();
 
 		public static NpcChatTable Instance
 		{

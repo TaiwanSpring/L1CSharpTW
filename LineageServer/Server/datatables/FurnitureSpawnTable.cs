@@ -1,33 +1,18 @@
-﻿using System;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
+using System;
+using System.Collections.Generic;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using IdFactory = LineageServer.Server.IdFactory;
-	using L1World = LineageServer.Server.Model.L1World;
-	using L1FurnitureInstance = LineageServer.Server.Model.Instance.L1FurnitureInstance;
-	using L1Npc = LineageServer.Server.Templates.L1Npc;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-
-	public class FurnitureSpawnTable
+	class FurnitureSpawnTable
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(FurnitureSpawnTable).FullName);
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.SpawnlistFurniture);
 
 		private static FurnitureSpawnTable _instance;
 
@@ -50,9 +35,31 @@ namespace LineageServer.Server.DataTables
 
 		private void FillFurnitureSpawnTable()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+
+			for (int i = 0; i < dataSourceRows.Count; i++)
+			{
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				L1Npc l1npc = NpcTable.Instance.getTemplate(dataSourceRow.getInt(SpawnlistFurniture.Column_npcid));
+				if (l1npc != null)
+				{
+					string s = l1npc.Impl;
+
+					if (L1NpcInstance.Factory(l1npc) is L1FurnitureInstance furniture)
+					{
+						furniture.Id = IdFactory.Instance.nextId();
+						furniture.ItemObjId = dataSourceRow.getInt(SpawnlistFurniture.Column_item_obj_id);
+						furniture.X = dataSourceRow.getInt(SpawnlistFurniture.Column_locx);
+						furniture.Y = dataSourceRow.getInt(SpawnlistFurniture.Column_locy);
+						furniture.MapId = (short)dataSourceRow.getInt(SpawnlistFurniture.Column_mapid);
+						furniture.HomeX = furniture.X;
+						furniture.HomeY = furniture.Y;
+						furniture.Heading = 0;
+						L1World.Instance.storeObject(furniture);
+						L1World.Instance.addVisibleObject(furniture);
+					}
+				}
+			}
 			try
 			{
 
@@ -70,24 +77,27 @@ namespace LineageServer.Server.DataTables
 					if (l1npc != null)
 					{
 						string s = l1npc.Impl;
-//JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-//ORIGINAL LINE: java.lang.reflect.Constructor<?> constructor = Class.forName("l1j.server.server.model.Instance." + s + "Instance").getConstructors()[0];
+
+						if (L1NpcInstance.Factory(l1npc) is L1FurnitureInstance furniture)
+						{
+							furniture.Id = IdFactory.Instance.nextId();
+							furniture.ItemObjId = dataSourceRow.getInt(1);
+							furniture.X = dataSourceRow.getInt(3);
+							furniture.Y = dataSourceRow.getInt(4);
+							furniture.Map = (short)dataSourceRow.getInt(5);
+							furniture.HomeX = furniture.X;
+							furniture.HomeY = furniture.Y;
+							furniture.Heading = 0;
+
+							L1World.Instance.storeObject(furniture);
+							L1World.Instance.addVisibleObject(furniture);
+						}
+						//JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
+						//ORIGINAL LINE: java.lang.reflect.Constructor<?> constructor = Class.forName("l1j.server.server.model.Instance." + s + "Instance").getConstructors()[0];
 						System.Reflection.ConstructorInfo<object> constructor = Type.GetType("l1j.server.server.model.Instance." + s + "Instance").GetConstructors()[0];
-						object[] parameters = new object[] {l1npc};
-						L1FurnitureInstance furniture = (L1FurnitureInstance) constructor.Invoke(parameters);
-						furniture = (L1FurnitureInstance) constructor.Invoke(parameters);
-						furniture.Id = IdFactory.Instance.nextId();
+						object[] parameters = new object[] { l1npc };
+						L1FurnitureInstance furniture = (L1FurnitureInstance)constructor.Invoke(parameters);
 
-						furniture.ItemObjId = dataSourceRow.getInt(1);
-						furniture.X = dataSourceRow.getInt(3);
-						furniture.Y = dataSourceRow.getInt(4);
-						furniture.Map = (short) dataSourceRow.getInt(5);
-						furniture.HomeX = furniture.X;
-						furniture.HomeY = furniture.Y;
-						furniture.Heading = 0;
-
-						L1World.Instance.storeObject(furniture);
-						L1World.Instance.addVisibleObject(furniture);
 					}
 				} while (true);
 			}

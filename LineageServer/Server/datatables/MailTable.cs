@@ -35,7 +35,7 @@ namespace LineageServer.Server.DataTables
 
 		private static MailTable _instance;
 
-		private static IList<L1Mail> _allMail = ListFactory.newList();
+		private static IList<L1Mail> _allMail = ListFactory.NewList();
 
 		public static MailTable Instance
 		{

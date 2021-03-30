@@ -111,7 +111,7 @@ namespace LineageServer.Server.Model.Map
 		//ORIGINAL LINE: @Override public java.util.Map<int, L1Map> read() throws java.io.IOException
 		public override IDictionary<int, L1Map> read()
 		{
-			IDictionary<int, L1Map> maps = Maps.newMap();
+			IDictionary<int, L1Map> maps = Maps.NewMap();
 			foreach (int id in TextMapReader.listMapIds())
 			{
 				maps[id] = read(id);

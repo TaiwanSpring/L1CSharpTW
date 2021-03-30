@@ -31,7 +31,7 @@ namespace LineageServer.Serverpackets
 
 		public S_CommonNews()
 		{
-			_announcements = ListFactory.newList();
+			_announcements = ListFactory.NewList();
 			loadAnnouncements();
 			if (_announcements.Count == 0)
 			{

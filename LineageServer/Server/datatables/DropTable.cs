@@ -1,53 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.Model;
+using LineageServer.Server.Model.identity;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
+using LineageServer.Serverpackets;
+using LineageServer.Utils;
+using System.Collections.Generic;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.DataTables
 {
-
-	using Config = LineageServer.Server.Config;
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1Character = LineageServer.Server.Model.L1Character;
-	using L1Inventory = LineageServer.Server.Model.L1Inventory;
-	using L1Quest = LineageServer.Server.Model.L1Quest;
-	using L1World = LineageServer.Server.Model.L1World;
-	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
-	using L1NpcInstance = LineageServer.Server.Model.Instance.L1NpcInstance;
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using L1PetInstance = LineageServer.Server.Model.Instance.L1PetInstance;
-	using L1SummonInstance = LineageServer.Server.Model.Instance.L1SummonInstance;
-	using L1ItemId = LineageServer.Server.Model.identity.L1ItemId;
-	using S_ServerMessage = LineageServer.Serverpackets.S_ServerMessage;
-	using L1Drop = LineageServer.Server.Templates.L1Drop;
-	using Random = LineageServer.Utils.Random;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using ListFactory = LineageServer.Utils.ListFactory;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	// Referenced classes of package l1j.server.server.templates:
-	// L1Npc, L1Item, ItemTable
-
-	public class DropTable
+	class DropTable
 	{
+		private readonly static IDataSource dataSource =
+			 Container.Instance.Resolve<IDataSourceFactory>()
+			 .Factory(Enum.DataSourceTypeEnum.Droplist);
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static readonly Logger _log = Logger.GetLogger(typeof(DropTable).FullName);
+
+		private static readonly ILogger _log = Logger.GetLogger(nameof(DropTable));
 
 		private static DropTable _instance;
 
-		private readonly IDictionary<int, IList<L1Drop>> _droplists; // モンスター毎のドロップリスト
+		private readonly IDictionary<int, IList<L1Drop>> _droplists; //每個怪物的掉落列表
 
 		public static DropTable Instance
 		{
@@ -68,45 +42,30 @@ namespace LineageServer.Server.DataTables
 
 		private IDictionary<int, IList<L1Drop>> allDropList()
 		{
-			IDictionary<int, IList<L1Drop>> droplistMap = MapFactory.newMap();
+			IDictionary<int, IList<L1Drop>> droplistMap = MapFactory.NewMap<int, IList<L1Drop>>();
 
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("select * from droplist");
-				rs = pstm.executeQuery();
-				while (rs.next())
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				int mobId = dataSourceRow.getInt("mobId");
+				int itemId = dataSourceRow.getInt("itemId");
+				int min = dataSourceRow.getInt("min");
+				int max = dataSourceRow.getInt("max");
+				int chance = dataSourceRow.getInt("chance");
+				int enchantlvl = dataSourceRow.getInt("enchantlvl");
+
+				L1Drop drop = new L1Drop(mobId, itemId, min, max, chance, enchantlvl);
+
+				if (droplistMap.ContainsKey(drop.Mobid))
 				{
-					int mobId = dataSourceRow.getInt("mobId");
-					int itemId = dataSourceRow.getInt("itemId");
-					int min = dataSourceRow.getInt("min");
-					int max = dataSourceRow.getInt("max");
-					int chance = dataSourceRow.getInt("chance");
-					int enchantlvl = dataSourceRow.getInt("enchantlvl");
-
-					L1Drop drop = new L1Drop(mobId, itemId, min, max, chance, enchantlvl);
-
-					IList<L1Drop> dropList = droplistMap[drop.Mobid];
-					if (dropList == null)
-					{
-						dropList = ListFactory.newList();
-						droplistMap[drop.Mobid] = dropList;
-					}
-					dropList.Add(drop);
+					droplistMap[drop.Mobid].Add(drop);
 				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
+				else
+				{
+					droplistMap.Add(drop.Mobid, new List<L1Drop>() { drop });
+				}
 			}
 			return droplistMap;
 		}
@@ -133,7 +92,7 @@ namespace LineageServer.Server.DataTables
 			{
 				adenarate = 0;
 			}
-			if ((droprate <= 0) && (adenarate <= 0))
+			if (( droprate <= 0 ) && ( adenarate <= 0 ))
 			{
 				return;
 			}
@@ -149,7 +108,7 @@ namespace LineageServer.Server.DataTables
 			{
 				// ドロップアイテムの取得
 				itemId = drop.Itemid;
-				if ((adenarate == 0) && (itemId == L1ItemId.ADENA))
+				if (( adenarate == 0 ) && ( itemId == L1ItemId.ADENA ))
 				{
 					continue; // アデナレート０でドロップがアデナの場合はスルー
 				}
@@ -158,15 +117,15 @@ namespace LineageServer.Server.DataTables
 				randomChance = RandomHelper.Next(0xf4240) + 1;
 				double rateOfMapId = MapsTable.Instance.getDropRate(npc.MapId);
 				double rateOfItem = DropItemTable.Instance.getDropRate(itemId);
-				if ((droprate == 0) || (drop.Chance * droprate * rateOfMapId * rateOfItem < randomChance))
+				if (( droprate == 0 ) || ( drop.Chance * droprate * rateOfMapId * rateOfItem < randomChance ))
 				{
 					continue;
 				}
 
 				// ドロップ個数を設定
 				double amount = DropItemTable.Instance.getDropAmount(itemId);
-				int min = (int)(drop.Min * amount);
-				int max = (int)(drop.Max * amount);
+				int min = (int)( drop.Min * amount );
+				int max = (int)( drop.Max * amount );
 
 				itemCount = min;
 				addCount = max - min + 1;
@@ -217,12 +176,12 @@ namespace LineageServer.Server.DataTables
 			for (int i = hateList.Count - 1; i >= 0; i--)
 			{
 				acquisitor = acquisitorList[i];
-				if ((Config.AUTO_LOOT == 2) && ((acquisitor is L1SummonInstance) || (acquisitor is L1PetInstance)))
+				if (( Config.AUTO_LOOT == 2 ) && ( ( acquisitor is L1SummonInstance ) || ( acquisitor is L1PetInstance ) ))
 				{
 					acquisitorList.RemoveAt(i);
 					hateList.RemoveAt(i);
 				}
-				else if ((acquisitor != null) && (acquisitor.MapId == npc.MapId) && (acquisitor.Location.getTileLineDistance(npc.Location) <= Config.LOOTING_RANGE))
+				else if (( acquisitor != null ) && ( acquisitor.MapId == npc.MapId ) && ( acquisitor.Location.getTileLineDistance(npc.Location) <= Config.LOOTING_RANGE ))
 				{
 					totalHate += hateList[i];
 				}
@@ -247,12 +206,12 @@ namespace LineageServer.Server.DataTables
 				itemId = item.ItemId;
 				bool isGround = false;
 				bool isPartyShare = false; //組隊自動分配
-				if ((item.Item.Type2 == 0) && (item.Item.Type == 2))
+				if (( item.Item.Type2 == 0 ) && ( item.Item.Type == 2 ))
 				{ // light系アイテム
 					item.NowLighting = false;
 				}
 
-				if (((Config.AUTO_LOOT != 0) || (itemId == L1ItemId.ADENA)) && (totalHate > 0))
+				if (( ( Config.AUTO_LOOT != 0 ) || ( itemId == L1ItemId.ADENA ) ) && ( totalHate > 0 ))
 				{ // オートルーティングかアデナで取得者がいる場合
 					randomInt = RandomHelper.Next(totalHate);
 					chanceHate = 0;
@@ -262,14 +221,14 @@ namespace LineageServer.Server.DataTables
 						if (chanceHate > randomInt)
 						{
 							acquisitor = acquisitorList[j];
-							if ((itemId >= 40131) && (itemId <= 40135))
+							if (( itemId >= 40131 ) && ( itemId <= 40135 ))
 							{
-								if (!(acquisitor is L1PcInstance) || (hateList.Count > 1))
+								if (!( acquisitor is L1PcInstance ) || ( hateList.Count > 1 ))
 								{
 									targetInventory = null;
 									break;
 								}
-								player = (L1PcInstance) acquisitor;
+								player = (L1PcInstance)acquisitor;
 								if (player.Quest.get_step(L1Quest.QUEST_LYRA) != 1)
 								{
 									targetInventory = null;
@@ -281,9 +240,9 @@ namespace LineageServer.Server.DataTables
 								targetInventory = acquisitor.Inventory;
 								if (acquisitor is L1PcInstance)
 								{
-									player = (L1PcInstance) acquisitor;
+									player = (L1PcInstance)acquisitor;
 									L1ItemInstance l1iteminstance = player.Inventory.findItemId(L1ItemId.ADENA); // 所持アデナをチェック
-									if ((l1iteminstance != null) && (l1iteminstance.Count > 2000000000))
+									if (( l1iteminstance != null ) && ( l1iteminstance.Count > 2000000000 ))
 									{
 										targetInventory = L1World.Instance.getInventory(acquisitor.X, acquisitor.Y, acquisitor.MapId); // 持てないので足元に落とす
 										isGround = true;
@@ -368,7 +327,7 @@ namespace LineageServer.Server.DataTables
 				}
 				else
 				{ // ノンオートルーティング
-					IList<int> dirList = ListFactory.newList();
+					IList<int> dirList = ListFactory.NewList<int>();
 					for (int j = 0; j < 8; j++)
 					{
 						dirList.Add(j);
@@ -426,9 +385,9 @@ namespace LineageServer.Server.DataTables
 					targetInventory = L1World.Instance.getInventory(npc.X + x, npc.Y + y, npc.MapId);
 					isGround = true;
 				}
-				if ((itemId >= 40131) && (itemId <= 40135))
+				if (( itemId >= 40131 ) && ( itemId <= 40135 ))
 				{
-					if (isGround || (targetInventory == null))
+					if (isGround || ( targetInventory == null ))
 					{
 						inventory.removeItem(item, item.Count);
 						continue;

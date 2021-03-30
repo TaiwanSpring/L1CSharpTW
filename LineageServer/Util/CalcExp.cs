@@ -180,7 +180,7 @@ namespace LineageServer.Utils
 					// プリボーナス
 					double pri_bonus = 0;
 					L1PcInstance leader = l1pcinstance.Party.Leader;
-					if (leader.Crown && ( l1pcinstance.knownsObject(leader) || l1pcinstance.Equals(leader) ))
+					if (leader.Crown && ( l1pcinstance.knownsObject(leader) || l1pcinstance == leader ))
 					{
 						pri_bonus = 0.059;
 					}
@@ -190,7 +190,7 @@ namespace LineageServer.Utils
 					double pt_bonus = 0;
 					foreach (L1PcInstance each in ptMembers)
 					{
-						if (l1pcinstance.knownsObject(each) || l1pcinstance.Equals(each))
+						if (l1pcinstance.knownsObject(each) || l1pcinstance == each)
 						{
 							party_level += each.Level * each.Level;
 						}

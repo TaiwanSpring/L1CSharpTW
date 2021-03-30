@@ -5461,7 +5461,7 @@ namespace LineageServer.Server.Model.Instance
                     {
                         foreach (L1ItemInstance item in pc.Inventory.Items)
                         {
-                            if (pc.Weapon.Equals(item))
+                            if (pc.Weapon == item)
                             {
                                 L1SkillUse l1skilluse = new L1SkillUse();
                                 l1skilluse.handleCommands(pc, L1SkillId.HOLY_WEAPON, pc.Id, pc.X, pc.Y, null, 0, L1SkillUse.TYPE_SPELLSC);

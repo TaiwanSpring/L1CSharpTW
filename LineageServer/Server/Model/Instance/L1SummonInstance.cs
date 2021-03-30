@@ -505,7 +505,7 @@ namespace LineageServer.Server.Model.Instance
             {
                 return;
             }
-            if (_master.Equals(player))
+            if (_master == player)
             {
                 player.sendPackets(new S_PetMenuPacket(this, 0));
             }

@@ -142,7 +142,7 @@ namespace LineageServer.Server.DataTables
 		{
 			get
 			{
-				IList<int> houseIdList = ListFactory.newList();
+				IList<int> houseIdList = ListFactory.NewList();
     
 				IDataBaseConnection con = null;
 				PreparedStatement pstm = null;

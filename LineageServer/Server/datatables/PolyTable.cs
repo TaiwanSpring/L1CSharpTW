@@ -29,9 +29,9 @@ namespace LineageServer.Server.DataTables
 
 		private static PolyTable _instance;
 
-		private readonly IDictionary<string, L1PolyMorph> _polymorphs = MapFactory.newMap();
+		private readonly IDictionary<string, L1PolyMorph> _polymorphs = MapFactory.NewMap();
 
-		private readonly IDictionary<int, L1PolyMorph> _polyIdIndex = MapFactory.newMap();
+		private readonly IDictionary<int, L1PolyMorph> _polyIdIndex = MapFactory.NewMap();
 
 		public static PolyTable Instance
 		{

@@ -1,7 +1,19 @@
-﻿namespace LineageServer.Server.DataTables
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model;
+
+namespace LineageServer.Server.DataTables
 {
 	class ClanRecommendTable
 	{
+
+		private readonly static IDataSource clanRecommendApplyDataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.ClanRecommendApply);
+
+		private readonly static IDataSource clanRecommendRecordDataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.ClanRecommendRecord);
 
 		private static ClanRecommendTable _instance;
 
@@ -24,31 +36,15 @@
 		/// <param name="type_message"> 類型說明文字 </param>
 		public virtual void addRecommendRecord(int clan_id, int clan_type, string type_message)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("INSERT INTO clan_recommend_record SET clan_id=?, clan_name=?, crown_name=?, clan_type=?, type_message=?");
-				L1Clan clan = ClanTable.Instance.getTemplate(clan_id);
-				pstm.setInt(1, clan_id);
-				pstm.setString(2, clan.ClanName);
-				pstm.setString(3, clan.LeaderName);
-				pstm.setInt(4, clan_type);
-				pstm.setString(5, type_message);
-				pstm.execute();
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
+			L1Clan clan = ClanTable.Instance.getTemplate(clan_id);
+
+			clanRecommendRecordDataSource.NewRow().Insert()
+				.Set(ClanRecommendRecord.Column_clan_id, clan_id)
+				.Set(ClanRecommendRecord.Column_clan_name, clan.ClanName)
+				.Set(ClanRecommendRecord.Column_crown_name, clan.LeaderName)
+				.Set(ClanRecommendRecord.Column_clan_type, clan_type)
+				.Set(ClanRecommendRecord.Column_type_message, type_message)
+				.Execute();
 		}
 
 		/// <summary>
@@ -57,29 +53,12 @@
 		/// <param name="char_name"> 申請玩家名稱 </param>
 		public virtual void addRecommendApply(int clan_id, string char_name)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("INSERT INTO clan_recommend_apply SET clan_id=?, clan_name=?, char_name=?");
-				L1Clan clan = ClanTable.Instance.getTemplate(clan_id);
-				pstm.setInt(1, clan_id);
-				pstm.setString(2, clan.ClanName);
-				pstm.setString(3, char_name);
-				pstm.execute();
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
+			L1Clan clan = ClanTable.Instance.getTemplate(clan_id);
+			clanRecommendApplyDataSource.NewRow().Insert()
+				.Set(ClanRecommendApply.Column_clan_id, clan_id)
+				.Set(ClanRecommendApply.Column_clan_name, clan.ClanName)
+				.Set(ClanRecommendApply.Column_char_name, char_name)
+				.Execute();
 		}
 
 		/// <summary>
@@ -87,31 +66,15 @@
 		/// </summary>
 		public virtual void updateRecommendRecord(int clan_id, int clan_type, string type_message)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("UPDATE clan_recommend_record SET clan_name=?, crown_name=?, clan_type=?, type_message=? WHERE clan_id=?");
-				L1Clan clan = ClanTable.Instance.getTemplate(clan_id);
-				pstm.setString(1, clan.ClanName);
-				pstm.setString(2, clan.LeaderName);
-				pstm.setInt(3, clan_type);
-				pstm.setString(4, type_message);
-				pstm.setInt(5, clan_id);
-				pstm.execute();
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
+			//L1Clan clan = ClanTable.Instance.getTemplate(clan_id);
+
+			clanRecommendRecordDataSource.NewRow().Update()
+				.Where(ClanRecommendRecord.Column_clan_id, clan_id)
+				//.Set(ClanRecommendRecord.Column_clan_name, clan.ClanName)
+				//.Set(ClanRecommendRecord.Column_crown_name, clan.LeaderName)
+				.Set(ClanRecommendRecord.Column_clan_type, clan_type)
+				.Set(ClanRecommendRecord.Column_type_message, type_message)
+				.Execute();
 		}
 
 		/// <summary>
@@ -119,25 +82,9 @@
 		/// <param name="id"> 申請ID </param>
 		public virtual void removeRecommendApply(int id)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("DELETE FROM clan_recommend_apply WHERE id=?");
-				pstm.setInt(1, id);
-				pstm.execute();
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-
+			clanRecommendApplyDataSource.NewRow().Delete()
+			.Where(ClanRecommendApply.Column_id, id)
+			.Execute();
 		}
 
 		/// <summary>
@@ -145,25 +92,9 @@
 		/// <param name="clan_id"> 血盟 id </param>
 		public virtual void removeRecommendRecord(int clan_id)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("DELETE FROM clan_recommend_record WHERE clan_id=?");
-				pstm.setInt(1, clan_id);
-				pstm.execute();
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-
+			clanRecommendRecordDataSource.NewRow().Delete()
+				.Where(ClanRecommendRecord.Column_clan_id, clan_id)
+				.Execute();
 		}
 
 		/// <summary>
@@ -172,33 +103,18 @@
 		/// @return </param>
 		public virtual string getApplyPlayerName(int index_id)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			string charName = null;
-			try
+			IDataSourceRow dataSourceRow = clanRecommendApplyDataSource.NewRow();
+			dataSourceRow.Select()
+				.Where(ClanRecommendApply.Column_id, index_id)
+				.Execute();
+			if (dataSourceRow.HaveData)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM clan_recommend_apply WHERE id=?");
-				pstm.setInt(1, index_id);
-				rs = pstm.executeQuery();
-
-				if (rs.first())
-				{
-					charName = dataSourceRow.getString("char_name");
-				}
+				return dataSourceRow.getString(ClanRecommendApply.Column_char_name);
 			}
-			catch (SQLException e)
+			else
 			{
-				_log.log(Enum.Level.Server, e.Message, e);
+				return string.Empty;
 			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-			return charName;
 		}
 
 		/// <summary>
@@ -207,28 +123,11 @@
 		/// @return </param>
 		public virtual bool isRecorded(int clan_id)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM clan_recommend_record WHERE clan_id=?");
-				pstm.setInt(1, clan_id);
-				rs = pstm.executeQuery();
-				return rs.next();
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-			return false;
+			IDataSourceRow dataSourceRow = clanRecommendRecordDataSource.NewRow();
+			dataSourceRow.Select()
+			.Where(ClanRecommendRecord.Column_clan_id, clan_id)
+			.Execute();
+			return dataSourceRow.HaveData;
 		}
 
 		/// <summary>
@@ -237,28 +136,11 @@
 		/// @return </param>
 		public virtual bool isApplied(string char_name)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM clan_recommend_apply WHERE char_name=?");
-				pstm.setString(1, char_name);
-				rs = pstm.executeQuery();
-				return rs.next();
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-			return false;
+			IDataSourceRow dataSourceRow = clanRecommendApplyDataSource.NewRow();
+			dataSourceRow.Select()
+				.Where(ClanRecommendApply.Column_char_name, char_name)
+				.Execute();
+			return dataSourceRow.HaveData;
 		}
 
 		/// <summary>
@@ -266,28 +148,11 @@
 		/// </summary>
 		public virtual bool isClanApplyByPlayer(int clan_id)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM clan_recommend_apply WHERE clan_id=?");
-				pstm.setInt(1, clan_id);
-				rs = pstm.executeQuery();
-				return rs.next();
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-			return false;
+			IDataSourceRow dataSourceRow = clanRecommendApplyDataSource.NewRow();
+			dataSourceRow.Select()
+				.Where(ClanRecommendApply.Column_clan_id, clan_id)
+				.Execute();
+			return dataSourceRow.HaveData;
 		}
 
 		/// <summary>
@@ -296,31 +161,12 @@
 		/// <returns> True:False </returns>
 		public virtual bool isApplyForTheClan(int clan_id, string char_name)
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM clan_recommend_apply WHERE clan_id=? AND char_name=?");
-				pstm.setInt(1, clan_id);
-				pstm.setString(2, char_name);
-				rs = pstm.executeQuery();
-				return rs.next();
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-			return false;
+			IDataSourceRow dataSourceRow = clanRecommendApplyDataSource.NewRow();
+			dataSourceRow.Select()
+				.Where(ClanRecommendApply.Column_clan_id, clan_id)
+				.Where(ClanRecommendApply.Column_char_name, char_name)
+				.Execute();
+			return dataSourceRow.HaveData;
 		}
-
 	}
-
 }

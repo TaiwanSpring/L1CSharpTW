@@ -30,7 +30,7 @@ namespace LineageServer.Server.DataTables
 
 		private static NPCTalkDataTable _instance;
 
-		private IDictionary<int, L1NpcTalkData> _datatable = MapFactory.newMap();
+		private IDictionary<int, L1NpcTalkData> _datatable = MapFactory.NewMap();
 
 		public static NPCTalkDataTable Instance
 		{
