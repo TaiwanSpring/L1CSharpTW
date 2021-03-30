@@ -1,131 +1,62 @@
-﻿using System;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
+using System;
+using System.Collections.Generic;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.DataTables
 {
+    class LightSpawnTable
+    {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.SpawnlistLight);
+        private static LightSpawnTable _instance;
 
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using IdFactory = LineageServer.Server.IdFactory;
-	using L1World = LineageServer.Server.Model.L1World;
-	using L1FieldObjectInstance = LineageServer.Server.Model.Instance.L1FieldObjectInstance;
-	using L1Npc = LineageServer.Server.Templates.L1Npc;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
+        public static LightSpawnTable Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new LightSpawnTable();
+                }
+                return _instance;
+            }
+        }
 
-	public class LightSpawnTable
-	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(LightSpawnTable).FullName);
+        private LightSpawnTable()
+        {
+            FillLightSpawnTable();
+        }
 
-		private static LightSpawnTable _instance;
+        private void FillLightSpawnTable()
+        {
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-		public static LightSpawnTable Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new LightSpawnTable();
-				}
-				return _instance;
-			}
-		}
+            for (int i = 0; i < dataSourceRows.Count; i++)
+            {
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
 
-		private LightSpawnTable()
-		{
-			FillLightSpawnTable();
-		}
+                L1Npc l1npc = NpcTable.Instance.getTemplate(dataSourceRow.getInt(SpawnlistLight.Column_npcid));
 
-		private void FillLightSpawnTable()
-		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
+                if (L1NpcInstance.Factory(l1npc) is L1FieldObjectInstance l1FieldObjectInstance)
+                {
+                    l1FieldObjectInstance.Id = IdFactory.Instance.nextId();
+                    l1FieldObjectInstance.X = dataSourceRow.getInt(SpawnlistLight.Column_locx);
+                    l1FieldObjectInstance.Y = dataSourceRow.getInt(SpawnlistLight.Column_locy);
+                    l1FieldObjectInstance.MapId = (short)dataSourceRow.getInt(SpawnlistLight.Column_mapid);
+                    l1FieldObjectInstance.HomeX = l1FieldObjectInstance.X;
+                    l1FieldObjectInstance.HomeY = l1FieldObjectInstance.Y;
+                    l1FieldObjectInstance.Heading = 0;
+                    l1FieldObjectInstance.LightSize = l1npc.LightSize;
 
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM spawnlist_light");
-				rs = pstm.executeQuery();
-				do
-				{
-					if (!rs.next())
-					{
-						break;
-					}
-
-					L1Npc l1npc = NpcTable.Instance.getTemplate(dataSourceRow.getInt(2));
-					if (l1npc != null)
-					{
-						string s = l1npc.Impl;
-//JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-//ORIGINAL LINE: java.lang.reflect.Constructor<?> constructor = Class.forName("l1j.server.server.model.Instance." + s + "Instance").getConstructors()[0];
-						System.Reflection.ConstructorInfo<object> constructor = Type.GetType("l1j.server.server.model.Instance." + s + "Instance").GetConstructors()[0];
-						object[] parameters = new object[] {l1npc};
-						L1FieldObjectInstance field = (L1FieldObjectInstance) constructor.Invoke(parameters);
-						field = (L1FieldObjectInstance) constructor.Invoke(parameters);
-						field.Id = IdFactory.Instance.nextId();
-						field.X = dataSourceRow.getInt("locx");
-						field.Y = dataSourceRow.getInt("locy");
-						field.Map = (short) dataSourceRow.getInt("mapid");
-						field.HomeX = field.X;
-						field.HomeY = field.Y;
-						field.Heading = 0;
-						field.LightSize = l1npc.LightSize;
-
-						L1World.Instance.storeObject(field);
-						L1World.Instance.addVisibleObject(field);
-					}
-				} while (true);
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			catch (SecurityException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			catch (ClassNotFoundException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			catch (System.ArgumentException e)
-			{
-				_log.Error(e);
-			}
-			catch (InstantiationException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			catch (IllegalAccessException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			catch (InvocationTargetException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-		}
-
-	}
-
+                    L1World.Instance.storeObject(l1FieldObjectInstance);
+                    L1World.Instance.addVisibleObject(l1FieldObjectInstance);
+                }
+            }
+        }
+    }
 }

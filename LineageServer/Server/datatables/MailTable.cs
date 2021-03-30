@@ -1,329 +1,216 @@
-﻿using System;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
+using LineageServer.Utils;
+using System;
 using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.DataTables
 {
+    class MailTable
+    {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.Mail);
+        private static MailTable _instance;
 
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using IdFactory = LineageServer.Server.IdFactory;
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using L1Mail = LineageServer.Server.Templates.L1Mail;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using ListFactory = LineageServer.Utils.ListFactory;
+        private static IList<L1Mail> _allMail = ListFactory.NewList<L1Mail>();
 
-	// Referenced classes of package l1j.server.server:
-	// IdFactory
+        public static MailTable Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new MailTable();
+                }
+                return _instance;
+            }
+        }
 
-	public class MailTable
-	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(MailTable).FullName);
+        private MailTable()
+        {
+            loadMail();
+        }
 
-		private static MailTable _instance;
+        private void loadMail()
+        {
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-		private static IList<L1Mail> _allMail = ListFactory.NewList();
+            for (int i = 0; i < dataSourceRows.Count; i++)
+            {
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                L1Mail mail = new L1Mail();
+                mail.Id = dataSourceRow.getInt(Mail.Column_id);
+                mail.Type = dataSourceRow.getInt(Mail.Column_type);
+                mail.SenderName = dataSourceRow.getString(Mail.Column_sender);
+                mail.ReceiverName = dataSourceRow.getString(Mail.Column_receiver);
+                mail.Date = dataSourceRow.getTimestamp(Mail.Column_date);
+                mail.ReadStatus = dataSourceRow.getInt(Mail.Column_read_status);
+                mail.Subject = dataSourceRow.getBlob(Mail.Column_subject);
+                mail.Content = dataSourceRow.getBlob(Mail.Column_content);
+                mail.InBoxId = dataSourceRow.getInt(Mail.Column_inbox_id);
 
-		public static MailTable Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new MailTable();
-				}
-				return _instance;
-			}
-		}
+                _allMail.Add(mail);
+            }
+        }
 
-		private MailTable()
-		{
-			loadMail();
-		}
+        public virtual int ReadStatus
+        {
+            set
+            {
+                IDataSourceRow dataSourceRow = dataSource.NewRow();
+                dataSourceRow.Update()
+                .Where(Mail.Column_id, value)
+                .Set(Mail.Column_read_status, 1)
+                .Execute();
+            }
+        }
 
-		private void loadMail()
-		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM mail");
-				rs = pstm.executeQuery();
-				while (rs.next())
-				{
-					L1Mail mail = new L1Mail();
-					mail.Id = dataSourceRow.getInt("id");
-					mail.Type = dataSourceRow.getInt("type");
-					mail.SenderName = dataSourceRow.getString("sender");
-					mail.ReceiverName = dataSourceRow.getString("receiver");
-					mail.Date = dataSourceRow.getTimestamp("date");
-					mail.ReadStatus = dataSourceRow.getInt("read_status");
-					mail.Subject = dataSourceRow.getBytes("subject");
-					mail.Content = dataSourceRow.getBytes("content");
-					mail.InBoxId = dataSourceRow.getInt("inbox_id");
+        public virtual void setMailType(int mailId, int type)
+        {
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Update()
+            .Where(Mail.Column_id, mailId)
+            .Set(Mail.Column_type, type)
+            .Execute();
+        }
 
-					_allMail.Add(mail);
-				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, "error while creating mail table", e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-		}
+        public virtual void deleteMail(int mailId)
+        {
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Delete()
+            .Where(Mail.Column_id, mailId)
+            .Execute();
+        }
 
-		public virtual int ReadStatus
-		{
-			set
-			{
-				IDataBaseConnection con = null;
-				PreparedStatement pstm = null;
-				ResultSet rs = null;
-				try
-				{
-					con = L1DatabaseFactory.Instance.Connection;
-					rs = con.createStatement().executeQuery("SELECT * FROM mail WHERE id=" + value);
-					if ((rs != null) && rs.next())
-					{
-						pstm = con.prepareStatement("UPDATE mail SET read_status=? WHERE id=" + value);
-						pstm.setInt(1, 1);
-						pstm.execute();
-    
-						changeMailStatus(value);
-					}
-				}
-				catch (SQLException e)
-				{
-					_log.log(Enum.Level.Server, e.Message, e);
-				}
-				finally
-				{
-					SQLUtil.close(rs);
-					SQLUtil.close(pstm);
-					SQLUtil.close(con);
-				}
-			}
-		}
+        public virtual int writeMail(int type, string receiver, L1PcInstance writer, byte[] text, int inboxId)
+        {
+            // subjectとcontentの区切り(0x00 0x00)位置を見つける
+            int spacePosition1 = 0;
+            int spacePosition2 = 0;
+            for (int i = 0; i < text.Length; i += 2)
+            {
+                if ((text[i] == 0) && (text[i + 1] == 0))
+                {
+                    if (spacePosition1 == 0)
+                    {
+                        spacePosition1 = i;
+                    }
+                    else if ((spacePosition1 != 0) && (spacePosition2 == 0))
+                    {
+                        spacePosition2 = i;
+                        break;
+                    }
+                }
+            }
 
-		public virtual void setMailType(int mailId, int type)
-		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				rs = con.createStatement().executeQuery("SELECT * FROM mail WHERE id=" + mailId);
-				if ((rs != null) && rs.next())
-				{
-					pstm = con.prepareStatement("UPDATE mail SET type=? WHERE id=" + mailId);
-					pstm.setInt(1, type);
-					pstm.execute();
+            // mailテーブルに書き込む
+            int subjectLength = spacePosition1 + 2;
+            int contentLength = spacePosition2 - spacePosition1;
+            if (contentLength <= 0)
+            {
+                contentLength = 1;
+            }
+            byte[] subject = new byte[subjectLength];
+            byte[] content = new byte[contentLength];
+            Array.Copy(text, 0, subject, 0, subjectLength);
+            Array.Copy(text, subjectLength, content, 0, contentLength);
 
-					changeMailType(mailId, type);
-				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-		}
+            int id = IdFactory.Instance.nextId();
+            DateTime date = DateTime.Now;
+            int readStatus = 0;
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Insert()
+            .Set(Mail.Column_id, id)
+            .Set(Mail.Column_type, type)
+            .Set(Mail.Column_sender, writer.Name)
+            .Set(Mail.Column_receiver, receiver)
+            .Set(Mail.Column_date, date)
+            .Set(Mail.Column_read_status, readStatus)
+            .Set(Mail.Column_subject, subject)
+            .Set(Mail.Column_content, content)
+            .Set(Mail.Column_inbox_id, inboxId)
+            .Execute();
 
-		public virtual void deleteMail(int mailId)
-		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("DELETE FROM mail WHERE id=?");
-				pstm.setInt(1, mailId);
-				pstm.execute();
+            L1Mail mail = new L1Mail();
+            mail.Id = id;
+            mail.Type = type;
+            mail.SenderName = writer.Name;
+            mail.ReceiverName = receiver;
+            mail.Date = date;
+            mail.Subject = subject;
+            mail.Content = content;
+            mail.ReadStatus = readStatus;
+            mail.InBoxId = inboxId;
+            _allMail.Add(mail);
+            return id;
+        }
 
-				delMail(mailId);
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
+        public static IList<L1Mail> AllMail
+        {
+            get
+            {
+                return _allMail;
+            }
+        }
 
-		}
+        public static L1Mail getMail(int mailId)
+        {
+            foreach (L1Mail mail in _allMail)
+            {
+                if (mail.Id == mailId)
+                {
+                    return mail;
+                }
+            }
+            return null;
+        }
 
-		public virtual int writeMail(int type, string receiver, L1PcInstance writer, sbyte[] text, int inboxId)
-		{
-			Timestamp date = new Timestamp(DateTimeHelper.CurrentUnixTimeMillis());
-			int readStatus = 0;
-			int id = 0;
+        private void changeMailStatus(int mailId)
+        {
+            foreach (L1Mail mail in _allMail)
+            {
+                if (mail.Id == mailId)
+                {
+                    L1Mail newMail = mail;
+                    newMail.ReadStatus = 1;
 
-			// subjectとcontentの区切り(0x00 0x00)位置を見つける
-			int spacePosition1 = 0;
-			int spacePosition2 = 0;
-			for (int i = 0; i < text.Length; i += 2)
-			{
-				if ((text[i] == 0) && (text[i + 1] == 0))
-				{
-					if (spacePosition1 == 0)
-					{
-						spacePosition1 = i;
-					}
-					else if ((spacePosition1 != 0) && (spacePosition2 == 0))
-					{
-						spacePosition2 = i;
-						break;
-					}
-				}
-			}
+                    _allMail.Remove(mail);
+                    _allMail.Add(newMail);
+                    break;
+                }
+            }
+        }
 
-			// mailテーブルに書き込む
-			int subjectLength = spacePosition1 + 2;
-			int contentLength = spacePosition2 - spacePosition1;
-			if (contentLength <= 0)
-			{
-				contentLength = 1;
-			}
-			sbyte[] subject = new sbyte[subjectLength];
-			sbyte[] content = new sbyte[contentLength];
-			Array.Copy(text, 0, subject, 0, subjectLength);
-			Array.Copy(text, subjectLength, content, 0, contentLength);
+        private void changeMailType(int mailId, int type)
+        {
+            foreach (L1Mail mail in _allMail)
+            {
+                if (mail.Id == mailId)
+                {
+                    L1Mail newMail = mail;
+                    newMail.Type = type;
 
-			IDataBaseConnection con = null;
-			PreparedStatement pstm2 = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm2 = con.prepareStatement("INSERT INTO mail SET " + "id=?, type=?, sender=?, receiver=?," + " date=?, read_status=?, subject=?, content=?, inbox_id=?");
-				id = IdFactory.Instance.nextId();
-				pstm2.setInt(1, id);
-				pstm2.setInt(2, type);
-				pstm2.setString(3, writer.Name);
-				pstm2.setString(4, receiver);
-				pstm2.setTimestamp(5, date);
-				pstm2.setInt(6, readStatus);
-				pstm2.setBytes(7, subject);
-				pstm2.setBytes(8, content);
-				pstm2.setInt(9, inboxId);
-				pstm2.execute();
+                    _allMail.Remove(mail);
+                    _allMail.Add(newMail);
+                    break;
+                }
+            }
+        }
 
-				L1Mail mail = new L1Mail();
-				mail.Id = id;
-				mail.Type = type;
-				mail.SenderName = writer.Name;
-				mail.ReceiverName = receiver;
-				mail.Date = date;
-				mail.Subject = subject;
-				mail.Content = content;
-				mail.ReadStatus = readStatus;
-				mail.InBoxId = inboxId;
+        private void delMail(int mailId)
+        {
+            foreach (L1Mail mail in _allMail)
+            {
+                if (mail.Id == mailId)
+                {
+                    _allMail.Remove(mail);
+                    break;
+                }
+            }
+        }
 
-				_allMail.Add(mail);
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(pstm2);
-				SQLUtil.close(con);
-			}
-			return id;
-		}
-
-		public static IList<L1Mail> AllMail
-		{
-			get
-			{
-				return _allMail;
-			}
-		}
-
-		public static L1Mail getMail(int mailId)
-		{
-			foreach (L1Mail mail in _allMail)
-			{
-				if (mail.Id == mailId)
-				{
-					return mail;
-				}
-			}
-			return null;
-		}
-
-		private void changeMailStatus(int mailId)
-		{
-			foreach (L1Mail mail in _allMail)
-			{
-				if (mail.Id == mailId)
-				{
-					L1Mail newMail = mail;
-					newMail.ReadStatus = 1;
-
-					_allMail.Remove(mail);
-					_allMail.Add(newMail);
-					break;
-				}
-			}
-		}
-
-		private void changeMailType(int mailId, int type)
-		{
-			foreach (L1Mail mail in _allMail)
-			{
-				if (mail.Id == mailId)
-				{
-					L1Mail newMail = mail;
-					newMail.Type = type;
-
-					_allMail.Remove(mail);
-					_allMail.Add(newMail);
-					break;
-				}
-			}
-		}
-
-		private void delMail(int mailId)
-		{
-			foreach (L1Mail mail in _allMail)
-			{
-				if (mail.Id == mailId)
-				{
-					_allMail.Remove(mail);
-					break;
-				}
-			}
-		}
-
-	}
+    }
 
 }

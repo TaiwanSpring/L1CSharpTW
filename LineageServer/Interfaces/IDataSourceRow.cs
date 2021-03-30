@@ -23,6 +23,7 @@ namespace LineageServer.Interfaces
         short getShort(string column);
         bool getBoolean(string column);
         string getString(string column);
+        byte[] getBlob(string column);
 
         double getDouble(string column);
         DateTime getTimestamp(string column);

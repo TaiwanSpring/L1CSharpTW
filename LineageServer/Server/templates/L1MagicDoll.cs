@@ -2,6 +2,7 @@
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
+using LineageServer.Utils;
 
 namespace LineageServer.Server.Templates
 {
@@ -392,7 +393,7 @@ namespace LineageServer.Server.Templates
             return s;
         }
 
-        public static int getEffectByDoll(L1Character _master, sbyte type)
+        public static int getEffectByDoll(L1Character _master, byte type)
         { // 效果
             int chance = RandomHelper.Next(100) + 1;
             foreach (L1DollInstance dollIns in _master.DollList.Values)
@@ -435,7 +436,7 @@ namespace LineageServer.Server.Templates
         private int _registSustain;
         private int _registBlind;
         private int _makeItemId;
-        private sbyte _effect;
+        private byte _effect;
         private int _EffectChance;
 
         public virtual int ItemId
@@ -737,7 +738,7 @@ namespace LineageServer.Server.Templates
         }
 
 
-        public virtual sbyte Effect
+        public virtual byte Effect
         {
             get
             {

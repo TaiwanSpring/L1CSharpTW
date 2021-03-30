@@ -22,6 +22,8 @@ namespace LineageServer.DataBase.DataSources
         public const string Column_recall_pets = "recall_pets";
         public const string Column_usable_item = "usable_item";
         public const string Column_usable_skill = "usable_skill";
+        public const string Column_monster_amount = "monster_amount";
+        public const string Column_drop_rate = "drop_rate";
         public override DataSourceTypeEnum DataSourceType { get { return DataSourceTypeEnum.Mapids; } }
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
@@ -43,10 +45,12 @@ namespace LineageServer.DataBase.DataSources
             new ColumnInfo() { Column = Column_recall_pets, DbType = DbType.Boolean, IsPKey = false},
             new ColumnInfo() { Column = Column_usable_item, DbType = DbType.Boolean, IsPKey = false},
             new ColumnInfo() { Column = Column_usable_skill, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_monster_amount, DbType = DbType.Double, IsPKey = false},
+            new ColumnInfo() { Column = Column_drop_rate, DbType = DbType.Double, IsPKey = false},
         };
         public Mapids() : base(TableName)
         {
-            
+
         }
     }
 }

@@ -1,104 +1,85 @@
-﻿using System.Collections.Generic;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Templates;
+using System.Collections.Generic;
 
 namespace LineageServer.Server.DataTables
 {
+    class MagicDollTable
+    {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.MagicDoll);
 
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1MagicDoll = LineageServer.Server.Templates.L1MagicDoll;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
+        private static MagicDollTable _instance;
 
-	public class MagicDollTable
-	{
+        private readonly Dictionary<int, L1MagicDoll> _dolls = new Dictionary<int, L1MagicDoll>();
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(MagicDollTable).FullName);
+        public static MagicDollTable Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new MagicDollTable();
+                }
+                return _instance;
+            }
+        }
 
-		private static MagicDollTable _instance;
+        private MagicDollTable()
+        {
+            load();
+        }
 
-		private readonly Dictionary<int, L1MagicDoll> _dolls = new Dictionary<int, L1MagicDoll>();
+        private void load()
+        {
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+            L1MagicDoll doll;
+            for (int i = 0; i < dataSourceRows.Count; i++)
+            {
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                doll = new L1MagicDoll();
+                doll.ItemId = dataSourceRow.getInt(MagicDoll.Column_item_id);
+                doll.DollId = dataSourceRow.getInt(MagicDoll.Column_doll_id);
+                doll.Ac = dataSourceRow.getInt(MagicDoll.Column_ac);
+                doll.Hpr = dataSourceRow.getInt(MagicDoll.Column_hpr);
+                doll.HprTime = dataSourceRow.getBoolean(MagicDoll.Column_hpr_time);
+                doll.Mpr = dataSourceRow.getInt(MagicDoll.Column_mpr);
+                doll.MprTime = dataSourceRow.getBoolean(MagicDoll.Column_mpr_time);
+                doll.Hit = dataSourceRow.getInt(MagicDoll.Column_hit);
+                doll.Dmg = dataSourceRow.getInt(MagicDoll.Column_dmg);
+                doll.DmgChance = dataSourceRow.getInt(MagicDoll.Column_dmg_chance);
+                doll.BowHit = dataSourceRow.getInt(MagicDoll.Column_bow_hit);
+                doll.BowDmg = dataSourceRow.getInt(MagicDoll.Column_bow_dmg);
+                doll.DmgReduction = dataSourceRow.getInt(MagicDoll.Column_dmg_reduction);
+                doll.DmgReductionChance = dataSourceRow.getInt(MagicDoll.Column_dmg_reduction_chance);
+                doll.DmgEvasionChance = dataSourceRow.getInt(MagicDoll.Column_dmg_evasion_chance);
+                doll.WeightReduction = dataSourceRow.getInt(MagicDoll.Column_weight_reduction);
+                doll.RegistStun = dataSourceRow.getInt(MagicDoll.Column_regist_stun);
+                doll.RegistStone = dataSourceRow.getInt(MagicDoll.Column_regist_stone);
+                doll.RegistSleep = dataSourceRow.getInt(MagicDoll.Column_regist_sleep);
+                doll.RegistFreeze = dataSourceRow.getInt(MagicDoll.Column_regist_freeze);
+                doll.RegistSustain = dataSourceRow.getInt(MagicDoll.Column_regist_sustain);
+                doll.RegistBlind = dataSourceRow.getInt(MagicDoll.Column_regist_blind);
+                doll.MakeItemId = dataSourceRow.getInt(MagicDoll.Column_make_itemid);
+                doll.Effect = dataSourceRow.getByte(MagicDoll.Column_effect);
+                doll.EffectChance = dataSourceRow.getInt(MagicDoll.Column_effect_chance);
+                _dolls[doll.ItemId] = doll;
+            }
+        }
 
-		public static MagicDollTable Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new MagicDollTable();
-				}
-				return _instance;
-			}
-		}
-
-		private MagicDollTable()
-		{
-			load();
-		}
-
-		private void load()
-		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM magic_doll");
-				rs = pstm.executeQuery();
-				while (rs.next())
-				{
-					L1MagicDoll doll = new L1MagicDoll();
-					int itemId = dataSourceRow.getInt("item_id");
-					doll.ItemId = itemId;
-					doll.DollId = dataSourceRow.getInt("doll_id");
-					doll.Ac = dataSourceRow.getInt("ac");
-					doll.Hpr = dataSourceRow.getInt("hpr");
-					doll.HprTime = dataSourceRow.getBoolean("hpr_time");
-					doll.Mpr = dataSourceRow.getInt("mpr");
-					doll.MprTime = dataSourceRow.getBoolean("mpr_time");
-					doll.Hit = dataSourceRow.getInt("hit");
-					doll.Dmg = dataSourceRow.getInt("dmg");
-					doll.DmgChance = dataSourceRow.getInt("dmg_chance");
-					doll.BowHit = dataSourceRow.getInt("bow_hit");
-					doll.BowDmg = dataSourceRow.getInt("bow_dmg");
-					doll.DmgReduction = dataSourceRow.getInt("dmg_reduction");
-					doll.DmgReductionChance = dataSourceRow.getInt("dmg_reduction_chance");
-					doll.DmgEvasionChance = dataSourceRow.getInt("dmg_evasion_chance");
-					doll.WeightReduction = dataSourceRow.getInt("weight_reduction");
-					doll.RegistStun = dataSourceRow.getInt("regist_stun");
-					doll.RegistStone = dataSourceRow.getInt("regist_stone");
-					doll.RegistSleep = dataSourceRow.getInt("regist_sleep");
-					doll.RegistFreeze = dataSourceRow.getInt("regist_freeze");
-					doll.RegistSustain = dataSourceRow.getInt("regist_sustain");
-					doll.RegistBlind = dataSourceRow.getInt("regist_blind");
-					doll.MakeItemId = dataSourceRow.getInt("make_itemid");
-					doll.Effect = dataSourceRow.getByte("effect");
-					doll.EffectChance = dataSourceRow.getInt("effect_chance");
-
-					_dolls[itemId] = doll;
-				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-
-			}
-		}
-
-		public virtual L1MagicDoll getTemplate(int itemId)
-		{
-			if (_dolls.ContainsKey(itemId))
-			{
-				return _dolls[itemId];
-			}
-			return null;
-		}
-
-	}
+        public virtual L1MagicDoll getTemplate(int itemId)
+        {
+            if (_dolls.ContainsKey(itemId))
+            {
+                return _dolls[itemId];
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
 
 }

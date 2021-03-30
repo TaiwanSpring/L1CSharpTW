@@ -72,6 +72,12 @@ WHERE c.TABLE_SCHEMA = 'l1csdb' AND c.TABLE_NAME = '" + tableName + "'";
                 StringBuilder selectGetValueStringBuilder = new StringBuilder();
                 string define = "private readonly static IDataSource dataSource = Container.Instance.Resolve<IDataSourceFactory>().Factory(Enum.DataSourceTypeEnum." + className + ");";
                 string query = "IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();";
+                string forloop = @"
+for (int i = 0; i < dataSourceRows.Count; i++)
+{
+    IDataSourceRow dataSourceRow = dataSourceRows[i];
+}";
+                
                 selectStringBuilder.AppendLine("IDataSourceRow dataSourceRow = dataSource.NewRow();");
                 selectStringBuilder.AppendLine("dataSourceRow.Select()");
                 insertStringBuilder.AppendLine("IDataSourceRow dataSourceRow = dataSource.NewRow();");
@@ -147,7 +153,7 @@ WHERE c.TABLE_SCHEMA = 'l1csdb' AND c.TABLE_NAME = '" + tableName + "'";
                     .AppendLine().AppendLine(updateStringBuilder.ToString())
                     .AppendLine().AppendLine(deleteStringBuilder.ToString())
                     .AppendLine().AppendLine(selectGetValueStringBuilder.ToString());
-                File.WriteAllText(Path.Combine(dir, "CRUD.cs"), $"{define}{Environment.NewLine}{query}{Environment.NewLine}{selectStringBuilder}");
+                File.WriteAllText(Path.Combine(dir, "CRUD.cs"), $"{define}{Environment.NewLine}{query}{Environment.NewLine}{forloop}{Environment.NewLine}{selectStringBuilder}");
             }
             mySqlConnection.Close();
 

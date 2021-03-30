@@ -1,439 +1,394 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
+    sealed class MapsTable
+    {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.Mapids);
+        private static MapsTable _instance;
 
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
+        /// <summary>
+        /// KeyにマップID、Valueにテレポート可否フラグが格納されるHashMap
+        /// </summary>
+        private readonly IDictionary<int, MapData> _maps = MapFactory.NewMap<int, MapData>();
 
-	public sealed class MapsTable
-	{
-		private class MapData
-		{
-			private readonly MapsTable outerInstance;
+        /// <summary>
+        /// 新しくMapsTableオブジェクトを生成し、マップのテレポート可否フラグを読み込む。
+        /// </summary>
+        private MapsTable()
+        {
+            loadMapsFromDatabase();
+        }
 
-			public MapData(MapsTable outerInstance)
-			{
-				this.outerInstance = outerInstance;
-			}
+        /// <summary>
+        /// マップのテレポート可否フラグをデータベースから読み込み、HashMap _mapsに格納する。
+        /// </summary>
+        private void loadMapsFromDatabase()
+        {
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-			public int startX = 0;
+            for (int i = 0; i < dataSourceRows.Count; i++)
+            {
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                MapData data = new MapData();
+                int mapId = dataSourceRow.getInt(Mapids.Column_mapid);
+                data.startX = dataSourceRow.getInt(Mapids.Column_startX);
+                data.endX = dataSourceRow.getInt(Mapids.Column_endX);
+                data.startY = dataSourceRow.getInt(Mapids.Column_startY);
+                data.endY = dataSourceRow.getInt(Mapids.Column_endY);
+                data.monster_amount = dataSourceRow.getDouble(Mapids.Column_monster_amount);
+                data.dropRate = dataSourceRow.getDouble(Mapids.Column_drop_rate);
+                data.isUnderwater = dataSourceRow.getBoolean(Mapids.Column_underwater);
+                data.markable = dataSourceRow.getBoolean(Mapids.Column_markable);
+                data.teleportable = dataSourceRow.getBoolean(Mapids.Column_teleportable);
+                data.escapable = dataSourceRow.getBoolean(Mapids.Column_escapable);
+                data.isUseResurrection = dataSourceRow.getBoolean(Mapids.Column_resurrection);
+                data.isUsePainwand = dataSourceRow.getBoolean(Mapids.Column_painwand);
+                data.isEnabledDeathPenalty = dataSourceRow.getBoolean(Mapids.Column_penalty);
+                data.isTakePets = dataSourceRow.getBoolean(Mapids.Column_take_pets);
+                data.isRecallPets = dataSourceRow.getBoolean(Mapids.Column_recall_pets);
+                data.isUsableItem = dataSourceRow.getBoolean(Mapids.Column_usable_item);
+                data.isUsableSkill = dataSourceRow.getBoolean(Mapids.Column_usable_skill);
 
-			public int endX = 0;
+                _maps[mapId] = data;
+            }
+        }
 
-			public int startY = 0;
+        /// <summary>
+        /// MapsTableのインスタンスを返す。
+        /// </summary>
+        /// <returns> MapsTableのインスタンス </returns>
+        public static MapsTable Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new MapsTable();
+                }
+                return _instance;
+            }
+        }
 
-			public int endY = 0;
+        /// <summary>
+        /// マップがのX開始座標を返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID </param>
+        /// <returns> X開始座標 </returns>
+        public int getStartX(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return 0;
+            }
+            return _maps[mapId].startX;
+        }
 
-			public double monster_amount = 1;
+        /// <summary>
+        /// マップがのX終了座標を返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID </param>
+        /// <returns> X終了座標 </returns>
+        public int getEndX(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return 0;
+            }
+            return _maps[mapId].endX;
+        }
 
-			public double dropRate = 1;
+        /// <summary>
+        /// マップがのY開始座標を返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID </param>
+        /// <returns> Y開始座標 </returns>
+        public int getStartY(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return 0;
+            }
+            return _maps[mapId].startY;
+        }
 
-			public bool isUnderwater = false;
+        /// <summary>
+        /// マップがのY終了座標を返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID </param>
+        /// <returns> Y終了座標 </returns>
+        public int getEndY(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return 0;
+            }
+            return _maps[mapId].endY;
+        }
 
-			public bool markable = false;
+        /// <summary>
+        /// マップのモンスター量倍率を返す
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID </param>
+        /// <returns> モンスター量の倍率 </returns>
+        public double getMonsterAmount(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return 0;
+            }
+            return map.monster_amount;
+        }
 
-			public bool teleportable = false;
+        /// <summary>
+        /// マップのドロップ倍率を返す
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID </param>
+        /// <returns> ドロップ倍率 </returns>
+        public double getDropRate(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return 0;
+            }
+            return map.dropRate;
+        }
 
-			public bool escapable = false;
+        /// <summary>
+        /// マップが、水中であるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID
+        /// </param>
+        /// <returns> 水中であればtrue </returns>
+        public bool isUnderwater(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].isUnderwater;
+        }
 
-			public bool isUseResurrection = false;
+        /// <summary>
+        /// マップが、ブックマーク可能であるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID </param>
+        /// <returns> ブックマーク可能であればtrue </returns>
+        public bool isMarkable(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].markable;
+        }
 
-			public bool isUsePainwand = false;
+        /// <summary>
+        /// マップが、ランダムテレポート可能であるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID </param>
+        /// <returns> 可能であればtrue </returns>
+        public bool isTeleportable(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].teleportable;
+        }
 
-			public bool isEnabledDeathPenalty = false;
+        /// <summary>
+        /// マップが、MAPを超えたテレポート可能であるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID </param>
+        /// <returns> 可能であればtrue </returns>
+        public bool isEscapable(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].escapable;
+        }
 
-			public bool isTakePets = false;
+        /// <summary>
+        /// マップが、復活可能であるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID
+        /// </param>
+        /// <returns> 復活可能であればtrue </returns>
+        public bool isUseResurrection(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].isUseResurrection;
+        }
 
-			public bool isRecallPets = false;
+        /// <summary>
+        /// マップが、パインワンド使用可能であるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID
+        /// </param>
+        /// <returns> パインワンド使用可能であればtrue </returns>
+        public bool isUsePainwand(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].isUsePainwand;
+        }
 
-			public bool isUsableItem = false;
+        /// <summary>
+        /// マップが、デスペナルティがあるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID
+        /// </param>
+        /// <returns> デスペナルティであればtrue </returns>
+        public bool isEnabledDeathPenalty(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].isEnabledDeathPenalty;
+        }
 
-			public bool isUsableSkill = false;
-		}
+        /// <summary>
+        /// マップが、ペット・サモンを連れて行けるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID
+        /// </param>
+        /// <returns> ペット・サモンを連れて行けるならばtrue </returns>
+        public bool isTakePets(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].isTakePets;
+        }
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(MapsTable).FullName);
+        /// <summary>
+        /// マップが、ペット・サモンを呼び出せるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID
+        /// </param>
+        /// <returns> ペット・サモンを呼び出せるならばtrue </returns>
+        public bool isRecallPets(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].isRecallPets;
+        }
 
-		private static MapsTable _instance;
+        /// <summary>
+        /// マップが、アイテムを使用できるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID
+        /// </param>
+        /// <returns> アイテムを使用できるならばtrue </returns>
+        public bool isUsableItem(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].isUsableItem;
+        }
 
-		/// <summary>
-		/// KeyにマップID、Valueにテレポート可否フラグが格納されるHashMap
-		/// </summary>
-		private readonly IDictionary<int, MapData> _maps = MapFactory.NewMap();
+        /// <summary>
+        /// マップが、スキルを使用できるかを返す。
+        /// </summary>
+        /// <param name="mapId">
+        ///            調べるマップのマップID
+        /// </param>
+        /// <returns> スキルを使用できるならばtrue </returns>
+        public bool isUsableSkill(int mapId)
+        {
+            MapData map = _maps[mapId];
+            if (map == null)
+            {
+                return false;
+            }
+            return _maps[mapId].isUsableSkill;
+        }
+        class MapData
+        {
+            public int startX = 0;
 
-		/// <summary>
-		/// 新しくMapsTableオブジェクトを生成し、マップのテレポート可否フラグを読み込む。
-		/// </summary>
-		private MapsTable()
-		{
-			loadMapsFromDatabase();
-		}
+            public int endX = 0;
 
-		/// <summary>
-		/// マップのテレポート可否フラグをデータベースから読み込み、HashMap _mapsに格納する。
-		/// </summary>
-		private void loadMapsFromDatabase()
-		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM mapids");
+            public int startY = 0;
 
-				for (rs = pstm.executeQuery(); rs.next();)
-				{
-					MapData data = new MapData(this);
-					int mapId = dataSourceRow.getInt("mapid");
-					// dataSourceRow.getString("locationname");
-					data.startX = dataSourceRow.getInt("startX");
-					data.endX = dataSourceRow.getInt("endX");
-					data.startY = dataSourceRow.getInt("startY");
-					data.endY = dataSourceRow.getInt("endY");
-					data.monster_amount = dataSourceRow.getDouble("monster_amount");
-					data.dropRate = dataSourceRow.getDouble("drop_rate");
-					data.isUnderwater = dataSourceRow.getBoolean("underwater");
-					data.markable = dataSourceRow.getBoolean("markable");
-					data.teleportable = dataSourceRow.getBoolean("teleportable");
-					data.escapable = dataSourceRow.getBoolean("escapable");
-					data.isUseResurrection = dataSourceRow.getBoolean("resurrection");
-					data.isUsePainwand = dataSourceRow.getBoolean("painwand");
-					data.isEnabledDeathPenalty = dataSourceRow.getBoolean("penalty");
-					data.isTakePets = dataSourceRow.getBoolean("take_pets");
-					data.isRecallPets = dataSourceRow.getBoolean("recall_pets");
-					data.isUsableItem = dataSourceRow.getBoolean("usable_item");
-					data.isUsableSkill = dataSourceRow.getBoolean("usable_skill");
+            public int endY = 0;
 
-					_maps[mapId] = data;
-				}
+            public double monster_amount = 1;
 
-				_log.config("Maps " + _maps.Count);
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-		}
+            public double dropRate = 1;
 
-		/// <summary>
-		/// MapsTableのインスタンスを返す。
-		/// </summary>
-		/// <returns> MapsTableのインスタンス </returns>
-		public static MapsTable Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new MapsTable();
-				}
-				return _instance;
-			}
-		}
+            public bool isUnderwater = false;
 
-		/// <summary>
-		/// マップがのX開始座標を返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID </param>
-		/// <returns> X開始座標 </returns>
-		public int getStartX(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return 0;
-			}
-			return _maps[mapId].startX;
-		}
+            public bool markable = false;
 
-		/// <summary>
-		/// マップがのX終了座標を返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID </param>
-		/// <returns> X終了座標 </returns>
-		public int getEndX(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return 0;
-			}
-			return _maps[mapId].endX;
-		}
+            public bool teleportable = false;
 
-		/// <summary>
-		/// マップがのY開始座標を返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID </param>
-		/// <returns> Y開始座標 </returns>
-		public int getStartY(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return 0;
-			}
-			return _maps[mapId].startY;
-		}
+            public bool escapable = false;
 
-		/// <summary>
-		/// マップがのY終了座標を返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID </param>
-		/// <returns> Y終了座標 </returns>
-		public int getEndY(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return 0;
-			}
-			return _maps[mapId].endY;
-		}
+            public bool isUseResurrection = false;
 
-		/// <summary>
-		/// マップのモンスター量倍率を返す
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID </param>
-		/// <returns> モンスター量の倍率 </returns>
-		public double getMonsterAmount(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return 0;
-			}
-			return map.monster_amount;
-		}
+            public bool isUsePainwand = false;
 
-		/// <summary>
-		/// マップのドロップ倍率を返す
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID </param>
-		/// <returns> ドロップ倍率 </returns>
-		public double getDropRate(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return 0;
-			}
-			return map.dropRate;
-		}
+            public bool isEnabledDeathPenalty = false;
 
-		/// <summary>
-		/// マップが、水中であるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID
-		/// </param>
-		/// <returns> 水中であればtrue </returns>
-		public bool isUnderwater(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].isUnderwater;
-		}
+            public bool isTakePets = false;
 
-		/// <summary>
-		/// マップが、ブックマーク可能であるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID </param>
-		/// <returns> ブックマーク可能であればtrue </returns>
-		public bool isMarkable(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].markable;
-		}
+            public bool isRecallPets = false;
 
-		/// <summary>
-		/// マップが、ランダムテレポート可能であるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID </param>
-		/// <returns> 可能であればtrue </returns>
-		public bool isTeleportable(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].teleportable;
-		}
+            public bool isUsableItem = false;
 
-		/// <summary>
-		/// マップが、MAPを超えたテレポート可能であるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID </param>
-		/// <returns> 可能であればtrue </returns>
-		public bool isEscapable(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].escapable;
-		}
-
-		/// <summary>
-		/// マップが、復活可能であるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID
-		/// </param>
-		/// <returns> 復活可能であればtrue </returns>
-		public bool isUseResurrection(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].isUseResurrection;
-		}
-
-		/// <summary>
-		/// マップが、パインワンド使用可能であるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID
-		/// </param>
-		/// <returns> パインワンド使用可能であればtrue </returns>
-		public bool isUsePainwand(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].isUsePainwand;
-		}
-
-		/// <summary>
-		/// マップが、デスペナルティがあるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID
-		/// </param>
-		/// <returns> デスペナルティであればtrue </returns>
-		public bool isEnabledDeathPenalty(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].isEnabledDeathPenalty;
-		}
-
-		/// <summary>
-		/// マップが、ペット・サモンを連れて行けるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID
-		/// </param>
-		/// <returns> ペット・サモンを連れて行けるならばtrue </returns>
-		public bool isTakePets(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].isTakePets;
-		}
-
-		/// <summary>
-		/// マップが、ペット・サモンを呼び出せるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID
-		/// </param>
-		/// <returns> ペット・サモンを呼び出せるならばtrue </returns>
-		public bool isRecallPets(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].isRecallPets;
-		}
-
-		/// <summary>
-		/// マップが、アイテムを使用できるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID
-		/// </param>
-		/// <returns> アイテムを使用できるならばtrue </returns>
-		public bool isUsableItem(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].isUsableItem;
-		}
-
-		/// <summary>
-		/// マップが、スキルを使用できるかを返す。
-		/// </summary>
-		/// <param name="mapId">
-		///            調べるマップのマップID
-		/// </param>
-		/// <returns> スキルを使用できるならばtrue </returns>
-		public bool isUsableSkill(int mapId)
-		{
-			MapData map = _maps[mapId];
-			if (map == null)
-			{
-				return false;
-			}
-			return _maps[mapId].isUsableSkill;
-		}
-
-	}
+            public bool isUsableSkill = false;
+        }
+    }
 
 }
