@@ -1,54 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using LineageServer.Extensions;
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml;
+using System;
+using LineageServer.Server.Model.Instance;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Model.Npc.Action
 {
-
-	using GameObject = LineageServer.Server.Model.GameObject;
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using L1NpcHtml = LineageServer.Server.Model.Npc.L1NpcHtml;
-	using IterableElementList = LineageServer.Utils.IterableElementList;
-	using ListFactory = LineageServer.Utils.ListFactory;
-
-	using Element = org.w3c.dom.Element;
-	using NodeList = org.w3c.dom.NodeList;
-
-	public class L1NpcShowHtmlAction : L1NpcXmlAction
+	class L1NpcShowHtmlAction : L1NpcXmlAction
 	{
 		private readonly string _htmlId;
 
 		private readonly string[] _args;
-
-		public L1NpcShowHtmlAction(Element element) : base(element)
+		public L1NpcShowHtmlAction(XmlElement xmlElement) : base(xmlElement)
 		{
-
-			_htmlId = element.getAttribute("HtmlId");
-			NodeList list = element.ChildNodes;
-			IList<string> dataList = ListFactory.NewList();
-			foreach (Element elem in new IterableElementList(list))
+			_htmlId = xmlElement.GetString("HtmlId");
+			if (string.IsNullOrEmpty(_htmlId))
 			{
-				if (elem.NodeName.equalsIgnoreCase("Data"))
+				throw new NullReferenceException(nameof(_htmlId));
+			}
+			List<string> dataList = new List<string>();
+
+			for (int i = 0; i < xmlElement.ChildNodes.Count; i++)
+			{
+				if (xmlElement.ChildNodes[i].NodeType == XmlNodeType.Element
+					&& xmlElement.ChildNodes[i] is XmlElement element)
 				{
-					dataList.Add(elem.getAttribute("Value"));
+					if (element.Name == "Data")
+					{
+						string value = element.GetString("Value");
+						if (string.IsNullOrEmpty(value))
+						{
+							throw new NullReferenceException(nameof(value));
+						}
+						dataList.Add(value);
+					}
 				}
 			}
-			_args = ((List<string>)dataList).ToArray();
+			_args = dataList.ToArray();
 		}
 
-		public override L1NpcHtml execute(string actionName, L1PcInstance pc, GameObject obj, sbyte[] args)
+		public override L1NpcHtml Execute(string actionName, L1PcInstance pc, GameObject obj, byte[] args)
 		{
 			return new L1NpcHtml(_htmlId, _args);
 		}

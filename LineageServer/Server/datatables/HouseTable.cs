@@ -2,12 +2,11 @@
 using LineageServer.Interfaces;
 using LineageServer.Server.Templates;
 using LineageServer.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace LineageServer.Server.DataTables
 {
-    class HouseTable
+	class HouseTable
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()

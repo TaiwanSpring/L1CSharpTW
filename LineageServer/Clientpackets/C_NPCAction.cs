@@ -127,7 +127,7 @@ namespace LineageServer.Clientpackets
             INpcAction action = NpcActionTable.Instance.get(s, pc, obj);
             if (action != null)
             {
-                L1NpcHtml result = action.execute(s, pc, obj, ReadByte());
+                L1NpcHtml result = action.Execute(s, pc, obj, ReadByte());
                 if (result != null)
                 {
                     pc.sendPackets(new S_NPCTalkReturn(obj.Id, result));

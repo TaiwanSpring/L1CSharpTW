@@ -220,7 +220,7 @@ namespace LineageServer.Clientpackets
                     INpcAction action = NpcActionTable.Instance.get(s, pc, npc);
                     if (action != null)
                     {
-                        L1NpcHtml result = action.executeWithAmount(s, pc, npc, amount);
+                        L1NpcHtml result = action.ExecuteWithAmount(s, pc, npc, amount);
                         if (result != null)
                         {
                             pc.sendPackets(new S_NPCTalkReturn(npcId, result));

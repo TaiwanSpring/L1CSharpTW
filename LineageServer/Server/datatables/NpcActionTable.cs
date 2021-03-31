@@ -1,148 +1,119 @@
-﻿using System;
+﻿using LineageServer.Server.Model;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Model.Npc.Action;
+using LineageServer.Utils;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.DataTables
 {
+	class NpcActionTable
+	{
+		private static NpcActionTable _instance;
 
+		private readonly IList<INpcAction> _actions = ListFactory.NewList<INpcAction>();
 
-    using GameObject = LineageServer.Server.Model.GameObject;
-    using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-    using INpcAction = LineageServer.Server.Model.Npc.Action.INpcAction;
-    using L1NpcXmlParser = LineageServer.Server.Model.Npc.Action.L1NpcXmlParser;
-    using FileUtil = LineageServer.Utils.FileUtil;
-    using PerformanceTimer = LineageServer.Utils.PerformanceTimer;
-    using ListFactory = LineageServer.Utils.ListFactory;
+		private readonly IList<INpcAction> _talkActions = ListFactory.NewList<INpcAction>();
+		private IList<INpcAction> loadActionList(XmlElement element)
+		{			
+			return L1NpcXmlParser.listActions(element);
+		}
+		private void loadAction(XmlElement element)
+		{
+			if (element.Name == "NpcActionList")
+			{
+				foreach (var item in loadActionList(element))
+				{
+					_actions.Add(item);
+				}
+			}
+		}
+		private void loadTalkAction(XmlElement element)
+		{
+			if (element.Name == "NpcTalkActionList")
+			{
+				foreach (var item in loadActionList(element))
+				{
+					_actions.Add(item);
+				}
+			}
+		}
+		private void loadDirectoryActions(string path)
+		{
+			foreach (string file in Directory.GetFiles(path, "*.xml"))
+			{
+				FileInfo fileInfo = new FileInfo(file);
+				Stream stream = fileInfo.OpenRead();
+				XmlDocument xmlDocument = new XmlDocument();
+				xmlDocument.Load(fileInfo.FullName);
+				loadAction(xmlDocument.DocumentElement);
+				loadTalkAction(xmlDocument.DocumentElement);
+			}
+		}
+		private NpcActionTable()
+		{
+			string path = "./data/xml/NpcActions/users/";
+			if (Directory.Exists(path))
+			{
+				loadDirectoryActions(path);
+			}
 
-    using Document = org.w3c.dom.Document;
-    using SAXException = org.xml.sax.SAXException;
+			path = "./data/xml/NpcActions/";
+			if (Directory.Exists(path))
+			{
+				loadDirectoryActions(path);
+			}
+		}
 
-    public class NpcActionTable
-    {
-        //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-        private static Logger _log = Logger.GetLogger(typeof(NpcActionTable).FullName);
+		public static void load()
+		{
+			try
+			{
+				PerformanceTimer timer = new PerformanceTimer();
+				System.Console.Write("【讀取】 【npcaction】【設定】");
+				_instance = new NpcActionTable();
+				System.Console.WriteLine("【完成】【" + timer.get() + "】【毫秒】。");
+			}
+			catch (Exception e)
+			{
+				_log.Error(Enum.Level.Server, "找不到NpcAction讀取的位置。", e);
+				Environment.Exit(0);
+			}
+		}
 
-        private static NpcActionTable _instance;
+		public static NpcActionTable Instance
+		{
+			get
+			{
+				return _instance;
+			}
+		}
 
-        private readonly IList<INpcAction> _actions = ListFactory.NewList<INpcAction>();
+		public virtual INpcAction get(string actionName, L1PcInstance pc, GameObject obj)
+		{
+			foreach (INpcAction action in _actions)
+			{
+				if (action.AcceptsRequest(actionName, pc, obj))
+				{
+					return action;
+				}
+			}
+			return null;
+		}
 
-        private readonly IList<INpcAction> _talkActions = ListFactory.NewList<INpcAction>();
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private java.util.List<l1j.server.server.model.npc.action.L1NpcAction> loadAction(java.io.File file, String nodeName) throws javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException, java.io.IOException
-        private IList<INpcAction> loadAction(File file, string nodeName)
-        {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = builder.parse(file);
-
-            if (!doc.DocumentElement.NodeName.equalsIgnoreCase(nodeName))
-            {
-                return ListFactory.NewList();
-            }
-            return L1NpcXmlParser.listActions(doc.DocumentElement);
-        }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private void loadAction(java.io.File file) throws Exception
-        private void loadAction(File file)
-        {
-            ((List<INpcAction>)_actions).AddRange(loadAction(file, "NpcActionList"));
-        }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private void loadTalkAction(java.io.File file) throws Exception
-        private void loadTalkAction(File file)
-        {
-            ((List<INpcAction>)_talkActions).AddRange(loadAction(file, "NpcTalkActionList"));
-        }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private void loadDirectoryActions(java.io.File dir) throws Exception
-        private void loadDirectoryActions(File dir)
-        {
-            foreach (string file in dir.list())
-            {
-                File f = new File(dir, file);
-                if (FileUtil.getExtension(f) == "xml")
-                {
-                    loadAction(f);
-                    loadTalkAction(f);
-                }
-            }
-        }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private NpcActionTable() throws Exception
-        private NpcActionTable()
-        {
-            File usersDir = new File("./data/xml/NpcActions/users/");
-            if (usersDir.exists())
-            {
-                loadDirectoryActions(usersDir);
-            }
-            loadDirectoryActions(new File("./data/xml/NpcActions/"));
-        }
-
-        public static void load()
-        {
-            try
-            {
-                PerformanceTimer timer = new PerformanceTimer();
-                System.Console.Write("【讀取】 【npcaction】【設定】");
-                _instance = new NpcActionTable();
-                System.Console.WriteLine("【完成】【" + timer.get() + "】【毫秒】。");
-            }
-            catch (Exception e)
-            {
-                _log.Error(Enum.Level.Server, "找不到NpcAction讀取的位置。", e);
-                Environment.Exit(0);
-            }
-        }
-
-        public static NpcActionTable Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
-
-        public virtual INpcAction get(string actionName, L1PcInstance pc, GameObject obj)
-        {
-            foreach (INpcAction action in _actions)
-            {
-                if (action.acceptsRequest(actionName, pc, obj))
-                {
-                    return action;
-                }
-            }
-            return null;
-        }
-
-        public virtual INpcAction get(L1PcInstance pc, GameObject obj)
-        {
-            foreach (INpcAction action in _talkActions)
-            {
-                if (action.acceptsRequest("", pc, obj))
-                {
-                    return action;
-                }
-            }
-            return null;
-        }
-    }
+		public virtual INpcAction get(L1PcInstance pc, GameObject obj)
+		{
+			foreach (INpcAction action in _talkActions)
+			{
+				if (action.AcceptsRequest("", pc, obj))
+				{
+					return action;
+				}
+			}
+			return null;
+		}
+	}
 
 }

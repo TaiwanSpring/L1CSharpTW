@@ -1,9 +1,15 @@
-﻿using System;
+﻿using LineageServer.Extensions;
+using LineageServer.Models;
+using LineageServer.Server.DataTables;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Utils;
+using System;
 using System.Collections.Generic;
 using System.Xml;
+
 namespace LineageServer.Server.Model.Npc.Action
 {
-	public abstract class L1NpcXmlAction : INpcAction
+	abstract class L1NpcXmlAction : INpcAction
 	{
 		private string _name;
 
@@ -17,40 +23,39 @@ namespace LineageServer.Server.Model.Npc.Action
 
 		private readonly int[] _classes;
 
-		public L1NpcXmlAction(Element element)
+		public L1NpcXmlAction(XmlElement xmlElement)
 		{
-			_name = element.getAttribute("Name");
-			_name = _name.Equals("") ? null : _name;
-			_npcIds = parseNpcIds(element.getAttribute("NpcId"));
-			_level = parseLevel(element);
-			_questId = L1NpcXmlParser.parseQuestId(element.getAttribute("QuestId"));
-			_questStep = L1NpcXmlParser.parseQuestStep(element.getAttribute("QuestStep"));
+			_name = xmlElement.GetString("Name");
+			_npcIds = parseNpcIds(xmlElement.GetString("NpcId"));
+			_level = parseLevel(xmlElement);
+			_questId = L1NpcXmlParser.parseQuestId(xmlElement.GetString("QuestId"));
+			_questStep = L1NpcXmlParser.parseQuestStep(xmlElement.GetString("QuestStep"));
 
-			_classes = parseClasses(element);
+			_classes = parseClasses(xmlElement);
 		}
 
-		private int[] parseClasses(Element element)
+		private int[] parseClasses(XmlNode xmlNode)
 		{
-			string classes = element.getAttribute("Class").ToUpper();
+			string classes = xmlNode.GetString("Class").ToUpper();
 			int[] result = new int[classes.Length];
 			int idx = 0;
-			foreach (char? cha in classes.ToCharArray())
+			for (int i = 0; i < classes.Length; i++)
 			{
-				result[idx++] = _charTypes[cha];
+				result[idx++] = _charTypes[classes[i]];
 			}
 			Array.Sort(result);
 			return result;
 		}
 
-		private IntRange parseLevel(Element element)
+		private IntRange parseLevel(XmlNode xmlNode)
 		{
-			int level = L1NpcXmlParser.getIntAttribute(element, "Level", 0);
-			int min = L1NpcXmlParser.getIntAttribute(element, "LevelMin", 1);
-			int max = L1NpcXmlParser.getIntAttribute(element, "LevelMax", ExpTable.MAX_LEVEL);
+			int level = xmlNode.GetInt("Level");
+			int min = xmlNode.GetInt("LevelMin", 1);
+			int max = xmlNode.GetInt("LevelMax", ExpTable.MAX_LEVEL);
 			return level == 0 ? new IntRange(min, max) : new IntRange(level, level);
 		}
 
-		private static readonly IDictionary<char, int> _charTypes = Maps.NewMap();
+		private static readonly IDictionary<char, int> _charTypes = MapFactory.NewMap<char, int>();
 		static L1NpcXmlAction()
 		{
 			_charTypes['P'] = 0;
@@ -64,11 +69,15 @@ namespace LineageServer.Server.Model.Npc.Action
 
 		private int[] parseNpcIds(string npcIds)
 		{
-			StringTokenizer tok = new StringTokenizer(npcIds.Replace(" ", ""), ",");
+			if (string.IsNullOrEmpty(npcIds))
+			{
+				return new int[0];
+			}
+			StringTokenizer tok = new StringTokenizer(npcIds, ",");
 			int[] result = new int[tok.countTokens()];
 			for (int i = 0; i < result.Length; i++)
 			{
-				result[i] = int.Parse(tok.nextToken());
+				result[i] = int.Parse(tok.nextToken().Trim());
 			}
 			Array.Sort(result);
 			return result;
@@ -78,11 +87,11 @@ namespace LineageServer.Server.Model.Npc.Action
 		{
 			if (0 < _npcIds.Length)
 			{
-				if (!(obj is L1NpcInstance))
+				if (!( obj is L1NpcInstance ))
 				{
 					return false;
 				}
-				int npcId = ((L1NpcInstance) obj).NpcTemplate.get_npcId();
+				int npcId = ( (L1NpcInstance)obj ).NpcTemplate.get_npcId();
 
 				if (Array.BinarySearch(_npcIds, npcId) < 0)
 				{
@@ -131,7 +140,7 @@ namespace LineageServer.Server.Model.Npc.Action
 			return pc.Quest.get_step(_questId) == _questStep;
 		}
 
-		public virtual bool acceptsRequest(string actionName, L1PcInstance pc, GameObject obj)
+		public virtual bool AcceptsRequest(string actionName, L1PcInstance pc, GameObject obj)
 		{
 			if (!acceptsNpcId(obj))
 			{
@@ -155,12 +164,13 @@ namespace LineageServer.Server.Model.Npc.Action
 			}
 			return true;
 		}
-
-		public override abstract L1NpcHtml execute(string actionName, L1PcInstance pc, GameObject obj, sbyte[] args);
-
-		public virtual L1NpcHtml executeWithAmount(string actionName, L1PcInstance pc, GameObject obj, int amount)
+		public virtual L1NpcHtml Execute(string actionName, L1PcInstance pc, GameObject obj, byte[] args)
 		{
-			return null;
+			return L1NpcHtml.HTML_CLOSE;
+		}
+		public virtual L1NpcHtml ExecuteWithAmount(string actionName, L1PcInstance pc, GameObject obj, int amount)
+		{
+			return L1NpcHtml.HTML_CLOSE;
 		}
 	}
 

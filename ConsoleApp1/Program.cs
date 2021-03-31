@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -14,7 +15,25 @@ namespace ConsoleApp1
 	{
 		static void Main(string[] args)
 		{
-			const string PATH = "./maps";
+			const string PATH = @"C:\GithubSourceCode\l1j-tw-99nets\L1J-TW_3.80c\data\xml\NpcActions\ItemMaking.xml";
+
+			XmlDocument xmlDocument = new XmlDocument();
+
+			xmlDocument.Load(PATH);
+
+			PrintNode(xmlDocument.DocumentElement);
+
+			void PrintNode(XmlElement xmlElement)
+			{
+				for (int i = 0; i < xmlElement.ChildNodes.Count; i++)
+				{
+					if (xmlElement.ChildNodes[i] is XmlElement element)
+					{
+						Debug.Print(element.Name);
+						PrintNode(element);
+					}
+				}
+			}
 
 			DirectoryInfo directoryInfo = new DirectoryInfo(PATH);
 

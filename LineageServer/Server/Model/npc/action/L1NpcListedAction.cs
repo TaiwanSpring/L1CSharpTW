@@ -1,31 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using LineageServer.Server.Model.Instance;
+using System.Collections.Generic;
+using System.Xml;
+
 namespace LineageServer.Server.Model.Npc.Action
 {
-
-	using Element = org.w3c.dom.Element;
-	using GameObject = LineageServer.Server.Model.GameObject;
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using L1NpcHtml = LineageServer.Server.Model.Npc.L1NpcHtml;
-
-	public class L1NpcListedAction : L1NpcXmlAction
+	class L1NpcListedAction : L1NpcXmlAction
 	{
 		private IList<INpcAction> _actions;
 
-		public L1NpcListedAction(Element element) : base(element)
+		public L1NpcListedAction(XmlElement xmlElement) : base(xmlElement)
 		{
-			_actions = L1NpcXmlParser.listActions(element);
+			_actions = L1NpcXmlParser.listActions(xmlElement);
 		}
 
-		public override L1NpcHtml execute(string actionName, L1PcInstance pc, GameObject obj, sbyte[] args)
+		public override L1NpcHtml Execute(string actionName, L1PcInstance pc, GameObject obj, byte[] args)
 		{
 			L1NpcHtml result = null;
 			foreach (INpcAction action in _actions)
 			{
-				if (!action.acceptsRequest(actionName, pc, obj))
+				if (!action.AcceptsRequest(actionName, pc, obj))
 				{
 					continue;
 				}
-				L1NpcHtml r = action.execute(actionName, pc, obj, args);
+				L1NpcHtml r = action.Execute(actionName, pc, obj, args);
 				if (r != null)
 				{
 					result = r;
@@ -34,16 +31,16 @@ namespace LineageServer.Server.Model.Npc.Action
 			return result;
 		}
 
-		public override L1NpcHtml executeWithAmount(string actionName, L1PcInstance pc, GameObject obj, int amount)
+		public override L1NpcHtml ExecuteWithAmount(string actionName, L1PcInstance pc, GameObject obj, int amount)
 		{
 			L1NpcHtml result = null;
 			foreach (INpcAction action in _actions)
 			{
-				if (!action.acceptsRequest(actionName, pc, obj))
+				if (!action.AcceptsRequest(actionName, pc, obj))
 				{
 					continue;
 				}
-				L1NpcHtml r = action.executeWithAmount(actionName, pc, obj, amount);
+				L1NpcHtml r = action.ExecuteWithAmount(actionName, pc, obj, amount);
 				if (r != null)
 				{
 					result = r;

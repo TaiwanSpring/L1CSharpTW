@@ -1,52 +1,41 @@
-﻿using LineageServer.Utils;
+﻿using LineageServer.Models;
+using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Xml;
+
 namespace LineageServer.Server.Model.Npc.Action
 {
-    public class L1NpcActionFactory
-    {
-        private static IDictionary<string, System.Reflection.ConstructorInfo<L1NpcXmlAction>> _actions = MapFactory.NewMap<string, System.Reflection.ConstructorInfo<L1NpcXmlAction>>();
+	class L1NpcActionFactory
+	{
+		private static IDictionary<string, Func<XmlElement, INpcAction>> _actions = MapFactory.NewMap<string, Func<XmlElement, INpcAction>>();
 
-        private static System.Reflection.ConstructorInfo<L1NpcXmlAction> loadConstructor(Type c)
-        {
-            return c.GetConstructor(new Type[] { typeof(Element) });
-        }
+		static L1NpcActionFactory()
+		{
+			_actions["Action"] = x => new L1NpcListedAction(x);
 
-        static L1NpcActionFactory()
-        {
-            try
-            {
-                _actions["Action"] = loadConstructor(typeof(L1NpcListedAction));
-                _actions["MakeItem"] = loadConstructor(typeof(L1NpcMakeItemAction));
-                _actions["ShowHtml"] = loadConstructor(typeof(L1NpcShowHtmlAction));
-                _actions["SetQuest"] = loadConstructor(typeof(L1NpcSetQuestAction));
-                _actions["Teleport"] = loadConstructor(typeof(L1NpcTeleportAction));
-            }
-            catch (Exception e)
-            {
-                _log.Error(Enum.Level.Server, "NpcActionのクラスロードに失敗", e);
-            }
-        }
+			_actions["MakeItem"] = x => new L1NpcMakeItemAction(x);
 
-        public static INpcAction newAction(Element element)
-        {
-            try
-            {
-                //JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-                //ORIGINAL LINE: java.lang.reflect.Constructor<? extends L1NpcXmlAction> con = _actions.get(element.getNodeName());
-                System.Reflection.ConstructorInfo<L1NpcXmlAction> con = _actions[element.NodeName];
-                return con.Invoke(element);
-            }
-            catch (System.NullReferenceException)
-            {
-                _log.warning(element.NodeName + " 未定義のNPCアクションです");
-            }
-            catch (Exception e)
-            {
-                _log.log(Enum.Level.Server, "NpcActionのクラスロードに失敗", e);
-            }
-            return null;
-        }
-    }
+			_actions["ShowHtml"] = x => new L1NpcShowHtmlAction(x);
 
+			_actions["SetQuest"] = x => new L1NpcSetQuestAction(x);
+
+			_actions["Teleport"] = x => new L1NpcTeleportAction(x);
+		}
+
+		public static INpcAction newAction(XmlElement xmlElement)
+		{
+			if (_actions.ContainsKey(xmlElement.Name))
+			{
+				return _actions[xmlElement.Name].Invoke(xmlElement);
+			}
+			else
+			{
+				Debug.Fail("");
+				Logger.GenericLogger.Warning(xmlElement.Name + " 未定義のNPCアクションです");
+				return null;
+			}
+		}
+	}
 }
