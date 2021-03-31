@@ -1,11 +1,10 @@
 ﻿using LineageServer.DataBase.DataSources;
 using LineageServer.Interfaces;
 using LineageServer.Server.Model.Instance;
-using System.Collections.Generic;
 
 namespace LineageServer.Server.DataTables
 {
-    class InnKeyTable
+	class InnKeyTable
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()

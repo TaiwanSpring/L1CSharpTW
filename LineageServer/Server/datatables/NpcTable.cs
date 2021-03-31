@@ -1,4 +1,5 @@
-﻿using LineageServer.Interfaces;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Templates;
 using LineageServer.Utils;
@@ -8,15 +9,15 @@ namespace LineageServer.Server.DataTables
 {
 	class NpcTable
 	{
-		internal static ILogger _log = Logger.GetLogger(nameof(NpcTable));
+		private readonly static IDataSource dataSource =
+			 Container.Instance.Resolve<IDataSourceFactory>()
+			 .Factory(Enum.DataSourceTypeEnum.Npc);
 
 		private readonly bool _initialized;
 
 		private static NpcTable _instance;
 
 		private readonly IDictionary<int, L1Npc> _npcs = MapFactory.NewMap<int, L1Npc>();
-
-		private readonly IDictionary<string, System.Reflection.ConstructorInfo> _constructorCache = MapFactory.NewMap<string, System.Reflection.ConstructorInfo>();
 
 		private static readonly IDictionary<string, int> _familyTypes = NpcTable.buildFamily();
 
@@ -45,133 +46,97 @@ namespace LineageServer.Server.DataTables
 			loadNpcData();
 			_initialized = true;
 		}
-		private System.Reflection.ConstructorInfo getConstructor(string implName)
-		{
-			try
-			{
-				string implFullName = "l1j.server.server.model.Instance." + implName + "Instance";
-				//JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-				//ORIGINAL LINE: java.lang.reflect.Constructor<?> con = Class.forName(implFullName).getConstructors()[0];
-				System.Reflection.ConstructorInfo con = Type.GetType(implFullName).GetConstructors()[0];
-				return con;
-			}
-			catch (Exception e)
-			{
-				_log.Error(e);
-			}
-			return null;
-		}
-
-		private void registerConstructorCache(string implName)
-		{
-			if (implName.Length == 0 || _constructorCache.ContainsKey(implName))
-			{
-				return;
-			}
-			_constructorCache[implName] = getConstructor(implName);
-		}
 
 		private void loadNpcData()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM npc");
-				rs = pstm.executeQuery();
-				while (rs.next())
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				L1Npc npc = new L1Npc();
+				int npcId = dataSourceRow.getInt(Npc.Column_npcid);
+				npc.set_npcId(npcId);
+				npc.set_name(dataSourceRow.getString(Npc.Column_name));
+				npc.set_nameid(dataSourceRow.getString(Npc.Column_nameid));
+				npc.Impl = dataSourceRow.getString(Npc.Column_impl);
+				npc.set_gfxid(dataSourceRow.getInt(Npc.Column_gfxid));
+				npc.set_level(dataSourceRow.getInt(Npc.Column_lvl));
+				npc.set_hp(dataSourceRow.getInt(Npc.Column_hp));
+				npc.set_mp(dataSourceRow.getInt(Npc.Column_mp));
+				npc.set_ac(dataSourceRow.getInt(Npc.Column_ac));
+				npc.set_str(dataSourceRow.getByte(Npc.Column_str));
+				npc.set_con(dataSourceRow.getByte(Npc.Column_con));
+				npc.set_dex(dataSourceRow.getByte(Npc.Column_dex));
+				npc.set_wis(dataSourceRow.getByte(Npc.Column_wis));
+				npc.set_int(dataSourceRow.getByte(Npc.Column_intel));
+				npc.set_mr(dataSourceRow.getInt(Npc.Column_mr));
+				npc.set_exp(dataSourceRow.getInt(Npc.Column_exp));
+				npc.set_lawful(dataSourceRow.getInt(Npc.Column_lawful));
+				npc.set_size(dataSourceRow.getString(Npc.Column_size));
+				npc.set_weakAttr(dataSourceRow.getInt(Npc.Column_weakAttr));
+				npc.set_ranged(dataSourceRow.getInt(Npc.Column_ranged));
+				npc.Tamable = dataSourceRow.getBoolean(Npc.Column_tamable);
+				npc.set_passispeed(dataSourceRow.getInt(Npc.Column_passispeed));
+				npc.set_atkspeed(dataSourceRow.getInt(Npc.Column_atkspeed));
+				npc.AltAtkSpeed = dataSourceRow.getInt(Npc.Column_alt_atk_speed);
+				npc.AtkMagicSpeed = dataSourceRow.getInt(Npc.Column_atk_magic_speed);
+				npc.SubMagicSpeed = dataSourceRow.getInt(Npc.Column_sub_magic_speed);
+				npc.set_undead(dataSourceRow.getInt(Npc.Column_undead));
+				npc.set_poisonatk(dataSourceRow.getInt(Npc.Column_poison_atk));
+				npc.set_paralysisatk(dataSourceRow.getInt(Npc.Column_paralysis_atk));
+				npc.set_agro(dataSourceRow.getBoolean(Npc.Column_agro));
+				npc.set_agrososc(dataSourceRow.getBoolean(Npc.Column_agrososc));
+				npc.set_agrocoi(dataSourceRow.getBoolean(Npc.Column_agrocoi));
+				string familyString = dataSourceRow.getString(Npc.Column_family);
+				if (_familyTypes.ContainsKey(familyString))
 				{
-					L1Npc npc = new L1Npc();
-					int npcId = dataSourceRow.getInt("npcid");
-					npc.set_npcId(npcId);
-					npc.set_name(dataSourceRow.getString("name"));
-					npc.set_nameid(dataSourceRow.getString("nameid"));
-					npc.Impl = dataSourceRow.getString("impl");
-					npc.set_gfxid(dataSourceRow.getInt("gfxid"));
-					npc.set_level(dataSourceRow.getInt("lvl"));
-					npc.set_hp(dataSourceRow.getInt("hp"));
-					npc.set_mp(dataSourceRow.getInt("mp"));
-					npc.set_ac(dataSourceRow.getInt("ac"));
-					npc.set_str(dataSourceRow.getByte("str"));
-					npc.set_con(dataSourceRow.getByte("con"));
-					npc.set_dex(dataSourceRow.getByte("dex"));
-					npc.set_wis(dataSourceRow.getByte("wis"));
-					npc.set_int(dataSourceRow.getByte("intel"));
-					npc.set_mr(dataSourceRow.getInt("mr"));
-					npc.set_exp(dataSourceRow.getInt("exp"));
-					npc.set_lawful(dataSourceRow.getInt("lawful"));
-					npc.set_size(dataSourceRow.getString("size"));
-					npc.set_weakAttr(dataSourceRow.getInt("weakAttr"));
-					npc.set_ranged(dataSourceRow.getInt("ranged"));
-					npc.Tamable = dataSourceRow.getBoolean("tamable");
-					npc.set_passispeed(dataSourceRow.getInt("passispeed"));
-					npc.set_atkspeed(dataSourceRow.getInt("atkspeed"));
-					npc.AltAtkSpeed = dataSourceRow.getInt("alt_atk_speed");
-					npc.AtkMagicSpeed = dataSourceRow.getInt("atk_magic_speed");
-					npc.SubMagicSpeed = dataSourceRow.getInt("sub_magic_speed");
-					npc.set_undead(dataSourceRow.getInt("undead"));
-					npc.set_poisonatk(dataSourceRow.getInt("poison_atk"));
-					npc.set_paralysisatk(dataSourceRow.getInt("paralysis_atk"));
-					npc.set_agro(dataSourceRow.getBoolean("agro"));
-					npc.set_agrososc(dataSourceRow.getBoolean("agrososc"));
-					npc.set_agrocoi(dataSourceRow.getBoolean("agrocoi"));
-					int? family = _familyTypes[dataSourceRow.getString("family")];
-					if (family == null)
-					{
-						npc.set_family(0);
-					}
-					else
-					{
-						npc.set_family(family.Value);
-					}
-					int agrofamily = dataSourceRow.getInt("agrofamily");
-					if (( npc.get_family() == 0 ) && ( agrofamily == 1 ))
-					{
-						npc.set_agrofamily(0);
-					}
-					else
-					{
-						npc.set_agrofamily(agrofamily);
-					}
-					npc.set_agrogfxid1(dataSourceRow.getInt("agrogfxid1"));
-					npc.set_agrogfxid2(dataSourceRow.getInt("agrogfxid2"));
-					npc.set_picupitem(dataSourceRow.getBoolean("picupitem"));
-					npc.set_digestitem(dataSourceRow.getInt("digestitem"));
-					npc.set_bravespeed(dataSourceRow.getBoolean("bravespeed"));
-					npc.set_hprinterval(dataSourceRow.getInt("hprinterval"));
-					npc.set_hpr(dataSourceRow.getInt("hpr"));
-					npc.set_mprinterval(dataSourceRow.getInt("mprinterval"));
-					npc.set_mpr(dataSourceRow.getInt("mpr"));
-					npc.set_teleport(dataSourceRow.getBoolean("teleport"));
-					npc.set_randomlevel(dataSourceRow.getInt("randomlevel"));
-					npc.set_randomhp(dataSourceRow.getInt("randomhp"));
-					npc.set_randommp(dataSourceRow.getInt("randommp"));
-					npc.set_randomac(dataSourceRow.getInt("randomac"));
-					npc.set_randomexp(dataSourceRow.getInt("randomexp"));
-					npc.set_randomlawful(dataSourceRow.getInt("randomlawful"));
-					npc.set_damagereduction(dataSourceRow.getInt("damage_reduction"));
-					npc.set_hard(dataSourceRow.getBoolean("hard"));
-					npc.set_doppel(dataSourceRow.getBoolean("doppel"));
-					npc.set_IsTU(dataSourceRow.getBoolean("IsTU"));
-					npc.set_IsErase(dataSourceRow.getBoolean("IsErase"));
-					npc.BowActId = dataSourceRow.getInt("bowActId");
-					npc.Karma = dataSourceRow.getInt("karma");
-					npc.TransformId = dataSourceRow.getInt("transform_id");
-					npc.TransformGfxId = dataSourceRow.getInt("transform_gfxid");
-					npc.LightSize = dataSourceRow.getInt("light_size");
-					npc.AmountFixed = dataSourceRow.getBoolean("amount_fixed");
-					npc.ChangeHead = dataSourceRow.getBoolean("change_head");
-					npc.CantResurrect = dataSourceRow.getBoolean("cant_resurrect");
-
-					registerConstructorCache(npc.Impl);
-					_npcs[npcId] = npc;
+					npc.set_family(_familyTypes[familyString]);
 				}
-			}
-			catch (Exception e)
-			{
-				_log.Error(e);
+				else
+				{
+					npc.set_family(0);
+				}
+				int agrofamily = dataSourceRow.getInt(Npc.Column_agrofamily);
+
+				if (( npc.get_family() == 0 ) && ( agrofamily == 1 ))
+				{
+					npc.set_agrofamily(0);
+				}
+				else
+				{
+					npc.set_agrofamily(agrofamily);
+				}
+
+				npc.set_agrogfxid1(dataSourceRow.getInt(Npc.Column_agrogfxid1));
+				npc.set_agrogfxid2(dataSourceRow.getInt(Npc.Column_agrogfxid2));
+				npc.set_picupitem(dataSourceRow.getBoolean(Npc.Column_picupitem));
+				npc.set_digestitem(dataSourceRow.getInt(Npc.Column_digestitem));
+				npc.set_bravespeed(dataSourceRow.getBoolean(Npc.Column_bravespeed));
+				npc.set_hprinterval(dataSourceRow.getInt(Npc.Column_hprinterval));
+				npc.set_hpr(dataSourceRow.getInt(Npc.Column_hpr));
+				npc.set_mprinterval(dataSourceRow.getInt(Npc.Column_mprinterval));
+				npc.set_mpr(dataSourceRow.getInt(Npc.Column_mpr));
+				npc.set_teleport(dataSourceRow.getBoolean(Npc.Column_teleport));
+				npc.set_randomlevel(dataSourceRow.getInt(Npc.Column_randomlevel));
+				npc.set_randomhp(dataSourceRow.getInt(Npc.Column_randomhp));
+				npc.set_randommp(dataSourceRow.getInt(Npc.Column_randommp));
+				npc.set_randomac(dataSourceRow.getInt(Npc.Column_randomac));
+				npc.set_randomexp(dataSourceRow.getInt(Npc.Column_randomexp));
+				npc.set_randomlawful(dataSourceRow.getInt(Npc.Column_randomlawful));
+				npc.set_damagereduction(dataSourceRow.getInt(Npc.Column_damage_reduction));
+				npc.set_hard(dataSourceRow.getBoolean(Npc.Column_hard));
+				npc.set_doppel(dataSourceRow.getBoolean(Npc.Column_doppel));
+				npc.set_IsTU(dataSourceRow.getBoolean(Npc.Column_IsTU));
+				npc.set_IsErase(dataSourceRow.getBoolean(Npc.Column_IsErase));
+				npc.BowActId = dataSourceRow.getInt(Npc.Column_bowActId);
+				npc.Karma = dataSourceRow.getInt(Npc.Column_karma);
+				npc.TransformId = dataSourceRow.getInt(Npc.Column_transform_id);
+				npc.TransformGfxId = dataSourceRow.getInt(Npc.Column_transform_gfxid);
+				npc.LightSize = dataSourceRow.getInt(Npc.Column_light_size);
+				npc.AmountFixed = dataSourceRow.getBoolean(Npc.Column_amount_fixed);
+				npc.ChangeHead = dataSourceRow.getBoolean(Npc.Column_change_head);
+				npc.CantResurrect = dataSourceRow.getBoolean(Npc.Column_cant_resurrect);
+				_npcs[npcId] = npc;
 			}
 		}
 
@@ -192,41 +157,19 @@ namespace LineageServer.Server.DataTables
 
 		public virtual L1NpcInstance newNpcInstance(L1Npc template)
 		{
-			try
-			{
-				//JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-				//ORIGINAL LINE: java.lang.reflect.Constructor<?> con = _constructorCache.get(template.getImpl());
-				System.Reflection.ConstructorInfo con = _constructorCache[template.Impl];
-				return (L1NpcInstance)con.Invoke(new object[] { template });
-			}
-			catch (Exception e)
-			{
-				_log.Error(e);
-			}
-			return null;
+			return L1NpcInstance.Factory(template);
 		}
 
 		public static IDictionary<string, int> buildFamily()
 		{
 			IDictionary<string, int> result = MapFactory.NewMap<string, int>();
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query("select distinct(family) as family from npc WHERE NOT trim(family) =''");
+			int id = 1;
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("select distinct(family) as family from npc WHERE NOT trim(family) =''");
-				rs = pstm.executeQuery();
-				int id = 1;
-				while (rs.next())
-				{
-					string family = dataSourceRow.getString("family");
-					result[family] = id++;
-				}
-			}
-			catch (Exception e)
-			{
-				_log.Error(e);
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				string family = dataSourceRow.getString(Npc.Column_family);
+				result[family] = id++;
 			}
 			return result;
 		}
@@ -235,7 +178,7 @@ namespace LineageServer.Server.DataTables
 		{
 			foreach (L1Npc npc in _npcs.Values)
 			{
-				if (npc.get_name().Equals(name))
+				if (npc.get_name() == name)
 				{
 					return npc.get_npcId();
 				}
@@ -247,7 +190,7 @@ namespace LineageServer.Server.DataTables
 		{
 			foreach (L1Npc npc in _npcs.Values)
 			{
-				if (npc.get_name().Replace(" ", "").Equals(name))
+				if (npc.get_name().Replace(" ", "") == name)
 				{
 					return npc.get_npcId();
 				}

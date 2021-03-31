@@ -4,6 +4,7 @@ using LineageServer.Server.Model.Npc.Action;
 using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
@@ -17,7 +18,7 @@ namespace LineageServer.Server.DataTables
 
 		private readonly IList<INpcAction> _talkActions = ListFactory.NewList<INpcAction>();
 		private IList<INpcAction> loadActionList(XmlElement element)
-		{			
+		{
 			return L1NpcXmlParser.listActions(element);
 		}
 		private void loadAction(XmlElement element)
@@ -69,18 +70,11 @@ namespace LineageServer.Server.DataTables
 
 		public static void load()
 		{
-			try
-			{
-				PerformanceTimer timer = new PerformanceTimer();
-				System.Console.Write("【讀取】 【npcaction】【設定】");
-				_instance = new NpcActionTable();
-				System.Console.WriteLine("【完成】【" + timer.get() + "】【毫秒】。");
-			}
-			catch (Exception e)
-			{
-				_log.Error(Enum.Level.Server, "找不到NpcAction讀取的位置。", e);
-				Environment.Exit(0);
-			}
+			Stopwatch timer = Stopwatch.StartNew();
+			System.Console.Write("【讀取】 【npcaction】【設定】");
+			_instance = new NpcActionTable();
+			timer.Stop();
+			System.Console.WriteLine($"【完成】【{timer.ElapsedMilliseconds}】【毫秒】。");
 		}
 
 		public static NpcActionTable Instance

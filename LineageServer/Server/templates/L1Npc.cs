@@ -97,62 +97,62 @@ namespace LineageServer.Server.Templates
 			_ac = i;
 		}
 
-		private sbyte _str;
+		private byte _str;
 
-		public virtual sbyte get_str()
+		public virtual byte get_str()
 		{
 			return _str;
 		}
 
-		public virtual void set_str(sbyte i)
+		public virtual void set_str(byte i)
 		{
 			_str = i;
 		}
 
-		private sbyte _con;
+		private byte _con;
 
-		public virtual sbyte get_con()
+		public virtual byte get_con()
 		{
 			return _con;
 		}
 
-		public virtual void set_con(sbyte i)
+		public virtual void set_con(byte i)
 		{
 			_con = i;
 		}
 
-		private sbyte _dex;
+		private byte _dex;
 
-		public virtual sbyte get_dex()
+		public virtual byte get_dex()
 		{
 			return _dex;
 		}
 
-		public virtual void set_dex(sbyte i)
+		public virtual void set_dex(byte i)
 		{
 			_dex = i;
 		}
 
-		private sbyte _wis;
+		private byte _wis;
 
-		public virtual sbyte get_wis()
+		public virtual byte get_wis()
 		{
 			return _wis;
 		}
 
-		public virtual void set_wis(sbyte i)
+		public virtual void set_wis(byte i)
 		{
 			_wis = i;
 		}
 
-		private sbyte _int;
+		private byte _int;
 
-		public virtual sbyte get_int()
+		public virtual byte get_int()
 		{
 			return _int;
 		}
 
-		public virtual void set_int(sbyte i)
+		public virtual void set_int(byte i)
 		{
 			_int = i;
 		}

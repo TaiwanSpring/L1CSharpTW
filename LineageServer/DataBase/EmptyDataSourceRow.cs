@@ -2,87 +2,111 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace LineageServer.DataBase
 {
-    class EmptyDataSourceRow : IDataSourceRow, IDataSourceQuery
-    {
-        public bool HaveData { get { return false; } }
+	class EmptyDataSourceRow : IDataSourceRow, IDataSourceQuery
+	{
+		public bool HaveData { get { return false; } }
 
-        public IDataSourceRow Delete()
-        {
-            return this;
-        }
+		public IDataSourceRow Delete()
+		{
+			return this;
+		}
 
-        public void Execute()
-        {
+		public void Execute()
+		{
 
-        }
+		}
 
-        public bool FillData(IDataReader dataReader)
-        {
-            return false;
-        }
+		public bool FillData(IDataReader dataReader)
+		{
+			return false;
+		}
 
-        public bool getBoolean(string column)
-        {
-            throw new NotImplementedException();
-        }
+		public byte[] getBlob(string column)
+		{
+			throw new NotImplementedException();
+		}
 
-        public int getInt(string column)
-        {
-            return 0;
-        }
+		public bool getBoolean(string column)
+		{
+			return false;
+		}
 
-        public short getShort(string column)
-        {
-            throw new NotImplementedException();
-        }
+		public byte getByte(string column)
+		{
+			return 0;
+		}
 
-        public string getString(string column)
-        {
-            return string.Empty;
-        }
+		public double getDouble(string column)
+		{
+			return 0d;
+		}
 
-        public DateTime getTimestamp(string column)
-        {
-            throw new NotImplementedException();
-        }
+		public int getInt(string column)
+		{
+			return 0;
+		}
 
-        public IDataSourceRow Insert()
-        {
-            return this;
-        }
+		public long getLong(string column)
+		{
+			return 0L;
+		}
 
-        public IList<IDataSourceRow> Query()
-        {
-            return new List<IDataSourceRow>();
-        }
+		public short getShort(string column)
+		{
+			return 0;
+		}
 
-        public IDataSourceRow Select()
-        {
-            return this;
-        }
+		public string getString(string column)
+		{
+			return string.Empty;
+		}
 
-        public IDataSourceRow Set(string column, object value)
-        {
-            return this;
-        }
+		public DateTime getTimestamp(string column)
+		{
+			return default(DateTime);
+		}
 
-        public IDataSourceRow Update()
-        {
-            return this;
-        }
+		public IDataSourceRow Insert()
+		{
+			return this;
+		}
 
-        IDataSourceRow IDataSourceRow.Where(string column, object value)
-        {
-            return this;
-        }
+		public IList<IDataSourceRow> Query()
+		{
+			return new List<IDataSourceRow>();
+		}
 
-        IDataSourceQuery IDataSourceQuery.Where(string column, object value)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public IList<IDataSourceRow> Query(string command)
+		{
+			return new List<IDataSourceRow>();
+		}
+
+		public IDataSourceRow Select()
+		{
+			return this;
+		}
+
+		public IDataSourceRow Set(string column, object value)
+		{
+			return this;
+		}
+
+		public IDataSourceRow Update()
+		{
+			return this;
+		}
+
+		IDataSourceRow IDataSourceRow.Where(string column, object value)
+		{
+			return this;
+		}
+
+		IDataSourceQuery IDataSourceQuery.Where(string column, object value)
+		{
+			return this;
+		}
+	}
 }

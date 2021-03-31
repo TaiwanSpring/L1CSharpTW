@@ -1,44 +1,21 @@
-﻿using System;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
+using LineageServer.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1NpcInstance = LineageServer.Server.Model.Instance.L1NpcInstance;
-	using L1Pet = LineageServer.Server.Templates.L1Pet;
-	using L1PetType = LineageServer.Server.Templates.L1PetType;
-	using Random = LineageServer.Utils.Random;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	// Referenced classes of package l1j.server.server:
-	// IdFactory
-
-	public class PetTable
+	class PetTable
 	{
-
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(PetTable).FullName);
-
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.Pets);
 		private static PetTable _instance;
 
-		private readonly IDictionary<int, L1Pet> _pets = MapFactory.NewMap();
+		private readonly IDictionary<int, L1Pet> _pets = MapFactory.NewMap<int, L1Pet>();
 
 		public static PetTable Instance
 		{
@@ -59,43 +36,24 @@ namespace LineageServer.Server.DataTables
 
 		private void load()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM pets");
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				L1Pet pet = new L1Pet();
+				int itemobjid = dataSourceRow.getInt(Pets.Column_item_obj_id);
+				pet.set_itemobjid(itemobjid);
+				pet.set_objid(dataSourceRow.getInt(Pets.Column_objid));
+				pet.set_npcid(dataSourceRow.getInt(Pets.Column_npcid));
+				pet.set_name(dataSourceRow.getString(Pets.Column_name));
+				pet.set_level(dataSourceRow.getInt(Pets.Column_lvl));
+				pet.set_hp(dataSourceRow.getInt(Pets.Column_hp));
+				pet.set_mp(dataSourceRow.getInt(Pets.Column_mp));
+				pet.set_exp(dataSourceRow.getInt(Pets.Column_exp));
+				pet.set_lawful(dataSourceRow.getInt(Pets.Column_lawful));
+				pet.set_food(dataSourceRow.getInt(Pets.Column_food));
 
-				rs = pstm.executeQuery();
-				while (rs.next())
-				{
-					L1Pet pet = new L1Pet();
-					int itemobjid = dataSourceRow.getInt(1);
-					pet.set_itemobjid(itemobjid);
-					pet.set_objid(dataSourceRow.getInt(2));
-					pet.set_npcid(dataSourceRow.getInt(3));
-					pet.set_name(dataSourceRow.getString(4));
-					pet.set_level(dataSourceRow.getInt(5));
-					pet.set_hp(dataSourceRow.getInt(6));
-					pet.set_mp(dataSourceRow.getInt(7));
-					pet.set_exp(dataSourceRow.getInt(8));
-					pet.set_lawful(dataSourceRow.getInt(9));
-					pet.set_food(dataSourceRow.getInt(10));
-
-					_pets[itemobjid] = pet;
-				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-
+				_pets[itemobjid] = pet;
 			}
 		}
 
@@ -286,16 +244,16 @@ namespace LineageServer.Server.DataTables
 			int hpUpMax = petType.HpUpRange.High;
 			int mpUpMin = petType.MpUpRange.Low;
 			int mpUpMax = petType.MpUpRange.High;
-			short randomhp = (short)((hpUpMin + hpUpMax) / 2);
-			short randommp = (short)((mpUpMin + mpUpMax) / 2);
+			short randomhp = (short)( ( hpUpMin + hpUpMax ) / 2 );
+			short randommp = (short)( ( mpUpMin + mpUpMax ) / 2 );
 			for (int i = 1; i < upLv; i++)
 			{
-				randomhp += (short)(RandomHelper.Next(hpUpMax - hpUpMin) + hpUpMin + 1);
-				randommp += (short)(RandomHelper.Next(mpUpMax - mpUpMin) + mpUpMin + 1);
+				randomhp += (short)( RandomHelper.Next(hpUpMax - hpUpMin) + hpUpMin + 1 );
+				randommp += (short)( RandomHelper.Next(mpUpMax - mpUpMin) + mpUpMin + 1 );
 			}
 			l1pet.set_hp(randomhp);
 			l1pet.set_mp(randommp);
-			l1pet.set_exp((int) lvExp); // upLv EXP
+			l1pet.set_exp((int)lvExp); // upLv EXP
 			l1pet.set_lawful(0);
 			l1pet.set_food(50);
 			_pets[itemobjid] = l1pet;
