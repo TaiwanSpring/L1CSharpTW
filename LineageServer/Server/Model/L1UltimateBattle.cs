@@ -1,44 +1,21 @@
-﻿using System;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.DataTables;
+using LineageServer.Server.Model.identity;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
+using LineageServer.Serverpackets;
+using LineageServer.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Model
 {
-
-	using Config = LineageServer.Server.Config;
-	using ActionCodes = LineageServer.Server.ActionCodes;
-	using RunnableExecuter = LineageServer.Server.RunnableExecuter;
-	using ItemTable = LineageServer.Server.DataTables.ItemTable;
-	using UBSpawnTable = LineageServer.Server.DataTables.UBSpawnTable;
-	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
-	using L1MonsterInstance = LineageServer.Server.Model.Instance.L1MonsterInstance;
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using L1ItemId = LineageServer.Server.Model.identity.L1ItemId;
-	using S_ServerMessage = LineageServer.Serverpackets.S_ServerMessage;
-	using L1Item = LineageServer.Server.Templates.L1Item;
-	using IntRange = LineageServer.Utils.IntRange;
-	using Random = LineageServer.Utils.Random;
-	using ListFactory = LineageServer.Utils.ListFactory;
-
-	// Referenced classes of package l1j.server.server.model:
-	// L1UltimateBattle
-
-	public class L1UltimateBattle
+	/// <summary>
+	/// 無限大戰
+	/// </summary>
+	class L1UltimateBattle
 	{
 		private int _locX;
 
@@ -100,10 +77,9 @@ namespace LineageServer.Server.Model
 
 		private SortedSet<int> _ubTimes = new SortedSet<int>();
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static readonly Logger _log = Logger.GetLogger(typeof(L1UltimateBattle).FullName);
+		private static readonly ILogger _log = Logger.GetLogger(nameof(L1UltimateBattle));
 
-		private readonly IList<L1PcInstance> _members = ListFactory.NewList();
+		private readonly IList<L1PcInstance> _members = ListFactory.NewList<L1PcInstance>();
 
 		/// <summary>
 		/// ラウンド開始時のメッセージを送信する。
@@ -113,9 +89,9 @@ namespace LineageServer.Server.Model
 		private void sendRoundMessage(int curRound)
 		{
 			// XXX - このIDは間違っている
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int MSGID_ROUND_TABLE[] = { 893, 894, 895, 896 };
-			int[] MSGID_ROUND_TABLE = new int[] {893, 894, 895, 896};
+			//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+			//ORIGINAL LINE: final int MSGID_ROUND_TABLE[] = { 893, 894, 895, 896 };
+			int[] MSGID_ROUND_TABLE = new int[] { 893, 894, 895, 896 };
 
 			sendMessage(MSGID_ROUND_TABLE[curRound - 1], "");
 		}
@@ -206,7 +182,7 @@ namespace LineageServer.Server.Model
 
 			for (int i = 0; i < count; i++)
 			{
-				L1Location loc = _location.randomLocation((LocX2 - LocX1) / 2, false);
+				L1Location loc = _location.randomLocation(( LocX2 - LocX1 ) / 2, false);
 				if (temp.Stackable)
 				{
 					L1ItemInstance item = ItemTable.Instance.createItem(itemId);
@@ -244,7 +220,7 @@ namespace LineageServer.Server.Model
 			{
 				if (obj is L1MonsterInstance) // モンスター削除
 				{
-					L1MonsterInstance mob = (L1MonsterInstance) obj;
+					L1MonsterInstance mob = (L1MonsterInstance)obj;
 					if (!mob.Dead)
 					{
 						mob.Dead = true;
@@ -256,7 +232,7 @@ namespace LineageServer.Server.Model
 				}
 				else if (obj is L1Inventory) // アイテム削除
 				{
-					L1Inventory inventory = (L1Inventory) obj;
+					L1Inventory inventory = (L1Inventory)obj;
 					inventory.clearItems();
 				}
 			}
@@ -269,7 +245,7 @@ namespace LineageServer.Server.Model
 		{
 		}
 
-		internal class UbThread : IRunnableStart
+		internal class UbThread : IRunnable
 		{
 			private readonly L1UltimateBattle outerInstance;
 
@@ -282,8 +258,8 @@ namespace LineageServer.Server.Model
 			/// 競技開始までをカウントダウンする。
 			/// </summary>
 			/// <exception cref="InterruptedException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private void countDown() throws InterruptedException
+			//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+			//ORIGINAL LINE: private void countDown() throws InterruptedException
 			internal virtual void countDown()
 			{
 				// XXX - このIDは間違っている
@@ -325,13 +301,13 @@ namespace LineageServer.Server.Model
 			/// <param name="curRound">
 			///            現在のラウンド </param>
 			/// <exception cref="InterruptedException"> </exception>
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private void waitForNextRound(int curRound) throws InterruptedException
+			//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
+			//ORIGINAL LINE: private void waitForNextRound(int curRound) throws InterruptedException
 			internal virtual void waitForNextRound(int curRound)
 			{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int WAIT_TIME_TABLE[] = { 6, 6, 2, 18 };
-				int[] WAIT_TIME_TABLE = new int[] {6, 6, 2, 18};
+				//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+				//ORIGINAL LINE: final int WAIT_TIME_TABLE[] = { 6, 6, 2, 18 };
+				int[] WAIT_TIME_TABLE = new int[] { 6, 6, 2, 18 };
 
 				int wait = WAIT_TIME_TABLE[curRound - 1];
 				for (int i = 0; i < wait; i++)
@@ -345,7 +321,7 @@ namespace LineageServer.Server.Model
 			/// <summary>
 			/// スレッドプロシージャ。
 			/// </summary>
-			public override void run()
+			public void run()
 			{
 				try
 				{
@@ -411,7 +387,7 @@ namespace LineageServer.Server.Model
 			_pattern = RandomHelper.Next(patternsMax) + 1; // 出現パターンを決める
 
 			UbThread ub = new UbThread(this);
-			RunnableExecuter.Instance.execute(ub);
+			Container.Instance.Resolve<ITaskController>().execute(ub);
 		}
 
 		/// <summary>
@@ -464,7 +440,7 @@ namespace LineageServer.Server.Model
 		{
 			get
 			{
-				return ((List<L1PcInstance>)_members).ToArray();
+				return ( (List<L1PcInstance>)_members ).ToArray();
 			}
 		}
 
@@ -729,8 +705,8 @@ namespace LineageServer.Server.Model
 		// setされたlocx1～locy2から中心点を求める。
 		public virtual void resetLoc()
 		{
-			_locX = (_locX2 + _locX1) / 2;
-			_locY = (_locY2 + _locY1) / 2;
+			_locX = ( _locX2 + _locX1 ) / 2;
+			_locY = ( _locY2 + _locY1 ) / 2;
 			_location = new L1Location(_locX, _locY, _mapId);
 		}
 
@@ -767,14 +743,21 @@ namespace LineageServer.Server.Model
 
 		private int nextUbTime()
 		{
-			SimpleDateFormat sdf = new SimpleDateFormat("HHmm");
-			int nowTime = Convert.ToInt32(sdf.format(RealTime));
-			SortedSet<int> tailSet = _ubTimes.tailSet(nowTime);
-			if (tailSet.Count == 0)
+			int key = GetTimeKey(DateTime.Now);
+
+			foreach (var item in _ubTimes)
 			{
-				tailSet = _ubTimes;
+				if (item >= key)
+				{
+					return item;
+				}
 			}
-			return tailSet.Min;
+			return _ubTimes.Min;
+		}
+
+		private int GetTimeKey(DateTime dateTime)
+		{
+			return dateTime.Hour * 100 + dateTime.Minute;
 		}
 
 		private static string intToTimeFormat(int n)
@@ -782,23 +765,9 @@ namespace LineageServer.Server.Model
 			return n / 100 + ":" + n % 100 / 10 + "" + n % 10;
 		}
 
-		private static DateTime RealTime
-		{
-			get
-			{
-				TimeZone _tz = TimeZone.getTimeZone(Config.TIME_ZONE);
-				DateTime cal = DateTime.getInstance(_tz);
-				return cal;
-			}
-		}
-
 		public virtual bool checkUbTime()
 		{
-			SimpleDateFormat sdf = new SimpleDateFormat("HHmm");
-			DateTime realTime = RealTime;
-			realTime.AddMinutes(BEFORE_MINUTE);
-			int nowTime = Convert.ToInt32(sdf.format(realTime));
-			return _ubTimes.Contains(nowTime);
+			return _ubTimes.Contains(GetTimeKey(DateTime.Now.AddMinutes(BEFORE_MINUTE)));
 		}
 
 		public bool Active
@@ -822,7 +791,6 @@ namespace LineageServer.Server.Model
 		/// <returns> 参加出来る場合はtrue,出来ない場合はfalse </returns>
 		public virtual bool canPcEnter(L1PcInstance pc)
 		{
-			_log.log(Level.FINE, "pcname={0} ubid={1} minlvl={2} maxlvl={3}", new object[] {pc.Name, _ubId, _minLevel, _maxLevel});
 			// 参加可能なレベルか
 			if (!IntRange.includes(pc.Level, _minLevel, _maxLevel))
 			{
@@ -830,7 +798,7 @@ namespace LineageServer.Server.Model
 			}
 
 			// 参加可能なクラスか
-			if (!((pc.Crown && _enterRoyal) || (pc.Knight && _enterKnight) || (pc.Wizard && _enterMage) || (pc.Elf && _enterElf) || (pc.Darkelf && _enterDarkelf) || (pc.DragonKnight && _enterDragonKnight) || (pc.Illusionist && _enterIllusionist)))
+			if (!( ( pc.Crown && _enterRoyal ) || ( pc.Knight && _enterKnight ) || ( pc.Wizard && _enterMage ) || ( pc.Elf && _enterElf ) || ( pc.Darkelf && _enterDarkelf ) || ( pc.DragonKnight && _enterDragonKnight ) || ( pc.Illusionist && _enterIllusionist ) ))
 			{
 				return false;
 			}
@@ -898,7 +866,7 @@ namespace LineageServer.Server.Model
 			string mpr = _mpr.ToString();
 			string summon = _location.getMap().TakePets ? "可能" : "不可能";
 			string summon2 = _location.getMap().RecallPets ? "可能" : "不可能";
-			_ubInfo = new string[] {nextUbTime, classes, sex, loLevel, hiLevel, teleport, res, pot, hpr, mpr, summon, summon2};
+			_ubInfo = new string[] { nextUbTime, classes, sex, loLevel, hiLevel, teleport, res, pot, hpr, mpr, summon, summon2 };
 			return _ubInfo;
 		}
 	}

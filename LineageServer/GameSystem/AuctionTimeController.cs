@@ -34,20 +34,12 @@ namespace LineageServer.Server
 			}
 		}
 
-		public virtual DateTime RealTime
-		{
-			get
-			{
-				return DateTime.Now.Date;
-			}
-		}
-
 		private void checkAuctionDeadline()
 		{
 			AuctionBoardTable boardTable = new AuctionBoardTable();
 			foreach (L1AuctionBoard board in boardTable.AuctionBoardTableList)
 			{
-				if (board.Deadline < RealTime)
+				if (board.Deadline < DateTime.Now.Date)
 				{
 					endAuction(board);
 				}
@@ -128,7 +120,7 @@ namespace LineageServer.Server
 				// 在先前的擁有者沒有中標
 				// 設定五天之後再次競標
 				// 5天後
-				board.Deadline = RealTime.AddDays(5);
+				board.Deadline = DateTime.Now.Date.AddDays(5);
 				AuctionBoardTable boardTable = new AuctionBoardTable();
 				boardTable.updateAuctionBoard(board);
 			}
@@ -184,7 +176,7 @@ namespace LineageServer.Server
 			// 將血盟小屋的狀態設定為不拍賣
 			L1House house = HouseTable.Instance.getHouseTable(houseId);
 			house.OnSale = false;
-			house.TaxDeadline = RealTime.AddDays(Config.HOUSE_TAX_INTERVAL);
+			house.TaxDeadline = DateTime.Now.Date.AddDays(Config.HOUSE_TAX_INTERVAL);
 			HouseTable.Instance.updateHouse(house);
 
 			// 取消拍賣告示

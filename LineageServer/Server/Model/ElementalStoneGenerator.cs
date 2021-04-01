@@ -1,38 +1,16 @@
-﻿using System;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.DataTables;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Model.Map;
+using LineageServer.Server.Types;
+using LineageServer.Utils;
+using System;
 using System.Collections.Generic;
 using System.Threading;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Model
 {
-	using Random = LineageServer.Utils.Random;
-
-	using Config = LineageServer.Server.Config;
-	using ItemTable = LineageServer.Server.DataTables.ItemTable;
-	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
-	using L1Map = LineageServer.Server.Model.Map.L1Map;
-	using L1WorldMap = LineageServer.Server.Model.Map.L1WorldMap;
-	using Point = LineageServer.Server.Types.Point;
-
-	public class ElementalStoneGenerator : IRunnableStart
+	class ElementalStoneGenerator : IRunnable
 	{
-
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(ElementalStoneGenerator).FullName);
-
 		private const int ELVEN_FOREST_MAPID = 4;
 		private static readonly int MAX_COUNT = Config.ELEMENTAL_STONE_AMOUNT; // 設置個数
 		private const int INTERVAL = 3; // 設置間隔 秒
@@ -45,24 +23,6 @@ namespace LineageServer.Server.Model
 
 		private List<L1GroundInventory> _itemList = new List<L1GroundInventory>(MAX_COUNT);
 
-		private static ElementalStoneGenerator _instance = null;
-
-		private ElementalStoneGenerator()
-		{
-		}
-
-		public static ElementalStoneGenerator Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new ElementalStoneGenerator();
-				}
-				return _instance;
-			}
-		}
-
 		private readonly GameObject _dummy = new GameObject();
 
 		/// <summary>
@@ -70,7 +30,7 @@ namespace LineageServer.Server.Model
 		/// </summary>
 		private bool canPut(L1Location loc)
 		{
-			_dummy.setMap(loc.getMap());
+			_dummy.MapId = (short)loc.MapId;
 			_dummy.X = loc.X;
 			_dummy.Y = loc.Y;
 
@@ -79,7 +39,10 @@ namespace LineageServer.Server.Model
 			{
 				return false;
 			}
-			return true;
+			else
+			{
+				return true;
+			}
 		}
 
 		/// <summary>
@@ -123,35 +86,30 @@ namespace LineageServer.Server.Model
 			_itemList.Add(gInventory);
 		}
 
-		public override void run()
+		public void run()
 		{
-			try
+			L1Map map = Container.Instance.Resolve<IWorldMap>().getMap((short)ELVEN_FOREST_MAPID);
+			while (true)
 			{
-				L1Map map = L1WorldMap.Instance.getMap((short) ELVEN_FOREST_MAPID);
-				while (true)
+				removeItemsPickedUp();
+
+				while (_itemList.Count < MAX_COUNT)
 				{
-					removeItemsPickedUp();
+					// 減っている場合セット
+					L1Location loc = new L1Location(nextPoint(), map);
 
-					while (_itemList.Count < MAX_COUNT)
-					{ // 減っている場合セット
-						L1Location loc = new L1Location(nextPoint(), map);
-
-						if (!canPut(loc))
-						{
-							// XXX 設置範囲内全てにPCが居た場合無限ループになるが…
-							continue;
-						}
-
-						putElementalStone(loc);
-
-						Thread.Sleep(INTERVAL * 1000); // 一定時間毎に設置
+					if (!canPut(loc))
+					{
+						// XXX 設置範囲内全てにPCが居た場合無限ループになるが…
+						continue;
 					}
-					Thread.Sleep(SLEEP_TIME * 1000); // maxまで設置終了後一定時間は再設置しない
+
+					putElementalStone(loc);
+
+					Thread.Sleep(INTERVAL * 1000); // 一定時間毎に設置
 				}
-			}
-			catch (Exception e)
-			{
-				_log.Error(e);
+
+				Thread.Sleep(SLEEP_TIME * 1000); // maxまで設置終了後一定時間は再設置しない
 			}
 		}
 	}

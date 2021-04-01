@@ -5,14 +5,12 @@ using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Game;
 using LineageServer.Server.Model.Gametime;
-using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.item;
 using LineageServer.Server.Model.Map;
 using LineageServer.Server.Model.npc.action;
 using LineageServer.Utils;
 using LineageServer.william;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 namespace LineageServer.Server
@@ -20,8 +18,6 @@ namespace LineageServer.Server
 	public class GameServerOri : IRunnable
 	{
 		private static ILogger _log = Logger.GetLogger(nameof(GameServerOri));
-
-		private static int YesNoCount_Conflict = 0;
 
 		public readonly int startTime = DateTime.Now.Second;
 
@@ -123,12 +119,16 @@ namespace LineageServer.Server
 			idFactory.Initialize();
 			containerAdapter.RegisterInstance<IIdFactory>(idFactory);
 
+			//Table
+
+
 			//世界地圖
 			L1WorldMap l1WorldMap = new L1WorldMap();
 			l1WorldMap.Initialize();
 			containerAdapter.RegisterInstance<IWorldMap>(l1WorldMap);
 
-
+			// 初始化帳號使用狀態
+			Account.InitialOnlineStatus();
 
 			//登入控制
 			this.loginController = new LoginController();
@@ -154,18 +154,17 @@ namespace LineageServer.Server
 			containerAdapter.RegisterInstance<IRestartController>(restartController);
 
 			// 初始化無限大戰
-			UbTimeController ubTimeContoroller = UbTimeController.Instance;
-			RunnableExecuter.Instance.execute(ubTimeContoroller);
+			UbTimeController ubTimeContoroller = new UbTimeController();
+			taskController.execute(ubTimeContoroller);
 
 			// 初始化攻城
-			WarTimeController warTimeController = WarTimeController.Instance;
-			RunnableExecuter.Instance.execute(warTimeController);
+			WarTimeController warTimeController = new WarTimeController();
+			taskController.execute(warTimeController);
 
 			// 設定精靈石的產生
 			if (Config.ELEMENTAL_STONE_AMOUNT > 0)
 			{
-				ElementalStoneGenerator elementalStoneGenerator = ElementalStoneGenerator.Instance;
-				RunnableExecuter.Instance.execute(elementalStoneGenerator);
+				taskController.execute(new ElementalStoneGenerator());
 			}
 
 			// 初始化 HomeTown 時間
@@ -174,31 +173,28 @@ namespace LineageServer.Server
 			containerAdapter.RegisterInstance(homeTownTimeController);
 
 			// 初始化盟屋拍賣
-			RunnableExecuter.Instance.execute(new AuctionTimeController());
+			taskController.execute(new AuctionTimeController());
 
 			// 初始化盟屋的稅金
-			RunnableExecuter.Instance.execute(new HouseTaxTimeController());
+			taskController.execute(new HouseTaxTimeController());
 
 			// 初始化釣魚
-			RunnableExecuter.Instance.execute(new FishingTimeController());
+			taskController.execute(new FishingTimeController());
 
 			// 初始化 NPC 聊天
-			RunnableExecuter.Instance.execute(new NpcChatTimeController());
+			taskController.execute(new NpcChatTimeController());
 
 			// 初始化 Light
-			RunnableExecuter.Instance.execute(new LightTimeController());
+			taskController.execute(new LightTimeController());
 			// TODO 殷海薩的祝福
-			RunnableExecuter.Instance.execute(new AinTimeController());
-			// 初始化遊戲公告
-			this.gameComponentSet.Add(new Announcements().Initialize());
+			taskController.execute(new AinTimeController());
+
 			// 初始化MySQL自動備份程序
 			//MysqlAutoBackup.Instance;
 
 			// 開始 MySQL自動備份程序 計時器
 			//MysqlAutoBackupTimer.TimerStart();
 
-			// 初始化帳號使用狀態
-			Account.InitialOnlineStatus();
 
 			NpcTable.Instance;
 			L1DeleteItemOnGround deleteitem = new L1DeleteItemOnGround();
@@ -238,7 +234,9 @@ namespace LineageServer.Server
 			PetTable.Instance;
 			ClanTable.Instance;
 			CastleTable.Instance;
+
 			Thread.Sleep(Config.Gamesleep * 1000); //模擬器重開延遲  秒
+
 			L1CastleLocation.setCastleTaxRate(); // 必須在 CastleTable 初始化之後
 			GetBackRestartTable.Instance;
 			RunnableExecuter.Instance;
@@ -264,113 +262,8 @@ namespace LineageServer.Server
 
 			System.Console.WriteLine(L1Message.initialfinished);
 
-			Runtime.Runtime.addShutdownHook(Shutdown.Instance);
-
 			taskController.Start();
 		}
-
-		private class ServerShutdownThread : TimerTask
-		{
-			private readonly GameServerOri outerInstance;
-
-			internal readonly int _secondsCount;
-
-			public ServerShutdownThread(GameServerOri outerInstance, int secondsCount)
-			{
-				this.outerInstance = outerInstance;
-				_secondsCount = secondsCount;
-			}
-
-			public void run()
-			{
-				L1World world = L1World.Instance;
-
-				int secondsCount = _secondsCount;
-				world.broadcastServerMessage("伺服器即將關閉。");
-				world.broadcastServerMessage("請玩家移動到安全區域先行登出");
-				while (0 < secondsCount)
-				{
-					if (IsCancel)
-					{
-						break;
-					}
-					if (secondsCount <= 30)
-					{
-						world.broadcastServerMessage("伺服器將在" + secondsCount + "秒後關閉，請玩家移動到安全區域先行登出。");
-					}
-					else
-					{
-						if (secondsCount % 60 == 0)
-						{
-							world.broadcastServerMessage("伺服器將在" + secondsCount / 60 + "分鐘後關閉。");
-						}
-					}
-					Thread.Sleep(1000);
-					secondsCount--;
-				}
-				if (IsCancel)
-				{
-					world.broadcastServerMessage("已取消伺服器關機。伺服器將會正常運作。");
-				}
-				else
-				{
-					outerInstance.shutdown();
-				}
-			}
-		}
-
-		private ServerShutdownThread _shutdownThread = null;
-
-		public virtual void shutdownWithCountdown(int secondsCount)
-		{
-			lock (this)
-			{
-				if (_shutdownThread != null)
-				{
-					// 如果正在關閉
-					// TODO 可能要有錯誤通知之類的
-					return;
-				}
-				_shutdownThread = new ServerShutdownThread(this, secondsCount);
-				RunnableExecuter.Instance.execute(_shutdownThread);
-			}
-		}
-
-		public virtual void shutdown()
-		{
-			disconnectAllCharacters();
-			Environment.Exit(0);
-		}
-
-		public virtual void abortShutdown()
-		{
-			lock (this)
-			{
-				if (_shutdownThread == null)
-				{
-					// 如果正在關閉
-					// TODO 可能要有錯誤通知之類的
-					return;
-				}
-
-				_shutdownThread.cancel();
-				_shutdownThread = null;
-			}
-		}
-
-		/// <summary>
-		/// 取得世界中發送YesNo總次數 </summary>
-		/// <returns> YesNo總次數 </returns>
-		public static int YesNoCount
-		{
-			get
-			{
-				YesNoCount_Conflict += 1;
-				return YesNoCount_Conflict;
-			}
-		}
-
-		public object MysqlAutoBackupTimer { get; private set; }
 	}
 
 }

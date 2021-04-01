@@ -7,49 +7,20 @@ using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-	class NpcTable
+	class NpcTable : IGameComponent, INpcController
 	{
 		private readonly static IDataSource dataSource =
 			 Container.Instance.Resolve<IDataSourceFactory>()
 			 .Factory(Enum.DataSourceTypeEnum.Npc);
 
-		private readonly bool _initialized;
-
-		private static NpcTable _instance;
-
 		private readonly IDictionary<int, L1Npc> _npcs = MapFactory.NewMap<int, L1Npc>();
 
-		private static readonly IDictionary<string, int> _familyTypes = NpcTable.buildFamily();
-
-		public static NpcTable Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new NpcTable();
-				}
-				return _instance;
-			}
-		}
-
-		public virtual bool Initialized
-		{
-			get
-			{
-				return _initialized;
-			}
-		}
-
-		private NpcTable()
-		{
-			loadNpcData();
-			_initialized = true;
-		}
+		private readonly IDictionary<string, int> _familyTypes = NpcTable.buildFamily();
 
 		private void loadNpcData()
 		{
 			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+
 			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
 				IDataSourceRow dataSourceRow = dataSourceRows[i];
@@ -136,6 +107,7 @@ namespace LineageServer.Server.DataTables
 				npc.AmountFixed = dataSourceRow.getBoolean(Npc.Column_amount_fixed);
 				npc.ChangeHead = dataSourceRow.getBoolean(Npc.Column_change_head);
 				npc.CantResurrect = dataSourceRow.getBoolean(Npc.Column_cant_resurrect);
+
 				_npcs[npcId] = npc;
 			}
 		}
@@ -197,6 +169,10 @@ namespace LineageServer.Server.DataTables
 			}
 			return 0;
 		}
-	}
 
+		public void Initialize()
+		{
+			loadNpcData();
+		}
+	}
 }
