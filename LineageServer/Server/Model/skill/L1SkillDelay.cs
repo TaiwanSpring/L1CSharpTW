@@ -32,7 +32,7 @@ namespace LineageServer.Server.Model.skill
 		public static void onSkillUse(L1Character cha, int time)
 		{
 			cha.SkillDelay = true;
-			RunnableExecuter.Instance.execute(new SkillDelayTimer(cha, time), time);
+			Container.Instance.Resolve<ITaskController>().execute(new SkillDelayTimer(cha, time), time);
 		}
 
 	}

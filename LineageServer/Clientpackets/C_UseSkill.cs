@@ -128,7 +128,7 @@ namespace LineageServer.Clientpackets
                         return;
                     }
 
-                    L1PcInstance target = L1World.Instance.getPlayer(charName);
+                    L1PcInstance target = Container.Instance.Resolve<IGameWorld>().getPlayer(charName);
 
                     if (target == null)
                     {

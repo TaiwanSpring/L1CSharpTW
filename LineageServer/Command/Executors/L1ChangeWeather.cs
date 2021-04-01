@@ -18,8 +18,8 @@ namespace LineageServer.Command.Executors
             {
                 StringTokenizer tok = new StringTokenizer(arg);
                 int weather = int.Parse(tok.nextToken());
-                L1World.Instance.Weather = weather;
-                L1World.Instance.broadcastPacketToAll(new S_Weather(weather));
+                Container.Instance.Resolve<IGameWorld>().Weather = weather;
+                Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_Weather(weather));
             }
             catch (Exception)
             {

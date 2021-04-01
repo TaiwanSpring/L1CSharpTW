@@ -27,7 +27,7 @@ namespace LineageServer.Clientpackets
 
 			if (npcObjectId != 0)
 			{ // 武器的修理
-				GameObject obj = L1World.Instance.findObject(npcObjectId);
+				GameObject obj = Container.Instance.Resolve<IGameWorld>().findObject(npcObjectId);
 				if (obj != null)
 				{
 					if (obj is L1NpcInstance)

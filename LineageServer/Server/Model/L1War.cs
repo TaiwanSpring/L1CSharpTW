@@ -148,14 +148,14 @@ namespace LineageServer.Server.Model
 				}
 
 				CastleWarTimer castle_war_timer = new CastleWarTimer(this);
-				RunnableExecuter.Instance.execute(castle_war_timer); // タイマー開始
+				Container.Instance.Resolve<ITaskController>().execute(castle_war_timer); // タイマー開始
 			}
 			else if (war_type == 2)
 			{ // 模擬戦
 				SimWarTimer sim_war_timer = new SimWarTimer(this);
-				RunnableExecuter.Instance.execute(sim_war_timer); // タイマー開始
+				Container.Instance.Resolve<ITaskController>().execute(sim_war_timer); // タイマー開始
 			}
-			L1World.Instance.addWar(this); // 戦争リストに追加
+			Container.Instance.Resolve<IGameWorld>().addWar(this); // 戦争リストに追加
 		}
 
 		private void RequestCastleWar(int type, string clan1_name, string clan2_name)
@@ -165,7 +165,7 @@ namespace LineageServer.Server.Model
 				return;
 			}
 
-			L1Clan clan1 = L1World.Instance.getClan(clan1_name);
+			L1Clan clan1 = Container.Instance.Resolve<IGameWorld>().getClan(clan1_name);
 			if (clan1 != null)
 			{
 				L1PcInstance[] clan1_member = clan1.OnlineClanMember;
@@ -179,7 +179,7 @@ namespace LineageServer.Server.Model
 
 			if (( type == 1 ) || ( type == 2 ) || ( type == 3 ))
 			{ // 宣戦布告、降伏、終結
-				L1Clan clan2 = L1World.Instance.getClan(clan2_name);
+				L1Clan clan2 = Container.Instance.Resolve<IGameWorld>().getClan(clan2_name);
 				if (clan2 != null)
 				{
 					L1PcInstance[] clan2_member = clan2.OnlineClanMember;
@@ -233,7 +233,7 @@ namespace LineageServer.Server.Model
 				return;
 			}
 
-			L1Clan clan1 = L1World.Instance.getClan(clan1_name);
+			L1Clan clan1 = Container.Instance.Resolve<IGameWorld>().getClan(clan1_name);
 			if (clan1 != null)
 			{
 				L1PcInstance[] clan1_member = clan1.OnlineClanMember;
@@ -245,7 +245,7 @@ namespace LineageServer.Server.Model
 
 			if (( type == 1 ) || ( type == 2 ) || ( type == 3 ))
 			{ // 宣戦布告、降伏、終結
-				L1Clan clan2 = L1World.Instance.getClan(clan2_name);
+				L1Clan clan2 = Container.Instance.Resolve<IGameWorld>().getClan(clan2_name);
 				if (clan2 != null)
 				{
 					L1PcInstance[] clan2_member = clan2.OnlineClanMember;
@@ -275,9 +275,9 @@ namespace LineageServer.Server.Model
 		{ // クラウンを奪取して、攻撃側クランが勝利
 			string defence_clan_name = GetDefenceClanName();
 			// %0血盟が%1血盟との戦争で勝利しました。
-			L1World.Instance.broadcastPacketToAll(new S_ServerMessage(231, clan_name, defence_clan_name));
+			Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_ServerMessage(231, clan_name, defence_clan_name));
 
-			L1Clan defence_clan = L1World.Instance.getClan(defence_clan_name);
+			L1Clan defence_clan = Container.Instance.Resolve<IGameWorld>().getClan(defence_clan_name);
 			if (defence_clan != null)
 			{
 				L1PcInstance[] defence_clan_member = defence_clan.OnlineClanMember;
@@ -295,8 +295,8 @@ namespace LineageServer.Server.Model
 			{
 				if (!string.ReferenceEquals(element, null))
 				{
-					L1World.Instance.broadcastPacketToAll(new S_ServerMessage(227, defence_clan_name, element));
-					L1Clan clan = L1World.Instance.getClan(element);
+					Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_ServerMessage(227, defence_clan_name, element));
+					L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(element);
 					if (clan != null)
 					{
 						L1PcInstance[] clan_member = clan.OnlineClanMember;
@@ -318,10 +318,10 @@ namespace LineageServer.Server.Model
 			string[] clanList = GetAttackClanList();
 			if (!string.ReferenceEquals(defence_clan_name, null))
 			{
-				L1World.Instance.broadcastPacketToAll(new S_ServerMessage(231, defence_clan_name, clanList[0]));
+				Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_ServerMessage(231, defence_clan_name, clanList[0]));
 			}
 
-			L1Clan defence_clan = L1World.Instance.getClan(defence_clan_name);
+			L1Clan defence_clan = Container.Instance.Resolve<IGameWorld>().getClan(defence_clan_name);
 			if (defence_clan != null)
 			{
 				L1PcInstance[] defence_clan_member = defence_clan.OnlineClanMember;
@@ -335,8 +335,8 @@ namespace LineageServer.Server.Model
 			{
 				if (!string.ReferenceEquals(element, null))
 				{
-					L1World.Instance.broadcastPacketToAll(new S_ServerMessage(227, defence_clan_name, element));
-					L1Clan clan = L1World.Instance.getClan(element);
+					Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_ServerMessage(227, defence_clan_name, element));
+					L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(element);
 					if (clan != null)
 					{
 						L1PcInstance[] clan_member = clan.OnlineClanMember;
@@ -472,7 +472,7 @@ namespace LineageServer.Server.Model
 
 		public virtual void delete()
 		{
-			L1World.Instance.removeWar(this); // 戦争リストから削除
+			Container.Instance.Resolve<IGameWorld>().removeWar(this); // 戦争リストから削除
 		}
 
 		public virtual int GetWarType()
@@ -540,7 +540,7 @@ namespace LineageServer.Server.Model
 			int castle_id = 0;
 			if (GetWarType() == 1)
 			{ // 攻城戦
-				L1Clan clan = L1World.Instance.getClan(GetDefenceClanName());
+				L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(GetDefenceClanName());
 				if (clan != null)
 				{
 					castle_id = clan.CastleId;
@@ -554,7 +554,7 @@ namespace LineageServer.Server.Model
 			L1Castle l1castle = null;
 			if (GetWarType() == 1)
 			{ // 攻城戦
-				L1Clan clan = L1World.Instance.getClan(GetDefenceClanName());
+				L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(GetDefenceClanName());
 				if (clan != null)
 				{
 					int castle_id = clan.CastleId;

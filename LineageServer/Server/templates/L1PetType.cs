@@ -44,7 +44,7 @@ namespace LineageServer.Server.Templates
 		public L1PetType(int baseNpcId, string name, int itemIdForTaming, IntRange hpUpRange, IntRange mpUpRange, int evolvItemId, int npcIdForEvolving, int[] msgIds, int defyMsgId, bool canUseEquipment)
 		{
 			_baseNpcId = baseNpcId;
-			_baseNpcTemplate = NpcTable.Instance.getTemplate(baseNpcId);
+			_baseNpcTemplate = Container.Instance.Resolve<INpcController>().getTemplate(baseNpcId);
 			_name = name;
 			_itemIdForTaming = itemIdForTaming;
 			_hpUpRange = hpUpRange;

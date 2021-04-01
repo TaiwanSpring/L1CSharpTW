@@ -17,12 +17,12 @@ namespace LineageServer.Command.Executors
 				ICollection<L1PcInstance> targets = null;
 				if (arg == "all")
 				{
-					targets = L1World.Instance.AllPlayers;
+					targets = Container.Instance.Resolve<IGameWorld>().AllPlayers;
 				}
 				else
 				{
 					targets = ListFactory.NewList<L1PcInstance>();
-					L1PcInstance tg = L1World.Instance.getPlayer(arg);
+					L1PcInstance tg = Container.Instance.Resolve<IGameWorld>().getPlayer(arg);
 					if (tg == null)
 					{
 						pc.sendPackets(new S_SystemMessage("ID不存在。"));

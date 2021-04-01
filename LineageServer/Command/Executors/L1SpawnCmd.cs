@@ -29,7 +29,7 @@ namespace LineageServer.Command.Executors
                 }
                 int npcid = GetNpcId(nameId);
 
-                L1Npc npc = NpcTable.Instance.getTemplate(npcid);
+                L1Npc npc = Container.Instance.Resolve<INpcController>().getTemplate(npcid);
                 if (npc == null)
                 {
                     pc.sendPackets(new S_SystemMessage("找不到符合條件的NPC。"));
@@ -55,7 +55,7 @@ namespace LineageServer.Command.Executors
             }
             else
             {
-                return NpcTable.Instance.findNpcIdByNameWithoutSpace(nameId);
+                return Container.Instance.Resolve<INpcController>().findNpcIdByNameWithoutSpace(nameId);
             }
         }
     }

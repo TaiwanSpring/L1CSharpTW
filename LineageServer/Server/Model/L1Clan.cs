@@ -230,7 +230,7 @@ namespace LineageServer.Server.Model
 				IList<L1PcInstance> onlineMembers = ListFactory.NewList<L1PcInstance>();
 				foreach (string name in membersNameList)
 				{
-					L1PcInstance pc = L1World.Instance.getPlayer(name);
+					L1PcInstance pc = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
 					if (( pc != null ) && !onlineMembers.Contains(pc))
 					{
 						onlineMembers.Add(pc);
@@ -247,7 +247,7 @@ namespace LineageServer.Server.Model
 				string result = "";
 				foreach (string name in membersNameList)
 				{
-					L1PcInstance pc = L1World.Instance.getPlayer(name);
+					L1PcInstance pc = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
 					if (pc != null)
 					{
 						result = result + name + " ";

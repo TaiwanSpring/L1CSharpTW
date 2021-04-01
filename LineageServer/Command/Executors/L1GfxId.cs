@@ -22,7 +22,7 @@ namespace LineageServer.Command.Executors
                 int count = Convert.ToInt32(st.nextToken(), 10);
                 for (int i = 0; i < count; i++)
                 {
-                    L1Npc l1npc = NpcTable.Instance.getTemplate(45001);
+                    L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(45001);
                     if (l1npc != null)
                     {
                         string s = l1npc.Impl;
@@ -31,19 +31,19 @@ namespace LineageServer.Command.Executors
                         //object[] aobj = new object[] { l1npc };
                         //L1NpcInstance npc = (L1NpcInstance)constructor.Invoke(aobj);
                         L1NpcInstance npc = new L1NpcInstance(l1npc);
-                        npc.Id = IdFactory.Instance.nextId();
+                        npc.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                         npc.GfxId = gfxid + i;
                         npc.TempCharGfx = 0;
                         npc.NameId = "";
-                        npc.Map = L1WorldMap.Instance.getMap(pc.MapId);
+                        npc.Map = Container.Instance.Resolve<IWorldMap>().getMap(pc.MapId);
                         npc.X = pc.X + i * 2;
                         npc.Y = pc.Y + i * 2;
                         npc.HomeX = npc.X;
                         npc.HomeY = npc.Y;
                         npc.Heading = 4;
 
-                        L1World.Instance.storeObject(npc);
-                        L1World.Instance.addVisibleObject(npc);
+                        Container.Instance.Resolve<IGameWorld>().storeObject(npc);
+                        Container.Instance.Resolve<IGameWorld>().addVisibleObject(npc);
                     }
                 }
             }

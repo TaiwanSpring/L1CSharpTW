@@ -12,7 +12,7 @@ namespace LineageServer.Command.Executors
     {
         public void Execute(L1PcInstance pc, string cmdName, string arg)
         {
-            foreach (GameObject l1object in L1World.Instance.Object)
+            foreach (GameObject l1object in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (l1object is L1ItemInstance)
                 {
@@ -22,10 +22,10 @@ namespace LineageServer.Command.Executors
                         continue;
                     }
 
-                    IList<L1PcInstance> players = L1World.Instance.getVisiblePlayer(l1iteminstance, 0);
+                    IList<L1PcInstance> players = Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(l1iteminstance, 0);
                     if (0 == players.Count)
                     {
-                        L1Inventory groundInventory = L1World.Instance.getInventory(l1iteminstance.X, l1iteminstance.Y, l1iteminstance.MapId);
+                        L1Inventory groundInventory = Container.Instance.Resolve<IGameWorld>().getInventory(l1iteminstance.X, l1iteminstance.Y, l1iteminstance.MapId);
                         int itemId = l1iteminstance.Item.ItemId;
                         if ((itemId == 40314) || (itemId == 40316))
                         { // ペットのアミュレット
@@ -48,12 +48,12 @@ namespace LineageServer.Command.Executors
                             }
                         }
                         groundInventory.deleteItem(l1iteminstance);
-                        L1World.Instance.removeVisibleObject(l1iteminstance);
-                        L1World.Instance.removeObject(l1iteminstance);
+                        Container.Instance.Resolve<IGameWorld>().removeVisibleObject(l1iteminstance);
+                        Container.Instance.Resolve<IGameWorld>().removeObject(l1iteminstance);
                     }
                 }
             }
-            L1World.Instance.broadcastServerMessage("地上的垃圾被GM清除了。");
+            Container.Instance.Resolve<IGameWorld>().broadcastServerMessage("地上的垃圾被GM清除了。");
         }
     }
 

@@ -95,12 +95,12 @@ namespace LineageServer.Server.Model
 				L1PcInstance pc1 = null;
 				if (!string.ReferenceEquals(_pc1Name[petMatchNo], null))
 				{
-					pc1 = L1World.Instance.getPlayer(_pc1Name[petMatchNo]);
+					pc1 = Container.Instance.Resolve<IGameWorld>().getPlayer(_pc1Name[petMatchNo]);
 				}
 				L1PcInstance pc2 = null;
 				if (!string.ReferenceEquals(_pc2Name[petMatchNo], null))
 				{
-					pc2 = L1World.Instance.getPlayer(_pc2Name[petMatchNo]);
+					pc2 = Container.Instance.Resolve<IGameWorld>().getPlayer(_pc2Name[petMatchNo]);
 				}
         
 				if ((pc1 == null) && (pc2 == null))
@@ -206,7 +206,7 @@ namespace LineageServer.Server.Model
 			{
 				return null;
 			}
-			L1Npc npcTemp = NpcTable.Instance.getTemplate(l1pet.get_npcid());
+			L1Npc npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(l1pet.get_npcid());
 			L1PetInstance pet = new L1PetInstance(npcTemp, pc, l1pet);
 			pet.Petcost = 6;
 			return pet;
@@ -226,8 +226,8 @@ namespace LineageServer.Server.Model
 
 		public virtual void endPetMatch(int petMatchNo, int winNo)
 		{
-			L1PcInstance pc1 = L1World.Instance.getPlayer(_pc1Name[petMatchNo]);
-			L1PcInstance pc2 = L1World.Instance.getPlayer(_pc2Name[petMatchNo]);
+			L1PcInstance pc1 = Container.Instance.Resolve<IGameWorld>().getPlayer(_pc1Name[petMatchNo]);
+			L1PcInstance pc2 = Container.Instance.Resolve<IGameWorld>().getPlayer(_pc2Name[petMatchNo]);
 			if (winNo == 1)
 			{
 				giveMedal(pc1, petMatchNo, true);
@@ -289,7 +289,7 @@ namespace LineageServer.Server.Model
 
 		private void qiutPetMatch(int petMatchNo)
 		{
-			L1PcInstance pc1 = L1World.Instance.getPlayer(_pc1Name[petMatchNo]);
+			L1PcInstance pc1 = Container.Instance.Resolve<IGameWorld>().getPlayer(_pc1Name[petMatchNo]);
 			if ((pc1 != null) && (pc1.MapId == PET_MATCH_MAPID[petMatchNo]))
 			{
 				foreach (object @object in pc1.PetList.Values.ToArray())
@@ -307,7 +307,7 @@ namespace LineageServer.Server.Model
 			_pc1Name[petMatchNo] = null;
 			_pet1[petMatchNo] = null;
 
-			L1PcInstance pc2 = L1World.Instance.getPlayer(_pc2Name[petMatchNo]);
+			L1PcInstance pc2 = Container.Instance.Resolve<IGameWorld>().getPlayer(_pc2Name[petMatchNo]);
 			if ((pc2 != null) && (pc2.MapId == PET_MATCH_MAPID[petMatchNo]))
 			{
 				foreach (object @object in pc2.PetList.Values.ToArray())

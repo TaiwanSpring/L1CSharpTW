@@ -24,7 +24,7 @@ namespace LineageServer.Serverpackets
 	using CharacterTable = LineageServer.Server.DataTables.CharacterTable;
 	using ClanRecommendTable = LineageServer.Server.DataTables.ClanRecommendTable;
 	using L1Clan = LineageServer.Server.Model.L1Clan;
-	using L1World = LineageServer.Server.Model.L1World;
+	using L1World = LineageServer.Server.Model.GameWorld;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 	using SQLUtil = LineageServer.Utils.SQLUtil;
 
@@ -146,7 +146,7 @@ namespace LineageServer.Serverpackets
 						WriteS(dataSourceRow.getString("crown_name")); // 王族名稱
 						WriteD(0); // 一周最大上線人數
 						WriteC(dataSourceRow.getInt("clan_type")); // 血盟登錄類型
-						L1Clan clan = L1World.Instance.getClan(dataSourceRow.getString("clan_name"));
+						L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(dataSourceRow.getString("clan_name"));
 						WriteC(clan.HouseId > 0 ? 1 : 0); // 是否有盟屋
 						WriteC(0); // 戰爭狀態
 						WriteC(0); // 尚未使用
@@ -191,7 +191,7 @@ namespace LineageServer.Serverpackets
 							WriteC(0);
 							WriteD(rs2.getInt("clan_id")); // 血盟id
 							WriteS(rs2.getString("clan_name")); // 血盟名稱
-							L1Clan clan = L1World.Instance.getClan(dataSourceRow.getString("clan_name"));
+							L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(dataSourceRow.getString("clan_name"));
 							WriteS(clan.LeaderName); // 王族名稱
 							WriteD(0); // 一周最大上線人數
 							WriteC(rs2.getInt("clan_type")); // 血盟登錄類型
@@ -248,7 +248,7 @@ namespace LineageServer.Serverpackets
 						while (rs2.next())
 						{
 							WriteD(rs2.getInt("id"));
-							L1PcInstance pc = L1World.Instance.getPlayer(rs2.getString("char_name"));
+							L1PcInstance pc = Container.Instance.Resolve<IGameWorld>().getPlayer(rs2.getString("char_name"));
 							if (pc == null)
 							{
 								pc = CharacterTable.Instance.restoreCharacter(rs2.getString("char_name"));

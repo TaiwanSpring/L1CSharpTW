@@ -169,7 +169,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 Rest = true;
                 _monitor = new RestMonitor(this);
-				RunnableExecuter.Instance.execute((Interfaces.IRunnable)this._monitor, REST_MILLISEC);
+				Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this._monitor, REST_MILLISEC);
             }
         }
 
@@ -180,37 +180,37 @@ namespace LineageServer.Server.Model.Instance
                 int npcId = NpcTemplate.get_npcId();
                 if (((npcId == 71092) || (npcId == 71093)) && pc.Knight && (pc.Quest.get_step(3) == 4))
                 {
-                    L1Npc l1npc = NpcTable.Instance.getTemplate(71093);
+                    L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(71093);
                     new L1FollowerInstance(l1npc, this, pc);
                     pc.sendPackets(new S_NPCTalkReturn(Id, ""));
                 }
                 else if ((npcId == 71094) && pc.Darkelf && (pc.Quest.get_step(4) == 2))
                 {
-                    L1Npc l1npc = NpcTable.Instance.getTemplate(71094);
+                    L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(71094);
                     new L1FollowerInstance(l1npc, this, pc);
                     pc.sendPackets(new S_NPCTalkReturn(Id, ""));
                 }
                 else if ((npcId == 71062) && (pc.Quest.get_step(L1Quest.QUEST_CADMUS) == 2))
                 {
-                    L1Npc l1npc = NpcTable.Instance.getTemplate(71062);
+                    L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(71062);
                     new L1FollowerInstance(l1npc, this, pc);
                     pc.sendPackets(new S_NPCTalkReturn(Id, ""));
                 }
                 else if ((npcId == 71075) && (pc.Quest.get_step(L1Quest.QUEST_LIZARD) == 1))
                 {
-                    L1Npc l1npc = NpcTable.Instance.getTemplate(71075);
+                    L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(71075);
                     new L1FollowerInstance(l1npc, this, pc);
                     pc.sendPackets(new S_NPCTalkReturn(Id, ""));
                 }
                 else if ((npcId == 70957) || (npcId == 81209))
                 {
-                    L1Npc l1npc = NpcTable.Instance.getTemplate(70957);
+                    L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(70957);
                     new L1FollowerInstance(l1npc, this, pc);
                     pc.sendPackets(new S_NPCTalkReturn(Id, ""));
                 }
                 else if ((npcId == 81350) && (pc.Quest.get_step(4) == 3))
                 {
-                    L1Npc l1npc = NpcTable.Instance.getTemplate(81350);
+                    L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(81350);
                     new L1FollowerInstance(l1npc, this, pc);
                     pc.sendPackets(new S_NPCTalkReturn(Id, ""));
                 }

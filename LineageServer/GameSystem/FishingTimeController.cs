@@ -131,7 +131,7 @@ namespace LineageServer.Server
                     // 負重過重，結束釣魚
                     stopFishing(pc);
                     item.startItemOwnerTimer(pc);
-                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
                     return;
                 }
             }

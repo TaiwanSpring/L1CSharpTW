@@ -24,7 +24,7 @@ namespace LineageServer.Command.Executors
                 }
                 else
                 {
-                    target = L1World.Instance.getPlayer(char_name);
+                    target = Container.Instance.Resolve<IGameWorld>().getPlayer(char_name);
                 }
 
                 if (target == null)

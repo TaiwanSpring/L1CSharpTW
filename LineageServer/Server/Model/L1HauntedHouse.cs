@@ -86,7 +86,7 @@ namespace LineageServer.Server.Model
 				L1PolyMorph.doPoly(pc, 6284, 300, L1PolyMorph.MORPH_BY_NPC);
 			}
 
-			foreach (GameObject @object in L1World.Instance.Object)
+			foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
 			{
 				if (@object is L1DoorInstance)
 				{
@@ -114,7 +114,7 @@ namespace LineageServer.Server.Model
 				}
 			}
 			clearMembers();
-			foreach (GameObject @object in L1World.Instance.Object)
+			foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
 			{
 				if (@object is L1DoorInstance)
 				{

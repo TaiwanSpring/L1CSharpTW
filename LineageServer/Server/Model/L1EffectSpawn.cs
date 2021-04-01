@@ -83,7 +83,7 @@ namespace LineageServer.Server.Model
 
 		public virtual L1EffectInstance spawnEffect(int npcId, int time, int locX, int locY, short mapId, L1PcInstance user, int skiiId)
 		{
-			L1Npc template = NpcTable.Instance.getTemplate(npcId);
+			L1Npc template = Container.Instance.Resolve<INpcController>().getTemplate(npcId);
 			L1EffectInstance effect = null;
 
 			if (template == null)
@@ -99,7 +99,7 @@ namespace LineageServer.Server.Model
 				object[] obj = new object[] {template};
 				effect = (L1EffectInstance) _constructor.Invoke(obj);
 
-				effect.Id = IdFactory.Instance.nextId();
+				effect.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 				effect.GfxId = template.get_gfxid();
 				effect.X = locX;
 				effect.Y = locY;
@@ -109,10 +109,10 @@ namespace LineageServer.Server.Model
 				effect.Map = mapId;
 				effect.User = user;
 				effect.SkillId = skiiId;
-				L1World.Instance.storeObject(effect);
-				L1World.Instance.addVisibleObject(effect);
+				Container.Instance.Resolve<IGameWorld>().storeObject(effect);
+				Container.Instance.Resolve<IGameWorld>().addVisibleObject(effect);
 
-				foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(effect))
+				foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(effect))
 				{
 					effect.addKnownObject(pc);
 					pc.addKnownObject(effect);
@@ -132,7 +132,7 @@ namespace LineageServer.Server.Model
 
 		public virtual void doSpawnFireWall(L1Character cha, int targetX, int targetY)
 		{
-			L1Npc firewall = NpcTable.Instance.getTemplate(81157); // ファイアーウォール
+			L1Npc firewall = Container.Instance.Resolve<INpcController>().getTemplate(81157); // ファイアーウォール
 			int duration = SkillsTable.Instance.getTemplate(FIRE_WALL).BuffDuration;
 
 			if (firewall == null)
@@ -187,7 +187,7 @@ namespace LineageServer.Server.Model
 					x = @base.X;
 					y = @base.Y;
 				}
-				L1Map map = L1WorldMap.Instance.getMap(cha.MapId);
+				L1Map map = Container.Instance.Resolve<IWorldMap>().getMap(cha.MapId);
 				if (!map.isArrowPassable(x, y, cha.Heading))
 				{
 					break;
@@ -198,7 +198,7 @@ namespace LineageServer.Server.Model
 				{
 					break;
 				}
-				foreach (GameObject objects in L1World.Instance.getVisibleObjects(effect, 0))
+				foreach (GameObject objects in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(effect, 0))
 				{
 					if (objects is L1EffectInstance)
 					{

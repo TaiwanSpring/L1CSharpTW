@@ -31,7 +31,7 @@ namespace LineageServer.Clientpackets
                 return;
             }
 
-            L1Clan clan = L1World.Instance.getClan(clan_name);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(clan_name);
             if (clan != null)
             {
                 string[] clan_member_name = clan.AllMembers;
@@ -45,7 +45,7 @@ namespace LineageServer.Clientpackets
                         player.sendPackets(new S_ServerMessage(665)); // \f1城やアジトを所有した状態で血盟を解散することはできません。
                         return;
                     }
-                    foreach (L1War war in L1World.Instance.WarList)
+                    foreach (L1War war in Container.Instance.Resolve<IGameWorld>().WarList)
                     {
                         if (war.CheckClanInWar(clan_name))
                         {
@@ -56,7 +56,7 @@ namespace LineageServer.Clientpackets
 
                     for (i = 0; i < clan_member_name.Length; i++)
                     { // 取得所有血盟成員
-                        L1PcInstance online_pc = L1World.Instance.getPlayer(clan_member_name[i]);
+                        L1PcInstance online_pc = Container.Instance.Resolve<IGameWorld>().getPlayer(clan_member_name[i]);
                         if (online_pc != null)
                         { // 在線上的血盟成員
                             online_pc.sendPackets(new S_ClanAttention());

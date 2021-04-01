@@ -32,7 +32,7 @@ namespace LineageServer.Server.Model.item.Action
                 return;
             }
 
-            foreach (GameObject l1object in L1World.Instance.Object)
+            foreach (GameObject l1object in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (l1object is L1FurnitureInstance)
                 {
@@ -54,7 +54,7 @@ namespace LineageServer.Server.Model.item.Action
                 int npcId = furniture_item.FurnitureNpcId;
                 try
                 {
-                    L1Npc l1npc = NpcTable.Instance.getTemplate(npcId);
+                    L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(npcId);
                     if (l1npc != null)
                     {
                         try
@@ -65,7 +65,7 @@ namespace LineageServer.Server.Model.item.Action
 
                             object[] aobj = new object[] { l1npc };
                             furniture = (L1FurnitureInstance)constructor.Invoke(aobj);
-                            furniture.Id = IdFactory.Instance.nextId();
+                            furniture.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                             furniture.MapId = pc.MapId;
                             if (pc.Heading == 0)
                             {
@@ -82,8 +82,8 @@ namespace LineageServer.Server.Model.item.Action
                             furniture.Heading = 0;
                             furniture.ItemObjId = itemObjectId;
 
-                            L1World.Instance.storeObject(furniture);
-                            L1World.Instance.addVisibleObject(furniture);
+                            Container.Instance.Resolve<IGameWorld>().storeObject(furniture);
+                            Container.Instance.Resolve<IGameWorld>().addVisibleObject(furniture);
                             FurnitureSpawnTable.Instance.insertFurniture(furniture);
                         }
                         catch (Exception e)
@@ -115,7 +115,7 @@ namespace LineageServer.Server.Model.item.Action
                 return;
             }
 
-            GameObject target = L1World.Instance.findObject(targetId);
+            GameObject target = Container.Instance.Resolve<IGameWorld>().findObject(targetId);
             if ((target != null) && (target is L1FurnitureInstance))
             {
                 L1FurnitureInstance furniture = (L1FurnitureInstance)target;

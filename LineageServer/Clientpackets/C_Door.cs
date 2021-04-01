@@ -25,7 +25,7 @@ namespace LineageServer.Clientpackets
             ReadH();
             int objectId = ReadD();
 
-            L1DoorInstance door = (L1DoorInstance)L1World.Instance.findObject(objectId);
+            L1DoorInstance door = (L1DoorInstance)Container.Instance.Resolve<IGameWorld>().findObject(objectId);
             if (door == null)
             {
                 return;
@@ -81,7 +81,7 @@ namespace LineageServer.Clientpackets
                 return false;
             }
 
-            L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
             if (clan != null)
             {
                 int houseId = clan.HouseId;

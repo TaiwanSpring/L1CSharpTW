@@ -56,7 +56,7 @@ namespace LineageServer.Server
 
 			if (oldOwnerId != 0 && bidderId != 0)
 			{ // 在前主人與得標者都存在的情況下
-				L1PcInstance oldOwnerPc = (L1PcInstance)L1World.Instance.findObject(oldOwnerId);
+				L1PcInstance oldOwnerPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(oldOwnerId);
 				int payPrice = (int)( price * 0.9 );
 				if (oldOwnerPc != null)
 				{ // 如果有前主人
@@ -80,7 +80,7 @@ namespace LineageServer.Server
 					}
 				}
 
-				L1PcInstance bidderPc = (L1PcInstance)L1World.Instance.findObject(bidderId);
+				L1PcInstance bidderPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(bidderId);
 				if (bidderPc != null)
 				{ // 如果有得標者
 				  // おめでとうございます。%nあなたが参加された競売は最終価格%0アデナの価格で落札されました。%n
@@ -93,7 +93,7 @@ namespace LineageServer.Server
 			}
 			else if (oldOwnerId == 0 && bidderId != 0)
 			{ // 在先前的擁有者沒有中標
-				L1PcInstance bidderPc = (L1PcInstance)L1World.Instance.findObject(bidderId);
+				L1PcInstance bidderPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(bidderId);
 				if (bidderPc != null)
 				{ // 落札者がオンライン中
 				  // おめでとうございます。%nあなたが参加された競売は最終価格%0アデナの価格で落札されました。%n
@@ -106,7 +106,7 @@ namespace LineageServer.Server
 			}
 			else if (oldOwnerId != 0 && bidderId == 0)
 			{ // 以前沒有人成功競投無
-				L1PcInstance oldOwnerPc = (L1PcInstance)L1World.Instance.findObject(oldOwnerId);
+				L1PcInstance oldOwnerPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(oldOwnerId);
 				if (oldOwnerPc != null)
 				{ // 以前の所有者がオンライン中
 				  // あなたが申請なさった競売は、競売期間内に提示した金額以上での支払いを表明した方が現れなかったため、結局取り消されました。%n
@@ -134,7 +134,7 @@ namespace LineageServer.Server
 		/// @return </param>
 		private void deleteHouseInfo(int houseId)
 		{
-			foreach (L1Clan clan in L1World.Instance.AllClans)
+			foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
 			{
 				if (clan.HouseId == houseId)
 				{
@@ -154,7 +154,7 @@ namespace LineageServer.Server
 		/// @return </param>
 		private void setHouseInfo(int houseId, int bidderId)
 		{
-			foreach (L1Clan clan in L1World.Instance.AllClans)
+			foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
 			{
 				if (clan.LeaderId == bidderId)
 				{

@@ -25,7 +25,7 @@ namespace LineageServer.Clientpackets
             int x = ReadH();
             int y = ReadH();
 
-            GameObject target = L1World.Instance.findObject(targetId);
+            GameObject target = Container.Instance.Resolve<IGameWorld>().findObject(targetId);
 
             // 確認是否可以攻擊
             if (pc.Inventory is L1PcInventory pcInventory && pcInventory.Weight242 >= 197)

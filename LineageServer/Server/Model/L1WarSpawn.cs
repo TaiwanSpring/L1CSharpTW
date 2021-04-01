@@ -59,7 +59,7 @@ namespace LineageServer.Server.Model
 			{
 				npcId = 81189;
 			}
-			L1Npc l1npc = NpcTable.Instance.getTemplate(npcId); // ガーディアンタワー
+			L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(npcId); // ガーディアンタワー
 			int[] loc = new int[3];
 			loc = L1CastleLocation.getTowerLoc(castleId);
 			SpawnWarObject(l1npc, loc[0], loc[1], (short)(loc[2]));
@@ -75,7 +75,7 @@ namespace LineageServer.Server.Model
 			int[] loc = new int[3];
 			for (int i = 1; i <= 4; i++)
 			{
-				l1npc = NpcTable.Instance.getTemplate(81189 + i); // サブタワー
+				l1npc = Container.Instance.Resolve<INpcController>().getTemplate(81189 + i); // サブタワー
 				loc = L1CastleLocation.getSubTowerLoc(i);
 				SpawnWarObject(l1npc, loc[0], loc[1], (short)(loc[2]));
 			}
@@ -83,7 +83,7 @@ namespace LineageServer.Server.Model
 
 		public virtual void SpawnCrown(int castleId)
 		{
-			L1Npc l1npc = NpcTable.Instance.getTemplate(81125); // クラウン
+			L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(81125); // クラウン
 			int[] loc = new int[3];
 			loc = L1CastleLocation.getTowerLoc(castleId);
 			SpawnWarObject(l1npc, loc[0], loc[1], (short)(loc[2]));
@@ -91,7 +91,7 @@ namespace LineageServer.Server.Model
 
 		public virtual void SpawnFlag(int castleId)
 		{
-			L1Npc l1npc = NpcTable.Instance.getTemplate(81122); // 旗
+			L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(81122); // 旗
 			int[] loc = new int[5];
 			loc = L1CastleLocation.getWarArea(castleId);
 			int x = 0;
@@ -130,17 +130,17 @@ namespace LineageServer.Server.Model
 					_constructor = Type.GetType((new StringBuilder()).Append("l1j.server.server.model.Instance.").Append(s).Append("Instance").ToString()).GetConstructors()[0];
 					object[] aobj = new object[] {l1npc};
 					L1NpcInstance npc = (L1NpcInstance) _constructor.Invoke(aobj);
-					npc.Id = IdFactory.Instance.nextId();
+					npc.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 					npc.X = locx;
 					npc.Y = locy;
 					npc.HomeX = locx;
 					npc.HomeY = locy;
 					npc.Heading = 0;
 					npc.Map = mapid;
-					L1World.Instance.storeObject(npc);
-					L1World.Instance.addVisibleObject(npc);
+					Container.Instance.Resolve<IGameWorld>().storeObject(npc);
+					Container.Instance.Resolve<IGameWorld>().addVisibleObject(npc);
 
-					foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+					foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
 					{
 						npc.addKnownObject(pc);
 						pc.addKnownObject(npc);

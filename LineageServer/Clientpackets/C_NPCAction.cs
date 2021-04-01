@@ -38,7 +38,7 @@ namespace LineageServer.Clientpackets
 
             string s2 = string.Empty;
 
-            GameObject obj = L1World.Instance.findObject(objid);
+            GameObject obj = Container.Instance.Resolve<IGameWorld>().findObject(objid);
 
             if (s == "select" ||
                 s == "map" ||
@@ -751,7 +751,7 @@ namespace LineageServer.Clientpackets
             { // 収入/支出の報告を受ける
               // 暫定的に公金をチャットウィンドウに表示させる。
               // メッセージは適当。
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     int castle_id = clan.CastleId;
@@ -769,7 +769,7 @@ namespace LineageServer.Clientpackets
             }
             else if (s == "withdrawal")
             { // 資金を引き出す
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     int castle_id = clan.CastleId;
@@ -927,7 +927,7 @@ namespace LineageServer.Clientpackets
             }
             else if (s == "apply")
             { // 競売に参加する
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     if (pc.Crown && (pc.Id == clan.LeaderId))
@@ -992,7 +992,7 @@ namespace LineageServer.Clientpackets
             }
             else if (s == "name")
             { // 家の名前を決める
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     int houseId = clan.HouseId;
@@ -1015,7 +1015,7 @@ namespace LineageServer.Clientpackets
             }
             else if (s == "tel0" || s == "tel1" || s == "tel2" || s == "tel3")
             { // テレポートする(ギラン市場)
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     int houseId = clan.HouseId;
@@ -1051,7 +1051,7 @@ namespace LineageServer.Clientpackets
             }
             else if (s == "upgrade")
             { // 地下アジトを作る
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     int houseId = clan.HouseId;
@@ -1097,7 +1097,7 @@ namespace LineageServer.Clientpackets
             }
             else if (s == "hall" && (obj is L1HousekeeperInstance))
             { // 地下アジトにテレポートする
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     int houseId = clan.HouseId;
@@ -1404,7 +1404,7 @@ namespace LineageServer.Clientpackets
                 if (s == "teleport evil-dungeon")
                 { // 往邪念地監
                     bool find = false;
-                    foreach (object objs in L1World.Instance.getVisibleObjects(306).Values)
+                    foreach (object objs in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(306).Values)
                     {
                         if (objs is L1PcInstance)
                         {
@@ -4941,7 +4941,7 @@ namespace LineageServer.Clientpackets
                     htmldata = new string[15];
                     for (int i = 0; i < 5; i++)
                     {
-                        htmldata[i * 3] = (NpcTable.Instance.getTemplate(LineageServer.Server.Model.Game.L1BugBearRace.Instance.getRunner(i).NpcId).get_nameid());
+                        htmldata[i * 3] = (Container.Instance.Resolve<INpcController>().getTemplate(LineageServer.Server.Model.Game.L1BugBearRace.Instance.getRunner(i).NpcId).get_nameid());
                         string condition; // 610 普通
                         if (LineageServer.Server.Model.Game.L1BugBearRace.Instance.getCondition(i) == 0)
                         {
@@ -6498,7 +6498,7 @@ namespace LineageServer.Clientpackets
 
         private string sellHouse(L1PcInstance pc, int objectId, int npcId)
         {
-            L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
             if (clan == null)
             {
                 return ""; // ウィンドウを消す
@@ -6535,7 +6535,7 @@ namespace LineageServer.Clientpackets
 
         private void openCloseDoor(L1PcInstance pc, L1NpcInstance npc, string s)
         {
-            L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
             if (clan != null)
             {
                 int houseId = clan.HouseId;
@@ -6549,7 +6549,7 @@ namespace LineageServer.Clientpackets
                         L1DoorInstance door2 = null;
                         L1DoorInstance door3 = null;
                         L1DoorInstance door4 = null;
-                        foreach (L1DoorInstance door in DoorTable.Instance.DoorList)
+                        foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
                         {
                             if (door.KeeperId == keeperId)
                             {
@@ -6630,7 +6630,7 @@ namespace LineageServer.Clientpackets
             int pcCastleId = 0;
             if (pc.Clanid != 0)
             {
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     pcCastleId = clan.CastleId;
@@ -6714,7 +6714,7 @@ namespace LineageServer.Clientpackets
                 isNowWar = WarTimeController.Instance.isNowWar(L1CastleLocation.ADEN_CASTLE_ID);
             }
 
-            foreach (L1DoorInstance door in DoorTable.Instance.DoorList)
+            foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
             {
                 if (door.KeeperId == keeperId)
                 {
@@ -6739,7 +6739,7 @@ namespace LineageServer.Clientpackets
         private bool isExistDefenseClan(int castleId)
         {
             bool isExistDefenseClan = false;
-            foreach (L1Clan clan in L1World.Instance.AllClans)
+            foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
             {
                 if (castleId == clan.CastleId)
                 {
@@ -6766,7 +6766,7 @@ namespace LineageServer.Clientpackets
             }
 
             int[] loc = new int[3];
-            foreach (GameObject @object in L1World.Instance.Object)
+            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (@object is L1PcInstance)
                 {
@@ -6785,7 +6785,7 @@ namespace LineageServer.Clientpackets
 
         private void repairGate(L1PcInstance pc)
         {
-            L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
             if (clan != null)
             {
                 int castleId = clan.CastleId;
@@ -6794,7 +6794,7 @@ namespace LineageServer.Clientpackets
                     if (!WarTimeController.Instance.isNowWar(castleId))
                     {
                         // 城門を元に戻す
-                        foreach (L1DoorInstance door in DoorTable.Instance.DoorList)
+                        foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
                         {
                             if (L1CastleLocation.checkInWarArea(castleId, door))
                             {
@@ -6813,7 +6813,7 @@ namespace LineageServer.Clientpackets
 
         private bool payFee(L1PcInstance pc, L1NpcInstance npc)
         {
-            L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
             if (clan != null)
             {
                 int houseId = clan.HouseId;
@@ -6856,7 +6856,7 @@ namespace LineageServer.Clientpackets
             string name = npc.NpcTemplate.get_name();
             string[] result;
             result = new string[] { name, "2000", "1", "1", "00" };
-            L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
             if (clan != null)
             {
                 int houseId = clan.HouseId;

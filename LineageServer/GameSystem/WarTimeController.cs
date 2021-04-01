@@ -75,22 +75,22 @@ namespace LineageServer.Server
 						L1WarSpawn warspawn = new L1WarSpawn();
 						warspawn.SpawnFlag(i + 1);
 						// 修理城門並設定為關閉
-						foreach (L1DoorInstance door in DoorTable.Instance.DoorList)
+						foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
 						{
 							if (L1CastleLocation.checkInWarArea(i + 1, door))
 							{
 								door.repairGate();
 							}
 						}
-						L1World.Instance.broadcastPacketToAll(new S_PacketBox(S_PacketBox.MSG_WAR_BEGIN, i + 1)); // %sの攻城戦が始まりました。
+						Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_PacketBox(S_PacketBox.MSG_WAR_BEGIN, i + 1)); // %sの攻城戦が始まりました。
 
 						int[] loc = new int[3];
-						foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+						foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
 						{
 							int castleId = i + 1;
 							if (L1CastleLocation.checkInWarArea(castleId, pc) && !pc.Gm)
 							{ // 剛好在攻城範圍內
-								L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+								L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
 								if (clan != null)
 								{
 									if (clan.CastleId == castleId)
@@ -109,12 +109,12 @@ namespace LineageServer.Server
 					if (_is_now_war[i] == true)
 					{
 						_is_now_war[i] = false;
-						L1World.Instance.broadcastPacketToAll(new S_PacketBox(S_PacketBox.MSG_WAR_END, i + 1)); // %sの攻城戦が終了しました。
+						Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_PacketBox(S_PacketBox.MSG_WAR_END, i + 1)); // %sの攻城戦が終了しました。
 																												// 更新攻城時間
 						WarUpdate(i);
 
 						int castle_id = i + 1;
-						foreach (GameObject l1object in L1World.Instance.Object)
+						foreach (GameObject l1object in Container.Instance.Resolve<IGameWorld>().Object)
 						{
 							// 取消攻城的旗子
 							if (l1object is L1FieldObjectInstance)
@@ -149,7 +149,7 @@ namespace LineageServer.Server
 						warspawn.SpawnTower(castle_id);
 
 						// 移除城門
-						foreach (L1DoorInstance door in DoorTable.Instance.DoorList)
+						foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
 						{
 							if (L1CastleLocation.checkInWarArea(castle_id, door))
 							{

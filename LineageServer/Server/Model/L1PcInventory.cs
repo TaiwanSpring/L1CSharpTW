@@ -173,7 +173,7 @@ namespace LineageServer.Server.Model
                             item.Item = temp;
                         }
                     }
-                    L1World.Instance.storeObject(item);
+                    Container.Instance.Resolve<IGameWorld>().storeObject(item);
                 }
             }
             catch (Exception e)

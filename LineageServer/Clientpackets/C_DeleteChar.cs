@@ -98,7 +98,7 @@ namespace LineageServer.Clientpackets
 
                 if (pc != null)
                 {
-                    L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                    L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                     if (clan != null)
                     {
                         clan.delMemberName(name);

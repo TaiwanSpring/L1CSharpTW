@@ -13,14 +13,14 @@ namespace LineageServer.Command.Executors
         {
             try
             {
-                L1PcInstance target = L1World.Instance.getPlayer(arg);
+                L1PcInstance target = Container.Instance.Resolve<IGameWorld>().getPlayer(arg);
                 if (target != null)
                 {
                     pc.sendPackets(new S_SystemMessage((new StringBuilder()).Append(target.Name).Append("已被您強制踢除遊戲。").ToString()));
                     // SKTへ移動させる
                     target.X = 33080;
                     target.Y = 33392;
-                    target.Map = L1WorldMap.Instance.getMap(4);
+                    target.Map = Container.Instance.Resolve<IWorldMap>().getMap(4);
                     target.sendPackets(new S_Disconnect());
                     ClientThread targetClient = target.NetConnection;
                     targetClient.kick();

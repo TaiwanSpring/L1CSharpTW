@@ -18,7 +18,7 @@ namespace LineageServer.Clientpackets
         {
             int objId = ReadD();
             int topicId = ReadD();
-            GameObject obj = L1World.Instance.findObject(objId);
+            GameObject obj = Container.Instance.Resolve<IGameWorld>().findObject(objId);
             if (obj == null)
             {
                 _log.Warning("不正確的NPCID : " + objId);

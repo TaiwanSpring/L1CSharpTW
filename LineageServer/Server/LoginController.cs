@@ -53,7 +53,7 @@ namespace LineageServer.Server
 				return;
 			}
 
-			RunnableExecuter.Instance.execute(() =>
+			Container.Instance.Resolve<ITaskController>().execute(() =>
 			{
 				if (client.ActiveChar != null)
 				{

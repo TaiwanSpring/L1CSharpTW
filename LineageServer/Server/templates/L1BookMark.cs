@@ -94,7 +94,7 @@ namespace LineageServer.Server.Templates
 			if (pc.getBookMark(s) == null)
 			{
 				L1BookMark bookmark = new L1BookMark();
-				bookmark.Id = IdFactory.Instance.nextId();
+				bookmark.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 				bookmark.CharId = pc.Id;
 				bookmark.Name = s;
 				bookmark.LocX = pc.X;

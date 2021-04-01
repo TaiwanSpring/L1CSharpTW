@@ -125,9 +125,9 @@ namespace LineageServer.Server.Model.Instance
 
 			_currentPetStatus = 3;
 
-			L1World.Instance.storeObject(this);
-			L1World.Instance.addVisibleObject(this);
-			foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+			Container.Instance.Resolve<IGameWorld>().storeObject(this);
+			Container.Instance.Resolve<IGameWorld>().addVisibleObject(this);
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
 			{
 				onPerceive(pc);
 			}
@@ -144,7 +144,7 @@ namespace LineageServer.Server.Model.Instance
 			_type = PetTypeTable.Instance.get(target.NpcTemplate.get_npcId());
 
 			// ステータスを上書き
-			Id = IdFactory.Instance.nextId();
+			Id = Container.Instance.Resolve<IIdFactory>().nextId();
 			setting_template(target.NpcTemplate);
 			CurrentHpDirect = target.CurrentHp;
 			CurrentMpDirect = target.CurrentMp;
@@ -178,9 +178,9 @@ namespace LineageServer.Server.Model.Instance
 				startMpRegeneration();
 			}
 			target.deleteMe();
-			L1World.Instance.storeObject(this);
-			L1World.Instance.addVisibleObject(this);
-			foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+			Container.Instance.Resolve<IGameWorld>().storeObject(this);
+			Container.Instance.Resolve<IGameWorld>().addVisibleObject(this);
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
 			{
 				onPerceive(pc);
 			}
@@ -290,7 +290,7 @@ namespace LineageServer.Server.Model.Instance
 			Inventory.consumeItem(evolvItem, 1); // 吃掉進化道具
 
 			// 將原寵物身上道具移交到進化後的寵物身上
-			GameObject obj = L1World.Instance.findObject(l1pet.get_objid());
+			GameObject obj = Container.Instance.Resolve<IGameWorld>().findObject(l1pet.get_objid());
 			if (( obj != null ) && ( obj is L1NpcInstance ))
 			{
 				L1PetInstance new_pet = (L1PetInstance)obj;
@@ -324,7 +324,7 @@ namespace LineageServer.Server.Model.Instance
 					}
 					else
 					{ // 掉落地面
-						new_petInventory = L1World.Instance.getInventory(X, Y, MapId);
+						new_petInventory = Container.Instance.Resolve<IGameWorld>().getInventory(X, Y, MapId);
 						Inventory.tradeItem(item, item.Count, new_petInventory);
 					}
 				}
@@ -360,7 +360,7 @@ namespace LineageServer.Server.Model.Instance
 		public virtual void liberate()
 		{
 			L1MonsterInstance monster = new L1MonsterInstance(NpcTemplate);
-			monster.Id = IdFactory.Instance.nextId();
+			monster.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 
 			monster.X = X;
 			monster.Y = Y;
@@ -387,9 +387,9 @@ namespace LineageServer.Server.Model.Instance
 			_petMaster.Inventory.removeItem(_itemObjId, 1);
 			PetTable.Instance.deletePet(_itemObjId);
 
-			L1World.Instance.storeObject(monster);
-			L1World.Instance.addVisibleObject(monster);
-			foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(monster))
+			Container.Instance.Resolve<IGameWorld>().storeObject(monster);
+			Container.Instance.Resolve<IGameWorld>().addVisibleObject(monster);
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(monster))
 			{
 				onPerceive(pc);
 			}
@@ -434,7 +434,7 @@ namespace LineageServer.Server.Model.Instance
 				}
 				else
 				{ // 掉落地面
-					targetInventory = L1World.Instance.getInventory(X, Y, MapId);
+					targetInventory = Container.Instance.Resolve<IGameWorld>().getInventory(X, Y, MapId);
 					Inventory.tradeItem(item, item.Count, targetInventory);
 				}
 			}
@@ -443,7 +443,7 @@ namespace LineageServer.Server.Model.Instance
 		// 重登時寵物身上道具掉落地面
 		public virtual void dropItem()
 		{
-			L1Inventory targetInventory = L1World.Instance.getInventory(X, Y, MapId);
+			L1Inventory targetInventory = Container.Instance.Resolve<IGameWorld>().getInventory(X, Y, MapId);
 			IList<L1ItemInstance> items = _inventory.Items;
 			int size = _inventory.Size;
 			for (int i = 0; i < size; i++)
@@ -899,7 +899,7 @@ namespace LineageServer.Server.Model.Instance
 		public virtual void startFoodTimer(L1PetInstance pet)
 		{
 			_petFood = new L1PetFood(pet, _itemObjId);
-			RunnableExecuter.Instance.execute(_petFood, 1000, 200000); // 每 X秒減少
+			Container.Instance.Resolve<ITaskController>().execute(_petFood, 1000, 200000); // 每 X秒減少
 		}
 
 		public virtual void stopFoodTimer(L1PetInstance pet)

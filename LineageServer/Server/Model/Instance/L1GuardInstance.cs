@@ -18,7 +18,7 @@ namespace LineageServer.Server.Model.Instance
         {
             // ターゲット捜索
             L1PcInstance targetPlayer = null;
-            foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayer(this))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(this))
             {
                 if ((pc.CurrentHp <= 0) || pc.Dead || pc.Gm || pc.Ghost)
                 {
@@ -70,7 +70,7 @@ namespace LineageServer.Server.Model.Instance
             }
             else
             {
-                if (L1World.Instance.getRecognizePlayer(this).Count == 0)
+                if (Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this).Count == 0)
                 {
                     return true; // 周りにプレイヤーがいなくなったらＡＩ処理終了
                 }
@@ -296,7 +296,7 @@ namespace LineageServer.Server.Model.Instance
                 // 近衛兵
                 else if (npcid == 60514)
                 { // ケント城近衛兵
-                    foreach (L1Clan clan in L1World.Instance.AllClans)
+                    foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                     {
                         if (clan.CastleId == L1CastleLocation.KENT_CASTLE_ID)
                         {
@@ -310,7 +310,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 else if (npcid == 60560)
                 { // オーク近衛兵
-                    foreach (L1Clan clan in L1World.Instance.AllClans)
+                    foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                     {
                         if (clan.CastleId == L1CastleLocation.OT_CASTLE_ID)
                         {
@@ -324,7 +324,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 else if (npcid == 60552)
                 { // ウィンダウッド城近衛兵
-                    foreach (L1Clan clan in L1World.Instance.AllClans)
+                    foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                     {
                         if (clan.CastleId == L1CastleLocation.WW_CASTLE_ID)
                         {
@@ -338,7 +338,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 else if ((npcid == 60524) || (npcid == 60525) || (npcid == 60529))
                 { // ギラン城近衛兵
-                    foreach (L1Clan clan in L1World.Instance.AllClans)
+                    foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                     {
                         if (clan.CastleId == L1CastleLocation.GIRAN_CASTLE_ID)
                         {
@@ -352,7 +352,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 else if (npcid == 70857)
                 { // ハイネ城ハイネ ガード
-                    foreach (L1Clan clan in L1World.Instance.AllClans)
+                    foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                     {
                         if (clan.CastleId == L1CastleLocation.HEINE_CASTLE_ID)
                         {
@@ -366,7 +366,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 else if ((npcid == 60530) || (npcid == 60531))
                 {
-                    foreach (L1Clan clan in L1World.Instance.AllClans)
+                    foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                     {
                         if (clan.CastleId == L1CastleLocation.DOWA_CASTLE_ID)
                         {
@@ -380,7 +380,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 else if ((npcid == 60533) || (npcid == 60534))
                 {
-                    foreach (L1Clan clan in L1World.Instance.AllClans)
+                    foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                     {
                         if (clan.CastleId == L1CastleLocation.ADEN_CASTLE_ID)
                         {
@@ -394,7 +394,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 else if (npcid == 81156)
                 { // アデン偵察兵（ディアド要塞）
-                    foreach (L1Clan clan in L1World.Instance.AllClans)
+                    foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                     {
                         if (clan.CastleId == L1CastleLocation.DIAD_CASTLE_ID)
                         {
@@ -487,7 +487,7 @@ namespace LineageServer.Server.Model.Instance
                     Dead = true;
                     Status = ActionCodes.ACTION_Die;
                     Death death = new Death(this, attacker);
-                    RunnableExecuter.Instance.execute(death);
+                    Container.Instance.Resolve<ITaskController>().execute(death);
                 }
                 if (newHp > 0)
                 {
@@ -502,7 +502,7 @@ namespace LineageServer.Server.Model.Instance
                 Dead = true;
                 Status = ActionCodes.ACTION_Die;
                 Death death = new Death(this, attacker);
-                RunnableExecuter.Instance.execute(death);
+                Container.Instance.Resolve<ITaskController>().execute(death);
             }
         }
 
@@ -560,7 +560,7 @@ namespace LineageServer.Server.Model.Instance
         private bool checkHasCastle(L1PcInstance pc, int castleId)
         {
             bool isExistDefenseClan = false;
-            foreach (L1Clan clan in L1World.Instance.AllClans)
+            foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
             {
                 if (castleId == clan.CastleId)
                 {
@@ -575,7 +575,7 @@ namespace LineageServer.Server.Model.Instance
 
             if (pc.Clanid != 0)
             { // クラン所属中
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     if (clan.CastleId == castleId)

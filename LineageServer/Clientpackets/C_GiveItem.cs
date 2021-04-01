@@ -28,7 +28,7 @@ namespace LineageServer.Clientpackets
 			int itemId = ReadD();
 			int count = ReadD();
 
-			GameObject l1Object = L1World.Instance.findObject(targetId);
+			GameObject l1Object = Container.Instance.Resolve<IGameWorld>().findObject(targetId);
 			if ((l1Object == null) || !(l1Object is L1NpcInstance))
 			{
 				return;

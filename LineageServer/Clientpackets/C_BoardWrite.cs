@@ -21,7 +21,7 @@ namespace LineageServer.Clientpackets
             string title = ReadS();
             string content = ReadS();
 
-            GameObject tg = L1World.Instance.findObject(id);
+            GameObject tg = Container.Instance.Resolve<IGameWorld>().findObject(id);
 
             if (tg == null)
             {

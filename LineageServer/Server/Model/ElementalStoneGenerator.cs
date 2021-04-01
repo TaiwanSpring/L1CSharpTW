@@ -35,7 +35,7 @@ namespace LineageServer.Server.Model
 			_dummy.Y = loc.Y;
 
 			// 可視範囲のプレイヤーチェック
-			if (L1World.Instance.getVisiblePlayer(_dummy).Count > 0)
+			if (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(_dummy).Count > 0)
 			{
 				return false;
 			}
@@ -77,7 +77,7 @@ namespace LineageServer.Server.Model
 		/// </summary>
 		private void putElementalStone(L1Location loc)
 		{
-			L1GroundInventory gInventory = L1World.Instance.getInventory(loc);
+			L1GroundInventory gInventory = Container.Instance.Resolve<IGameWorld>().getInventory(loc);
 
 			L1ItemInstance item = ItemTable.Instance.createItem(ELEMENTAL_STONE_ID);
 			item.EnchantLevel = 0;

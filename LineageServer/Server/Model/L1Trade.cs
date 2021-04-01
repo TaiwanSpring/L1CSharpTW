@@ -42,7 +42,7 @@ namespace LineageServer.Server.Model
             }
 
             // 交易對象
-            L1PcInstance trading_partner = (L1PcInstance)L1World.Instance.findObject(player.TradeID);
+            L1PcInstance trading_partner = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(player.TradeID);
             if (trading_partner == null)
             {
                 TradeCancel(player);
@@ -95,7 +95,7 @@ namespace LineageServer.Server.Model
             }
 
             // 交易對象
-            L1PcInstance trading_partner = (L1PcInstance)L1World.Instance.findObject(player.TradeID);
+            L1PcInstance trading_partner = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(player.TradeID);
             if (trading_partner == null)
             {
                 TradeCancel(player);
@@ -151,7 +151,7 @@ namespace LineageServer.Server.Model
             }
 
             // 交易對象
-            L1PcInstance trading_partner = (L1PcInstance)L1World.Instance.findObject(player.TradeID);
+            L1PcInstance trading_partner = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(player.TradeID);
 
             //自己的欲交易的物品, 放回自己的包包
             IList<L1ItemInstance> player_tradelist = player.TradeWindowInventory.Items;

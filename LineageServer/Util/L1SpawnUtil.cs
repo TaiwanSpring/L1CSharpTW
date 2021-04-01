@@ -17,8 +17,8 @@ namespace LineageServer.Utils
         {
             try
             {
-                L1NpcInstance npc = NpcTable.Instance.newNpcInstance(npcId);
-                npc.Id = IdFactory.Instance.nextId();
+                L1NpcInstance npc = Container.Instance.Resolve<INpcController>().newNpcInstance(npcId);
+                npc.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                 npc.MapId = pc.MapId;
                 if (randomRange == 0)
                 {
@@ -81,8 +81,8 @@ namespace LineageServer.Utils
                         }
                     }
                 }
-                L1World.Instance.storeObject(npc);
-                L1World.Instance.addVisibleObject(npc);
+                Container.Instance.Resolve<IGameWorld>().storeObject(npc);
+                Container.Instance.Resolve<IGameWorld>().addVisibleObject(npc);
 
                 if (npc.TempCharGfx == 7548 || npc.TempCharGfx == 7550 || npc.TempCharGfx == 7552 || npc.TempCharGfx == 7554 || npc.TempCharGfx == 7585 || npc.TempCharGfx == 7591)
                 {
@@ -91,7 +91,7 @@ namespace LineageServer.Utils
                 }
                 else if (npc.TempCharGfx == 7539 || npc.TempCharGfx == 7557 || npc.TempCharGfx == 7558 || npc.TempCharGfx == 7864 || npc.TempCharGfx == 7869 || npc.TempCharGfx == 7870)
                 {
-                    foreach (L1PcInstance _pc in L1World.Instance.getVisiblePlayer(npc, 50))
+                    foreach (L1PcInstance _pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(npc, 50))
                     {
                         if (npc.TempCharGfx == 7539)
                         {

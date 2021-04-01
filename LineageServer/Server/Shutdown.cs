@@ -145,7 +145,7 @@ namespace LineageServer.Server
             // the main instance should only run for shutdown hook, so we start a
             // new instance
             _counterInstance = new Shutdown(seconds, restart);
-            RunnableExecuter.Instance.execute(_counterInstance);
+            Container.Instance.Resolve<ITaskController>().execute(_counterInstance);
         }
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace LineageServer.Server
                 _counterInstance._abort();
             }
             _counterInstance = new Shutdown(seconds, restart);
-            RunnableExecuter.Instance.execute(_counterInstance);
+            Container.Instance.Resolve<ITaskController>().execute(_counterInstance);
         }
 
         /// <summary>

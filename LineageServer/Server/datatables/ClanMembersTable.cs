@@ -28,7 +28,7 @@ namespace LineageServer.Server.DataTables
         /// </summary>
         public virtual void newMember(L1PcInstance pc)
         {
-            int nextId = IdFactory.Instance.nextId();
+            int nextId = Container.Instance.Resolve<IIdFactory>().nextId();
 
             IDataSourceRow dataSourceRow = dataSource.NewRow();
             dataSourceRow.Insert()

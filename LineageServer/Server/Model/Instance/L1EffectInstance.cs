@@ -25,15 +25,15 @@ namespace LineageServer.Server.Model.Instance
             int npcId = NpcTemplate.get_npcId();
             if (npcId == 81157)
             { // FW
-                RunnableExecuter.Instance.execute(new FwDamageTimer(this, this));
+                Container.Instance.Resolve<ITaskController>().execute(new FwDamageTimer(this, this));
             }
             else if ((npcId == 80149) || (npcId == 80150) || (npcId == 80151) || (npcId == 80152))
             { // キューブ[バランス]
-                RunnableExecuter.Instance.execute(new CubeTimer(this, this));
+                Container.Instance.Resolve<ITaskController>().execute(new CubeTimer(this, this));
             }
             else if (npcId == 93002)
             { // 毒霧
-                RunnableExecuter.Instance.execute(new PoisonTimer(this, this));
+                Container.Instance.Resolve<ITaskController>().execute(new PoisonTimer(this, this));
             }
         }
 
@@ -50,9 +50,9 @@ namespace LineageServer.Server.Model.Instance
             }
             allTargetClear();
             _master = null;
-            L1World.Instance.removeVisibleObject(this);
-            L1World.Instance.removeObject(this);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            Container.Instance.Resolve<IGameWorld>().removeVisibleObject(this);
+            Container.Instance.Resolve<IGameWorld>().removeObject(this);
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 pc.removeKnownObject(this);
                 pc.sendPackets(new S_RemoveObject(this));
@@ -78,7 +78,7 @@ namespace LineageServer.Server.Model.Instance
                 {
                     try
                     {
-                        foreach (GameObject objects in L1World.Instance.getVisibleObjects(_effect, 0))
+                        foreach (GameObject objects in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(_effect, 0))
                         {
                             if (objects is L1PcInstance)
                             {
@@ -155,7 +155,7 @@ namespace LineageServer.Server.Model.Instance
                 {
                     try
                     {
-                        foreach (GameObject objects in L1World.Instance.getVisibleObjects(_effect, 3))
+                        foreach (GameObject objects in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(_effect, 3))
                         {
                             if (objects is L1PcInstance)
                             {
@@ -238,7 +238,7 @@ namespace LineageServer.Server.Model.Instance
                 {
                     try
                     {
-                        foreach (GameObject objects in L1World.Instance.getVisibleObjects(_effect, 0))
+                        foreach (GameObject objects in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(_effect, 0))
                         {
                             if (!(objects is L1MonsterInstance))
                             {

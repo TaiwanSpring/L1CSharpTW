@@ -69,7 +69,7 @@ namespace LineageServer.Clientpackets
                 if (type == 1)
                 { // 接受玩家加入
                     L1Clan clan = pc.Clan;
-                    L1PcInstance joinPc = L1World.Instance.getPlayer(ClanRecommendTable.Instance.getApplyPlayerName(index));
+                    L1PcInstance joinPc = Container.Instance.Resolve<IGameWorld>().getPlayer(ClanRecommendTable.Instance.getApplyPlayerName(index));
                     foreach (L1PcInstance clanMembers in clan.OnlineClanMember)
                     {
                         clanMembers.sendPackets(new S_ServerMessage(94, joinPc.Name)); // \f1你接受%0當你的血盟成員。

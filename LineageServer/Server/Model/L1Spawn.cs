@@ -387,7 +387,7 @@ namespace LineageServer.Server.Model
         public void ExecuteSpawnTask(int spawnNumber, int objectId)
         {
             SpawnTask task = new SpawnTask(this, spawnNumber, objectId);
-            RunnableExecuter.Instance.execute(task, calcRespawnDelay());
+            Container.Instance.Resolve<ITaskController>().execute(task, calcRespawnDelay());
         }
 
         private bool _initSpawn = false;
@@ -443,14 +443,14 @@ namespace LineageServer.Server.Model
                 int newlocy = LocY;
                 int tryCount = 0;
 
-                mob = NpcTable.Instance.newNpcInstance(_template);
+                mob = Container.Instance.Resolve<INpcController>().newNpcInstance(_template);
                 lock (_mobs)
                 {
                     _mobs.Add(mob);
                 }
                 if (objectId == 0)
                 {
-                    mob.Id = IdFactory.Instance.nextId();
+                    mob.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                 }
                 else
                 {
@@ -476,19 +476,19 @@ namespace LineageServer.Server.Model
                 int npcId = mob.NpcTemplate.get_npcId();
                 if ((npcId == 45488) && (MapId == 9))
                 { // 卡士伯
-                    mob.Map = L1WorldMap.Instance.getMap((short)(MapId + RandomHelper.Next(2)));
+                    mob.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)(MapId + RandomHelper.Next(2)));
                 }
                 else if ((npcId == 45601) && (MapId == 11))
                 { // 死亡騎士
-                    mob.Map = L1WorldMap.Instance.getMap((short)(MapId + RandomHelper.Next(3)));
+                    mob.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)(MapId + RandomHelper.Next(3)));
                 }
                 else if ((npcId == 81322) && (MapId == 25))
                 { // 黑騎士副隊長
-                    mob.Map = L1WorldMap.Instance.getMap((short)(MapId + RandomHelper.Next(2)));
+                    mob.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)(MapId + RandomHelper.Next(2)));
                 }
                 else
                 {
-                    mob.Map = L1WorldMap.Instance.getMap(MapId);
+                    mob.Map = Container.Instance.Resolve<IWorldMap>().getMap(MapId);
                 }
                 mob.MovementDistance = MovementDistance;
                 mob.Rest = Rest;
@@ -500,7 +500,7 @@ namespace LineageServer.Server.Model
                             if (!_initSpawn)
                             { // 初期配置では無条件に通常spawn
                                 IList<L1PcInstance> players = ListFactory.NewList<L1PcInstance>();
-                                foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+                                foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                                 {
                                     if (MapId == pc.MapId)
                                     {
@@ -567,13 +567,13 @@ namespace LineageServer.Server.Model
                                 break;
                             }
                             L1MonsterInstance mobtemp = (L1MonsterInstance)mob;
-                            if (L1World.Instance.getVisiblePlayer(mobtemp).Count == 0)
+                            if (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(mobtemp).Count == 0)
                             {
                                 break;
                             }
                             // 画面内にPCが居て出現できない場合は、3秒後にスケジューリングしてやり直し
                             SpawnTask task = new SpawnTask(this, spawnNumber, mob.Id);
-                            RunnableExecuter.Instance.execute(task, 3000);
+                            Container.Instance.Resolve<ITaskController>().execute(task, 3000);
                             return;
                         }
                     }
@@ -602,7 +602,7 @@ namespace LineageServer.Server.Model
                 }
                 if ((npcId == 45573) && (mob.MapId == 2))
                 { // バフォメット
-                    foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+                    foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                     {
                         if (pc.MapId == 2)
                         {
@@ -613,7 +613,7 @@ namespace LineageServer.Server.Model
 
                 if (((npcId == 46142) && (mob.MapId == 73)) || ((npcId == 46141) && (mob.MapId == 74)))
                 {
-                    foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+                    foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                     {
                         if ((pc.MapId >= 72) && (pc.MapId <= 74))
                         {
@@ -623,7 +623,7 @@ namespace LineageServer.Server.Model
                 }
                 if ((npcId == 81341) && ((mob.MapId == 2000) || (mob.MapId == 2001) || (mob.MapId == 2002) || (mob.MapId == 2003)))
                 { // 再生之祭壇
-                    foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+                    foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                     {
                         if ((pc.MapId >= 2000) && (pc.MapId <= 2003))
                         {
@@ -634,8 +634,8 @@ namespace LineageServer.Server.Model
 
                 doCrystalCave(npcId);
 
-                L1World.Instance.storeObject(mob);
-                L1World.Instance.addVisibleObject(mob);
+                Container.Instance.Resolve<IGameWorld>().storeObject(mob);
+                Container.Instance.Resolve<IGameWorld>().addVisibleObject(mob);
 
                 if (mob is L1MonsterInstance)
                 {
@@ -757,7 +757,7 @@ namespace LineageServer.Server.Model
 
         private static void closeDoorInCrystalCave(int doorId)
         {
-            foreach (GameObject @object in L1World.Instance.Object)
+            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (@object is L1DoorInstance)
                 {

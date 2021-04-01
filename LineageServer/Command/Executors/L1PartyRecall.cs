@@ -10,7 +10,7 @@ namespace LineageServer.Command.Executors
 
         public void Execute(L1PcInstance pc, string cmdName, string arg)
         {
-            L1PcInstance target = L1World.Instance.getPlayer(arg);
+            L1PcInstance target = Container.Instance.Resolve<IGameWorld>().getPlayer(arg);
 
             if (target != null)
             {

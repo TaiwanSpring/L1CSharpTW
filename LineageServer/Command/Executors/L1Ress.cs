@@ -21,7 +21,7 @@ namespace LineageServer.Command.Executors
                 pc.broadcastPacket(new S_SkillSound(objid, 759));
                 pc.CurrentHp = pc.MaxHp;
                 pc.CurrentMp = pc.MaxMp;
-                foreach (L1PcInstance tg in L1World.Instance.getVisiblePlayer(pc))
+                foreach (L1PcInstance tg in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc))
                 {
                     if ((tg.CurrentHp == 0) && tg.Dead)
                     {

@@ -22,7 +22,7 @@ namespace LineageServer.Command.Executors
                 StringTokenizer tok = new StringTokenizer(arg);
                 string type = tok.nextToken();
                 int npcId = int.Parse(tok.nextToken().Trim());
-                L1Npc template = NpcTable.Instance.getTemplate(npcId);
+                L1Npc template = Container.Instance.Resolve<INpcController>().getTemplate(npcId);
 
                 if (template == null)
                 {

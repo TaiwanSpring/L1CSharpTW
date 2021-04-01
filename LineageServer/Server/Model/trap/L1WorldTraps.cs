@@ -60,13 +60,13 @@ namespace LineageServer.Server.Model.trap
 
 				for (int j = 0; j < count; j++)
 				{
-					L1TrapInstance trap = new L1TrapInstance(IdFactory.Instance.nextId(), trapTemp, loc, rndPt, span);
-					L1World.Instance.addVisibleObject(trap);
+					L1TrapInstance trap = new L1TrapInstance(Container.Instance.Resolve<IIdFactory>().nextId(), trapTemp, loc, rndPt, span);
+					Container.Instance.Resolve<IGameWorld>().addVisibleObject(trap);
 					_allTraps.Add(trap);
 				}
 
-				L1TrapInstance trapBase = new L1TrapInstance(IdFactory.Instance.nextId(), loc);
-				L1World.Instance.addVisibleObject(trapBase);
+				L1TrapInstance trapBase = new L1TrapInstance(Container.Instance.Resolve<IIdFactory>().nextId(), loc);
+				Container.Instance.Resolve<IGameWorld>().addVisibleObject(trapBase);
 				_allBases.Add(trapBase);
 			}
 		}
@@ -89,7 +89,7 @@ namespace LineageServer.Server.Model.trap
 			foreach (L1TrapInstance trap in traps)
 			{
 				trap.disableTrap();
-				L1World.Instance.removeVisibleObject(trap);
+				Container.Instance.Resolve<IGameWorld>().removeVisibleObject(trap);
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace LineageServer.Server.Model.trap
 			{
 				ITimerTask timerTask = new TrapSpawnTimer(trap);
 				this.activeTrapSet.Add(timerTask);
-				RunnableExecuter.Instance.execute((IRunnable)timerTask, trap.Span);
+				Container.Instance.Resolve<ITaskController>().execute((IRunnable)timerTask, trap.Span);
 			}
 		}
 

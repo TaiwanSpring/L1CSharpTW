@@ -98,7 +98,7 @@ namespace LineageServer.Server.DataTables
 				return;
 			}
 
-			L1PcInstance pc = (L1PcInstance)L1World.Instance.findObject(playerobjid);
+			L1PcInstance pc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(playerobjid);
 
 			if (pc != null)
 			{
@@ -116,7 +116,7 @@ namespace LineageServer.Server.DataTables
 
 		public virtual void spellLost(int playerobjid, int skillid)
 		{
-			L1PcInstance pc = (L1PcInstance)L1World.Instance.findObject(playerobjid);
+			L1PcInstance pc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(playerobjid);
 			if (pc != null)
 			{
 				pc.removeSkillMastery(skillid);

@@ -78,7 +78,7 @@ namespace LineageServer.Server
 
                 HouseTable.Instance.updateHouse(house); // 儲存到資料庫中
                                                         // 取消之前的擁有者
-                foreach (L1Clan clan in L1World.Instance.AllClans)
+                foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                 {
                     if (clan.HouseId == houseId)
                     {

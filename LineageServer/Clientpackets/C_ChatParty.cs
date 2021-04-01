@@ -38,7 +38,7 @@ namespace LineageServer.Clientpackets
                     pc.sendPackets(new S_ServerMessage(427));
                     return;
                 }
-                L1PcInstance targetPc = L1World.Instance.getPlayer(name);
+                L1PcInstance targetPc = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
                 if (targetPc == null)
                 {
                     // 沒有叫%0的人。

@@ -579,11 +579,11 @@ namespace LineageServer.Serverpackets
 
 		private void callSomething()
 		{
-			WriteC(L1World.Instance.AllPlayers.Count);
+			WriteC(Container.Instance.Resolve<IGameWorld>().AllPlayers.Count);
 
 			DateTime dateTime = new DateTime(1970, 01, 01, 09, 0, 0);
 
-			foreach (var pc in L1World.Instance.AllPlayers)
+			foreach (var pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
 			{
 				Account acc = Account.Load(pc.AccountName);
 

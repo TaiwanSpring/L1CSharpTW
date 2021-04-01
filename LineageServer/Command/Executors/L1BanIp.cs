@@ -28,7 +28,7 @@ namespace LineageServer.Command.Executors
 
                 bool isBanned = iptable.isBannedIp(s1);
 
-                foreach (L1PcInstance tg in L1World.Instance.AllPlayers)
+                foreach (L1PcInstance tg in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                 {
                     if (s1 == tg.NetConnection.Ip)
                     {

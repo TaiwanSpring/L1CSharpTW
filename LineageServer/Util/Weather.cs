@@ -21,8 +21,8 @@ namespace LineageServer.Utils
         public Weather()
         {
             int ran = RandomHelper.Next(8); // 讀取亂數
-            L1World.Instance.Weather = WeatherId[ran];
-            L1World.Instance.broadcastPacketToAll(new S_Weather(WeatherId[ran]));
+            Container.Instance.Resolve<IGameWorld>().Weather = WeatherId[ran];
+            Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_Weather(WeatherId[ran]));
         }
     }
 

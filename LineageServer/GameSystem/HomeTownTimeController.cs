@@ -89,8 +89,8 @@ namespace LineageServer.Server
 		public virtual void monthlyProc()
 		{
 			_log.Info("城鎮系統：開始處理每月事項");
-			L1World.Instance.ProcessingContributionTotal = true;
-			ICollection<L1PcInstance> players = L1World.Instance.AllPlayers;
+			Container.Instance.Resolve<IGameWorld>().ProcessingContributionTotal = true;
+			ICollection<L1PcInstance> players = Container.Instance.Resolve<IGameWorld>().AllPlayers;
 			foreach (L1PcInstance pc in players)
 			{
 				try
@@ -140,7 +140,7 @@ namespace LineageServer.Server
 				}
 			}
 			ClearHomeTownID();
-			L1World.Instance.ProcessingContributionTotal = false;
+			Container.Instance.Resolve<IGameWorld>().ProcessingContributionTotal = false;
 		}
 
 		private static string TotalContribution(int townId)

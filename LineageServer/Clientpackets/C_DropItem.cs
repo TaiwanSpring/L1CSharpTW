@@ -111,7 +111,7 @@ namespace LineageServer.Clientpackets
                 }
 
                 pc.Inventory.tradeItem(item, count,
-                    L1World.Instance.getInventory(x, y, pc.MapId));
+                    Container.Instance.Resolve<IGameWorld>().getInventory(x, y, pc.MapId));
                 pc.turnOnOffLight();
             }
         }

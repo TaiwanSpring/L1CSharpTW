@@ -19,8 +19,8 @@ namespace LineageServer.Clientpackets
 			ReadC();
 			int targetId = ReadD();
 
-			L1PetInstance pet = (L1PetInstance) L1World.Instance.findObject(petId);
-			L1Character target = (L1Character) L1World.Instance.findObject(targetId);
+			L1PetInstance pet = (L1PetInstance) Container.Instance.Resolve<IGameWorld>().findObject(petId);
+			L1Character target = (L1Character) Container.Instance.Resolve<IGameWorld>().findObject(targetId);
 
 			if ((pet != null) && (target != null))
 			{

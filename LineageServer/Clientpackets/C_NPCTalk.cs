@@ -25,7 +25,7 @@ namespace LineageServer.Clientpackets
 			}
 
 			int objid = ReadD();
-			GameObject obj = L1World.Instance.findObject(objid);
+			GameObject obj = Container.Instance.Resolve<IGameWorld>().findObject(objid);
 
 			if (obj != null)
 			{

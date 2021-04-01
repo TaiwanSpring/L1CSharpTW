@@ -325,7 +325,7 @@ namespace LineageServer.Server.Model.skill
                 return true;
             }
 
-            GameObject l1object = L1World.Instance.findObject(_targetID);
+            GameObject l1object = Container.Instance.Resolve<IGameWorld>().findObject(_targetID);
             if (l1object is L1ItemInstance)
             {
                 _log.Info($"skill target item name: {((L1ItemInstance)l1object).ViewName}");
@@ -482,7 +482,7 @@ namespace LineageServer.Server.Model.skill
                     {
                         bool isNearSameCube = false;
                         int gfxId = 0;
-                        foreach (GameObject obj in L1World.Instance.getVisibleObjects(pc, 3))
+                        foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(pc, 3))
                         {
                             if (obj is L1EffectInstance)
                             {
@@ -782,7 +782,7 @@ namespace LineageServer.Server.Model.skill
                 if ((_player.Clanid != 0) && (enemy.Clanid != 0))
                 { // クラン所属中
                   // 全戦争リストを取得
-                    foreach (L1War war in L1World.Instance.WarList)
+                    foreach (L1War war in Container.Instance.Resolve<IGameWorld>().WarList)
                     {
                         if (war.CheckClanInWar(_player.Clanname))
                         { // 自クランが戦争に参加中
@@ -978,7 +978,7 @@ namespace LineageServer.Server.Model.skill
 
                 if ((_skillId == L1SkillId.LIGHTNING) || (_skillId == L1SkillId.FREEZING_BREATH))
                 { // ライトニング、フリージングブレス直線的に範囲を決める
-                    IList<GameObject> al1object = L1World.Instance.getVisibleLineObjects(_user, _target);
+                    IList<GameObject> al1object = Container.Instance.Resolve<IGameWorld>().getVisibleLineObjects(_user, _target);
 
                     foreach (GameObject tgobj in al1object)
                     {
@@ -1001,7 +1001,7 @@ namespace LineageServer.Server.Model.skill
                 }
                 if (_player.AccessLevel >= 200 && _skillId == L1SkillId.ENERGY_BOLT)
                 { // ライトニング、フリージングブレス直線的に範囲を決める
-                    IList<GameObject> al1object = L1World.Instance.getVisibleObjects(_user, 10);
+                    IList<GameObject> al1object = Container.Instance.Resolve<IGameWorld>().getVisibleObjects(_user, 10);
 
                     foreach (GameObject tgobj in al1object)
                     {
@@ -1050,11 +1050,11 @@ namespace LineageServer.Server.Model.skill
                     IList<GameObject> objects;
                     if (SkillArea == -1)
                     {
-                        objects = L1World.Instance.getVisibleObjects(_user);
+                        objects = Container.Instance.Resolve<IGameWorld>().getVisibleObjects(_user);
                     }
                     else
                     {
-                        objects = L1World.Instance.getVisibleObjects(_target, SkillArea);
+                        objects = Container.Instance.Resolve<IGameWorld>().getVisibleObjects(_target, SkillArea);
                     }
                     foreach (GameObject tgobj in objects)
                     {
@@ -1917,7 +1917,7 @@ namespace LineageServer.Server.Model.skill
                             pri.sendPackets(new S_TrueTarget(_targetID, pri.Id, _message));
                             if (pri.Clanid != 0)
                             {
-                                L1PcInstance[] players = L1World.Instance.getClan(pri.Clanname).OnlineClanMember;
+                                L1PcInstance[] players = Container.Instance.Resolve<IGameWorld>().getClan(pri.Clanname).OnlineClanMember;
                                 foreach (L1PcInstance pc in players)
                                 {
                                     pc.sendPackets(new S_TrueTarget(_targetID, pc.Id, _message));
@@ -1929,7 +1929,7 @@ namespace LineageServer.Server.Model.skill
                             pri.sendPackets(new S_TrueTarget(effect.Id, pri.Id, _message));
                             if (pri.Clanid != 0)
                             {
-                                L1PcInstance[] players = L1World.Instance.getClan(pri.Clanname).OnlineClanMember;
+                                L1PcInstance[] players = Container.Instance.Resolve<IGameWorld>().getClan(pri.Clanname).OnlineClanMember;
                                 foreach (L1PcInstance pc in players)
                                 {
                                     pc.sendPackets(new S_TrueTarget(effect.Id, pc.Id, _message));
@@ -2412,7 +2412,7 @@ namespace LineageServer.Server.Model.skill
 
                                         if (_skillId == L1SkillId.MASS_TELEPORT)
                                         { // マステレポート
-                                            IList<L1PcInstance> clanMember = L1World.Instance.getVisiblePlayer(pc);
+                                            IList<L1PcInstance> clanMember = Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc);
                                             foreach (L1PcInstance member in clanMember)
                                             {
                                                 if ((pc.Location.getTileLineDistance(member.Location) <= 3) && (member.Clanid == pc.Clanid) && (pc.Clanid != 0) && (member.Id != pc.Id))
@@ -2440,7 +2440,7 @@ namespace LineageServer.Server.Model.skill
 
                                         if (_skillId == L1SkillId.MASS_TELEPORT)
                                         {
-                                            IList<L1PcInstance> clanMember = L1World.Instance.getVisiblePlayer(pc);
+                                            IList<L1PcInstance> clanMember = Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc);
                                             foreach (L1PcInstance member in clanMember)
                                             {
                                                 if ((pc.Location.getTileLineDistance(member.Location) <= 3) && (member.Clanid == pc.Clanid) && (pc.Clanid != 0) && (member.Id != pc.Id))
@@ -2464,7 +2464,7 @@ namespace LineageServer.Server.Model.skill
                             if (cha is L1PcInstance)
                             {
                                 L1PcInstance pc = (L1PcInstance)cha;
-                                L1PcInstance clanPc = (L1PcInstance)L1World.Instance.findObject(_targetID);
+                                L1PcInstance clanPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(_targetID);
                                 if (clanPc != null)
                                 {
                                     clanPc.TempID = pc.Id;
@@ -2477,7 +2477,7 @@ namespace LineageServer.Server.Model.skill
                             if (cha is L1PcInstance)
                             {
                                 L1PcInstance pc = (L1PcInstance)cha;
-                                L1PcInstance clanPc = (L1PcInstance)L1World.Instance.findObject(_targetID);
+                                L1PcInstance clanPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(_targetID);
                                 if (clanPc != null)
                                 {
                                     if (pc.Map.Escapable || pc.Gm)
@@ -2798,7 +2798,7 @@ namespace LineageServer.Server.Model.skill
                 pc.beginInvisTimer();
             }
 
-            foreach (L1PcInstance tgt in L1World.Instance.getVisiblePlayer(pc))
+            foreach (L1PcInstance tgt in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc))
             { // 畫面內其他隱身者
                 if (!tgt.GmInvis && tgt.Invisble)
                 {

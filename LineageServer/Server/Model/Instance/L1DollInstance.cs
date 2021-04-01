@@ -63,11 +63,11 @@ namespace LineageServer.Server.Model.Instance
 
         public L1DollInstance(L1Npc template, L1PcInstance master, int itemId, int itemObjId) : base(template)
         {
-            Id = IdFactory.Instance.nextId();
+            Id = Container.Instance.Resolve<IIdFactory>().nextId();
 
             ItemId = itemId;
             ItemObjId = itemObjId;
-            RunnableExecuter.Instance.execute(new DollTimer(this), DOLL_TIME);
+            Container.Instance.Resolve<ITaskController>().execute(new DollTimer(this), DOLL_TIME);
 
             Master = master;
             X = master.X + RandomHelper.Next(5) - 2;
@@ -78,9 +78,9 @@ namespace LineageServer.Server.Model.Instance
             MoveSpeed = 1;
             BraveSpeed = 1;
 
-            L1World.Instance.storeObject(this);
-            L1World.Instance.addVisibleObject(this);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            Container.Instance.Resolve<IGameWorld>().storeObject(this);
+            Container.Instance.Resolve<IGameWorld>().addVisibleObject(this);
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 onPerceive(pc);
             }

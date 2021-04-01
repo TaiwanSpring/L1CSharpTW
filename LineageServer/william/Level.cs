@@ -81,7 +81,7 @@ namespace LineageServer.william
                                 }
                                 else
                                 { // 持てない場合は地面に落とす 處理のキャンセルはしない（不正防止）
-                                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+                                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
                                 }
 
                                 pc.sendPackets(new S_ServerMessage(403, item.LogName));
@@ -135,7 +135,7 @@ namespace LineageServer.william
                                 }
                                 else
                                 { // 持てない場合は地面に落とす 處理のキャンセルはしない（不正防止）
-                                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+                                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
                                 }
 
                                 pc.sendPackets(new S_ServerMessage(403, item.LogName));
@@ -189,7 +189,7 @@ namespace LineageServer.william
                                 }
                                 else
                                 { // 持てない場合は地面に落とす 處理のキャンセルはしない（不正防止）
-                                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+                                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
                                 }
 
                                 pc.sendPackets(new S_ServerMessage(403, item.LogName));
@@ -243,7 +243,7 @@ namespace LineageServer.william
                                 }
                                 else
                                 { // 持てない場合は地面に落とす 處理のキャンセルはしない（不正防止）
-                                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+                                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
                                 }
 
                                 pc.sendPackets(new S_ServerMessage(403, item.LogName));
@@ -297,7 +297,7 @@ namespace LineageServer.william
                                 }
                                 else
                                 { // 持てない場合は地面に落とす 處理のキャンセルはしない（不正防止）
-                                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+                                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
                                 }
 
                                 pc.sendPackets(new S_ServerMessage(403, item.LogName));
@@ -351,7 +351,7 @@ namespace LineageServer.william
                                 }
                                 else
                                 { // 持てない場合は地面に落とす 處理のキャンセルはしない（不正防止）
-                                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+                                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
                                 }
 
                                 pc.sendPackets(new S_ServerMessage(403, item.LogName));
@@ -405,7 +405,7 @@ namespace LineageServer.william
                                 }
                                 else
                                 { // 持てない場合は地面に落とす 處理のキャンセルはしない（不正防止）
-                                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+                                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
                                 }
 
                                 pc.sendPackets(new S_ServerMessage(403, item.LogName));

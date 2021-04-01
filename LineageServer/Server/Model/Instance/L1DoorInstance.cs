@@ -1,4 +1,4 @@
-﻿using LineageServer.Server.DataTables;
+﻿using LineageServer.Interfaces;
 using LineageServer.Server.Templates;
 using LineageServer.Serverpackets;
 namespace LineageServer.Server.Model.Instance
@@ -11,7 +11,8 @@ namespace LineageServer.Server.Model.Instance
         {
         }
 
-        public L1DoorInstance(int doorId, L1DoorGfx gfx, L1Location loc, int hp, int keeper, bool isOpening) : base(NpcTable.Instance.getTemplate(DOOR_NPC_ID))
+        public L1DoorInstance(int doorId, L1DoorGfx gfx, L1Location loc, int hp, int keeper, bool isOpening)
+            : base(Container.Instance.Resolve<INpcController>().getTemplate(DOOR_NPC_ID))
         {
             DoorId = doorId;
             MaxHp = hp;
@@ -71,9 +72,9 @@ namespace LineageServer.Server.Model.Instance
             }
             allTargetClear();
             _master = null;
-            L1World.Instance.removeVisibleObject(this);
-            L1World.Instance.removeObject(this);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            Container.Instance.Resolve<IGameWorld>().removeVisibleObject(this);
+            Container.Instance.Resolve<IGameWorld>().removeObject(this);
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 pc.removeKnownObject(this);
                 pc.sendPackets(new S_RemoveObject(this));

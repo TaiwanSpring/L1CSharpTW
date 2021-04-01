@@ -17,7 +17,7 @@ namespace LineageServer.Utils
     //            {
     //                return;
     //            }
-    //            RunnableExecuter.Instance.scheduleAtFixedRate(new MysqlAutoBackup(), 60000, minutes * 60000); // 開機1分鐘後,每隔設定之時間備份一次
+    //            Container.Instance.Resolve<ITaskController>().scheduleAtFixedRate(new MysqlAutoBackup(), 60000, minutes * 60000); // 開機1分鐘後,每隔設定之時間備份一次
     //        }
     //    }
     //}

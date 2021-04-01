@@ -62,7 +62,7 @@ namespace LineageServer.Server.Model
                         InnKeyTable.checkey(item);
                     }
                     _items.Add(item);
-                    L1World.Instance.storeObject(item);
+                    Container.Instance.Resolve<IGameWorld>().storeObject(item);
                 }
 
             }

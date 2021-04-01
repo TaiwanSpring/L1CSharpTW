@@ -22,7 +22,7 @@ namespace LineageServer.Serverpackets
 	using ShopTable = LineageServer.Server.DataTables.ShopTable;
 	using L1CastleLocation = LineageServer.Server.Model.L1CastleLocation;
 	using GameObject = LineageServer.Server.Model.GameObject;
-	using L1World = LineageServer.Server.Model.L1World;
+	using L1World = LineageServer.Server.Model.GameWorld;
 	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
 	using L1NpcInstance = LineageServer.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
@@ -40,7 +40,7 @@ namespace LineageServer.Serverpackets
 
 		public S_ShopBuyList(int objid, L1PcInstance pc)
 		{
-			GameObject @object = L1World.Instance.findObject(objid);
+			GameObject @object = Container.Instance.Resolve<IGameWorld>().findObject(objid);
 			if (!(@object is L1NpcInstance))
 			{
 				return;

@@ -12,6 +12,7 @@ using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Extensions;
 using System.Linq;
 using System.Threading;
 
@@ -108,7 +109,8 @@ namespace LineageServer.Server.Model.Instance
 
                 internal virtual void schedule(int delay)
                 {
-					RunnableExecuter.Instance.execute((IRunnable)new DeathSyncTimer(this.outerInstance), delay);
+                    Container.Instance.Resolve<ITaskController>()
+                        .execute(new DeathSyncTimer(this.outerInstance), delay);
                 }
 
                 public override void run()
@@ -126,19 +128,19 @@ namespace LineageServer.Server.Model.Instance
             public virtual void start()
             {
                 outerInstance.AiRunning = true;
-                RunnableExecuter.Instance.execute(this);
+                Container.Instance.Resolve<ITaskController>().execute(this);
             }
 
             internal virtual void stop()
             {
                 outerInstance.mobSkill.resetAllSkillUseCount();
-                RunnableExecuter.Instance.execute(new DeathSyncTimer(this)); // 死亡同期を開始
+                Container.Instance.Resolve<ITaskController>().execute(new DeathSyncTimer(this)); // 死亡同期を開始
             }
 
             // 同じインスタンスをTimerへ登録できない為、苦肉の策。
             internal virtual void schedule(int delay)
             {
-				RunnableExecuter.Instance.execute((IRunnable)new NpcAITimerImpl(this.outerInstance), delay);
+                Container.Instance.Resolve<ITaskController>().execute((IRunnable)new NpcAITimerImpl(this.outerInstance), delay);
             }
 
             public void run()
@@ -195,7 +197,7 @@ namespace LineageServer.Server.Model.Instance
 
             public virtual void start()
             {
-                RunnableExecuter.Instance.execute(this);
+                Container.Instance.Resolve<ITaskController>().execute(this);
             }
 
             public void run()
@@ -288,7 +290,7 @@ namespace LineageServer.Server.Model.Instance
                 else
                 {
                     // onTargetItem();
-                    L1Inventory groundInventory = L1World.Instance.getInventory(_targetItem.X, _targetItem.Y, _targetItem.MapId);
+                    L1Inventory groundInventory = Container.Instance.Resolve<IGameWorld>().getInventory(_targetItem.X, _targetItem.Y, _targetItem.MapId);
                     if (groundInventory.checkItem(_targetItem.ItemId))
                     {
                         onTargetItem();
@@ -626,7 +628,7 @@ namespace LineageServer.Server.Model.Instance
         {
             IList<L1GroundInventory> gInventorys = ListFactory.NewList<L1GroundInventory>();
 
-            foreach (GameObject obj in L1World.Instance.getVisibleObjects(this))
+            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(this))
             {
                 if ((obj != null) && (obj is L1GroundInventory))
                 {
@@ -655,7 +657,7 @@ namespace LineageServer.Server.Model.Instance
         { // 怪物飛天中，發現特定道具時解除飛天撿拾道具
             IList<L1GroundInventory> gInventorys = ListFactory.NewList<L1GroundInventory>();
 
-            foreach (GameObject obj in L1World.Instance.getVisibleObjects(this))
+            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(this))
             {
                 if ((obj != null) && (obj is L1GroundInventory))
                 {
@@ -678,7 +680,7 @@ namespace LineageServer.Server.Model.Instance
                         if (HiddenStatus == HIDDEN_STATUS_FLY)
                         {
                             HiddenStatus = HIDDEN_STATUS_NONE;
-                            Status = L1NpcDefaultAction.Instance.getStatus(TempCharGfx);
+                            Status = Container.Instance.Resolve<IGameActionProvider>().getStatus(TempCharGfx);
                             broadcastPacket(new S_DoActionGFX(Id, ActionCodes.ACTION_Movedown));
                             onNpcAI();
                             startChat(CHAT_TIMING_HIDE);
@@ -747,7 +749,7 @@ namespace LineageServer.Server.Model.Instance
         // アイテムを拾う
         public virtual void pickupTargetItem(L1ItemInstance targetItem)
         {
-            L1Inventory groundInventory = L1World.Instance.getInventory(targetItem.X, targetItem.Y, targetItem.MapId);
+            L1Inventory groundInventory = Container.Instance.Resolve<IGameWorld>().getInventory(targetItem.X, targetItem.Y, targetItem.MapId);
             L1ItemInstance item = groundInventory.tradeItem(targetItem, targetItem.Count, Inventory);
             turnOnOffLight();
             onGetItem(item);
@@ -774,7 +776,7 @@ namespace LineageServer.Server.Model.Instance
             }
             else
             {
-                if (L1World.Instance.getRecognizePlayer(this).Count == 0)
+                if (Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this).Count == 0)
                 {
                     return true; // 周りにプレイヤーがいなくなったらＡＩ処理終了
                 }
@@ -1099,7 +1101,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_hprRunning && (hprInterval > 0) && (hpr > 0))
             {
                 _hprTimer = new HprTimer(this, hpr);
-                RunnableExecuter.Instance.execute(_hprTimer, hprInterval, hprInterval);
+                Container.Instance.Resolve<ITaskController>().execute(_hprTimer, hprInterval, hprInterval);
                 _hprRunning = true;
             }
         }
@@ -1121,7 +1123,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_mprRunning && (mprInterval > 0) && (mpr > 0))
             {
                 _mprTimer = new MprTimer(this, mpr);
-                RunnableExecuter.Instance.execute(_mprTimer, mprInterval, mprInterval);
+                Container.Instance.Resolve<ITaskController>().execute(_mprTimer, mprInterval, mprInterval);
                 _mprRunning = true;
             }
         }
@@ -1355,12 +1357,14 @@ namespace LineageServer.Server.Model.Instance
             }
             else
             {
-                Str = (sbyte)Math.Min(template.get_str() + diff, 127);
-                Con = (sbyte)Math.Min(template.get_con() + diff, 127);
-                Dex = (sbyte)Math.Min(template.get_dex() + diff, 127);
-                Int = (sbyte)Math.Min(template.get_int() + diff, 127);
-                Wis = (sbyte)Math.Min(template.get_wis() + diff, 127);
-                Mr = (sbyte)Math.Min(template.get_mr() + diff, 127);
+                byte temp = (byte)diff;
+                byte max = 127;
+                Str = Math.Min((template.get_str() + temp).ToByte(), max);
+                Con = Math.Min((template.get_con() + temp).ToByte(), max);
+                Dex = Math.Min((template.get_dex() + temp).ToByte(), max);
+                Int = Math.Min((template.get_int() + temp).ToByte(), max);
+                Wis = Math.Min((template.get_wis() + temp).ToByte(), max);
+                Mr = Math.Min((template.get_mr() + temp).ToByte(), max);
 
                 addHitup((int)diff * 2);
                 addDmgup((int)diff * 2);
@@ -1370,7 +1374,7 @@ namespace LineageServer.Server.Model.Instance
             Agrososc = template.is_agrososc();
             TempCharGfx = template.get_gfxid();
             GfxId = template.get_gfxid();
-            Status = L1NpcDefaultAction.Instance.getStatus(TempCharGfx);
+            Status = Container.Instance.Resolve<IGameActionProvider>().getStatus(TempCharGfx);
             PolyAtkRanged = template.get_ranged();
             PolyArrowGfx = template.BowActId;
 
@@ -1387,9 +1391,9 @@ namespace LineageServer.Server.Model.Instance
             if (template.get_atkspeed() != 0)
             {
                 int actid = (Status + 1);
-                if (L1NpcDefaultAction.Instance.getDefaultAttack(TempCharGfx) != actid)
+                if (Container.Instance.Resolve<IGameActionProvider>().getDefaultAttack(TempCharGfx) != actid)
                 {
-                    actid = L1NpcDefaultAction.Instance.getDefaultAttack(TempCharGfx);
+                    actid = Container.Instance.Resolve<IGameActionProvider>().getDefaultAttack(TempCharGfx);
                 }
                 Atkspeed = SprTable.Instance.getSprSpeed(TempCharGfx, actid);
             }
@@ -1591,9 +1595,9 @@ namespace LineageServer.Server.Model.Instance
             }
             allTargetClear();
             _master = null;
-            L1World.Instance.removeVisibleObject(this);
-            L1World.Instance.removeObject(this);
-            IList<L1PcInstance> players = L1World.Instance.getRecognizePlayer(this);
+            Container.Instance.Resolve<IGameWorld>().removeVisibleObject(this);
+            Container.Instance.Resolve<IGameWorld>().removeObject(this);
+            IList<L1PcInstance> players = Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this);
             if (players.Count > 0)
             {
                 S_RemoveObject s_deleteNewObject = new S_RemoveObject(this);
@@ -1647,7 +1651,7 @@ namespace LineageServer.Server.Model.Instance
                 if (!_digestItemRunning)
                 {
                     DigestItemTimer digestItemTimer = new DigestItemTimer(this);
-                    RunnableExecuter.Instance.execute(digestItemTimer);
+                    Container.Instance.Resolve<ITaskController>().execute(digestItemTimer);
                 }
             }
         }
@@ -1708,7 +1712,7 @@ namespace LineageServer.Server.Model.Instance
             if (HiddenStatus == HIDDEN_STATUS_SINK)
             {
                 HiddenStatus = HIDDEN_STATUS_NONE;
-                Status = L1NpcDefaultAction.Instance.getStatus(TempCharGfx);
+                Status = Container.Instance.Resolve<IGameActionProvider>().getStatus(TempCharGfx);
                 broadcastPacket(new S_DoActionGFX(Id, ActionCodes.ACTION_Appear));
                 broadcastPacket(new S_CharVisualUpdate(this, Status));
                 if (!pc.hasSkillEffect(L1SkillId.INVISIBILITY) && !pc.hasSkillEffect(L1SkillId.BLIND_HIDING) && !pc.Gm)
@@ -1722,7 +1726,7 @@ namespace LineageServer.Server.Model.Instance
             else if (HiddenStatus == HIDDEN_STATUS_FLY)
             {
                 HiddenStatus = HIDDEN_STATUS_NONE;
-                Status = L1NpcDefaultAction.Instance.getStatus(TempCharGfx);
+                Status = Container.Instance.Resolve<IGameActionProvider>().getStatus(TempCharGfx);
                 broadcastPacket(new S_DoActionGFX(Id, ActionCodes.ACTION_Movedown));
                 if (!pc.hasSkillEffect(L1SkillId.INVISIBILITY) && !pc.hasSkillEffect(L1SkillId.BLIND_HIDING) && !pc.Gm)
                 {
@@ -1735,7 +1739,7 @@ namespace LineageServer.Server.Model.Instance
             else if (HiddenStatus == HIDDEN_STATUS_ICE)
             {
                 HiddenStatus = HIDDEN_STATUS_NONE;
-                Status = L1NpcDefaultAction.Instance.getStatus(TempCharGfx);
+                Status = Container.Instance.Resolve<IGameActionProvider>().getStatus(TempCharGfx);
                 broadcastPacket(new S_DoActionGFX(Id, ActionCodes.ACTION_AxeWalk));
                 broadcastPacket(new S_CharVisualUpdate(this, Status));
                 if (!pc.hasSkillEffect(L1SkillId.INVISIBILITY) && !pc.hasSkillEffect(L1SkillId.BLIND_HIDING) && !pc.Gm)
@@ -1939,7 +1943,7 @@ namespace LineageServer.Server.Model.Instance
                 targetY = locY - 1;
             }
 
-            foreach (GameObject @object in L1World.Instance.getVisibleObjects(this, 1))
+            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(this, 1))
             {
                 // PC, Summon, Petがいる場合
                 if ((@object is L1PcInstance) || (@object is L1SummonInstance) || (@object is L1PetInstance))
@@ -1983,7 +1987,7 @@ namespace LineageServer.Server.Model.Instance
         { // 起点Ｘ 起点Ｙ
           // マップＩＤ
           // 進行方向
-            L1Map map = L1WorldMap.Instance.getMap(m);
+            L1Map map = Container.Instance.Resolve<IWorldMap>().getMap(m);
             if (d == 1)
             {
                 if (map.isPassable(x, y, 1))
@@ -2523,7 +2527,7 @@ namespace LineageServer.Server.Model.Instance
         // 目標へテレポート
         public virtual void teleport(int nx, int ny, int dir)
         {
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 pc.sendPackets(new S_SkillSound(Id, 169));
                 pc.sendPackets(new S_RemoveObject(this));
@@ -2838,11 +2842,11 @@ namespace LineageServer.Server.Model.Instance
             {
                 broadcastPacket(new S_SkillSound(Id, transformGfxId));
             }
-            L1Npc npcTemplate = NpcTable.Instance.getTemplate(transformId);
+            L1Npc npcTemplate = Container.Instance.Resolve<INpcController>().getTemplate(transformId);
             setting_template(npcTemplate);
 
             broadcastPacket(new S_NpcChangeShape(Id, TempCharGfx, Lawful, Status));
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 onPerceive(pc);
             }
@@ -2949,7 +2953,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 _deleteTask = new DeleteTimer(Id);
                 _future = _deleteTask;
-				RunnableExecuter.Instance.execute((IRunnable)this._deleteTask, Config.NPC_DELETION_TIME * 1000);
+                Container.Instance.Resolve<ITaskController>().execute((IRunnable)this._deleteTask, Config.NPC_DELETION_TIME * 1000);
             }
         }
 
@@ -2960,7 +2964,7 @@ namespace LineageServer.Server.Model.Instance
             protected internal DeleteTimer(int oId)
             {
                 _id = oId;
-                if (!(L1World.Instance.findObject(_id) is L1NpcInstance))
+                if (!(Container.Instance.Resolve<IGameWorld>().findObject(_id) is L1NpcInstance))
                 {
                     throw new System.ArgumentException("allowed only L1NpcInstance");
                 }
@@ -2968,7 +2972,7 @@ namespace LineageServer.Server.Model.Instance
 
             public void run()
             {
-                L1NpcInstance npc = (L1NpcInstance)L1World.Instance.findObject(_id);
+                L1NpcInstance npc = (L1NpcInstance)Container.Instance.Resolve<IGameWorld>().findObject(_id);
                 if ((npc == null) || !npc.Dead || npc._destroyed)
                 {
                     return; // 復活してるか、既に破棄済みだったら抜け
@@ -3069,11 +3073,11 @@ namespace LineageServer.Server.Model.Instance
             L1NpcChatTimer npcChatTimer = new L1NpcChatTimer(this, npcChat);
             if (!npcChat.Repeat)
             {
-				RunnableExecuter.Instance.execute((IRunnable)npcChatTimer, npcChat.StartDelayTime);
+                Container.Instance.Resolve<ITaskController>().execute((IRunnable)npcChatTimer, npcChat.StartDelayTime);
             }
             else
             {
-                RunnableExecuter.Instance.execute(npcChatTimer, npcChat.StartDelayTime, npcChat.RepeatInterval);
+                Container.Instance.Resolve<ITaskController>().execute(npcChatTimer, npcChat.StartDelayTime, npcChat.RepeatInterval);
             }
         }
 
@@ -3120,11 +3124,11 @@ namespace LineageServer.Server.Model.Instance
 
         public int MaxHp { get; internal set; }
         public int MaxMp { get; internal set; }
-        public sbyte Str { get; internal set; }
-        public sbyte Con { get; internal set; }
-        public sbyte Dex { get; internal set; }
-        public sbyte Int { get; internal set; }
-        public sbyte Wis { get; internal set; }
+        public byte Str { get; internal set; }
+        public byte Con { get; internal set; }
+        public byte Dex { get; internal set; }
+        public byte Int { get; internal set; }
+        public byte Wis { get; internal set; }
 
         private static readonly IDictionary<string, Func<L1Npc, L1NpcInstance>> factoryMapping = MapFactory.NewMap<string, Func<L1Npc, L1NpcInstance>>();
         public static L1NpcInstance Factory(L1Npc l1Npc)

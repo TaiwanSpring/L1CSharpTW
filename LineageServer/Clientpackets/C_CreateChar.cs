@@ -137,7 +137,7 @@ namespace LineageServer.Clientpackets
         private const short MAPID = 2005;
         private static void initNewChar(ClientThread client, L1PcInstance pc)
         {
-            pc.Id = IdFactory.Instance.nextId();
+            pc.Id = Container.Instance.Resolve<IIdFactory>().nextId();
             pc.setBirthday();
             if (pc.get_sex() == 0)
             {
@@ -149,7 +149,7 @@ namespace LineageServer.Clientpackets
             }
             pc.X = LOCX;
             pc.Y = LOCY;
-            pc.Map = L1WorldMap.Instance.getMap(MAPID);
+            pc.Map = Container.Instance.Resolve<IWorldMap>().getMap(MAPID);
             pc.Heading = 0;
             pc.Lawful = 0;
 
@@ -226,14 +226,14 @@ namespace LineageServer.Clientpackets
 
         private static bool isInvalidName(string name)
         {
-          
+
 
             // TODO:Check the badNameList is working well ?
             if (BadNamesList.Instance.isBadName(name))
             {
                 return true;
             }
-          
+
 
             if (isAlphaNumeric(name))
             {

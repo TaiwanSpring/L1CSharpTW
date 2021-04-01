@@ -23,9 +23,9 @@ namespace LineageServer.Server.Model.Instance
             {
                 Inventory.clearItems();
             }
-            L1World.Instance.removeVisibleObject(this);
-            L1World.Instance.removeObject(this);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            Container.Instance.Resolve<IGameWorld>().removeVisibleObject(this);
+            Container.Instance.Resolve<IGameWorld>().removeObject(this);
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 pc.removeKnownObject(this);
                 pc.sendPackets(new S_RemoveObject(this));

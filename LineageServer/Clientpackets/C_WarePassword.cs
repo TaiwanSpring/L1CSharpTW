@@ -80,7 +80,7 @@ namespace LineageServer.Clientpackets
                 if (account.WarePassword == pass1)
                 {
                     int objid = pass2;
-                    GameObject obj = L1World.Instance.findObject(objid);
+                    GameObject obj = Container.Instance.Resolve<IGameWorld>().findObject(objid);
                     if (pc.Level >= 5)
                     { // 判斷玩家等級
                         if (type == 1)

@@ -48,7 +48,7 @@ namespace LineageServer.Server.Model.trap
 			}
 			S_EffectLocation effect = new S_EffectLocation(trapObj.Location, GfxId);
 
-			foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(trapObj))
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(trapObj))
 			{
 				pc.sendPackets(effect);
 			}

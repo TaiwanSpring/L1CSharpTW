@@ -52,7 +52,7 @@ namespace LineageServer.Clientpackets
                 return;
             }
 
-            L1Clan clan = L1World.Instance.getClan(clan_name);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(clan_name);
             if (clan == null)
             {
                 return;
@@ -70,7 +70,7 @@ namespace LineageServer.Clientpackets
                 if (player.Crown)
                 { // 自己是盟主
                     string player_clan_name = player.Clanname;
-                    L1Clan player_clan = L1World.Instance.getClan(player_clan_name);
+                    L1Clan player_clan = Container.Instance.Resolve<IGameWorld>().getClan(player_clan_name);
                     if (player_clan == null)
                     {
                         return;

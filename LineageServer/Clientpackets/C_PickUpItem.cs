@@ -40,7 +40,7 @@ namespace LineageServer.Clientpackets
 				return;
 			}
 
-			L1Inventory groundInventory = L1World.Instance.getInventory(x, y, pc.MapId);
+			L1Inventory groundInventory = Container.Instance.Resolve<IGameWorld>().getInventory(x, y, pc.MapId);
 			GameObject @object = groundInventory.getItem(objectId);
 
 			if ((@object != null) && !pc.Dead)

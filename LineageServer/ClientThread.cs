@@ -225,8 +225,8 @@ namespace LineageServer.Server
 			 */
 			HcPacket movePacket = new HcPacket(this, M_CAPACITY);
 			HcPacket hcPacket = new HcPacket(this, H_CAPACITY);
-			RunnableExecuter.Instance.execute(movePacket);
-			RunnableExecuter.Instance.execute(hcPacket);
+			Container.Instance.Resolve<ITaskController>().execute(movePacket);
+			Container.Instance.Resolve<ITaskController>().execute(hcPacket);
 
 			string keyHax = "";
 			int key = 0;
@@ -672,7 +672,7 @@ namespace LineageServer.Server
 			// 終止決鬥
 			if (pc.FightId != 0)
 			{
-				L1PcInstance fightPc = (L1PcInstance)L1World.Instance.findObject(pc.FightId);
+				L1PcInstance fightPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.FightId);
 				pc.FightId = 0;
 				if (fightPc != null)
 				{
@@ -709,7 +709,7 @@ namespace LineageServer.Server
 				else if (petNpc is L1SummonInstance)
 				{
 					L1SummonInstance summon = (L1SummonInstance)petNpc;
-					foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(summon))
+					foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(summon))
 					{
 						visiblePc.sendPackets(new S_SummonPack(summon, visiblePc, false));
 					}

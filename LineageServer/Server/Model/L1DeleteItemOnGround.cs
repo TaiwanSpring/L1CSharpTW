@@ -8,15 +8,11 @@ using System.Threading;
 
 namespace LineageServer.Server.Model
 {
-    class L1DeleteItemOnGround
+    class L1DeleteItemOnGround : IGameComponent
     {
         private DeleteTimer _deleteTimer;
 
         private static readonly ILogger _log = Logger.GetLogger(nameof(L1DeleteItemOnGround));
-
-        public L1DeleteItemOnGround()
-        {
-        }
 
         private class DeleteTimer : IRunnable
         {
@@ -29,35 +25,31 @@ namespace LineageServer.Server.Model
 
             public void run()
             {
-                int time = Config.ALT_ITEM_DELETION_TIME * 60 * 1000 - 10 * 1000;
-                for (; ; )
+                if (Config.ALT_ITEM_DELETION_TIME <= 0)
                 {
-                    try
+
+                }
+                else
+                {
+                    TimeSpan time = TimeSpan.FromMinutes(Config.ALT_ITEM_DELETION_TIME);
+
+                    while (true)
                     {
                         Thread.Sleep(time);
+
+                        Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_ServerMessage(166, L1Message.onGroundItem, L1Message.secondsDelete + "。"));
+
+                        Thread.Sleep(10 * 1000);
+
+                        outerInstance.deleteItem();
+
+                        Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_ServerMessage(166, L1Message.onGroundItem, L1Message.deleted + "。"));
                     }
-                    catch (Exception exception)
-                    {
-                        _log.Warning("L1DeleteItemOnGround error: " + exception);
-                        break;
-                    }
-                    L1World.Instance.broadcastPacketToAll(new S_ServerMessage(166, L1Message.onGroundItem, L1Message.secondsDelete + "。"));
-                    try
-                    {
-                        Thread.Sleep(10000);
-                    }
-                    catch (Exception exception)
-                    {
-                        _log.Warning("L1DeleteItemOnGround error: " + exception);
-                        break;
-                    }
-                    outerInstance.deleteItem();
-                    L1World.Instance.broadcastPacketToAll(new S_ServerMessage(166, L1Message.onGroundItem, L1Message.deleted + "。"));
                 }
             }
         }
 
-        public virtual void initialize()
+        public virtual void Initialize()
         {
             if (Config.ALT_ITEM_DELETION_TYPE != "auto")
             {
@@ -65,13 +57,13 @@ namespace LineageServer.Server.Model
             }
 
             _deleteTimer = new DeleteTimer(this);
-            RunnableExecuter.Instance.execute(_deleteTimer); // タイマー開始
+            Container.Instance.Resolve<ITaskController>().execute(_deleteTimer); // タイマー開始
         }
 
         private void deleteItem()
         {
             int numOfDeleted = 0;
-            foreach (GameObject obj in L1World.Instance.Object)
+            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (obj is L1ItemInstance item)
                 {
@@ -88,10 +80,10 @@ namespace LineageServer.Server.Model
                         continue;
                     }
 
-                    IList<L1PcInstance> players = L1World.Instance.getVisiblePlayer(item, Config.ALT_ITEM_DELETION_RANGE);
+                    IList<L1PcInstance> players = Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(item, Config.ALT_ITEM_DELETION_RANGE);
                     if (players.Count == 0)
                     { // 指定範囲内にプレイヤーが居なければ削除
-                        L1Inventory groundInventory = L1World.Instance.getInventory(item.X, item.Y, item.MapId);
+                        L1Inventory groundInventory = Container.Instance.Resolve<IGameWorld>().getInventory(item.X, item.Y, item.MapId);
                         groundInventory.removeItem(item);
                         numOfDeleted++;
                     }

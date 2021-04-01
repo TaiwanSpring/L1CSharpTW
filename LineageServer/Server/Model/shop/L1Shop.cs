@@ -271,7 +271,7 @@ namespace LineageServer.Server.Model.shop
 			int price = orderList.TotalPrice;
 
 			// 町の売上
-			if (!L1World.Instance.ProcessingContributionTotal)
+			if (!Container.Instance.Resolve<IGameWorld>().ProcessingContributionTotal)
 			{
 				int town_id = L1TownLocation.getTownIdByNpcid(_npcId);
 				if (( town_id >= 1 ) && ( town_id <= 10 ))

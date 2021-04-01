@@ -65,7 +65,7 @@ namespace LineageServer.Clientpackets
             pc.clearSkillMastery();
             pc.OnlineStatus = 1;
             CharacterTable.updateOnlineStatus(pc);
-            L1World.Instance.storeObject(pc);
+            Container.Instance.Resolve<IGameWorld>().storeObject(pc);
 
             pc.NetConnection = client;
             pc.PacketOutput = client;
@@ -84,7 +84,7 @@ namespace LineageServer.Clientpackets
                 {
                     pc.X = gbr.LocX;
                     pc.Y = gbr.LocY;
-                    pc.Map = L1WorldMap.Instance.getMap(gbr.MapId);
+                    pc.Map = Container.Instance.Resolve<IWorldMap>().getMap(gbr.MapId);
                     break;
                 }
             }
@@ -95,7 +95,7 @@ namespace LineageServer.Clientpackets
                 int[] loc = Getback.GetBack_Location(pc, true);
                 pc.X = loc[0];
                 pc.Y = loc[1];
-                pc.Map = L1WorldMap.Instance.getMap((short)loc[2]);
+                pc.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)loc[2]);
             }
 
             // 如果標記是在戰爭期間，如果不是血盟成員回到城堡。
@@ -104,7 +104,7 @@ namespace LineageServer.Clientpackets
             {
                 if (WarTimeController.Instance.isNowWar(castle_id))
                 {
-                    L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                    L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                     if (clan != null)
                     {
                         if (clan.CastleId != castle_id)
@@ -114,7 +114,7 @@ namespace LineageServer.Clientpackets
                             loc = L1CastleLocation.getGetBackLoc(castle_id);
                             pc.X = loc[0];
                             pc.Y = loc[1];
-                            pc.Map = L1WorldMap.Instance.getMap((short)loc[2]);
+                            pc.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)loc[2]);
                         }
                     }
                     else
@@ -124,11 +124,11 @@ namespace LineageServer.Clientpackets
                         loc = L1CastleLocation.getGetBackLoc(castle_id);
                         pc.X = loc[0];
                         pc.Y = loc[1];
-                        pc.Map = L1WorldMap.Instance.getMap((short)loc[2]);
+                        pc.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)loc[2]);
                     }
                 }
             }
-            L1World.Instance.addVisibleObject(pc);
+            Container.Instance.Resolve<IGameWorld>().addVisibleObject(pc);
 
             if (Config.CHARACTER_CONFIG_IN_SERVER_SIDE)
             {
@@ -170,7 +170,7 @@ namespace LineageServer.Clientpackets
 
             pc.sendPackets(new S_InitialAbilityGrowth(pc)); // 角色狀態獎勵
 
-            pc.sendPackets(new S_Weather(L1World.Instance.Weather));
+            pc.sendPackets(new S_Weather(Container.Instance.Resolve<IGameWorld>().Weather));
 
             skills(pc);
 
@@ -239,7 +239,7 @@ namespace LineageServer.Clientpackets
 
             if (pc.Clanid != 0)
             { // 有血盟
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     if ((pc.Clanid == clan.ClanId) && pc.Clanname.ToLower().Equals(clan.ClanName.ToLower()))
@@ -254,7 +254,7 @@ namespace LineageServer.Clientpackets
                         }
 
                         // 取得所有的盟戰
-                        foreach (L1War war in L1World.Instance.WarList)
+                        foreach (L1War war in Container.Instance.Resolve<IGameWorld>().WarList)
                         {
                             bool ret = war.CheckClanInWar(pc.Clanname);
                             if (ret)
@@ -281,7 +281,7 @@ namespace LineageServer.Clientpackets
 
             if (pc.PartnerId != 0)
             { // 結婚中
-                L1PcInstance partner = (L1PcInstance)L1World.Instance.findObject(pc.PartnerId);
+                L1PcInstance partner = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.PartnerId);
                 if ((partner != null) && (partner.PartnerId != 0))
                 {
                     if ((pc.PartnerId == partner.Id) && (partner.PartnerId == pc.Id))
@@ -504,13 +504,13 @@ namespace LineageServer.Clientpackets
 
         private void SerchSummon(L1PcInstance pc)
         {
-            foreach (L1SummonInstance summon in L1World.Instance.AllSummons)
+            foreach (L1SummonInstance summon in Container.Instance.Resolve<IGameWorld>().AllSummons)
             {
                 if (summon.Master.Id == pc.Id)
                 {
                     summon.Master = pc;
                     pc.addPet(summon);
-                    foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(summon))
+                    foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(summon))
                     {
                         visiblePc.sendPackets(new S_SummonPack(summon, visiblePc));
                     }

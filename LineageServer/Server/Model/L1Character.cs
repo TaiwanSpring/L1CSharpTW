@@ -51,7 +51,7 @@ namespace LineageServer.Server.Model
 			Dead = false;
 			Status = 0;
 			L1PolyMorph.undoPoly(this);
-			foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
 			{
 				pc.sendPackets(new S_RemoveObject(this));
 				pc.removeKnownObject(this);
@@ -198,7 +198,7 @@ namespace LineageServer.Server.Model
 		///            送信するパケットを表すServerBasePacketオブジェクト。 </param>
 		public virtual void broadcastPacket(ServerBasePacket packet)
 		{
-			foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayer(this))
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(this))
 			{
 				// 旅館內判斷
 				if (pc.MapId < 16384 || pc.MapId > 25088 || pc.InnKeyId == InnKeyId)
@@ -215,7 +215,7 @@ namespace LineageServer.Server.Model
 		///            送信するパケットを表すServerBasePacketオブジェクト。 </param>
 		public virtual void broadcastPacketExceptTargetSight(ServerBasePacket packet, L1Character target)
 		{
-			foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayerExceptTargetSight(this, target))
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayerExceptTargetSight(this, target))
 			{
 				pc.sendPackets(packet);
 			}
@@ -230,7 +230,7 @@ namespace LineageServer.Server.Model
 		///            true : 見破れるプレイヤーにだけパケットを送信する。 false : 見破れないプレイヤーにだけパケットを送信する。 </param>
 		public virtual void broadcastPacketForFindInvis(ServerBasePacket packet, bool isFindInvis)
 		{
-			foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayer(this))
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(this))
 			{
 				if (isFindInvis)
 				{
@@ -256,7 +256,7 @@ namespace LineageServer.Server.Model
 		///            送信するパケットを表すServerBasePacketオブジェクト。 </param>
 		public virtual void wideBroadcastPacket(ServerBasePacket packet)
 		{
-			foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayer(this, 50))
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(this, 50))
 			{
 				pc.sendPackets(packet);
 			}

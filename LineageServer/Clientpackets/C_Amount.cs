@@ -34,7 +34,7 @@ namespace LineageServer.Clientpackets
             string s = ReadS();
 
 
-            L1NpcInstance npc = (L1NpcInstance)L1World.Instance.findObject(objectId);
+            L1NpcInstance npc = (L1NpcInstance)Container.Instance.Resolve<IGameWorld>().findObject(objectId);
             if (npc == null)
             {
                 return;
@@ -81,7 +81,7 @@ namespace LineageServer.Clientpackets
                         if (nowBidderId != 0)
                         {
                             // 將金幣退還給投標者
-                            L1PcInstance bidPc = (L1PcInstance)L1World.Instance.findObject(nowBidderId);
+                            L1PcInstance bidPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(nowBidderId);
                             if (bidPc != null)
                             { // 玩家在線上
                                 bidPc.Inventory.storeItem(L1ItemId.ADENA, nowPrice);
@@ -184,7 +184,7 @@ namespace LineageServer.Clientpackets
                                 }
                                 else
                                 {
-                                    inventory = L1World.Instance.getInventory(pc.Location);
+                                    inventory = Container.Instance.Resolve<IGameWorld>().getInventory(pc.Location);
                                 }
                                 inventory.storeItem(item);
 

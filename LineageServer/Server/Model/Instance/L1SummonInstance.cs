@@ -115,10 +115,10 @@ namespace LineageServer.Server.Model.Instance
         // サモンモンスター用
         public L1SummonInstance(L1Npc template, L1Character master) : base(template)
         {
-            Id = IdFactory.Instance.nextId();
+            Id = Container.Instance.Resolve<IIdFactory>().nextId();
 
             _summonFuture = new SummonTimer(this);
-			RunnableExecuter.Instance.execute((IRunnable)this._summonFuture, SUMMON_TIME);
+			Container.Instance.Resolve<ITaskController>().execute((IRunnable)this._summonFuture, SUMMON_TIME);
 
             Master = master;
             X = master.X + RandomHelper.Next(5) - 2;
@@ -130,9 +130,9 @@ namespace LineageServer.Server.Model.Instance
             _currentPetStatus = 3;
             _tamed = false;
 
-            L1World.Instance.storeObject(this);
-            L1World.Instance.addVisibleObject(this);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            Container.Instance.Resolve<IGameWorld>().storeObject(this);
+            Container.Instance.Resolve<IGameWorld>().addVisibleObject(this);
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 onPerceive(pc);
             }
@@ -142,7 +142,7 @@ namespace LineageServer.Server.Model.Instance
         // 造屍術處理
         public L1SummonInstance(L1NpcInstance target, L1Character master, bool isCreateZombie) : base(null)
         {
-            Id = IdFactory.Instance.nextId();
+            Id = Container.Instance.Resolve<IIdFactory>().nextId();
 
             if (isCreateZombie)
             { // クリエイトゾンビ
@@ -183,7 +183,7 @@ namespace LineageServer.Server.Model.Instance
                         npcId = 81183;
                     }
                 }
-                L1Npc template = NpcTable.Instance.getTemplate(npcId).clone();
+                L1Npc template = Container.Instance.Resolve<INpcController>().getTemplate(npcId).clone();
                 setting_template(template);
             }
             else
@@ -194,7 +194,7 @@ namespace LineageServer.Server.Model.Instance
             }
 
             _summonFuture = new SummonTimer(this);
-			RunnableExecuter.Instance.execute((IRunnable)this._summonFuture, SUMMON_TIME);
+			Container.Instance.Resolve<ITaskController>().execute((IRunnable)this._summonFuture, SUMMON_TIME);
 
             Master = master;
             X = target.X;
@@ -221,9 +221,9 @@ namespace LineageServer.Server.Model.Instance
             }
 
             target.deleteMe();
-            L1World.Instance.storeObject(this);
-            L1World.Instance.addVisibleObject(this);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            Container.Instance.Resolve<IGameWorld>().storeObject(this);
+            Container.Instance.Resolve<IGameWorld>().addVisibleObject(this);
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 onPerceive(pc);
             }
@@ -312,7 +312,7 @@ namespace LineageServer.Server.Model.Instance
                         }
                         else
                         { // 持てないので足元に落とす
-                            targetInventory = L1World.Instance.getInventory(X, Y, MapId);
+                            targetInventory = Container.Instance.Resolve<IGameWorld>().getInventory(X, Y, MapId);
                             _inventory.tradeItem(item, item.Count, targetInventory);
                         }
                     }
@@ -351,7 +351,7 @@ namespace LineageServer.Server.Model.Instance
                         }
                         else
                         { // 持てないので足元に落とす
-                            targetInventory = L1World.Instance.getInventory(X, Y, MapId);
+                            targetInventory = Container.Instance.Resolve<IGameWorld>().getInventory(X, Y, MapId);
                             _inventory.tradeItem(item, item.Count, targetInventory);
                         }
                     }
@@ -399,7 +399,7 @@ namespace LineageServer.Server.Model.Instance
         public virtual void liberate()
         {
             L1MonsterInstance monster = new L1MonsterInstance(NpcTemplate);
-            monster.Id = IdFactory.Instance.nextId();
+            monster.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 
             monster.X = X;
             monster.Y = Y;
@@ -419,8 +419,8 @@ namespace LineageServer.Server.Model.Instance
                 Map.setPassable(Location, true);
             }
             deleteMe();
-            L1World.Instance.storeObject(monster);
-            L1World.Instance.addVisibleObject(monster);
+            Container.Instance.Resolve<IGameWorld>().storeObject(monster);
+            Container.Instance.Resolve<IGameWorld>().addVisibleObject(monster);
         }
 
         public virtual L1Character Target
@@ -735,7 +735,7 @@ namespace LineageServer.Server.Model.Instance
                 if (Master != null)
                 {
                     string masterName = Master.Name;
-                    if (L1World.Instance.getPlayer(masterName) == null)
+                    if (Container.Instance.Resolve<IGameWorld>().getPlayer(masterName) == null)
                     {
                         isExsistMaster = false;
                     }

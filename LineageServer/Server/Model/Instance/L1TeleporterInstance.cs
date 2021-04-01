@@ -244,7 +244,7 @@ namespace LineageServer.Server.Model.Instance
                             else if (lv50_step >= 3)
                             {
                                 bool find = false;
-                                foreach (object objs in L1World.Instance.getVisibleObjects(306).Values)
+                                foreach (object objs in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(306).Values)
                                 {
                                     if (objs is L1PcInstance)
                                     {
@@ -353,7 +353,7 @@ namespace LineageServer.Server.Model.Instance
                     if (action == "teleport mutant-dungen")
                     {
                         // 3マス以内のPc
-                        foreach (L1PcInstance otherPc in L1World.Instance.getVisiblePlayer(player, 3))
+                        foreach (L1PcInstance otherPc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(player, 3))
                         {
                             if (otherPc.Clanid == player.Clanid && otherPc.Id != player.Id)
                             {
@@ -373,7 +373,7 @@ namespace LineageServer.Server.Model.Instance
                         L1PcInstance elf = null;
                         L1PcInstance wiz = null;
                         // 3マス以内のPc
-                        foreach (L1PcInstance otherPc in L1World.Instance.getVisiblePlayer(player, 3))
+                        foreach (L1PcInstance otherPc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(player, 3))
                         {
                             L1Quest quest = otherPc.Quest;
                             if (otherPc.Knight && quest.get_step(L1Quest.QUEST_LEVEL50) == 1)
@@ -405,7 +405,7 @@ namespace LineageServer.Server.Model.Instance
                             L1Teleport.teleport(elf, 32878, 32980, (short)2000, 6, true);
                             L1Teleport.teleport(wiz, 32876, 33003, (short)2000, 0, true);
                             TeleportDelyTimer timer = new TeleportDelyTimer(this);
-                            RunnableExecuter.Instance.execute(timer);
+                            Container.Instance.Resolve<ITaskController>().execute(timer);
                         }
                     }
                     else if (action == "teleport barlog")
@@ -413,7 +413,7 @@ namespace LineageServer.Server.Model.Instance
                     { // 古代人（Lv50クエスト古代の空間2F）
                         L1Teleport.teleport(player, 32755, 32844, (short)2002, 5, true);
                         TeleportDelyTimer timer = new TeleportDelyTimer(this);
-                        RunnableExecuter.Instance.execute(timer);
+                        Container.Instance.Resolve<ITaskController>().execute(timer);
                     }
                 }
                 catch (Exception)

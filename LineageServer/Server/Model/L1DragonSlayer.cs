@@ -459,7 +459,7 @@ namespace LineageServer.Server.Model
 
             public virtual void begin()
             {
-				RunnableExecuter.Instance.execute((IRunnable)this, this._time); // 延遲時間
+				Container.Instance.Resolve<ITaskController>().execute((IRunnable)this, this._time); // 延遲時間
             }
         }
 
@@ -486,7 +486,7 @@ namespace LineageServer.Server.Model
         {
             short mapId = (short)(1005 + portalNumber); // MapId 判斷
 
-            foreach (object obj in L1World.Instance.getVisibleObjects(mapId).Values)
+            foreach (object obj in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(mapId).Values)
             {
                 // 將玩家傳出副本地圖
                 if (obj is L1PcInstance)
@@ -547,7 +547,7 @@ namespace LineageServer.Server.Model
             pc.set_food(40);
             pc.Dead = false;
             pc.Status = 0;
-            L1World.Instance.moveVisibleObject(pc, loc[2]);
+            Container.Instance.Resolve<IGameWorld>().moveVisibleObject(pc, loc[2]);
             pc.X = loc[0];
             pc.Y = loc[1];
             pc.MapId = (short)loc[2];
@@ -557,7 +557,7 @@ namespace LineageServer.Server.Model
             pc.sendPackets(new S_CharVisualUpdate(pc));
             pc.startHpRegeneration();
             pc.startMpRegeneration();
-            pc.sendPackets(new S_Weather(L1World.Instance.Weather));
+            pc.sendPackets(new S_Weather(Container.Instance.Resolve<IGameWorld>().Weather));
             if (pc.HellTime > 0)
             {
                 pc.beginHell(false);
@@ -569,8 +569,8 @@ namespace LineageServer.Server.Model
         {
             try
             {
-                L1NpcInstance npc = NpcTable.Instance.newNpcInstance(npcId);
-                npc.Id = IdFactory.Instance.nextId();
+                L1NpcInstance npc = Container.Instance.Resolve<INpcController>().newNpcInstance(npcId);
+                npc.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                 npc.MapId = mapId;
 
                 if (randomRange == 0)
@@ -605,13 +605,13 @@ namespace LineageServer.Server.Model
                 npc.Heading = RandomHelper.Next(8);
                 npc.PortalNumber = portalNumber;
 
-                L1World.Instance.storeObject(npc);
-                L1World.Instance.addVisibleObject(npc);
+                Container.Instance.Resolve<IGameWorld>().storeObject(npc);
+                Container.Instance.Resolve<IGameWorld>().addVisibleObject(npc);
 
                 if (npc.GfxId == 7548 || npc.GfxId == 7550 || npc.GfxId == 7552 || npc.GfxId == 7554 || npc.GfxId == 7585 || npc.GfxId == 7539 || npc.GfxId == 7557 || npc.GfxId == 7558 || npc.GfxId == 7864 || npc.GfxId == 7869 || npc.GfxId == 7870)
                 {
                     npc.npcSleepTime(ActionCodes.ACTION_AxeWalk, L1NpcInstance.ATTACK_SPEED);
-                    foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayer(npc))
+                    foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(npc))
                     {
                         npc.onPerceive(pc);
                         S_DoActionGFX gfx = new S_DoActionGFX(npc.Id, ActionCodes.ACTION_AxeWalk);

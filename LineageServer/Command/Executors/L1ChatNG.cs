@@ -21,7 +21,7 @@ namespace LineageServer.Command.Executors
                 string name = st.nextToken();
                 int time = int.Parse(st.nextToken());
 
-                L1PcInstance tg = L1World.Instance.getPlayer(name);
+                L1PcInstance tg = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
 
                 if (tg != null)
                 {

@@ -235,7 +235,7 @@ namespace LineageServer.Server.Model.item
 			else
 			{
 				// 持てない場合は地面に落とす 処理のキャンセルはしない（不正防止）
-				inventory = L1World.Instance.getInventory(pc.Location);
+				inventory = Container.Instance.Resolve<IGameWorld>().getInventory(pc.Location);
 			}
 			inventory.storeItem(item);
 			pc.sendPackets(new S_ServerMessage(403, item.LogName)); // %0を手に入れました。

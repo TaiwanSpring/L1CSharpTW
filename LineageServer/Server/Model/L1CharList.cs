@@ -74,7 +74,7 @@ namespace LineageServer.Server.Model
 						long checkDeleteTime = ((cal.Ticks - deleteTime.Time) / 1000) / 3600;
 						if (checkDeleteTime >= 0)
 						{
-							L1Clan clan = L1World.Instance.getClan(clanname);
+							L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(clanname);
 							if (clan != null)
 							{
 								clan.delMemberName(name);

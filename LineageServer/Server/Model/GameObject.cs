@@ -15,7 +15,7 @@ namespace LineageServer.Server.Model
 		public virtual short MapId
 		{
 			get { return (short)_loc.getMap().Id; }
-			set { _loc.setMap(L1WorldMap.Instance.getMap(value)); }
+			set { _loc.setMap(Container.Instance.Resolve<IWorldMap>().getMap(value)); }
 		}
 		/// <summary>
 		/// 取得對象所存在的地圖

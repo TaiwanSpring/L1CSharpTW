@@ -154,12 +154,12 @@ namespace LineageServer.Server.DataTables
 		public virtual void disconnectAllCharacters()
 		{
 			// 踢除所有在線上的玩家
-			foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
 			{
 				pc.NetConnection.ActiveChar = null;
 				pc.NetConnection.kick();
 				ClientThread.quitGame(pc);
-				L1World.Instance.removeObject(pc);
+				Container.Instance.Resolve<IGameWorld>().removeObject(pc);
 
 				Account account = Account.Load(pc.AccountName);
 				Account.SetOnline(account, false);

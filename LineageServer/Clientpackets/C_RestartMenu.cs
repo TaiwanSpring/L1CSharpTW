@@ -31,9 +31,9 @@ namespace LineageServer.Clientpackets
             { // 請求授予血盟RANK
                 int rank = ReadC();
                 string name = ReadS();
-                L1PcInstance targetPc = L1World.Instance.getPlayer(name);
+                L1PcInstance targetPc = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
 
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan == null)
                 {
                     return;

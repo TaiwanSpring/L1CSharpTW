@@ -18,7 +18,7 @@ namespace LineageServer.Server.Model.Instance
                 return;
             }
             string playerClanName = player.Clanname;
-            L1Clan clan = L1World.Instance.getClan(playerClanName);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(playerClanName);
             if (clan == null)
             {
                 return;
@@ -53,17 +53,17 @@ namespace LineageServer.Server.Model.Instance
             // 布告しているかチェック。但し、城主が居ない場合は布告不要
             bool existDefenseClan = false;
             L1Clan defence_clan = null;
-            foreach (L1Clan defClan in L1World.Instance.AllClans)
+            foreach (L1Clan defClan in Container.Instance.Resolve<IGameWorld>().AllClans)
             {
                 if (castle_id == defClan.CastleId)
                 {
                     // 元の城主クラン
-                    defence_clan = L1World.Instance.getClan(defClan.ClanName);
+                    defence_clan = Container.Instance.Resolve<IGameWorld>().getClan(defClan.ClanName);
                     existDefenseClan = true;
                     break;
                 }
             }
-            IList<L1War> wars = L1World.Instance.WarList; // 全戦争リストを取得
+            IList<L1War> wars = Container.Instance.Resolve<IGameWorld>().WarList; // 全戦争リストを取得
             foreach (L1War war in wars)
             {
                 if (castle_id == war.GetCastleId())
@@ -100,7 +100,7 @@ namespace LineageServer.Server.Model.Instance
 
             // クラン員以外を街に強制テレポート
             int[] loc = new int[3];
-            foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
             {
                 if ((pc.Clanid != player.Clanid) && !pc.Gm)
                 {
@@ -143,7 +143,7 @@ namespace LineageServer.Server.Model.Instance
             deleteMe();
 
             // タワーを消して再出現させる
-            foreach (GameObject l1object in L1World.Instance.Object)
+            foreach (GameObject l1object in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (l1object is L1TowerInstance)
                 {
@@ -158,7 +158,7 @@ namespace LineageServer.Server.Model.Instance
             warspawn.SpawnTower(castle_id);
 
             // 城門を元に戻す
-            foreach (L1DoorInstance door in DoorTable.Instance.DoorList)
+            foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
             {
                 if (L1CastleLocation.checkInWarArea(castle_id, door))
                 {
@@ -176,9 +176,9 @@ namespace LineageServer.Server.Model.Instance
             }
             allTargetClear();
             _master = null;
-            L1World.Instance.removeVisibleObject(this);
-            L1World.Instance.removeObject(this);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            Container.Instance.Resolve<IGameWorld>().removeVisibleObject(this);
+            Container.Instance.Resolve<IGameWorld>().removeObject(this);
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 pc.removeKnownObject(this);
                 pc.sendPackets(new S_RemoveObject(this));

@@ -18,7 +18,7 @@ namespace LineageServer.Server.Model.monitor
 			if (pc.HellTime <= 0)
 			{
 				// endHellの実行時間が影響ないように
-				RunnableExecuter.Instance.execute(new L1PcMonitorAnonymousInnerClass(this, pc.Id));
+				Container.Instance.Resolve<ITaskController>().execute(new L1PcMonitorAnonymousInnerClass(this, pc.Id));
 			}
 		}
 

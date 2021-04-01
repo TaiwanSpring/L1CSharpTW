@@ -12,7 +12,7 @@ namespace LineageServer.Server.Model.monitor
 		public override void execTask(L1PcInstance pc)
 		{
 			// endGhostの実行時間が影響ないように
-			RunnableExecuter.Instance.execute(new L1PcMonitorAnonymousInnerClass(this, pc.Id));
+			Container.Instance.Resolve<ITaskController>().execute(new L1PcMonitorAnonymousInnerClass(this, pc.Id));
 		}
 
 		private class L1PcMonitorAnonymousInnerClass : L1PcMonitor

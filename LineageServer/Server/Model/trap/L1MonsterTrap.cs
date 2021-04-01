@@ -52,7 +52,7 @@ namespace LineageServer.Server.Model.trap
 		{
 			if (_npcTemp == null)
 			{
-				_npcTemp = NpcTable.Instance.getTemplate(_npcId);
+				_npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(_npcId);
 			}
 
 			return L1NpcInstance.Factory(_npcTemp);
@@ -60,12 +60,12 @@ namespace LineageServer.Server.Model.trap
 		private void spawn(L1Location loc)
 		{
 			L1NpcInstance npc = createNpc();
-			npc.Id = IdFactory.Instance.nextId();
+			npc.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 			npc.Location.set(loc);
 			npc.HomeX = loc.X;
 			npc.HomeY = loc.Y;
-			L1World.Instance.storeObject(npc);
-			L1World.Instance.addVisibleObject(npc);
+			Container.Instance.Resolve<IGameWorld>().storeObject(npc);
+			Container.Instance.Resolve<IGameWorld>().addVisibleObject(npc);
 
 			npc.onNpcAI();
 			npc.turnOnOffLight();

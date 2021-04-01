@@ -19,7 +19,7 @@ namespace LineageServer.Clientpackets
         public C_Board(byte[] abyte0, ClientThread client) : base(abyte0)
         {
             int objectId = ReadD();
-            GameObject obj = L1World.Instance.findObject(objectId);
+            GameObject obj = Container.Instance.Resolve<IGameWorld>().findObject(objectId);
             if (!isBoardInstance(obj))
             {
                 return; // 對象不是佈告欄停止

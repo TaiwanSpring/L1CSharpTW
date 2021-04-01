@@ -40,11 +40,11 @@ namespace LineageServer.Server.DataTables
             {
                 IDataSourceRow dataSourceRow = dataSourceRows[i];
 
-                L1Npc l1npc = NpcTable.Instance.getTemplate(dataSourceRow.getInt(SpawnlistLight.Column_npcid));
+                L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(dataSourceRow.getInt(SpawnlistLight.Column_npcid));
 
                 if (L1NpcInstance.Factory(l1npc) is L1FieldObjectInstance l1FieldObjectInstance)
                 {
-                    l1FieldObjectInstance.Id = IdFactory.Instance.nextId();
+                    l1FieldObjectInstance.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                     l1FieldObjectInstance.X = dataSourceRow.getInt(SpawnlistLight.Column_locx);
                     l1FieldObjectInstance.Y = dataSourceRow.getInt(SpawnlistLight.Column_locy);
                     l1FieldObjectInstance.MapId = (short)dataSourceRow.getInt(SpawnlistLight.Column_mapid);
@@ -53,8 +53,8 @@ namespace LineageServer.Server.DataTables
                     l1FieldObjectInstance.Heading = 0;
                     l1FieldObjectInstance.LightSize = l1npc.LightSize;
 
-                    L1World.Instance.storeObject(l1FieldObjectInstance);
-                    L1World.Instance.addVisibleObject(l1FieldObjectInstance);
+                    Container.Instance.Resolve<IGameWorld>().storeObject(l1FieldObjectInstance);
+                    Container.Instance.Resolve<IGameWorld>().addVisibleObject(l1FieldObjectInstance);
                 }
             }
         }

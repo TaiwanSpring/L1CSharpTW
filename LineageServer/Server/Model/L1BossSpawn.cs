@@ -168,7 +168,7 @@ namespace LineageServer.Server.Model
 			while (cnt < Amount)
 			{
 				cnt++;
-				RunnableExecuter.Instance.schedule(new SpawnTask(this, this, 0, objectId), delay);
+				Container.Instance.Resolve<ITaskController>().schedule(new SpawnTask(this, this, 0, objectId), delay);
 			}
 			_log.log(Level.FINE, ToString());
 		}

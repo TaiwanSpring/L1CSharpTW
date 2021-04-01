@@ -41,7 +41,7 @@ namespace LineageServer.Server.DataTables
 			{
 				IDataSourceRow dataSourceRow = dataSourceRows[i];
 
-				L1Npc npcTemp = NpcTable.Instance.getTemplate(dataSourceRow.getInt(SpawnlistUb.Column_npc_templateid));
+				L1Npc npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(dataSourceRow.getInt(SpawnlistUb.Column_npc_templateid));
 
 				if (npcTemp == null)
 				{

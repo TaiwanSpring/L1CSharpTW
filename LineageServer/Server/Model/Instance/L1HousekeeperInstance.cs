@@ -43,7 +43,7 @@ namespace LineageServer.Server.Model.Instance
             if (talking != null)
             {
                 // 話しかけたPCが所有者とそのクラン員かどうか調べる
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     int houseId = clan.HouseId;
@@ -75,7 +75,7 @@ namespace LineageServer.Server.Model.Instance
                     bool isOccupy = false;
                     string clanName = null;
                     string leaderName = null;
-                    foreach (L1Clan targetClan in L1World.Instance.AllClans)
+                    foreach (L1Clan targetClan in Container.Instance.Resolve<IGameWorld>().AllClans)
                     {
                         if (targetHouse.HouseId == targetClan.HouseId)
                         {

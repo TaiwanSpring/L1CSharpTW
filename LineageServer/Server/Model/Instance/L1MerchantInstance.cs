@@ -67,7 +67,7 @@ namespace LineageServer.Server.Model.Instance
                     }
                     Rest = true;
                     _monitor = new RestMonitor(this);
-					RunnableExecuter.Instance.execute((Interfaces.IRunnable)this._monitor, REST_MILLISEC);
+					Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this._monitor, REST_MILLISEC);
                 }
             }
 
@@ -5076,7 +5076,7 @@ namespace LineageServer.Server.Model.Instance
         {
             if (player.Clanid != 0)
             { // クラン所属中
-                L1Clan clan = L1World.Instance.getClan(player.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(player.Clanname);
                 if (clan != null)
                 {
                     if (clan.CastleId == castle_id)
@@ -5092,7 +5092,7 @@ namespace LineageServer.Server.Model.Instance
         {
             if (player.Crown)
             { // 君主
-                L1Clan clan = L1World.Instance.getClan(player.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(player.Clanname);
                 if (clan != null)
                 {
                     if (player.Id == clan.LeaderId)

@@ -40,14 +40,14 @@ namespace LineageServer.Server.DataTables
             for (int i = 0; i < dataSourceRows.Count; i++)
             {
                 IDataSourceRow dataSourceRow = dataSourceRows[i];
-                L1Npc l1npc = NpcTable.Instance.getTemplate(dataSourceRow.getInt(SpawnlistFurniture.Column_npcid));
+                L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(dataSourceRow.getInt(SpawnlistFurniture.Column_npcid));
                 if (l1npc != null)
                 {
                     string s = l1npc.Impl;
 
                     if (L1NpcInstance.Factory(l1npc) is L1FurnitureInstance furniture)
                     {
-                        furniture.Id = IdFactory.Instance.nextId();
+                        furniture.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                         furniture.ItemObjId = dataSourceRow.getInt(SpawnlistFurniture.Column_item_obj_id);
                         furniture.X = dataSourceRow.getInt(SpawnlistFurniture.Column_locx);
                         furniture.Y = dataSourceRow.getInt(SpawnlistFurniture.Column_locy);
@@ -55,8 +55,8 @@ namespace LineageServer.Server.DataTables
                         furniture.HomeX = furniture.X;
                         furniture.HomeY = furniture.Y;
                         furniture.Heading = 0;
-                        L1World.Instance.storeObject(furniture);
-                        L1World.Instance.addVisibleObject(furniture);
+                        Container.Instance.Resolve<IGameWorld>().storeObject(furniture);
+                        Container.Instance.Resolve<IGameWorld>().addVisibleObject(furniture);
                     }
                 }
             }

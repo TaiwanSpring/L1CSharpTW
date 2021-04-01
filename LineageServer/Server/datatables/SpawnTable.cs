@@ -66,7 +66,7 @@ namespace LineageServer.Server.DataTables
 
 				int npcTemplateId = dataSourceRow.getInt(Spawnlist.Column_npc_templateid);
 
-				L1Npc npc = NpcTable.Instance.getTemplate(npcTemplateId);
+				L1Npc npc = Container.Instance.Resolve<INpcController>().getTemplate(npcTemplateId);
 
 				if (npc == null)
 				{

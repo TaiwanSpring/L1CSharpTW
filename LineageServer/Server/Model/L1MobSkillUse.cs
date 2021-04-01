@@ -262,7 +262,7 @@ namespace LineageServer.Server.Model
                 _sleepTime = SprTable.Instance.getSprSpeed(_attacker.TempCharGfx, actId);
             }
 
-            foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayer(_attacker))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(_attacker))
             {
                 if (pc.Dead)
                 { // 死亡
@@ -367,7 +367,7 @@ namespace LineageServer.Server.Model
             if (areaHeight > 0)
             {
                 // 範囲攻撃
-                IList<GameObject> objs = L1World.Instance.getVisibleBoxObjects(_attacker, _attacker.Heading, areaWidth, areaHeight);
+                IList<GameObject> objs = Container.Instance.Resolve<IGameWorld>().getVisibleBoxObjects(_attacker, _attacker.Heading, areaWidth, areaHeight);
 
                 foreach (GameObject obj in objs)
                 {
@@ -430,7 +430,7 @@ namespace LineageServer.Server.Model
             while (ite.MoveNext())
             {
                 int targetId = ite.Current;
-                L1Attack attack = new L1Attack(_attacker, (L1Character)L1World.Instance.findObject(targetId));
+                L1Attack attack = new L1Attack(_attacker, (L1Character)Container.Instance.Resolve<IGameWorld>().findObject(targetId));
                 if (attack.calcHit())
                 {
                     if (MobSkillTemplate.getLeverage(idx) > 0)
@@ -564,7 +564,7 @@ namespace LineageServer.Server.Model
             int companionHpRatio;
             int family = _attacker.NpcTemplate.get_family();
 
-            foreach (GameObject @object in L1World.Instance.getVisibleObjects(_attacker))
+            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(_attacker))
             {
                 if (@object is L1NpcInstance)
                 {
@@ -597,7 +597,7 @@ namespace LineageServer.Server.Model
         {
             try
             {
-                L1Npc spawnmonster = NpcTable.Instance.getTemplate(summonId);
+                L1Npc spawnmonster = Container.Instance.Resolve<INpcController>().getTemplate(summonId);
                 if (spawnmonster != null)
                 {
                     L1NpcInstance mob = null;
@@ -608,7 +608,7 @@ namespace LineageServer.Server.Model
                         //ORIGINAL LINE: java.lang.reflect.Constructor<?> _constructor = Class.forName((new StringBuilder()).append("l1j.server.server.model.Instance.").append(implementationName).append("Instance").toString()).getConstructors()[0];
                         System.Reflection.ConstructorInfo<object> _constructor = Type.GetType((new StringBuilder()).Append("l1j.server.server.model.Instance.").Append(implementationName).Append("Instance").ToString()).GetConstructors()[0];
                         mob = (L1NpcInstance)_constructor.Invoke(new object[] { spawnmonster });
-                        mob.Id = IdFactory.Instance.nextId();
+                        mob.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                         L1Location loc = _attacker.Location.randomLocation(8, false);
                         int heading = RandomHelper.Next(8);
                         mob.X = loc.X;
@@ -618,9 +618,9 @@ namespace LineageServer.Server.Model
                         short mapid = _attacker.MapId;
                         mob.MapId = mapid;
                         mob.Heading = heading;
-                        L1World.Instance.storeObject(mob);
-                        L1World.Instance.addVisibleObject(mob);
-                        GameObject @object = L1World.Instance.findObject(mob.Id);
+                        Container.Instance.Resolve<IGameWorld>().storeObject(mob);
+                        Container.Instance.Resolve<IGameWorld>().addVisibleObject(mob);
+                        GameObject @object = Container.Instance.Resolve<IGameWorld>().findObject(mob.Id);
                         L1MonsterInstance newnpc = (L1MonsterInstance)@object;
                         newnpc.set_storeDroped(true); // 召喚怪不會掉落道具
                         if (newnpc.TempCharGfx == 145)
@@ -665,7 +665,7 @@ namespace LineageServer.Server.Model
                 case L1MobSkill.CHANGE_TARGET_RANDOM:
                     // ターゲット候補の選定
                     IList<L1Character> targetList = ListFactory.NewList<L1Character>();
-                    foreach (GameObject obj in L1World.Instance.getVisibleObjects(_attacker))
+                    foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(_attacker))
                     {
                         if ((obj is L1PcInstance) || (obj is L1PetInstance) || (obj is L1SummonInstance))
                         {

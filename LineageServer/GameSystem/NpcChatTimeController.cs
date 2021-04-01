@@ -52,7 +52,7 @@ namespace LineageServer.Server
                 if (isChatTime(npcChat.GameTime))
                 {
                     int npcId = npcChat.NpcId;
-                    foreach (GameObject obj in L1World.Instance.Object)
+                    foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                     {
                         if (obj is L1NpcInstance npc)
                         {

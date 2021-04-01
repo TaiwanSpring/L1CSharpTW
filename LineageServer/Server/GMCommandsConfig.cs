@@ -53,7 +53,7 @@ namespace LineageServer.Server
 
                     if (!ROOMS.ContainsKey(room.Name))
                     {
-                        ROOMS.Add(room.Name, new L1Location(room.LocX, room.LocY, L1WorldMap.Instance.getMap((short)room.MapId)));
+                        ROOMS.Add(room.Name, new L1Location(room.LocX, room.LocY, Container.Instance.Resolve<IWorldMap>().getMap((short)room.MapId)));
                     }
                 }
             }

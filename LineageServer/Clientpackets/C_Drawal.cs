@@ -27,7 +27,7 @@ namespace LineageServer.Clientpackets
 			ReadD();
 			int j = Math.Abs(ReadD());
 
-			L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+			L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
 			if (clan != null)
 			{
 				int castle_id = clan.CastleId;
@@ -47,7 +47,7 @@ namespace LineageServer.Clientpackets
 						}
 						else
 						{
-							L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(L1ItemId.ADENA, j);
+							Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(L1ItemId.ADENA, j);
 						}
 						pc.sendPackets(new S_ServerMessage(143, "$457", $"$4 ({j})")); // \f1%0%s
 																								 // 給你

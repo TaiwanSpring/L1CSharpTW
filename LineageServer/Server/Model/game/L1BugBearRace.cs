@@ -63,7 +63,7 @@ namespace LineageServer.Server.Model.Game
         {
             Round = RaceTicketTable.Instance.RoundNumOfMax;
             _runner = new L1NpcInstance[5];
-            foreach (GameObject obj in L1World.Instance.Object)
+            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (obj is L1MerchantInstance)
                 {
@@ -73,7 +73,7 @@ namespace LineageServer.Server.Model.Game
                     }
                 }
             }
-            foreach (GameObject obj in L1World.Instance.Object)
+            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (obj is L1MerchantInstance)
                 {
@@ -83,7 +83,7 @@ namespace LineageServer.Server.Model.Game
                     }
                 }
             }
-            foreach (GameObject obj in L1World.Instance.Object)
+            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (obj is L1MerchantInstance)
                 {
@@ -146,7 +146,7 @@ namespace LineageServer.Server.Model.Game
                 setBetCount(i, 0);
             }
             AllBet = 0;
-            foreach (L1DoorInstance door in DoorTable.Instance.DoorList)
+            foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
             {
                 if (door.DoorId <= 812 && door.DoorId >= 808)
                 {
@@ -277,7 +277,7 @@ namespace LineageServer.Server.Model.Game
             }
             if (cnt == 1)
             {
-                cecile.wideBroadcastPacket(new S_NpcChatPacket(cecile, "第 " + Round + " $366 " + NpcTable.Instance.getTemplate(_runner[runnberNumber].NpcId).get_nameid() + " $367", 2)); // 5>3バイト
+                cecile.wideBroadcastPacket(new S_NpcChatPacket(cecile, "第 " + Round + " $366 " + Container.Instance.Resolve<INpcController>().getTemplate(_runner[runnberNumber].NpcId).get_nameid() + " $367", 2)); // 5>3バイト
                 /* DB格納処理 */
                 RaceTicketTable.Instance.updateTicket(Round, _runner[runnberNumber].NpcId - FIRST_NPCID + 1, _allotment_percentage[runnberNumber]);
             }
@@ -385,7 +385,7 @@ namespace LineageServer.Server.Model.Game
                     shop1.SellingItems.Clear();
                     shop2.SellingItems.Clear();
                     shop3.SellingItems.Clear();
-                    foreach (L1DoorInstance door in DoorTable.Instance.DoorList)
+                    foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
                     {
                         if (door.DoorId <= 812 && door.DoorId >= 808)
                         {
@@ -413,7 +413,7 @@ namespace LineageServer.Server.Model.Game
                     for (int i = 0; i < outerInstance._runner.Length; i++)
                     {
                         Thread.Sleep(1000);
-                        outerInstance.sendMessage(NpcTable.Instance.getTemplate(outerInstance._runner[i].NpcId).get_nameid() + " $402 " + outerInstance._allotment_percentage[i].ToString()); // 402
+                        outerInstance.sendMessage(Container.Instance.Resolve<INpcController>().getTemplate(outerInstance._runner[i].NpcId).get_nameid() + " $402 " + outerInstance._allotment_percentage[i].ToString()); // 402
                                                                                                                                                                                               // の配当率は
                     }
                     this.cancel();
@@ -427,7 +427,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-				RunnableExecuter.Instance.execute((Interfaces.IRunnable)this, this._startTime * 1000);
+				Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this, this._startTime * 1000);
             }
 
             public void cancel()
@@ -499,7 +499,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin(int startTime)
             {
-				RunnableExecuter.Instance.execute((Interfaces.IRunnable)this, startTime);
+				Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this, startTime);
             }
 
             public void cancel()
@@ -537,28 +537,28 @@ namespace LineageServer.Server.Model.Game
         {
             //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
             //ORIGINAL LINE: final l1j.server.server.model.Instance.L1NpcInstance mob = new l1j.server.server.model.Instance.L1NpcInstance(l1j.server.server.datatables.NpcTable.getInstance().getTemplate(npcid));
-            L1NpcInstance mob = new L1NpcInstance(NpcTable.Instance.getTemplate(npcid));
+            L1NpcInstance mob = new L1NpcInstance(Container.Instance.Resolve<INpcController>().getTemplate(npcid));
             if (mob == null)
             {
                 return mob;
             }
 
             mob.NameId = "#" + (mob.NpcId - FIRST_NPCID + 1) + " " + mob.NameId;
-            mob.Id = IdFactory.Instance.nextId();
+            mob.Id = Container.Instance.Resolve<IIdFactory>().nextId();
             mob.Heading = heading;
             mob.X = loc.X;
             mob.HomeX = loc.X;
             mob.Y = loc.Y;
             mob.HomeY = loc.Y;
-            mob.Map = L1WorldMap.Instance.getMap((short)loc.MapId);
+            mob.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)loc.MapId);
             mob.Passispeed = mob.Passispeed * 2;
-            L1World.Instance.storeObject(mob);
-            L1World.Instance.addVisibleObject(mob);
+            Container.Instance.Resolve<IGameWorld>().storeObject(mob);
+            Container.Instance.Resolve<IGameWorld>().addVisibleObject(mob);
 
             //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
             //ORIGINAL LINE: final l1j.server.server.serverpackets.S_NPCPack s_npcPack = new l1j.server.server.serverpackets.S_NPCPack(mob);
             S_NPCPack s_npcPack = new S_NPCPack(mob);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(mob))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(mob))
             {
                 pc.addKnownObject(mob);
                 mob.addKnownObject(pc);
@@ -640,7 +640,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.execute(this, 1000, 1000);
+                Container.Instance.Resolve<ITaskController>().execute(this, 1000, 1000);
             }
 
             public void cancel()

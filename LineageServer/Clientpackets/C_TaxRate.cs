@@ -26,7 +26,7 @@ namespace LineageServer.Clientpackets
 
 			if (i == player.Id)
 			{
-				L1Clan clan = L1World.Instance.getClan(player.Clanname);
+				L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(player.Clanname);
 				if (clan != null)
 				{
 					int castle_id = clan.CastleId;

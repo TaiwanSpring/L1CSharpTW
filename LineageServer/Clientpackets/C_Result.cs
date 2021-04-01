@@ -36,7 +36,7 @@ namespace LineageServer.Clientpackets
             string npcImpl = "";
             bool isPrivateShop = false;
             bool tradable = true;
-            GameObject findObject = L1World.Instance.findObject(npcObjectId);
+            GameObject findObject = Container.Instance.Resolve<IGameWorld>().findObject(npcObjectId);
             if (findObject != null)
             {
                 int diffLocX = Math.Abs(pc.X - findObject.X);
@@ -221,7 +221,7 @@ namespace LineageServer.Clientpackets
                         tradable = true;
                         objectId = ReadD();
                         count = ReadD();
-                        L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                        L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                         GameObject @object = pc.Inventory.getItem(objectId);
                         L1ItemInstance item = (L1ItemInstance)@object;
                         if (clan != null)
@@ -287,7 +287,7 @@ namespace LineageServer.Clientpackets
                 int objectId, count;
                 L1ItemInstance item;
 
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     for (int i = 0; i < size; i++)
@@ -319,7 +319,7 @@ namespace LineageServer.Clientpackets
             }
             else if ((resultType == 5) && (size == 0) && npcImpl == "L1Dwarf")
             { // クラン倉庫から取り出し中にCancel、または、ESCキー
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     clan.WarehouseUsingChar = 0; // クラン倉庫のロックを解除
@@ -696,7 +696,7 @@ namespace LineageServer.Clientpackets
                             pc.sendPackets(new S_ServerMessage(489)); // 你無法一次控制那麼多寵物。
                             return;
                         }
-                        L1Npc npcTemp = NpcTable.Instance.getTemplate(npcId);
+                        L1Npc npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(npcId);
                         L1PetInstance pet = new L1PetInstance(npcTemp, pc, l1pet);
                         pet.Petcost = divisor;
                     }

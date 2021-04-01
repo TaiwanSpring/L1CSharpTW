@@ -15,7 +15,7 @@ namespace LineageServer.Clientpackets
 
         public C_Who(byte[] decrypt, ClientThread client) : base(decrypt)
         {
-            string amount = (L1World.Instance.AllPlayers.Count).ToString();
+            string amount = (Container.Instance.Resolve<IGameWorld>().AllPlayers.Count).ToString();
             L1PcInstance pc = client.ActiveChar;
             if (pc == null)
             {
@@ -23,7 +23,7 @@ namespace LineageServer.Clientpackets
             }
 
             string s = ReadS();
-            L1PcInstance find = L1World.Instance.getPlayer(s);
+            L1PcInstance find = Container.Instance.Resolve<IGameWorld>().getPlayer(s);
 
 
             if (find != null)

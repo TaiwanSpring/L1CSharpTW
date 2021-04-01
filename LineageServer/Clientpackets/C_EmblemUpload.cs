@@ -31,7 +31,7 @@ namespace LineageServer.Clientpackets
 
             if (player.Clanid != 0)
             {
-                int newEmblemdId = IdFactory.Instance.nextId();
+                int newEmblemdId = Container.Instance.Resolve<IIdFactory>().nextId();
                 string emblem_file = newEmblemdId.ToString();
 
                 FileStream fos = null;

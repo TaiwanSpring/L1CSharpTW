@@ -45,5 +45,20 @@
 
             return i;
         }
+
+        public static byte ToByte(this int i)
+        {
+            if (i < byte.MinValue)
+            {
+                return byte.MinValue;
+            }
+
+            if (i > byte.MaxValue)
+            {
+                return byte.MaxValue;
+            }
+
+            return (byte)i;
+        }
     }
 }

@@ -8,6 +8,7 @@ using LineageServer.Utils;
 using System;
 using System.Text;
 using LineageServer.Models;
+using LineageServer.Interfaces;
 
 namespace LineageServer.Server.Model.Instance
 {
@@ -673,7 +674,7 @@ namespace LineageServer.Server.Model.Instance
                 L1Pet pet = PetTable.Instance.getTemplate(Id);
                 if (pet != null)
                 {
-                    L1Npc npc = NpcTable.Instance.getTemplate(pet.get_npcid());
+                    L1Npc npc = Container.Instance.Resolve<INpcController>().getTemplate(pet.get_npcid());
                     // name.append("[Lv." + pet.get_level() + " "
                     // + npc.get_nameid() + "]");
                     name.Append("[Lv." + pet.get_level() + " " + pet.get_name() + "]HP" + pet.get_hp() + " " + npc.get_nameid());
@@ -1569,7 +1570,7 @@ namespace LineageServer.Server.Model.Instance
             AcByMagic = 3;
             _pc = pc;
             _timer = new EnchantTimer(this);
-			RunnableExecuter.Instance.execute((Interfaces.IRunnable)this._timer, skillTime);
+			Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this._timer, skillTime);
             _isRunning = true;
         }
 
@@ -1615,7 +1616,7 @@ namespace LineageServer.Server.Model.Instance
 
             _pc = pc;
             _timer = new EnchantTimer(this);
-			RunnableExecuter.Instance.execute((Interfaces.IRunnable)this._timer, skillTime);
+			Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this._timer, skillTime);
             _isRunning = true;
         }
 
@@ -1648,7 +1649,7 @@ namespace LineageServer.Server.Model.Instance
             if (RemainingTime > 0)
             {
                 _equipmentTimer = new L1EquipmentTimer(pc, this);
-                RunnableExecuter.Instance.execute(_equipmentTimer, 1000, 1000);
+                Container.Instance.Resolve<ITaskController>().execute(_equipmentTimer, 1000, 1000);
             }
         }
 

@@ -19,7 +19,7 @@ namespace LineageServer.Clientpackets
 				return;
 			}
 
-			L1PcInstance trading_partner = (L1PcInstance) L1World.Instance.findObject(player.TradeID);
+			L1PcInstance trading_partner = (L1PcInstance) Container.Instance.Resolve<IGameWorld>().findObject(player.TradeID);
 			if (trading_partner != null)
 			{
 				player.TradeOk = true;

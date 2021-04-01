@@ -39,7 +39,7 @@ namespace LineageServer.Utils
 			double dist = 0;
 			long member_exp = 0;
 			int member_lawful = 0;
-			GameObject l1object = L1World.Instance.findObject(targetid);
+			GameObject l1object = Container.Instance.Resolve<IGameWorld>().findObject(targetid);
 			L1NpcInstance npc = (L1NpcInstance)l1object;
 
 			// ヘイトの合計を取得

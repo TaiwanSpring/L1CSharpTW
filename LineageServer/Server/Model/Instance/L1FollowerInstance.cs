@@ -11,7 +11,7 @@ namespace LineageServer.Server.Model.Instance
 
 		public override bool noTarget()
 		{
-			foreach (GameObject @object in L1World.Instance.getVisibleObjects(this))
+			foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(this))
 			{
 				if (@object is L1NpcInstance)
 				{
@@ -130,7 +130,7 @@ namespace LineageServer.Server.Model.Instance
 		{
 
 			_master = master;
-			Id = IdFactory.Instance.nextId();
+			Id = Container.Instance.Resolve<IIdFactory>().nextId();
 
 			Master = master;
 			X = target.X;
@@ -143,9 +143,9 @@ namespace LineageServer.Server.Model.Instance
 			target.Dead = true;
 			target.deleteMe();
 
-			L1World.Instance.storeObject(this);
-			L1World.Instance.addVisibleObject(this);
-			foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+			Container.Instance.Resolve<IGameWorld>().storeObject(this);
+			Container.Instance.Resolve<IGameWorld>().addVisibleObject(this);
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
 			{
 				onPerceive(pc);
 			}
@@ -276,7 +276,7 @@ namespace LineageServer.Server.Model.Instance
 				}
 				else
 				{
-					L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+					Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
 				}
 				pc.sendPackets(new S_ServerMessage(403, item.LogName));
 			}
@@ -284,7 +284,7 @@ namespace LineageServer.Server.Model.Instance
 
 		public virtual void spawn(int npcId, int X, int Y, int H, short Map)
 		{
-			L1Npc l1npc = NpcTable.Instance.getTemplate(npcId);
+			L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(npcId);
 			if (l1npc != null)
 			{
 				L1NpcInstance mob = null;
@@ -295,16 +295,16 @@ namespace LineageServer.Server.Model.Instance
 					System.Reflection.ConstructorInfo<object> _constructor = Type.GetType(( new StringBuilder() ).Append("l1j.server.server.model.Instance.").Append(implementationName).Append("Instance").ToString()).GetConstructors()[0];
 
 					mob = (L1NpcInstance)_constructor.Invoke(new object[] { l1npc });
-					mob.Id = IdFactory.Instance.nextId();
+					mob.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 					mob.X = X;
 					mob.Y = Y;
 					mob.HomeX = X;
 					mob.HomeY = Y;
 					mob.MapId = Map;
 					mob.Heading = H;
-					L1World.Instance.storeObject(mob);
-					L1World.Instance.addVisibleObject(mob);
-					GameObject @object = L1World.Instance.findObject(mob.Id);
+					Container.Instance.Resolve<IGameWorld>().storeObject(mob);
+					Container.Instance.Resolve<IGameWorld>().addVisibleObject(mob);
+					GameObject @object = Container.Instance.Resolve<IGameWorld>().findObject(mob.Id);
 					L1QuestInstance newnpc = (L1QuestInstance)@object;
 					newnpc.onNpcAI();
 					newnpc.turnOnOffLight();

@@ -27,7 +27,7 @@ namespace LineageServer.Clientpackets
 
             string s = ReadS();
 
-            L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
             if (clan != null)
             {
                 string[] clanMemberName = clan.AllMembers;
@@ -41,7 +41,7 @@ namespace LineageServer.Clientpackets
                             return;
                         }
                     }
-                    L1PcInstance tempPc = L1World.Instance.getPlayer(s);
+                    L1PcInstance tempPc = Container.Instance.Resolve<IGameWorld>().getPlayer(s);
                     if (tempPc != null)
                     { // 玩家在線上
                         if (tempPc.Clanid == pc.Clanid)

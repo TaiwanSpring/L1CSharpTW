@@ -55,17 +55,17 @@ namespace LineageServer.Clientpackets
             pc.set_food(40);
             pc.Dead = false;
             pc.Status = 0;
-            L1World.Instance.moveVisibleObject(pc, loc[2]);
+            Container.Instance.Resolve<IGameWorld>().moveVisibleObject(pc, loc[2]);
             pc.X = loc[0];
             pc.Y = loc[1];
-            pc.Map = L1WorldMap.Instance.getMap((short)loc[2]);
+            pc.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)loc[2]);
             pc.sendPackets(new S_MapID(pc.MapId, pc.Map.Underwater));
             pc.broadcastPacket(new S_OtherCharPacks(pc));
             pc.sendPackets(new S_OwnCharPack(pc));
             pc.sendPackets(new S_CharVisualUpdate(pc));
             pc.startHpRegeneration();
             pc.startMpRegeneration();
-            pc.sendPackets(new S_Weather(L1World.Instance.Weather));
+            pc.sendPackets(new S_Weather(Container.Instance.Resolve<IGameWorld>().Weather));
             if (pc.HellTime > 0)
             {
                 pc.beginHell(false);

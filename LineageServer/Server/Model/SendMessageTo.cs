@@ -16,7 +16,7 @@ namespace LineageServer.Server.Model
 
 		public void SendToAll(string message)
 		{
-			foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
 			{
 				pc.sendPackets(new S_SystemMessage(message));
 			}

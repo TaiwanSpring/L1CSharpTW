@@ -588,7 +588,7 @@ namespace LineageServer.Server.Model.Map
 
 		public override bool isExistDoor(int x, int y)
 		{
-			foreach (L1DoorInstance door in DoorTable.Instance.DoorList)
+			foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
 			{
 				if (_mapId != door.MapId)
 				{

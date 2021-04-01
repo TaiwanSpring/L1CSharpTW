@@ -117,7 +117,7 @@ namespace LineageServer.Server.DataTables
             Array.Copy(text, 0, subject, 0, subjectLength);
             Array.Copy(text, subjectLength, content, 0, contentLength);
 
-            int id = IdFactory.Instance.nextId();
+            int id = Container.Instance.Resolve<IIdFactory>().nextId();
             DateTime date = DateTime.Now;
             int readStatus = 0;
             IDataSourceRow dataSourceRow = dataSource.NewRow();

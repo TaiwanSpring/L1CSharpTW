@@ -62,7 +62,7 @@ namespace LineageServer.Server.Model
             get
             {
                 string result = "";
-                foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+                foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                 {
                     if (_buddys.ContainsKey(pc.Id))
                     {

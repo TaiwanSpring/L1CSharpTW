@@ -1759,7 +1759,7 @@ namespace LineageServer.Server.Model.skill
 
 		public virtual void begin()
 		{
-			RunnableExecuter.Instance.execute(this);
+			Container.Instance.Resolve<ITaskController>().execute(this);
 		}
 
 		public virtual void end()
@@ -1808,7 +1808,7 @@ namespace LineageServer.Server.Model.skill
 
         public virtual void begin()
         {
-            RunnableExecuter.Instance.execute(this, 1000, 1000);
+            Container.Instance.Resolve<ITaskController>().execute(this, 1000, 1000);
         }
 
         public virtual void end()

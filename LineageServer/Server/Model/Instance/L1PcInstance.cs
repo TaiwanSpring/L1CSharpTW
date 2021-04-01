@@ -276,7 +276,7 @@ namespace LineageServer.Server.Model.Instance
         {
             removeAllKnownObjects();
             _autoUpdateFuture = new L1PcAutoUpdate(Id);
-            RunnableExecuter.Instance.execute(_autoUpdateFuture, 0, INTERVAL_AUTO_UPDATE);
+            Container.Instance.Resolve<ITaskController>().execute(_autoUpdateFuture, 0, INTERVAL_AUTO_UPDATE);
         }
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace LineageServer.Server.Model.Instance
 
             if (Crown)
             { // 君主
-                L1Clan clan = L1World.Instance.getClan(Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(Clanname);
                 if (clan != null)
                 {
                     if ((Id == clan.LeaderId) && (clan.CastleId != 0))
@@ -429,7 +429,7 @@ namespace LineageServer.Server.Model.Instance
 
             if (MapId <= 10000)
             {
-                foreach (GameObject visible in L1World.Instance.getVisibleObjects(this, Config.PC_RECOGNIZE_RANGE))
+                foreach (GameObject visible in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(this, Config.PC_RECOGNIZE_RANGE))
                 {
                     if (!knownsObject(visible))
                     {
@@ -454,7 +454,7 @@ namespace LineageServer.Server.Model.Instance
             }
             else
             { // 旅館內判斷
-                foreach (GameObject visible in L1World.Instance.getVisiblePlayer(this))
+                foreach (GameObject visible in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(this))
                 {
                     if (!knownsObject(visible))
                     {
@@ -499,7 +499,7 @@ namespace LineageServer.Server.Model.Instance
 
             if (Clanid != 0)
             { // クラン所属
-                L1Clan clan = L1World.Instance.getClan(Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(Clanname);
                 if (clan != null)
                 {
                     // プリンスまたはプリンセス、かつ、血盟主で自クランが城主
@@ -859,7 +859,7 @@ namespace LineageServer.Server.Model.Instance
         {
             get
             {
-                return L1World.Instance.getClan(Clanname);
+                return Container.Instance.Resolve<IGameWorld>().getClan(Clanname);
             }
         }
 
@@ -1008,7 +1008,7 @@ namespace LineageServer.Server.Model.Instance
 
         public virtual void logout()
         {
-            L1World world = L1World.Instance;
+            GameWorld world = Container.Instance.Resolve<IGameWorld>();
             if (Clanid != 0) // クラン所属
             {
                 L1Clan clan = world.getClan(Clanname);
@@ -1401,7 +1401,7 @@ namespace LineageServer.Server.Model.Instance
                 }
 
                 // 全戦争リストを取得
-                foreach (L1War war in L1World.Instance.WarList)
+                foreach (L1War war in Container.Instance.Resolve<IGameWorld>().WarList)
                 {
                     if ((pc.Clanid != 0) && (targetpc.Clanid != 0))
                     { // 共にクラン所属中
@@ -1514,7 +1514,7 @@ namespace LineageServer.Server.Model.Instance
                 if ((attacker is L1PcInstance) && ((L1PcInstance)attacker).PinkName)
                 {
                     // ガードが画面内にいれば、攻撃者をガードのターゲットに設定する
-                    foreach (GameObject @object in L1World.Instance.getVisibleObjects(attacker))
+                    foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(attacker))
                     {
                         if (@object is L1GuardInstance)
                         {
@@ -1582,7 +1582,7 @@ namespace LineageServer.Server.Model.Instance
                     if ((attacker is L1PcInstance) && ((L1PcInstance)attacker).PinkName)
                     {
                         // ガードが画面内にいれば、攻撃者をガードのターゲットに設定する
-                        foreach (GameObject @object in L1World.Instance.getVisibleObjects(attacker))
+                        foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(attacker))
                         {
                             if (@object is L1GuardInstance)
                             {
@@ -1689,7 +1689,7 @@ namespace LineageServer.Server.Model.Instance
                 trade.TradeCancel(this);
             }
 
-            RunnableExecuter.Instance.execute(new Death(this, lastAttacker));
+            Container.Instance.Resolve<ITaskController>().execute(new Death(this, lastAttacker));
         }
         public L1Map Map { get; set; }
         private class Death : IRunnable
@@ -2026,7 +2026,7 @@ namespace LineageServer.Server.Model.Instance
 
                 if (item != null)
                 {
-                    _inventory.tradeItem(item, item.Stackable ? item.Count : 1, L1World.Instance.getInventory(X, Y, MapId));
+                    _inventory.tradeItem(item, item.Stackable ? item.Count : 1, Container.Instance.Resolve<IGameWorld>().getInventory(X, Y, MapId));
                     sendPackets(new S_ServerMessage(638, item.LogName)); // %0を失いました。
                 }
                 else
@@ -2039,9 +2039,9 @@ namespace LineageServer.Server.Model.Instance
         {
             if ((Clanid != 0) && Crown)
             { // クラン所属中プリのチェック
-                L1Clan clan = L1World.Instance.getClan(Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(Clanname);
                 // 全戦争リストを取得
-                foreach (L1War war in L1World.Instance.WarList)
+                foreach (L1War war in Container.Instance.Resolve<IGameWorld>().WarList)
                 {
                     int warType = war.GetWarType();
                     bool isInWar = war.CheckClanInWar(Clanname);
@@ -2100,9 +2100,9 @@ namespace LineageServer.Server.Model.Instance
             }
 
             // 全戦争リストを取得
-            foreach (L1War war in L1World.Instance.WarList)
+            foreach (L1War war in Container.Instance.Resolve<IGameWorld>().WarList)
             {
-                L1Clan clan = L1World.Instance.getClan(Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(Clanname);
 
                 int warType = war.GetWarType();
                 bool isInWar = war.CheckClanInWar(Clanname);
@@ -3404,7 +3404,7 @@ namespace LineageServer.Server.Model.Instance
         public virtual void beginInvisTimer()
         {
             addInvisDelayCounter(1);
-			RunnableExecuter.Instance.execute((IRunnable)new L1PcInvisDelay(base.Id), 3000);
+			Container.Instance.Resolve<ITaskController>().execute((IRunnable)new L1PcInvisDelay(base.Id), 3000);
         }
 
         public virtual void addExp(long exp)
@@ -3430,7 +3430,7 @@ namespace LineageServer.Server.Model.Instance
         public virtual void beginExpMonitor()
         {
             _expMonitorFuture = new L1PcExpMonitor(Id);
-            RunnableExecuter.Instance.execute(_expMonitorFuture, 0, INTERVAL_EXP_MONITOR);
+            Container.Instance.Resolve<ITaskController>().execute(_expMonitorFuture, 0, INTERVAL_EXP_MONITOR);
         }
 
         private void levelUp(int gap)
@@ -3642,7 +3642,7 @@ namespace LineageServer.Server.Model.Instance
             if (sec > 0)
             {
                 _ghostFuture = new L1PcGhostMonitor(Id);
-				RunnableExecuter.Instance.execute((IRunnable)this._ghostFuture, sec * 1000);
+				Container.Instance.Resolve<ITaskController>().execute((IRunnable)this._ghostFuture, sec * 1000);
             }
         }
 
@@ -3707,7 +3707,7 @@ namespace LineageServer.Server.Model.Instance
             if (_hellFuture == null)
             {
                 _hellFuture = new L1PcHellMonitor(Id);
-                RunnableExecuter.Instance.execute(_hellFuture, 0, 1000);
+                Container.Instance.Resolve<ITaskController>().execute(_hellFuture, 0, 1000);
             }
         }
 

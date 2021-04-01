@@ -22,12 +22,12 @@ namespace LineageServer.Command.Executors
                     string msg;
                     if (flag == "on")
                     {
-                        L1World.Instance.set_worldChatElabled(true);
+                        Container.Instance.Resolve<IGameWorld>().WorldChatElabled = true;
                         msg = "開啟全體聊天。";
                     }
                     else if (flag == "off")
                     {
-                        L1World.Instance.set_worldChatElabled(false);
+                        Container.Instance.Resolve<IGameWorld>().WorldChatElabled = false;
                         msg = "關閉全體聊天。";
                     }
                     else
@@ -39,7 +39,7 @@ namespace LineageServer.Command.Executors
                 else
                 {
                     string msg;
-                    if (L1World.Instance.WorldChatElabled)
+                    if (Container.Instance.Resolve<IGameWorld>().WorldChatElabled)
                     {
                         msg = "全體聊天已開啟。.chat off 能使其關閉。";
                     }

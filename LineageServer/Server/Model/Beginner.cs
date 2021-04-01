@@ -77,7 +77,7 @@ namespace LineageServer.Server.Model
                     try
                     {
                         pstm2 = con.prepareStatement("INSERT INTO character_items SET id=?, item_id=?, char_id=?, item_name=?, count=?, is_equipped=?, enchantlvl=?, is_id=?, durability=?, charge_count=?, remaining_time=?, last_used=?, bless=?");
-                        pstm2.setInt(1, IdFactory.Instance.nextId());
+                        pstm2.setInt(1, Container.Instance.Resolve<IIdFactory>().nextId());
                         pstm2.setInt(2, dataSourceRow.getInt("item_id"));
                         pstm2.setInt(3, pc.Id);
                         pstm2.setString(4, dataSourceRow.getString("item_name"));

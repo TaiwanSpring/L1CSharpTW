@@ -156,8 +156,8 @@ namespace LineageServer.Server.Model
 
                     if (findKeyId(id) == null)
                     { // 新しく生成する必要がある場合のみIDの発行とL1Worldへの登録を行う
-                        item.Id = IdFactory.Instance.nextId();
-                        L1World.Instance.storeObject(item);
+                        item.Id = Container.Instance.Resolve<IIdFactory>().nextId();
+                        Container.Instance.Resolve<IGameWorld>().storeObject(item);
                     }
 
                     return storeItem(item);
@@ -168,8 +168,8 @@ namespace LineageServer.Server.Model
 
                     if (findItemId(id) == null)
                     { // 新しく生成する必要がある場合のみIDの発行とL1Worldへの登録を行う
-                        item.Id = IdFactory.Instance.nextId();
-                        L1World.Instance.storeObject(item);
+                        item.Id = Container.Instance.Resolve<IIdFactory>().nextId();
+                        Container.Instance.Resolve<IGameWorld>().storeObject(item);
                     }
 
                     return storeItem(item);
@@ -180,8 +180,8 @@ namespace LineageServer.Server.Model
                 for (int i = 0; i < count; i++)
                 {
                     L1ItemInstance item = new L1ItemInstance(temp, 1);
-                    item.Id = IdFactory.Instance.nextId();
-                    L1World.Instance.storeObject(item);
+                    item.Id = Container.Instance.Resolve<IIdFactory>().nextId();
+                    Container.Instance.Resolve<IGameWorld>().storeObject(item);
                     storeItem(item);
                     result = item;
                 }
@@ -237,7 +237,7 @@ namespace LineageServer.Server.Model
                 }
                 item.X = X;
                 item.Y = Y;
-                item.Map = L1WorldMap.Instance.getMap(MapId);
+                item.Map = Container.Instance.Resolve<IWorldMap>().getMap(MapId);
                 int chargeCount = item.Item.MaxChargeCount;
                 if ((itemId == 40006) || (itemId == 40007) || (itemId == 40008) || (itemId == 140006) || (itemId == 140008) || (itemId == 41401))
                 {
@@ -298,7 +298,7 @@ namespace LineageServer.Server.Model
                 }
                 item.X = X;
                 item.Y = Y;
-                item.Map = L1WorldMap.Instance.getMap(MapId);
+                item.Map = Container.Instance.Resolve<IWorldMap>().getMap(MapId);
                 // 登入鑰匙紀錄
                 if (item.Item.ItemId == 40312)
                 {
@@ -417,7 +417,7 @@ namespace LineageServer.Server.Model
                 }
                 else if ((itemId >= 41383) && (itemId <= 41400))
                 { // 家具
-                    foreach (GameObject l1object in L1World.Instance.Object)
+                    foreach (GameObject l1object in Container.Instance.Resolve<IGameWorld>().Object)
                     {
                         if (l1object is L1FurnitureInstance)
                         {
@@ -434,7 +434,7 @@ namespace LineageServer.Server.Model
                     RaceTicketTable.Instance.deleteTicket(item.Id);
                 }
                 deleteItem(item);
-                L1World.Instance.removeObject(item);
+                Container.Instance.Resolve<IGameWorld>().removeObject(item);
             }
             else
             {
@@ -815,7 +815,7 @@ namespace LineageServer.Server.Model
             foreach (object itemObject in _items)
             {
                 L1ItemInstance item = (L1ItemInstance)itemObject;
-                L1World.Instance.removeObject(item);
+                Container.Instance.Resolve<IGameWorld>().removeObject(item);
             }
             _items.Clear();
         }

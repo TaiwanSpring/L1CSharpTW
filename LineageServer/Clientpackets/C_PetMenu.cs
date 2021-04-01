@@ -23,7 +23,7 @@ namespace LineageServer.Clientpackets
             }
 
             int petId = ReadD();
-            L1PetInstance pet = (L1PetInstance)L1World.Instance.findObject(petId);
+            L1PetInstance pet = (L1PetInstance)Container.Instance.Resolve<IGameWorld>().findObject(petId);
 
             if ((pet != null) && (pc != null))
             {

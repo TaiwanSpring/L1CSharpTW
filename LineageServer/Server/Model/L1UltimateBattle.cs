@@ -188,7 +188,7 @@ namespace LineageServer.Server.Model
 					L1ItemInstance item = ItemTable.Instance.createItem(itemId);
 					item.EnchantLevel = 0;
 					item.Count = stackCount;
-					L1GroundInventory ground = L1World.Instance.getInventory(loc.X, loc.Y, _mapId);
+					L1GroundInventory ground = Container.Instance.Resolve<IGameWorld>().getInventory(loc.X, loc.Y, _mapId);
 					if (ground.checkAddItem(item, stackCount) == L1Inventory.OK)
 					{
 						ground.storeItem(item);
@@ -201,7 +201,7 @@ namespace LineageServer.Server.Model
 					{
 						item = ItemTable.Instance.createItem(itemId);
 						item.EnchantLevel = 0;
-						L1GroundInventory ground = L1World.Instance.getInventory(loc.X, loc.Y, _mapId);
+						L1GroundInventory ground = Container.Instance.Resolve<IGameWorld>().getInventory(loc.X, loc.Y, _mapId);
 						if (ground.checkAddItem(item, stackCount) == L1Inventory.OK)
 						{
 							ground.storeItem(item);
@@ -216,7 +216,7 @@ namespace LineageServer.Server.Model
 		/// </summary>
 		private void clearColosseum()
 		{
-			foreach (object obj in L1World.Instance.getVisibleObjects(_mapId).Values)
+			foreach (object obj in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(_mapId).Values)
 			{
 				if (obj is L1MonsterInstance) // モンスター削除
 				{

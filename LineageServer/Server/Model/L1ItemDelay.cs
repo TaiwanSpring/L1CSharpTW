@@ -109,7 +109,7 @@ namespace LineageServer.Server.Model
 
 			ItemDelayTimer timer = new ItemDelayTimer(pc, delayId);
 			pc.addItemDelay(delayId, timer);
-			RunnableExecuter.Instance.schedule(timer, delayTime);
+			Container.Instance.Resolve<ITaskController>().schedule(timer, delayTime);
 
 		}
 
@@ -117,7 +117,7 @@ namespace LineageServer.Server.Model
 		{
 			int delayTime = ((L1EtcItem) item.Item).get_delaytime();
 			TeleportUnlockTimer timer = new TeleportUnlockTimer(pc);
-			RunnableExecuter.Instance.schedule(timer, delayTime);
+			Container.Instance.Resolve<ITaskController>().schedule(timer, delayTime);
 		}
 
 	}

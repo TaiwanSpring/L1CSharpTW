@@ -24,18 +24,18 @@ namespace LineageServer.Command.Executors
                 L1PcInstance target = null;
                 if (name.ToLower() == "me")
                 {
-                    target = L1World.Instance.getPlayer(name);
+                    target = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
                 }
                 else
                 {
-                    target = L1World.Instance.getPlayer(name);
+                    target = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
                 }
 
                 if (target == null)
                 {
                     if (name.ToLower() == "all")
                     {
-                        foreach (var item in L1World.Instance.AllPlayers)
+                        foreach (var item in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                         {
                             L1BuffUtil.haste(target, 3600 * 1000);
                             L1BuffUtil.brave(target, 3600 * 1000);

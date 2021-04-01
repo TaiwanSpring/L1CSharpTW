@@ -77,7 +77,7 @@ namespace LineageServer.Server.Model.Instance
                 // 變形
                 if (updateObject)
                 {
-                    foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+                    foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
                     {
                         if (!isChangeShape)
                         {
@@ -138,7 +138,7 @@ namespace LineageServer.Server.Model.Instance
                 tagertClear();
             }
 
-            foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayer(this))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(this))
             {
 
                 if (pc == lastTarget || (pc.CurrentHp <= 0) || pc.Dead || pc.Gm || pc.Monitor || pc.Ghost)
@@ -424,7 +424,7 @@ namespace LineageServer.Server.Model.Instance
                         Status = ActionCodes.ACTION_Die;
                         openDoorWhenNpcDied(this);
                         Death death = new Death(this, attacker);
-                        RunnableExecuter.Instance.execute(death);
+                        Container.Instance.Resolve<ITaskController>().execute(death);
                         // Death(attacker);
                         if (PortalNumber == -1 && (NpcTemplate.get_npcId() == 97006 || NpcTemplate.get_npcId() == 97007 || NpcTemplate.get_npcId() == 97044 || NpcTemplate.get_npcId() == 97045))
                         {
@@ -448,7 +448,7 @@ namespace LineageServer.Server.Model.Instance
                 Dead = true;
                 Status = ActionCodes.ACTION_Die;
                 Death death = new Death(this, attacker);
-                RunnableExecuter.Instance.execute(death);
+                Container.Instance.Resolve<ITaskController>().execute(death);
                 // Death(attacker);
                 if (PortalNumber == -1 && (NpcTemplate.get_npcId() == 97006 || NpcTemplate.get_npcId() == 97007 || NpcTemplate.get_npcId() == 97044 || NpcTemplate.get_npcId() == 97045))
                 {
@@ -474,7 +474,7 @@ namespace LineageServer.Server.Model.Instance
 
         private static void openDoorInCrystalCave(int doorId)
         {
-            foreach (GameObject @object in L1World.Instance.Object)
+            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
             {
                 if (@object is L1DoorInstance)
                 {
@@ -944,7 +944,7 @@ namespace LineageServer.Server.Model.Instance
         // 龍之血痕
         private void bloodstain()
         {
-            foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayer(this, 50))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(this, 50))
             {
                 if (NpcTemplate.get_npcId() == 97008)
                 {
@@ -1003,7 +1003,7 @@ namespace LineageServer.Server.Model.Instance
                     if (_pc != null)
                     {
                         NextDragonStep nextDragonStep = new NextDragonStep(this, _pc, this, nextSpawnId);
-                        RunnableExecuter.Instance.execute(nextDragonStep);
+                        Container.Instance.Resolve<ITaskController>().execute(nextDragonStep);
                     }
                 }
             }
@@ -1042,8 +1042,8 @@ namespace LineageServer.Server.Model.Instance
                 try
                 {
                     Thread.Sleep(10500);
-                    L1NpcInstance npc = NpcTable.Instance.newNpcInstance(_transformId);
-                    npc.Id = IdFactory.Instance.nextId();
+                    L1NpcInstance npc = Container.Instance.Resolve<INpcController>().newNpcInstance(_transformId);
+                    npc.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                     npc.MapId = (short)_m;
                     npc.HomeX = _x;
                     npc.HomeY = _y;
@@ -1055,8 +1055,8 @@ namespace LineageServer.Server.Model.Instance
                     outerInstance.broadcastPacket(new S_NPCPack(npc));
                     outerInstance.broadcastPacket(new S_DoActionGFX(npc.Id, ActionCodes.ACTION_Hide));
 
-                    L1World.Instance.storeObject(npc);
-                    L1World.Instance.addVisibleObject(npc);
+                    Container.Instance.Resolve<IGameWorld>().storeObject(npc);
+                    Container.Instance.Resolve<IGameWorld>().addVisibleObject(npc);
                     npc.turnOnOffLight();
                     npc.startChat(L1NpcInstance.CHAT_TIMING_APPEARANCE); // チャット開始
                     outerInstance.NextDragonStepRunning = false;

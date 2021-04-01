@@ -114,7 +114,7 @@ namespace LineageServer.Server.Model
 						attacker.broadcastPacket(new S_PinkName(attacker.Id, 180));
 					}
 					PinkNameTimer pink = new PinkNameTimer(attacker);
-					RunnableExecuter.Instance.execute(pink);
+					Container.Instance.Resolve<ITaskController>().execute(pink);
 				}
 			}
 		}

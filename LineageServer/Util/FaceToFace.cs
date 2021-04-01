@@ -12,7 +12,7 @@ namespace LineageServer.Utils
             int pcX = pc.X;
             int pcY = pc.Y;
             int pcHeading = pc.Heading;
-            IList<L1PcInstance> players = L1World.Instance.getVisiblePlayer(pc, 1);
+            IList<L1PcInstance> players = Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc, 1);
 
             if (players.Count == 0)
             { // 1セル以内にPCが居ない場合

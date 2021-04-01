@@ -30,7 +30,7 @@ namespace LineageServer.Clientpackets
                 pc.sendPackets(new S_ServerMessage(196));
                 return;
             }
-            L1PcInstance target = L1World.Instance.getPlayer(charName);
+            L1PcInstance target = Container.Instance.Resolve<IGameWorld>().getPlayer(charName);
             if (target == null)
             {
                 return;
@@ -69,7 +69,7 @@ namespace LineageServer.Clientpackets
                         return;
                     }
                     changeTitle(target, title);
-                    L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                    L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                     if (clan != null)
                     {
                         foreach (L1PcInstance clanPc in clan.OnlineClanMember)
@@ -127,7 +127,7 @@ namespace LineageServer.Clientpackets
             bool isClanLeader = false;
             if (pc.Clanid != 0)
             { // 有血盟
-                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                 if (clan != null)
                 {
                     if (pc.Crown && pc.Id == clan.LeaderId)

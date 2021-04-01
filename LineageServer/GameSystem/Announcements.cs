@@ -32,7 +32,7 @@ namespace LineageServer.Server
 
 		public virtual void AnnounceToAll(string msg)
 		{
-			L1World.Instance.broadcastServerMessage(msg);
+			Container.Instance.Resolve<IGameWorld>().broadcastServerMessage(msg);
 		}
 
 		public void Initialize()

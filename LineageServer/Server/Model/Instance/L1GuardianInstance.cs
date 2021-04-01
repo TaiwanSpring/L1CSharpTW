@@ -45,7 +45,7 @@ namespace LineageServer.Server.Model.Instance
             // ターゲット検索
             L1PcInstance targetPlayer = null;
 
-            foreach (L1PcInstance pc in L1World.Instance.getVisiblePlayer(this))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(this))
             {
                 if ((pc.CurrentHp <= 0) || pc.Dead || pc.Gm || pc.Ghost)
                 {
@@ -105,7 +105,7 @@ namespace LineageServer.Server.Model.Instance
         public virtual void doGDropItem(int timer)
         {
             GDropItemTask task = new GDropItemTask(this);
-            RunnableExecuter.Instance.execute(task, timer * 60000);
+            Container.Instance.Resolve<ITaskController>().execute(task, timer * 60000);
         }
 
         private class GDropItemTask : IRunnable
@@ -358,7 +358,7 @@ namespace LineageServer.Server.Model.Instance
         {
             int objid = Id;
             L1NpcTalkData talking = NPCTalkDataTable.Instance.getTemplate(NpcTemplate.get_npcId());
-            GameObject @object = L1World.Instance.findObject(Id);
+            GameObject @object = Container.Instance.Resolve<IGameWorld>().findObject(Id);
             L1NpcInstance target = (L1NpcInstance)@object;
 
             if (talking != null)
@@ -421,7 +421,7 @@ namespace LineageServer.Server.Model.Instance
                     }
                     Rest = true;
                     _monitor = new RestMonitor(this);
-					RunnableExecuter.Instance.execute((IRunnable)this._monitor, REST_MILLISEC);
+					Container.Instance.Resolve<ITaskController>().execute((IRunnable)this._monitor, REST_MILLISEC);
                 }
             }
         }
@@ -462,7 +462,7 @@ namespace LineageServer.Server.Model.Instance
                             Status = ActionCodes.ACTION_Die;
                             _lastattacker = attacker;
                             Death death = new Death(this);
-                            RunnableExecuter.Instance.execute(death);
+                            Container.Instance.Resolve<ITaskController>().execute(death);
                         }
                         if (newHp > 0)
                         {
@@ -475,7 +475,7 @@ namespace LineageServer.Server.Model.Instance
                         Status = ActionCodes.ACTION_Die;
                         _lastattacker = attacker;
                         Death death = new Death(this);
-                        RunnableExecuter.Instance.execute(death);
+                        Container.Instance.Resolve<ITaskController>().execute(death);
                     }
                 }
             }

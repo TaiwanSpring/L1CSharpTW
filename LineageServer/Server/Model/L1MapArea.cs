@@ -46,7 +46,7 @@ namespace LineageServer.Server.Model
 		public L1MapArea(int left, int top, int right, int bottom, int mapId) : base(left, top, right, bottom)
 		{
 
-			_map = L1WorldMap.Instance.getMap((short)mapId);
+			_map = Container.Instance.Resolve<IWorldMap>().getMap((short)mapId);
 		}
 
 		public virtual bool contains(L1Location loc)

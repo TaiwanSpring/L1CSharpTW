@@ -202,7 +202,7 @@ namespace LineageServer.Server.Model
             int area = weaponSkill.Area;
             if ((area > 0) || (area == -1))
             { // 範囲の場合
-                foreach (GameObject @object in L1World.Instance.getVisibleObjects(cha, area))
+                foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(cha, area))
                 {
                     if (@object == null)
                     {
@@ -442,7 +442,7 @@ namespace LineageServer.Server.Model
                 pc.sendPackets(new S_SkillSound(effectTargetId, effectId));
                 pc.broadcastPacket(new S_SkillSound(effectTargetId, effectId));
 
-                foreach (GameObject @object in L1World.Instance.getVisibleObjects(areaBase, area))
+                foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(areaBase, area))
                 {
                     if (@object == null)
                     {

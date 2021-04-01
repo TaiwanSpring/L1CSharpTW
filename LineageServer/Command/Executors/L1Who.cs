@@ -13,7 +13,7 @@ namespace LineageServer.Command.Executors
         {
             try
             {
-                ICollection<L1PcInstance> players = L1World.Instance.AllPlayers;
+                ICollection<L1PcInstance> players = Container.Instance.Resolve<IGameWorld>().AllPlayers;
                 string amount = players.Count.ToString();
                 S_WhoAmount s_whoamount = new S_WhoAmount(amount);
                 pc.sendPackets(s_whoamount);

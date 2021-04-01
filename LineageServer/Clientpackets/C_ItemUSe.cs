@@ -1432,7 +1432,7 @@ namespace LineageServer.Clientpackets
                         pc.Inventory.removeItem(l1iteminstance, 1);
                         if ((spellsc_objid == 0) && (l1iteminstance.Item.UseType != 51) && (l1iteminstance.Item.UseType != 26) && (l1iteminstance.Item.UseType != 27))
                         {
-                            L1World.Instance.broadcastServerMessage("RETURN " + itemId);
+                            Container.Instance.Resolve<IGameWorld>().broadcastServerMessage("RETURN " + itemId);
                             return;
                             // ターゲットがいない場合にhandleCommandsを送るとぬるぽになるためここでreturn
                             // handleCommandsのほうで判断＆処理すべき部分かもしれない
@@ -1600,7 +1600,7 @@ namespace LineageServer.Clientpackets
                     }
                     else if ((itemId == 40089) || (itemId == 140089))
                     { // 復活スクロール、祝福された復活スクロール
-                        L1Character resobject = (L1Character)L1World.Instance.findObject(resid);
+                        L1Character resobject = (L1Character)Container.Instance.Resolve<IGameWorld>().findObject(resid);
                         if (resobject != null)
                         {
                             if (resobject is L1PcInstance)
@@ -1610,9 +1610,9 @@ namespace LineageServer.Clientpackets
                                 {
                                     return;
                                 }
-                                if (L1World.Instance.getVisiblePlayer(target, 0).Count > 0)
+                                if (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(target, 0).Count > 0)
                                 {
-                                    foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(target, 0))
+                                    foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(target, 0))
                                     {
                                         if (!visiblePc.Dead)
                                         {
@@ -1654,9 +1654,9 @@ namespace LineageServer.Clientpackets
                                         pc.Inventory.removeItem(l1iteminstance, 1);
                                         return;
                                     }
-                                    if ((npc is L1PetInstance) && (L1World.Instance.getVisiblePlayer(npc, 0).Count > 0))
+                                    if ((npc is L1PetInstance) && (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(npc, 0).Count > 0))
                                     {
-                                        foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(npc, 0))
+                                        foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(npc, 0))
                                         {
                                             if (!visiblePc.Dead)
                                             {
@@ -1860,7 +1860,7 @@ namespace LineageServer.Clientpackets
                             int house_id = 0;
                             if (pc.Clanid != 0)
                             { // クラン所属
-                                L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                                 if (clan != null)
                                 {
                                     castle_id = clan.CastleId;
@@ -1938,7 +1938,7 @@ namespace LineageServer.Clientpackets
 
                                 if (itemId == 40086)
                                 { // マステレポートスクロール
-                                    foreach (L1PcInstance member in L1World.Instance.getVisiblePlayer(pc))
+                                    foreach (L1PcInstance member in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc))
                                     {
                                         if ((pc.Location.getTileLineDistance(member.Location) <= 3) && (member.Clanid == pc.Clanid) && (pc.Clanid != 0) && (member.Id != pc.Id))
                                         {
@@ -1969,7 +1969,7 @@ namespace LineageServer.Clientpackets
 
                                 if (itemId == 40086)
                                 { // マステレポートスクロール
-                                    foreach (L1PcInstance member in L1World.Instance.getVisiblePlayer(pc))
+                                    foreach (L1PcInstance member in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc))
                                     {
                                         if ((pc.Location.getTileLineDistance(member.Location) <= 3) && (member.Clanid == pc.Clanid) && (pc.Clanid != 0) && (member.Id != pc.Id))
                                         {
@@ -2000,7 +2000,7 @@ namespace LineageServer.Clientpackets
                         bool partner_stat = false;
                         if (pc.PartnerId != 0)
                         { // 結婚中
-                            partner = (L1PcInstance)L1World.Instance.findObject(pc.PartnerId);
+                            partner = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.PartnerId);
                             if ((partner != null) && (partner.PartnerId != 0) && (pc.PartnerId == partner.Id) && (partner.PartnerId == pc.Id))
                             {
                                 partner_stat = true;
@@ -2212,7 +2212,7 @@ namespace LineageServer.Clientpackets
                             !pc.Inventory.checkItem(40548))
                         { // 亡霊の袋
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -2245,7 +2245,7 @@ namespace LineageServer.Clientpackets
                     { // 暗殺リスト(グルーディン)
                         if ((pc.X == 32620) && (pc.Y == 32641) && (pc.MapId == 4))
                         {
-                            foreach (GameObject @object in L1World.Instance.Object)
+                            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (@object is L1NpcInstance)
                                 {
@@ -2268,7 +2268,7 @@ namespace LineageServer.Clientpackets
                     { // 暗殺リスト(火田村)
                         if ((pc.X == 32730) && (pc.Y == 32426) && (pc.MapId == 4))
                         {
-                            foreach (GameObject @object in L1World.Instance.Object)
+                            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (@object is L1NpcInstance)
                                 {
@@ -2291,7 +2291,7 @@ namespace LineageServer.Clientpackets
                     { // 暗殺リスト(ケント)
                         if ((pc.X == 33046) && (pc.Y == 32806) && (pc.MapId == 4))
                         {
-                            foreach (GameObject @object in L1World.Instance.Object)
+                            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (@object is L1NpcInstance)
                                 {
@@ -2314,7 +2314,7 @@ namespace LineageServer.Clientpackets
                     { // 暗殺リスト(ウッドベック)
                         if ((pc.X == 32580) && (pc.Y == 33260) && (pc.MapId == 4))
                         {
-                            foreach (GameObject @object in L1World.Instance.Object)
+                            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (@object is L1NpcInstance)
                                 {
@@ -2337,7 +2337,7 @@ namespace LineageServer.Clientpackets
                     { // 暗殺リスト(ハイネ)
                         if ((pc.X == 33447) && (pc.Y == 33476) && (pc.MapId == 4))
                         {
-                            foreach (GameObject @object in L1World.Instance.Object)
+                            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (@object is L1NpcInstance)
                                 {
@@ -2360,7 +2360,7 @@ namespace LineageServer.Clientpackets
                     { // 暗殺リスト(アデン)
                         if ((pc.X == 34215) && (pc.Y == 33195) && (pc.MapId == 4))
                         {
-                            foreach (GameObject @object in L1World.Instance.Object)
+                            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (@object is L1NpcInstance)
                                 {
@@ -2383,7 +2383,7 @@ namespace LineageServer.Clientpackets
                     { // 暗殺リスト(ギラン)
                         if ((pc.X == 33513) && (pc.Y == 32890) && (pc.MapId == 4))
                         {
-                            foreach (GameObject @object in L1World.Instance.Object)
+                            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (@object is L1NpcInstance)
                                 {
@@ -2466,7 +2466,7 @@ namespace LineageServer.Clientpackets
                     { // 閃電魔杖
                         int dmg = 0;
                         int[] data = null;
-                        GameObject target = L1World.Instance.findObject(spellsc_objid);
+                        GameObject target = Container.Instance.Resolve<IGameWorld>().findObject(spellsc_objid);
                         if (target != null)
                         {
                             dmg = doWandAction(pc, target);
@@ -2492,7 +2492,7 @@ namespace LineageServer.Clientpackets
                             S_AttackPacket s_attackPacket = new S_AttackPacket(pc, 0, ActionCodes.ACTION_Wand);
                             pc.sendPackets(s_attackPacket);
                             pc.broadcastPacket(s_attackPacket);
-                            GameObject target = L1World.Instance.findObject(spellsc_objid);
+                            GameObject target = Container.Instance.Resolve<IGameWorld>().findObject(spellsc_objid);
                             if (target != null)
                             {
                                 L1Character cha = (L1Character)target;
@@ -3161,7 +3161,7 @@ namespace LineageServer.Clientpackets
                         if (((pc.X >= 32619) && (pc.X <= 32623)) && ((pc.Y >= 33120) && (pc.Y <= 33124)) && (pc.MapId == 440))
                         { // 海賊島前半魔方陣座標
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -3239,7 +3239,7 @@ namespace LineageServer.Clientpackets
                     }
                     else if (itemId == 41260)
                     { // 薪
-                        foreach (GameObject @object in L1World.Instance.getVisibleObjects(pc, 3))
+                        foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(pc, 3))
                         {
                             if (@object is L1EffectInstance)
                             {
@@ -3576,7 +3576,7 @@ namespace LineageServer.Clientpackets
                         if (pc.DragonKnight && (pc.MapId == 61))
                         {
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -3627,7 +3627,7 @@ namespace LineageServer.Clientpackets
                         if (pc.Illusionist && (pc.MapId == 4))
                         { // 古魯丁祭壇
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -3658,7 +3658,7 @@ namespace LineageServer.Clientpackets
                         if (pc.Illusionist && (pc.MapId == 4))
                         { // 火龍窟
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -3689,7 +3689,7 @@ namespace LineageServer.Clientpackets
                         if (pc.Illusionist && (pc.MapId == 2004))
                         { // 異界 奎斯特
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -3720,7 +3720,7 @@ namespace LineageServer.Clientpackets
                         if (pc.DragonKnight && (pc.MapId == 2004))
                         { // 異界 奎斯特
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -3751,7 +3751,7 @@ namespace LineageServer.Clientpackets
                         if (pc.Crown && (pc.MapId == 2000) && (pc.X == 32807) && (pc.Y == 32773))
                         {
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -3778,7 +3778,7 @@ namespace LineageServer.Clientpackets
                         else if (pc.Knight && (pc.MapId == 2001) && (pc.X == 32807) && (pc.Y == 32773))
                         {
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -3805,7 +3805,7 @@ namespace LineageServer.Clientpackets
                         else if (pc.Elf && (pc.MapId == 2002) && (pc.X == 32807) && (pc.Y == 32773))
                         {
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -3832,7 +3832,7 @@ namespace LineageServer.Clientpackets
                         else if (pc.Wizard && (pc.MapId == 2003) && (pc.X == 32807) && (pc.Y == 32773))
                         {
                             bool found = false;
-                            foreach (GameObject obj in L1World.Instance.Object)
+                            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().Object)
                             {
                                 if (obj is L1MonsterInstance)
                                 {
@@ -6210,7 +6210,7 @@ namespace LineageServer.Clientpackets
                 }
                 else
                 { // 持てない場合は地面に落とす 処理のキャンセルはしない（不正防止）
-                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
+                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(item);
                 }
                 pc.sendPackets(new S_ServerMessage(403, item.LogName)); // %0を手に入れました。
                 return true;
@@ -6311,7 +6311,7 @@ namespace LineageServer.Clientpackets
         private bool writeClanLetter(int itemId, L1PcInstance pc, int letterCode, string letterReceiver, byte[] letterText)
         {
             L1Clan targetClan = null;
-            foreach (L1Clan clan in L1World.Instance.AllClans)
+            foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
             {
                 if (clan.ClanName.ToLower().Equals(letterReceiver.ToLower()))
                 {
@@ -6344,7 +6344,7 @@ namespace LineageServer.Clientpackets
 
         private bool sendLetter(L1PcInstance pc, string name, L1ItemInstance item, bool isFailureMessage)
         {
-            L1PcInstance target = L1World.Instance.getPlayer(name);
+            L1PcInstance target = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
             if (target != null)
             {
                 if (target.Inventory.checkAddItem(item, 1) == L1Inventory.OK)
@@ -6498,7 +6498,7 @@ namespace LineageServer.Clientpackets
             L1Pet l1pet = PetTable.Instance.getTemplate(itemObjectId);
             if (l1pet != null)
             {
-                L1Npc npcTemp = NpcTable.Instance.getTemplate(l1pet.get_npcid());
+                L1Npc npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(l1pet.get_npcid());
                 L1PetInstance pet = new L1PetInstance(npcTemp, pc, l1pet);
                 pet.Petcost = 6;
             }
@@ -6615,7 +6615,7 @@ namespace LineageServer.Clientpackets
                 }
                 else
                 { // 持てない場合は地面に落とす 處理のキャンセルはしない（不正防止）
-                    L1World.Instance.getInventory(pc.X, pc.Y, pc.MapId).storeItem(crystal);
+                    Container.Instance.Resolve<IGameWorld>().getInventory(pc.X, pc.Y, pc.MapId).storeItem(crystal);
                 }
             }
             pc.Inventory.removeItem(item, 1);
@@ -6625,7 +6625,7 @@ namespace LineageServer.Clientpackets
         private void makeCooking(L1PcInstance pc, int cookNo)
         {
             bool isNearFire = false;
-            foreach (GameObject obj in L1World.Instance.getVisibleObjects(pc, 3))
+            foreach (GameObject obj in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(pc, 3))
             {
                 if (obj is L1EffectInstance)
                 {

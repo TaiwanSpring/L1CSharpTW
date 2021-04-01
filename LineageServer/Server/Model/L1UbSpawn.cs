@@ -167,9 +167,9 @@ namespace LineageServer.Server.Model
 		{
 			L1UltimateBattle ub = UBTable.Instance.getUb(_ubId);
 			L1Location loc = ub.Location.randomLocation((ub.LocX2 - ub.LocX1) / 2, false);
-			L1MonsterInstance mob = new L1MonsterInstance(NpcTable.Instance.getTemplate(NpcTemplateId));
+			L1MonsterInstance mob = new L1MonsterInstance(Container.Instance.Resolve<INpcController>().getTemplate(NpcTemplateId));
 
-			mob.Id = IdFactory.Instance.nextId();
+			mob.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 			mob.Heading = 5;
 			mob.X = loc.X;
 			mob.HomeX = loc.X;
@@ -180,11 +180,11 @@ namespace LineageServer.Server.Model
 			mob.UbSealCount = SealCount;
 			mob.UbId = UbId;
 
-			L1World.Instance.storeObject(mob);
-			L1World.Instance.addVisibleObject(mob);
+			Container.Instance.Resolve<IGameWorld>().storeObject(mob);
+			Container.Instance.Resolve<IGameWorld>().addVisibleObject(mob);
 
 			S_NPCPack s_npcPack = new S_NPCPack(mob);
-			foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(mob))
+			foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(mob))
 			{
 				pc.addKnownObject(mob);
 				mob.addKnownObject(pc);

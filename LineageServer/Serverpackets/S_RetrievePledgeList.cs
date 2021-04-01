@@ -17,7 +17,7 @@ namespace LineageServer.Serverpackets
 
 	using Opcodes = LineageServer.Server.Opcodes;
 	using L1Clan = LineageServer.Server.Model.L1Clan;
-	using L1World = LineageServer.Server.Model.L1World;
+	using L1World = LineageServer.Server.Model.GameWorld;
 	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 
@@ -25,7 +25,7 @@ namespace LineageServer.Serverpackets
 	{
 		public S_RetrievePledgeList(int objid, L1PcInstance pc)
 		{
-			L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+			L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
 			if (clan == null)
 			{
 				return;

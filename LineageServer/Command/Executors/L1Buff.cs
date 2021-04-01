@@ -32,12 +32,12 @@ namespace LineageServer.Command.Executors
                 }
                 else if (s == "all")
                 {
-                    players = L1World.Instance.AllPlayers;
+                    players = Container.Instance.Resolve<IGameWorld>().AllPlayers;
                     s = tok.nextToken();
                 }
                 else
                 {
-                    players = L1World.Instance.getVisiblePlayer(pc);
+                    players = Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc);
                 }
 
                 int skillId = int.Parse(s);

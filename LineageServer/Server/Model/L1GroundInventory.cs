@@ -61,7 +61,7 @@ namespace LineageServer.Server.Model
                     return;
                 }
 
-				RunnableExecuter.Instance.execute((IRunnable)new DeletionTimer(this, value), Config.ALT_ITEM_DELETION_TIME * 60 * 1000);
+				Container.Instance.Resolve<ITaskController>().execute((IRunnable)new DeletionTimer(this, value), Config.ALT_ITEM_DELETION_TIME * 60 * 1000);
             }
         }
 
@@ -81,7 +81,7 @@ namespace LineageServer.Server.Model
             X = x;
             Y = y;
             MapId = map;
-            L1World.Instance.addVisibleObject(this);
+            Container.Instance.Resolve<IGameWorld>().addVisibleObject(this);
         }
 
         public override void onPerceive(L1PcInstance perceivedFrom)
@@ -101,7 +101,7 @@ namespace LineageServer.Server.Model
         {
             Timer = item;
 
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(item))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(item))
             {
                 pc.sendPackets(new S_DropItem(item));
                 pc.addKnownObject(item);
@@ -111,7 +111,7 @@ namespace LineageServer.Server.Model
         // 見える範囲内にいるプレイヤーのオブジェクト更新
         public override void updateItem(L1ItemInstance item)
         {
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(item))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(item))
             {
                 pc.sendPackets(new S_DropItem(item));
             }
@@ -121,7 +121,7 @@ namespace LineageServer.Server.Model
         public override void deleteItem(L1ItemInstance item)
         {
             cancelTimer(item);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(item))
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(item))
             {
                 pc.sendPackets(new S_RemoveObject(item));
                 pc.removeKnownObject(item);
@@ -130,7 +130,7 @@ namespace LineageServer.Server.Model
             _items.Remove(item);
             if (_items.Count == 0)
             {
-                L1World.Instance.removeVisibleObject(this);
+                Container.Instance.Resolve<IGameWorld>().removeVisibleObject(this);
             }
         }
 

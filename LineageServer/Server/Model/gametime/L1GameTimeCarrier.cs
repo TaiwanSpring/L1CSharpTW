@@ -33,7 +33,7 @@ namespace LineageServer.Server.Model.Gametime
 
 		public virtual void start()
 		{
-			RunnableExecuter.Instance.execute(this, 0, 300 * 1000); // 300秒發一次
+			Container.Instance.Resolve<ITaskController>().execute(this, 0, 300 * 1000); // 300秒發一次
 		}
 
 		public virtual void stop()

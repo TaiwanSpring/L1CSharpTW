@@ -19,7 +19,7 @@ namespace LineageServer.Command.Executors
             else if (arg == "off")
             {
                 pc.removeSkillEffect(L1SkillId.GMSTATUS_FINDINVIS);
-                foreach (L1PcInstance visible in L1World.Instance.getVisiblePlayer(pc))
+                foreach (L1PcInstance visible in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc))
                 {
                     if (visible.Invisble)
                     {

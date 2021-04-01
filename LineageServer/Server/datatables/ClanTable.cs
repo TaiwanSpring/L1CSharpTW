@@ -53,13 +53,13 @@ namespace LineageServer.Server.DataTables
 					clan.EmblemId = dataSourceRow.getInt(ClanData.Column_emblem_id);
 					clan.EmblemStatus = dataSourceRow.getInt(ClanData.Column_emblem_status);
 
-					L1World.Instance.storeClan(clan);
+					Container.Instance.Resolve<IGameWorld>().storeClan(clan);
 
 					_clans[clan.ClanId] = clan;
 				}
 			}
 
-			ICollection<L1Clan> AllClan = L1World.Instance.AllClans;
+			ICollection<L1Clan> AllClan = Container.Instance.Resolve<IGameWorld>().AllClans;
 
 			IDataSource charactersDataSource =
 		 Container.Instance.Resolve<IDataSourceFactory>()
@@ -83,7 +83,7 @@ namespace LineageServer.Server.DataTables
 
 		public virtual L1Clan createClan(L1PcInstance player, string clan_name)
 		{
-			foreach (L1Clan oldClans in L1World.Instance.AllClans)
+			foreach (L1Clan oldClans in Container.Instance.Resolve<IGameWorld>().AllClans)
 			{
 				if (oldClans.ClanName == clan_name)
 				{
@@ -91,7 +91,7 @@ namespace LineageServer.Server.DataTables
 				}
 			}
 			L1Clan clan = new L1Clan();
-			clan.ClanId = IdFactory.Instance.nextId();
+			clan.ClanId = Container.Instance.Resolve<IIdFactory>().nextId();
 			clan.ClanName = clan_name;
 			clan.LeaderId = player.Id;
 			clan.LeaderName = player.Name;
@@ -114,7 +114,7 @@ namespace LineageServer.Server.DataTables
 			//.Set(ClanData.Column_emblem_id, clan.ClanId)
 			//.Set(ClanData.Column_emblem_status, clan.ClanId).Execute();
 
-			L1World.Instance.storeClan(clan);
+			Container.Instance.Resolve<IGameWorld>().storeClan(clan);
 			_clans[clan.ClanId] = clan;
 
 			player.Clanid = clan.ClanId;
@@ -164,7 +164,7 @@ namespace LineageServer.Server.DataTables
 
 		public virtual void deleteClan(string clan_name)
 		{
-			L1Clan clan = L1World.Instance.getClan(clan_name);
+			L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(clan_name);
 			if (clan == null)
 			{
 				return;
@@ -176,7 +176,7 @@ namespace LineageServer.Server.DataTables
 
 			clan.DwarfForClanInventory.deleteAllItems();
 
-			L1World.Instance.removeClan(clan);
+			Container.Instance.Resolve<IGameWorld>().removeClan(clan);
 
 			_clans.Remove(clan.ClanId);
 		}

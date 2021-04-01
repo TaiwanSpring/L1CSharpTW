@@ -15,7 +15,7 @@ namespace LineageServer.Command.Executors
         {
             try
             {
-                L1PcInstance target = L1World.Instance.getPlayer(arg);
+                L1PcInstance target = Container.Instance.Resolve<IGameWorld>().getPlayer(arg);
 
                 if (target != null)
                 {

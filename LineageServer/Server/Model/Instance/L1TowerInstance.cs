@@ -66,7 +66,7 @@ namespace LineageServer.Server.Model.Instance
                 if ((_castle_id == L1CastleLocation.ADEN_CASTLE_ID) && !SubTower)
                 {
                     int subTowerDeadCount = 0;
-                    foreach (GameObject l1object in L1World.Instance.Object)
+                    foreach (GameObject l1object in Container.Instance.Resolve<IGameWorld>().Object)
                     {
                         if (l1object is L1TowerInstance)
                         {
@@ -107,7 +107,7 @@ namespace LineageServer.Server.Model.Instance
 
                 // 布告しているかチェック。但し、城主が居ない場合は布告不要
                 bool existDefenseClan = false;
-                foreach (L1Clan clan in L1World.Instance.AllClans)
+                foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
                 {
                     int clanCastleId = clan.CastleId;
                     if (clanCastleId == _castle_id)
@@ -118,7 +118,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 bool isProclamation = false;
                 // 全戦争リストを取得
-                foreach (L1War war in L1World.Instance.WarList)
+                foreach (L1War war in Container.Instance.Resolve<IGameWorld>().WarList)
                 {
                     if (_castle_id == war.GetCastleId())
                     { // 今居る城の戦争
@@ -142,7 +142,7 @@ namespace LineageServer.Server.Model.Instance
                         _lastattacker = attacker;
                         _crackStatus = 0;
                         Death death = new Death(this);
-                        RunnableExecuter.Instance.execute(death);
+                        Container.Instance.Resolve<ITaskController>().execute(death);
                         // Death(attacker);
                     }
                     if (newHp > 0)
@@ -183,7 +183,7 @@ namespace LineageServer.Server.Model.Instance
                     Status = ActionCodes.ACTION_TowerDie;
                     _lastattacker = attacker;
                     Death death = new Death(this);
-                    RunnableExecuter.Instance.execute(death);
+                    Container.Instance.Resolve<ITaskController>().execute(death);
                     // Death(attacker);
                 }
             }
@@ -209,7 +209,7 @@ namespace LineageServer.Server.Model.Instance
             internal virtual void InitializeInstanceFields()
             {
                 lastAttacker = outerInstance._lastattacker;
-                obj = L1World.Instance.findObject(outerInstance.Id);
+                obj = Container.Instance.Resolve<IGameWorld>().findObject(outerInstance.Id);
                 npc = (L1TowerInstance)obj;
             }
 
@@ -261,9 +261,9 @@ namespace LineageServer.Server.Model.Instance
             }
             allTargetClear();
             _master = null;
-            L1World.Instance.removeVisibleObject(this);
-            L1World.Instance.removeObject(this);
-            foreach (L1PcInstance pc in L1World.Instance.getRecognizePlayer(this))
+            Container.Instance.Resolve<IGameWorld>().removeVisibleObject(this);
+            Container.Instance.Resolve<IGameWorld>().removeObject(this);
+            foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(this))
             {
                 pc.removeKnownObject(this);
                 pc.sendPackets(new S_RemoveObject(this));

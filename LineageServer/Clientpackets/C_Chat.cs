@@ -80,7 +80,7 @@ namespace LineageServer.Clientpackets
                 // GM偷聽一般
                 if (Config.GM_OVERHEARD0)
                 {
-                    foreach (GameObject visible in L1World.Instance.AllPlayers)
+                    foreach (GameObject visible in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                     {
                         if (visible is L1PcInstance)
                         {
@@ -93,7 +93,7 @@ namespace LineageServer.Clientpackets
                     }
                 }
                 // GM偷聽一般  end
-                foreach (L1PcInstance listner in L1World.Instance.getRecognizePlayer(pc))
+                foreach (L1PcInstance listner in Container.Instance.Resolve<IGameWorld>().getRecognizePlayer(pc))
                 {
                     if (listner.MapId < 16384 || listner.MapId > 25088 || listner.InnKeyId == pc.InnKeyId) // 旅館內判斷
                     {
@@ -128,7 +128,7 @@ namespace LineageServer.Clientpackets
                 {
                     pc.sendPackets(s_chatpacket);
                 }
-                foreach (L1PcInstance listner in L1World.Instance.getVisiblePlayer(pc, 50))
+                foreach (L1PcInstance listner in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc, 50))
                 {
                     if (listner.MapId < 16384 || listner.MapId > 25088 || listner.InnKeyId == pc.InnKeyId) // 旅館內判斷
                     {
@@ -147,7 +147,7 @@ namespace LineageServer.Clientpackets
                         L1MonsterInstance mob = (L1MonsterInstance)obj;
                         if (mob.NpcTemplate.is_doppel() && mob.Name.Equals(pc.Name) && !mob.Dead)
                         {
-                            foreach (L1PcInstance listner in L1World.Instance.getVisiblePlayer(mob, 50))
+                            foreach (L1PcInstance listner in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(mob, 50))
                             {
                                 listner.sendPackets(new S_NpcChatPacket(mob, chatText, 2));
                             }
@@ -163,7 +163,7 @@ namespace LineageServer.Clientpackets
             { // 血盟聊天
                 if (pc.Clanid != 0)
                 { // 所屬血盟
-                    L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                    L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                     if ((clan != null))
                     {
                         ChatLogTable.Instance.storeChat(pc, null, chatText, chatType);
@@ -172,7 +172,7 @@ namespace LineageServer.Clientpackets
                         // GM偷聽血盟 
                         if (Config.GM_OVERHEARD4)
                         {
-                            foreach (GameObject visible in L1World.Instance.AllPlayers)
+                            foreach (GameObject visible in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                             {
                                 if (visible is L1PcInstance)
                                 {
@@ -208,7 +208,7 @@ namespace LineageServer.Clientpackets
                     // GM偷聽隊伍
                     if (Config.GM_OVERHEARD11)
                     {
-                        foreach (GameObject visible in L1World.Instance.AllPlayers)
+                        foreach (GameObject visible in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                         {
                             if (visible is L1PcInstance)
                             {
@@ -241,7 +241,7 @@ namespace LineageServer.Clientpackets
             { // 聯合血盟
                 if (pc.Clanid != 0)
                 { // 在血盟中
-                    L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                    L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                     int rank = pc.ClanRank;
                     if ((clan != null) && ((rank == L1Clan.CLAN_RANK_GUARDIAN) || (rank == L1Clan.CLAN_RANK_LEAGUE_PRINCE) || (rank == L1Clan.CLAN_RANK_LEAGUE_VICEPRINCE) || (rank == L1Clan.CLAN_RANK_LEAGUE_GUARDIAN)))
                     {
@@ -251,7 +251,7 @@ namespace LineageServer.Clientpackets
                         // GM偷聽聯盟
                         if (Config.GM_OVERHEARD13)
                         {
-                            foreach (GameObject visible in L1World.Instance.AllPlayers)
+                            foreach (GameObject visible in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                             {
                                 if (visible is L1PcInstance)
                                 {
@@ -295,7 +295,7 @@ namespace LineageServer.Clientpackets
             { // 血盟王族公告頻道
                 if (pc.ClanRank == 10 || pc.ClanRank == 4)
                 {
-                    L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+                    L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                     S_ChatPacket s_chatpacket = new S_ChatPacket(pc, chatText, Opcodes.S_OPCODE_GLOBALCHAT, 17);
                     L1PcInstance[] clanMembers = clan.OnlineClanMember;
                     foreach (L1PcInstance listner in clanMembers)
@@ -315,11 +315,11 @@ namespace LineageServer.Clientpackets
             if (pc.Gm)
             {
                 ChatLogTable.Instance.storeChat(pc, null, chatText, chatType);
-                L1World.Instance.broadcastPacketToAll(new S_ChatPacket(pc, chatText, Opcodes.S_OPCODE_GLOBALCHAT, chatType));
+                Container.Instance.Resolve<IGameWorld>().broadcastPacketToAll(new S_ChatPacket(pc, chatText, Opcodes.S_OPCODE_GLOBALCHAT, chatType));
             }
             else if (pc.Level >= Config.GLOBAL_CHAT_LEVEL)
             {
-                if (L1World.Instance.WorldChatElabled)
+                if (Container.Instance.Resolve<IGameWorld>().WorldChatElabled)
                 {
                     if (pc.get_food() >= 2)
                     {
@@ -331,7 +331,7 @@ namespace LineageServer.Clientpackets
                         //end
                         ChatLogTable.Instance.storeChat(pc, null, chatText, chatType);
                         pc.sendPackets(new S_PacketBox(S_PacketBox.FOOD, pc.get_food()));
-                        foreach (L1PcInstance listner in L1World.Instance.AllPlayers)
+                        foreach (L1PcInstance listner in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                         {
                             if (!listner.ExcludingList.contains(pc.Name))
                             {

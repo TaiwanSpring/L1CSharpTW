@@ -108,7 +108,7 @@ namespace LineageServer.Server.Model
             if (isWorldChat)
             {
                 // XXX npcはsendPacketsできないので、ワールド内のPCからsendPacketsさせる
-                foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+                foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
                 {
                     if (pc != null)
                     {

@@ -22,7 +22,7 @@ namespace LineageServer.Clientpackets
 
             string action = ReadS();
 
-            if (L1World.Instance.findObject(objectId) is L1NpcInstance npc)
+            if (Container.Instance.Resolve<IGameWorld>().findObject(objectId) is L1NpcInstance npc)
             {
                 npc.onFinalAction(activeChar, action);
             }

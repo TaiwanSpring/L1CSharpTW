@@ -25,7 +25,7 @@ namespace LineageServer.Utils
 
             int head = pc.TeleportHeading;
 
-            L1Map map = L1WorldMap.Instance.getMap(mapId);
+            L1Map map = Container.Instance.Resolve<IWorldMap>().getMap(mapId);
 
             if (!map.isInMap(x, y) && !pc.Gm)
             {
@@ -38,7 +38,7 @@ namespace LineageServer.Utils
 
             //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
             //ORIGINAL LINE: final l1j.server.server.model.L1Clan clan = l1j.server.server.model.L1World.getInstance().getClan(pc.getClanname());
-            L1Clan clan = L1World.Instance.getClan(pc.Clanname);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
             if (clan != null)
             {
                 if (clan.WarehouseUsingChar == pc.Id)
@@ -47,7 +47,7 @@ namespace LineageServer.Utils
                 }
             }
 
-            L1World.Instance.moveVisibleObject(pc, mapId);
+            Container.Instance.Resolve<IGameWorld>().moveVisibleObject(pc, mapId);
             pc.setLocation(x, y, mapId);
             pc.Heading = head;
             pc.sendPackets(new S_MapID(pc.MapId, pc.Map.Underwater));
@@ -123,7 +123,7 @@ namespace LineageServer.Utils
                             pc.sendPackets(new S_PetPack(pet, pc));
                         }
 
-                        foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(petNpc))
+                        foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(petNpc))
                         {
                             // テレポート元と先に同じPCが居た場合、正しく更新されない為、一度removeする。
                             visiblePc.removeKnownObject(petNpc);
@@ -148,7 +148,7 @@ namespace LineageServer.Utils
                         teleport(doll, nx, ny, mapId, head);
                         pc.sendPackets(new S_DollPack(doll));
 
-                        foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(doll))
+                        foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(doll))
                         {
                             // テレポート元と先に同じPCが居た場合、正しく更新されない為、一度removeする。
                             visiblePc.removeKnownObject(doll);
@@ -174,7 +174,7 @@ namespace LineageServer.Utils
                         teleport(doll, nx, ny, mapId, head);
                         pc.sendPackets(new S_DollPack(doll));
 
-                        foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(doll))
+                        foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(doll))
                         {
                             // テレポート元と先に同じPCが居た場合、正しく更新されない為、一度removeする。
                             visiblePc.removeKnownObject(doll);
@@ -211,13 +211,13 @@ namespace LineageServer.Utils
 
         private static void teleport(L1NpcInstance npc, int x, int y, short map, int head)
         {
-            L1World.Instance.moveVisibleObject(npc, map);
-            L1WorldMap.Instance.getMap(npc.MapId).setPassable(npc.X, npc.Y, true);
+            Container.Instance.Resolve<IGameWorld>().moveVisibleObject(npc, map);
+            Container.Instance.Resolve<IWorldMap>().getMap(npc.MapId).setPassable(npc.X, npc.Y, true);
             npc.X = x;
             npc.Y = y;
             npc.MapId = map;
             npc.Heading = head;
-            L1WorldMap.Instance.getMap(npc.MapId).setPassable(npc.X, npc.Y, false);
+            Container.Instance.Resolve<IWorldMap>().getMap(npc.MapId).setPassable(npc.X, npc.Y, false);
         }
 
     }

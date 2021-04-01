@@ -49,7 +49,7 @@ namespace LineageServer.Server
                 if (isSpawn)
                 {
                     isSpawn = false;
-                    foreach (GameObject item in L1World.Instance.Object)
+                    foreach (GameObject item in Container.Instance.Resolve<IGameWorld>().Object)
                     {
                         if (item is L1FieldObjectInstance npc)
                         {

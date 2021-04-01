@@ -50,7 +50,7 @@ namespace LineageServer.Server.Model.poison
 					{
 						player.sendPackets(new S_Paralysis(1, true)); // 麻痺状態にする
 						outerInstance._timer = new ParalysisTimer(outerInstance);
-						RunnableExecuter.Instance.execute(outerInstance._timer); // 麻痺タイマー開始
+						Container.Instance.Resolve<ITaskController>().execute(outerInstance._timer); // 麻痺タイマー開始
 						if (IsCancel)
 						{
 							outerInstance._timer.cancel();
@@ -116,7 +116,7 @@ namespace LineageServer.Server.Model.poison
 			if (_target is L1PcInstance)
 			{
 				_timer = new ParalysisPoisonTimer(this);
-				RunnableExecuter.Instance.execute(_timer);
+				Container.Instance.Resolve<ITaskController>().execute(_timer);
 			}
 		}
 

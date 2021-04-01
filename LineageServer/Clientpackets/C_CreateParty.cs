@@ -25,7 +25,7 @@ namespace LineageServer.Clientpackets
 			if ((type == 0) || (type == 1))
 			{ // 自動接受組隊 on 與 off 的同
 				int targetId = ReadD();
-				GameObject temp = L1World.Instance.findObject(targetId);
+				GameObject temp = Container.Instance.Resolve<IGameWorld>().findObject(targetId);
 				if (temp is L1PcInstance)
 				{
 					L1PcInstance targetPc = (L1PcInstance) temp;
@@ -90,7 +90,7 @@ namespace LineageServer.Clientpackets
 			else if (type == 2)
 			{ // 聊天組隊
 				string name = ReadS();
-				L1PcInstance targetPc = L1World.Instance.getPlayer(name);
+				L1PcInstance targetPc = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
 				if (targetPc == null)
 				{
 					// 沒有叫%0的人。
@@ -149,7 +149,7 @@ namespace LineageServer.Clientpackets
 				int targetId = ReadD();
 
 				// 嘗試取得目標
-				GameObject obj = L1World.Instance.findObject(targetId);
+				GameObject obj = Container.Instance.Resolve<IGameWorld>().findObject(targetId);
 
 				// 判斷目標是否合理
 				if ((obj == null) || (pc.Id == obj.Id) || !(obj is L1PcInstance))

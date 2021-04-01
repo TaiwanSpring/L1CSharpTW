@@ -40,7 +40,7 @@ namespace LineageServer.Server.Model.item.Action
                     }
                     int npcId = magic_doll.DollId;
 
-                    L1Npc template = NpcTable.Instance.getTemplate(npcId);
+                    L1Npc template = Container.Instance.Resolve<INpcController>().getTemplate(npcId);
                     doll = new L1DollInstance(template, pc, itemId, itemObjectId);
                     pc.sendPackets(new S_SkillSound(doll.Id, 5935));
                     pc.broadcastPacket(new S_SkillSound(doll.Id, 5935));

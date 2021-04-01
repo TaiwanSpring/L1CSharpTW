@@ -81,7 +81,7 @@ namespace LineageServer.Server.Model.poison
 
 			if (isDamageTarget(_target))
 			{
-				RunnableExecuter.Instance.execute(new NormalPoisonTimer(this)); // 通常毒タイマー開始
+				Container.Instance.Resolve<ITaskController>().execute(new NormalPoisonTimer(this)); // 通常毒タイマー開始
 			}
 		}
 

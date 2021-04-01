@@ -44,7 +44,7 @@ namespace LineageServer.Server.Model
                 }
                 outerInstance._target.Paralyzed = true;
                 outerInstance._timer = new ParalysisTimer(outerInstance);
-                RunnableExecuter.Instance.execute(outerInstance._timer); // 麻痺タイマー開始
+                Container.Instance.Resolve<ITaskController>().execute(outerInstance._timer); // 麻痺タイマー開始
                 if (IsCancel)
                 {
                     outerInstance._timer.cancel();
@@ -102,7 +102,7 @@ namespace LineageServer.Server.Model
             _target.PoisonEffect = 2;
 
             _timer = new ParalysisDelayTimer(this);
-            RunnableExecuter.Instance.execute(_timer);
+            Container.Instance.Resolve<ITaskController>().execute(_timer);
         }
 
         public static bool curse(L1Character cha, int delay, int time)

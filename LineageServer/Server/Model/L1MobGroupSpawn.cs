@@ -97,9 +97,9 @@ namespace LineageServer.Server.Model
 			L1NpcInstance mob = null;
 			try
 			{
-				mob = NpcTable.Instance.newNpcInstance(npcId);
+				mob = Container.Instance.Resolve<INpcController>().newNpcInstance(npcId);
 
-				mob.Id = IdFactory.Instance.nextId();
+				mob.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 
 				mob.Heading = leader.Heading;
 				mob.Map = leader.MapId;
@@ -134,8 +134,8 @@ namespace LineageServer.Server.Model
 					}
 				}
 
-				L1World.Instance.storeObject(mob);
-				L1World.Instance.addVisibleObject(mob);
+				Container.Instance.Resolve<IGameWorld>().storeObject(mob);
+				Container.Instance.Resolve<IGameWorld>().addVisibleObject(mob);
 
 				if (mob is L1MonsterInstance)
 				{
@@ -162,7 +162,7 @@ namespace LineageServer.Server.Model
 				{
 					return true;
 				}
-				if (L1World.Instance.getVisiblePlayer(mob).Count == 0)
+				if (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(mob).Count == 0)
 				{
 					return true;
 				}

@@ -244,7 +244,7 @@ namespace LineageServer.Server.DataTables
 									L1ItemInstance l1iteminstance = player.Inventory.findItemId(L1ItemId.ADENA); // 所持アデナをチェック
 									if (( l1iteminstance != null ) && ( l1iteminstance.Count > 2000000000 ))
 									{
-										targetInventory = L1World.Instance.getInventory(acquisitor.X, acquisitor.Y, acquisitor.MapId); // 持てないので足元に落とす
+										targetInventory = Container.Instance.Resolve<IGameWorld>().getInventory(acquisitor.X, acquisitor.Y, acquisitor.MapId); // 持てないので足元に落とす
 										isGround = true;
 										player.sendPackets(new S_ServerMessage(166, "所持しているアデナ", "2,000,000,000を超過しています。")); // \f1%0が%4%1%3%2
 									}
@@ -318,7 +318,7 @@ namespace LineageServer.Server.DataTables
 							}
 							else
 							{
-								targetInventory = L1World.Instance.getInventory(acquisitor.X, acquisitor.Y, acquisitor.MapId); // 持てないので足元に落とす
+								targetInventory = Container.Instance.Resolve<IGameWorld>().getInventory(acquisitor.X, acquisitor.Y, acquisitor.MapId); // 持てないので足元に落とす
 								isGround = true;
 							}
 							break;
@@ -382,7 +382,7 @@ namespace LineageServer.Server.DataTables
 								break;
 						}
 					} while (!npc.Map.isPassable(npc.X, npc.Y, dir));
-					targetInventory = L1World.Instance.getInventory(npc.X + x, npc.Y + y, npc.MapId);
+					targetInventory = Container.Instance.Resolve<IGameWorld>().getInventory(npc.X + x, npc.Y + y, npc.MapId);
 					isGround = true;
 				}
 				if (( itemId >= 40131 ) && ( itemId <= 40135 ))

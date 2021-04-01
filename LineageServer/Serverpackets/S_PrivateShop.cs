@@ -18,7 +18,7 @@ namespace LineageServer.Serverpackets
 {
 
 	using Opcodes = LineageServer.Server.Opcodes;
-	using L1World = LineageServer.Server.Model.L1World;
+	using L1World = LineageServer.Server.Model.GameWorld;
 	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 	using L1PrivateShopBuyList = LineageServer.Server.Templates.L1PrivateShopBuyList;
@@ -32,7 +32,7 @@ namespace LineageServer.Serverpackets
 
 		public S_PrivateShop(L1PcInstance pc, int objectId, int type)
 		{
-			L1PcInstance shopPc = (L1PcInstance) L1World.Instance.findObject(objectId);
+			L1PcInstance shopPc = (L1PcInstance) Container.Instance.Resolve<IGameWorld>().findObject(objectId);
 
 			if (shopPc == null)
 			{

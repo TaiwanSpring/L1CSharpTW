@@ -38,7 +38,7 @@ namespace LineageServer.Server.Model.monitor
             {
                 return;
             }
-            L1PcInstance pc = (L1PcInstance)L1World.Instance.findObject(_id);
+            L1PcInstance pc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(_id);
             if (pc == null || pc.NetConnection == null)
             {
                 return;

@@ -15,7 +15,7 @@ namespace LineageServer.Clientpackets
 		{
 			int objId = ReadD();
 			int topicNumber = ReadD();
-			GameObject obj = L1World.Instance.findObject(objId);
+			GameObject obj = Container.Instance.Resolve<IGameWorld>().findObject(objId);
 			L1BoardInstance board = (L1BoardInstance) obj;
 			board.onActionRead(client.ActiveChar, topicNumber);
 		}

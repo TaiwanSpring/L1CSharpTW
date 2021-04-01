@@ -41,7 +41,7 @@ namespace LineageServer.Clientpackets
 																										 // 以下無法使用密談。
 				return;
 			}
-			L1PcInstance whisperTo = L1World.Instance.getPlayer(targetName);
+			L1PcInstance whisperTo = Container.Instance.Resolve<IGameWorld>().getPlayer(targetName);
 			// 密語對象不存在
 			if (whisperTo == null)
 			{
@@ -75,7 +75,7 @@ namespace LineageServer.Clientpackets
 			// GM偷聽密語
 			if (Config.GM_OVERHEARD)
 			{
-				foreach (GameObject visible in L1World.Instance.AllPlayers)
+				foreach (GameObject visible in Container.Instance.Resolve<IGameWorld>().AllPlayers)
 				{
 					if (visible is L1PcInstance)
 					{

@@ -247,9 +247,9 @@ namespace LineageServer.Server.Model.skill
                         L1PcInstance pc = (L1PcInstance)cha;
                         if (_player.Id != pc.Id)
                         {
-                            if (L1World.Instance.getVisiblePlayer(pc, 0).Count > 0)
+                            if (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc, 0).Count > 0)
                             {
-                                foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(pc, 0))
+                                foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc, 0))
                                 {
                                     if (!visiblePc.Dead)
                                     {
@@ -286,9 +286,9 @@ namespace LineageServer.Server.Model.skill
                             {
                                 return 0;
                             }
-                            if ((npc is L1PetInstance) && (L1World.Instance.getVisiblePlayer(npc, 0).Count > 0))
+                            if ((npc is L1PetInstance) && (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(npc, 0).Count > 0))
                             {
-                                foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(npc, 0))
+                                foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(npc, 0))
                                 {
                                     if (!visiblePc.Dead)
                                     {
@@ -322,9 +322,9 @@ namespace LineageServer.Server.Model.skill
                         L1PcInstance pc = (L1PcInstance)cha;
                         if (_player.Id != pc.Id)
                         {
-                            if (L1World.Instance.getVisiblePlayer(pc, 0).Count > 0)
+                            if (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc, 0).Count > 0)
                             {
-                                foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(pc, 0))
+                                foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc, 0))
                                 {
                                     if (!visiblePc.Dead)
                                     {
@@ -351,9 +351,9 @@ namespace LineageServer.Server.Model.skill
                             {
                                 return 0;
                             }
-                            if ((npc is L1PetInstance) && (L1World.Instance.getVisiblePlayer(npc, 0).Count > 0))
+                            if ((npc is L1PetInstance) && (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(npc, 0).Count > 0))
                             {
-                                foreach (L1PcInstance visiblePc in L1World.Instance.getVisiblePlayer(npc, 0))
+                                foreach (L1PcInstance visiblePc in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(npc, 0))
                                 {
                                     if (!visiblePc.Dead)
                                     {
@@ -1303,7 +1303,7 @@ namespace LineageServer.Server.Model.skill
                                 int charisma = pcCha + 6 - petcost;
                                 // int charisma = pc.getCha() + 6 - petcost;
                                 int summoncount = charisma / summoncost;
-                                L1Npc npcTemp = NpcTable.Instance.getTemplate(summonid);
+                                L1Npc npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(summonid);
                                 for (int i = 0; i < summoncount; i++)
                                 {
                                     L1SummonInstance summon = new L1SummonInstance(npcTemp, pc);
@@ -1367,7 +1367,7 @@ namespace LineageServer.Server.Model.skill
                                         summonid = summons[k3];
                                     }
 
-                                    L1Npc npcTemp = NpcTable.Instance.getTemplate(summonid);
+                                    L1Npc npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(summonid);
                                     L1SummonInstance summon = new L1SummonInstance(npcTemp, pc);
                                     summon.Petcost = pc.Cha + 7; // 精霊の他にはNPCを所属させられない
                                 }
@@ -1584,7 +1584,7 @@ namespace LineageServer.Server.Model.skill
             charisma = pcCha + 6 - petcost;
             summoncount = charisma / summoncost;
 
-            L1Npc npcTemp = NpcTable.Instance.getTemplate(summonid);
+            L1Npc npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(summonid);
             for (int cnt = 0; cnt < summoncount; cnt++)
             {
                 L1SummonInstance summon = new L1SummonInstance(npcTemp, pc);

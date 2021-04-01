@@ -316,7 +316,7 @@ namespace LineageServer.Server.Model.Game
         {
             set
             {
-                L1DoorInstance[] list = DoorTable.Instance.DoorList;
+                L1DoorInstance[] list = Container.Instance.Resolve<IDoorController>().DoorList;
                 foreach (L1DoorInstance door in list)
                 {
                     if (door.MapId == 5143)
@@ -657,7 +657,7 @@ namespace LineageServer.Server.Model.Game
         private void startGameTimeLimitTimer()
         {
             limitTimer = new GameTimeLimitTimer(this);
-            RunnableExecuter.Instance.execute(limitTimer, limitTime);
+            Container.Instance.Resolve<ITaskController>().execute(limitTimer, limitTime);
         }
 
         private void stopGameTimeLimitTimer()
@@ -675,7 +675,7 @@ namespace LineageServer.Server.Model.Game
         private void startCompareTimer()
         {
             compareTimer = new CompareTimer(this);
-            RunnableExecuter.Instance.execute(compareTimer, 2000, 2000);
+            Container.Instance.Resolve<ITaskController>().execute(compareTimer, 2000, 2000);
         }
 
         private void stopCompareTimer()
@@ -707,7 +707,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.execute(this, readyTime);
+                Container.Instance.Resolve<ITaskController>().execute(this, readyTime);
             }
         }
 
@@ -736,7 +736,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.execute(this, 30 * 1000);
+                Container.Instance.Resolve<ITaskController>().execute(this, 30 * 1000);
             }
         }
 
@@ -764,7 +764,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.execute(this, 5000);
+                Container.Instance.Resolve<ITaskController>().execute(this, 5000);
             }
         }
 
@@ -817,7 +817,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.execute(this, 5000);
+                Container.Instance.Resolve<ITaskController>().execute(this, 5000);
             }
 
             public void cancel()

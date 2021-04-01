@@ -12,7 +12,7 @@ namespace LineageServer.Server.Model.shop
 		internal L1AssessedItem(int targetId, int assessedPrice)
 		{
 			_targetId = targetId;
-			L1ItemInstance item = (L1ItemInstance)L1World.Instance.findObject(TargetId);
+			L1ItemInstance item = (L1ItemInstance)Container.Instance.Resolve<IGameWorld>().findObject(TargetId);
 			if (item.ItemId == 40309)
 			{ // Race Tickets
 				L1RaceTicket ticket = RaceTicketTable.Instance.getTemplate(_targetId);

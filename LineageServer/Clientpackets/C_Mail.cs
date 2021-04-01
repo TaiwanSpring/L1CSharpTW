@@ -62,7 +62,7 @@ namespace LineageServer.Clientpackets
                 ReadH(); // 世界寄信次數紀錄
                 string receiverName = ReadS();
                 sbyte[] text = ReadByte();
-                L1PcInstance receiver = L1World.Instance.getPlayer(receiverName);
+                L1PcInstance receiver = Container.Instance.Resolve<IGameWorld>().getPlayer(receiverName);
 
                 if (receiver != null)
                 { // 對方在線上
@@ -122,12 +122,12 @@ namespace LineageServer.Clientpackets
                 ReadH();
                 string clanName = ReadS();
                 sbyte[] text = ReadByte();
-                L1Clan clan = L1World.Instance.getClan(clanName);
+                L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(clanName);
                 if (clan != null)
                 {
                     foreach (string name in clan.AllMembers)
                     {
-                        L1PcInstance clanPc = L1World.Instance.getPlayer(name);
+                        L1PcInstance clanPc = Container.Instance.Resolve<IGameWorld>().getPlayer(name);
                         int size = GetMailSizeByPc(clanPc, TYPE_CLAN_MAIL);
                         if (size >= 50)
                         {

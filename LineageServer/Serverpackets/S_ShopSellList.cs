@@ -23,7 +23,7 @@ namespace LineageServer.Serverpackets
 	using ItemTable = LineageServer.Server.DataTables.ItemTable;
 	using GameObject = LineageServer.Server.Model.GameObject;
 	using L1TaxCalculator = LineageServer.Server.Model.L1TaxCalculator;
-	using L1World = LineageServer.Server.Model.L1World;
+	using L1World = LineageServer.Server.Model.GameWorld;
 	using L1NpcInstance = LineageServer.Server.Model.Instance.L1NpcInstance;
 	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
 	using L1Shop = LineageServer.Server.Model.shop.L1Shop;
@@ -43,7 +43,7 @@ namespace LineageServer.Serverpackets
 			WriteC(Opcodes.S_OPCODE_SHOWSHOPBUYLIST);
 			WriteD(objId);
 
-			GameObject npcObj = L1World.Instance.findObject(objId);
+			GameObject npcObj = Container.Instance.Resolve<IGameWorld>().findObject(objId);
 			if (!(npcObj is L1NpcInstance))
 			{
 				WriteH(0);

@@ -462,7 +462,7 @@ namespace LineageServer.Server.DataTables
 			L1ItemInstance item = new L1ItemInstance();
 			item.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 			item.Item = temp;
-			L1World.Instance.storeObject(item);
+			Container.Instance.Resolve<IGameWorld>().storeObject(item);
 			return item;
 		}
 

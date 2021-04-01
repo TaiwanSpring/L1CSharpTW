@@ -31,7 +31,7 @@ namespace LineageServer.Server
 			int ainMaxPercent = Config.RATE_MAX_CHARGE_PERCENT; // 殷海薩的祝福 百分比
 			if (nowTime % ainTime == 0)
 			{
-				foreach (L1PcInstance pc in L1World.Instance.AllPlayers)
+				foreach (L1PcInstance pc in Container.Instance.Resolve<IGameWorld>().AllPlayers)
 				{
 					if (pc.Level >= 49)
 					{

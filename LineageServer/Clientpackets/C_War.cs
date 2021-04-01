@@ -38,7 +38,7 @@ namespace LineageServer.Clientpackets
                 player.sendPackets(new S_ServerMessage(272)); // \f1戦争するためにはまず血盟を創設しなければなりません。
                 return;
             }
-            L1Clan clan = L1World.Instance.getClan(clanName);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(clanName);
             if (clan == null)
             { // 找不到血盟
                 return;
@@ -57,7 +57,7 @@ namespace LineageServer.Clientpackets
 
             L1Clan enemyClan = null;
             string enemyClanName = null;
-            foreach (L1Clan checkClan in L1World.Instance.AllClans)
+            foreach (L1Clan checkClan in Container.Instance.Resolve<IGameWorld>().AllClans)
             { // 取得所有的血盟
                 if (checkClan.ClanName.ToLower().Equals(s.ToLower()))
                 {
@@ -72,7 +72,7 @@ namespace LineageServer.Clientpackets
             }
 
             bool inWar = false;
-            IList<L1War> warList = L1World.Instance.WarList; // 取得所有的盟戰
+            IList<L1War> warList = Container.Instance.Resolve<IGameWorld>().WarList; // 取得所有的盟戰
             foreach (L1War war in warList)
             {
                 if (war.CheckClanInWar(clanName))
@@ -202,7 +202,7 @@ namespace LineageServer.Clientpackets
                 }
 
                 // 攻城戦ではない場合、相手の血盟主の承認が必要
-                L1PcInstance enemyLeader = L1World.Instance.getPlayer(enemyClan.LeaderName);
+                L1PcInstance enemyLeader = Container.Instance.Resolve<IGameWorld>().getPlayer(enemyClan.LeaderName);
 
                 if (enemyLeader == null)
                 { // 相手の血盟主が見つからなかった

@@ -89,7 +89,7 @@ namespace LineageServer.Server.DataTables
 					}
 				}
 				int npcTemplateid = dataSourceRow.getInt(SpawnlistNpc.Column_npc_templateid);
-				L1Npc l1npc = NpcTable.Instance.getTemplate(npcTemplateid);
+				L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(npcTemplateid);
 				if (l1npc == null)
 				{
 					Logger.GenericLogger.Log("mob data for id:" + npcTemplateid + " missing in npc table");

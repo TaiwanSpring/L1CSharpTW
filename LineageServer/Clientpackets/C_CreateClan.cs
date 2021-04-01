@@ -28,7 +28,7 @@ namespace LineageServer.Clientpackets
 			{ // 是王族
 				if (pc.Clanid == 0)
 				{
-					foreach (L1Clan clan in L1World.Instance.AllClans)
+					foreach (L1Clan clan in Container.Instance.Resolve<IGameWorld>().AllClans)
 					{ // 檢查是否有同名的血盟
 						if (clan.ClanName.ToLower().Equals(s.ToLower()))
 						{

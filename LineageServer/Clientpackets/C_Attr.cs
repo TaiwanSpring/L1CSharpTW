@@ -50,7 +50,7 @@ namespace LineageServer.Clientpackets
             {
                 case 97: // \f3%0%s 想加入你的血盟。你接受嗎。(Y/N)
                     c = ReadH();
-                    L1PcInstance joinPc = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
+                    L1PcInstance joinPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.TempID);
                     pc.TempID = 0;
                     if (joinPc != null)
                     {
@@ -61,7 +61,7 @@ namespace LineageServer.Clientpackets
                         else if (c == 1)
                         { // Yes
                             int clan_id = pc.Clanid;
-                            L1Clan clan = L1World.Instance.getClan(clanName);
+                            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(clanName);
                             if (clan != null)
                             {
                                 int maxMember = 0;
@@ -139,7 +139,7 @@ namespace LineageServer.Clientpackets
                 case 221: // %0 血盟要向你投降。是否接受？(Y/N)
                 case 222: // %0 血盟要結束戰爭。是否接受？(Y/N)
                     c = ReadH();
-                    L1PcInstance enemyLeader = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
+                    L1PcInstance enemyLeader = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.TempID);
                     if (enemyLeader == null)
                     {
                         return;
@@ -169,7 +169,7 @@ namespace LineageServer.Clientpackets
                         else if ((i == 221) || (i == 222))
                         {
                             // 取得線上所有的盟戰
-                            foreach (L1War war in L1World.Instance.WarList)
+                            foreach (L1War war in Container.Instance.Resolve<IGameWorld>().WarList)
                             {
                                 if (war.CheckClanInWar(clanName))
                                 { // 如果有現在的血盟
@@ -190,7 +190,7 @@ namespace LineageServer.Clientpackets
 
                 case 252: // \f2%0%s 要與你交易。願不願交易？ (Y/N)
                     c = ReadH();
-                    L1PcInstance trading_partner = (L1PcInstance)L1World.Instance.findObject(pc.TradeID);
+                    L1PcInstance trading_partner = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.TradeID);
                     if (trading_partner != null)
                     {
                         if (c == 0) // No
@@ -210,7 +210,7 @@ namespace LineageServer.Clientpackets
 
                 case 321: // 是否要復活？ (Y/N)
                     c = ReadH();
-                    L1PcInstance resusepc1 = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
+                    L1PcInstance resusepc1 = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.TempID);
                     pc.TempID = 0;
                     if (resusepc1 != null)
                     { // 如果有這個人
@@ -227,7 +227,7 @@ namespace LineageServer.Clientpackets
 
                 case 322: // 是否要復活？ (Y/N)
                     c = ReadH();
-                    L1PcInstance resusepc2 = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
+                    L1PcInstance resusepc2 = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.TempID);
                     pc.TempID = 0;
                     if (resusepc2 != null)
                     { // 祝福された 復活スクロール、リザレクション、グレーター リザレクション
@@ -253,7 +253,7 @@ namespace LineageServer.Clientpackets
                 case 325: // 你想叫牠什麼名字？
                     c = ReadC(); // ?
                     name = ReadS();
-                    L1PetInstance pet = (L1PetInstance)L1World.Instance.findObject(pc.TempID);
+                    L1PetInstance pet = (L1PetInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.TempID);
                     pc.TempID = 0;
                     renamePet(pet, name);
                     break;
@@ -277,7 +277,7 @@ namespace LineageServer.Clientpackets
 
                 case 630: // %0%s 要與你決鬥。你是否同意？(Y/N)
                     c = ReadH();
-                    L1PcInstance fightPc = (L1PcInstance)L1World.Instance.findObject(pc.FightId);
+                    L1PcInstance fightPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.FightId);
                     if (c == 0)
                     {
                         pc.FightId = 0;
@@ -293,7 +293,7 @@ namespace LineageServer.Clientpackets
 
                 case 653: // 若你離婚，你的結婚戒指將會消失。你決定要離婚嗎？(Y/N)
                     c = ReadH();
-                    L1PcInstance target653 = (L1PcInstance)L1World.Instance.findObject(pc.PartnerId);
+                    L1PcInstance target653 = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.PartnerId);
                     if (c == 0)
                     { // No
                         return;
@@ -318,7 +318,7 @@ namespace LineageServer.Clientpackets
 
                 case 654: // %0 向你(妳)求婚，你(妳)答應嗎?
                     c = ReadH();
-                    L1PcInstance partner = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
+                    L1PcInstance partner = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.TempID);
                     pc.TempID = 0;
                     if (partner != null)
                     {
@@ -387,7 +387,7 @@ namespace LineageServer.Clientpackets
 
                 case 951: // 您要接受玩家 %0%s 提出的隊伍對話邀請嗎？(Y/N)
                     c = ReadH();
-                    L1PcInstance chatPc = (L1PcInstance)L1World.Instance.findObject(pc.PartyID);
+                    L1PcInstance chatPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.PartyID);
                     if (chatPc != null)
                     {
                         if (c == 0)
@@ -422,7 +422,7 @@ namespace LineageServer.Clientpackets
 
                 case 953: // 玩家 %0%s 邀請您加入隊伍？(Y/N)
                     c = ReadH();
-                    L1PcInstance target = (L1PcInstance)L1World.Instance.findObject(pc.PartyID);
+                    L1PcInstance target = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.PartyID);
                     if (target != null)
                     {
                         if (c == 0) // No
@@ -461,7 +461,7 @@ namespace LineageServer.Clientpackets
 
                 case 954: // 玩家 %0%s 邀請您加入自動分配隊伍？(Y/N)
                     c = ReadH();
-                    L1PcInstance target2 = (L1PcInstance)L1World.Instance.findObject(pc.PartyID);
+                    L1PcInstance target2 = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.PartyID);
                     if (target2 != null)
                     {
                         if (c == 0)
@@ -632,10 +632,10 @@ namespace LineageServer.Clientpackets
         {
             int clanId = pc.Clanid;
             string clanName = pc.Clanname;
-            L1Clan clan = L1World.Instance.getClan(clanName);
+            L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(clanName);
 
             string oldClanName = joinPc.Clanname;
-            L1Clan oldClan = L1World.Instance.getClan(oldClanName);
+            L1Clan oldClan = Container.Instance.Resolve<IGameWorld>().getClan(oldClanName);
 
             if ((clan != null) && (oldClan != null) && joinPc.Crown && (joinPc.Id == oldClan.LeaderId))
             {
@@ -666,7 +666,7 @@ namespace LineageServer.Clientpackets
 
                 foreach (string element in oldClan.AllMembers)
                 {
-                    L1PcInstance oldClanMember = L1World.Instance.getPlayer(element);
+                    L1PcInstance oldClanMember = Container.Instance.Resolve<IGameWorld>().getPlayer(element);
                     if (oldClanMember != null)
                     { // 舊血盟成員在線上
                         ClanMembersTable.Instance.deleteMember(oldClanMember.Id);
@@ -747,7 +747,7 @@ namespace LineageServer.Clientpackets
                 pc.sendPackets(new S_ServerMessage(327)); // 同樣的名稱已經存在。
                 return;
             }
-            L1Npc l1npc = NpcTable.Instance.getTemplate(pet.NpcId);
+            L1Npc l1npc = Container.Instance.Resolve<INpcController>().getTemplate(pet.NpcId);
             if (!(pet.Name == l1npc.get_name()))
             {
                 pc.sendPackets(new S_ServerMessage(326)); // 一旦你已決定就不能再變更。
@@ -764,7 +764,7 @@ namespace LineageServer.Clientpackets
 
         private void callClan(L1PcInstance pc)
         {
-            L1PcInstance callClanPc = (L1PcInstance)L1World.Instance.findObject(pc.TempID);
+            L1PcInstance callClanPc = (L1PcInstance)Container.Instance.Resolve<IGameWorld>().findObject(pc.TempID);
             pc.TempID = 0;
             if (callClanPc == null)
             {
@@ -809,7 +809,7 @@ namespace LineageServer.Clientpackets
             heading = (heading + 4) % 4;
 
             bool isExsistCharacter = false;
-            foreach (GameObject @object in L1World.Instance.getVisibleObjects(callClanPc, 1))
+            foreach (GameObject @object in Container.Instance.Resolve<IGameWorld>().getVisibleObjects(callClanPc, 1))
             {
                 if (@object is L1Character)
                 {
