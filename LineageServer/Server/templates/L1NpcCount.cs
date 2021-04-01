@@ -1,53 +1,45 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using System;
+
 namespace LineageServer.Server.Templates
 {
-	public class L1NpcCount
-	{
-		private readonly int _id;
-		private readonly int _count;
+    class L1NpcCount
+    {
+        public int Id { get; }
+        public int Count { get; }
 
-		public L1NpcCount(int id, int count)
-		{
-			_id = id;
-			_count = count;
-		}
+        public bool Zero
+        {
+            get
+            {
+                return Id == 0 && Count == 0;
+            }
+        }
+        public L1NpcCount(int id, int count)
+        {
+            Id = id;
+            Count = count;
+        }
 
-		public virtual int Id
-		{
-			get
-			{
-				return _id;
-			}
-		}
+        public static bool operator ==(L1NpcCount me, L1NpcCount other)
+        {
+            return me.Id == other.Id && me.Count == other.Count;
+        }
 
-		public virtual int Count
-		{
-			get
-			{
-				return _count;
-			}
-		}
+        public static bool operator !=(L1NpcCount me, L1NpcCount other)
+        {
+            return !(me == other);
+        }
 
-		public virtual bool Zero
-		{
-			get
-			{
-				return _id == 0 && _count == 0;
-			}
-		}
-	}
+        public override bool Equals(object obj)
+        {
+            return obj is L1NpcCount count &&
+                   Id == count.Id &&
+                   Count == count.Count;
+        }
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Count);
+        }
+    }
 }

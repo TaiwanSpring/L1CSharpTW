@@ -40,7 +40,7 @@ namespace LineageServer.Command.Executors
                 }
                 else if (type == "npc")
                 {
-                    NpcSpawnTable.Instance.storeSpawn(pc, template);
+                    NpcContainer.Instance.Resolve<ISpawnController>().storeSpawn(pc, template);
                 }
                 L1SpawnUtil.spawn(pc, npcId, 0, 0);
                 msg = (new StringBuilder()).Append(template.get_name()).Append(" (" + npcId + ") ").Append("新增到資料庫中。").ToString();

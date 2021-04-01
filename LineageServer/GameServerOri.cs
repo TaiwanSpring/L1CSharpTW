@@ -8,6 +8,7 @@ using LineageServer.Server.Model.Gametime;
 using LineageServer.Server.Model.item;
 using LineageServer.Server.Model.Map;
 using LineageServer.Server.Model.npc.action;
+using LineageServer.Server.Model.trap;
 using LineageServer.Utils;
 using LineageServer.william;
 using System;
@@ -126,12 +127,20 @@ namespace LineageServer.Server
             containerAdapter.RegisterInstance<IGameWorld>(gameWorld);
 
             //Table
+            //門控制
             DoorTable doorTable = new DoorTable();
             doorTable.Initialize();
             containerAdapter.RegisterInstance<IDoorController>(doorTable);
+            //怪物重生控制
+            SpawnTable spawnTable = new SpawnTable();
+            spawnTable.Initialize();
+            containerAdapter.RegisterInstance<ISpawnController>(spawnTable);
+            //怪物群組控制
+            L1MobGroupSpawn mobGroupSpawn = new L1MobGroupSpawn();
+            mobGroupSpawn.Initialize();
+            containerAdapter.RegisterInstance<IMobGroupController>(mobGroupSpawn);
 
-            SpawnTable.Instance;
-            MobGroupTable.Instance;
+
             SkillsTable.Instance;
             PolyTable.Instance;
             ItemTable.Instance;
@@ -141,16 +150,16 @@ namespace LineageServer.Server
             NPCTalkDataTable.Instance;
             L1WorldTraps.Instance;
             Dungeon.Instance;
-            NpcSpawnTable.Instance;
+            NpcContainer.Instance.Resolve<ISpawnController>();
             IpTable.Instance;
             MapsTable.Instance;
-            UBSpawnTable.Instance;
+            UBContainer.Instance.Resolve<ISpawnController>();
             PetTable.Instance;
             ClanTable.Instance;
             CastleTable.Instance;
             GetBackRestartTable.Instance;
 
-            L1NpcRegenerationTimer.Instance;
+            //L1NpcRegenerationTimer.Instance;
             ChatLogTable.Instance;
             WeaponSkillTable.Instance;
 
@@ -164,7 +173,7 @@ namespace LineageServer.Server
             L1TreasureBox.load();
             SprTable.Instance;
             ResolventTable.Instance;
-            FurnitureSpawnTable.Instance;
+            FurnitureContainer.Instance.Resolve<ISpawnController>();
             NpcChatTable.Instance;
             MailTable.Instance;
             RaceTicketTable.Instance;

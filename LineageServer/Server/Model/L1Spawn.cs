@@ -647,7 +647,7 @@ namespace LineageServer.Server.Model
                 }
                 if (GroupId != 0)
                 {
-                    L1MobGroupSpawn.Instance.doSpawn(mob, GroupId, RespawnScreen, _initSpawn);
+                    Container.Instance.Resolve<IMobGroupController>().doSpawn(mob, GroupId, RespawnScreen, _initSpawn);
                 }
                 mob.turnOnOffLight();
                 mob.startChat(L1NpcInstance.CHAT_TIMING_APPEARANCE); // チャット開始

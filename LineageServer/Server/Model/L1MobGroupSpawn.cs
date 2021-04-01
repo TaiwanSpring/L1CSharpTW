@@ -1,175 +1,155 @@
 ﻿using System;
+using System.Collections.Generic;
+using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
+using LineageServer.Utils;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Model
 {
-	using Random = LineageServer.Utils.Random;
+    class L1MobGroupSpawn : IGameComponent, IMobGroupController
+    {
+        private IDictionary<int, L1MobGroup> mobGroupMapping;
+        private IDictionary<int, L1MobGroup> GetMobGroupMapping()
+        {
+            IDataSource dataSource =
+               Container.Instance.Resolve<IDataSourceFactory>()
+               .Factory(Enum.DataSourceTypeEnum.Mobgroup);
+            IDictionary<int, L1MobGroup> result = MapFactory.NewMap<int, L1MobGroup>();
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-	using IdFactory = LineageServer.Server.IdFactory;
-	using MobGroupTable = LineageServer.Server.DataTables.MobGroupTable;
-	using NpcTable = LineageServer.Server.DataTables.NpcTable;
-	using L1MonsterInstance = LineageServer.Server.Model.Instance.L1MonsterInstance;
-	using L1NpcInstance = LineageServer.Server.Model.Instance.L1NpcInstance;
-	using L1MobGroup = LineageServer.Server.Templates.L1MobGroup;
-	using L1NpcCount = LineageServer.Server.Templates.L1NpcCount;
+            for (int i = 0; i < dataSourceRows.Count; i++)
+            {
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                int mobGroupId = dataSourceRow.getInt(Mobgroup.Column_id);
+                bool isRemoveGroup = (dataSourceRow.getBoolean(Mobgroup.Column_remove_group_if_leader_die));
+                int leaderId = dataSourceRow.getInt(Mobgroup.Column_leader_id);
+                IList<L1NpcCount> minions = ListFactory.NewList<L1NpcCount>();
+                for (int j = 1; j <= 7; j++)
+                {
+                    int id = dataSourceRow.getInt("minion" + j + "_id");
+                    int count = dataSourceRow.getInt("minion" + j + "_count");
+                    minions.Add(new L1NpcCount(id, count));
+                }
+                L1MobGroup mobGroup = new L1MobGroup(mobGroupId, leaderId, minions, isRemoveGroup);
+                result[mobGroupId] = mobGroup;
+            }
 
-	// Referenced classes of package l1j.server.server.model:
-	// L1MobGroupSpawn
+            return result;
+        }
+        public void doSpawn(L1NpcInstance leader, int groupId, bool isRespawnScreen, bool isInitSpawn)
+        {
+            if (this.mobGroupMapping.ContainsKey(groupId))
+            {
+                L1MobGroup mobGroup = this.mobGroupMapping[groupId];
+                L1NpcInstance mob;
+                L1MobGroupInfo mobGroupInfo = new L1MobGroupInfo();
 
-	public class L1MobGroupSpawn
-	{
+                mobGroupInfo.RemoveGroup = mobGroup.RemoveGroupIfLeaderDie;
+                mobGroupInfo.addMember(leader);
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static readonly Logger _log = Logger.GetLogger(typeof(L1MobGroupSpawn).FullName);
+                foreach (L1NpcCount minion in mobGroup.Minions)
+                {
+                    if (minion.Zero)
+                    {
+                        continue;
+                    }
+                    for (int i = 0; i < minion.Count; i++)
+                    {
+                        mob = spawn(leader, minion.Id, isRespawnScreen, isInitSpawn);
+                        if (mob != null)
+                        {
+                            mobGroupInfo.addMember(mob);
+                        }
+                    }
+                }
+            }
+        }
 
-		private static L1MobGroupSpawn _instance;
+        private L1NpcInstance spawn(L1NpcInstance leader, int npcId, bool isRespawnScreen, bool isInitSpawn)
+        {
+            L1NpcInstance mob = null;
+            try
+            {
+                mob = Container.Instance.Resolve<INpcController>().newNpcInstance(npcId);
 
-		private bool _isRespawnScreen;
+                mob.Id = Container.Instance.Resolve<IIdFactory>().nextId();
 
-		private bool _isInitSpawn;
+                mob.Heading = leader.Heading;
+                mob.MapId = leader.MapId;
+                mob.MovementDistance = leader.MovementDistance;
+                mob.Rest = leader.Rest;
 
-		private L1MobGroupSpawn()
-		{
-		}
+                mob.X = leader.X + RandomHelper.Next(5) - 2;
+                mob.Y = leader.Y + RandomHelper.Next(5) - 2;
+                // マップ外、障害物上、画面内沸き不可で画面内にPCがいる場合、リーダーと同じ座標
+                if (!canSpawn(mob, isRespawnScreen))
+                {
+                    mob.X = leader.X;
+                    mob.Y = leader.Y;
+                }
+                mob.HomeX = mob.X;
+                mob.HomeY = mob.Y;
 
-		public static L1MobGroupSpawn Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new L1MobGroupSpawn();
-				}
-				return _instance;
-			}
-		}
+                if (mob is L1MonsterInstance)
+                {
+                    ((L1MonsterInstance)mob).initHideForMinion(leader);
+                }
 
-		public virtual void doSpawn(L1NpcInstance leader, int groupId, bool isRespawnScreen, bool isInitSpawn)
-		{
+                mob.Spawn = leader.Spawn;
+                mob.setreSpawn(leader.ReSpawn);
+                mob.SpawnNumber = leader.SpawnNumber;
 
-			L1MobGroup mobGroup = MobGroupTable.Instance.getTemplate(groupId);
-			if (mobGroup == null)
-			{
-				return;
-			}
+                if (mob is L1MonsterInstance)
+                {
+                    if (mob.MapId == 666)
+                    {
+                        ((L1MonsterInstance)mob).set_storeDroped(true);
+                    }
+                }
 
-			L1NpcInstance mob;
-			_isRespawnScreen = isRespawnScreen;
-			_isInitSpawn = isInitSpawn;
+                Container.Instance.Resolve<IGameWorld>().storeObject(mob);
+                Container.Instance.Resolve<IGameWorld>().addVisibleObject(mob);
 
-			L1MobGroupInfo mobGroupInfo = new L1MobGroupInfo();
+                if (mob is L1MonsterInstance)
+                {
+                    if (!isInitSpawn && mob.HiddenStatus == 0)
+                    {
+                        mob.onNpcAI(); // モンスターのＡＩを開始
+                    }
+                }
+                mob.turnOnOffLight();
+                mob.startChat(L1NpcInstance.CHAT_TIMING_APPEARANCE); // チャット開始
+            }
+            catch (Exception e)
+            {
+                Logger.GenericLogger.Error(e);
+            }
+            return mob;
+        }
 
-			mobGroupInfo.RemoveGroup = mobGroup.RemoveGroupIfLeaderDie;
-			mobGroupInfo.addMember(leader);
+        private bool canSpawn(L1NpcInstance mob, bool isRespawnScreen)
+        {
+            if (mob.Map.isInMap(mob.Location) && mob.Map.isPassable(mob.Location))
+            {
+                if (isRespawnScreen)
+                {
+                    return true;
+                }
+                if (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(mob).Count == 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
-			foreach (L1NpcCount minion in mobGroup.Minions)
-			{
-				if (minion.Zero)
-				{
-					continue;
-				}
-				for (int i = 0; i < minion.Count; i++)
-				{
-					mob = spawn(leader, minion.Id);
-					if (mob != null)
-					{
-						mobGroupInfo.addMember(mob);
-					}
-				}
-			}
-		}
-
-		private L1NpcInstance spawn(L1NpcInstance leader, int npcId)
-		{
-			L1NpcInstance mob = null;
-			try
-			{
-				mob = Container.Instance.Resolve<INpcController>().newNpcInstance(npcId);
-
-				mob.Id = Container.Instance.Resolve<IIdFactory>().nextId();
-
-				mob.Heading = leader.Heading;
-				mob.Map = leader.MapId;
-				mob.MovementDistance = leader.MovementDistance;
-				mob.Rest = leader.Rest;
-
-				mob.X = leader.X + RandomHelper.Next(5) - 2;
-				mob.Y = leader.Y + RandomHelper.Next(5) - 2;
-				// マップ外、障害物上、画面内沸き不可で画面内にPCがいる場合、リーダーと同じ座標
-				if (!canSpawn(mob))
-				{
-					mob.X = leader.X;
-					mob.Y = leader.Y;
-				}
-				mob.HomeX = mob.X;
-				mob.HomeY = mob.Y;
-
-				if (mob is L1MonsterInstance)
-				{
-					((L1MonsterInstance) mob).initHideForMinion(leader);
-				}
-
-				mob.Spawn = leader.Spawn;
-				mob.setreSpawn(leader.ReSpawn);
-				mob.SpawnNumber = leader.SpawnNumber;
-
-				if (mob is L1MonsterInstance)
-				{
-					if (mob.MapId == 666)
-					{
-						((L1MonsterInstance) mob).set_storeDroped(true);
-					}
-				}
-
-				Container.Instance.Resolve<IGameWorld>().storeObject(mob);
-				Container.Instance.Resolve<IGameWorld>().addVisibleObject(mob);
-
-				if (mob is L1MonsterInstance)
-				{
-					if (!_isInitSpawn && mob.HiddenStatus == 0)
-					{
-						mob.onNpcAI(); // モンスターのＡＩを開始
-					}
-				}
-				mob.turnOnOffLight();
-				mob.startChat(L1NpcInstance.CHAT_TIMING_APPEARANCE); // チャット開始
-			}
-			catch (Exception e)
-			{
-				_log.Error(e);
-			}
-			return mob;
-		}
-
-		private bool canSpawn(L1NpcInstance mob)
-		{
-			if (mob.Map.isInMap(mob.Location) && mob.Map.isPassable(mob.Location))
-			{
-				if (_isRespawnScreen)
-				{
-					return true;
-				}
-				if (Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(mob).Count == 0)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-	}
+        public void Initialize()
+        {
+            this.mobGroupMapping = GetMobGroupMapping();
+        }
+    }
 
 }

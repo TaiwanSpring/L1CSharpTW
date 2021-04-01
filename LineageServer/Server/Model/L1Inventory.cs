@@ -424,7 +424,7 @@ namespace LineageServer.Server.Model
                             L1FurnitureInstance furniture = (L1FurnitureInstance)l1object;
                             if (furniture.ItemObjId == item.Id)
                             { // 既に引き出している家具
-                                FurnitureSpawnTable.Instance.deleteFurniture(furniture);
+                                FurnitureContainer.Instance.Resolve<ISpawnController>().deleteFurniture(furniture);
                             }
                         }
                     }

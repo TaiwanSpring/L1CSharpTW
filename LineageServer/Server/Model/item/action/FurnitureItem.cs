@@ -84,7 +84,7 @@ namespace LineageServer.Server.Model.item.Action
 
                             Container.Instance.Resolve<IGameWorld>().storeObject(furniture);
                             Container.Instance.Resolve<IGameWorld>().addVisibleObject(furniture);
-                            FurnitureSpawnTable.Instance.insertFurniture(furniture);
+                            FurnitureContainer.Instance.Resolve<ISpawnController>().insertFurniture(furniture);
                         }
                         catch (Exception e)
                         {
@@ -99,7 +99,7 @@ namespace LineageServer.Server.Model.item.Action
             else
             {
                 furniture.deleteMe();
-                FurnitureSpawnTable.Instance.deleteFurniture(furniture);
+                FurnitureContainer.Instance.Resolve<ISpawnController>().deleteFurniture(furniture);
             }
         }
 
@@ -120,7 +120,7 @@ namespace LineageServer.Server.Model.item.Action
             {
                 L1FurnitureInstance furniture = (L1FurnitureInstance)target;
                 furniture.deleteMe();
-                FurnitureSpawnTable.Instance.deleteFurniture(furniture);
+                FurnitureContainer.Instance.Resolve<ISpawnController>().deleteFurniture(furniture);
                 item.ChargeCount = item.ChargeCount - 1;
                 pc.Inventory.updateItem(item, L1PcInventory.COL_CHARGE_COUNT);
             }

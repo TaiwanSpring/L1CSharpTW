@@ -332,7 +332,7 @@ namespace LineageServer.Server.Model
 					{
 						outerInstance.sendRoundMessage(round);
 
-						L1UbPattern pattern = UBSpawnTable.Instance.getPattern(outerInstance._ubId, outerInstance._pattern);
+						L1UbPattern pattern = UBContainer.Instance.Resolve<ISpawnController>().getPattern(outerInstance._ubId, outerInstance._pattern);
 
 						IList<L1UbSpawn> spawnList = pattern.getSpawnList(round);
 
@@ -383,7 +383,7 @@ namespace LineageServer.Server.Model
 		///            開始するアルティメットバトルのID </param>
 		public virtual void start()
 		{
-			int patternsMax = UBSpawnTable.Instance.getMaxPattern(_ubId);
+			int patternsMax = UBContainer.Instance.Resolve<ISpawnController>().getMaxPattern(_ubId);
 			_pattern = RandomHelper.Next(patternsMax) + 1; // 出現パターンを決める
 
 			UbThread ub = new UbThread(this);

@@ -35,10 +35,10 @@ namespace LineageServer.Command.Executors
                     StringTokenizer st = new StringTokenizer(arg);
                     id = int.Parse(st.nextToken());
                 }
-                L1Spawn spawn = NpcSpawnTable.Instance.getTemplate(id);
+                L1Spawn spawn = NpcContainer.Instance.Resolve<ISpawnController>().getTemplate(id);
                 if (spawn == null)
                 {
-                    spawn = SpawnTable.Instance.getTemplate(id);
+                    spawn = Container.Instance.Resolve<ISpawnController>().getTemplate(id);
                 }
                 if (spawn != null)
                 {
