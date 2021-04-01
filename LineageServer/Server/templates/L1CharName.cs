@@ -1,40 +1,15 @@
 ﻿namespace LineageServer.Server.Templates
 {
-    public class L1CharName
-    {
-        public L1CharName()
-        {
-        }
+	class L1CharName
+	{
+		public virtual int Id { get; }
 
-        private int _id;
+		public virtual string Name { get; }
 
-        public virtual int Id
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                _id = value;
-            }
-        }
-
-
-        private string _name;
-
-        public virtual string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
-        }
-
-
-    }
+		public L1CharName(int id, string name)
+		{
+			Id = id;
+			Name = name;
+		}
+	}
 }

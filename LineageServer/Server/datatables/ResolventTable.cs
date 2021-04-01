@@ -1,34 +1,18 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public sealed class ResolventTable
+	sealed class ResolventTable
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(ResolventTable).FullName);
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.Resolvent);
 
 		private static ResolventTable _instance;
 
-		private readonly IDictionary<int, int> _resolvent = MapFactory.NewMap();
+		private readonly IDictionary<int, int> _resolvent = MapFactory.NewMap<int, int>();
 
 		public static ResolventTable Instance
 		{
@@ -49,46 +33,28 @@ namespace LineageServer.Server.DataTables
 
 		private void loadMapsFromDatabase()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM resolvent");
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-				for (rs = pstm.executeQuery(); rs.next();)
-				{
-					int itemId = dataSourceRow.getInt("item_id");
-					int crystalCount = dataSourceRow.getInt("crystal_count");
-
-					_resolvent[itemId] = crystalCount;
-				}
-
-				_log.config("resolvent " + _resolvent.Count);
-			}
-			catch (SQLException e)
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+
+				int itemId = dataSourceRow.getInt(Resolvent.Column_item_id);
+				int crystalCount = dataSourceRow.getInt(Resolvent.Column_crystal_count);
+				_resolvent[itemId] = crystalCount;
 			}
 		}
 
 		public int getCrystalCount(int itemId)
 		{
-			int crystalCount = 0;
 			if (_resolvent.ContainsKey(itemId))
 			{
-				crystalCount = _resolvent[itemId];
+				return _resolvent[itemId];
 			}
-			return crystalCount;
+			else
+			{
+				return 0;
+			}
 		}
-
 	}
-
 }

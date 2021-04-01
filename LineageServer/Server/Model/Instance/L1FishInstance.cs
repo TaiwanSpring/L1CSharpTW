@@ -14,7 +14,7 @@ namespace LineageServer.Server.Model.Instance
         public L1FishInstance(L1Npc template) : base(template)
         {
             _fishTimer = new fishTimer(this, this);
-            RunnableExecuter.Instance.scheduleAtFixedRate(_fishTimer, 1000, (RandomHelper.Next(30, 30) * 1000));
+            RunnableExecuter.Instance.execute(_fishTimer, 1000, (RandomHelper.Next(30, 30) * 1000));
         }
 
         public override void onPerceive(L1PcInstance perceivedFrom)

@@ -1,36 +1,19 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Templates;
+using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1PetType = LineageServer.Server.Templates.L1PetType;
-	using IntRange = LineageServer.Utils.IntRange;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public class PetTypeTable
+	class PetTypeTable
 	{
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.Pettypes);
+
 		private static PetTypeTable _instance;
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(PetTypeTable).FullName);
-
-		private IDictionary<int, L1PetType> _types = MapFactory.NewMap();
+		private IDictionary<int, L1PetType> _types = MapFactory.NewMap<int, L1PetType>();
 
 		private ISet<string> _defaultNames = new HashSet<string>();
 
@@ -54,49 +37,31 @@ namespace LineageServer.Server.DataTables
 
 		private void loadTypes()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM pettypes");
-
-				rs = pstm.executeQuery();
-
-				while (rs.next())
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				int baseNpcId = dataSourceRow.getInt(Pettypes.Column_BaseNpcId);
+				string name = dataSourceRow.getString(Pettypes.Column_Name);
+				int itemIdForTaming = dataSourceRow.getInt(Pettypes.Column_ItemIdForTaming);
+				int hpUpMin = dataSourceRow.getInt(Pettypes.Column_HpUpMin);
+				int hpUpMax = dataSourceRow.getInt(Pettypes.Column_HpUpMax);
+				int mpUpMin = dataSourceRow.getInt(Pettypes.Column_MpUpMin);
+				int mpUpMax = dataSourceRow.getInt(Pettypes.Column_MpUpMax);
+				int evolvItemId = dataSourceRow.getInt(Pettypes.Column_EvolvItemId);
+				int npcIdForEvolving = dataSourceRow.getInt(Pettypes.Column_NpcIdForEvolving);
+				int[] msgIds = new int[5];
+				for (int j = 0; j < 5; j++)
 				{
-					int baseNpcId = dataSourceRow.getInt("BaseNpcId");
-					string name = dataSourceRow.getString("Name");
-					int itemIdForTaming = dataSourceRow.getInt("ItemIdForTaming");
-					int hpUpMin = dataSourceRow.getInt("HpUpMin");
-					int hpUpMax = dataSourceRow.getInt("HpUpMax");
-					int mpUpMin = dataSourceRow.getInt("MpUpMin");
-					int mpUpMax = dataSourceRow.getInt("MpUpMax");
-					int evolvItemId = dataSourceRow.getInt("EvolvItemId");
-					int npcIdForEvolving = dataSourceRow.getInt("NpcIdForEvolving");
-					int[] msgIds = new int[5];
-					for (int i = 0; i < 5; i++)
-					{
-						msgIds[i] = dataSourceRow.getInt("MessageId" + (i + 1));
-					}
-					int defyMsgId = dataSourceRow.getInt("DefyMessageId");
-					bool canUseEquipment = dataSourceRow.getBoolean("canUseEquipment");
-					IntRange hpUpRange = new IntRange(hpUpMin, hpUpMax);
-					IntRange mpUpRange = new IntRange(mpUpMin, mpUpMax);
-					_types[baseNpcId] = new L1PetType(baseNpcId, name, itemIdForTaming, hpUpRange, mpUpRange, evolvItemId, npcIdForEvolving, msgIds, defyMsgId, canUseEquipment);
-					_defaultNames.Add(name.ToLower());
+					msgIds[j] = dataSourceRow.getInt($"MessageId{ j + 1 }");
 				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
+				int defyMsgId = dataSourceRow.getInt(Pettypes.Column_DefyMessageId);
+				bool canUseEquipment = dataSourceRow.getBoolean(Pettypes.Column_canUseEquipment);
+				IntRange hpUpRange = new IntRange(hpUpMin, hpUpMax);
+				IntRange mpUpRange = new IntRange(mpUpMin, mpUpMax);
+				_types[baseNpcId] = new L1PetType(baseNpcId, name, itemIdForTaming, hpUpRange, mpUpRange, evolvItemId, npcIdForEvolving, msgIds, defyMsgId, canUseEquipment);
+				_defaultNames.Add(name.ToLower());
 			}
 		}
 

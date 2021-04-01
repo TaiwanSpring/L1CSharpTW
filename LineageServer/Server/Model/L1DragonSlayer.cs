@@ -459,7 +459,7 @@ namespace LineageServer.Server.Model
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.execute(this, _time); // 延遲時間
+				RunnableExecuter.Instance.execute((IRunnable)this, this._time); // 延遲時間
             }
         }
 

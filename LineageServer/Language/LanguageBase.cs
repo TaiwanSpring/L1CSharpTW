@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace LineageServer.Language
 {
-    abstract class LanguageBase : ILanguage
+	abstract class LanguageBase : ILanguage
     {
         public abstract string LanguageName { get; }
 

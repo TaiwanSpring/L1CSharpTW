@@ -53,7 +53,7 @@ namespace LineageServer.Server.Model
         {
             // 効果時間が8秒のため、4秒毎のスキルの場合処理時間を考慮すると実際には1回しか効果が現れない
             // よって開始時間を0.9秒後に設定しておく
-            RunnableExecuter.Instance.scheduleAtFixedRate(this, 900, 1000);
+            RunnableExecuter.Instance.execute(this, 900, 1000);
         }
 
         public virtual void stop()

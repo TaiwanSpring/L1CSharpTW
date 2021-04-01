@@ -67,7 +67,7 @@ namespace LineageServer.Server.Model.Instance
                     }
                     Rest = true;
                     _monitor = new RestMonitor(this);
-                    RunnableExecuter.Instance.execute(_monitor, REST_MILLISEC);
+					RunnableExecuter.Instance.execute((Interfaces.IRunnable)this._monitor, REST_MILLISEC);
                 }
             }
 

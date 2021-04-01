@@ -118,7 +118,7 @@ namespace LineageServer.Server.Model.Instance
             Id = IdFactory.Instance.nextId();
 
             _summonFuture = new SummonTimer(this);
-            RunnableExecuter.Instance.execute(_summonFuture, SUMMON_TIME);
+			RunnableExecuter.Instance.execute((IRunnable)this._summonFuture, SUMMON_TIME);
 
             Master = master;
             X = master.X + RandomHelper.Next(5) - 2;
@@ -194,7 +194,7 @@ namespace LineageServer.Server.Model.Instance
             }
 
             _summonFuture = new SummonTimer(this);
-            RunnableExecuter.Instance.execute(_summonFuture, SUMMON_TIME);
+			RunnableExecuter.Instance.execute((IRunnable)this._summonFuture, SUMMON_TIME);
 
             Master = master;
             X = target.X;

@@ -1,199 +1,119 @@
-﻿using LineageServer.Enum;
-using LineageServer.Interfaces;
+﻿using LineageServer.Interfaces;
 using LineageServer.Models;
-using LineageServer.Server;
-using LineageServer.Server.Model;
 using LineageServer.Server.Model.Gametime;
-using LineageServer.Server.Model.Instance;
-using LineageServer.Serverpackets;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 namespace LineageServer.william
 {
-    public class L1GameReStart
-    {
-        private static ILogger _log = Logger.GetLogger(nameof(L1GameReStart));
+	public class L1GameReStart : IGameComponent, IRestartController
+	{
+		private static ILogger _log = Logger.GetLogger(nameof(L1GameReStart));
 
-        private static L1GameReStart _instance;
-        private volatile L1GameTime _currentTime = new L1GameTime();
-        private L1GameTime _previousTime = null;
+		private volatile L1GameTime _currentTime = new L1GameTime();
 
-        private HashSet<IL1GameTimeListener> _listeners = new HashSet<IL1GameTimeListener>();
+		private L1GameTime _previousTime = null;
 
-        private static int willRestartTime;
-        public int _remnant;
+		private HashSet<IL1GameTimeListener> _listeners = new HashSet<IL1GameTimeListener>();
 
-        private class TimeUpdaterRestar : IRunnable
-        {
-            private readonly L1GameReStart outerInstance;
+		private TimeUpdaterRestar timeUpdaterRestar;
 
-            public TimeUpdaterRestar(L1GameReStart outerInstance)
-            {
-                this.outerInstance = outerInstance;
-            }
+		public TimeSpan WillRestartTime { get { return this.timeUpdaterRestar == null ? default(TimeSpan) : this.timeUpdaterRestar.WillRestartTime; } }
+		public static L1GameReStart Instance { get; }
 
-            public void run()
-            {
-                while (true)
-                {
-                    outerInstance._previousTime = outerInstance._currentTime;
-                    outerInstance._currentTime = new L1GameTime();
-                    outerInstance.notifyChanged();
-                    int remnant = outerInstance.GetRestartTime() * 60;
-                    Console.WriteLine("【讀取】 【自動重啟】 【設定】【完成】【" + outerInstance.GetRestartTime() + "】【分鐘】。");
-                    while (remnant > 0)
-                    {
-                        for (int i = remnant; i >= 0; i--)
-                        {
-                            outerInstance.SetRemnant(i);
-                            willRestartTime = i;
-                            if (i % 60 == 0 && i <= 300 && i != 0)
-                            {
-                                outerInstance.BroadCastToAll("伺服器將於 " + i / 60 + " 分鐘後自動重啟,請至安全區域準備登出。");
-                                Console.WriteLine("伺服器將於 " + i / 60 + " 分鐘後重新啟動");
-                            } //TODO if (五分鐘內 一分鐘一次)
-                            else if (i <= 30 && i != 0)
-                            {
-                                outerInstance.BroadCastToAll("伺服器將於 " + i + "秒後重新啟動,煩請儘速下線！");
-                                Console.WriteLine("伺服器將於 " + i + " 秒後重新啟動");
-                            } //TODO else if (30秒內 一秒一次)
-                            else if (i == 0)
-                            {
-                                outerInstance.BroadCastToAll("伺服器自動重啟。");
-                                Console.WriteLine("伺服器重新啟動。");
-                                outerInstance.disconnectAllCharacters();
-                                GameServer.Instance.shutdown(); //TODO 修正自動重開角色資料會回溯
-                                Environment.Exit(1);
-                            } //TODO if (1秒)
+		public void Initialize()
+		{
+			TimeSpan restartTime = TimeSpan.FromMinutes(Config.REST_TIME);
 
-                            Thread.Sleep(1000);
-                        }
-                    }
-                }
-            }
-        }
+			if (restartTime.TotalSeconds > 0)
+			{
+				Console.WriteLine($"【讀取】 【自動重新啟動】 【設定】【完成】【{restartTime.TotalMinutes}】【分鐘】。");
+				Start(restartTime);
+			}
+		}
 
-        public virtual void disconnectAllCharacters()
-        {
-            ICollection<L1PcInstance> players = L1World.Instance.AllPlayers;
-            foreach (L1PcInstance pc in players)
-            {
-                pc.NetConnection.ActiveChar = null;
-                pc.NetConnection.kick();
-            }
-            // 全員Kickした後に保存処理をする
-            foreach (L1PcInstance pc in players)
-            {
-                ClientThread.quitGame(pc);
-                L1World.Instance.removeObject(pc);
-            }
-        }
+		public void Start(TimeSpan timeSpan)
+		{
+			Stop();
 
-        private int GetRestartTime()
-        {
-            return Config.REST_TIME;
-        }
+			this.timeUpdaterRestar = new TimeUpdaterRestar(timeSpan);
 
-        private void BroadCastToAll(string @string)
-        {
-            ICollection<L1PcInstance> allpc = L1World.Instance.AllPlayers;
-            foreach (L1PcInstance pc in allpc)
-            {
-                pc.sendPackets(new S_SystemMessage(@string));
-            }
-        }
+			Container.Instance.Resolve<ITaskController>().execute(this.timeUpdaterRestar);
+		}
 
-        public virtual void SetRemnant(int remnant)
-        {
-            _remnant = remnant;
-        }
+		public void Stop()
+		{
+			if (this.timeUpdaterRestar != null)
+			{
+				this.timeUpdaterRestar.cancel();
+				this.timeUpdaterRestar = null;
+			}
+		}
 
-        public static int WillRestartTime
-        {
-            get
-            {
-                return willRestartTime;
-            }
-        }
+		private class TimeUpdaterRestar : TimerTask
+		{
+			public TimeSpan WillRestartTime { get; private set; }
 
-        public virtual int GetRemnant()
-        {
-            return _remnant;
-        }
+			private readonly TimeSpan restartTime;
 
-        private bool isFieldChanged(DateTimeFieldTypeEnum dateTimeFieldType)
-        {
-            return _previousTime.GetValue(dateTimeFieldType) != _currentTime.GetValue(dateTimeFieldType);
-        }
+			public TimeUpdaterRestar(TimeSpan restartTime)
+			{
+				this.restartTime = restartTime;
+			}
 
-        private void notifyChanged()
-        {
-            if (isFieldChanged(DateTimeFieldTypeEnum.Month))
-            {
-                foreach (IL1GameTimeListener listener in _listeners)
-                {
-                    listener.OnMonthChanged(_currentTime);
-                }
-            }
-            if (isFieldChanged(DateTimeFieldTypeEnum.Day))
-            {
-                foreach (IL1GameTimeListener listener in _listeners)
-                {
-                    listener.OnDayChanged(_currentTime);
-                }
-            }
-            if (isFieldChanged(DateTimeFieldTypeEnum.Hour))
-            {
-                foreach (IL1GameTimeListener listener in _listeners)
-                {
-                    listener.OnHourChanged(_currentTime);
-                }
-            }
-            if (isFieldChanged(DateTimeFieldTypeEnum.Minute))
-            {
-                foreach (IL1GameTimeListener listener in _listeners)
-                {
-                    listener.OnMinuteChanged(_currentTime);
-                }
-            }
-        }
+			public override void run()
+			{
+				IContainerAdapter containerAdapter = Container.Instance;
 
-        private L1GameReStart()
-        {
-            RunnableExecuter.Instance.execute(new TimeUpdaterRestar(this));
-        }
+				ISendMessageTo sendMessageTo = containerAdapter.Resolve<ISendMessageTo>();
 
-        public static void init()
-        {
-            _instance = new L1GameReStart();
-        }
+				//EX 5 min = 5 * 60 = 300
+				TimeSpan timeSpan = restartTime;
 
-        public static L1GameReStart Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
+				TimeSpan sleep = TimeSpan.FromSeconds(1);
 
-        public virtual L1GameTime GameTime
-        {
-            get
-            {
-                return _currentTime;
-            }
-        }
+				while (timeSpan.TotalSeconds > 0)
+				{
+					if (IsCancel)
+					{
+						sendMessageTo.SendToAll("伺服器重新啟動中止。");
+						Console.WriteLine("伺服器重新啟動中止。");
+						return;
+					}
 
-        public virtual void addListener(IL1GameTimeListener listener)
-        {
-            _listeners.Add(listener);
-        }
+					WillRestartTime = timeSpan;
 
-        public virtual void removeListener(IL1GameTimeListener listener)
-        {
-            _listeners.Remove(listener);
-        }
-    }
+					//TODO if (五分鐘內 一分鐘一次)
+					if (timeSpan.TotalSeconds <= 300 && timeSpan.TotalSeconds % 60 == 0 && timeSpan.TotalSeconds != 0)
+					{
+						sendMessageTo.SendToAll($"伺服器將於 {(int)timeSpan.TotalMinutes} 分鐘後重新啟動,請至安全區域準備登出。");
 
+						Console.WriteLine($"伺服器將於 {(int)timeSpan.TotalMinutes} 分鐘後重新啟動");
+					}
+					//TODO else if (30秒內 一秒一次)
+					else if (timeSpan.TotalSeconds <= 30 && timeSpan.TotalSeconds != 0)
+					{
+						sendMessageTo.SendToAll($"伺服器將於 {(int)timeSpan.TotalSeconds} 秒後重新啟動,煩請儘速下線！");
+
+						Console.WriteLine($"伺服器將於 {(int)timeSpan.TotalSeconds} 秒後重新啟動");
+					}
+					else if (timeSpan.TotalSeconds <= 0)
+					{
+						sendMessageTo.SendToAll("伺服器重新啟動。");
+						Console.WriteLine("伺服器重新啟動。");
+						//踢掉所有完家，會執行存檔
+						containerAdapter.Resolve<ICharacterController>().disconnectAllCharacters();
+						break;
+					}
+
+					Thread.Sleep(sleep);
+
+					timeSpan.Subtract(sleep);
+				}
+
+				Thread.Sleep(sleep);
+				Environment.Exit(1);
+			}
+		}
+	}
 }

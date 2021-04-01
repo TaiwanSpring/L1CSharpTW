@@ -130,7 +130,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_hpRegenActive)
             {
                 _hpRegen = new HpRegeneration(this);
-                _regenTimer.scheduleAtFixedRate(_hpRegen, INTERVAL, INTERVAL);
+                _regenTimer.execute(_hpRegen, INTERVAL, INTERVAL);
                 _hpRegenActive = true;
             }
         }
@@ -152,7 +152,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_mpRegenActive)
             {
                 _mpRegen = new MpRegeneration(this);
-                _regenTimer.scheduleAtFixedRate(_mpRegen, INTERVAL, INTERVAL);
+                _regenTimer.execute(_mpRegen, INTERVAL, INTERVAL);
                 _mpRegenActive = true;
             }
         }
@@ -179,7 +179,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_ItemMakeActiveByDoll && isExistItemMakeDoll)
             {
                 _itemMakeByDoll = new ItemMakeByDoll(this);
-                _regenTimer.scheduleAtFixedRate(_itemMakeByDoll, INTERVAL_BY_DOLL, INTERVAL_BY_DOLL);
+                _regenTimer.execute(_itemMakeByDoll, INTERVAL_BY_DOLL, INTERVAL_BY_DOLL);
                 _ItemMakeActiveByDoll = true;
             }
         }
@@ -207,7 +207,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_hpRegenActiveByDoll && isExistHprDoll)
             {
                 _hpRegenByDoll = new HpRegenerationByDoll(this);
-                _regenTimer.scheduleAtFixedRate(_hpRegenByDoll, INTERVAL_BY_DOLL, INTERVAL_BY_DOLL);
+                _regenTimer.execute(_hpRegenByDoll, INTERVAL_BY_DOLL, INTERVAL_BY_DOLL);
                 _hpRegenActiveByDoll = true;
             }
         }
@@ -235,7 +235,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_mpRegenActiveByDoll && isExistMprDoll)
             {
                 _mpRegenByDoll = new MpRegenerationByDoll(this);
-                _regenTimer.scheduleAtFixedRate(_mpRegenByDoll, INTERVAL_BY_DOLL, INTERVAL_BY_DOLL);
+                _regenTimer.execute(_mpRegenByDoll, INTERVAL_BY_DOLL, INTERVAL_BY_DOLL);
                 _mpRegenActiveByDoll = true;
             }
         }
@@ -257,7 +257,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_mpReductionActiveByAwake)
             {
                 _mpReductionByAwake = new MpReductionByAwake(this);
-                _regenTimer.scheduleAtFixedRate(_mpReductionByAwake, INTERVAL_BY_AWAKE, INTERVAL_BY_AWAKE);
+                _regenTimer.execute(_mpReductionByAwake, INTERVAL_BY_AWAKE, INTERVAL_BY_AWAKE);
                 _mpReductionActiveByAwake = true;
             }
         }
@@ -276,7 +276,7 @@ namespace LineageServer.Server.Model.Instance
         {
             removeAllKnownObjects();
             _autoUpdateFuture = new L1PcAutoUpdate(Id);
-            RunnableExecuter.Instance.scheduleAtFixedRate(_autoUpdateFuture, 0, INTERVAL_AUTO_UPDATE);
+            RunnableExecuter.Instance.execute(_autoUpdateFuture, 0, INTERVAL_AUTO_UPDATE);
         }
 
         /// <summary>
@@ -3404,7 +3404,7 @@ namespace LineageServer.Server.Model.Instance
         public virtual void beginInvisTimer()
         {
             addInvisDelayCounter(1);
-            RunnableExecuter.Instance.execute(new L1PcInvisDelay(Id), 3000);
+			RunnableExecuter.Instance.execute((IRunnable)new L1PcInvisDelay(base.Id), 3000);
         }
 
         public virtual void addExp(long exp)
@@ -3430,7 +3430,7 @@ namespace LineageServer.Server.Model.Instance
         public virtual void beginExpMonitor()
         {
             _expMonitorFuture = new L1PcExpMonitor(Id);
-            RunnableExecuter.Instance.scheduleAtFixedRate(_expMonitorFuture, 0, INTERVAL_EXP_MONITOR);
+            RunnableExecuter.Instance.execute(_expMonitorFuture, 0, INTERVAL_EXP_MONITOR);
         }
 
         private void levelUp(int gap)
@@ -3642,7 +3642,7 @@ namespace LineageServer.Server.Model.Instance
             if (sec > 0)
             {
                 _ghostFuture = new L1PcGhostMonitor(Id);
-                RunnableExecuter.Instance.execute(_ghostFuture, sec * 1000);
+				RunnableExecuter.Instance.execute((IRunnable)this._ghostFuture, sec * 1000);
             }
         }
 
@@ -3707,7 +3707,7 @@ namespace LineageServer.Server.Model.Instance
             if (_hellFuture == null)
             {
                 _hellFuture = new L1PcHellMonitor(Id);
-                RunnableExecuter.Instance.scheduleAtFixedRate(_hellFuture, 0, 1000);
+                RunnableExecuter.Instance.execute(_hellFuture, 0, 1000);
             }
         }
 
@@ -5912,7 +5912,7 @@ namespace LineageServer.Server.Model.Instance
 
                 _rp = new L1PartyRefresh(this);
 
-                _regenTimer.scheduleAtFixedRate(_rp, INTERVAL, INTERVAL);
+                _regenTimer.execute(_rp, INTERVAL, INTERVAL);
 
                 _rpActive = true;
 

@@ -22,7 +22,11 @@ namespace LineageServer.DataBase
 		private readonly ColumnInfo[] columnInfos;
 		private Dictionary<string, object> data = new Dictionary<string, object>();
 		private Dictionary<string, object> where = new Dictionary<string, object>();
+		private Dictionary<string, object> whereNot = new Dictionary<string, object>();
 		private Dictionary<string, object> set = new Dictionary<string, object>();
+		private Dictionary<string, string> setToColumn = new Dictionary<string, string>();
+
+		private string orderBy;
 
 		private DataBaseRowStatusEnum dataBaseRowStatus;
 
@@ -56,7 +60,22 @@ namespace LineageServer.DataBase
 						dataParameter.DbType = this.columnInfos[i].DbType;
 						dbCommand.Parameters.Add(dataParameter);
 					}
+					else if (this.whereNot.ContainsKey(this.columnInfos[i].Column))
+					{
+						IDataParameter dataParameter = dbCommand.CreateParameter();
+						stringBuilder.Append($"AND {this.columnInfos[i].Column} != @{this.columnInfos[i].Column} ");
+						dataParameter.ParameterName = $"@{this.columnInfos[i].Column}";
+						dataParameter.Value = this.where[this.columnInfos[i].Column];
+						dataParameter.DbType = this.columnInfos[i].DbType;
+						dbCommand.Parameters.Add(dataParameter);
+					}
+
 				}
+			}
+
+			if (!string.IsNullOrEmpty(this.orderBy))
+			{
+				stringBuilder.Append($" ORDER BY {this.orderBy}");
 			}
 			dbCommand.CommandText = stringBuilder.ToString();
 			return dbCommand;
@@ -110,23 +129,33 @@ namespace LineageServer.DataBase
 			IDbCommand dbCommand = this.dbConnection.CreateCommand();
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append($"UPDATE {this.tableName} SET ");
+
+			StringBuilder setBuilder = new StringBuilder();
+			StringBuilder setToColumnBuilder = new StringBuilder();
+
 			for (int i = 0; i < this.columnInfos.Length; i++)
 			{
-				if (!this.columnInfos[i].IsPKey)
+				//if (!this.columnInfos[i].IsPKey)
 				{
 					if (this.set.ContainsKey(this.columnInfos[i].Column))
 					{
 						IDataParameter dataParameter = dbCommand.CreateParameter();
-						stringBuilder.Append($"{this.columnInfos[i].Column} = @{this.columnInfos[i].Column}, ");
+						setBuilder.Append($"{this.columnInfos[i].Column} = @{this.columnInfos[i].Column}, ");
 						dataParameter.ParameterName = $"@{this.columnInfos[i].Column}";
 						dataParameter.Value = this.set[this.columnInfos[i].Column];
 						dataParameter.DbType = this.columnInfos[i].DbType;
 						dbCommand.Parameters.Add(dataParameter);
 					}
+					else if (this.setToColumn.ContainsKey(this.columnInfos[i].Column))
+					{
+						setToColumnBuilder.Append($"{this.columnInfos[i].Column} = {this.setToColumn[this.columnInfos[i].Column]}, ");
+					}
 				}
 			}
+			stringBuilder.Append(setToColumnBuilder);
+			stringBuilder.Append(setBuilder);
 			stringBuilder.Remove(stringBuilder.Length - 2, 2);
-			if (this.where.Count > 0)
+			if (this.where.Count > 0 || this.whereNot.Count > 0)
 			{
 				stringBuilder.Append($" WHERE ");
 
@@ -143,11 +172,19 @@ namespace LineageServer.DataBase
 							dataParameter.DbType = this.columnInfos[i].DbType;
 							dbCommand.Parameters.Add(dataParameter);
 						}
+						else if (this.whereNot.ContainsKey(this.columnInfos[i].Column))
+						{
+							IDataParameter dataParameter = dbCommand.CreateParameter();
+							stringBuilder.Append($"{this.columnInfos[i].Column} != @{this.columnInfos[i].Column} AND ");
+							dataParameter.ParameterName = $"@{this.columnInfos[i].Column}";
+							dataParameter.Value = this.where[this.columnInfos[i].Column];
+							dataParameter.DbType = this.columnInfos[i].DbType;
+							dbCommand.Parameters.Add(dataParameter);
+						}
 					}
 				}
 				stringBuilder.Remove(stringBuilder.Length - 5, 5);
 			}
-
 			dbCommand.CommandText = stringBuilder.ToString();
 			return dbCommand;
 		}
@@ -156,7 +193,10 @@ namespace LineageServer.DataBase
 		{
 			this.data.Clear();
 			this.set.Clear();
+			this.setToColumn.Clear();
 			this.where.Clear();
+			this.whereNot.Clear();
+			this.orderBy = string.Empty;
 		}
 
 		public bool FillData(IDataReader dataReader)
@@ -186,10 +226,19 @@ namespace LineageServer.DataBase
 			{
 				if (this.columnInfos[i].IsPKey)
 				{
-					if (this.data.ContainsKey(this.columnInfos[i].Column))
+					if (this.where.ContainsKey(this.columnInfos[i].Column))
 					{
 						IDataParameter dataParameter = dbCommand.CreateParameter();
 						stringBuilder.Append($"{this.columnInfos[i].Column} = @{this.columnInfos[i].Column} AND ");
+						dataParameter.ParameterName = $"@{this.columnInfos[i].Column}";
+						dataParameter.Value = data[this.columnInfos[i].Column];
+						dataParameter.DbType = this.columnInfos[i].DbType;
+						dbCommand.Parameters.Add(dataParameter);
+					}
+					else if (this.whereNot.ContainsKey(this.columnInfos[i].Column))
+					{
+						IDataParameter dataParameter = dbCommand.CreateParameter();
+						stringBuilder.Append($"{this.columnInfos[i].Column} != @{this.columnInfos[i].Column} AND ");
 						dataParameter.ParameterName = $"@{this.columnInfos[i].Column}";
 						dataParameter.Value = data[this.columnInfos[i].Column];
 						dataParameter.DbType = this.columnInfos[i].DbType;
@@ -242,6 +291,23 @@ namespace LineageServer.DataBase
 			return this;
 		}
 
+		public IDataSourceRow SetToColumn(string column, string toColumn)
+		{
+			Debug.Assert(this.dataBaseRowStatus != DataBaseRowStatusEnum.Delete);
+			this.setToColumn.Add(column, toColumn);
+			return this;
+		}
+		IDataSourceQuery IDataSourceQuery.OrderBy(string column)
+		{
+			this.orderBy = column;
+			return this;
+		}
+
+		IDataSourceQuery IDataSourceRow.OrderBy(string column)
+		{
+			this.orderBy = column;
+			return this;
+		}
 		public void Execute()
 		{
 			switch (this.dataBaseRowStatus)
@@ -343,6 +409,18 @@ namespace LineageServer.DataBase
 			}
 		}
 
+		IDataSourceRow IDataSourceRow.WhereNot(string column, object value)
+		{
+			this.whereNot.Add(column, value);
+			return this;
+		}
+
+
+		IDataSourceQuery IDataSourceQuery.WhereNot(string column, object value)
+		{
+			this.whereNot.Add(column, value);
+			return this;
+		}
 		IDataSourceQuery IDataSourceQuery.Where(string column, object value)
 		{
 			this.where.Add(column, value);

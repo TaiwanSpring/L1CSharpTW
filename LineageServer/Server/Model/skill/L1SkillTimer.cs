@@ -1808,7 +1808,7 @@ namespace LineageServer.Server.Model.skill
 
         public virtual void begin()
         {
-            RunnableExecuter.Instance.scheduleAtFixedRate(this, 1000, 1000);
+            RunnableExecuter.Instance.execute(this, 1000, 1000);
         }
 
         public virtual void end()

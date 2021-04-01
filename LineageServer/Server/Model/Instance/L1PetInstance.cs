@@ -899,7 +899,7 @@ namespace LineageServer.Server.Model.Instance
 		public virtual void startFoodTimer(L1PetInstance pet)
 		{
 			_petFood = new L1PetFood(pet, _itemObjId);
-			RunnableExecuter.Instance.scheduleAtFixedRate(_petFood, 1000, 200000); // 每 X秒減少
+			RunnableExecuter.Instance.execute(_petFood, 1000, 200000); // 每 X秒減少
 		}
 
 		public virtual void stopFoodTimer(L1PetInstance pet)

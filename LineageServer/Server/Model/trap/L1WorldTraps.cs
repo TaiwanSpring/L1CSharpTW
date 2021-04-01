@@ -1,45 +1,26 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server.DataTables;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Types;
+using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.Model.trap
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using IdFactory = LineageServer.Server.IdFactory;
-	using TrapTable = LineageServer.Server.DataTables.TrapTable;
-	using L1Location = LineageServer.Server.Model.L1Location;
-	using L1World = LineageServer.Server.Model.L1World;
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
-	using L1TrapInstance = LineageServer.Server.Model.Instance.L1TrapInstance;
-	using Point = LineageServer.Server.Types.Point;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using ListFactory = LineageServer.Utils.ListFactory;
-
-	public class L1WorldTraps
+	class L1WorldTraps
 	{
-		//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(L1WorldTraps).FullName);
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.SpawnlistTrap);
 
-		private IList<L1TrapInstance> _allTraps = ListFactory.NewList();
+		private IList<L1TrapInstance> _allTraps = ListFactory.NewList<L1TrapInstance>();
 
-		private IList<L1TrapInstance> _allBases = ListFactory.NewList();
-
-		private Timer _timer = new Timer();
+		private IList<L1TrapInstance> _allBases = ListFactory.NewList<L1TrapInstance>();
 
 		private static L1WorldTraps _instance;
+
+		private HashSet<ITimerTask> activeTrapSet = new HashSet<ITimerTask>();
 
 		private L1WorldTraps()
 		{
@@ -60,64 +41,47 @@ namespace LineageServer.Server.Model.trap
 
 		private void initialize()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-			try
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				int trapId = dataSourceRow.getInt(SpawnlistTrap.Column_trapId);
+				L1Trap trapTemp = TrapTable.Instance.getTemplate(trapId);
+				L1Location loc = new L1Location();
+				loc.setMap(dataSourceRow.getInt(SpawnlistTrap.Column_mapId));
+				loc.X = dataSourceRow.getInt(SpawnlistTrap.Column_locX);
+				loc.Y = dataSourceRow.getInt(SpawnlistTrap.Column_locY);
+				Point rndPt = new Point();
+				rndPt.X = dataSourceRow.getInt(SpawnlistTrap.Column_locRndX);
+				rndPt.Y = dataSourceRow.getInt(SpawnlistTrap.Column_locRndY);
+				int count = dataSourceRow.getInt(SpawnlistTrap.Column_count);
+				int span = dataSourceRow.getInt(SpawnlistTrap.Column_span);
 
-				pstm = con.prepareStatement("SELECT * FROM spawnlist_trap");
-
-				rs = pstm.executeQuery();
-
-				while (rs.next())
+				for (int j = 0; j < count; j++)
 				{
-					int trapId = dataSourceRow.getInt("trapId");
-					L1Trap trapTemp = TrapTable.Instance.getTemplate(trapId);
-					L1Location loc = new L1Location();
-					loc.setMap(dataSourceRow.getInt("mapId"));
-					loc.X = dataSourceRow.getInt("locX");
-					loc.Y = dataSourceRow.getInt("locY");
-					Point rndPt = new Point();
-					rndPt.X = dataSourceRow.getInt("locRndX");
-					rndPt.Y = dataSourceRow.getInt("locRndY");
-					int count = dataSourceRow.getInt("count");
-					int span = dataSourceRow.getInt("span");
-
-					for (int i = 0; i < count; i++)
-					{
-						L1TrapInstance trap = new L1TrapInstance(IdFactory.Instance.nextId(), trapTemp, loc, rndPt, span);
-						L1World.Instance.addVisibleObject(trap);
-						_allTraps.Add(trap);
-					}
-					L1TrapInstance @base = new L1TrapInstance(IdFactory.Instance.nextId(), loc);
-					L1World.Instance.addVisibleObject(@base);
-					_allBases.Add(@base);
+					L1TrapInstance trap = new L1TrapInstance(IdFactory.Instance.nextId(), trapTemp, loc, rndPt, span);
+					L1World.Instance.addVisibleObject(trap);
+					_allTraps.Add(trap);
 				}
 
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
+				L1TrapInstance trapBase = new L1TrapInstance(IdFactory.Instance.nextId(), loc);
+				L1World.Instance.addVisibleObject(trapBase);
+				_allBases.Add(trapBase);
 			}
 		}
 
 		public static void reloadTraps()
 		{
 			TrapTable.reload();
-			L1WorldTraps oldInstance = _instance;
+
+			_instance.resetTimer();
+
+			removeTraps(_instance._allTraps);
+
+			removeTraps(_instance._allBases);
+
 			_instance = new L1WorldTraps();
-			oldInstance.resetTimer();
-			removeTraps(oldInstance._allTraps);
-			removeTraps(oldInstance._allBases);
 		}
 
 		private static void removeTraps(IList<L1TrapInstance> traps)
@@ -133,8 +97,11 @@ namespace LineageServer.Server.Model.trap
 		{
 			lock (this)
 			{
-				_timer.cancel();
-				_timer = new Timer();
+				foreach (ITimerTask item in this.activeTrapSet)
+				{
+					item.cancel();
+				}
+				this.activeTrapSet.Clear();
 			}
 		}
 
@@ -144,7 +111,9 @@ namespace LineageServer.Server.Model.trap
 
 			lock (this)
 			{
-				_timer.schedule(new TrapSpawnTimer(this, trap), trap.Span);
+				ITimerTask timerTask = new TrapSpawnTimer(trap);
+				this.activeTrapSet.Add(timerTask);
+				RunnableExecuter.Instance.execute((IRunnable)timerTask, trap.Span);
 			}
 		}
 
@@ -187,13 +156,10 @@ namespace LineageServer.Server.Model.trap
 
 		private class TrapSpawnTimer : TimerTask
 		{
-			private readonly L1WorldTraps outerInstance;
-
 			internal readonly L1TrapInstance _targetTrap;
 
-			public TrapSpawnTimer(L1WorldTraps outerInstance, L1TrapInstance trap)
+			public TrapSpawnTimer(L1TrapInstance trap)
 			{
-				this.outerInstance = outerInstance;
 				_targetTrap = trap;
 			}
 

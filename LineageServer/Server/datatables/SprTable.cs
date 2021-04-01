@@ -1,103 +1,16 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_Aggress;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_AltAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_Attack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_AxeAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_AxeWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_BowAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_BowWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_ClawAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_ClawWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_DaggerAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_DaggerWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_EdoryuAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_EdoryuWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_SkillAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_SkillBuff;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_SpearAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_SpearWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_SpellDirectionExtra;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_StaffAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_StaffWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_SwordAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_SwordWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_Think;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_ThrowingKnifeAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_ThrowingKnifeWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_TwoHandSwordAttack;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_TwoHandSwordWalk;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.ActionCodes.ACTION_Walk;
-
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public class SprTable
+	class SprTable
 	{
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.SprAction);
 
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(SprTable).FullName);
-
-		private class Spr
-		{
-			internal readonly IDictionary<int, int> moveSpeed = MapFactory.NewMap();
-
-			internal readonly IDictionary<int, int> attackSpeed = MapFactory.NewMap();
-
-			internal readonly IDictionary<int, int> specialSpeed = MapFactory.NewMap();
-
-			internal int nodirSpellSpeed = 1200;
-
-			internal int dirSpellSpeed = 1200;
-		}
-
-		private static readonly IDictionary<int, Spr> _dataMap = MapFactory.NewMap();
+		private static readonly IDictionary<int, Spr> _dataMap = MapFactory.NewMap<int, Spr>();
 
 		private static readonly SprTable _instance = new SprTable();
 
@@ -119,89 +32,74 @@ namespace LineageServer.Server.DataTables
 		/// </summary>
 		public virtual void loadSprAction()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			Spr spr = null;
-			try
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+
+			Spr spr;
+
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM spr_action");
-				rs = pstm.executeQuery();
-				while (rs.next())
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				int key = dataSourceRow.getInt(SprAction.Column_spr_id);
+
+				if (_dataMap.ContainsKey(key))
 				{
-					int key = dataSourceRow.getInt("spr_id");
-					if (!_dataMap.ContainsKey(key))
-					{
-						spr = new Spr();
-						_dataMap[key] = spr;
-					}
-					else
-					{
-						spr = _dataMap[key];
-					}
+					spr = _dataMap[key];
+				}
+				else
+				{
+					spr = new Spr();
+					_dataMap[key] = spr;
+				}
 
-					int actid = dataSourceRow.getInt("act_id");
-					int frameCount = dataSourceRow.getInt("framecount");
-					int frameRate = dataSourceRow.getInt("framerate");
-					int speed = calcActionSpeed(frameCount, frameRate);
+				int actid = dataSourceRow.getInt(SprAction.Column_act_id);
+				int frameCount = dataSourceRow.getInt(SprAction.Column_framecount);
+				int frameRate = dataSourceRow.getInt(SprAction.Column_framerate);
+				int speed = calcActionSpeed(frameCount, frameRate);
 
-					switch (actid)
-					{
-						case ACTION_Walk:
-						case ACTION_SwordWalk:
-						case ACTION_AxeWalk:
-						case ACTION_BowWalk:
-						case ACTION_SpearWalk:
-						case ACTION_StaffWalk:
-						case ACTION_DaggerWalk:
-						case ACTION_TwoHandSwordWalk:
-						case ACTION_EdoryuWalk:
-						case ACTION_ClawWalk:
-						case ACTION_ThrowingKnifeWalk:
-							spr.moveSpeed[actid] = speed;
-							break;
-						case ACTION_SkillAttack:
-							spr.dirSpellSpeed = speed;
-							break;
-						case ACTION_SkillBuff:
-							spr.nodirSpellSpeed = speed;
-							break;
-						case ACTION_Attack:
-						case ACTION_SwordAttack:
-						case ACTION_AxeAttack:
-						case ACTION_BowAttack:
-						case ACTION_SpearAttack:
-						case ACTION_AltAttack:
-						case ACTION_SpellDirectionExtra:
-						case ACTION_StaffAttack:
-						case ACTION_DaggerAttack:
-						case ACTION_TwoHandSwordAttack:
-						case ACTION_EdoryuAttack:
-						case ACTION_ClawAttack:
-						case ACTION_ThrowingKnifeAttack:
-							spr.attackSpeed[actid] = speed;
-							break;
-						case ACTION_Think:
-						case ACTION_Aggress:
-							spr.specialSpeed[actid] = speed;
-							break;
-						default:
-							break;
-					}
+				switch (actid)
+				{
+					case ActionCodes.ACTION_Walk:
+					case ActionCodes.ACTION_SwordWalk:
+					case ActionCodes.ACTION_AxeWalk:
+					case ActionCodes.ACTION_BowWalk:
+					case ActionCodes.ACTION_SpearWalk:
+					case ActionCodes.ACTION_StaffWalk:
+					case ActionCodes.ACTION_DaggerWalk:
+					case ActionCodes.ACTION_TwoHandSwordWalk:
+					case ActionCodes.ACTION_EdoryuWalk:
+					case ActionCodes.ACTION_ClawWalk:
+					case ActionCodes.ACTION_ThrowingKnifeWalk:
+						spr.moveSpeed[actid] = speed;
+						break;
+					case ActionCodes.ACTION_SkillAttack:
+						spr.dirSpellSpeed = speed;
+						break;
+					case ActionCodes.ACTION_SkillBuff:
+						spr.nodirSpellSpeed = speed;
+						break;
+					case ActionCodes.ACTION_Attack:
+					case ActionCodes.ACTION_SwordAttack:
+					case ActionCodes.ACTION_AxeAttack:
+					case ActionCodes.ACTION_BowAttack:
+					case ActionCodes.ACTION_SpearAttack:
+					case ActionCodes.ACTION_AltAttack:
+					case ActionCodes.ACTION_SpellDirectionExtra:
+					case ActionCodes.ACTION_StaffAttack:
+					case ActionCodes.ACTION_DaggerAttack:
+					case ActionCodes.ACTION_TwoHandSwordAttack:
+					case ActionCodes.ACTION_EdoryuAttack:
+					case ActionCodes.ACTION_ClawAttack:
+					case ActionCodes.ACTION_ThrowingKnifeAttack:
+						spr.attackSpeed[actid] = speed;
+						break;
+					case ActionCodes.ACTION_Think:
+					case ActionCodes.ACTION_Aggress:
+						spr.specialSpeed[actid] = speed;
+						break;
+					default:
+						break;
 				}
 			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-			_log.config("SPRデータ " + _dataMap.Count + "件ロード");
 		}
 
 		/// <summary>
@@ -209,7 +107,7 @@ namespace LineageServer.Server.DataTables
 		/// </summary>
 		private int calcActionSpeed(int frameCount, int frameRate)
 		{
-			return (int)(frameCount * 40 * (24D / frameRate));
+			return (int)( frameCount * 40 * ( 24D / frameRate ) );
 		}
 
 		/// <summary>
@@ -228,13 +126,13 @@ namespace LineageServer.Server.DataTables
 				{
 					return _dataMap[sprid].attackSpeed[actid];
 				}
-				else if (actid == ACTION_Attack)
+				else if (actid == ActionCodes.ACTION_Attack)
 				{
 					return 0;
 				}
 				else
 				{
-					return _dataMap[sprid].attackSpeed[ACTION_Attack];
+					return _dataMap[sprid].attackSpeed[ActionCodes.ACTION_Attack];
 				}
 			}
 			return 0;
@@ -248,13 +146,13 @@ namespace LineageServer.Server.DataTables
 				{
 					return _dataMap[sprid].moveSpeed[actid];
 				}
-				else if (actid == ACTION_Walk)
+				else if (actid == ActionCodes.ACTION_Walk)
 				{
 					return 0;
 				}
 				else
 				{
-					return _dataMap[sprid].moveSpeed[ACTION_Walk];
+					return _dataMap[sprid].moveSpeed[ActionCodes.ACTION_Walk];
 				}
 			}
 			return 0;
@@ -300,42 +198,42 @@ namespace LineageServer.Server.DataTables
 		{
 			switch (actid)
 			{
-				case ACTION_Walk:
-				case ACTION_SwordWalk:
-				case ACTION_AxeWalk:
-				case ACTION_BowWalk:
-				case ACTION_SpearWalk:
-				case ACTION_StaffWalk:
-				case ACTION_DaggerWalk:
-				case ACTION_TwoHandSwordWalk:
-				case ACTION_EdoryuWalk:
-				case ACTION_ClawWalk:
-				case ACTION_ThrowingKnifeWalk:
+				case ActionCodes.ACTION_Walk:
+				case ActionCodes.ACTION_SwordWalk:
+				case ActionCodes.ACTION_AxeWalk:
+				case ActionCodes.ACTION_BowWalk:
+				case ActionCodes.ACTION_SpearWalk:
+				case ActionCodes.ACTION_StaffWalk:
+				case ActionCodes.ACTION_DaggerWalk:
+				case ActionCodes.ACTION_TwoHandSwordWalk:
+				case ActionCodes.ACTION_EdoryuWalk:
+				case ActionCodes.ACTION_ClawWalk:
+				case ActionCodes.ACTION_ThrowingKnifeWalk:
 					// 移動
 					return getMoveSpeed(sprid, actid);
-				case ACTION_SkillAttack:
+				case ActionCodes.ACTION_SkillAttack:
 					// 有向施法
 					return getDirSpellSpeed(sprid);
-				case ACTION_SkillBuff:
+				case ActionCodes.ACTION_SkillBuff:
 					// 無向施法
 					return getNodirSpellSpeed(sprid);
-				case ACTION_Attack:
-				case ACTION_SwordAttack:
-				case ACTION_AxeAttack:
-				case ACTION_BowAttack:
-				case ACTION_SpearAttack:
-				case ACTION_AltAttack:
-				case ACTION_SpellDirectionExtra:
-				case ACTION_StaffAttack:
-				case ACTION_DaggerAttack:
-				case ACTION_TwoHandSwordAttack:
-				case ACTION_EdoryuAttack:
-				case ACTION_ClawAttack:
-				case ACTION_ThrowingKnifeAttack:
+				case ActionCodes.ACTION_Attack:
+				case ActionCodes.ACTION_SwordAttack:
+				case ActionCodes.ACTION_AxeAttack:
+				case ActionCodes.ACTION_BowAttack:
+				case ActionCodes.ACTION_SpearAttack:
+				case ActionCodes.ACTION_AltAttack:
+				case ActionCodes.ACTION_SpellDirectionExtra:
+				case ActionCodes.ACTION_StaffAttack:
+				case ActionCodes.ACTION_DaggerAttack:
+				case ActionCodes.ACTION_TwoHandSwordAttack:
+				case ActionCodes.ACTION_EdoryuAttack:
+				case ActionCodes.ACTION_ClawAttack:
+				case ActionCodes.ACTION_ThrowingKnifeAttack:
 					// 攻擊
 					return getAttackSpeed(sprid, actid);
-				case ACTION_Think:
-				case ACTION_Aggress:
+				case ActionCodes.ACTION_Think:
+				case ActionCodes.ACTION_Aggress:
 					// 魔法娃娃表情動作
 					return getSpecialSpeed(sprid, actid);
 				default:
@@ -343,6 +241,18 @@ namespace LineageServer.Server.DataTables
 			}
 			return 0;
 		}
-	}
 
+		private class Spr
+		{
+			public readonly IDictionary<int, int> moveSpeed = MapFactory.NewMap<int, int>();
+
+			public readonly IDictionary<int, int> attackSpeed = MapFactory.NewMap<int, int>();
+
+			public readonly IDictionary<int, int> specialSpeed = MapFactory.NewMap<int, int>();
+
+			public int nodirSpellSpeed = 1200;
+
+			public int dirSpellSpeed = 1200;
+		}
+	}
 }

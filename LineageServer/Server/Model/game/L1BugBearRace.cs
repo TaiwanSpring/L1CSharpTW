@@ -427,7 +427,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.execute(this, _startTime * 1000);
+				RunnableExecuter.Instance.execute((Interfaces.IRunnable)this, this._startTime * 1000);
             }
 
             public void cancel()
@@ -499,7 +499,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin(int startTime)
             {
-                RunnableExecuter.Instance.execute(this, startTime);
+				RunnableExecuter.Instance.execute((Interfaces.IRunnable)this, startTime);
             }
 
             public void cancel()
@@ -640,7 +640,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.scheduleAtFixedRate(this, 1000, 1000);
+                RunnableExecuter.Instance.execute(this, 1000, 1000);
             }
 
             public void cancel()

@@ -1,37 +1,21 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model;
+using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1PolyMorph = LineageServer.Server.Model.L1PolyMorph;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public class PolyTable
+	class PolyTable
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(PolyTable).FullName);
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.Polymorphs);
 
 		private static PolyTable _instance;
 
-		private readonly IDictionary<string, L1PolyMorph> _polymorphs = MapFactory.NewMap();
+		private readonly IDictionary<string, L1PolyMorph> _polymorphs = MapFactory.NewMap<string, L1PolyMorph>();
 
-		private readonly IDictionary<int, L1PolyMorph> _polyIdIndex = MapFactory.NewMap();
+		private readonly IDictionary<int, L1PolyMorph> _polyIdIndex = MapFactory.NewMap<int, L1PolyMorph>();
 
 		public static PolyTable Instance
 		{
@@ -52,51 +36,31 @@ namespace LineageServer.Server.DataTables
 
 		private void loadPolymorphs()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM polymorphs");
-				rs = pstm.executeQuery();
-				fillPolyTable(rs);
-			}
-			catch (SQLException e)
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				_log.log(Enum.Level.Server, "error while creating polymorph table", e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				fillPolyTable(dataSourceRow);
 			}
 		}
-
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private void fillPolyTable(java.sql.ResultSet rs) throws java.sql.SQLException
-		private void fillPolyTable(ResultSet rs)
+		private void fillPolyTable(IDataSourceRow dataSourceRow)
 		{
-			while (rs.next())
-			{
-				int id = dataSourceRow.getInt("id");
-				string name = dataSourceRow.getString("name");
-				int polyId = dataSourceRow.getInt("polyid");
-				int minLevel = dataSourceRow.getInt("minlevel");
-				int weaponEquipFlg = dataSourceRow.getInt("weaponequip");
-				int armorEquipFlg = dataSourceRow.getInt("armorequip");
-				bool canUseSkill = dataSourceRow.getBoolean("isSkillUse");
-				int causeFlg = dataSourceRow.getInt("cause");
 
-				L1PolyMorph poly = new L1PolyMorph(id, name, polyId, minLevel, weaponEquipFlg, armorEquipFlg, canUseSkill, causeFlg);
+			int id = dataSourceRow.getInt(Polymorphs.Column_id);
+			string name = dataSourceRow.getString(Polymorphs.Column_name);
+			int polyId = dataSourceRow.getInt(Polymorphs.Column_polyid);
+			int minLevel = dataSourceRow.getInt(Polymorphs.Column_minlevel);
+			int weaponEquipFlg = dataSourceRow.getInt(Polymorphs.Column_weaponequip);
+			int armorEquipFlg = dataSourceRow.getInt(Polymorphs.Column_armorequip);
+			bool canUseSkill = dataSourceRow.getBoolean(Polymorphs.Column_isSkillUse);
+			int causeFlg = dataSourceRow.getInt(Polymorphs.Column_cause);
 
-				_polymorphs[name] = poly;
-				_polyIdIndex[polyId] = poly;
-			}
+			L1PolyMorph poly = new L1PolyMorph(id, name, polyId, minLevel, weaponEquipFlg, armorEquipFlg, canUseSkill, causeFlg);
 
-			_log.config("変身リスト " + _polymorphs.Count + "件ロード");
+			_polymorphs[name] = poly;
+			_polyIdIndex[polyId] = poly;
+
 		}
 
 		public virtual L1PolyMorph getTemplate(string name)

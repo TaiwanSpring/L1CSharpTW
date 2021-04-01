@@ -31,15 +31,15 @@ namespace LineageServer.Server.Templates
 			}
 		}
 
-		private L1SpawnTime(L1SpawnTimeBuilder builder)
+		public L1SpawnTime(L1SpawnTimeBuilder builder)
 		{
-			_spawnId = builder._spawnId;
-			_timeStart = builder._timeStart;
-			_timeEnd = builder._timeEnd;
+			_spawnId = builder.SpawnId;
+			_timeStart = builder.TimeStart;
+			_timeEnd = builder.TimeEnd;
 			_timePeriod = _timeEnd - _timeStart;
-			_periodStart = builder._periodStart;
-			_periodEnd = builder._periodEnd;
-			_isDeleteAtEndTime = builder._isDeleteAtEndTime;
+			_periodStart = builder.PeriodStart;
+			_periodEnd = builder.PeriodEnd;
+			_isDeleteAtEndTime = builder.IsDeleteAtEndTime;
 		}
 		public bool includes(L1GameTime l1GameTime)
 		{
@@ -88,38 +88,36 @@ namespace LineageServer.Server.Templates
 				return _periodEnd;
 			}
 		}
-
-		public class L1SpawnTimeBuilder
-		{
-			internal readonly int _spawnId;
-
-			internal DateTime _timeStart;
-
-			internal DateTime _timeEnd;
-
-			internal DateTime _periodStart;
-
-			internal DateTime _periodEnd;
-
-			internal bool _isDeleteAtEndTime;
-
-			public L1SpawnTimeBuilder(int spawnId)
-			{
-				_spawnId = spawnId;
-
-			}
-			public virtual L1SpawnTime build()
-			{
-				return new L1SpawnTime(this);
-			}
-		}
-
 		public virtual TimeSpan TimePeriod
 		{
 			get
 			{
 				return _timePeriod;
 			}
+		}
+	}
+	public class L1SpawnTimeBuilder
+	{
+		public int SpawnId { get; set; }
+
+		public DateTime TimeStart { get; set; }
+
+		public DateTime TimeEnd { get; set; }
+
+		public DateTime PeriodStart { get; set; }
+
+		public DateTime PeriodEnd { get; set; }
+
+		public bool IsDeleteAtEndTime { get; set; }
+
+		public L1SpawnTimeBuilder(int spawnId)
+		{
+			SpawnId = spawnId;
+
+		}
+		public virtual L1SpawnTime build()
+		{
+			return new L1SpawnTime(this);
 		}
 	}
 

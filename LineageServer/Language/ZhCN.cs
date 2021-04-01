@@ -3,12 +3,12 @@
 namespace LineageServer.Language
 {
 
-    /// <summary>
-    /// @category 中國-簡體中文<br>
-    ///           國際化的英文是Internationalization 因為單字中總共有18個字母，簡稱I18N，
-    ///           目的是讓應用程式可以應地區不同而顯示不同的訊息。
-    /// </summary>
-    class ZhCN : LanguageBase
+	/// <summary>
+	/// @category 中國-簡體中文<br>
+	///           國際化的英文是Internationalization 因為單字中總共有18個字母，簡稱I18N，
+	///           目的是讓應用程式可以應地區不同而顯示不同的訊息。
+	/// </summary>
+	class ZhCN : LanguageBase
     {
         private readonly IDictionary<string, string> stringMapping = new Dictionary<string, string>()
         {

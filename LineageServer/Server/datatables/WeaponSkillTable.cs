@@ -1,35 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model;
+using LineageServer.Utils;
+using System.Collections.Generic;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1WeaponSkill = LineageServer.Server.Model.L1WeaponSkill;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public class WeaponSkillTable
+	class WeaponSkillTable
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(WeaponSkillTable).FullName);
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.WeaponSkill);
 
 		private static WeaponSkillTable _instance;
 
-		private readonly IDictionary<int, L1WeaponSkill> _weaponIdIndex = MapFactory.NewMap();
+		private readonly IDictionary<int, L1WeaponSkill> _weaponIdIndex = MapFactory.NewMap<int, L1WeaponSkill>();
 
 		public static WeaponSkillTable Instance
 		{
@@ -50,50 +35,30 @@ namespace LineageServer.Server.DataTables
 
 		private void loadWeaponSkill()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM weapon_skill");
-				rs = pstm.executeQuery();
-				fillWeaponSkillTable(rs);
-			}
-			catch (SQLException e)
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				_log.log(Enum.Level.Server, "error while creating weapon_skill table", e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				fillWeaponSkillTable(dataSourceRow);
 			}
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private void fillWeaponSkillTable(java.sql.ResultSet rs) throws java.sql.SQLException
-		private void fillWeaponSkillTable(ResultSet rs)
+		private void fillWeaponSkillTable(IDataSourceRow dataSourceRow)
 		{
-			while (rs.next())
-			{
-				int weaponId = dataSourceRow.getInt("weapon_id");
-				int probability = dataSourceRow.getInt("probability");
-				int fixDamage = dataSourceRow.getInt("fix_damage");
-				int randomDamage = dataSourceRow.getInt("random_damage");
-				int area = dataSourceRow.getInt("area");
-				int skillId = dataSourceRow.getInt("skill_id");
-				int skillTime = dataSourceRow.getInt("skill_time");
-				int effectId = dataSourceRow.getInt("effect_id");
-				int effectTarget = dataSourceRow.getInt("effect_target");
-				bool isArrowType = dataSourceRow.getBoolean("arrow_type");
-				int attr = dataSourceRow.getInt("attr");
-				L1WeaponSkill weaponSkill = new L1WeaponSkill(weaponId, probability, fixDamage, randomDamage, area, skillId, skillTime, effectId, effectTarget, isArrowType, attr);
-				_weaponIdIndex[weaponId] = weaponSkill;
-			}
-			_log.config("武器スキルリスト " + _weaponIdIndex.Count + "件ロード");
+			int weaponId = dataSourceRow.getInt(WeaponSkill.Column_weapon_id);
+			int probability = dataSourceRow.getInt(WeaponSkill.Column_probability);
+			int fixDamage = dataSourceRow.getInt(WeaponSkill.Column_fix_damage);
+			int randomDamage = dataSourceRow.getInt(WeaponSkill.Column_random_damage);
+			int area = dataSourceRow.getInt(WeaponSkill.Column_area);
+			int skillId = dataSourceRow.getInt(WeaponSkill.Column_skill_id);
+			int skillTime = dataSourceRow.getInt(WeaponSkill.Column_skill_time);
+			int effectId = dataSourceRow.getInt(WeaponSkill.Column_effect_id);
+			int effectTarget = dataSourceRow.getInt(WeaponSkill.Column_effect_target);
+			bool isArrowType = dataSourceRow.getBoolean(WeaponSkill.Column_arrow_type);
+			int attr = dataSourceRow.getInt(WeaponSkill.Column_attr);
+			L1WeaponSkill weaponSkill = new L1WeaponSkill(weaponId, probability, fixDamage, randomDamage, area, skillId, skillTime, effectId, effectTarget, isArrowType, attr);
+			_weaponIdIndex[weaponId] = weaponSkill;
 		}
 
 		public virtual L1WeaponSkill getTemplate(int weaponId)

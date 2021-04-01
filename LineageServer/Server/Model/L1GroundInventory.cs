@@ -61,7 +61,7 @@ namespace LineageServer.Server.Model
                     return;
                 }
 
-                RunnableExecuter.Instance.execute(new DeletionTimer(this, value), Config.ALT_ITEM_DELETION_TIME * 60 * 1000);
+				RunnableExecuter.Instance.execute((IRunnable)new DeletionTimer(this, value), Config.ALT_ITEM_DELETION_TIME * 60 * 1000);
             }
         }
 

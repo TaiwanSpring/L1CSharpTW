@@ -1569,7 +1569,7 @@ namespace LineageServer.Server.Model.Instance
             AcByMagic = 3;
             _pc = pc;
             _timer = new EnchantTimer(this);
-            RunnableExecuter.Instance.execute(_timer, skillTime);
+			RunnableExecuter.Instance.execute((Interfaces.IRunnable)this._timer, skillTime);
             _isRunning = true;
         }
 
@@ -1615,7 +1615,7 @@ namespace LineageServer.Server.Model.Instance
 
             _pc = pc;
             _timer = new EnchantTimer(this);
-            RunnableExecuter.Instance.execute(_timer, skillTime);
+			RunnableExecuter.Instance.execute((Interfaces.IRunnable)this._timer, skillTime);
             _isRunning = true;
         }
 
@@ -1648,7 +1648,7 @@ namespace LineageServer.Server.Model.Instance
             if (RemainingTime > 0)
             {
                 _equipmentTimer = new L1EquipmentTimer(pc, this);
-                RunnableExecuter.Instance.scheduleAtFixedRate(_equipmentTimer, 1000, 1000);
+                RunnableExecuter.Instance.execute(_equipmentTimer, 1000, 1000);
             }
         }
 

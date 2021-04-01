@@ -1,91 +1,73 @@
-﻿using System;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model.trap;
+using LineageServer.Server.Storage;
+using LineageServer.Utils;
+using System;
 using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1Trap = LineageServer.Server.Model.trap.L1Trap;
-	using TrapStorage = LineageServer.Server.Storage.TrapStorage;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public class TrapTable
+	class TrapTable
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(TrapTable).FullName);
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.Trap);
 
 		private static TrapTable _instance;
 
-		private IDictionary<int, L1Trap> _traps = MapFactory.NewMap();
+		private IDictionary<int, L1Trap> _traps = MapFactory.NewMap<int, L1Trap>();
 
 		private TrapTable()
 		{
 			initialize();
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private l1j.server.server.model.trap.L1Trap createTrapInstance(String name, l1j.server.server.storage.TrapStorage storage) throws Exception
-		private L1Trap createTrapInstance(string name, TrapStorage storage)
+		private L1Trap createTrapInstance(string name, ITrapStorage storage)
 		{
-			const string packageName = "l1j.server.server.model.trap.";
-
-//JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-//ORIGINAL LINE: java.lang.reflect.Constructor<?> con = Class.forName(packageName + name).getConstructor(new Class[] { l1j.server.server.storage.TrapStorage.class });
-			System.Reflection.ConstructorInfo<object> con = Type.GetType(packageName + name).GetConstructor(new Type[] {typeof(TrapStorage)});
-			return (L1Trap) con.Invoke(storage);
+			switch (name)
+			{
+				case nameof(L1DamageTrap):
+				{
+					return new L1DamageTrap(storage);
+				}
+				case nameof(L1HealingTrap):
+				{
+					return new L1HealingTrap(storage);
+				}
+				case nameof(L1MonsterTrap):
+				{
+					return new L1MonsterTrap(storage);
+				}
+				case nameof(L1PoisonTrap):
+				{
+					return new L1PoisonTrap(storage);
+				}
+				case nameof(L1SkillTrap):
+				{
+					return new L1SkillTrap(storage);
+				}
+				case nameof(L1TeleportTrap):
+				{
+					return new L1TeleportTrap(storage);
+				}
+				default:
+					return L1Trap.newNull();
+			}
 		}
 
 		private void initialize()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-			try
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
 
-				pstm = con.prepareStatement("SELECT * FROM trap");
+				string typeName = dataSourceRow.getString(Trap.Column_type);
 
-				rs = pstm.executeQuery();
+				L1Trap trap = createTrapInstance(typeName, new SqlTrapStorage(dataSourceRow));
 
-				while (rs.next())
-				{
-					string typeName = dataSourceRow.getString("type");
-
-					L1Trap trap = createTrapInstance(typeName, new SqlTrapStorage(this, rs));
-
-					_traps[trap.Id] = trap;
-				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			catch (Exception e)
-			{
-				_log.Error(e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
+				_traps[trap.Id] = trap;
 			}
 		}
 
@@ -103,10 +85,8 @@ namespace LineageServer.Server.DataTables
 
 		public static void reload()
 		{
-			TrapTable oldInstance = _instance;
+			_instance._traps.Clear();
 			_instance = new TrapTable();
-
-			oldInstance._traps.Clear();
 		}
 
 		public virtual L1Trap getTemplate(int id)
@@ -114,53 +94,28 @@ namespace LineageServer.Server.DataTables
 			return _traps[id];
 		}
 
-		private class SqlTrapStorage : TrapStorage
+		class SqlTrapStorage : ITrapStorage
 		{
-			private readonly TrapTable outerInstance;
+			private readonly IDataSourceRow dataSourceRow;
 
-			internal readonly ResultSet _rs;
-
-			public SqlTrapStorage(TrapTable outerInstance, ResultSet rs)
+			public SqlTrapStorage(IDataSourceRow dataSourceRow)
 			{
-				this.outerInstance = outerInstance;
-				_rs = rs;
+				this.dataSourceRow = dataSourceRow;
 			}
 
 			public virtual string getString(string name)
 			{
-				try
-				{
-					return _dataSourceRow.getString(name);
-				}
-				catch (SQLException)
-				{
-				}
-				return "";
+				return this.dataSourceRow.getString(name);
 			}
 
 			public virtual int getInt(string name)
 			{
-				try
-				{
-					return _dataSourceRow.getInt(name);
-				}
-				catch (SQLException)
-				{
-
-				}
-				return 0;
+				return this.dataSourceRow.getInt(name);
 			}
 
 			public virtual bool getBoolean(string name)
 			{
-				try
-				{
-					return _dataSourceRow.getBoolean(name);
-				}
-				catch (SQLException)
-				{
-				}
-				return false;
+				return this.dataSourceRow.getBoolean(name);
 			}
 		}
 	}

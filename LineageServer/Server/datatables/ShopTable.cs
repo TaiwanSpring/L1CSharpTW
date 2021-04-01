@@ -1,40 +1,19 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model.shop;
+using LineageServer.Server.Templates;
+using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1Shop = LineageServer.Server.Model.shop.L1Shop;
-	using L1ShopItem = LineageServer.Server.Templates.L1ShopItem;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using ListFactory = LineageServer.Utils.ListFactory;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public class ShopTable
+	class ShopTable
 	{
-
-		private const long serialVersionUID = 1L;
-
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(ShopTable).FullName);
-
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.Shop);
 		private static ShopTable _instance;
 
-		private readonly IDictionary<int, L1Shop> _allShops = MapFactory.NewMap();
+		private readonly IDictionary<int, L1Shop> _allShops = MapFactory.NewMap<int, L1Shop>();
 
 		public static ShopTable Instance
 		{
@@ -53,86 +32,65 @@ namespace LineageServer.Server.DataTables
 			loadShops();
 		}
 
-		private IList<int> enumNpcIds()
+		private HashSet<int> enumNpcIds()
 		{
-			IList<int> ids = ListFactory.NewList();
+			HashSet<int> ids = new HashSet<int>();
 
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT DISTINCT npc_id FROM shop");
-				rs = pstm.executeQuery();
-				while (rs.next())
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				int npcId = dataSourceRow.getInt(Shop.Column_npc_id);
+				if (!ids.Contains(npcId))
 				{
-					ids.Add(dataSourceRow.getInt("npc_id"));
+					ids.Add(npcId);
 				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs, pstm, con);
 			}
 			return ids;
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-//ORIGINAL LINE: private l1j.server.server.model.shop.L1Shop loadShop(int npcId, java.sql.ResultSet rs) throws java.sql.SQLException
-		private L1Shop loadShop(int npcId, ResultSet rs)
+		private L1Shop loadShop(int npcId, IList<IDataSourceRow> dataSourceRows)
 		{
-			IList<L1ShopItem> sellingList = ListFactory.NewList();
-			IList<L1ShopItem> purchasingList = ListFactory.NewList();
-			while (rs.next())
+			IList<L1ShopItem> sellingList = ListFactory.NewList<L1ShopItem>();
+			IList<L1ShopItem> purchasingList = ListFactory.NewList<L1ShopItem>();
+
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
-				int itemId = dataSourceRow.getInt("item_id");
-				int sellingPrice = dataSourceRow.getInt("selling_price");
-				int purchasingPrice = dataSourceRow.getInt("purchasing_price");
-				int packCount = dataSourceRow.getInt("pack_count");
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
+				int itemId = dataSourceRow.getInt(Shop.Column_item_id);
+				int sellingPrice = dataSourceRow.getInt(Shop.Column_selling_price);
+				int purchasingPrice = dataSourceRow.getInt(Shop.Column_purchasing_price);
+				int packCount = dataSourceRow.getInt(Shop.Column_pack_count);
 				packCount = packCount == 0 ? 1 : packCount;
-				if (0 <= sellingPrice)
+				if (sellingPrice >= 0)
 				{
 					L1ShopItem item = new L1ShopItem(itemId, sellingPrice, packCount);
 					sellingList.Add(item);
 				}
-				if (0 <= purchasingPrice)
+				if (purchasingPrice >= 0)
 				{
 					L1ShopItem item = new L1ShopItem(itemId, purchasingPrice, packCount);
 					purchasingList.Add(item);
 				}
 			}
+
 			return new L1Shop(npcId, sellingList, purchasingList);
 		}
 
 		private void loadShops()
 		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
+
+
+			foreach (int npcId in enumNpcIds())
 			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM shop WHERE npc_id=? ORDER BY order_id");
-				foreach (int npcId in enumNpcIds())
-				{
-					pstm.setInt(1, npcId);
-					rs = pstm.executeQuery();
-					L1Shop shop = loadShop(npcId, rs);
-					_allShops[npcId] = shop;
-					rs.close();
-				}
-			}
-			catch (SQLException e)
-			{
-				_log.log(Enum.Level.Server, e.Message, e);
-			}
-			finally
-			{
-				SQLUtil.close(rs, pstm, con);
+				IList<IDataSourceRow> dataSourceRows =
+					dataSource.Select()
+					.Where(Shop.Column_npc_id, npcId)
+					.OrderBy(Shop.Column_order_id).Query();
+
+				L1Shop shop = loadShop(npcId, dataSourceRows);
+				_allShops[npcId] = shop;
 			}
 		}
 
@@ -140,14 +98,5 @@ namespace LineageServer.Server.DataTables
 		{
 			return _allShops[npcId];
 		}
-
-		public static long Serialversionuid
-		{
-			get
-			{
-				return serialVersionUID;
-			}
-		}
 	}
-
 }

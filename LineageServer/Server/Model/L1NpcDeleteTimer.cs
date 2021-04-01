@@ -37,7 +37,7 @@ namespace LineageServer.Server.Model
 
         public virtual void begin()
         {
-            RunnableExecuter.Instance.execute(this, _timeMillis);
+			RunnableExecuter.Instance.execute((Interfaces.IRunnable)this, this._timeMillis);
         }
 
         private readonly L1NpcInstance _npc;

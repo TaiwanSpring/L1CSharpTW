@@ -657,7 +657,7 @@ namespace LineageServer.Server.Model.Game
         private void startGameTimeLimitTimer()
         {
             limitTimer = new GameTimeLimitTimer(this);
-            RunnableExecuter.Instance.scheduleAtFixedRate(limitTimer, limitTime);
+            RunnableExecuter.Instance.execute(limitTimer, limitTime);
         }
 
         private void stopGameTimeLimitTimer()
@@ -675,7 +675,7 @@ namespace LineageServer.Server.Model.Game
         private void startCompareTimer()
         {
             compareTimer = new CompareTimer(this);
-            RunnableExecuter.Instance.scheduleAtFixedRate(compareTimer, 2000, 2000);
+            RunnableExecuter.Instance.execute(compareTimer, 2000, 2000);
         }
 
         private void stopCompareTimer()
@@ -707,7 +707,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.scheduleAtFixedRate(this, readyTime);
+                RunnableExecuter.Instance.execute(this, readyTime);
             }
         }
 
@@ -736,7 +736,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.scheduleAtFixedRate(this, 30 * 1000);
+                RunnableExecuter.Instance.execute(this, 30 * 1000);
             }
         }
 
@@ -764,7 +764,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.scheduleAtFixedRate(this, 5000);
+                RunnableExecuter.Instance.execute(this, 5000);
             }
         }
 
@@ -817,7 +817,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-                RunnableExecuter.Instance.scheduleAtFixedRate(this, 5000);
+                RunnableExecuter.Instance.execute(this, 5000);
             }
 
             public void cancel()

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace LineageServer.Interfaces
 {
 	public interface IDataSourceQuery
 	{
 		IDataSourceQuery Where(string column, object value);
-
+		IDataSourceQuery WhereNot(string column, object value);
+		IDataSourceQuery OrderBy(string column);
 		IList<IDataSourceRow> Query();
 		IList<IDataSourceRow> Query(string command);
 	}

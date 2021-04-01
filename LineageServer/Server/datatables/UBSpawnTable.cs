@@ -1,37 +1,20 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model;
+using LineageServer.Server.Templates;
+using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using L1UbPattern = LineageServer.Server.Model.L1UbPattern;
-	using L1UbSpawn = LineageServer.Server.Model.L1UbSpawn;
-	using L1Npc = LineageServer.Server.Templates.L1Npc;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	public class UBSpawnTable
+	class UBSpawnTable
 	{
-//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-		private static Logger _log = Logger.GetLogger(typeof(UBSpawnTable).FullName);
+		private readonly static IDataSource dataSource =
+			Container.Instance.Resolve<IDataSourceFactory>()
+			.Factory(Enum.DataSourceTypeEnum.SpawnlistUb);
 
 		private static UBSpawnTable _instance;
 
-		private IDictionary<int, L1UbSpawn> _spawnTable = MapFactory.NewMap();
+		private IDictionary<int, L1UbSpawn> _spawnTable = MapFactory.NewMap<int, L1UbSpawn>();
 
 		public static UBSpawnTable Instance
 		{
@@ -52,51 +35,33 @@ namespace LineageServer.Server.DataTables
 
 		private void loadSpawnTable()
 		{
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-			java.sql.IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
+			for (int i = 0; i < dataSourceRows.Count; i++)
 			{
+				IDataSourceRow dataSourceRow = dataSourceRows[i];
 
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT * FROM spawnlist_ub");
-				rs = pstm.executeQuery();
+				L1Npc npcTemp = NpcTable.Instance.getTemplate(dataSourceRow.getInt(SpawnlistUb.Column_npc_templateid));
 
-				while (rs.next())
+				if (npcTemp == null)
 				{
-					L1Npc npcTemp = NpcTable.Instance.getTemplate(dataSourceRow.getInt(6));
-					if (npcTemp == null)
-					{
-						continue;
-					}
-
-					L1UbSpawn spawnDat = new L1UbSpawn();
-					spawnDat.Id = dataSourceRow.getInt(1);
-					spawnDat.UbId = dataSourceRow.getInt(2);
-					spawnDat.Pattern = dataSourceRow.getInt(3);
-					spawnDat.Group = dataSourceRow.getInt(4);
-					spawnDat.Name = npcTemp.get_name();
-					spawnDat.NpcTemplateId = dataSourceRow.getInt(6);
-					spawnDat.Amount = dataSourceRow.getInt(7);
-					spawnDat.SpawnDelay = dataSourceRow.getInt(8);
-					spawnDat.SealCount = dataSourceRow.getInt(9);
-
-					_spawnTable[spawnDat.Id] = spawnDat;
+					continue;
 				}
+
+				L1UbSpawn spawnDat = new L1UbSpawn();
+
+				spawnDat.Id = dataSourceRow.getInt(SpawnlistUb.Column_id);
+				spawnDat.UbId = dataSourceRow.getInt(SpawnlistUb.Column_ub_id);
+				spawnDat.Pattern = dataSourceRow.getInt(SpawnlistUb.Column_pattern);
+				spawnDat.Group = dataSourceRow.getInt(SpawnlistUb.Column_group_id);
+				spawnDat.Name = npcTemp.get_name();
+				spawnDat.NpcTemplateId = npcTemp.get_npcId();
+				spawnDat.Amount = dataSourceRow.getInt(SpawnlistUb.Column_count);
+				spawnDat.SpawnDelay = dataSourceRow.getInt(SpawnlistUb.Column_spawn_delay);
+				spawnDat.SealCount = dataSourceRow.getInt(SpawnlistUb.Column_seal_count);
+
+				_spawnTable[spawnDat.Id] = spawnDat;
 			}
-			catch (SQLException e)
-			{
-				// problem with initializing spawn, go to next one
-				_log.warning("spawn couldnt be initialized:" + e);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-			_log.config("UBモンスター配置リスト " + _spawnTable.Count + "件ロード");
 		}
 
 		public virtual L1UbSpawn getSpawn(int spawnId)
@@ -113,32 +78,16 @@ namespace LineageServer.Server.DataTables
 		public virtual int getMaxPattern(int ubId)
 		{
 			int n = 0;
-			java.sql.IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
+			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query($"SELECT MAX(pattern) as pattern FROM spawnlist_ub WHERE ub_id={ubId}");
+			if (dataSourceRows.Count > 0)
+			{
+				return dataSourceRows[0].getInt(SpawnlistUb.Column_pattern);
 
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				pstm = con.prepareStatement("SELECT MAX(pattern) FROM spawnlist_ub WHERE ub_id=?");
-				pstm.setInt(1, ubId);
-				rs = pstm.executeQuery();
-				if (rs.next())
-				{
-					n = dataSourceRow.getInt(1);
-				}
 			}
-			catch (SQLException e)
+			else
 			{
-				_log.log(Enum.Level.Server, e.Message, e);
+				return 0;
 			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-			return n;
 		}
 
 		public virtual L1UbPattern getPattern(int ubId, int patternNumer)
@@ -146,7 +95,7 @@ namespace LineageServer.Server.DataTables
 			L1UbPattern pattern = new L1UbPattern();
 			foreach (L1UbSpawn spawn in _spawnTable.Values)
 			{
-				if ((spawn.UbId == ubId) && (spawn.Pattern == patternNumer))
+				if (( spawn.UbId == ubId ) && ( spawn.Pattern == patternNumer ))
 				{
 					pattern.addSpawn(spawn.Group, spawn);
 				}

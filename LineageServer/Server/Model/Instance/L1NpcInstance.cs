@@ -108,7 +108,7 @@ namespace LineageServer.Server.Model.Instance
 
                 internal virtual void schedule(int delay)
                 {
-                    RunnableExecuter.Instance.execute(new DeathSyncTimer(outerInstance), delay);
+					RunnableExecuter.Instance.execute((IRunnable)new DeathSyncTimer(this.outerInstance), delay);
                 }
 
                 public override void run()
@@ -138,7 +138,7 @@ namespace LineageServer.Server.Model.Instance
             // 同じインスタンスをTimerへ登録できない為、苦肉の策。
             internal virtual void schedule(int delay)
             {
-                RunnableExecuter.Instance.execute(new NpcAITimerImpl(outerInstance), delay);
+				RunnableExecuter.Instance.execute((IRunnable)new NpcAITimerImpl(this.outerInstance), delay);
             }
 
             public void run()
@@ -1099,7 +1099,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_hprRunning && (hprInterval > 0) && (hpr > 0))
             {
                 _hprTimer = new HprTimer(this, hpr);
-                RunnableExecuter.Instance.scheduleAtFixedRate(_hprTimer, hprInterval, hprInterval);
+                RunnableExecuter.Instance.execute(_hprTimer, hprInterval, hprInterval);
                 _hprRunning = true;
             }
         }
@@ -1121,7 +1121,7 @@ namespace LineageServer.Server.Model.Instance
             if (!_mprRunning && (mprInterval > 0) && (mpr > 0))
             {
                 _mprTimer = new MprTimer(this, mpr);
-                RunnableExecuter.Instance.scheduleAtFixedRate(_mprTimer, mprInterval, mprInterval);
+                RunnableExecuter.Instance.execute(_mprTimer, mprInterval, mprInterval);
                 _mprRunning = true;
             }
         }
@@ -2949,7 +2949,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 _deleteTask = new DeleteTimer(Id);
                 _future = _deleteTask;
-                RunnableExecuter.Instance.execute(_deleteTask, Config.NPC_DELETION_TIME * 1000);
+				RunnableExecuter.Instance.execute((IRunnable)this._deleteTask, Config.NPC_DELETION_TIME * 1000);
             }
         }
 
@@ -3069,11 +3069,11 @@ namespace LineageServer.Server.Model.Instance
             L1NpcChatTimer npcChatTimer = new L1NpcChatTimer(this, npcChat);
             if (!npcChat.Repeat)
             {
-                RunnableExecuter.Instance.execute(npcChatTimer, npcChat.StartDelayTime);
+				RunnableExecuter.Instance.execute((IRunnable)npcChatTimer, npcChat.StartDelayTime);
             }
             else
             {
-                RunnableExecuter.Instance.scheduleAtFixedRate(npcChatTimer, npcChat.StartDelayTime, npcChat.RepeatInterval);
+                RunnableExecuter.Instance.execute(npcChatTimer, npcChat.StartDelayTime, npcChat.RepeatInterval);
             }
         }
 

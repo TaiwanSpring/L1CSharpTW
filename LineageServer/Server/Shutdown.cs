@@ -135,7 +135,7 @@ namespace LineageServer.Server
         {
             Announcements _an = Announcements.Instance;
             _log.Warning("GM: " + activeChar.Id + " issued shutdown command. " + _modeText[shutdownMode] + " in " + seconds + " seconds!");
-            _an.announceToAll("Server is " + _modeText[shutdownMode] + " in " + seconds + " seconds!");
+            _an.AnnounceToAll("Server is " + _modeText[shutdownMode] + " in " + seconds + " seconds!");
 
             if (_counterInstance != null)
             {
@@ -157,7 +157,7 @@ namespace LineageServer.Server
         {
             Announcements _an = Announcements.Instance;
             _log.Warning("GM: " + activeChar.Name + " issued shutdown ABORT. ");
-            _an.announceToAll("Server aborts shutdown and continues normal operation!");
+            _an.AnnounceToAll("Server aborts shutdown and continues normal operation!");
 
             if (_counterInstance != null)
             {
@@ -205,37 +205,37 @@ namespace LineageServer.Server
                 switch (secondsShut)
                 {
                     case 240:
-                        _an.announceToAll("伺服器將於 4 分鐘後關閉!!請至安全區域準備登出。");
+                        _an.AnnounceToAll("伺服器將於 4 分鐘後關閉!!請至安全區域準備登出。");
                         break;
                     case 180:
-                        _an.announceToAll("伺服器將於 3 分鐘後關閉!!請至安全區域準備登出。");
+                        _an.AnnounceToAll("伺服器將於 3 分鐘後關閉!!請至安全區域準備登出。");
                         break;
                     case 120:
-                        _an.announceToAll("伺服器將於 2 分鐘後關閉!!請至安全區域準備登出。");
+                        _an.AnnounceToAll("伺服器將於 2 分鐘後關閉!!請至安全區域準備登出。");
                         break;
                     case 60:
-                        _an.announceToAll("伺服器將於 1 分鐘後關閉!!請至安全區域準備登出。");
+                        _an.AnnounceToAll("伺服器將於 1 分鐘後關閉!!請至安全區域準備登出。");
                         break;
                     case 30:
-                        _an.announceToAll("伺服器將於 30 秒後關閉!!");
+                        _an.AnnounceToAll("伺服器將於 30 秒後關閉!!");
                         break;
                     case 10:
-                        _an.announceToAll("伺服器將於 10 秒後關閉!!");
+                        _an.AnnounceToAll("伺服器將於 10 秒後關閉!!");
                         break;
                     case 5:
-                        _an.announceToAll("伺服器將於 5 秒後關閉!!");
+                        _an.AnnounceToAll("伺服器將於 5 秒後關閉!!");
                         break;
                     case 4:
-                        _an.announceToAll("伺服器將於 4 秒後關閉!!");
+                        _an.AnnounceToAll("伺服器將於 4 秒後關閉!!");
                         break;
                     case 3:
-                        _an.announceToAll("伺服器將於 3 秒後關閉!!");
+                        _an.AnnounceToAll("伺服器將於 3 秒後關閉!!");
                         break;
                     case 2:
-                        _an.announceToAll("伺服器將於 2 秒後關閉!!");
+                        _an.AnnounceToAll("伺服器將於 2 秒後關閉!!");
                         break;
                     case 1:
-                        _an.announceToAll("伺服器將於 1 秒後關閉!!");
+                        _an.AnnounceToAll("伺服器將於 1 秒後關閉!!");
                         break;
                 }
 
@@ -271,7 +271,7 @@ namespace LineageServer.Server
                     break;
 
             }
-            _an.announceToAll("伺服器目前由 " + _modeText[shutdownMode] + " NOW! bye bye");
+            _an.AnnounceToAll("伺服器目前由 " + _modeText[shutdownMode] + " NOW! bye bye");
 
             // we cannt abort shutdown anymore, so i removed the "if"
             GameServerOri.Instance.disconnectAllCharacters();
@@ -285,7 +285,7 @@ namespace LineageServer.Server
         {
             Announcements _an = Announcements.Instance;
             _log.Warning("IP: " + IP + " issued shutdown command. " + _modeText[shutdownMode] + " in " + seconds + " seconds!");
-            _an.announceToAll("Server is " + _modeText[shutdownMode] + " in " + seconds + " seconds!");
+            _an.AnnounceToAll("Server is " + _modeText[shutdownMode] + " in " + seconds + " seconds!");
 
             if (_counterInstance != null)
             {
@@ -304,7 +304,7 @@ namespace LineageServer.Server
         {
             Announcements _an = Announcements.Instance;
             _log.Warning("IP: " + IP + " issued shutdown ABORT. " + _modeText[shutdownMode] + " has been stopped!");
-            _an.announceToAll("Server aborts " + _modeText[shutdownMode] + " and continues normal operation!");
+            _an.AnnounceToAll("Server aborts " + _modeText[shutdownMode] + " and continues normal operation!");
 
             if (_counterInstance != null)
             {
