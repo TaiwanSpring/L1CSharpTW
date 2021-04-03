@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.Model;
+﻿using LineageServer.Server;
+using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
 
 namespace LineageServer.Clientpackets
@@ -9,7 +10,7 @@ namespace LineageServer.Clientpackets
 	class C_EnterPortal : ClientBasePacket
 	{
 
-		private const string C_ENTER_PORTAL = "[C] C_EnterPortal";
+        private const string C_ENTER_PORTAL = "[C] C_EnterPortal";
 		public C_EnterPortal(byte[] abyte0, ClientThread client) : base(abyte0)
 		{
 			L1PcInstance pc = client.ActiveChar;

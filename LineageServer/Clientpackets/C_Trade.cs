@@ -1,4 +1,5 @@
 ﻿
+using LineageServer.Server;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
 using LineageServer.Utils;

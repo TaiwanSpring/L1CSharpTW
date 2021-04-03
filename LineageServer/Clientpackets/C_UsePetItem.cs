@@ -4,6 +4,8 @@ using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
+using LineageServer.Server;
+using LineageServer.Interfaces;
 
 namespace LineageServer.Clientpackets
 {

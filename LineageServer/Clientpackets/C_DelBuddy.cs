@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.DataTables;
+﻿using LineageServer.Server;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Instance;
 
 namespace LineageServer.Clientpackets

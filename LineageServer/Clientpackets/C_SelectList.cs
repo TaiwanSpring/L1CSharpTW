@@ -1,4 +1,6 @@
-﻿using LineageServer.Server.Model;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server;
+using LineageServer.Server.Model;
 using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
 using System;
@@ -43,7 +45,7 @@ namespace LineageServer.Clientpackets
 					}
 				}
 
-				L1PcInventory pcInventory = pc.Inventory;
+				L1PcInventory pcInventory = pc.Inventory as L1PcInventory;
 				L1ItemInstance item = pcInventory.getItem(itemObjectId);
 				int cost = item.get_durability() * 200;
 				if (!pc.Inventory.consumeItem(L1ItemId.ADENA, cost))

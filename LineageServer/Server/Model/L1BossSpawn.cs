@@ -104,7 +104,7 @@ namespace LineageServer.Server.Model
             {
                 return;
             }
-            _cycle = L1BossCycle.getBossCycle(_cycleType);
+            //_cycle = L1BossCycle.getBossCycle(_cycleType);
             if (_cycle == null)
             {
                 throw new Exception(_cycleType + " not found");

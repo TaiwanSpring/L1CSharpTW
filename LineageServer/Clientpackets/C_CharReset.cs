@@ -1,4 +1,6 @@
 ﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server;
 using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
@@ -57,7 +59,7 @@ namespace LineageServer.Clientpackets
                 /// </summary>
                 pc.sendPackets(new S_CharReset(pc, 1, hp, mp, 10, str, intel, wis, dex, con, cha));
                 initCharStatus(pc, hp, mp, str, intel, wis, dex, con, cha);
-                CharacterTable.saveCharStatus(pc);
+                Container.Instance.Resolve<ICharacterController>().saveCharStatus(pc);
             }
             else if (stage == 0x02)
             { // 0x02:ステータス再分配
@@ -76,32 +78,32 @@ namespace LineageServer.Clientpackets
                 }
                 else if (type2 == 0x01)
                 {
-                    pc.addBaseStr((sbyte)1);
+                    pc.addBaseStr(1);
                     setLevelUp(pc, 1);
                 }
                 else if (type2 == 0x02)
                 {
-                    pc.addBaseInt((sbyte)1);
+                    pc.addBaseInt(1);
                     setLevelUp(pc, 1);
                 }
                 else if (type2 == 0x03)
                 {
-                    pc.addBaseWis((sbyte)1);
+                    pc.addBaseWis(1);
                     setLevelUp(pc, 1);
                 }
                 else if (type2 == 0x04)
                 {
-                    pc.addBaseDex((sbyte)1);
+                    pc.addBaseDex(1);
                     setLevelUp(pc, 1);
                 }
                 else if (type2 == 0x05)
                 {
-                    pc.addBaseCon((sbyte)1);
+                    pc.addBaseCon(1);
                     setLevelUp(pc, 1);
                 }
                 else if (type2 == 0x06)
                 {
-                    pc.addBaseCha((sbyte)1);
+                    pc.addBaseCha(1);
                     setLevelUp(pc, 1);
                 }
                 else if (type2 == 0x08)
@@ -109,22 +111,22 @@ namespace LineageServer.Clientpackets
                     switch (ReadC())
                     {
                         case 1:
-                            pc.addBaseStr((sbyte)1);
+                            pc.addBaseStr(1);
                             break;
                         case 2:
-                            pc.addBaseInt((sbyte)1);
+                            pc.addBaseInt(1);
                             break;
                         case 3:
-                            pc.addBaseWis((sbyte)1);
+                            pc.addBaseWis(1);
                             break;
                         case 4:
-                            pc.addBaseDex((sbyte)1);
+                            pc.addBaseDex(1);
                             break;
                         case 5:
-                            pc.addBaseCon((sbyte)1);
+                            pc.addBaseCon(1);
                             break;
                         case 6:
-                            pc.addBaseCha((sbyte)1);
+                            pc.addBaseCha(1);
                             break;
                     }
                     if (pc.ElixirStats > 0)
@@ -137,12 +139,12 @@ namespace LineageServer.Clientpackets
             }
             else if (stage == 0x03)
             {
-                pc.addBaseStr((sbyte)(ReadC() - pc.BaseStr));
-                pc.addBaseInt((sbyte)(ReadC() - pc.BaseInt));
-                pc.addBaseWis((sbyte)(ReadC() - pc.BaseWis));
-                pc.addBaseDex((sbyte)(ReadC() - pc.BaseDex));
-                pc.addBaseCon((sbyte)(ReadC() - pc.BaseCon));
-                pc.addBaseCha((sbyte)(ReadC() - pc.BaseCha));
+                pc.addBaseStr((byte)(ReadC() - pc.BaseStr));
+                pc.addBaseInt((byte)(ReadC() - pc.BaseInt));
+                pc.addBaseWis((byte)(ReadC() - pc.BaseWis));
+                pc.addBaseDex((byte)(ReadC() - pc.BaseDex));
+                pc.addBaseCon((byte)(ReadC() - pc.BaseCon));
+                pc.addBaseCha((byte)(ReadC() - pc.BaseCha));
                 saveNewCharStatus(pc);
             }
         }
@@ -195,12 +197,12 @@ namespace LineageServer.Clientpackets
         {
             pc.addBaseMaxHp((short)(hp - pc.BaseMaxHp));
             pc.addBaseMaxMp((short)(mp - pc.BaseMaxMp));
-            pc.addBaseStr((sbyte)(str - pc.BaseStr));
-            pc.addBaseInt((sbyte)(intel - pc.BaseInt));
-            pc.addBaseWis((sbyte)(wis - pc.BaseWis));
-            pc.addBaseDex((sbyte)(dex - pc.BaseDex));
-            pc.addBaseCon((sbyte)(con - pc.BaseCon));
-            pc.addBaseCha((sbyte)(cha - pc.BaseCha));
+            pc.addBaseStr((byte)(str - pc.BaseStr));
+            pc.addBaseInt((byte)(intel - pc.BaseInt));
+            pc.addBaseWis((byte)(wis - pc.BaseWis));
+            pc.addBaseDex((byte)(dex - pc.BaseDex));
+            pc.addBaseCon((byte)(con - pc.BaseCon));
+            pc.addBaseCha((byte)(cha - pc.BaseCha));
         }
 
         private void setLevelUp(L1PcInstance pc, int addLv)

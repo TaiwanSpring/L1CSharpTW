@@ -365,7 +365,7 @@ namespace LineageServer.Server.Model
             {
                 respawnDelay += RandomHelper.Next(_delayInterval) * 1000;
             }
-            L1GameTime currentTime = L1GameTimeClock.Instance.CurrentTime();
+            L1GameTime currentTime = Container.Instance.Resolve<IGameTimeClock>().CurrentTime();
             if ((_time != null) && !_time.includes(currentTime))
             { // 指定時間外なら指定時間までの時間を足す
                 long diff = (long)(_time.TimeStart - currentTime.Calendar).TotalMilliseconds;
@@ -399,7 +399,7 @@ namespace LineageServer.Server.Model
             if ((_time != null) && _time.DeleteAtEndTime)
             {
                 // 時間外削除が指定されているなら、時間経過の通知を受ける。
-                L1GameTimeClock.Instance.AddListener(this);
+                Container.Instance.Resolve<IGameTimeClock>().AddListener(this);
             }
             _delayInterval = _maxRespawnDelay - _minRespawnDelay;
             _initSpawn = true;
@@ -426,7 +426,7 @@ namespace LineageServer.Server.Model
         {
             // 初期配置
             // 指定時間外であれば、次spawnを予約して終わる。
-            if ((_time != null) && !_time.includes(L1GameTimeClock.Instance.CurrentTime()))
+            if ((_time != null) && !_time.includes(Container.Instance.Resolve<IGameTimeClock>().CurrentTime()))
             {
                 ExecuteSpawnTask(spawnNumber, 0);
                 return;

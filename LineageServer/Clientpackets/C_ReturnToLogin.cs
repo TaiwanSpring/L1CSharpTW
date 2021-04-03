@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server;
+using System.Text;
 
 namespace LineageServer.Clientpackets
 {
@@ -9,7 +11,7 @@ namespace LineageServer.Clientpackets
     {
         public C_ReturnToLogin(byte[] decrypt, ClientThread client) : base(decrypt)
         {
-            LoginController.Instance.logout(client);
+            Container.Instance.Resolve<ILoginController>().logout(client);
         }
 
         public override string Type

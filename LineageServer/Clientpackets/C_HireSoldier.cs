@@ -1,4 +1,6 @@
 ﻿
+using LineageServer.Server;
+
 namespace LineageServer.Clientpackets
 {
     /// <summary>

@@ -24,11 +24,6 @@ namespace LineageServer.Models
 
         }
 
-        public void Error(Level level, string message, Exception e)
-        {
-            throw e;
-        }
-
         public void Log(string message)
         {
 
@@ -37,6 +32,11 @@ namespace LineageServer.Models
         public void Warning(string message)
         {
 
+        }
+
+        public void Error(Exception e)
+        {
+            
         }
     }
 }

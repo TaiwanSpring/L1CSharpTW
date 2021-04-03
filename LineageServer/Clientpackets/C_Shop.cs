@@ -5,6 +5,8 @@ using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
 using System;
 using System.Collections.Generic;
+using LineageServer.Server;
+
 namespace LineageServer.Clientpackets
 {
 	/// <summary>
@@ -146,7 +148,7 @@ namespace LineageServer.Clientpackets
 					pc.broadcastPacket(new S_DoActionGFX(pc.Id, ActionCodes.ACTION_Idle));
 					return;
 				}
-				sbyte[] chat = ReadByte();
+				byte[] chat = ReadByte();
 				pc.ShopChat = chat;
 				pc.PrivateShop = true;
 				pc.sendPackets(new S_DoActionShop(pc.Id,ActionCodes.ACTION_Shop, chat));
@@ -155,7 +157,7 @@ namespace LineageServer.Clientpackets
 				int SelectedPolyNum = 0;
 				try
 				{
-					SelectedPolyNum = int.Parse((StringHelper.NewString(chat, "utf8")).Split("tradezone", true)[1].Substring(0, 1));
+					SelectedPolyNum = int.Parse(GobalParameters.Encoding.GetString(chat).Split("tradezone", StringSplitOptions.RemoveEmptyEntries)[1].Substring(0, 1));
 				}
 				catch (Exception e)
 				{

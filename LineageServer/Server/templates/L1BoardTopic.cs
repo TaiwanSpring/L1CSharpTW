@@ -1,9 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Text;
 namespace LineageServer.Server.Templates
 {
     public class L1BoardTopic
     {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.Board);
         private readonly int _id;
         private readonly string _name;
         private readonly string _date;
@@ -56,16 +62,7 @@ namespace LineageServer.Server.Templates
         /// <returns> 今日日期 yy/MM/dd </returns>
         private string today()
         {
-            // 年
-            string year = int.Parse(TimeInform.getYear(0, -2000)) < 10 ? "0" + TimeInform.getYear(0, -2000) : TimeInform.getYear(0, -2000);
-            // 月
-            string month = int.Parse(TimeInform.Month) < 10 ? "0" + TimeInform.Month : TimeInform.Month;
-            // 日
-            string day = int.Parse(TimeInform.Day) < 10 ? "0" + TimeInform.Day : TimeInform.Day;
-            StringBuilder sb = new StringBuilder();
-            // 輸出 yy/MM/dd
-            sb.Append(year).Append("/").Append(month).Append("/").Append(day);
-            return sb.ToString();
+            return DateTime.Today.ToString("yy/MM/dd");
         }
 
         private L1BoardTopic(int id, string name, string title, string content)
@@ -76,128 +73,77 @@ namespace LineageServer.Server.Templates
             _title = title;
             _content = content;
         }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private L1BoardTopic(java.sql.ResultSet rs) throws java.sql.SQLException
-        private L1BoardTopic(ResultSet rs)
+        private L1BoardTopic(IDataSourceRow dataSourceRow)
         {
-            _id = dataSourceRow.getInt("id");
-            _name = dataSourceRow.getString("name");
-            _date = dataSourceRow.getString("date");
-            _title = dataSourceRow.getString("title");
-            _content = dataSourceRow.getString("content");
+            _id = dataSourceRow.getInt(Board.Column_id);
+            _name = dataSourceRow.getString(Board.Column_name);
+            _date = dataSourceRow.getString(Board.Column_date);
+            _title = dataSourceRow.getString(Board.Column_title);
+            _content = dataSourceRow.getString(Board.Column_content);
         }
 
         public static L1BoardTopic create(string name, string title, string content)
         {
-            lock (typeof(L1BoardTopic))
+            lock (dataSource)
             {
-                IDataBaseConnection con = null;
-                PreparedStatement pstm1 = null;
-                ResultSet rs = null;
-                PreparedStatement pstm2 = null;
-                try
+                IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query("SELECT max(id) + 1 as id FROM board");
+
+                if (dataSourceRows.Count > 0)
                 {
-                    con = L1DatabaseFactory.Instance.Connection;
-                    pstm1 = con.prepareStatement("SELECT max(id) + 1 as newid FROM board");
-                    rs = pstm1.executeQuery();
-                    rs.next();
-                    int id = dataSourceRow.getInt("newid");
+                    int id = dataSourceRows[0].getInt(Board.Column_id);
                     L1BoardTopic topic = new L1BoardTopic(id, name, title, content);
-
-                    pstm2 = con.prepareStatement("INSERT INTO board SET id=?, name=?, date=?, title=?, content=?");
-                    pstm2.setInt(1, topic.Id);
-                    pstm2.setString(2, topic.Name);
-                    pstm2.setString(3, topic.Date);
-                    pstm2.setString(4, topic.Title);
-                    pstm2.setString(5, topic.Content);
-                    pstm2.execute();
-
+                    IDataSourceRow dataSourceRow = dataSource.NewRow();
+                    dataSourceRow.Insert()
+                    .Set(Board.Column_id, topic.Id)
+                    .Set(Board.Column_name, topic.Name)
+                    .Set(Board.Column_date, topic.Date)
+                    .Set(Board.Column_title, topic.Title)
+                    .Set(Board.Column_content, topic.Content)
+                    .Execute();
                     return topic;
                 }
-                catch (SQLException e)
+                else
                 {
-                    _log.log(Enum.Level.Server, e.Message, e);
+                    return null;
                 }
-                finally
-                {
-                    SQLUtil.close(rs);
-                    SQLUtil.close(pstm1);
-                    SQLUtil.close(pstm2);
-                    SQLUtil.close(con);
-                }
-                return null;
             }
         }
 
         public virtual void delete()
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            try
-            {
-
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("DELETE FROM board WHERE id=?");
-                pstm.setInt(1, Id);
-                pstm.execute();
-            }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
-            }
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Delete()
+            .Where(Board.Column_id, Id)
+            .Execute();
         }
 
         public static L1BoardTopic findById(int id)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            try
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Select()
+            .Where(Board.Column_id, id)
+            .Execute();
+            if (dataSourceRow.HaveData)
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("SELECT * FROM board WHERE id=?");
-                pstm.setInt(1, id);
-                rs = pstm.executeQuery();
-                if (rs.next())
-                {
-                    return new L1BoardTopic(rs);
-                }
-            }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(rs, pstm, con);
-            }
-            return null;
-        }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private static java.sql.PreparedStatement makeIndexStatement(java.sql.IDataBaseConnection con, int id, int limit) throws java.sql.SQLException
-        private static PreparedStatement makeIndexStatement(IDataBaseConnection con, int id, int limit)
-        {
-            PreparedStatement result = null;
-            int offset = 1;
-            if (id == 0)
-            {
-                result = con.prepareStatement("SELECT * FROM board ORDER BY id DESC LIMIT ?");
+                return new L1BoardTopic(dataSourceRow);
             }
             else
             {
-                result = con.prepareStatement("SELECT * FROM board WHERE id < ? ORDER BY id DESC LIMIT ?");
-                result.setInt(1, id);
-                offset++;
+                return null;
             }
-            result.setInt(offset, limit);
-            return result;
+        }
+        private static IList<IDataSourceRow> makeIndexStatement(int id, int limit)
+        {
+            if (id == 0)
+            {
+                return dataSource.Select().Query($"SELECT * FROM board ORDER BY id DESC LIMIT {limit}");
+
+            }
+            else
+            {
+                return dataSource.Select().Query($"SELECT * FROM board WHERE id < {id} ORDER BY id DESC LIMIT {limit}");
+
+            }
         }
 
         public static IList<L1BoardTopic> index(int limit)
@@ -208,29 +154,14 @@ namespace LineageServer.Server.Templates
         public static IList<L1BoardTopic> index(int id, int limit)
         {
             IList<L1BoardTopic> result = new List<L1BoardTopic>();
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            try
+
+            IList<IDataSourceRow> dataSourceRows = makeIndexStatement(id, limit);
+            for (int i = 0; i < dataSourceRows.Count; i++)
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = makeIndexStatement(con, id, limit);
-                rs = pstm.executeQuery();
-                while (rs.next())
-                {
-                    result.Add(new L1BoardTopic(rs));
-                }
-                return result;
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                result.Add(new L1BoardTopic(dataSourceRow));
             }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(rs, pstm, con);
-            }
-            return null;
+            return result;
         }
     }
 

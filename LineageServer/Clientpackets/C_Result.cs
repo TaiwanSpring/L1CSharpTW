@@ -8,6 +8,10 @@ using LineageServer.Server.Templates;
 using LineageServer.william;
 using System;
 using System.Collections.Generic;
+using LineageServer.Server;
+using LineageServer.Interfaces;
+using System.Extensions;
+
 namespace LineageServer.Clientpackets
 {
     /// <summary>

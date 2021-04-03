@@ -1,14 +1,16 @@
 ﻿
+using LineageServer.Interfaces;
+using LineageServer.Server;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
 
 namespace LineageServer.Clientpackets
 {
-	/// <summary>
-	/// 處理收到由客戶端傳來血盟的封包
-	/// </summary>
-	class C_Pledge : ClientBasePacket
+    /// <summary>
+    /// 處理收到由客戶端傳來血盟的封包
+    /// </summary>
+    class C_Pledge : ClientBasePacket
 	{
 
 		private const string C_PLEDGE = "[C] C_Pledge";

@@ -1,4 +1,6 @@
-﻿using LineageServer.Server.Model;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server;
+using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
 using System.Collections.Generic;
@@ -119,7 +121,7 @@ namespace LineageServer.Clientpackets
             if (enemyClan.CastleId != 0)
             { // 相手クランが城主
                 int castle_id = enemyClan.CastleId;
-                if (WarTimeController.Instance.isNowWar(castle_id))
+                if (Container.Instance.Resolve<IWarController>().isNowWar(castle_id))
                 { // 戦争時間内
                     L1PcInstance[] clanMember = clan.OnlineClanMember;
                     foreach (L1PcInstance element in clanMember)
