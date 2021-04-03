@@ -6365,11 +6365,11 @@ namespace LineageServer.Clientpackets
             }
             else
             {
-                if (CharacterTable.doesCharNameExist(name))
+                if (Container.Instance.Resolve<ICharacterController>().doesCharNameExist(name))
                 {
                     try
                     {
-                        int targetId = CharacterTable.Instance.restoreCharacter(name).Id;
+                        int targetId = Container.Instance.Resolve<ICharacterController>().restoreCharacter(name).Id;
                         CharactersItemStorage storage = CharactersItemStorage.create();
                         if (storage.getItemCount(targetId) < 180)
                         {

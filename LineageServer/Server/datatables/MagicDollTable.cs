@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LineageServer.Server.DataTables
 {
-    class MagicDollTable
+    class MagicDollTable : IGameComponent
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()
@@ -29,9 +29,12 @@ namespace LineageServer.Server.DataTables
 
         private MagicDollTable()
         {
+           
+        }
+        public void Initialize()
+        {
             load();
         }
-
         private void load()
         {
             IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();

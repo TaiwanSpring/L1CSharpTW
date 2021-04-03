@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-    class MailTable
+    class MailTable : IGameComponent
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()
@@ -30,9 +30,12 @@ namespace LineageServer.Server.DataTables
 
         private MailTable()
         {
+
+        }
+        public void Initialize()
+        {
             loadMail();
         }
-
         private void loadMail()
         {
             IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();

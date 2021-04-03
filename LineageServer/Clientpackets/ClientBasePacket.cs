@@ -1,4 +1,5 @@
-﻿using LineageServer.Serverpackets;
+﻿using LineageServer.Server;
+using LineageServer.Serverpackets;
 using System;
 
 namespace LineageServer.Clientpackets

@@ -8,6 +8,7 @@ using LineageServer.Server.Templates;
 using System;
 using System.IO;
 using LineageServer.Server;
+using LineageServer.Interfaces;
 
 namespace LineageServer.Clientpackets
 {
@@ -308,7 +309,7 @@ namespace LineageServer.Clientpackets
                         }
                         else
                         {
-                            CharacterTable.updatePartnerId(pc.PartnerId);
+                            Container.Instance.Resolve<ICharacterController>().updatePartnerId(pc.PartnerId);
                         }
                     }
                     pc.PartnerId = 0;
@@ -511,7 +512,7 @@ namespace LineageServer.Clientpackets
                         {
                             if (pc.BaseStr < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseStr((sbyte)1); // 素のSTR値に+1
+                                pc.addBaseStr(1); // 素のSTR値に+1
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                                 pc.sendPackets(new S_CharVisualUpdate(pc));
@@ -527,7 +528,7 @@ namespace LineageServer.Clientpackets
                         {
                             if (pc.BaseDex < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseDex((sbyte)1); // 素のDEX値に+1
+                                pc.addBaseDex(1); // 素のDEX値に+1
                                 pc.resetBaseAc();
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
@@ -543,7 +544,7 @@ namespace LineageServer.Clientpackets
                         {
                             if (pc.BaseCon < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseCon((sbyte)1); // 素のCON値に+1
+                                pc.addBaseCon(1); // 素のCON値に+1
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                                 pc.sendPackets(new S_CharVisualUpdate(pc));
@@ -558,7 +559,7 @@ namespace LineageServer.Clientpackets
                         {
                             if (pc.BaseInt < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseInt((sbyte)1); // 素のINT値に+1
+                                pc.addBaseInt(1); // 素のINT値に+1
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                                 pc.sendPackets(new S_CharVisualUpdate(pc));
@@ -573,7 +574,7 @@ namespace LineageServer.Clientpackets
                         {
                             if (pc.BaseWis < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseWis((sbyte)1); // 素のWIS値に+1
+                                pc.addBaseWis(1); // 素のWIS値に+1
                                 pc.resetBaseMr();
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
@@ -589,7 +590,7 @@ namespace LineageServer.Clientpackets
                         {
                             if (pc.BaseCha < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseCha((sbyte)1); // 素のCHA値に+1
+                                pc.addBaseCha(1); // 素のCHA値に+1
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                                 pc.sendPackets(new S_CharVisualUpdate(pc));
@@ -700,7 +701,7 @@ namespace LineageServer.Clientpackets
                     { // 舊血盟成員不在線上
                         try
                         {
-                            L1PcInstance offClanMember = CharacterTable.Instance.restoreCharacter(element);
+                            L1PcInstance offClanMember = Container.Instance.Resolve<ICharacterController>().restoreCharacter(element);
                             ClanMembersTable.Instance.deleteMember(offClanMember.Id);
                             offClanMember.Clanid = clanId;
                             offClanMember.Clanname = clanName;
@@ -787,7 +788,7 @@ namespace LineageServer.Clientpackets
             if (castleId != 0)
             {
                 isInWarArea = true;
-                if (WarTimeController.Instance.isNowWar(castleId))
+                if (Container.Instance.Resolve<IWarController>().isNowWar(castleId))
                 {
                     isInWarArea = false; // 戰爭也可以在時間的旗
                 }

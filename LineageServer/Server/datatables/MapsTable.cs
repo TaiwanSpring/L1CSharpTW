@@ -4,7 +4,7 @@ using LineageServer.Utils;
 using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-    sealed class MapsTable
+    sealed class MapsTable : IGameComponent
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()
@@ -21,9 +21,12 @@ namespace LineageServer.Server.DataTables
         /// </summary>
         private MapsTable()
         {
+            
+        }
+        public void Initialize()
+        {
             loadMapsFromDatabase();
         }
-
         /// <summary>
         /// マップのテレポート可否フラグをデータベースから読み込み、HashMap _mapsに格納する。
         /// </summary>

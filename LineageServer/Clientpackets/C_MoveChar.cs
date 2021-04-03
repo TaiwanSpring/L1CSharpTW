@@ -81,11 +81,11 @@ namespace LineageServer.Clientpackets
             locx += HEADING_TABLE_X[heading];
             locy += HEADING_TABLE_Y[heading];
 
-            if (Dungeon.Instance.dg(locx, locy, pc.Map.Id, pc))
+            if (DungeonController.Instance.dg(locx, locy, pc.Map.Id, pc))
             { // 傳點
                 return;
             }
-            if (DungeonRandom.Instance.dg(locx, locy, pc.Map.Id, pc))
+            if (DungeonRandomController.Instance.dg(locx, locy, pc.Map.Id, pc))
             { // 取得隨機傳送地點
                 return;
             }

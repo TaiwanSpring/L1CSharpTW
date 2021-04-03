@@ -26,7 +26,7 @@ namespace LineageServer.Clientpackets
 				return;
 			}
 			// 取得傳送的點
-			Dungeon.Instance.dg(locx, locy, pc.Map.Id, pc);
+			DungeonController.Instance.dg(locx, locy, pc.Map.Id, pc);
 		}
 
 		public override string Type

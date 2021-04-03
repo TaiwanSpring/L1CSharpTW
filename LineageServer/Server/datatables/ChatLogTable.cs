@@ -5,7 +5,7 @@ using System;
 
 namespace LineageServer.Server.DataTables
 {
-    class ChatLogTable
+    class ChatLogTable : IGameComponent
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()
@@ -18,9 +18,12 @@ namespace LineageServer.Server.DataTables
 
         private ChatLogTable()
         {
+            
+        }
+        public void Initialize()
+        {
             loadConfig();
         }
-
         private void loadConfig()
         {
             loggingConfig[0] = Config.LOGGING_CHAT_NORMAL;

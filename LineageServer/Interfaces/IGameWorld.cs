@@ -34,9 +34,12 @@ namespace LineageServer.Interfaces
 
         IList<GameObject> getVisibleBoxObjects(GameObject gameObject, int heading, int width, int height);
         IList<GameObject> getVisibleObjects(GameObject gameObject);
+
+        IList<GameObject> getVisibleObjects(GameObject gameObject, int radius);
         IList<GameObject> getVisiblePoint(L1Location loc, int radius);
 
         IList<L1PcInstance> getVisiblePlayer(GameObject gameObject);
+        IList<L1PcInstance> getVisiblePlayer(GameObject gameObject, int radius);
 
         IList<L1PcInstance> getVisiblePlayerExceptTargetSight(GameObject gameObject, GameObject target);
         IList<L1PcInstance> getRecognizePlayer(GameObject gameObject);

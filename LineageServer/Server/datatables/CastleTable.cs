@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace LineageServer.Server.DataTables
 {
-    class CastleTable
+    class CastleTable : IGameComponent
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()
@@ -29,9 +29,12 @@ namespace LineageServer.Server.DataTables
 
         private CastleTable()
         {
+          
+        }
+        public void Initialize()
+        {
             load();
         }
-
         private void load()
         {
             IDataSource clanData =

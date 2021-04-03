@@ -1,4 +1,6 @@
 ﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server;
 using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
@@ -65,7 +67,7 @@ namespace LineageServer.Clientpackets
                     { // 玩家離線中
                         try
                         {
-                            L1PcInstance restorePc = CharacterTable.Instance.restoreCharacter(s);
+                            L1PcInstance restorePc = Container.Instance.Resolve<ICharacterController>().restoreCharacter(s);
                             if (restorePc != null && restorePc.Clanid == pc.Clanid)
                             { // 確定同血盟
                                 restorePc.Clanid = 0;

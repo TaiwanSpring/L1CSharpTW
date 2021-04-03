@@ -29,9 +29,12 @@ namespace LineageServer.Server.DataTables
 
 		private ShopTable()
 		{
+			
+		}
+		public void Initialize()
+		{
 			loadShops();
 		}
-
 		private HashSet<int> enumNpcIds()
 		{
 			HashSet<int> ids = new HashSet<int>();

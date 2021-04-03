@@ -1,6 +1,5 @@
 ﻿namespace LineageServer.Server.Templates
 {
-    [Serializable]
     class L1Armor : L1Item
     {
         private int _ac = 0; // ● ＡＣ

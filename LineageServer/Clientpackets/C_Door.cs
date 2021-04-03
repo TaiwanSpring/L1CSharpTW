@@ -1,4 +1,7 @@
-﻿using LineageServer.Server.DataTables;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Templates;
@@ -120,8 +123,7 @@ namespace LineageServer.Clientpackets
 
             public virtual void begin()
             {
-                Timer timer = new Timer();
-                timer.schedule(this, 5 * 1000);
+                Container.Instance.Resolve<ITaskController>().execute(this, 5 * 1000);
             }
         }
 

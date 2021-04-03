@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace LineageServer.Server.DataTables
 {
-    class FurnitureSpawnTable
+    class FurnitureSpawnTable : IGameComponent
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()
@@ -30,9 +30,12 @@ namespace LineageServer.Server.DataTables
 
         private FurnitureSpawnTable()
         {
+           
+        }
+        public void Initialize()
+        {
             FillFurnitureSpawnTable();
         }
-
         private void FillFurnitureSpawnTable()
         {
             IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();

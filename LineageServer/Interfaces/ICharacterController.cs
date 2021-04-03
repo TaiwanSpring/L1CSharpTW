@@ -7,7 +7,7 @@ namespace LineageServer.Interfaces
 		void storeNewCharacter(L1PcInstance pc);
 		void storeCharacter(L1PcInstance pc);
 		void deleteCharacter(string accountName, string charName);
-		//L1PcInstance restoreCharacter(string charName);
+		L1PcInstance restoreCharacter(string charName);
 		L1PcInstance loadCharacter(string charName);
 		void ClearOnlineStatus();
 		void updateOnlineStatus(L1PcInstance pc);

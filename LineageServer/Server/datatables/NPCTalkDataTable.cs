@@ -30,9 +30,12 @@ namespace LineageServer.Server.DataTables
 
 		private NPCTalkDataTable()
 		{
+			
+		}
+		public void Initialize()
+		{
 			parseList();
 		}
-
 		private void parseList()
 		{
 			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();

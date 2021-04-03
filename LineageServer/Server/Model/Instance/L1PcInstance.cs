@@ -315,7 +315,7 @@ namespace LineageServer.Server.Model.Instance
         private ITimerTask _autoUpdateFuture;
 
         private const int INTERVAL_EXP_MONITOR = 500;
-        
+
         private ITimerTask _expMonitorFuture;
         /// <summary>
         /// 等級
@@ -1008,7 +1008,7 @@ namespace LineageServer.Server.Model.Instance
 
         public virtual void logout()
         {
-            GameWorld world = Container.Instance.Resolve<IGameWorld>();
+            IGameWorld world = Container.Instance.Resolve<IGameWorld>();
             if (Clanid != 0) // クラン所属
             {
                 L1Clan clan = world.getClan(Clanname);
@@ -3208,7 +3208,7 @@ namespace LineageServer.Server.Model.Instance
             L1PcInstance result = null;
             try
             {
-                result = CharacterTable.Instance.loadCharacter(charName);
+                result = Container.Instance.Resolve<ICharacterController>().loadCharacter(charName);
             }
             catch (Exception e)
             {
@@ -3234,7 +3234,7 @@ namespace LineageServer.Server.Model.Instance
 
             try
             {
-                CharacterTable.Instance.storeCharacter(this);
+                Container.Instance.Resolve<ICharacterController>().storeCharacter(this);
             }
             catch (Exception e)
             {
@@ -3404,7 +3404,7 @@ namespace LineageServer.Server.Model.Instance
         public virtual void beginInvisTimer()
         {
             addInvisDelayCounter(1);
-			Container.Instance.Resolve<ITaskController>().execute((IRunnable)new L1PcInvisDelay(base.Id), 3000);
+            Container.Instance.Resolve<ITaskController>().execute((IRunnable)new L1PcInvisDelay(base.Id), 3000);
         }
 
         public virtual void addExp(long exp)
@@ -3642,7 +3642,7 @@ namespace LineageServer.Server.Model.Instance
             if (sec > 0)
             {
                 _ghostFuture = new L1PcGhostMonitor(Id);
-				Container.Instance.Resolve<ITaskController>().execute((IRunnable)this._ghostFuture, sec * 1000);
+                Container.Instance.Resolve<ITaskController>().execute((IRunnable)this._ghostFuture, sec * 1000);
             }
         }
 

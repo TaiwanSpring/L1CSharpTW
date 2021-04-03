@@ -175,7 +175,7 @@ namespace LineageServer.Clientpackets
                 }
                 else
                 { // 離線盟友
-                    L1PcInstance restorePc = CharacterTable.Instance.restoreCharacter(name);
+                    L1PcInstance restorePc = Container.Instance.Resolve<ICharacterController>().restoreCharacter(name);
                     if ((restorePc != null) && (restorePc.Clanid == pc.Clanid))
                     { // 同じ血盟
                         pc.sendPackets(new S_ServerMessage(2069));

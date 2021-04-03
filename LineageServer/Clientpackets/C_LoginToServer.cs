@@ -9,6 +9,8 @@ using LineageServer.Server.Templates;
 using System;
 using LineageServer.Server;
 using LineageServer.Models;
+using System.Collections.Generic;
+using LineageServer.DataBase.DataSources;
 
 namespace LineageServer.Clientpackets
 {
@@ -17,6 +19,14 @@ namespace LineageServer.Clientpackets
     /// </summary>
     class C_LoginToServer : ClientBasePacket
     {
+        private readonly static IDataSource characterSkillsDataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.CharacterSkills);
+
+        private readonly static IDataSource characterBuffDataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.CharacterBuff);
+
         private const string C_LOGIN_TO_SERVER = "[C] C_LoginToServer";
         private static ILogger _log = Logger.GetLogger(nameof(C_LoginToServer));
         public C_LoginToServer(byte[] abyte0, ClientThread client) : base(abyte0)
@@ -64,7 +74,7 @@ namespace LineageServer.Clientpackets
             int currentMpAtLoad = pc.CurrentMp;
             pc.clearSkillMastery();
             pc.OnlineStatus = 1;
-            CharacterTable.updateOnlineStatus(pc);
+            Container.Instance.Resolve<ICharacterController>().updateOnlineStatus(pc);
             Container.Instance.Resolve<IGameWorld>().storeObject(pc);
 
             pc.NetConnection = client;
@@ -92,7 +102,7 @@ namespace LineageServer.Clientpackets
             // altsettings.properties 中 GetBack 設定為 true 就自動回村
             if (Config.GET_BACK)
             {
-                int[] loc = Getback.GetBack_Location(pc, true);
+                int[] loc = Server.Model.Getback.GetBack_Location(pc, true);
                 pc.X = loc[0];
                 pc.Y = loc[1];
                 pc.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)loc[2]);
@@ -102,7 +112,7 @@ namespace LineageServer.Clientpackets
             int castle_id = L1CastleLocation.getCastleIdByArea(pc);
             if (0 < castle_id)
             {
-                if (WarTimeController.Instance.isNowWar(castle_id))
+                if (Container.Instance.Resolve<IWarController>().isNowWar(castle_id))
                 {
                     L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(pc.Clanname);
                     if (clan != null)
@@ -235,7 +245,7 @@ namespace LineageServer.Clientpackets
             }
             SerchSummon(pc);
 
-            WarTimeController.Instance.checkCastleWar(pc);
+            Container.Instance.Resolve<IWarController>().checkCastleWar(pc);
 
             if (pc.Clanid != 0)
             { // 有血盟
@@ -320,185 +330,166 @@ namespace LineageServer.Clientpackets
         private void items(L1PcInstance pc)
         {
             // 從資料庫中讀取角色的道具
-            CharacterTable.Instance.restoreInventory(pc);
+            Container.Instance.Resolve<ICharacterController>().restoreInventory(pc);
 
             pc.sendPackets(new S_InvList(pc.Inventory.Items));
         }
 
         private void skills(L1PcInstance pc)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            try
+            IList<IDataSourceRow> dataSourceRows = characterSkillsDataSource.Select().Where(CharacterSkills.Column_char_obj_id, pc.Id).Query();
+            int i = 0;
+            int lv1 = 0;
+            int lv2 = 0;
+            int lv3 = 0;
+            int lv4 = 0;
+            int lv5 = 0;
+            int lv6 = 0;
+            int lv7 = 0;
+            int lv8 = 0;
+            int lv9 = 0;
+            int lv10 = 0;
+            int lv11 = 0;
+            int lv12 = 0;
+            int lv13 = 0;
+            int lv14 = 0;
+            int lv15 = 0;
+            int lv16 = 0;
+            int lv17 = 0;
+            int lv18 = 0;
+            int lv19 = 0;
+            int lv20 = 0;
+            int lv21 = 0;
+            int lv22 = 0;
+            int lv23 = 0;
+            int lv24 = 0;
+            int lv25 = 0;
+            int lv26 = 0;
+            int lv27 = 0;
+            int lv28 = 0;
+            for (int index = 0; index < dataSourceRows.Count; index++)
             {
-
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("SELECT * FROM character_skills WHERE char_obj_id=?");
-                pstm.setInt(1, pc.Id);
-                rs = pstm.executeQuery();
-                int i = 0;
-                int lv1 = 0;
-                int lv2 = 0;
-                int lv3 = 0;
-                int lv4 = 0;
-                int lv5 = 0;
-                int lv6 = 0;
-                int lv7 = 0;
-                int lv8 = 0;
-                int lv9 = 0;
-                int lv10 = 0;
-                int lv11 = 0;
-                int lv12 = 0;
-                int lv13 = 0;
-                int lv14 = 0;
-                int lv15 = 0;
-                int lv16 = 0;
-                int lv17 = 0;
-                int lv18 = 0;
-                int lv19 = 0;
-                int lv20 = 0;
-                int lv21 = 0;
-                int lv22 = 0;
-                int lv23 = 0;
-                int lv24 = 0;
-                int lv25 = 0;
-                int lv26 = 0;
-                int lv27 = 0;
-                int lv28 = 0;
-                while (rs.next())
+                IDataSourceRow dataSourceRow = dataSourceRows[index];
+                int skillId = dataSourceRow.getInt("skill_id");
+                L1Skills l1skills = SkillsTable.Instance.getTemplate(skillId);
+                if (l1skills.SkillLevel == 1)
                 {
-                    int skillId = dataSourceRow.getInt("skill_id");
-                    L1Skills l1skills = SkillsTable.Instance.getTemplate(skillId);
-                    if (l1skills.SkillLevel == 1)
-                    {
-                        lv1 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 2)
-                    {
-                        lv2 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 3)
-                    {
-                        lv3 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 4)
-                    {
-                        lv4 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 5)
-                    {
-                        lv5 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 6)
-                    {
-                        lv6 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 7)
-                    {
-                        lv7 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 8)
-                    {
-                        lv8 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 9)
-                    {
-                        lv9 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 10)
-                    {
-                        lv10 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 11)
-                    {
-                        lv11 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 12)
-                    {
-                        lv12 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 13)
-                    {
-                        lv13 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 14)
-                    {
-                        lv14 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 15)
-                    {
-                        lv15 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 16)
-                    {
-                        lv16 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 17)
-                    {
-                        lv17 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 18)
-                    {
-                        lv18 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 19)
-                    {
-                        lv19 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 20)
-                    {
-                        lv20 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 21)
-                    {
-                        lv21 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 22)
-                    {
-                        lv22 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 23)
-                    {
-                        lv23 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 24)
-                    {
-                        lv24 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 25)
-                    {
-                        lv25 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 26)
-                    {
-                        lv26 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 27)
-                    {
-                        lv27 |= l1skills.Id;
-                    }
-                    if (l1skills.SkillLevel == 28)
-                    {
-                        lv28 |= l1skills.Id;
-                    }
-                    i = lv1 + lv2 + lv3 + lv4 + lv5 + lv6 + lv7 + lv8 + lv9 + lv10 + lv11 + lv12 + lv13 + lv14 + lv15 + lv16 + lv17 + lv18 + lv19 + lv20 + lv21 + lv22 + lv23 + lv24 + lv25 + lv26 + lv27 + lv28;
-                    pc.SkillMastery = skillId;
+                    lv1 |= l1skills.Id;
                 }
-                if (i > 0)
+                if (l1skills.SkillLevel == 2)
                 {
-                    pc.sendPackets(new S_AddSkill(lv1, lv2, lv3, lv4, lv5, lv6, lv7, lv8, lv9, lv10, lv11, lv12, lv13, lv14, lv15, lv16, lv17, lv18, lv19, lv20, lv21, lv22, lv23, lv24, lv25, lv26, lv27, lv28));
+                    lv2 |= l1skills.Id;
                 }
+                if (l1skills.SkillLevel == 3)
+                {
+                    lv3 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 4)
+                {
+                    lv4 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 5)
+                {
+                    lv5 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 6)
+                {
+                    lv6 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 7)
+                {
+                    lv7 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 8)
+                {
+                    lv8 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 9)
+                {
+                    lv9 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 10)
+                {
+                    lv10 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 11)
+                {
+                    lv11 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 12)
+                {
+                    lv12 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 13)
+                {
+                    lv13 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 14)
+                {
+                    lv14 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 15)
+                {
+                    lv15 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 16)
+                {
+                    lv16 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 17)
+                {
+                    lv17 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 18)
+                {
+                    lv18 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 19)
+                {
+                    lv19 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 20)
+                {
+                    lv20 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 21)
+                {
+                    lv21 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 22)
+                {
+                    lv22 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 23)
+                {
+                    lv23 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 24)
+                {
+                    lv24 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 25)
+                {
+                    lv25 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 26)
+                {
+                    lv26 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 27)
+                {
+                    lv27 |= l1skills.Id;
+                }
+                if (l1skills.SkillLevel == 28)
+                {
+                    lv28 |= l1skills.Id;
+                }
+                i = lv1 + lv2 + lv3 + lv4 + lv5 + lv6 + lv7 + lv8 + lv9 + lv10 + lv11 + lv12 + lv13 + lv14 + lv15 + lv16 + lv17 + lv18 + lv19 + lv20 + lv21 + lv22 + lv23 + lv24 + lv25 + lv26 + lv27 + lv28;
+                pc.SkillMastery = skillId;
             }
-            catch (SQLException e)
+            if (i > 0)
             {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(rs);
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
+                pc.sendPackets(new S_AddSkill(lv1, lv2, lv3, lv4, lv5, lv6, lv7, lv8, lv9, lv10, lv11, lv12, lv13, lv14, lv15, lv16, lv17, lv18, lv19, lv20, lv21, lv22, lv23, lv24, lv25, lv26, lv27, lv28));
             }
         }
 
@@ -520,120 +511,103 @@ namespace LineageServer.Clientpackets
 
         private void buff(ClientThread clientthread, L1PcInstance pc)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            try
-            {
+            IList<IDataSourceRow> dataSourceRows = characterBuffDataSource.Select().Where(CharacterBuff.Column_char_obj_id, pc.Id).Query();
 
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("SELECT * FROM character_buff WHERE char_obj_id=?");
-                pstm.setInt(1, pc.Id);
-                rs = pstm.executeQuery();
-                while (rs.next())
+            for (int i = 0; i < dataSourceRows.Count; i++)
+            {
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+
+                int skillid = dataSourceRow.getInt("skill_id");
+                int remaining_time = dataSourceRow.getInt("remaining_time");
+                int time = 0;
+                switch (skillid)
                 {
-                    int skillid = dataSourceRow.getInt("skill_id");
-                    int remaining_time = dataSourceRow.getInt("remaining_time");
-                    int time = 0;
-                    switch (skillid)
-                    {
-                        case L1SkillId.SHAPE_CHANGE: // 變身
-                            int poly_id = dataSourceRow.getInt("poly_id");
-                            L1PolyMorph.doPoly(pc, poly_id, remaining_time, L1PolyMorph.MORPH_BY_LOGIN);
-                            break;
-                        case L1SkillId.STATUS_BRAVE: // 勇敢藥水
-                            pc.sendPackets(new S_SkillBrave(pc.Id, 1, remaining_time));
-                            pc.broadcastPacket(new S_SkillBrave(pc.Id, 1, 0));
-                            pc.BraveSpeed = 1;
-                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
-                            break;
-                        case L1SkillId.STATUS_ELFBRAVE: // 精靈餅乾
-                            pc.sendPackets(new S_SkillBrave(pc.Id, 3, remaining_time));
-                            pc.broadcastPacket(new S_SkillBrave(pc.Id, 3, 0));
-                            pc.BraveSpeed = 3;
-                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
-                            break;
-                        case L1SkillId.STATUS_BRAVE2: // 超級加速
-                            pc.sendPackets(new S_SkillBrave(pc.Id, 5, remaining_time));
-                            pc.broadcastPacket(new S_SkillBrave(pc.Id, 5, 0));
-                            pc.BraveSpeed = 5;
-                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
-                            break;
-                        case L1SkillId.STATUS_HASTE: // 加速
-                            pc.sendPackets(new S_SkillHaste(pc.Id, 1, remaining_time));
-                            pc.broadcastPacket(new S_SkillHaste(pc.Id, 1, 0));
-                            pc.MoveSpeed = 1;
-                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
-                            break;
-                        case L1SkillId.STATUS_BLUE_POTION: // 藍色藥水
-                            pc.sendPackets(new S_SkillIconGFX(34, remaining_time));
-                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
-                            break;
-                        case L1SkillId.STATUS_CHAT_PROHIBITED: // 禁言
-                            pc.sendPackets(new S_SkillIconGFX(36, remaining_time));
-                            pc.setSkillEffect(L1SkillId.skillid, remaining_time * 1000);
-                            break;
-                        case L1SkillId.STATUS_THIRD_SPEED: // 三段加速
-                            time = remaining_time / 4;
-                            pc.sendPackets(new S_Liquor(pc.Id, 8)); // 人物 *
+                    case L1SkillId.SHAPE_CHANGE: // 變身
+                        int poly_id = dataSourceRow.getInt("poly_id");
+                        L1PolyMorph.doPoly(pc, poly_id, remaining_time, L1PolyMorph.MORPH_BY_LOGIN);
+                        break;
+                    case L1SkillId.STATUS_BRAVE: // 勇敢藥水
+                        pc.sendPackets(new S_SkillBrave(pc.Id, 1, remaining_time));
+                        pc.broadcastPacket(new S_SkillBrave(pc.Id, 1, 0));
+                        pc.BraveSpeed = 1;
+                        pc.setSkillEffect(skillid, remaining_time * 1000);
+                        break;
+                    case L1SkillId.STATUS_ELFBRAVE: // 精靈餅乾
+                        pc.sendPackets(new S_SkillBrave(pc.Id, 3, remaining_time));
+                        pc.broadcastPacket(new S_SkillBrave(pc.Id, 3, 0));
+                        pc.BraveSpeed = 3;
+                        pc.setSkillEffect(skillid, remaining_time * 1000);
+                        break;
+                    case L1SkillId.STATUS_BRAVE2: // 超級加速
+                        pc.sendPackets(new S_SkillBrave(pc.Id, 5, remaining_time));
+                        pc.broadcastPacket(new S_SkillBrave(pc.Id, 5, 0));
+                        pc.BraveSpeed = 5;
+                        pc.setSkillEffect(skillid, remaining_time * 1000);
+                        break;
+                    case L1SkillId.STATUS_HASTE: // 加速
+                        pc.sendPackets(new S_SkillHaste(pc.Id, 1, remaining_time));
+                        pc.broadcastPacket(new S_SkillHaste(pc.Id, 1, 0));
+                        pc.MoveSpeed = 1;
+                        pc.setSkillEffect(skillid, remaining_time * 1000);
+                        break;
+                    case L1SkillId.STATUS_BLUE_POTION: // 藍色藥水
+                        pc.sendPackets(new S_SkillIconGFX(34, remaining_time));
+                        pc.setSkillEffect(skillid, remaining_time * 1000);
+                        break;
+                    case L1SkillId.STATUS_CHAT_PROHIBITED: // 禁言
+                        pc.sendPackets(new S_SkillIconGFX(36, remaining_time));
+                        pc.setSkillEffect(skillid, remaining_time * 1000);
+                        break;
+                    case L1SkillId.STATUS_THIRD_SPEED: // 三段加速
+                        time = remaining_time / 4;
+                        pc.sendPackets(new S_Liquor(pc.Id, 8)); // 人物 *
+                                                                // 1.15
+                        pc.broadcastPacket(new S_Liquor(pc.Id, 8)); // 人物 *
                                                                     // 1.15
-                            pc.broadcastPacket(new S_Liquor(pc.Id, 8)); // 人物 *
-                                                                        // 1.15
-                            pc.sendPackets(new S_SkillIconThirdSpeed(time));
-                            pc.setSkillEffect(L1SkillId.skillid, time * 4 * 1000);
-                            break;
-                        case L1SkillId.MIRROR_IMAGE: // 鏡像
-                        case L1SkillId.UNCANNY_DODGE: // 暗影閃避
-                            time = remaining_time / 16;
-                            pc.addDodge((sbyte)5); // 閃避率 + 50%
-                                                   // 更新閃避率顯示
-                            pc.sendPackets(new S_PacketBox(88, pc.Dodge));
-                            pc.sendPackets(new S_PacketBox(21, time));
-                            pc.setSkillEffect(L1SkillId.skillid, time * 16 * 1000);
-                            break;
-                        case L1SkillId.EFFECT_BLOODSTAIN_OF_ANTHARAS: // 安塔瑞斯的血痕
-                            remaining_time = remaining_time / 60;
-                            if (remaining_time != 0)
-                            {
-                                L1BuffUtil.bloodstain(pc, (sbyte)0, remaining_time, false);
-                            }
-                            break;
-                        case L1SkillId.EFFECT_BLOODSTAIN_OF_FAFURION: // 法利昂的血痕
-                            remaining_time = remaining_time / 60;
-                            if (remaining_time != 0)
-                            {
-                                L1BuffUtil.bloodstain(pc, (sbyte)1, remaining_time, false);
-                            }
-                            break;
-                        default:
-                            // 魔法料理
-                            if (((skillid >= L1SkillId.COOKING_1_0_N) && (skillid <= L1SkillId.COOKING_1_6_N)) || ((skillid >= L1SkillId.COOKING_1_0_S) && (skillid <= L1SkillId.COOKING_1_6_S)) || ((skillid >= L1SkillId.COOKING_2_0_N) && (skillid <= L1SkillId.COOKING_2_6_N)) || ((skillid >= L1SkillId.COOKING_2_0_S) && (skillid <= L1SkillId.COOKING_2_6_S)) || ((skillid >= L1SkillId.COOKING_3_0_N) && (skillid <= L1SkillId.COOKING_3_6_N)) || ((skillid >= L1SkillId.COOKING_3_0_S) && (skillid <= L1SkillId.COOKING_3_6_S)))
-                            {
-                                L1Cooking.eatCooking(pc, skillid, remaining_time);
-                            }
-                            // 生命之樹果實、商城道具
-                            else if (skillid == L1SkillId.STATUS_RIBRAVE || (skillid >= L1SkillId.EFFECT_BEGIN && skillid <= L1SkillId.EFFECT_END) || skillid == L1SkillId.COOKING_WONDER_DRUG)
-                            {
-                                ;
-                            }
-                            else
-                            {
-                                L1SkillUse l1skilluse = new L1SkillUse();
-                                l1skilluse.handleCommands(clientthread.ActiveChar, skillid, pc.Id, pc.X, pc.Y, null, remaining_time, L1SkillUse.TYPE_LOGIN);
-                            }
-                            break;
-                    }
+                        pc.sendPackets(new S_SkillIconThirdSpeed(time));
+                        pc.setSkillEffect(skillid, time * 4 * 1000);
+                        break;
+                    case L1SkillId.MIRROR_IMAGE: // 鏡像
+                    case L1SkillId.UNCANNY_DODGE: // 暗影閃避
+                        time = remaining_time / 16;
+                        pc.addDodge((sbyte)5); // 閃避率 + 50%
+                                               // 更新閃避率顯示
+                        pc.sendPackets(new S_PacketBox(88, pc.Dodge));
+                        pc.sendPackets(new S_PacketBox(21, time));
+                        pc.setSkillEffect(skillid, time * 16 * 1000);
+                        break;
+                    case L1SkillId.EFFECT_BLOODSTAIN_OF_ANTHARAS: // 安塔瑞斯的血痕
+                        remaining_time = remaining_time / 60;
+                        if (remaining_time != 0)
+                        {
+                            L1BuffUtil.bloodstain(pc, (sbyte)0, remaining_time, false);
+                        }
+                        break;
+                    case L1SkillId.EFFECT_BLOODSTAIN_OF_FAFURION: // 法利昂的血痕
+                        remaining_time = remaining_time / 60;
+                        if (remaining_time != 0)
+                        {
+                            L1BuffUtil.bloodstain(pc, (sbyte)1, remaining_time, false);
+                        }
+                        break;
+                    default:
+                        // 魔法料理
+                        if (((skillid >= L1SkillId.COOKING_1_0_N) && (skillid <= L1SkillId.COOKING_1_6_N)) || ((skillid >= L1SkillId.COOKING_1_0_S) && (skillid <= L1SkillId.COOKING_1_6_S)) || ((skillid >= L1SkillId.COOKING_2_0_N) && (skillid <= L1SkillId.COOKING_2_6_N)) || ((skillid >= L1SkillId.COOKING_2_0_S) && (skillid <= L1SkillId.COOKING_2_6_S)) || ((skillid >= L1SkillId.COOKING_3_0_N) && (skillid <= L1SkillId.COOKING_3_6_N)) || ((skillid >= L1SkillId.COOKING_3_0_S) && (skillid <= L1SkillId.COOKING_3_6_S)))
+                        {
+                            L1Cooking.eatCooking(pc, skillid, remaining_time);
+                        }
+                        // 生命之樹果實、商城道具
+                        else if (skillid == L1SkillId.STATUS_RIBRAVE || (skillid >= L1SkillId.EFFECT_BEGIN && skillid <= L1SkillId.EFFECT_END) || skillid == L1SkillId.COOKING_WONDER_DRUG)
+                        {
+                            ;
+                        }
+                        else
+                        {
+                            L1SkillUse l1skilluse = new L1SkillUse();
+                            l1skilluse.handleCommands(clientthread.ActiveChar, skillid, pc.Id, pc.X, pc.Y, null, remaining_time, L1SkillUse.TYPE_LOGIN);
+                        }
+                        break;
                 }
-            }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(rs);
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
             }
         }
 

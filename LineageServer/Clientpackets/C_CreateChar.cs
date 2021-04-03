@@ -1,13 +1,13 @@
 ﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server;
 using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
-using LineageServer.Server.Model.Map;
-using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
+using LineageServer.Serverpackets;
 using LineageServer.Utils;
 using System;
-using LineageServer.Server;
 
 namespace LineageServer.Clientpackets
 {
@@ -60,7 +60,7 @@ namespace LineageServer.Clientpackets
                 return;
             }
 
-            if (CharacterTable.doesCharNameExist(name))
+            if (Container.Instance.Resolve<ICharacterController>().doesCharNameExist(name))
             {
                 S_CharCreateStatus s_charcreatestatus1 = new S_CharCreateStatus(S_CharCreateStatus.REASON_ALREADY_EXSISTS);
                 client.SendPacket(s_charcreatestatus1);
@@ -77,12 +77,12 @@ namespace LineageServer.Clientpackets
             pc.Name = name;
             pc.Type = ReadC();
             pc.set_sex(ReadC());
-            pc.addBaseStr((sbyte)ReadC());
-            pc.addBaseDex((sbyte)ReadC());
-            pc.addBaseCon((sbyte)ReadC());
-            pc.addBaseWis((sbyte)ReadC());
-            pc.addBaseCha((sbyte)ReadC());
-            pc.addBaseInt((sbyte)ReadC());
+            pc.addBaseStr(ReadC());
+            pc.addBaseDex(ReadC());
+            pc.addBaseCon(ReadC());
+            pc.addBaseWis(ReadC());
+            pc.addBaseCha(ReadC());
+            pc.addBaseInt(ReadC());
 
             bool isStatusError = false;
             int originalStr = ORIGINAL_STR[pc.Type];
@@ -196,10 +196,10 @@ namespace LineageServer.Clientpackets
             }
             Beginner.Instance.GiveItem(pc);
             pc.AccountName = client.AccountName;
-            CharacterTable.Instance.storeNewCharacter(pc);
+            Container.Instance.Resolve<ICharacterController>().storeNewCharacter(pc);
             S_NewCharPacket s_newcharpacket = new S_NewCharPacket(pc);
             client.SendPacket(s_newcharpacket);
-            CharacterTable.saveCharStatus(pc);
+            Container.Instance.Resolve<ICharacterController>().saveCharStatus(pc);
             pc.refresh();
         }
 

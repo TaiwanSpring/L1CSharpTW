@@ -1,51 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Server.Model
 {
-
-
-	using BossSpawnTable = LineageServer.Server.DataTables.BossSpawnTable;
-	using PerformanceTimer = LineageServer.Utils.PerformanceTimer;
-	using Random = LineageServer.Utils.Random;
-	using MapFactory = LineageServer.Utils.MapFactory;
-
-	//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) public class L1BossCycle
-	public class L1BossCycle
+	class L1BossCycle
 	{
-		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-		//ORIGINAL LINE: @XmlAttribute(name = "Name") private String _name;
 		private string _name;
-
-		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-		//ORIGINAL LINE: @XmlElement(name = "Base") private Base _base;
 		private Base _base;
 
-		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-		//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) private static class Base
 		private class Base
 		{
-			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-			//ORIGINAL LINE: @XmlAttribute(name = "Date") private String _date;
 			internal string _date;
-
-			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-			//ORIGINAL LINE: @XmlAttribute(name = "Time") private String _time;
 			internal string _time;
 
 			public virtual string Date
@@ -74,25 +38,14 @@ namespace LineageServer.Server.Model
 			}
 
 		}
-
-		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-		//ORIGINAL LINE: @XmlElement(name = "Cycle") private Cycle _cycle;
 		private Cycle _cycle;
 
-		//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-		//ORIGINAL LINE: @XmlAccessorType(XmlAccessType.FIELD) private static class Cycle
 		private class Cycle
 		{
-			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-			//ORIGINAL LINE: @XmlAttribute(name = "Period") private String _period;
 			internal string _period;
 
-			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-			//ORIGINAL LINE: @XmlAttribute(name = "Start") private String _start;
 			internal string _start;
 
-			//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-			//ORIGINAL LINE: @XmlAttribute(name = "End") private String _end;
 			internal string _end;
 
 			public virtual string Period

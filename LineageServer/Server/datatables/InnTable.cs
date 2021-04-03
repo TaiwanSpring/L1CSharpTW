@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-    class InnTable
+    class InnTable : IGameComponent
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()
@@ -34,9 +34,12 @@ namespace LineageServer.Server.DataTables
 
         private InnTable()
         {
+           
+        }
+        public void Initialize()
+        {
             load();
         }
-
         private void load()
         {
             IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();

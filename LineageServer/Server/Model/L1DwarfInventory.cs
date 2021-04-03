@@ -1,4 +1,8 @@
-﻿using LineageServer.Server.Model.Instance;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.DataTables;
+using LineageServer.Server.Model.Instance;
+using LineageServer.Server.Templates;
 using System;
 using System.Collections.Generic;
 
@@ -6,8 +10,11 @@ namespace LineageServer.Server.Model
 {
     class L1DwarfInventory : L1Inventory
     {
-        /// 
-        private const long serialVersionUID = 1L;
+        private readonly static IDataSource dataSource =
+              Container.Instance.Resolve<IDataSourceFactory>()
+              .Factory(Enum.DataSourceTypeEnum.CharacterWarehouse);
+
+        private readonly L1PcInstance _owner;
 
         public L1DwarfInventory(L1PcInstance owner)
         {
@@ -17,165 +24,103 @@ namespace LineageServer.Server.Model
         // ＤＢのcharacter_itemsの読込
         public override void loadItems()
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            try
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select()
+               .Where(CharacterWarehouse.Column_account_name, _owner.AccountName).Query();
+
+
+            for (int i = 0; i < dataSourceRows.Count; i++)
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("SELECT * FROM character_warehouse WHERE account_name = ?");
-                pstm.setString(1, _owner.AccountName);
-
-                rs = pstm.executeQuery();
-
-                while (rs.next())
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                L1ItemInstance item = new L1ItemInstance();
+                int objectId = dataSourceRow.getInt(CharacterWarehouse.Column_id);
+                item.Id = objectId;
+                L1Item itemTemplate = ItemTable.Instance.getTemplate(dataSourceRow.getInt(CharacterWarehouse.Column_item_id));
+                item.Item = itemTemplate;
+                item.Count = dataSourceRow.getInt(CharacterWarehouse.Column_count);
+                item.Equipped = false;
+                item.EnchantLevel = dataSourceRow.getInt(CharacterWarehouse.Column_enchantlvl);
+                item.Identified = dataSourceRow.getInt(CharacterWarehouse.Column_is_id) != 0 ? true : false;
+                item.set_durability(dataSourceRow.getInt(CharacterWarehouse.Column_durability));
+                item.ChargeCount = dataSourceRow.getInt(CharacterWarehouse.Column_charge_count);
+                item.RemainingTime = dataSourceRow.getInt(CharacterWarehouse.Column_remaining_time);
+                item.LastUsed = dataSourceRow.getTimestamp(CharacterWarehouse.Column_last_used);
+                item.Bless = dataSourceRow.getInt(CharacterWarehouse.Column_bless);
+                item.AttrEnchantKind = dataSourceRow.getInt(CharacterWarehouse.Column_attr_enchant_kind);
+                item.AttrEnchantLevel = dataSourceRow.getInt(CharacterWarehouse.Column_attr_enchant_level);
+                item.FireMr = dataSourceRow.getInt(CharacterWarehouse.Column_firemr);
+                item.WaterMr = dataSourceRow.getInt(CharacterWarehouse.Column_watermr);
+                item.EarthMr = dataSourceRow.getInt(CharacterWarehouse.Column_earthmr);
+                item.WindMr = dataSourceRow.getInt(CharacterWarehouse.Column_windmr);
+                item.setaddSp(dataSourceRow.getInt(CharacterWarehouse.Column_addsp));
+                item.setaddHp(dataSourceRow.getInt(CharacterWarehouse.Column_addhp));
+                item.setaddMp(dataSourceRow.getInt(CharacterWarehouse.Column_addmp));
+                item.Hpr = dataSourceRow.getInt(CharacterWarehouse.Column_hpr);
+                item.Mpr = dataSourceRow.getInt(CharacterWarehouse.Column_mpr);
+                item.M_Def = dataSourceRow.getInt(CharacterWarehouse.Column_m_def);
+                // 登入鑰匙紀錄
+                if (item.Item.ItemId == 40312)
                 {
-                    L1ItemInstance item = new L1ItemInstance();
-                    int objectId = dataSourceRow.getInt("id");
-                    item.Id = objectId;
-                    L1Item itemTemplate = ItemTable.Instance.getTemplate(dataSourceRow.getInt("item_id"));
-                    item.Item = itemTemplate;
-                    item.Count = dataSourceRow.getInt("count");
-                    item.Equipped = false;
-                    item.EnchantLevel = dataSourceRow.getInt("enchantlvl");
-                    item.Identified = dataSourceRow.getInt("is_id") != 0 ? true : false;
-                    item.set_durability(dataSourceRow.getInt("durability"));
-                    item.ChargeCount = dataSourceRow.getInt("charge_count");
-                    item.RemainingTime = dataSourceRow.getInt("remaining_time");
-                    item.LastUsed = dataSourceRow.getTimestamp("last_used");
-                    item.Bless = dataSourceRow.getInt("bless");
-                    item.AttrEnchantKind = dataSourceRow.getInt("attr_enchant_kind");
-                    item.AttrEnchantLevel = dataSourceRow.getInt("attr_enchant_level");
-                    item.FireMr = dataSourceRow.getInt("firemr");
-                    item.WaterMr = dataSourceRow.getInt("watermr");
-                    item.EarthMr = dataSourceRow.getInt("earthmr");
-                    item.WindMr = dataSourceRow.getInt("windmr");
-                    item.setaddSp(dataSourceRow.getInt("addsp"));
-                    item.setaddHp(dataSourceRow.getInt("addhp"));
-                    item.setaddMp(dataSourceRow.getInt("addmp"));
-                    item.Hpr = dataSourceRow.getInt("hpr");
-                    item.Mpr = dataSourceRow.getInt("mpr");
-                    item.M_Def = dataSourceRow.getInt("m_def");
-                    // 登入鑰匙紀錄
-                    if (item.Item.ItemId == 40312)
-                    {
-                        InnKeyTable.checkey(item);
-                    }
-                    _items.Add(item);
-                    Container.Instance.Resolve<IGameWorld>().storeObject(item);
+                    InnKeyTable.checkey(item);
                 }
-
-            }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(rs);
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
+                _items.Add(item);
+                Container.Instance.Resolve<IGameWorld>().storeObject(item);
             }
         }
-
         // ＤＢのcharacter_warehouseへ登録
         public override void insertItem(L1ItemInstance item)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            try
-            {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("INSERT INTO character_warehouse SET id = ?, account_name = ?, item_id = ?, item_name = ?, count = ?, is_equipped=0, enchantlvl = ?, is_id = ?, durability = ?, charge_count = ?, remaining_time = ?, last_used = ?, bless = ?, attr_enchant_kind = ?, attr_enchant_level = ?, firemr = ?,watermr = ?,earthmr = ?,windmr = ?,addsp = ?,addhp = ?,addmp = ?,hpr = ?,mpr = ?,m_def = ?");
-                pstm.setInt(1, item.Id);
-                pstm.setString(2, _owner.AccountName);
-                pstm.setInt(3, item.ItemId);
-                pstm.setString(4, item.Name);
-                pstm.setInt(5, item.Count);
-                pstm.setInt(6, item.EnchantLevel);
-                pstm.setInt(7, item.Identified ? 1 : 0);
-                pstm.setInt(8, item.get_durability());
-                pstm.setInt(9, item.ChargeCount);
-                pstm.setInt(10, item.RemainingTime);
-                pstm.setTimestamp(11, item.LastUsed);
-                pstm.setInt(12, item.Bless);
-                pstm.setInt(13, item.AttrEnchantKind);
-                pstm.setInt(14, item.AttrEnchantLevel);
-                pstm.setInt(15, item.FireMr);
-                pstm.setInt(16, item.WaterMr);
-                pstm.setInt(17, item.EarthMr);
-                pstm.setInt(18, item.WindMr);
-                pstm.setInt(19, item.getaddSp());
-                pstm.setInt(20, item.getaddHp());
-                pstm.setInt(21, item.getaddMp());
-                pstm.setInt(22, item.Hpr);
-                pstm.setInt(23, item.Mpr);
-                pstm.setInt(24, item.M_Def);
-                pstm.execute();
-            }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
-            }
-
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Insert()
+            .Set(CharacterWarehouse.Column_id, item.Id)
+            .Set(CharacterWarehouse.Column_account_name, _owner.AccountName)
+            .Set(CharacterWarehouse.Column_item_id, item.ItemId)
+            .Set(CharacterWarehouse.Column_item_name, item.Name)
+            .Set(CharacterWarehouse.Column_count, item.Count)
+            .Set(CharacterWarehouse.Column_is_equipped, item.Equipped ? 1 : 0)
+            .Set(CharacterWarehouse.Column_enchantlvl, item.EnchantLevel)
+            .Set(CharacterWarehouse.Column_is_id, item.Identified ? 1 : 0)
+            .Set(CharacterWarehouse.Column_durability, item.get_durability())
+            .Set(CharacterWarehouse.Column_charge_count, item.ChargeCount)
+            .Set(CharacterWarehouse.Column_remaining_time, item.RemainingTime)
+            .Set(CharacterWarehouse.Column_last_used, item.LastUsed)
+            .Set(CharacterWarehouse.Column_bless, item.Bless)
+            .Set(CharacterWarehouse.Column_attr_enchant_kind, item.AttrEnchantKind)
+            .Set(CharacterWarehouse.Column_attr_enchant_level, item.AttrEnchantLevel)
+            .Set(CharacterWarehouse.Column_firemr, item.FireMr)
+            .Set(CharacterWarehouse.Column_watermr, item.WaterMr)
+            .Set(CharacterWarehouse.Column_earthmr, item.EarthMr)
+            .Set(CharacterWarehouse.Column_windmr, item.WindMr)
+            .Set(CharacterWarehouse.Column_addsp, item.getaddSp())
+            .Set(CharacterWarehouse.Column_addhp, item.getaddHp())
+            .Set(CharacterWarehouse.Column_addmp, item.getaddMp())
+            .Set(CharacterWarehouse.Column_hpr, item.Hpr)
+            .Set(CharacterWarehouse.Column_mpr, item.Mpr)
+            .Set(CharacterWarehouse.Column_m_def, item.M_Def)
+            .Execute();
         }
 
         // ＤＢのcharacter_warehouseを更新
         public override void updateItem(L1ItemInstance item)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            try
-            {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("UPDATE character_warehouse SET count = ? WHERE id = ?");
-                pstm.setInt(1, item.Count);
-                pstm.setInt(2, item.Id);
-                pstm.execute();
-            }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
-            }
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Update()
+            .Where(CharacterWarehouse.Column_id, item.Id)
+            .Set(CharacterWarehouse.Column_count, item.Count)
+            .Execute();
         }
 
         // ＤＢのcharacter_warehouseから削除
         public override void deleteItem(L1ItemInstance item)
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            try
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Delete()
+            .Where(CharacterWarehouse.Column_id, item)
+            .Execute();
+            lock (_items)
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("DELETE FROM character_warehouse WHERE id = ?");
-                pstm.setInt(1, item.Id);
-                pstm.execute();
+                _items.Remove(item);
             }
-            catch (SQLException e)
-            {
-                _log.log(Enum.Level.Server, e.Message, e);
-            }
-            finally
-            {
-                SQLUtil.close(pstm);
-                SQLUtil.close(con);
-            }
-
-            _items.RemoveAt(_items.IndexOf(item));
         }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: public static void present(String account, int itemid, int enchant, int count) throws Exception
         public static void present(string account, int itemid, int enchant, int count)
         {
 
@@ -225,9 +170,6 @@ namespace LineageServer.Server.Model
             }
 
         }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: public static void present(int minlvl, int maxlvl, int itemid, int enchant, int count) throws Exception
         public static void present(int minlvl, int maxlvl, int itemid, int enchant, int count)
         {
 
@@ -271,9 +213,6 @@ namespace LineageServer.Server.Model
             }
 
         }
-
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in C#:
-        //ORIGINAL LINE: private static void present(java.util.List<String> accountList, int itemid, int enchant, int count) throws Exception
         private static void present(IList<string> accountList, int itemid, int enchant, int count)
         {
             L1Item itemtemp = ItemTable.Instance.getTemplate(itemid);
@@ -392,11 +331,6 @@ namespace LineageServer.Server.Model
                 }
             }
         }
-
-        //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-        private static Logger _log = Logger.GetLogger(typeof(L1DwarfInventory).FullName);
-
-        private readonly L1PcInstance _owner;
     }
 
 }

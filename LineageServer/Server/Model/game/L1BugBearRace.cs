@@ -1,4 +1,5 @@
-﻿using LineageServer.Models;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
 using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.Map;
@@ -10,7 +11,7 @@ using System;
 using System.Threading;
 namespace LineageServer.Server.Model.Game
 {
-    class L1BugBearRace
+    class L1BugBearRace : IGameComponent
     {
         internal L1MerchantInstance pory;
         internal L1MerchantInstance cecile;
@@ -59,7 +60,11 @@ namespace LineageServer.Server.Model.Game
             }
         }
 
-        internal L1BugBearRace()
+        private L1BugBearRace()
+        {
+
+        }
+        public void Initialize()
         {
             Round = RaceTicketTable.Instance.RoundNumOfMax;
             _runner = new L1NpcInstance[5];
@@ -95,7 +100,6 @@ namespace LineageServer.Server.Model.Game
             }
             (new RaceTimer(this, 0)).begin();
         }
-
         private void setRandomRunner()
         {
             for (int i = 0; i < 5; i++)
@@ -414,7 +418,7 @@ namespace LineageServer.Server.Model.Game
                     {
                         Thread.Sleep(1000);
                         outerInstance.sendMessage(Container.Instance.Resolve<INpcController>().getTemplate(outerInstance._runner[i].NpcId).get_nameid() + " $402 " + outerInstance._allotment_percentage[i].ToString()); // 402
-                                                                                                                                                                                              // の配当率は
+                                                                                                                                                                                                                         // の配当率は
                     }
                     this.cancel();
                 }
@@ -427,7 +431,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin()
             {
-				Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this, this._startTime * 1000);
+                Container.Instance.Resolve<ITaskController>().execute(this, this._startTime * 1000);
             }
 
             public void cancel()
@@ -499,7 +503,7 @@ namespace LineageServer.Server.Model.Game
 
             public virtual void begin(int startTime)
             {
-				Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this, startTime);
+                Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this, startTime);
             }
 
             public void cancel()

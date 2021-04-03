@@ -13,6 +13,9 @@ using LineageServer.Utils;
 using LineageServer.william;
 using System;
 using System.Data;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 namespace LineageServer.Server
 {
@@ -22,38 +25,69 @@ namespace LineageServer.Server
 
         public readonly int startTime = DateTime.Now.Second;
 
-        private ServerSocket _serverSocket;
-
-        private int _port;
         private LoginController loginController;
         private ITaskController taskController;
+
+        /// <summary>
+        /// 服务器是否正在运行
+        /// </summary>
+        public bool IsRunning { get; private set; }
+        /// <summary>
+        /// 监听的IP地址
+        /// </summary>
+        public IPAddress Address { get; private set; }
+        /// <summary>
+        /// 监听的端口
+        /// </summary>
+        public int Port { get; private set; }
+        /// <summary>
+        /// 通信使用的编码
+        /// </summary>
+        public Encoding Encoding { get; } = GobalParameters.Encoding;
+        /// <summary>
+		/// 
+		/// </summary>
+		private TcpListener listener;
+        public GameServerOri()
+        {
+
+        }
 
         public void run()
         {
             //模擬器重開延遲  秒
             Thread.Sleep(TimeSpan.FromSeconds(Config.Gamesleep));
 
+            this.listener = new TcpListener(Address, Port);
+
             Console.WriteLine(L1Message.memoryUse + SystemUtil.UsedMemoryMB + L1Message.memory);
             Console.WriteLine(L1Message.waitingforuser);
+            this.listener.Start();
             while (true)
             {
                 try
                 {
-                    Socket socket = _serverSocket.accept();
-                    Console.WriteLine(L1Message.from + socket.InetAddress + L1Message.attempt);
-                    string host = socket.InetAddress.HostAddress;
-                    if (IpTable.Instance.isBannedIp(host))
+                    TcpClient client = this.listener.AcceptTcpClient();
+
+                    if (client.Client.RemoteEndPoint is IPEndPoint endPoint)
                     {
-                        _log.Info("banned IP(" + host + ")");
+                        Console.WriteLine($"{L1Message.from}{endPoint.Address}{L1Message.attempt}");
+                        if (IpTable.Instance.isBannedIp(endPoint.Address.ToString()))
+                        {
+                            _log.Info($"banned IP({endPoint.Address})");
+                        }
+                        else
+                        {
+                            ClientThread clientThread = new ClientThread(client);
+                            this.taskController.execute(clientThread);
+                        }
                     }
-                    else
-                    {
-                        ClientThread client = new ClientThread(socket);
-                        this.taskController.execute(client);
-                    }
+
+
                 }
-                catch (IOException)
+                catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                 }
             }
         }
@@ -61,6 +95,9 @@ namespace LineageServer.Server
         public virtual void initialize()
         {
             IContainerAdapter containerAdapter = Container.Instance;
+
+            ContainerObject.SetContainerAdapter(containerAdapter);
+
             this.taskController = new RunnableExecuter();
             //工作排程，執行緒管理
             containerAdapter.RegisterInstance<ITaskController>(taskController);
@@ -70,27 +107,24 @@ namespace LineageServer.Server
             containerAdapter.RegisterInstance<IDataSourceFactory>(new DataSourceFactory());
 
             string s = Config.GAME_SERVER_HOST_NAME;
+
+            if (s == "*")
+            {
+                Address = IPAddress.Any;
+            }
+            else if (IPAddress.TryParse(s, out IPAddress address))
+            {
+                Address = address;
+            }
+
+            Port = Config.GAME_SERVER_PORT;
+
             double rateXp = Config.RATE_XP;
             double LA = Config.RATE_LA;
             double rateKarma = Config.RATE_KARMA;
             double rateDropItems = Config.RATE_DROP_ITEMS;
             double rateDropAdena = Config.RATE_DROP_ADENA;
             int gobalChatLevel = Config.GLOBAL_CHAT_LEVEL;
-            // Locale 多國語系
-            _port = Config.GAME_SERVER_PORT;
-
-            if ("*" == s)
-            {
-                _serverSocket = new ServerSocket(_port);
-                Console.WriteLine(L1Message.setporton + this._port);
-            }
-            else
-            {
-                InetAddress inetaddress = InetAddress.getByName(s);
-                inetaddress.HostAddress;
-                _serverSocket = new ServerSocket(_port, 50, inetaddress);
-                Console.WriteLine(L1Message.setporton + this._port);
-            }
 
             Console.WriteLine("┌───────────────────────────────┐");
             Console.WriteLine($"│     {L1Message.ver}\t\t│");
@@ -140,30 +174,45 @@ namespace LineageServer.Server
             mobGroupSpawn.Initialize();
             containerAdapter.RegisterInstance<IMobGroupController>(mobGroupSpawn);
 
+            //技能
+            SkillsTable.Instance.Initialize();
+            //變身
+            PolyTable.Instance.Initialize();
+            //物品
+            ItemTable.Instance.Initialize();
+            //掉落
+            DropTable.Instance.Initialize();
+            //裝備掉落
+            DropItemTable.Instance.Initialize();
 
-            SkillsTable.Instance;
-            PolyTable.Instance;
-            ItemTable.Instance;
-            DropTable.Instance;
-            DropItemTable.Instance;
-            ShopTable.Instance;
-            NPCTalkDataTable.Instance;
-            L1WorldTraps.Instance;
-            Dungeon.Instance;
-            NpcContainer.Instance.Resolve<ISpawnController>();
-            IpTable.Instance;
-            MapsTable.Instance;
-            UBContainer.Instance.Resolve<ISpawnController>();
-            PetTable.Instance;
-            ClanTable.Instance;
-            CastleTable.Instance;
-            GetBackRestartTable.Instance;
+            ShopTable.Instance.Initialize();
 
-            //L1NpcRegenerationTimer.Instance;
-            ChatLogTable.Instance;
-            WeaponSkillTable.Instance;
+            NPCTalkDataTable.Instance.Initialize();
 
+            L1WorldTraps.Instance.Initialize();
 
+            DungeonController.Instance.Initialize();
+
+            NpcSpawnTable.Instance.Initialize();
+
+            IpTable.Instance.Initialize();
+
+            MapsTable.Instance.Initialize();
+
+            UBSpawnTable.Instance.Initialize();
+
+            PetTable.Instance.Initialize();
+
+            ClanTable.Instance.Initialize();
+
+            CastleTable.Instance.Initialize();
+
+            GetBackRestartTable.Instance.Initialize();
+
+            //L1NpcRegenerationTimer.Instance.Initialize();
+            ChatLogTable.Instance.Initialize();
+
+            WeaponSkillTable.Instance.Initialize();
 
             NpcActionTable.load();
             GMCommandsConfig.Load();
@@ -171,16 +220,26 @@ namespace LineageServer.Server
             PetTypeTable.load();
             L1BossCycle.load();
             L1TreasureBox.load();
-            SprTable.Instance;
-            ResolventTable.Instance;
-            FurnitureContainer.Instance.Resolve<ISpawnController>();
-            NpcChatTable.Instance;
-            MailTable.Instance;
-            RaceTicketTable.Instance;
-            L1BugBearRace.Instance;
-            InnTable.Instance;
-            MagicDollTable.Instance;
-            FurnitureItemTable.Instance;
+
+            SprTable.Instance.Initialize();
+
+            ResolventTable.Instance.Initialize();
+
+            FurnitureSpawnTable.Instance.Initialize();
+
+            NpcChatTable.Instance.Initialize();
+
+            MailTable.Instance.Initialize();
+
+            RaceTicketTable.Instance.Initialize();
+
+            L1BugBearRace.Instance.Initialize();
+
+            InnTable.Instance.Initialize();
+
+            MagicDollTable.Instance.Initialize();
+
+            FurnitureItemTable.Instance.Initialize();
             //無明顯順序的
             //動作控制
             L1NpcDefaultAction npcDefaultAction = new L1NpcDefaultAction();
@@ -230,6 +289,7 @@ namespace LineageServer.Server
             // 初始化攻城
             WarTimeController warTimeController = new WarTimeController();
             taskController.execute(warTimeController);
+            containerAdapter.RegisterInstance<IWarController>(warTimeController);
 
             // 設定精靈石的產生
             if (Config.ELEMENTAL_STONE_AMOUNT > 0)
@@ -260,7 +320,7 @@ namespace LineageServer.Server
             taskController.execute(new AinTimeController());
 
             // 初始化MySQL自動備份程序
-            //MysqlAutoBackup.Instance;
+            //MysqlAutoBackup.Instance.Initialize();
 
             // 開始 MySQL自動備份程序 計時器
             //MysqlAutoBackupTimer.TimerStart();
@@ -273,10 +333,6 @@ namespace LineageServer.Server
 
             //傳送字串訊息給Client
             containerAdapter.RegisterInstance<ISendMessageTo>(new SendMessageTo());
-
-
-
-
 
             L1CastleLocation.setCastleTaxRate(); // 必須在 CastleTable 初始化之後
 

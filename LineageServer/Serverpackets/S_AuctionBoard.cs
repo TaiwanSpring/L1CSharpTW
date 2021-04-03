@@ -1,4 +1,6 @@
-﻿using LineageServer.Interfaces;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Utils;
 using System;
@@ -7,6 +9,9 @@ namespace LineageServer.Serverpackets
 {
     class S_AuctionBoard : ServerBasePacket
     {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.BoardAuction);
         private const string S_AUCTIONBOARD = "[S] S_AuctionBoard";
 
         public S_AuctionBoard(L1NpcInstance board)
@@ -19,85 +24,61 @@ namespace LineageServer.Serverpackets
             IList<int> houseList = ListFactory.NewList<int>();
             int houseId = 0;
             int count = 0;
-            int[] id = null;
-            string[] name = null;
-            int[] area = null;
-            int[] month = null;
-            int[] day = null;
-            int[] price = null;
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-
-            try
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+            for (int i = 0; i < dataSourceRows.Count; i++)
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("SELECT * FROM board_auction");
-                rs = pstm.executeQuery();
-                while (rs.next())
-                {
-                    houseId = dataSourceRow.getInt(1);
-                    if ((board.X == 33421) && (board.Y == 32823))
-                    { // 競売掲示板(ギラン)
-                        if ((houseId >= 262145) && (houseId <= 262189))
-                        {
-                            houseList.Add(houseId);
-                            count++;
-                        }
-                    }
-                    else if ((board.X == 33585) && (board.Y == 33235))
-                    { // 競売掲示板(ハイネ)
-                        if ((houseId >= 327681) && (houseId <= 327691))
-                        {
-                            houseList.Add(houseId);
-                            count++;
-                        }
-                    }
-                    else if ((board.X == 33959) && (board.Y == 33253))
-                    { // 競売掲示板(アデン)
-                        if ((houseId >= 458753) && (houseId <= 458819))
-                        {
-                            houseList.Add(houseId);
-                            count++;
-                        }
-                    }
-                    else if ((board.X == 32611) && (board.Y == 32775))
-                    { // 競売掲示板(グルーディン)
-                        if ((houseId >= 524289) && (houseId <= 524294))
-                        {
-                            houseList.Add(houseId);
-                            count++;
-                        }
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                houseId = dataSourceRow.getInt(BoardAuction.Column_house_id);
+                if ((board.X == 33421) && (board.Y == 32823))
+                { // 競売掲示板(ギラン)
+                    if ((houseId >= 262145) && (houseId <= 262189))
+                    {
+                        houseList.Add(houseId);
                     }
                 }
-                id = new int[count];
-                name = new string[count];
-                area = new int[count];
-                month = new int[count];
-                day = new int[count];
-                price = new int[count];
-
-                for (int i = 0; i < count; ++i)
-                {
-                    pstm = con.prepareStatement("SELECT * FROM board_auction WHERE house_id=?");
-                    houseId = houseList[i];
-                    pstm.setInt(1, houseId);
-                    rs = pstm.executeQuery();
-                    while (rs.next())
+                else if ((board.X == 33585) && (board.Y == 33235))
+                { // 競売掲示板(ハイネ)
+                    if ((houseId >= 327681) && (houseId <= 327691))
                     {
-                        id[i] = dataSourceRow.getInt(1);
-                        name[i] = dataSourceRow.getString(2);
-                        area[i] = dataSourceRow.getInt(3);
-                        DateTime cal = timestampToCalendar((Timestamp)dataSourceRow.getObject(4));
-                        month[i] = cal.Month + 1;
-                        day[i] = cal.Day;
-                        price[i] = dataSourceRow.getInt(5);
+                        houseList.Add(houseId);
+                    }
+                }
+                else if ((board.X == 33959) && (board.Y == 33253))
+                { // 競売掲示板(アデン)
+                    if ((houseId >= 458753) && (houseId <= 458819))
+                    {
+                        houseList.Add(houseId);
+                    }
+                }
+                else if ((board.X == 32611) && (board.Y == 32775))
+                { // 競売掲示板(グルーディン)
+                    if ((houseId >= 524289) && (houseId <= 524294))
+                    {
+                        houseList.Add(houseId);
                     }
                 }
             }
-            catch (Exception e)
+            int[] id = new int[houseList.Count];
+            string[] name = new string[houseList.Count];
+            int[] area = new int[houseList.Count];
+            int[] month = new int[houseList.Count];
+            int[] day = new int[houseList.Count];
+            int[] price = new int[houseList.Count];
+            for (int i = 0; i < houseList.Count; ++i)
             {
-                _log.Error(e);
+                houseId = houseList[i];
+                dataSourceRows = dataSource.Select().Where(BoardAuction.Column_house_id, houseId).Query();
+                for (int j = 0; j < dataSourceRows.Count; j++)
+                {
+                    IDataSourceRow dataSourceRow = dataSourceRows[j];
+                    id[i] = dataSourceRow.getInt(BoardAuction.Column_house_id);
+                    name[i] = dataSourceRow.getString(BoardAuction.Column_house_name);
+                    area[i] = dataSourceRow.getInt(BoardAuction.Column_house_area);
+                    DateTime cal = dataSourceRow.getTimestamp(BoardAuction.Column_deadline);
+                    month[i] = cal.Month + 1;
+                    day[i] = cal.Day;
+                    price[i] = dataSourceRow.getInt(BoardAuction.Column_price);
+                }
             }
 
             WriteC(Opcodes.S_OPCODE_HOUSELIST);
@@ -112,13 +93,6 @@ namespace LineageServer.Serverpackets
                 WriteC(day[i]); // 締切日
                 WriteD(price[i]); // 現在の入札価格
             }
-        }
-
-        private DateTime timestampToCalendar(Timestamp ts)
-        {
-            DateTime cal = new DateTime();
-            cal.TimeInMillis = ts.Time;
-            return cal;
         }
 
         public override string Type

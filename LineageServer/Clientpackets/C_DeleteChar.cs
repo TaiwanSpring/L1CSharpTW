@@ -1,4 +1,6 @@
 ﻿using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server;
 using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
@@ -22,7 +24,7 @@ namespace LineageServer.Clientpackets
 
             try
             {
-                L1PcInstance pc = CharacterTable.Instance.restoreCharacter(name);
+                L1PcInstance pc = Container.Instance.Resolve<ICharacterController>().restoreCharacter(name);
                 if (pc != null && pc.Level >= 5 && Config.DELETE_CHARACTER_AFTER_7DAYS)
                 {
                     if (pc.Type < 32)
@@ -104,7 +106,7 @@ namespace LineageServer.Clientpackets
                         clan.delMemberName(name);
                     }
                 }
-                CharacterTable.Instance.deleteCharacter(client.AccountName, name);
+                Container.Instance.Resolve<ICharacterController>().deleteCharacter(client.AccountName, name);
             }
             catch (Exception e)
             {

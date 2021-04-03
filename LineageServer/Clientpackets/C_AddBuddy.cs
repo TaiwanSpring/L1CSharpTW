@@ -39,7 +39,7 @@ namespace LineageServer.Clientpackets
                 return;
             }
 
-            foreach (L1CharName cn in CharacterTable.Instance.CharNameList)
+            foreach (L1CharName cn in Container.Instance.Resolve<ICharacterController>().CharNameList)
             {
                 if (charName == cn.Name)
                 {

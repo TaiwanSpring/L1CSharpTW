@@ -2,6 +2,15 @@
 {
     static class IntExtensions
     {
+        public static byte GetHigh(this int i)
+        {
+            return (byte)((i >> 8) & 0xFF);
+        }
+
+        public static byte GetLow(this int i)
+        {
+            return (byte)(i & 0xFF);
+        }
         public static int Signum(this int i)
         {
             if (i < 0)

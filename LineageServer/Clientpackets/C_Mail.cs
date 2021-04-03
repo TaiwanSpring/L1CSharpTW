@@ -7,6 +7,9 @@ using LineageServer.Server.Templates;
 using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
+using LineageServer.Server;
+using LineageServer.Interfaces;
+
 namespace LineageServer.Clientpackets
 {
     /// <summary>
@@ -61,7 +64,7 @@ namespace LineageServer.Clientpackets
                 }
                 ReadH(); // 世界寄信次數紀錄
                 string receiverName = ReadS();
-                sbyte[] text = ReadByte();
+                byte[] text = ReadByte();
                 L1PcInstance receiver = Container.Instance.Resolve<IGameWorld>().getPlayer(receiverName);
 
                 if (receiver != null)
@@ -87,7 +90,7 @@ namespace LineageServer.Clientpackets
                 else
                 { // 對方離線中
 
-                    L1PcInstance restorePc = CharacterTable.Instance.restoreCharacter(receiverName);
+                    L1PcInstance restorePc = Container.Instance.Resolve<ICharacterController>().restoreCharacter(receiverName);
                     if (restorePc != null)
                     {
                         if (GetMailSizeByPc(restorePc, TYPE_NORMAL_MAIL) >= 40)
@@ -121,7 +124,7 @@ namespace LineageServer.Clientpackets
                 }
                 ReadH();
                 string clanName = ReadS();
-                sbyte[] text = ReadByte();
+                byte[] text = ReadByte();
                 L1Clan clan = Container.Instance.Resolve<IGameWorld>().getClan(clanName);
                 if (clan != null)
                 {

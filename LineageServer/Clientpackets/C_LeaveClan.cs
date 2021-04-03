@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.DataTables;
+﻿using LineageServer.Server;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
@@ -78,7 +79,7 @@ namespace LineageServer.Clientpackets
                         }
                         else
                         { // 非線上的血盟成員
-                            L1PcInstance offline_pc = CharacterTable.Instance.restoreCharacter(clan_member_name[i]);
+                            L1PcInstance offline_pc = Container.Instance.Resolve<ICharacterController>().restoreCharacter(clan_member_name[i]);
                             offline_pc.Clanid = 0;
                             offline_pc.Clanname = "";
                             offline_pc.ClanRank = 0;

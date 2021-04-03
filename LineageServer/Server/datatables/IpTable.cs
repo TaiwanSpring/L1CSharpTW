@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.DataTables
 {
-    class IpTable
+    class IpTable : IGameComponent
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()
@@ -28,8 +28,7 @@ namespace LineageServer.Server.DataTables
         {
 
         }
-
-        public virtual void banIp(string ip)
+        public void Initialize()
         {
             IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
@@ -38,6 +37,14 @@ namespace LineageServer.Server.DataTables
                 IDataSourceRow dataSourceRow = dataSourceRows[i];
                 _banip.Add(dataSourceRow.getString(BanIp.Column_ip));
             }
+        }
+        public virtual void banIp(string ip)
+        {
+            IDataSourceRow dataSourceRow = dataSource.NewRow();
+            dataSourceRow.Insert()
+            .Set(BanIp.Column_ip, ip)
+            .Execute();
+            _banip.Add(ip);
         }
 
         public virtual bool isBannedIp(string s)

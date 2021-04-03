@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace LineageServer.Server.DataTables
 {
-    class GetBackRestartTable
+    class GetBackRestartTable : IGameComponent
     {
         private readonly static IDataSource dataSource =
             Container.Instance.Resolve<IDataSourceFactory>()
@@ -27,7 +27,11 @@ namespace LineageServer.Server.DataTables
             }
         }
 
-        public GetBackRestartTable()
+        private GetBackRestartTable()
+        {
+
+        }
+        public void Initialize()
         {
             IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
             for (int i = 0; i < dataSourceRows.Count; i++)
@@ -42,7 +46,6 @@ namespace LineageServer.Server.DataTables
                 _getbackrestart[gbr.Area] = gbr;
             }
         }
-
         public virtual L1GetBackRestart[] GetBackRestartTableList
         {
             get

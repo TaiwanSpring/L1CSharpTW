@@ -24,9 +24,12 @@ namespace LineageServer.Server.Model.trap
 
 		private L1WorldTraps()
 		{
+			
+		}
+		public void Initialize()
+		{
 			initialize();
 		}
-
 		public static L1WorldTraps Instance
 		{
 			get
