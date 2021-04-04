@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class SprAction : DataSource
@@ -13,10 +15,10 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_spr_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_act_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_framecount, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_framerate, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_spr_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_act_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_framecount, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_framerate, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public SprAction() : base(TableName)
         {

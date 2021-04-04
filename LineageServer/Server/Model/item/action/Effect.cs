@@ -162,7 +162,7 @@ namespace LineageServer.Server.Model.item.Action
                     case L1SkillId.EFFECT_STRENGTHENING_MP: // 魔力增強卷軸
                         pc.addMaxMp(40);
                         pc.addMpr(4);
-                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                         break;
                     case L1SkillId.EFFECT_MAGIC_EYE_OF_AHTHARTS: // 地龍之魔眼
                         pc.addRegistStone(3); // 石化耐性 +3
@@ -255,7 +255,7 @@ namespace LineageServer.Server.Model.item.Action
 
         public static void magicStoneEffect(L1PcInstance pc, int skillId, int time)
         {
-            sbyte type = 0;
+            byte type = 0;
             if (!pc.hasSkillEffect(skillId))
             {
                 switch (skillId)
@@ -302,7 +302,7 @@ namespace LineageServer.Server.Model.item.Action
                         pc.addHpr(5);
                         pc.addHitup(2);
                         pc.addDmgup(2);
-                        pc.addStr((sbyte)1);
+                        pc.addStr(1);
                         pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                         type = 92;
                         break;
@@ -358,7 +358,7 @@ namespace LineageServer.Server.Model.item.Action
                         pc.addMpr(2);
                         pc.addBowDmgup(2);
                         pc.addBowHitup(2);
-                        pc.addDex((sbyte)1);
+                        pc.addDex(1);
                         pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                         type = 101;
                         break;
@@ -401,7 +401,7 @@ namespace LineageServer.Server.Model.item.Action
                     case L1SkillId.EFFECT_MAGIC_STONE_C_9:
                         pc.addMaxMp(50);
                         pc.addMpr(5);
-                        pc.addInt((sbyte)1);
+                        pc.addInt(1);
                         pc.addSp(1);
                         pc.sendPackets(new S_SPMR(pc));
                         pc.sendPackets(new S_OwnCharStatus2(pc, 0));
@@ -447,7 +447,7 @@ namespace LineageServer.Server.Model.item.Action
                     case L1SkillId.EFFECT_MAGIC_STONE_D_9:
                         pc.addMr(20);
                         pc.addAc(-5);
-                        pc.addCon((sbyte)1);
+                        pc.addCon(1);
                         pc.addDamageReductionByArmor(3);
                         type = 119;
                         break;
@@ -466,7 +466,7 @@ namespace LineageServer.Server.Model.item.Action
                 else if (type >= 93 && type <= 101)
                 { // (遠攻)
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -474,7 +474,7 @@ namespace LineageServer.Server.Model.item.Action
                 }
                 else if (type >= 102 && type <= 110)
                 { // 恢復
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                 }
                 else if (type >= 111 && type <= 119)
                 { // 防禦

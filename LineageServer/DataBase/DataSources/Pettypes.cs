@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Pettypes : DataSource
@@ -25,22 +27,22 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_Name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_BaseNpcId, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_ItemIdForTaming, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_HpUpMin, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_HpUpMax, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_MpUpMin, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_MpUpMax, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_EvolvItemId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_NpcIdForEvolving, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_MessageId1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_MessageId2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_MessageId3, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_MessageId4, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_MessageId5, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_DefyMessageId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_canUseEquipment, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_Name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_BaseNpcId, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_ItemIdForTaming, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_HpUpMin, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_HpUpMax, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_MpUpMin, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_MpUpMax, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_EvolvItemId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_NpcIdForEvolving, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_MessageId1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_MessageId2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_MessageId3, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_MessageId4, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_MessageId5, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_DefyMessageId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_canUseEquipment, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public Pettypes() : base(TableName)
         {

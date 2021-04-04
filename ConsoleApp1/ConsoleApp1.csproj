@@ -16,4 +16,8 @@
     <PackageReference Include="XSerializer" Version="0.4.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LineageServer\LineageServer.csproj" />
+  </ItemGroup>
+
 </Project>

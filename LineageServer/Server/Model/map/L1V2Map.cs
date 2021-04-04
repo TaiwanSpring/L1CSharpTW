@@ -31,7 +31,7 @@ namespace LineageServer.Server.Model.map
 		/// <summary>
 		/// Mobなどの通行不可能になるオブジェクトがタイル上に存在するかを示すビットフラグ
 		/// </summary>
-		private static readonly sbyte BITFLAG_IS_IMPASSABLE = unchecked((sbyte)128); // 1000 0000
+		private static readonly sbyte BITFLAG_IS_IMPASSABLE = unchecked(128); // 1000 0000
 
 		private int offset(int x, int y)
 		{
@@ -324,7 +324,7 @@ namespace LineageServer.Server.Model.map
 		{
 			if (isPassable)
 			{
-				_map[offset(x, y)] &= (sbyte)( ~BITFLAG_IS_IMPASSABLE );
+				_map[offset(x, y)] &= ( ~BITFLAG_IS_IMPASSABLE );
 			}
 			else
 			{

@@ -7,6 +7,7 @@ namespace LineageServer.Interfaces
 		IDataSourceQuery Where(string column, object value);
 		IDataSourceQuery WhereNot(string column, object value);
 		IDataSourceQuery OrderBy(string column);
+		IDataSourceQuery OrderByDesc(string column);
 		IList<IDataSourceRow> Query();
 		IList<IDataSourceRow> Query(string command);
 	}

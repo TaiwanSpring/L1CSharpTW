@@ -59,7 +59,7 @@ namespace LineageServer.Server.Model.Instance
                 }
             }
 
-            if ((_castle_id > 0) && WarTimeController.Instance.isNowWar(_castle_id))
+            if ((_castle_id > 0) && Container.Instance.Resolve<IWarController>().isNowWar(_castle_id))
             { // 戦争時間内
 
                 // アデン城のメインタワーはサブタワーが3つ以上破壊されている場合のみ攻撃可能

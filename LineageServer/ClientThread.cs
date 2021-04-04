@@ -196,7 +196,7 @@ namespace LineageServer.Server
             memoryStream.WriteByte(Opcodes.S_OPCODE_INITPACKET); // 3.7C Taiwan Server
             memoryStream.Write(BitConverter.GetBytes(key));
             memoryStream.Write(firstPacket, 0, firstPacket.Length);
-            byte[] buffer = memoryStream.GetBuffer();
+            byte[] buffer = memoryStream.ToArray();
             memoryStream.Close();
             return buffer;
         }
@@ -218,8 +218,8 @@ namespace LineageServer.Server
 
             Container.Instance.Resolve<ITaskController>().execute(hcPacket);
 
-            int key = RandomHelper.Next(int.MaxValue);
-
+            //int key = RandomHelper.Next(int.MaxValue);
+            int key = 123456;
             try
             {
                 // 採取亂數取seed </summary>
@@ -527,11 +527,21 @@ namespace LineageServer.Server
                 {
                     if (this.networkStream.CanWrite)
                     {
-                        byte[] buffer = _cipher.encrypt(packet.BuildBuffer());
-                        int length = buffer.Length + 2;
+                        byte[] temp = packet.BuildBuffer();
+                        _cipher.encrypt(temp);
+                        //byte[] buffer = new byte[temp.Length + 2];
 
-                        this.networkStream.WriteByte((byte)(length & 0xff));
-                        this.networkStream.WriteByte((byte)((length >> 8) & 0xff));
+                        //Buffer.BlockCopy(temp, 0, buffer, 2, buffer.Length);
+                        //int length = buffer.Length + 2;
+                        //buffer[0] = (byte)(length & 0xff);
+                        //buffer[1] = (byte)((length >> 8) & 0xff);
+                        int bogus = temp.Length + 2;
+                        MemoryStream memoryStream = new MemoryStream();
+                        memoryStream.WriteByte(bogus.GetLow());
+                        memoryStream.WriteByte(bogus.GetHigh());
+                        memoryStream.Write(temp);
+                        byte[] buffer = memoryStream.ToArray();
+                        memoryStream.Close();
                         this.networkStream.Write(buffer, 0, buffer.Length);
                         this.networkStream.Flush();
                     }
@@ -599,7 +609,7 @@ namespace LineageServer.Server
                 try
                 {
                     Thread.Sleep(2000); // 暫停該執行續，優先權讓給expmonitor
-                    int[] loc = Getback.GetBack_Location(pc, true);
+                    int[] loc = GetbackController.GetBack_Location(pc, true);
                     pc.X = loc[0];
                     pc.Y = loc[1];
                     pc.MapId = (short)loc[2];

@@ -47,7 +47,7 @@ namespace LineageServer.Clientpackets
             }
             else
             {
-                loc = Getback.GetBack_Location(pc, true);
+                loc = GetbackController.GetBack_Location(pc, true);
             }
 
             pc.removeAllKnownObjects();

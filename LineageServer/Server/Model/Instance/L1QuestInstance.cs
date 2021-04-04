@@ -1,4 +1,5 @@
-﻿using LineageServer.Models;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
 using LineageServer.Server.DataTables;
 using LineageServer.Server.Templates;
 using LineageServer.Serverpackets;
@@ -169,7 +170,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 Rest = true;
                 _monitor = new RestMonitor(this);
-				Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this._monitor, REST_MILLISEC);
+                Container.Instance.Resolve<ITaskController>().execute(this._monitor, REST_MILLISEC);
             }
         }
 

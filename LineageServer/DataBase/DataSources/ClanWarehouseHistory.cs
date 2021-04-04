@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class ClanWarehouseHistory : DataSource
@@ -16,13 +18,13 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_char_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_item_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_record_time, DbType = DbType.DateTime, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_clan_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_item_count, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_type, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_char_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_item_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_record_time, MySqlDbType = MySqlDbType.DateTime, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_clan_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_item_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_type, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public ClanWarehouseHistory() : base(TableName)
         {

@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class CharacterWarehouse : DataSource
@@ -34,31 +36,31 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_account_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_item_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_last_used, DbType = DbType.DateTime, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_item_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_count, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_is_equipped, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_enchantlvl, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_is_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_durability, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_charge_count, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_remaining_time, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_bless, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_attr_enchant_kind, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_attr_enchant_level, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_firemr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_watermr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_earthmr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_windmr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_addsp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_addhp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_addmp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hpr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mpr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_m_def, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_account_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_item_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_last_used, MySqlDbType = MySqlDbType.DateTime, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_item_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_is_equipped, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_enchantlvl, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_is_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_durability, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_charge_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_remaining_time, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_bless, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_attr_enchant_kind, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_attr_enchant_level, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_firemr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_watermr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_earthmr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_windmr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_addsp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_addhp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_addmp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hpr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mpr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_m_def, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public CharacterWarehouse() : base(TableName)
         {

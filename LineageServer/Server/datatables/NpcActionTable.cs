@@ -46,7 +46,6 @@ namespace LineageServer.Server.DataTables
 			foreach (string file in Directory.GetFiles(path, "*.xml"))
 			{
 				FileInfo fileInfo = new FileInfo(file);
-				Stream stream = fileInfo.OpenRead();
 				XmlDocument xmlDocument = new XmlDocument();
 				xmlDocument.Load(fileInfo.FullName);
 				loadAction(xmlDocument.DocumentElement);

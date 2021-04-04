@@ -321,10 +321,6 @@ namespace LineageServer.Server.Model.Instance
         /// 等級
         /// </summary>
         public int Level { get; set; }
-        /// <summary>
-        /// 體質
-        /// </summary>
-        public int Con { get; set; }
         public virtual void onChangeExp()
         {
             int level = ExpTable.getLevelByExp(Exp);
@@ -661,12 +657,12 @@ namespace LineageServer.Server.Model.Instance
                     return;
                 }
                 int currentMp = value;
-                if ((currentMp >= MaxMp) || Gm)
+                if ((currentMp >= BaseMaxMp) || Gm)
                 {
-                    currentMp = MaxMp;
+                    currentMp = BaseMaxMp;
                 }
                 CurrentMpDirect = currentMp;
-                sendPackets(new S_MPUpdate(currentMp, MaxMp));
+                sendPackets(new S_MPUpdate(currentMp, BaseMaxMp));
             }
         }
 
@@ -1436,7 +1432,7 @@ namespace LineageServer.Server.Model.Instance
             int targetCastleId = L1CastleLocation.getCastleIdByArea(target);
             if ((castleId != 0) && (targetCastleId != 0) && (castleId == targetCastleId))
             {
-                if (WarTimeController.Instance.isNowWar(castleId))
+                if (Container.Instance.Resolve<IWarController>().isNowWar(castleId))
                 {
                     return true;
                 }
@@ -1525,9 +1521,9 @@ namespace LineageServer.Server.Model.Instance
                 }
 
                 int newMp = CurrentMp - mpDamage;
-                if (newMp > MaxMp)
+                if (newMp > BaseMaxMp)
                 {
-                    newMp = MaxMp;
+                    newMp = BaseMaxMp;
                 }
 
                 if (newMp <= 0)
@@ -2063,7 +2059,7 @@ namespace LineageServer.Server.Model.Instance
             castleId = L1CastleLocation.getCastleIdByArea(this);
             if (castleId != 0)
             { // 旗内に居る
-                isNowWar = WarTimeController.Instance.isNowWar(castleId);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(castleId);
             }
             return isNowWar;
         }
@@ -2257,7 +2253,7 @@ namespace LineageServer.Server.Model.Instance
                     er = Level / 9; // イリュージョニスト
                 }
 
-                er += (Dex - 8) / 2;
+                er += (BaseDex - 8) / 2;
 
                 er += OriginalEr;
 
@@ -3325,8 +3321,8 @@ namespace LineageServer.Server.Model.Instance
         {
             get
             {
-                int str = Str;
-                int con = Con;
+                int str = BaseStr;
+                int con = BaseCon;
                 double maxWeight = 150 * (Math.Floor(0.6 * str + 0.4 * con + 1));
 
                 double weightReductionByArmor = WeightReduction; // 防具による重量軽減
@@ -3470,7 +3466,7 @@ namespace LineageServer.Server.Model.Instance
                 if (Config.MaxHPMP)
                 {
                     CurrentHp = MaxHp;
-                    CurrentMp = MaxMp;
+                    CurrentMp = BaseMaxMp;
                 }
                 //end
             }
@@ -4269,7 +4265,7 @@ namespace LineageServer.Server.Model.Instance
             { // イリュージョニスト
                 newMr = 20;
             }
-            newMr += CalcStat.calcStatMr(Wis); // WIS分のMRボーナス
+            newMr += CalcStat.calcStatMr(BaseWis); // WIS分のMRボーナス
             newMr += Level / 2; // LVの半分だけ追加
             addMr(newMr - _baseMr);
             _baseMr = newMr;
@@ -6349,13 +6345,6 @@ namespace LineageServer.Server.Model.Instance
                 return _partyType;
             }
         }
-
-        public int MaxMp { get; private set; }
-        public int Dex { get; private set; }
-        public int Str { get; private set; }
-        public int Wis { get; private set; }
-        public int Cha { get; internal set; }
-        public int Int { get; internal set; }
 
         public virtual void setEquipped(L1PcInstance pc, bool isEq)
         {

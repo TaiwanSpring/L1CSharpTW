@@ -109,8 +109,8 @@ namespace LineageServer.Server.DataTables
                         break;
                     case L1SkillId.RESIST_FEAR: // 恐懼無助
                         remaining_time = remaining_time / 4;
-                        pc.addNdodge((sbyte)5); // 閃避率 - 50%
-                                                // 更新閃避率顯示
+                        pc.addNdodge(5); // 閃避率 - 50%
+                                         // 更新閃避率顯示
                         pc.sendPackets(new S_PacketBox(101, pc.Ndodge));
                         pc.setSkillEffect(skillid, remaining_time * 4 * 1000);
                         break;

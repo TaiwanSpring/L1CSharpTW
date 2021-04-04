@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class SpawnlistNpc : DataSource
@@ -21,18 +23,18 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_location, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_count, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_npc_templateid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locx, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locy, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_randomx, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_randomy, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_heading, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_respawn_delay, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mapid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_movement_distance, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_location, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_npc_templateid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locx, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locy, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_randomx, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_randomy, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_heading, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_respawn_delay, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_movement_distance, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public SpawnlistNpc() : base(TableName)
         {

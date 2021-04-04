@@ -48,7 +48,7 @@ namespace LineageServer.Server.Model.item.Action
                 { // 福利勇敢藥水
                     time = 1200;
                 }
-                buff_brave(pc, L1SkillId.STATUS_BRAVE, (sbyte)1, time); // 給予勇敢藥水效果
+                buff_brave(pc, L1SkillId.STATUS_BRAVE, 1, time); // 給予勇敢藥水效果
                 pc.Inventory.removeItem(item, 1);
                 /* 精靈餅乾 & 祝福的精靈餅乾 */
             }
@@ -66,7 +66,7 @@ namespace LineageServer.Server.Model.item.Action
                 { // 福利森林藥水
                     time = 1920;
                 }
-                buff_brave(pc, L1SkillId.STATUS_ELFBRAVE, (sbyte)3, time); // 給予精靈餅乾效果
+                buff_brave(pc, L1SkillId.STATUS_ELFBRAVE, 3, time); // 給予精靈餅乾效果
                 pc.Inventory.removeItem(item, 1);
                 /* 生命之樹果實 */
             }

@@ -497,74 +497,74 @@ namespace LineageServer.Server.Templates
         }
 
 
-        private byte _addstr = 0; // ● ＳＴＲ補正
+        private int _addstr = 0; // ● ＳＴＲ補正
 
-        public virtual byte get_addstr()
+        public virtual int get_addstr()
         {
             return _addstr;
         }
 
-        public virtual void set_addstr(byte addstr)
+        public virtual void set_addstr(int addstr)
         {
             _addstr = addstr;
         }
 
-        private byte _adddex = 0; // ● ＤＥＸ補正
+        private int _adddex = 0; // ● ＤＥＸ補正
 
-        public virtual byte get_adddex()
+        public virtual int get_adddex()
         {
             return _adddex;
         }
 
-        public virtual void set_adddex(byte adddex)
+        public virtual void set_adddex(int adddex)
         {
             _adddex = adddex;
         }
 
-        private byte _addcon = 0; // ● ＣＯＮ補正
+        private int _addcon = 0; // ● ＣＯＮ補正
 
-        public virtual byte get_addcon()
+        public virtual int get_addcon()
         {
             return _addcon;
         }
 
-        public virtual void set_addcon(byte addcon)
+        public virtual void set_addcon(int addcon)
         {
             _addcon = addcon;
         }
 
-        private byte _addint = 0; // ● ＩＮＴ補正
+        private int _addint = 0; // ● ＩＮＴ補正
 
-        public virtual byte get_addint()
+        public virtual int get_addint()
         {
             return _addint;
         }
 
-        public virtual void set_addint(byte addint)
+        public virtual void set_addint(int addint)
         {
             _addint = addint;
         }
 
-        private byte _addwis = 0; // ● ＷＩＳ補正
+        private int _addwis = 0; // ● ＷＩＳ補正
 
-        public virtual byte get_addwis()
+        public virtual int get_addwis()
         {
             return _addwis;
         }
 
-        public virtual void set_addwis(byte addwis)
+        public virtual void set_addwis(int addwis)
         {
             _addwis = addwis;
         }
 
-        private byte _addcha = 0; // ● ＣＨＡ補正
+        private int _addcha = 0; // ● ＣＨＡ補正
 
-        public virtual byte get_addcha()
+        public virtual int get_addcha()
         {
             return _addcha;
         }
 
-        public virtual void set_addcha(byte addcha)
+        public virtual void set_addcha(int addcha)
         {
             _addcha = addcha;
         }

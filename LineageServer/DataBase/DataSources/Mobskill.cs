@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Mobskill : DataSource
@@ -32,29 +34,29 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_mobname, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_mobid, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_actNo, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_Type, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mpConsume, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_TriRnd, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_TriHp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_TriCompanionHp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_TriRange, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_TriCount, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ChangeTarget, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_Range, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_AreaWidth, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_AreaHeight, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_Leverage, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_SkillId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_Gfxid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ActId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_SummonId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_SummonMin, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_SummonMax, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_PolyId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_SkillArea, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_mobname, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_mobid, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_actNo, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_Type, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mpConsume, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_TriRnd, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_TriHp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_TriCompanionHp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_TriRange, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_TriCount, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ChangeTarget, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_Range, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_AreaWidth, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_AreaHeight, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_Leverage, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_SkillId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_Gfxid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ActId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_SummonId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_SummonMin, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_SummonMax, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_PolyId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_SkillArea, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public Mobskill() : base(TableName)
         {

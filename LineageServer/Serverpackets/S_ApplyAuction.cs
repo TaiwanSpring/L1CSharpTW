@@ -1,9 +1,17 @@
-﻿using LineageServer.Interfaces;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Models;
+using LineageServer.Server;
 using System;
+using System.Collections.Generic;
+
 namespace LineageServer.Serverpackets
 {
     class S_ApplyAuction : ServerBasePacket
     {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.BoardAuction);
         private static ILogger _log = Logger.GetLogger(nameof(S_ApplyAuction));
         private const string S_APPLYAUCTION = "[S] S_ApplyAuction";
         private byte[] _byte = null;
@@ -15,15 +23,15 @@ namespace LineageServer.Serverpackets
 
         private void buildPacket(int objectId, string houseNumber)
         {
-            con = L1DatabaseFactory.Instance.Connection;
-            pstm = con.prepareStatement("SELECT * FROM board_auction WHERE house_id=?");
-            int number = Convert.ToInt32(houseNumber);
-            pstm.setInt(1, number);
-            rs = pstm.executeQuery();
-            while (rs.next())
+            int houseId = Convert.ToInt32(houseNumber);
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select()
+                .Where(BoardAuction.Column_house_id, houseId).Query();
+
+            for (int i = 0; i < dataSourceRows.Count; i++)
             {
-                int nowPrice = dataSourceRow.getInt(5);
-                int bidderId = dataSourceRow.getInt(10);
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                int nowPrice = dataSourceRow.getInt(BoardAuction.Column_price);
+                int bidderId = dataSourceRow.getInt(BoardAuction.Column_bidder_id);
                 WriteC(Opcodes.S_OPCODE_INPUTAMOUNT);
                 WriteD(objectId);
                 WriteD(0); // ?
@@ -41,18 +49,6 @@ namespace LineageServer.Serverpackets
                 WriteH(0); // ?
                 WriteS("agapply");
                 WriteS("agapply " + houseNumber);
-            }
-        }
-
-        public override sbyte[] Content
-        {
-            get
-            {
-                if (_byte == null)
-                {
-                    _byte = Bytes;
-                }
-                return _byte;
             }
         }
 

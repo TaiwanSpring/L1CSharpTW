@@ -60,7 +60,7 @@ namespace LineageServer.Utils
 			int mp = 1;
 			if (pc.Crown)
 			{
-				switch (pc.Wis)
+				switch (pc.BaseWis)
 				{
 					case 11:
 						mp = 2;
@@ -83,7 +83,7 @@ namespace LineageServer.Utils
 			}
 			else if (pc.Knight)
 			{
-				switch (pc.Wis)
+				switch (pc.BaseWis)
 				{
 					case 9:
 					case 10:
@@ -101,7 +101,7 @@ namespace LineageServer.Utils
 			}
 			else if (pc.Elf)
 			{
-				switch (pc.Wis)
+				switch (pc.BaseWis)
 				{
 					case 12:
 					case 13:
@@ -121,7 +121,7 @@ namespace LineageServer.Utils
 			}
 			else if (pc.Wizard)
 			{
-				switch (pc.Wis)
+				switch (pc.BaseWis)
 				{
 					case 12:
 					case 13:
@@ -141,7 +141,7 @@ namespace LineageServer.Utils
 			}
 			else if (pc.Darkelf)
 			{
-				switch (pc.Wis)
+				switch (pc.BaseWis)
 				{
 					case 10:
 					case 11:
@@ -169,7 +169,7 @@ namespace LineageServer.Utils
 			}
 			else if (pc.Illusionist)
 			{ // 3.70C 異動
-				switch (pc.Wis)
+				switch (pc.BaseWis)
 				{
 					case 12:
 					case 13:

@@ -18,8 +18,6 @@ namespace LineageServer.Server.Model.item.Action
 
             bool isAppear = true;
 
-            L1FurnitureInstance furniture = null;
-
             if (furniture_item == null)
             {
                 pc.sendPackets(new S_ServerMessage(79)); // \f1沒有任何事情發生。
@@ -31,15 +29,15 @@ namespace LineageServer.Server.Model.item.Action
                 pc.sendPackets(new S_ServerMessage(563)); // \f1ここでは使えません。
                 return;
             }
-
+            L1FurnitureInstance find = null;
             foreach (GameObject l1object in Container.Instance.Resolve<IGameWorld>().Object)
             {
-                if (l1object is L1FurnitureInstance)
+                if (l1object is L1FurnitureInstance furniture)
                 {
-                    furniture = (L1FurnitureInstance)l1object;
                     if (furniture.ItemObjId == itemObjectId)
                     { // 既に引き出している家具
                         isAppear = false;
+                        find = furniture;
                         break;
                     }
                 }
@@ -59,32 +57,29 @@ namespace LineageServer.Server.Model.item.Action
                     {
                         try
                         {
-                            string s = l1npc.Impl;
-
-                            System.Reflection.ConstructorInfo<object> constructor = Type.GetType("l1j.server.server.model.Instance." + s + "Instance").GetConstructors()[0];
-
-                            object[] aobj = new object[] { l1npc };
-                            furniture = (L1FurnitureInstance)constructor.Invoke(aobj);
-                            furniture.Id = Container.Instance.Resolve<IIdFactory>().nextId();
-                            furniture.MapId = pc.MapId;
-                            if (pc.Heading == 0)
+                            if (L1NpcInstance.Factory(l1npc) is L1FurnitureInstance furniture)
                             {
-                                furniture.X = pc.X;
-                                furniture.Y = pc.Y - 1;
-                            }
-                            else if (pc.Heading == 2)
-                            {
-                                furniture.X = pc.X + 1;
-                                furniture.Y = pc.Y;
-                            }
-                            furniture.HomeX = furniture.X;
-                            furniture.HomeY = furniture.Y;
-                            furniture.Heading = 0;
-                            furniture.ItemObjId = itemObjectId;
+                                furniture.Id = Container.Instance.Resolve<IIdFactory>().nextId();
+                                furniture.MapId = pc.MapId;
+                                if (pc.Heading == 0)
+                                {
+                                    furniture.X = pc.X;
+                                    furniture.Y = pc.Y - 1;
+                                }
+                                else if (pc.Heading == 2)
+                                {
+                                    furniture.X = pc.X + 1;
+                                    furniture.Y = pc.Y;
+                                }
+                                furniture.HomeX = furniture.X;
+                                furniture.HomeY = furniture.Y;
+                                furniture.Heading = 0;
+                                furniture.ItemObjId = itemObjectId;
 
-                            Container.Instance.Resolve<IGameWorld>().storeObject(furniture);
-                            Container.Instance.Resolve<IGameWorld>().addVisibleObject(furniture);
-                            FurnitureContainer.Instance.Resolve<ISpawnController>().insertFurniture(furniture);
+                                Container.Instance.Resolve<IGameWorld>().storeObject(furniture);
+                                Container.Instance.Resolve<IGameWorld>().addVisibleObject(furniture);
+                                FurnitureSpawnTable.Instance.insertFurniture(furniture);
+                            }
                         }
                         catch (Exception e)
                         {
@@ -98,8 +93,11 @@ namespace LineageServer.Server.Model.item.Action
             }
             else
             {
-                furniture.deleteMe();
-                FurnitureContainer.Instance.Resolve<ISpawnController>().deleteFurniture(furniture);
+                if (find != null)
+                {
+                    find.deleteMe();
+                    FurnitureSpawnTable.Instance.deleteFurniture(find);
+                }
             }
         }
 
@@ -120,7 +118,7 @@ namespace LineageServer.Server.Model.item.Action
             {
                 L1FurnitureInstance furniture = (L1FurnitureInstance)target;
                 furniture.deleteMe();
-                FurnitureContainer.Instance.Resolve<ISpawnController>().deleteFurniture(furniture);
+                FurnitureSpawnTable.Instance.deleteFurniture(furniture);
                 item.ChargeCount = item.ChargeCount - 1;
                 pc.Inventory.updateItem(item, L1PcInventory.COL_CHARGE_COUNT);
             }

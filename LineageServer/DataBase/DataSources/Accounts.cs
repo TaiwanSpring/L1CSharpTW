@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Accounts : DataSource
@@ -20,17 +22,17 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_login, DbType = DbType.String, IsPKey = true},
-            new ColumnInfo() { Column = Column_password, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_ip, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_host, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_lastactive, DbType = DbType.DateTime, IsPKey = false},
-            new ColumnInfo() { Column = Column_access_level, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_online, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_banned, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_character_slot, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_warepassword, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_OnlineStatus, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_login, MySqlDbType = MySqlDbType.Text, IsPKey = true},
+            new ColumnInfo() { Column = Column_password, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_ip, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_host, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_lastactive, MySqlDbType = MySqlDbType.DateTime, IsPKey = false},
+            new ColumnInfo() { Column = Column_access_level, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_online, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_banned, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_character_slot, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_warepassword, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_OnlineStatus, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Accounts() : base(TableName)
         {

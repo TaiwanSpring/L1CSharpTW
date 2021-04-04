@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.DataTables;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.skill;
 using LineageServer.Server.Templates;
@@ -243,7 +244,7 @@ namespace LineageServer.Server.Model
                     int castleId = L1CastleLocation.getCastleIdByArea((L1Character)@object);
                     if (castleId > 0)
                     {
-                        isNowWar = WarTimeController.Instance.isNowWar(castleId);
+                        isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(castleId);
                     }
                     if (!isNowWar)
                     { // 非攻城戰區域
@@ -300,7 +301,7 @@ namespace LineageServer.Server.Model
                 int locx = cha.X;
                 int locy = cha.Y;
                 int sp = pc.Sp;
-                int intel = pc.Int;
+                int intel = pc.BaseInt;
                 double bsk = 0;
                 if (pc.hasSkillEffect(L1SkillId.BERSERKERS))
                 {
@@ -359,7 +360,7 @@ namespace LineageServer.Server.Model
             kiringkuDamage += value;
 
             int spByItem = pc.Sp - pc.TrueSp; // アイテムによるSP変動
-            charaIntelligence = pc.Int + spByItem - 12;
+            charaIntelligence = pc.BaseInt + spByItem - 12;
             if (charaIntelligence < 1)
             {
                 charaIntelligence = 1;
@@ -410,7 +411,7 @@ namespace LineageServer.Server.Model
             if (probability >= chance)
             {
                 int sp = pc.Sp;
-                int intel = pc.Int;
+                int intel = pc.BaseInt;
                 int area = 0;
                 int effectTargetId = 0;
                 int effectId = 0;
@@ -508,7 +509,7 @@ namespace LineageServer.Server.Model
             if (4 >= chance)
             {
                 int sp = pc.Sp;
-                int intel = pc.Int;
+                int intel = pc.BaseInt;
                 double bsk = 0;
                 if (pc.hasSkillEffect(L1SkillId.BERSERKERS))
                 {

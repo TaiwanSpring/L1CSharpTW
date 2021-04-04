@@ -1,68 +1,39 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿
+using LineageServer.Server;
+
 namespace LineageServer.Serverpackets
 {
-	using Opcodes = LineageServer.Server.Opcodes;
+    class S_SellHouse : ServerBasePacket
+    {
 
-	// Referenced classes of package l1j.server.server.serverpackets:
-	// ServerBasePacket
+        private const string S_SELLHOUSE = "[S] S_SellHouse";
 
-	public class S_SellHouse : ServerBasePacket
-	{
+        private byte[] _byte = null;
 
-		private const string S_SELLHOUSE = "[S] S_SellHouse";
+        public S_SellHouse(int objectId, string houseNumber)
+        {
+            buildPacket(objectId, houseNumber);
+        }
 
-		private byte[] _byte = null;
-
-		public S_SellHouse(int objectId, string houseNumber)
-		{
-			buildPacket(objectId, houseNumber);
-		}
-
-		private void buildPacket(int objectId, string houseNumber)
-		{
-			WriteC(Opcodes.S_OPCODE_INPUTAMOUNT);
-			WriteD(objectId);
-			WriteD(0); // ?
-			WriteD(100000); // スピンコントロールの初期価格
-			WriteD(100000); // 価格の下限
-			WriteD(2000000000); // 価格の上限
-			WriteH(0); // ?
-			WriteS("agsell");
-			WriteS("agsell " + houseNumber);
-		}
-
-		public override sbyte[] Content
-		{
-			get
-			{
-				if (_byte == null)
-				{
-					_byte = Bytes;
-				}
-				return _byte;
-			}
-		}
-
-		public override string Type
-		{
-			get
-			{
-				return S_SELLHOUSE;
-			}
-		}
-	}
+        private void buildPacket(int objectId, string houseNumber)
+        {
+            WriteC(Opcodes.S_OPCODE_INPUTAMOUNT);
+            WriteD(objectId);
+            WriteD(0); // ?
+            WriteD(100000); // スピンコントロールの初期価格
+            WriteD(100000); // 価格の下限
+            WriteD(2000000000); // 価格の上限
+            WriteH(0); // ?
+            WriteS("agsell");
+            WriteS("agsell " + houseNumber);
+        }
+        public override string Type
+        {
+            get
+            {
+                return S_SELLHOUSE;
+            }
+        }
+    }
 
 }

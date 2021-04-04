@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class SpawnlistTrap : DataSource
@@ -19,16 +21,16 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_trapId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mapId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locX, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locY, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locRndX, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locRndY, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_count, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_span, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_trapId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mapId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locX, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locY, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locRndX, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locRndY, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_span, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public SpawnlistTrap() : base(TableName)
         {

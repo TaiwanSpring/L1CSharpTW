@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Dungeon : DataSource
@@ -17,14 +19,14 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_src_x, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_src_y, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_src_mapid, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_new_x, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_y, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_mapid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_heading, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_src_x, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_src_y, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_src_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_new_x, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_y, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_heading, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Dungeon() : base(TableName)
         {

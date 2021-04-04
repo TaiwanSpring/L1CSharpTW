@@ -600,14 +600,9 @@ namespace LineageServer.Server.Model
                 L1Npc spawnmonster = Container.Instance.Resolve<INpcController>().getTemplate(summonId);
                 if (spawnmonster != null)
                 {
-                    L1NpcInstance mob = null;
                     try
                     {
-                        string implementationName = spawnmonster.Impl;
-                        //JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-                        //ORIGINAL LINE: java.lang.reflect.Constructor<?> _constructor = Class.forName((new StringBuilder()).append("l1j.server.server.model.Instance.").append(implementationName).append("Instance").toString()).getConstructors()[0];
-                        System.Reflection.ConstructorInfo<object> _constructor = Type.GetType((new StringBuilder()).Append("l1j.server.server.model.Instance.").Append(implementationName).Append("Instance").ToString()).GetConstructors()[0];
-                        mob = (L1NpcInstance)_constructor.Invoke(new object[] { spawnmonster });
+                        L1NpcInstance mob = L1NpcInstance.Factory(spawnmonster);
                         mob.Id = Container.Instance.Resolve<IIdFactory>().nextId();
                         L1Location loc = _attacker.Location.randomLocation(8, false);
                         int heading = RandomHelper.Next(8);

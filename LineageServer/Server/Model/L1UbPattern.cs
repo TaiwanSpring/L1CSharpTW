@@ -1,81 +1,66 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Utils;
+using System.Collections.Generic;
 namespace LineageServer.Server.Model
 {
+    class L1UbPattern
+    {
+        private bool _isFrozen = false;
 
-	using ListFactory = LineageServer.Utils.ListFactory;
-	using MapFactory = LineageServer.Utils.MapFactory;
+        private IDictionary<int, IList<L1UbSpawn>> _groups = MapFactory.NewMap<int, IList<L1UbSpawn>>();
 
-	public class L1UbPattern
-	{
-		private bool _isFrozen = false;
+        public virtual void addSpawn(int groupNumber, L1UbSpawn spawn)
+        {
+            if (_isFrozen)
+            {
+                return;
+            }
 
-		private IDictionary<int, IList<L1UbSpawn>> _groups = MapFactory.NewMap();
+            IList<L1UbSpawn> spawnList = _groups[groupNumber];
+            if (spawnList == null)
+            {
+                spawnList = ListFactory.NewList<L1UbSpawn>();
+                _groups[groupNumber] = spawnList;
+            }
 
-		public virtual void addSpawn(int groupNumber, L1UbSpawn spawn)
-		{
-			if (_isFrozen)
-			{
-				return;
-			}
+            spawnList.Add(spawn);
+        }
 
-			IList<L1UbSpawn> spawnList = _groups[groupNumber];
-			if (spawnList == null)
-			{
-				spawnList = ListFactory.NewList();
-				_groups[groupNumber] = spawnList;
-			}
+        public virtual void freeze()
+        {
+            if (_isFrozen)
+            {
+                return;
+            }
 
-			spawnList.Add(spawn);
-		}
+            // 格納されているグループのスポーンリストをID順にソート
+            foreach (IList<L1UbSpawn> spawnList in _groups.Values)
+            {
+                if (spawnList is List<L1UbSpawn> list)
+                {
+                    list.Sort();
+                }
+            }
 
-		public virtual void freeze()
-		{
-			if (_isFrozen)
-			{
-				return;
-			}
+            _isFrozen = true;
+        }
 
-			// 格納されているグループのスポーンリストをID順にソート
-			foreach (IList<L1UbSpawn> spawnList in _groups.Values)
-			{
-				spawnList.Sort();
-			}
+        public virtual bool Frozen
+        {
+            get
+            {
+                return _isFrozen;
+            }
+        }
 
-			_isFrozen = true;
-		}
+        public virtual IList<L1UbSpawn> getSpawnList(int groupNumber)
+        {
+            if (!_isFrozen)
+            {
+                return null;
+            }
 
-		public virtual bool Frozen
-		{
-			get
-			{
-				return _isFrozen;
-			}
-		}
-
-		public virtual IList<L1UbSpawn> getSpawnList(int groupNumber)
-		{
-			if (!_isFrozen)
-			{
-				return null;
-			}
-
-			return _groups[groupNumber];
-		}
-	}
+            return _groups[groupNumber];
+        }
+    }
 
 }

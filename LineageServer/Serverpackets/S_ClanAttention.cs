@@ -1,4 +1,6 @@
 ﻿
+using LineageServer.Server;
+
 namespace LineageServer.Serverpackets
 {
     class S_ClanAttention : ServerBasePacket
@@ -8,14 +10,6 @@ namespace LineageServer.Serverpackets
         {
             WriteC(Opcodes.S_OPCODE_CLANATTENTION);
             WriteD(2);
-        }
-
-        public override byte[] Content
-        {
-            get
-            {
-                return Bytes;
-            }
         }
 
         public override string Type

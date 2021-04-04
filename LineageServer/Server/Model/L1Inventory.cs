@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.DataTables;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.Map;
 using LineageServer.Server.Templates;
@@ -225,8 +226,8 @@ namespace LineageServer.Server.Model
 
                 if (itemId == 40309)
                 { // Race Tickets
-                    string[] temp = item.Item.IdentifiedNameId.Split(" ", true);
-                    temp = temp[temp.Length - 1].Split("-", true);
+                    string[] temp = item.Item.IdentifiedNameId.Split(' ');
+                    temp = temp[temp.Length - 1].Split('-');
                     L1RaceTicket ticket = new L1RaceTicket();
                     ticket.set_itemobjid(item.Id);
                     ticket.set_round(int.Parse(temp[0]));
@@ -424,7 +425,7 @@ namespace LineageServer.Server.Model
                             L1FurnitureInstance furniture = (L1FurnitureInstance)l1object;
                             if (furniture.ItemObjId == item.Id)
                             { // 既に引き出している家具
-                                FurnitureContainer.Instance.Resolve<ISpawnController>().deleteFurniture(furniture);
+                                FurnitureSpawnTable.Instance.deleteFurniture(furniture);
                             }
                         }
                     }
@@ -688,7 +689,12 @@ namespace LineageServer.Server.Model
             if (ItemTable.Instance.getTemplate(id).Stackable)
             {
                 L1ItemInstance item = findItemId(id);
-                if ((item != null) && (item.Count >= count))
+                if (item == null)
+                {
+                    return false;
+                }
+                else
+                if (item.Count >= count)
                 {
                     return true;
                 }

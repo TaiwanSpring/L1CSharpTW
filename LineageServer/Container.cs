@@ -1,33 +1,51 @@
 ﻿using LineageServer.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace LineageServer
 {
     class Container : IContainerAdapter
     {
-        static readonly Dictionary<Type, object> mapping = new Dictionary<Type, object>();
+        readonly Dictionary<Type, object> mapping = new Dictionary<Type, object>();
         public static IContainerAdapter Instance { get; } = new Container();
 
         public bool CanResolve<T>()
         {
-            return mapping.ContainsKey(typeof(T));
+            if (typeof(T) is IDbConnection)
+            {
+                return this.func != null;
+            }
+            return this.mapping.ContainsKey(typeof(T));
+        }
+        //不得已先這樣做
+        Func<IDbConnection> func;
+        public void SetDbConnection(Func<IDbConnection> func)
+        { this.func = func; }
+
+        public void Register<TTo, TFrom>()
+        {
+
         }
 
         public void RegisterInstance<T>(T instance)
         {
             Type type = typeof(T);
-            if (!mapping.ContainsKey(type))
+            if (!this.mapping.ContainsKey(type))
             {
-                mapping.Add(type, instance);
+                this.mapping.Add(type, instance);
             }
         }
         public T Resolve<T>()
         {
+            //if (typeof(T) == typeof(IDbConnection))
+            //{
+            //    return (T)this.func.Invoke();
+            //}
             Type type = typeof(T);
-            if (mapping.ContainsKey(type))
+            if (this.mapping.ContainsKey(type))
             {
-                return (T)mapping[type];
+                return (T)this.mapping[type];
             }
             else
             {

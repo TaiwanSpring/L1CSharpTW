@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class ClanRecommendRecord : DataSource
@@ -14,11 +16,11 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_clan_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_crown_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_type_message, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_clan_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_clan_type, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_clan_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_crown_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_type_message, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_clan_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_clan_type, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public ClanRecommendRecord() : base(TableName)
         {

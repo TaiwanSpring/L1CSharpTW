@@ -6,55 +6,62 @@ using System.Collections.Generic;
 
 namespace LineageServer.Server.DataTables
 {
-	class SpawnTimeTable
-	{
-		private readonly static IDataSource dataSource =
-			Container.Instance.Resolve<IDataSourceFactory>()
-			.Factory(Enum.DataSourceTypeEnum.SpawnlistTime);
+    class SpawnTimeTable
+    {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.SpawnlistTime);
 
-		private static SpawnTimeTable _instance;
+        private static SpawnTimeTable _instance;
 
-		private readonly IDictionary<int, L1SpawnTime> _times = MapFactory.NewMap<int, L1SpawnTime>();
+        private readonly IDictionary<int, L1SpawnTime> _times = MapFactory.NewMap<int, L1SpawnTime>();
 
-		public static SpawnTimeTable Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new SpawnTimeTable();
-				}
-				return _instance;
-			}
-		}
+        public static SpawnTimeTable Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new SpawnTimeTable();
+                }
+                return _instance;
+            }
+        }
 
-		private SpawnTimeTable()
-		{
-			load();
-		}
+        private SpawnTimeTable()
+        {
+            load();
+        }
 
-		public virtual L1SpawnTime get(int id)
-		{
-			return _times[id];
-		}
+        public virtual L1SpawnTime get(int id)
+        {
+            if (_times.ContainsKey(id))
+            {
+                return _times[id];
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-		private void load()
-		{
-			IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
+        private void load()
+        {
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-			for (int i = 0; i < dataSourceRows.Count; i++)
-			{
-				IDataSourceRow dataSourceRow = dataSourceRows[i];
+            for (int i = 0; i < dataSourceRows.Count; i++)
+            {
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
 
-				int id = dataSourceRow.getInt(SpawnlistTime.Column_spawn_id);
-				L1SpawnTimeBuilder builder = new L1SpawnTimeBuilder(id);
-				builder.TimeStart = dataSourceRow.getTimestamp(SpawnlistTime.Column_time_start);
-				builder.TimeEnd = dataSourceRow.getTimestamp(SpawnlistTime.Column_time_end);
-				// builder.setPeriodStart(dataSourceRow.getTimestamp("period_start"));
-				// builder.setPeriodEnd(dataSourceRow.getTimestamp("period_end"));
-				builder.IsDeleteAtEndTime = dataSourceRow.getBoolean(SpawnlistTime.Column_delete_at_endtime);
-				_times[id] = builder.build();
-			}
-		}
-	}
+                int id = dataSourceRow.getInt(SpawnlistTime.Column_spawn_id);
+                L1SpawnTimeBuilder builder = new L1SpawnTimeBuilder(id);
+                builder.TimeStart = dataSourceRow.getTimeSpan(SpawnlistTime.Column_time_start);
+                builder.TimeEnd = dataSourceRow.getTimeSpan(SpawnlistTime.Column_time_end);
+                // builder.setPeriodStart(dataSourceRow.getTimestamp("period_start"));
+                // builder.setPeriodEnd(dataSourceRow.getTimestamp("period_end"));
+                builder.IsDeleteAtEndTime = dataSourceRow.getBoolean(SpawnlistTime.Column_delete_at_endtime);
+                _times[id] = builder.build();
+            }
+        }
+    }
 }

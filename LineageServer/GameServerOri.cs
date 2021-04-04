@@ -11,6 +11,7 @@ using LineageServer.Server.Model.npc.action;
 using LineageServer.Server.Model.trap;
 using LineageServer.Utils;
 using LineageServer.william;
+using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 using System.Net;
@@ -19,11 +20,11 @@ using System.Text;
 using System.Threading;
 namespace LineageServer.Server
 {
-    public class GameServerOri : IRunnable
+    public class GameServerOri : IRunnable, IGameServer
     {
         private static ILogger _log = Logger.GetLogger(nameof(GameServerOri));
 
-        public readonly int startTime = DateTime.Now.Second;
+        public int startTime { get; } = DateTime.Now.Second;
 
         private LoginController loginController;
         private ITaskController taskController;
@@ -50,13 +51,13 @@ namespace LineageServer.Server
 		private TcpListener listener;
         public GameServerOri()
         {
-
+            Config.load();
         }
 
         public void run()
         {
             //模擬器重開延遲  秒
-            Thread.Sleep(TimeSpan.FromSeconds(Config.Gamesleep));
+            //Thread.Sleep(TimeSpan.FromSeconds(Config.Gamesleep));
 
             this.listener = new TcpListener(Address, Port);
 
@@ -99,10 +100,15 @@ namespace LineageServer.Server
             ContainerObject.SetContainerAdapter(containerAdapter);
 
             this.taskController = new RunnableExecuter();
+            containerAdapter.RegisterInstance<IEncode>(new LineageServer.Models.Encode());
+            containerAdapter.RegisterInstance<IXmlDeserialize>(new XmlDeserialize());
+            containerAdapter.RegisterInstance<IGameServer>(this);
             //工作排程，執行緒管理
             containerAdapter.RegisterInstance<ITaskController>(taskController);
+
+            string connectString = $"server=localHost;uid=root;pwd=753951;database=l1csdb;";
             //SQL連線
-            containerAdapter.RegisterInstance<IDbConnection>(null);
+            containerAdapter.RegisterInstance<IDbConnection>(new MySqlConnection(connectString));
             //SQL操作
             containerAdapter.RegisterInstance<IDataSourceFactory>(new DataSourceFactory());
 
@@ -160,19 +166,43 @@ namespace LineageServer.Server
             gameWorld.Initialize();
             containerAdapter.RegisterInstance<IGameWorld>(gameWorld);
 
+            //遊戲時間
+            L1GameTimeClock l1GameTimeClock = new L1GameTimeClock();
+            l1GameTimeClock.Initialize();
+            containerAdapter.RegisterInstance<IGameTimeClock>(l1GameTimeClock);
+
+            MapsTable.Instance.Initialize();
+
+            //世界地圖
+            L1WorldMap l1WorldMap = new L1WorldMap();
+            l1WorldMap.Initialize();
+            containerAdapter.RegisterInstance<IWorldMap>(l1WorldMap);
+
+            //Npc控制
+            NpcTable npcController = new NpcTable();
+            npcController.Initialize();
+            containerAdapter.RegisterInstance<INpcController>(npcController);
+
+            NpcActionTable.load();
+            //動作控制
+            L1NpcDefaultAction npcDefaultAction = new L1NpcDefaultAction();
+            npcDefaultAction.Initialize();
+            containerAdapter.RegisterInstance<IGameActionProvider>(npcDefaultAction);
             //Table
             //門控制
             DoorTable doorTable = new DoorTable();
             doorTable.Initialize();
             containerAdapter.RegisterInstance<IDoorController>(doorTable);
-            //怪物重生控制
-            SpawnTable spawnTable = new SpawnTable();
-            spawnTable.Initialize();
-            containerAdapter.RegisterInstance<ISpawnController>(spawnTable);
             //怪物群組控制
             L1MobGroupSpawn mobGroupSpawn = new L1MobGroupSpawn();
             mobGroupSpawn.Initialize();
             containerAdapter.RegisterInstance<IMobGroupController>(mobGroupSpawn);
+
+            NpcChatTable.Instance.Initialize();
+            //怪物重生控制
+            SpawnTable spawnTable = new SpawnTable();
+            spawnTable.Initialize();
+            containerAdapter.RegisterInstance<ISpawnController>(spawnTable);
 
             //技能
             SkillsTable.Instance.Initialize();
@@ -197,8 +227,6 @@ namespace LineageServer.Server
 
             IpTable.Instance.Initialize();
 
-            MapsTable.Instance.Initialize();
-
             UBSpawnTable.Instance.Initialize();
 
             PetTable.Instance.Initialize();
@@ -214,11 +242,10 @@ namespace LineageServer.Server
 
             WeaponSkillTable.Instance.Initialize();
 
-            NpcActionTable.load();
             GMCommandsConfig.Load();
-            Getback.loadGetBack();
+            GetbackController.loadGetBack();
             PetTypeTable.load();
-            L1BossCycle.load();
+            //L1BossCycle.load();
             L1TreasureBox.load();
 
             SprTable.Instance.Initialize();
@@ -226,8 +253,6 @@ namespace LineageServer.Server
             ResolventTable.Instance.Initialize();
 
             FurnitureSpawnTable.Instance.Initialize();
-
-            NpcChatTable.Instance.Initialize();
 
             MailTable.Instance.Initialize();
 
@@ -241,15 +266,7 @@ namespace LineageServer.Server
 
             FurnitureItemTable.Instance.Initialize();
             //無明顯順序的
-            //動作控制
-            L1NpcDefaultAction npcDefaultAction = new L1NpcDefaultAction();
-            npcDefaultAction.Initialize();
-            containerAdapter.RegisterInstance<IGameActionProvider>(npcDefaultAction);
 
-            //世界地圖
-            L1WorldMap l1WorldMap = new L1WorldMap();
-            l1WorldMap.Initialize();
-            containerAdapter.RegisterInstance<IWorldMap>(l1WorldMap);
 
             // 初始化帳號使用狀態
             Account.InitialOnlineStatus();
@@ -266,16 +283,6 @@ namespace LineageServer.Server
             //讀取角色的上線狀態
             characterController.ClearOnlineStatus();
             containerAdapter.RegisterInstance<ICharacterController>(characterController);
-
-            //Npc控制
-            NpcTable npcController = new NpcTable();
-            npcController.Initialize();
-            containerAdapter.RegisterInstance<INpcController>(npcController);
-
-            //遊戲時間
-            L1GameTimeClock l1GameTimeClock = new L1GameTimeClock();
-            l1GameTimeClock.Initialize();
-            containerAdapter.RegisterInstance<IGameTimeClock>(l1GameTimeClock);
 
             // 伺服器自動重啟 
             L1GameReStart restartController = new L1GameReStart();

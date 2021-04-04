@@ -1,7 +1,9 @@
 ﻿
+using LineageServer.Server;
+
 namespace LineageServer.Serverpackets
 {
-    public class S_ServerMessage : ServerBasePacket
+    class S_ServerMessage : ServerBasePacket
     {
         private const string S_SERVER_MESSAGE = "[S] S_ServerMessage";
 
@@ -111,21 +113,6 @@ namespace LineageServer.Serverpackets
                 WriteS(msg5);
             }
         }
-
-        public override sbyte[] Content
-        {
-            get
-            {
-                if (_byte == null)
-                {
-
-                    _byte = memoryStream.ToArray();
-                }
-
-                return _byte;
-            }
-        }
-
         public override string Type
         {
             get

@@ -6,6 +6,7 @@ using LineageServer.Server.Templates;
 using System;
 using System.Linq;
 using LineageServer.Utils;
+using LineageServer.Interfaces;
 
 namespace LineageServer.Server.Model.skill
 {
@@ -198,7 +199,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     pc.Party.updateMiniHP(pc);
                 }
-                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                 pc.sendPackets(new S_OwnCharAttrDef(pc));
             }
@@ -751,15 +752,15 @@ namespace LineageServer.Server.Model.skill
                     break;
                 // 恐慌
                 case L1SkillId.PANIC:
-                    cha.addStr((sbyte)-1);
-                    cha.addCon((sbyte)-1);
-                    cha.addDex((sbyte)-1);
-                    cha.addWis((sbyte)-1);
-                    cha.addInt((sbyte)-1);
+                    cha.addStr(-1);
+                    cha.addCon(-1);
+                    cha.addDex(-1);
+                    cha.addWis(-1);
+                    cha.addInt(-1);
                     break;
                 // 恐懼無助
                 case L1SkillId.RESIST_FEAR:
-                    cha.addNdodge((sbyte)5); // 閃避率 - 50%
+                    cha.addNdodge(5); // 閃避率 - 50%
                     if (cha is L1PcInstance)
                     {
                         L1PcInstance pc = (L1PcInstance)cha;
@@ -810,7 +811,7 @@ namespace LineageServer.Server.Model.skill
                     if (_user is L1PcInstance)
                     {
                         L1PcInstance pc = (L1PcInstance)_user;
-                        pc.addDodge((sbyte)5); // 閃避率 + 50%
+                        pc.addDodge(5); // 閃避率 + 50%
                                                // 更新閃避率顯示
                         pc.sendPackets(new S_PacketBox(88, pc.Dodge));
                     }
@@ -895,7 +896,7 @@ namespace LineageServer.Server.Model.skill
                     if (cha is L1PcInstance)
                     {
                         L1PcInstance pc = (L1PcInstance)cha;
-                        pc.addStr((sbyte)5);
+                        pc.addStr(5);
                         pc.sendPackets(new S_Strup(pc, 5, _getBuffIconDuration));
                     }
                     break;
@@ -904,7 +905,7 @@ namespace LineageServer.Server.Model.skill
                     if (cha is L1PcInstance)
                     {
                         L1PcInstance pc = (L1PcInstance)cha;
-                        pc.addDex((sbyte)5);
+                        pc.addDex(5);
                         pc.sendPackets(new S_Dexup(pc, 5, _getBuffIconDuration));
                     }
                     break;
@@ -913,7 +914,7 @@ namespace LineageServer.Server.Model.skill
                     if (cha is L1PcInstance)
                     {
                         L1PcInstance pc = (L1PcInstance)cha;
-                        pc.addStr((sbyte)2);
+                        pc.addStr(2);
                         pc.sendPackets(new S_Strup(pc, 2, _getBuffIconDuration));
                     }
                     break;
@@ -922,7 +923,7 @@ namespace LineageServer.Server.Model.skill
                     if (cha is L1PcInstance)
                     {
                         L1PcInstance pc = (L1PcInstance)cha;
-                        pc.addDex((sbyte)2);
+                        pc.addDex(2);
                         pc.sendPackets(new S_Dexup(pc, 2, _getBuffIconDuration));
                     }
                     break;
@@ -940,7 +941,7 @@ namespace LineageServer.Server.Model.skill
                     if (cha is L1PcInstance)
                     {
                         L1PcInstance pc = (L1PcInstance)cha;
-                        pc.addWis((sbyte)3);
+                        pc.addWis(3);
                         pc.resetBaseMr();
                     }
                     break;
@@ -1099,7 +1100,7 @@ namespace LineageServer.Server.Model.skill
                         { // パーティー中
                             pc.Party.updateMiniHP(pc);
                         }
-                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     }
                     break;
                 // 神聖疾走、行走加速、風之疾走
@@ -1161,11 +1162,11 @@ namespace LineageServer.Server.Model.skill
                     break;
                 // 洞察
                 case L1SkillId.INSIGHT:
-                    cha.addStr((sbyte)1);
-                    cha.addCon((sbyte)1);
-                    cha.addDex((sbyte)1);
-                    cha.addWis((sbyte)1);
-                    cha.addInt((sbyte)1);
+                    cha.addStr(1);
+                    cha.addCon(1);
+                    cha.addDex(1);
+                    cha.addWis(1);
+                    cha.addInt(1);
                     break;
                 // 絕對屏障
                 case L1SkillId.ABSOLUTE_BARRIER:
@@ -1295,7 +1296,7 @@ namespace LineageServer.Server.Model.skill
                                     // 現在のペットコスト
                                     petcost += pet.Petcost;
                                 }
-                                int pcCha = pc.Cha;
+                                int pcCha = pc.BaseCha;
                                 if (pcCha > 34)
                                 { // max count = 5
                                     pcCha = 34;
@@ -1369,7 +1370,7 @@ namespace LineageServer.Server.Model.skill
 
                                     L1Npc npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(summonid);
                                     L1SummonInstance summon = new L1SummonInstance(npcTemp, pc);
-                                    summon.Petcost = pc.Cha + 7; // 精霊の他にはNPCを所属させられない
+                                    summon.Petcost = pc.BaseCha + 7; // 精霊の他にはNPCを所属させられない
                                 }
                             }
                             else
@@ -1557,7 +1558,7 @@ namespace LineageServer.Server.Model.skill
                 petcost += petNpc.Petcost;
             }
 
-            int pcCha = pc.Cha;
+            int pcCha = pc.BaseCha;
             int charisma = 0;
             int summoncount = 0;
             if ((levelrange <= 56) || (levelrange == 64))

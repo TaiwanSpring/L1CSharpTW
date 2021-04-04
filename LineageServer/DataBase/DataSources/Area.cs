@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Area : DataSource
@@ -18,15 +20,15 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_areaname, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_areaid, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_mapid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_x1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_y1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_x2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_y2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_flag, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_restart, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_areaname, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_areaid, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_x1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_y1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_x2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_y2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_flag, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_restart, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Area() : base(TableName)
         {

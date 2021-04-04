@@ -10,7 +10,7 @@ namespace LineageServer.Serverpackets
 
         private const string S_USE_ATTACK_SKILL = "[S] S_UseAttackSkill";
 
-        private static AtomicInteger _sequentialNumber = new AtomicInteger(0);
+        private static int i;
 
         private byte[] _byte = null;
 
@@ -60,7 +60,8 @@ namespace LineageServer.Serverpackets
             WriteD(targetobj);
             WriteH(data[1]); // dmg
             WriteC(newheading);
-            WriteD(_sequentialNumber.incrementAndGet()); // 番号がダブらないように送る。
+            System.Threading.Interlocked.Increment(ref i);
+            WriteD(i); // 番号がダブらないように送る。
             WriteH(data[2]); // spellgfx
             WriteC(data[3]); // use_type 0:弓箭 6:遠距離魔法 8:遠距離範圍魔法
             WriteH(cha.X);
@@ -71,7 +72,7 @@ namespace LineageServer.Serverpackets
             WriteC(0);
             WriteC(0); // 0:none 2:爪痕 4:雙擊 8:鏡返射
         }
-
+        /*
         public override sbyte[] Content
         {
             get
@@ -87,16 +88,16 @@ namespace LineageServer.Serverpackets
                     {
                         seq = _sequentialNumber.incrementAndGet();
                     }
-                    _byte[13] = unchecked((sbyte)(seq & 0xff));
-                    _byte[14] = unchecked((sbyte)(seq >> 8 & 0xff));
-                    _byte[15] = unchecked((sbyte)(seq >> 16 & 0xff));
-                    _byte[16] = unchecked((sbyte)(seq >> 24 & 0xff));
+                    _byte[13] = unchecked((seq & 0xff));
+                    _byte[14] = unchecked((seq >> 8 & 0xff));
+                    _byte[15] = unchecked((seq >> 16 & 0xff));
+                    _byte[16] = unchecked((seq >> 24 & 0xff));
                 }
 
                 return _byte;
             }
         }
-
+        */
         private static int calcheading(int myx, int myy, int tx, int ty)
         {
             int newheading = 0;

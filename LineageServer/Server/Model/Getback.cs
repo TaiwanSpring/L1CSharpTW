@@ -1,16 +1,20 @@
-﻿using LineageServer.Interfaces;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Models;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Utils;
 using System;
 using System.Collections.Generic;
 namespace LineageServer.Server.Model
 {
-    class Getback
+    class GetbackController
     {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.Getback);
+        private static ILogger _log = Logger.GetLogger(nameof(GetbackController));
 
-        private static ILogger _log = Logger.GetLogger(nameof(Getback));
-
-        private static IDictionary<int, IList<Getback>> _getback = MapFactory.NewMap<int, IList<Getback>>();
+        private static IDictionary<int, IList<GetbackController>> _getback = MapFactory.NewMap<int, IList<GetbackController>>();
 
         private int _areaX1;
 
@@ -42,7 +46,7 @@ namespace LineageServer.Server.Model
 
         private int _getbackTownIdForDarkelf;
 
-        private Getback()
+        private GetbackController()
         {
         }
 
@@ -57,47 +61,39 @@ namespace LineageServer.Server.Model
         public static void loadGetBack()
         {
             _getback.Clear();
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            try
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select()
+               .OrderByDesc(Getback.Column_area_x1).Query();
+
+            for (int i = 0; i < dataSourceRows.Count; i++)
             {
-                con = L1DatabaseFactory.Instance.Connection;
-                // 同マップでエリア指定と無指定が混在していたら、エリア指定を先に読み込む為にarea_x1 DESC
-                string sSQL = "SELECT * FROM getback ORDER BY area_mapid,area_x1 DESC ";
-                pstm = con.prepareStatement(sSQL);
-                rs = pstm.executeQuery();
-                while (rs.next())
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                GetbackController getback = new GetbackController();
+                getback._areaX1 = dataSourceRow.getInt(Getback.Column_area_x1);
+                getback._areaY1 = dataSourceRow.getInt(Getback.Column_area_y1);
+                getback._areaX2 = dataSourceRow.getInt(Getback.Column_area_x2);
+                getback._areaY2 = dataSourceRow.getInt(Getback.Column_area_y2);
+                getback._areaMapId = dataSourceRow.getInt(Getback.Column_area_mapid);
+                getback._getbackX1 = dataSourceRow.getInt(Getback.Column_getback_x1);
+                getback._getbackY1 = dataSourceRow.getInt(Getback.Column_getback_y1);
+                getback._getbackX2 = dataSourceRow.getInt(Getback.Column_getback_x2);
+                getback._getbackY2 = dataSourceRow.getInt(Getback.Column_getback_y2);
+                getback._getbackX3 = dataSourceRow.getInt(Getback.Column_getback_x3);
+                getback._getbackY3 = dataSourceRow.getInt(Getback.Column_getback_y3);
+                getback._getbackMapId = dataSourceRow.getInt(Getback.Column_getback_mapid);
+                getback._getbackTownId = dataSourceRow.getInt(Getback.Column_getback_townid);
+                getback._getbackTownIdForElf = dataSourceRow.getInt(Getback.Column_getback_townid_elf);
+                getback._getbackTownIdForDarkelf = dataSourceRow.getInt(Getback.Column_getback_townid_darkelf);
+                dataSourceRow.getBoolean(Getback.Column_scrollescape);
+
+                if (_getback.ContainsKey(getback._areaMapId))
                 {
-                    Getback getback = new Getback();
-                    getback._areaX1 = dataSourceRow.getInt("area_x1");
-                    getback._areaY1 = dataSourceRow.getInt("area_y1");
-                    getback._areaX2 = dataSourceRow.getInt("area_x2");
-                    getback._areaY2 = dataSourceRow.getInt("area_y2");
-                    getback._areaMapId = dataSourceRow.getInt("area_mapid");
-                    getback._getbackX1 = dataSourceRow.getInt("getback_x1");
-                    getback._getbackY1 = dataSourceRow.getInt("getback_y1");
-                    getback._getbackX2 = dataSourceRow.getInt("getback_x2");
-                    getback._getbackY2 = dataSourceRow.getInt("getback_y2");
-                    getback._getbackX3 = dataSourceRow.getInt("getback_x3");
-                    getback._getbackY3 = dataSourceRow.getInt("getback_y3");
-                    getback._getbackMapId = dataSourceRow.getInt("getback_mapid");
-                    getback._getbackTownId = dataSourceRow.getInt("getback_townid");
-                    getback._getbackTownIdForElf = dataSourceRow.getInt("getback_townid_elf");
-                    getback._getbackTownIdForDarkelf = dataSourceRow.getInt("getback_townid_darkelf");
-                    dataSourceRow.getBoolean("scrollescape");
-                    IList<Getback> getbackList = _getback[getback._areaMapId];
-                    if (getbackList == null)
-                    {
-                        getbackList = ListFactory.NewList<Getback>();
-                        _getback[getback._areaMapId] = getbackList;
-                    }
-                    getbackList.Add(getback);
+
                 }
-            }
-            catch (Exception e)
-            {
-                _log.Error(Enum.Level.Server, "could not Get Getback data", e);
+                else
+                {
+                    _getback.Add(getback._areaMapId, ListFactory.NewList<GetbackController>());
+                }
+                _getback[getback._areaMapId].Add(getback);
             }
         }
 
@@ -118,12 +114,12 @@ namespace LineageServer.Server.Model
             int pcLocX = pc.X;
             int pcLocY = pc.Y;
             int pcMapId = pc.MapId;
-            IList<Getback> getbackList = _getback[pcMapId];
+            IList<GetbackController> getbackList = _getback[pcMapId];
 
             if (getbackList != null)
             {
-                Getback getback = null;
-                foreach (Getback gb in getbackList)
+                GetbackController getback = null;
+                foreach (GetbackController gb in getbackList)
                 {
                     if (gb.SpecifyArea)
                     {
@@ -166,7 +162,7 @@ namespace LineageServer.Server.Model
             return loc;
         }
 
-        private static int[] ReadGetbackInfo(Getback getback, int nPosition)
+        private static int[] ReadGetbackInfo(GetbackController getback, int nPosition)
         {
             int[] loc = new int[3];
             switch (nPosition)

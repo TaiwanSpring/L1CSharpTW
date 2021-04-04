@@ -3,10 +3,8 @@ using LineageServer.Server.Model.Game;
 
 namespace LineageServer.Server.Templates
 {
-	public class L1ShopItem
+	class L1ShopItem
 	{
-		private const long serialVersionUID = 1L;
-
 		private readonly int _itemId;
 
 		private L1Item _item;
@@ -66,14 +64,6 @@ namespace LineageServer.Server.Templates
 				_item.Name = temp;
 				_item.UnidentifiedNameId = temp;
 				_item.IdentifiedNameId = temp;
-			}
-		}
-
-		public static long Serialversionuid
-		{
-			get
-			{
-				return serialVersionUID;
 			}
 		}
 	}

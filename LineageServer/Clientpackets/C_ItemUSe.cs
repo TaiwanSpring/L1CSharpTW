@@ -1843,7 +1843,7 @@ namespace LineageServer.Clientpackets
                     { // 傳送回家的卷軸、象牙塔傳送回家的卷軸、精靈羽翼
                         if (pc.Map.Escapable || pc.Gm)
                         {
-                            int[] loc = Getback.GetBack_Location(pc, true);
+                            int[] loc = GetbackController.GetBack_Location(pc, true);
                             L1Teleport.teleport(pc, loc[0], loc[1], (short)loc[2], 5, true);
                             pc.Inventory.removeItem(l1iteminstance, 1);
                         }
@@ -1914,7 +1914,7 @@ namespace LineageServer.Clientpackets
                                 }
                                 else
                                 {
-                                    int[] loc = Getback.GetBack_Location(pc, true);
+                                    int[] loc = GetbackController.GetBack_Location(pc, true);
                                     L1Teleport.teleport(pc, loc[0], loc[1], (short)loc[2], 5, true);
                                     pc.Inventory.removeItem(l1iteminstance, 1);
                                 }
@@ -6078,7 +6078,7 @@ namespace LineageServer.Clientpackets
             }
 
             // XXX 適当なダメージ計算、要修正
-            int dmg = (RandomHelper.Next(11) - 5) + user.Str;
+            int dmg = (RandomHelper.Next(11) - 5) + user.BaseStr;
             dmg = Math.Max(1, dmg);
 
             if (target is L1PcInstance)
@@ -6462,7 +6462,7 @@ namespace LineageServer.Clientpackets
                 }
                 petCost += petNpc.Petcost;
             }
-            int charisma = pc.Cha;
+            int charisma = pc.BaseCha;
             if (pc.Crown)
             { // 君主
                 charisma += 6;

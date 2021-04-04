@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class SpawnlistUb : DataSource
@@ -18,15 +20,15 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_location, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_ub_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_pattern, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_group_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_npc_templateid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_count, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_spawn_delay, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_seal_count, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_location, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_ub_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_pattern, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_group_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_npc_templateid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_spawn_delay, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_seal_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public SpawnlistUb() : base(TableName)
         {

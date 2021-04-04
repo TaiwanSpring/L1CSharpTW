@@ -1,4 +1,5 @@
-﻿using LineageServer.Models;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
 
@@ -37,7 +38,7 @@ namespace LineageServer.Server.Model
 
         public virtual void begin()
         {
-			Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this, this._timeMillis);
+            Container.Instance.Resolve<ITaskController>().execute(this, this._timeMillis);
         }
 
         private readonly L1NpcInstance _npc;

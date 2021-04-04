@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class MagicDoll : DataSource
@@ -35,32 +37,32 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_item_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_doll_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_make_itemid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ac, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_hpr, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_hpr_time, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_mpr, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_mpr_time, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_hit, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_dmg, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_dmg_chance, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_bow_hit, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_bow_dmg, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_dmg_reduction, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_dmg_reduction_chance, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_dmg_evasion_chance, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_weight_reduction, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_regist_stun, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_regist_stone, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_regist_sleep, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_regist_freeze, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_regist_sustain, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_regist_blind, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_effect, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_effect_chance, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_item_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_doll_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_make_itemid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ac, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_hpr, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_hpr_time, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_mpr, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_mpr_time, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_hit, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_dmg, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_dmg_chance, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_bow_hit, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_bow_dmg, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_dmg_reduction, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_dmg_reduction_chance, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_dmg_evasion_chance, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_weight_reduction, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_regist_stun, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_regist_stone, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_regist_sleep, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_regist_freeze, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_regist_sustain, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_regist_blind, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_effect, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_effect_chance, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public MagicDoll() : base(TableName)
         {

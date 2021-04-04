@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Mail : DataSource
@@ -18,15 +20,15 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_sender, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_receiver, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_date, DbType = DbType.DateTime, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_type, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_inbox_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_read_status, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_subject, DbType = DbType.Binary, IsPKey = false},
-            new ColumnInfo() { Column = Column_content, DbType = DbType.Binary, IsPKey = false},
+            new ColumnInfo() { Column = Column_sender, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_receiver, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_date, MySqlDbType = MySqlDbType.DateTime, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_type, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_inbox_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_read_status, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_subject, MySqlDbType = MySqlDbType.Binary, IsPKey = false},
+            new ColumnInfo() { Column = Column_content, MySqlDbType = MySqlDbType.Binary, IsPKey = false},
         };
         public Mail() : base(TableName)
         {

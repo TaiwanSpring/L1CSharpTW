@@ -32,7 +32,7 @@ namespace LineageServer.Clientpackets
                     //_log.finest("Request AuthLogin from user : " + accountName);
                     if (!Config.ALLOW_2PC)
                     {
-                        foreach (ClientThread tempClient in LoginController.Instance.AllAccounts)
+                        foreach (ClientThread tempClient in Container.Instance.Resolve<ILoginController>().AllAccounts)
                         {
                             if (ip == tempClient.Ip)
                             {
@@ -74,7 +74,7 @@ namespace LineageServer.Clientpackets
 
                     try
                     {
-                        LoginController.Instance.login(client, account);
+                        Container.Instance.Resolve<ILoginController>().login(client, account);
                         account.UpdateLastActive(ip); // 更新最後一次登入的時間與IP
                         client.Account = account;
                         client.SendPacket(new S_LoginResult(S_LoginResult.REASON_LOGIN_OK));

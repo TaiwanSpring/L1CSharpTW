@@ -41,7 +41,7 @@ namespace LineageServer.Server
 
         private void checkLightTime()
         {
-            int serverTime = L1GameTimeClock.Instance.CurrentTime().Seconds;
+            int serverTime = Container.Instance.Resolve<IGameTimeClock>().CurrentTime().Seconds;
             int nowTime = serverTime % 86400;
             if ((nowTime >= ((5 * 3600) + 3300)) && (nowTime < ((17 * 3600) + 3300)))
             {

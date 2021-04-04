@@ -59,10 +59,10 @@ namespace LineageServer.Server.Model
             int maxBonus = 1;
 
             // CONボーナス
-            if (11 < _pc.Level && 14 <= _pc.Con)
+            if (11 < _pc.Level && 14 <= _pc.BaseCon)
             {
-                maxBonus = _pc.Con - 12;
-                if (25 < _pc.Con)
+                maxBonus = _pc.BaseCon - 12;
+                if (25 < _pc.BaseCon)
                 {
                     maxBonus = 14;
                 }

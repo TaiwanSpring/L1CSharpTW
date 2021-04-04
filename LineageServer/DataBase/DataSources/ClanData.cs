@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class ClanData : DataSource
@@ -19,16 +21,16 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_clan_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_leader_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_announcement, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_found_date, DbType = DbType.DateTime, IsPKey = false},
-            new ColumnInfo() { Column = Column_clan_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_leader_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hascastle, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hashouse, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_emblem_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_emblem_status, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_clan_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_leader_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_announcement, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_found_date, MySqlDbType = MySqlDbType.DateTime, IsPKey = false},
+            new ColumnInfo() { Column = Column_clan_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_leader_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hascastle, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hashouse, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_emblem_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_emblem_status, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public ClanData() : base(TableName)
         {

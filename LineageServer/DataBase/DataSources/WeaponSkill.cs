@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class WeaponSkill : DataSource
@@ -23,20 +25,20 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_weapon_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_probability, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_fix_damage, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_random_damage, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_area, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_skill_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_skill_time, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_effect_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_effect_target, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_arrow_type, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_attr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_gfx_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_gfx_id_target, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_weapon_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_probability, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_fix_damage, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_random_damage, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_area, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_skill_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_skill_time, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_effect_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_effect_target, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_arrow_type, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_attr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_gfx_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_gfx_id_target, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public WeaponSkill() : base(TableName)
         {

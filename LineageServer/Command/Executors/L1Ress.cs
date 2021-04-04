@@ -20,7 +20,7 @@ namespace LineageServer.Command.Executors
                 pc.sendPackets(new S_SkillSound(objid, 759));
                 pc.broadcastPacket(new S_SkillSound(objid, 759));
                 pc.CurrentHp = pc.MaxHp;
-                pc.CurrentMp = pc.MaxMp;
+                pc.CurrentMp = pc.BaseMaxMp;
                 foreach (L1PcInstance tg in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc))
                 {
                     if ((tg.CurrentHp == 0) && tg.Dead)
@@ -38,7 +38,7 @@ namespace LineageServer.Command.Executors
                         tg.broadcastPacket(new S_SkillSound(tg.Id, 832));
                         tg.sendPackets(new S_SkillSound(tg.Id, 832));
                         tg.CurrentHp = tg.MaxHp;
-                        tg.CurrentMp = tg.MaxMp;
+                        tg.CurrentMp = tg.BaseMaxMp;
                     }
                 }
             }

@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace LineageServer.DataBase
 {
@@ -8,6 +9,6 @@ namespace LineageServer.DataBase
 
         public string Column { get; set; }
 
-        public DbType DbType { get; set; }
+        public MySqlDbType MySqlDbType { get; set; }
     }
 }

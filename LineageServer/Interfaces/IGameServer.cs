@@ -4,8 +4,8 @@ using System.Text;
 
 namespace LineageServer.Interfaces
 {
-    public interface IEncode
+    interface IGameServer
     {
-        string Encode(string oriString);
+        int startTime { get; }
     }
 }

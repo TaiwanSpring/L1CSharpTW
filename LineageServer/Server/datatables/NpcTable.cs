@@ -118,7 +118,14 @@ namespace LineageServer.Server.DataTables
 
         public virtual L1Npc getTemplate(int id)
         {
-            return _npcs[id];
+            if (_npcs.ContainsKey(id))
+            {
+                return _npcs[id];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public virtual L1NpcInstance newNpcInstance(int id)

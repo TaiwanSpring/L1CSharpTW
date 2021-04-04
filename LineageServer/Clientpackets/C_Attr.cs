@@ -66,7 +66,7 @@ namespace LineageServer.Clientpackets
                             if (clan != null)
                             {
                                 int maxMember = 0;
-                                int charisma = pc.Cha;
+                                int charisma = pc.BaseCha;
                                 // 公式
                                 maxMember = charisma * 3 * (2 + pc.Level / 50);
                                 // 未過45 人數/3

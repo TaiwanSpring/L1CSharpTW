@@ -87,22 +87,50 @@ namespace LineageServer.Server.DataTables
 
         public virtual L1NpcChat getTemplateAppearance(int i)
         {
-            return _npcChatAppearance[i];
+            if (_npcChatAppearance.ContainsKey(i))
+            {
+                return _npcChatAppearance[i];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public virtual L1NpcChat getTemplateDead(int i)
         {
-            return _npcChatDead[i];
+            if (_npcChatDead.ContainsKey(i))
+            {
+                return _npcChatDead[i];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public virtual L1NpcChat getTemplateHide(int i)
         {
-            return _npcChatHide[i];
+            if (_npcChatHide.ContainsKey(i))
+            {
+                return _npcChatHide[i];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public virtual L1NpcChat getTemplateGameTime(int i)
         {
-            return _npcChatGameTime[i];
+            if (_npcChatGameTime.ContainsKey(i))
+            {
+                return _npcChatGameTime[i];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public virtual L1NpcChat[] AllGameTime

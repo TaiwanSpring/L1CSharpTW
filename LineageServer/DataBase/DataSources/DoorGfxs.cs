@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class DoorGfxs : DataSource
@@ -14,11 +16,11 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_gfxid, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_direction, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_left_edge_offset, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_right_edge_offset, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_gfxid, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_direction, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_left_edge_offset, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_right_edge_offset, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public DoorGfxs() : base(TableName)
         {

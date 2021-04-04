@@ -22,8 +22,8 @@ namespace LineageServer.Server.DataTables
 
             IList<IDataSourceRow> dataSourceRows = dataSource.Select().Query();
 
-            L1BossSpawn spawnDat;
-
+            // L1BossSpawn spawnDat;
+            L1Spawn spawnDat;
             L1Npc template1;
 
             for (int i = 0; i < dataSourceRows.Count; i++)
@@ -35,11 +35,11 @@ namespace LineageServer.Server.DataTables
 
                 if (template1 != null)
                 {
-                    spawnDat = new L1BossSpawn(template1);
+                    spawnDat = new L1Spawn(template1);
                     spawnDat.Id = dataSourceRow.getInt(SpawnlistBoss.Column_id);
                     spawnDat.Npcid = npcTemplateId;
                     spawnDat.Location = dataSourceRow.getString(SpawnlistBoss.Column_location);
-                    spawnDat.CycleType = dataSourceRow.getString(SpawnlistBoss.Column_cycle_type);
+                    // spawnDat.CycleType = dataSourceRow.getString(SpawnlistBoss.Column_cycle_type);
                     spawnDat.Amount = dataSourceRow.getInt(SpawnlistBoss.Column_count);
                     spawnDat.GroupId = dataSourceRow.getInt(SpawnlistBoss.Column_group_id);
                     spawnDat.LocX = dataSourceRow.getInt(SpawnlistBoss.Column_locx);
@@ -56,7 +56,7 @@ namespace LineageServer.Server.DataTables
                     spawnDat.MovementDistance = dataSourceRow.getInt(SpawnlistBoss.Column_movement_distance);
                     spawnDat.Rest = dataSourceRow.getBoolean(SpawnlistBoss.Column_rest);
                     spawnDat.SpawnType = dataSourceRow.getShort(SpawnlistBoss.Column_spawn_type);
-                    spawnDat.Percentage = dataSourceRow.getInt(SpawnlistBoss.Column_percentage);
+                    //spawnDat.Percentage = dataSourceRow.getInt(SpawnlistBoss.Column_percentage);
 
                     spawnDat.Name = template1.get_name();
 

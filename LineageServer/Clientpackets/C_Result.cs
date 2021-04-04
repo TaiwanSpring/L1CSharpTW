@@ -651,7 +651,7 @@ namespace LineageServer.Clientpackets
                         petCost += petNpc.Petcost;
                     }
 
-                    int charisma = pc.Cha;
+                    int charisma = pc.BaseCha;
                     if (pc.Crown)
                     { // 王族
                         charisma += 6;

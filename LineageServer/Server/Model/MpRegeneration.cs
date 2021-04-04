@@ -28,7 +28,7 @@ namespace LineageServer.Server.Model
         public virtual void regenMp()
         {
             int baseMpr = 1;
-            int wis = _pc.Wis;
+            int wis = _pc.BaseWis;
             if ((wis == 15) || (wis == 16))
             {
                 baseMpr = 2;
@@ -71,7 +71,7 @@ namespace LineageServer.Server.Model
                 baseMpr += _pc.OriginalMpr;
             }
 
-            int itemMpr = _pc.Inventory.mpRegenPerTick();
+            int itemMpr = (_pc.Inventory as L1PcInventory).mpRegenPerTick();
             itemMpr += _pc.Mpr;
 
             if ((_pc.get_food() < 3) || isOverWeight(_pc))
@@ -100,7 +100,7 @@ namespace LineageServer.Server.Model
                 return false;
             }
 
-            return (120 <= pc.Inventory.Weight242) ? true : false;
+            return (120 <= (pc.Inventory as L1PcInventory).Weight242) ? true : false;
         }
 
         protected override void DoRun()

@@ -36,11 +36,11 @@ namespace LineageServer.Command.Executors
                         msg = "指定的NPC不是L1Monster類型。";
                         return;
                     }
-                    SpawnTable.storeSpawn(pc, template);
+                    Container.Instance.Resolve<ISpawnController>().storeSpawn(pc, template);
                 }
                 else if (type == "npc")
                 {
-                    NpcContainer.Instance.Resolve<ISpawnController>().storeSpawn(pc, template);
+                    NpcSpawnTable.Instance.storeSpawn(pc, template);
                 }
                 L1SpawnUtil.spawn(pc, npcId, 0, 0);
                 msg = (new StringBuilder()).Append(template.get_name()).Append(" (" + npcId + ") ").Append("新增到資料庫中。").ToString();

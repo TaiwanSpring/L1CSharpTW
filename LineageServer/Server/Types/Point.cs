@@ -132,6 +132,26 @@ namespace LineageServer.Server.Types
                 return false;
             }
         }
+        public static bool operator ==(Point a, Point b)
+        {
+            if (a is null && b is null)
+            {
+                return true;
+            }
+            else if (a is null || b is null)
+            {
+                return false;
+            }
+            else
+            {
+                return a.X == b.X && a.Y == b.Y;
+            }
+        }
+
+        public static bool operator !=(Point a, Point b)
+        {
+            return !(a == b);
+        }
         public override string ToString()
         {
             return string.Format("({0:D}, {1:D})", X, Y);

@@ -374,7 +374,7 @@ namespace LineageServer.Server.Model
             { // フルーツサラダ
                 cookingType = 4;
                 pc.addMaxMp(20);
-                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
             }
             else if ((cookingId == L1SkillId.COOKING_1_5_N) || (cookingId == L1SkillId.COOKING_1_5_S))
             { // フルーツ甘酢あんかけ
@@ -404,7 +404,7 @@ namespace LineageServer.Server.Model
                     pc.Party.updateMiniHP(pc);
                 }
                 pc.addMaxMp(30);
-                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
             }
             else if ((cookingId == L1SkillId.COOKING_2_2_N) || (cookingId == L1SkillId.COOKING_2_2_S))
             { // タートルドラゴンの菓子
@@ -450,7 +450,7 @@ namespace LineageServer.Server.Model
                     pc.Party.updateMiniHP(pc);
                 }
                 pc.addMaxMp(50);
-                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
             }
             else if ((cookingId == L1SkillId.COOKING_3_2_N) || (cookingId == L1SkillId.COOKING_3_2_S))
             { // コカトリスステーキ

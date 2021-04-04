@@ -93,7 +93,7 @@ namespace LineageServer.Server.Model.Instance
                                     int castleId = L1CastleLocation.getCastleIdByArea(pc);
                                     if (castleId > 0)
                                     {
-                                        isNowWar = WarTimeController.Instance.isNowWar(castleId);
+                                        isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(castleId);
                                     }
                                     if (!isNowWar)
                                     {
@@ -186,7 +186,7 @@ namespace LineageServer.Server.Model.Instance
                                     int castleId = L1CastleLocation.getCastleIdByArea(pc);
                                     if (castleId > 0)
                                     {
-                                        isNowWar = WarTimeController.Instance.isNowWar(castleId);
+                                        isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(castleId);
                                     }
                                     if (!isNowWar)
                                     {

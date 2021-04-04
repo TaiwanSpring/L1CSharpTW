@@ -102,7 +102,7 @@ namespace LineageServer.Clientpackets
             // altsettings.properties 中 GetBack 設定為 true 就自動回村
             if (Config.GET_BACK)
             {
-                int[] loc = Server.Model.Getback.GetBack_Location(pc, true);
+                int[] loc = Server.Model.GetbackController.GetBack_Location(pc, true);
                 pc.X = loc[0];
                 pc.Y = loc[1];
                 pc.Map = Container.Instance.Resolve<IWorldMap>().getMap((short)loc[2]);
@@ -570,7 +570,7 @@ namespace LineageServer.Clientpackets
                     case L1SkillId.MIRROR_IMAGE: // 鏡像
                     case L1SkillId.UNCANNY_DODGE: // 暗影閃避
                         time = remaining_time / 16;
-                        pc.addDodge((sbyte)5); // 閃避率 + 50%
+                        pc.addDodge(5); // 閃避率 + 50%
                                                // 更新閃避率顯示
                         pc.sendPackets(new S_PacketBox(88, pc.Dodge));
                         pc.sendPackets(new S_PacketBox(21, time));
@@ -580,14 +580,14 @@ namespace LineageServer.Clientpackets
                         remaining_time = remaining_time / 60;
                         if (remaining_time != 0)
                         {
-                            L1BuffUtil.bloodstain(pc, (sbyte)0, remaining_time, false);
+                            L1BuffUtil.bloodstain(pc, 0, remaining_time, false);
                         }
                         break;
                     case L1SkillId.EFFECT_BLOODSTAIN_OF_FAFURION: // 法利昂的血痕
                         remaining_time = remaining_time / 60;
                         if (remaining_time != 0)
                         {
-                            L1BuffUtil.bloodstain(pc, (sbyte)1, remaining_time, false);
+                            L1BuffUtil.bloodstain(pc, 1, remaining_time, false);
                         }
                         break;
                     default:

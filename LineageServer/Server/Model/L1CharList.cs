@@ -114,7 +114,7 @@ namespace LineageServer.Server.Model
                 int cha = dataSourceRow.getByte(Characters.Column_Cha);
                 int intel = dataSourceRow.getByte(Characters.Column_Intel);
                 int accessLevel = dataSourceRow.getShort(Characters.Column_AccessLevel);
-                DateTime _birthday = (DateTime)dataSourceRow.getTimestamp(Characters.Column_birthday);
+                DateTime _birthday = dataSourceRow.getTimestamp(Characters.Column_birthday);
                 int birthday = _birthday.Year * 10000 + _birthday.Month * 100 + _birthday.Day;
                 S_CharPacks cpk = new S_CharPacks(name, clanname, type, sex, lawful, currenthp, currentmp, ac, lvl, str, dex, con, wis, cha, intel, accessLevel, birthday);
                 client.SendPacket(cpk);

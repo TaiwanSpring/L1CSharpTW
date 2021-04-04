@@ -90,9 +90,10 @@ namespace LineageServer.Clientpackets
             {
                 s = GobalParameters.Encoding.GetString(_decrypt, _off, _decrypt.Length - _off);
                 //s = StringHelper.NewString(_decrypt, _off, _decrypt.Length - _off, CLIENT_LANGUAGE_CODE);
-                s = s.Substring(0, s.IndexOf('\0'));
-                _off += _decrypt.Length - _off + 1;
-                //_off += s.GetBytes(CLIENT_LANGUAGE_CODE).Length + 1;
+                int index = s.IndexOf('\0');
+                s = s.Substring(0, index);
+                //_off += _decrypt.Length - _off + 1;
+                _off += index + 1;
             }
             catch (Exception e)
             {

@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Castle : DataSource
@@ -14,11 +16,11 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_war_time, DbType = DbType.DateTime, IsPKey = false},
-            new ColumnInfo() { Column = Column_castle_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_tax_rate, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_public_money, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_war_time, MySqlDbType = MySqlDbType.DateTime, IsPKey = false},
+            new ColumnInfo() { Column = Column_castle_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_tax_rate, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_public_money, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Castle() : base(TableName)
         {

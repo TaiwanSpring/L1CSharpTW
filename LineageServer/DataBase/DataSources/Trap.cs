@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Trap : DataSource
@@ -28,25 +30,25 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_poisonType, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_type, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_gfxId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_base, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_dice, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_diceCount, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_poisonDelay, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_poisonTime, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_poisonDamage, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_monsterNpcId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_monsterCount, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_teleportX, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_teleportY, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_teleportMapId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_skillId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_skillTimeSeconds, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_isDetectionable, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_poisonType, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_type, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_gfxId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_base, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_dice, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_diceCount, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_poisonDelay, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_poisonTime, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_poisonDamage, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_monsterNpcId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_monsterCount, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_teleportX, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_teleportY, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_teleportMapId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_skillId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_skillTimeSeconds, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_isDetectionable, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public Trap() : base(TableName)
         {

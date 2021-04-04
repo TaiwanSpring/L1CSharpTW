@@ -5,108 +5,138 @@ using System.Data;
 
 namespace LineageServer.DataBase
 {
-	class EmptyDataSourceRow : IDataSourceRow, IDataSourceQuery
-	{
-		public bool HaveData { get { return false; } }
+    class EmptyDataSourceRow : IDataSourceRow, IDataSourceQuery
+    {
+        public bool HaveData { get { return false; } }
 
-		public IDataSourceRow Delete()
-		{
-			return this;
-		}
+        public IDataSourceRow Delete()
+        {
+            return this;
+        }
 
-		public void Execute()
-		{
+        public void Execute()
+        {
 
-		}
+        }
 
-		public bool FillData(IDataReader dataReader)
-		{
-			return false;
-		}
+        public bool FillData(IDataReader dataReader)
+        {
+            return false;
+        }
 
-		public byte[] getBlob(string column)
-		{
-			throw new NotImplementedException();
-		}
+        public byte[] getBlob(string column)
+        {
+            throw new NotImplementedException();
+        }
 
-		public bool getBoolean(string column)
-		{
-			return false;
-		}
+        public bool getBoolean(string column)
+        {
+            return false;
+        }
 
-		public byte getByte(string column)
-		{
-			return 0;
-		}
+        public byte getByte(string column)
+        {
+            return 0;
+        }
 
-		public double getDouble(string column)
-		{
-			return 0d;
-		}
+        public double getDouble(string column)
+        {
+            return 0d;
+        }
 
-		public int getInt(string column)
-		{
-			return 0;
-		}
+        public int getInt(string column)
+        {
+            return 0;
+        }
 
-		public long getLong(string column)
-		{
-			return 0L;
-		}
+        public long getLong(string column)
+        {
+            return 0L;
+        }
 
-		public short getShort(string column)
-		{
-			return 0;
-		}
+        public short getShort(string column)
+        {
+            return 0;
+        }
 
-		public string getString(string column)
-		{
-			return string.Empty;
-		}
+        public string getString(string column)
+        {
+            return string.Empty;
+        }
 
-		public DateTime getTimestamp(string column)
-		{
-			return default(DateTime);
-		}
+        public TimeSpan getTimeSpan(string column)
+        {
+            return default(TimeSpan);
+        }
 
-		public IDataSourceRow Insert()
-		{
-			return this;
-		}
+        public DateTime getTimestamp(string column)
+        {
+            return default(DateTime);
+        }
 
-		public IList<IDataSourceRow> Query()
-		{
-			return new List<IDataSourceRow>();
-		}
+        public IDataSourceRow Insert()
+        {
+            return this;
+        }
 
-		public IList<IDataSourceRow> Query(string command)
-		{
-			return new List<IDataSourceRow>();
-		}
+        public IList<IDataSourceRow> Query()
+        {
+            return new List<IDataSourceRow>();
+        }
 
-		public IDataSourceRow Select()
-		{
-			return this;
-		}
+        public IList<IDataSourceRow> Query(string command)
+        {
+            return new List<IDataSourceRow>();
+        }
 
-		public IDataSourceRow Set(string column, object value)
-		{
-			return this;
-		}
+        public IDataSourceRow Select()
+        {
+            return this;
+        }
 
-		public IDataSourceRow Update()
-		{
-			return this;
-		}
+        public IDataSourceRow Set(string column, object value)
+        {
+            return this;
+        }
 
-		IDataSourceRow IDataSourceRow.Where(string column, object value)
-		{
-			return this;
-		}
+        public IDataSourceRow Update()
+        {
+            return this;
+        }
 
-		IDataSourceQuery IDataSourceQuery.Where(string column, object value)
-		{
-			return this;
-		}
-	}
+        IDataSourceQuery IDataSourceQuery.OrderBy(string column)
+        {
+            return this;
+        }
+
+        IDataSourceQuery IDataSourceQuery.OrderByDesc(string column)
+        {
+            return this;
+        }
+
+        IDataSourceRow IDataSourceRow.SetToColumn(string column, string toColumn)
+        {
+            return this;
+        }
+
+        IDataSourceRow IDataSourceRow.Where(string column, object value)
+        {
+            return this;
+        }
+
+        IDataSourceQuery IDataSourceQuery.Where(string column, object value)
+        {
+            return this;
+        }
+
+        IDataSourceRow IDataSourceRow.WhereNot(string column, object value)
+        {
+            return this;
+        }
+
+        IDataSourceQuery IDataSourceQuery.WhereNot(string column, object value)
+        {
+            return this;
+        }
+    }
 }

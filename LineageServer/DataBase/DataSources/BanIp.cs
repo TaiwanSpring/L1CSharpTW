@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class BanIp : DataSource
@@ -10,11 +12,11 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_ip, DbType = DbType.String, IsPKey = true},
+            new ColumnInfo() { Column = Column_ip, MySqlDbType = MySqlDbType.Text, IsPKey = true},
         };
         public BanIp() : base(TableName)
         {
-            
+
         }
     }
 }

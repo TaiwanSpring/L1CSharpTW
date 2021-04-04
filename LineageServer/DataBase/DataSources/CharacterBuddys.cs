@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class CharacterBuddys : DataSource
@@ -13,10 +15,10 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_buddy_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_char_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_buddy_id, DbType = DbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_buddy_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_char_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_buddy_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
         };
         public CharacterBuddys() : base(TableName)
         {

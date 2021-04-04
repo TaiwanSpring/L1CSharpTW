@@ -245,22 +245,22 @@ namespace LineageServer.Server.Model
 
         public virtual void giveEffect(L1PcInstance pc)
         {
-            pc.addStr((sbyte)_str);
-            pc.addDex((sbyte)_dex);
-            pc.addCon((sbyte)_con);
-            pc.addWis((sbyte)_wis);
-            pc.addCha((sbyte)_cha);
-            pc.addInt((sbyte)_intl);
+            pc.addStr(_str);
+            pc.addDex(_dex);
+            pc.addCon(_con);
+            pc.addWis(_wis);
+            pc.addCha(_cha);
+            pc.addInt(_intl);
         }
 
         public virtual void cancelEffect(L1PcInstance pc)
         {
-            pc.addStr((sbyte)-_str);
-            pc.addDex((sbyte)-_dex);
-            pc.addCon((sbyte)-_con);
-            pc.addWis((sbyte)-_wis);
-            pc.addCha((sbyte)-_cha);
-            pc.addInt((sbyte)-_intl);
+            pc.addStr(-_str);
+            pc.addDex(-_dex);
+            pc.addCon(-_con);
+            pc.addWis(-_wis);
+            pc.addCha(-_cha);
+            pc.addInt(-_intl);
         }
     }
 

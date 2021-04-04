@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class UbManagers : DataSource
@@ -11,8 +13,8 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_ub_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ub_manager_npc_id, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ub_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ub_manager_npc_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public UbManagers() : base(TableName)
         {

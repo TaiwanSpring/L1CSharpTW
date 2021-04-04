@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class UbSettings : DataSource
@@ -31,28 +33,28 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_ub_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_ub_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_ub_mapid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ub_area_x1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ub_area_y1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ub_area_x2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ub_area_y2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_min_lvl, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_max_lvl, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_max_player, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hpr_bonus, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mpr_bonus, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_enter_royal, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_enter_knight, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_enter_mage, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_enter_elf, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_enter_darkelf, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_enter_dragonknight, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_enter_illusionist, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_enter_male, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_enter_female, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_use_pot, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_ub_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_ub_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_ub_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ub_area_x1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ub_area_y1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ub_area_x2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ub_area_y2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_min_lvl, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_max_lvl, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_max_player, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hpr_bonus, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mpr_bonus, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_enter_royal, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_enter_knight, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_enter_mage, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_enter_elf, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_enter_darkelf, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_enter_dragonknight, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_enter_illusionist, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_enter_male, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_enter_female, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_use_pot, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public UbSettings() : base(TableName)
         {

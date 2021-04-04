@@ -21,7 +21,7 @@ namespace LineageServer.Server.Model.map
 		/// <returns> ArraryList </returns>
 		private IList<int> listMapIds()
 		{
-			IList<int> ids = Lists.NewList();
+			IList<int> ids = ListFactory.NewList();
 
 			File mapDir = new File(MAP_DIR);
 			foreach (string name in mapDir.list())
@@ -100,7 +100,7 @@ namespace LineageServer.Server.Model.map
 			sbyte[] tiles = new sbyte[width * height * 2];
 			for (int i = 0; i < width * height * 2; i++)
 			{
-				tiles[i] = (sbyte)@in.readByte();
+				tiles[i] = @in.readByte();
 			}
 			@in.Close();
 

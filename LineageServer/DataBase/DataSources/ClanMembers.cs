@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class ClanMembers : DataSource
@@ -14,11 +16,11 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_char_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_notes, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_clan_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_index_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_char_id, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_char_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_notes, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_clan_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_index_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_char_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public ClanMembers() : base(TableName)
         {

@@ -1,115 +1,70 @@
-﻿using System;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Extensions;
+using LineageServer.Interfaces;
+using LineageServer.Server;
+using LineageServer.Server.DataTables;
+using LineageServer.Server.Templates;
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
-/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
 namespace LineageServer.Serverpackets
 {
+    /// <summary>
+    /// 處理查詢血盟倉庫使用紀錄的封包
+    /// </summary>
+    class S_PledgeWarehouseHistory : ServerBasePacket
+    {
+        private readonly static IDataSource dataSource =
+            Container.Instance.Resolve<IDataSourceFactory>()
+            .Factory(Enum.DataSourceTypeEnum.ClanWarehouseHistory);
+        private const string S_PledgeWarehouseHistory_Conflict = "[S] S_PledgeWarehouseHistory";
 
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static l1j.server.server.Opcodes.S_OPCODE_PACKETBOX;
-	using L1DatabaseFactory = LineageServer.Server.L1DatabaseFactory;
-	using ItemTable = LineageServer.Server.DataTables.ItemTable;
-	using L1Item = LineageServer.Server.Templates.L1Item;
-	using SQLUtil = LineageServer.Utils.SQLUtil;
-
-	//Referenced classes of package l1j.server.server.serverpackets:
-	//ServerBasePacket
-
-	/// <summary>
-	/// 處理查詢血盟倉庫使用紀錄的封包
-	/// </summary>
-	public class S_PledgeWarehouseHistory : ServerBasePacket
-	{
-
-//JAVA TO C# CONVERTER NOTE: Members cannot have the same name as their enclosing type:
-		private const string S_PledgeWarehouseHistory_Conflict = "[S] S_PledgeWarehouseHistory";
-
-		private byte[] _byte = null;
-
-
-		public S_PledgeWarehouseHistory(int clanId)
-		{
-			IDataBaseConnection con = null;
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			try
-			{
-				con = L1DatabaseFactory.Instance.Connection;
-				// 刪除超過3天的紀錄
-				pstm = con.prepareStatement("DELETE FROM clan_warehouse_history WHERE clan_id=? AND record_time < ?");
-				pstm.setInt(1, clanId);
-				pstm.setTimestamp(2, new Timestamp(DateTimeHelper.CurrentUnixTimeMillis() - 259200000));
-				pstm.execute();
-				pstm.close();
-
-				// 查詢紀錄
-				pstm = con.prepareStatement("SELECT * FROM clan_warehouse_history WHERE clan_id=? ORDER BY id DESC");
-				pstm.setInt(1, clanId);
-				rs = pstm.executeQuery();
-				rs.last(); // 為了取得總列數，先將指標拉到最後
-				int rowcount = rs.Row; // 取得總列數
-				rs.beforeFirst(); // 將指標移回最前頭
-				/// <summary>
-				/// 封包部分 </summary>
-				WriteC(S_OPCODE_PACKETBOX);
-				WriteC(S_PacketBox.HTML_CLAN_WARHOUSE_RECORD);
-				WriteD(rowcount); // 總共筆數
-				while (rs.next())
-				{
-					L1Item item = ItemTable.Instance.getTemplate(ItemTable.Instance.findItemIdByName(dataSourceRow.getString("item_name")));
-					WriteS(dataSourceRow.getString("char_name"));
-					WriteC(dataSourceRow.getInt("type")); // 領出: 1, 存入: 0
-					WriteS(item.UnidentifiedNameId); // 物品名稱
-					WriteD(dataSourceRow.getInt("item_count")); // 物品數量
-					WriteD((int)((DateTimeHelper.CurrentUnixTimeMillis() - dataSourceRow.getTimestamp("record_time").Time) / 60000)); // 過了幾分鐘
-				}
-			}
-			catch (SQLException e)
-			{
+        private byte[] _byte = null;
+        public S_PledgeWarehouseHistory(int clanId)
+        {
+            IDbConnection dbConnection = Container.Instance.Resolve<IDbConnection>();
+            try
+            {
+                IDbCommand dbCommand = dbConnection.CreateCommand();
+                dbCommand.CommandText = "DELETE FROM clan_warehouse_history WHERE clan_id=@clan_id AND record_time < @record_time";
+                dbCommand.AddParameter("@clan_id", clanId, MySqlDbType.Int32);
+                dbCommand.AddParameter("@record_time", DateTime.Now.AddDays(-3), MySqlDbType.DateTime);
+                dbCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
                 System.Console.WriteLine(e.Message);
-			}
-			finally
-			{
-				SQLUtil.close(rs);
-				SQLUtil.close(pstm);
-				SQLUtil.close(con);
-			}
-		}
+            }
+            dbConnection.Close();
+            IList<IDataSourceRow> dataSourceRows = dataSource.Select()
+                .Where(ClanWarehouseHistory.Column_clan_id, clanId)
+                .OrderByDesc(ClanWarehouseHistory.Column_clan_id).Query();
+            int rowcount = dataSourceRows.Count; // 取得總列數
+            WriteC(Opcodes.S_OPCODE_PACKETBOX);
+            WriteC(S_PacketBox.HTML_CLAN_WARHOUSE_RECORD);
+            WriteD(rowcount); // 總共筆數
+            for (int i = 0; i < dataSourceRows.Count; i++)
+            {
+                IDataSourceRow dataSourceRow = dataSourceRows[i];
+                L1Item item = ItemTable.Instance.getTemplate
+                    (ItemTable.Instance.findItemIdByName(dataSourceRow.getString(ClanWarehouseHistory.Column_item_name)));
+                WriteS(dataSourceRow.getString(ClanWarehouseHistory.Column_char_name));
+                WriteC(dataSourceRow.getInt(ClanWarehouseHistory.Column_type)); // 領出: 1, 存入: 0
+                WriteS(item.UnidentifiedNameId); // 物品名稱
+                WriteD(dataSourceRow.getInt(ClanWarehouseHistory.Column_item_count)); // 物品數量
+                WriteD((int)(DateTime.Now - dataSourceRow.getTimestamp(ClanWarehouseHistory.Column_record_time)).TotalMinutes); // 過了幾分鐘
+            }
+        }
 
-
-
-
-		public override sbyte[] Content
-		{
-			get
-			{
-				if (_byte == null)
-				{
-					_byte = memoryStream.toByteArray();
-				}
-				return _byte;
-			}
-		}
-
-		public override string Type
-		{
-			get
-			{
-				return S_PledgeWarehouseHistory_Conflict;
-			}
-		}
-	}
+        public override string Type
+        {
+            get
+            {
+                return S_PledgeWarehouseHistory_Conflict;
+            }
+        }
+    }
 
 }

@@ -15,10 +15,10 @@ namespace LineageServer.Server.Model.Npc.Action
 		public L1NpcShowHtmlAction(XmlElement xmlElement) : base(xmlElement)
 		{
 			_htmlId = xmlElement.GetString("HtmlId");
-			if (string.IsNullOrEmpty(_htmlId))
-			{
-				throw new NullReferenceException(nameof(_htmlId));
-			}
+			//if (string.IsNullOrEmpty(_htmlId))
+			//{
+			//	throw new NullReferenceException(nameof(_htmlId));
+			//}
 			List<string> dataList = new List<string>();
 
 			for (int i = 0; i < xmlElement.ChildNodes.Count; i++)

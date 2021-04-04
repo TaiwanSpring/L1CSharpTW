@@ -1,4 +1,5 @@
-﻿using LineageServer.Models;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
 using LineageServer.Server.Model.Instance;
 
 namespace LineageServer.Server.Model.monitor

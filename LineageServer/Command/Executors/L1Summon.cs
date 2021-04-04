@@ -5,6 +5,8 @@ using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
 using System;
+using System.Extensions;
+
 namespace LineageServer.Command.Executors
 {
     class L1Summon : ILineageCommand

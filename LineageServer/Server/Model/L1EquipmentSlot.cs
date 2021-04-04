@@ -323,16 +323,16 @@ namespace LineageServer.Server.Model
             {
                 _owner.addMaxMp(-equipment.getaddMp());
             }
-            _owner.addStr((sbyte)-item.get_addstr());
-            _owner.addCon((sbyte)-item.get_addcon());
-            _owner.addDex((sbyte)-item.get_adddex());
-            _owner.addInt((sbyte)-item.get_addint());
-            _owner.addWis((sbyte)-item.get_addwis());
+            _owner.addStr(-item.get_addstr());
+            _owner.addCon(-item.get_addcon());
+            _owner.addDex(-item.get_adddex());
+            _owner.addInt(-item.get_addint());
+            _owner.addWis(-item.get_addwis());
             if (item.get_addwis() != 0)
             {
                 _owner.resetBaseMr();
             }
-            _owner.addCha((sbyte)-item.get_addcha());
+            _owner.addCha(-item.get_addcha());
 
             int addMr = 0;
             addMr -= equipment.Mr;

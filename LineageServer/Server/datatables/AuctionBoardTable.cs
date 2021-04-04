@@ -78,7 +78,7 @@ namespace LineageServer.Server.DataTables
             {
                 IDataSourceRow dataSourceRow = dataSource.NewRow();
 
-                dataSourceRow.Insert()
+                dataSourceRow.Update()
                         .Where(BoardAuction.Column_house_id, board.HouseId)
                         .Set(BoardAuction.Column_house_name, board.HouseName)
                         .Set(BoardAuction.Column_house_area, board.HouseArea)

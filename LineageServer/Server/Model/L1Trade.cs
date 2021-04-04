@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.Model.Instance;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
 using LineageServer.Utils;
 using System;
@@ -115,7 +116,7 @@ namespace LineageServer.Server.Model
                 // 交易紀錄
                 if (Config.writeTradeLog)
                 {
-                    LogRecorder.writeTradeLog(player, trading_partner, l1iteminstance1);
+                    //LogRecorder.writeTradeLog(player, trading_partner, l1iteminstance1);
                 }
             }
             for (int cnt = 0; cnt < trading_partner_tradecount; cnt++)
@@ -125,7 +126,7 @@ namespace LineageServer.Server.Model
                 // 交易紀錄
                 if (Config.writeTradeLog)
                 {
-                    LogRecorder.writeTradeLog(trading_partner, player, l1iteminstance2);
+                    //LogRecorder.writeTradeLog(trading_partner, player, l1iteminstance2);
                 }
             }
 

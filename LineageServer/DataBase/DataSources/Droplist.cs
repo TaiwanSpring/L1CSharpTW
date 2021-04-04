@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Droplist : DataSource
@@ -15,12 +17,12 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_mobId, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_itemId, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_min, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_max, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_chance, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_enchantlvl, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mobId, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_itemId, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_min, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_max, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_chance, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_enchantlvl, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Droplist() : base(TableName)
         {

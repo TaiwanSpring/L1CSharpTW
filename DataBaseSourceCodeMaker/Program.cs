@@ -87,7 +87,7 @@ select concat('        public override DataSourceTypeEnum DataSourceType { get {
 select '        protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }' union all
 select '        private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]' UNION all
 select '        {' union all
-select concat('            new ColumnInfo() { Column = ','Column_',COLUMN_NAME,', DbType = DbType.',tps.dest,', IsPKey = ', IF(ISNULL((SELECT INDEX_NAME FROM information_schema.STATISTICS AS i WHERE i.TABLE_SCHEMA = @schema AND i.TABLE_NAME = @table AND i.COLUMN_NAME = c.COLUMN_NAME AND i.INDEX_NAME = 'PRIMARY')) = 1, 'false' , 'true'),'},') from  information_schema.columns c
+select concat('            new ColumnInfo() { Column = ','Column_',COLUMN_NAME,', MySqlDbType = MySqlDbType.',tps.dest,', IsPKey = ', IF(ISNULL((SELECT INDEX_NAME FROM information_schema.STATISTICS AS i WHERE i.TABLE_SCHEMA = @schema AND i.TABLE_NAME = @table AND i.COLUMN_NAME = c.COLUMN_NAME AND i.INDEX_NAME = 'PRIMARY')) = 1, 'false' , 'true'),'},') from  information_schema.columns c
 join( #datatypes mapping
 select 'char' as orign, 'String' as dest union all
 select 'varchar', 'String' union all

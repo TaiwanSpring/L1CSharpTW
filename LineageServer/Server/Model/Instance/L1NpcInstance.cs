@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Extensions;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading;
 
 namespace LineageServer.Server.Model.Instance
@@ -2938,9 +2940,6 @@ namespace LineageServer.Server.Model.Instance
 
         // 死んでから消えるまでの時間計測用
         private DeleteTimer _deleteTask;
-
-        //JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-        //ORIGINAL LINE: private java.util.concurrent.ScheduledFuture<?> _future = null;
         private TimerTask _future = null;
 
         protected internal virtual void startDeleteTimer()
@@ -3065,6 +3064,7 @@ namespace LineageServer.Server.Model.Instance
             {
                 npcChat = NpcChatTable.Instance.getTemplateGameTime(npcId);
             }
+
             if (npcChat == null)
             {
                 return;
@@ -3131,6 +3131,37 @@ namespace LineageServer.Server.Model.Instance
         public byte Wis { get; internal set; }
 
         private static readonly IDictionary<string, Func<L1Npc, L1NpcInstance>> factoryMapping = MapFactory.NewMap<string, Func<L1Npc, L1NpcInstance>>();
+
+        static L1NpcInstance()
+        {
+            RegisterNpcInstance("L1Npc", npc => new L1NpcInstance(npc));
+            RegisterNpcInstance("L1AuctionBoard", npc => new L1AuctionBoardInstance(npc));
+            RegisterNpcInstance("L1Board", npc => new L1BoardInstance(npc));
+            RegisterNpcInstance("L1Crown", npc => new L1CrownInstance(npc));
+            //RegisterNpcInstance("L1Doll", npc => new L1DollInstance(npc));
+            RegisterNpcInstance("L1Door", npc => new L1DoorInstance(npc));
+            RegisterNpcInstance("L1DragonPortal", npc => new L1DragonPortalInstance(npc));
+            RegisterNpcInstance("L1Dwarf", npc => new L1DwarfInstance(npc));
+            RegisterNpcInstance("L1Effect", npc => new L1EffectInstance(npc));
+            RegisterNpcInstance("L1FieldObject", npc => new L1FieldObjectInstance(npc));
+            RegisterNpcInstance("L1Fish", npc => new L1FishInstance(npc));
+            //RegisterNpcInstance("L1Follower", npc => new L1FollowerInstance(npc));
+            RegisterNpcInstance("L1Furniture", npc => new L1FurnitureInstance(npc));
+            RegisterNpcInstance("L1Guardian", npc => new L1GuardianInstance(npc));
+            RegisterNpcInstance("L1Guard", npc => new L1GuardInstance(npc));
+            RegisterNpcInstance("L1Housekeeper", npc => new L1HousekeeperInstance(npc));
+            RegisterNpcInstance("L1Merchant", npc => new L1MerchantInstance(npc));
+            RegisterNpcInstance("L1Monster", npc => new L1MonsterInstance(npc));
+            // RegisterNpcInstance("L1Pet", npc => new L1PetInstance(npc));
+            RegisterNpcInstance("L1Quest", npc => new L1QuestInstance(npc));
+            RegisterNpcInstance("L1Request", npc => new L1RequestInstance(npc));
+            RegisterNpcInstance("L1Scarecrow", npc => new L1ScarecrowInstance(npc));
+            RegisterNpcInstance("L1Signboard", npc => new L1SignboardInstance(npc));
+            //RegisterNpcInstance("L1Summon", npc => new L1SummonInstance(npc));
+            RegisterNpcInstance("L1Teleporter", npc => new L1TeleporterInstance(npc));
+            RegisterNpcInstance("L1Tower", npc => new L1TowerInstance(npc));
+
+        }
         public static L1NpcInstance Factory(L1Npc l1Npc)
         {
             if (l1Npc != null && factoryMapping.ContainsKey(l1Npc.Impl))

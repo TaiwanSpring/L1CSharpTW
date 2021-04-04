@@ -1,78 +1,49 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Server;
+using LineageServer.Server.Model.Instance;
+
 namespace LineageServer.Serverpackets
 {
-	using Opcodes = LineageServer.Server.Opcodes;
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
+    class S_NewCharPacket : ServerBasePacket
+    {
+        private const string _S__25_NEWCHARPACK = "[S] New Char Packet";
+        private byte[] _byte = null;
 
-	// Referenced classes of package l1j.server.server.serverpackets:
-	// ServerBasePacket
+        public S_NewCharPacket(L1PcInstance pc)
+        {
+            buildPacket(pc);
+        }
 
-	class S_NewCharPacket : ServerBasePacket
-	{
-		private const string _S__25_NEWCHARPACK = "[S] New Char Packet";
-		private byte[] _byte = null;
+        private void buildPacket(L1PcInstance pc)
+        {
+            WriteC(Opcodes.S_OPCODE_NEWCHARPACK);
+            WriteS(pc.Name);
+            WriteS("");
+            WriteC(pc.Type);
+            WriteC(pc.get_sex());
+            WriteH(pc.Lawful);
+            WriteH(pc.MaxHp);
+            WriteH(pc.BaseMaxMp);
+            WriteC(pc.Ac);
+            WriteC(pc.Level);
+            WriteC(pc.BaseStr);
+            WriteC(pc.BaseDex);
+            WriteC(pc.BaseCon);
+            WriteC(pc.BaseWis);
+            WriteC(pc.BaseCha);
+            WriteC(pc.BaseInt);
+            WriteC(0); // 是否為管理員
+            WriteD(pc.SimpleBirthday);
+            WriteC((pc.Level ^ pc.BaseStr ^ pc.BaseDex ^ pc.BaseCon ^ pc.BaseWis ^ pc.BaseCha ^ pc.BaseInt) & 0xff); // XOR 驗證
+        }
 
-		public S_NewCharPacket(L1PcInstance pc)
-		{
-			buildPacket(pc);
-		}
+        public override string Type
+        {
+            get
+            {
+                return _S__25_NEWCHARPACK;
+            }
+        }
 
-		private void buildPacket(L1PcInstance pc)
-		{
-			WriteC(Opcodes.S_OPCODE_NEWCHARPACK);
-			WriteS(pc.Name);
-			WriteS("");
-			WriteC(pc.Type);
-			WriteC(pc.get_sex());
-			WriteH(pc.Lawful);
-			WriteH(pc.MaxHp);
-			WriteH(pc.MaxMp);
-			WriteC(pc.Ac);
-			WriteC(pc.Level);
-			WriteC(pc.Str);
-			WriteC(pc.Dex);
-			WriteC(pc.Con);
-			WriteC(pc.Wis);
-			WriteC(pc.Cha);
-			WriteC(pc.Int);
-			WriteC(0); // 是否為管理員
-			WriteD(pc.SimpleBirthday);
-			WriteC((pc.Level ^ pc.Str ^ pc.Dex ^ pc.Con ^ pc.Wis ^ pc.Cha ^ pc.Int) & 0xff); // XOR 驗證
-		}
-
-		public override byte[] Content
-		{
-			get
-			{
-				if (_byte == null)
-				{
-					_byte = Bytes;
-				}
-				return _byte;
-			}
-		}
-
-		public override string Type
-		{
-			get
-			{
-				return _S__25_NEWCHARPACK;
-			}
-		}
-
-	}
+    }
 
 }

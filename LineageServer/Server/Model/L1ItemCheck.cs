@@ -1,6 +1,10 @@
-﻿using LineageServer.Server.Model.identity;
+﻿using LineageServer.DataBase.DataSources;
+using LineageServer.Interfaces;
+using LineageServer.Server.Model.identity;
 using LineageServer.Server.Model.Instance;
 using System;
+using System.Collections.Generic;
+
 namespace LineageServer.Server.Model
 {
     /// <summary>
@@ -8,6 +12,9 @@ namespace LineageServer.Server.Model
     /// </summary>
     class L1ItemCheck
     {
+        private readonly static IDataSource weaponDataSource = Container.Instance.Resolve<IDataSourceFactory>().Factory(Enum.DataSourceTypeEnum.Weapon);
+        private readonly static IDataSource armorDataSource = Container.Instance.Resolve<IDataSourceFactory>().Factory(Enum.DataSourceTypeEnum.Armor);
+        private readonly static IDataSource etcitemDataSource = Container.Instance.Resolve<IDataSourceFactory>().Factory(Enum.DataSourceTypeEnum.Etcitem);
         private int itemId;
         private bool isStackable = false;
 
@@ -49,94 +56,26 @@ namespace LineageServer.Server.Model
 
         private bool findWeapon()
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            bool inWeapon = false;
+            IList<IDataSourceRow> dataSourceRows = weaponDataSource.Select()
+                .Where(Weapon.Column_item_id, itemId).Query();
 
-            try
-            {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("SELECT * FROM weapon WHERE item_id = ?");
-                pstm.setInt(1, itemId);
-                rs = pstm.executeQuery();
-                if (rs != null)
-                {
-                    if (rs.next())
-                    {
-                        inWeapon = true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                SQLUtil.close(rs, pstm, con);
-            }
-            return inWeapon;
+            return dataSourceRows.Count > 0;
         }
 
         private bool findArmor()
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            bool inArmor = false;
-            try
-            {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("SELECT * FROM armor WHERE item_id = ?");
-                pstm.setInt(1, itemId);
-                rs = pstm.executeQuery();
-                if (rs != null)
-                {
-                    if (rs.next())
-                    {
-                        inArmor = true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                SQLUtil.close(rs, pstm, con);
-            }
-            return inArmor;
+            IList<IDataSourceRow> dataSourceRows = armorDataSource.Select()
+                .Where(Armor.Column_item_id, itemId).Query();
+
+            return dataSourceRows.Count > 0;
         }
 
         private bool findEtcItem()
         {
-            IDataBaseConnection con = null;
-            PreparedStatement pstm = null;
-            ResultSet rs = null;
-            bool inEtcitem = false;
-            try
-            {
-                con = L1DatabaseFactory.Instance.Connection;
-                pstm = con.prepareStatement("SELECT * FROM etcitem WHERE item_id = ?");
-                pstm.setInt(1, itemId);
-                rs = pstm.executeQuery();
-                if (rs != null)
-                {
-                    if (rs.next())
-                    {
-                        inEtcitem = true;
-                        isStackable = dataSourceRow.getInt("stackable") == 1 ? true : false;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                SQLUtil.close(rs, pstm, con);
-            }
-            return inEtcitem;
+            IList<IDataSourceRow> dataSourceRows = etcitemDataSource.Select()
+              .Where(Etcitem.Column_item_id, itemId).Query();
+
+            return dataSourceRows.Count > 0;
         }
     }
 }

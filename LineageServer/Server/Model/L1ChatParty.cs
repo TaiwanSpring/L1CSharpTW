@@ -1,5 +1,6 @@
 ﻿using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
+using LineageServer.Utils;
 using System.Collections.Generic;
 
 namespace LineageServer.Server.Model
@@ -7,7 +8,7 @@ namespace LineageServer.Server.Model
 
     class L1ChatParty
     {
-        private readonly IList<L1PcInstance> _membersList = Lists.NewList<L1PcInstance>();
+        private readonly IList<L1PcInstance> _membersList = ListFactory.NewList<L1PcInstance>();
 
         private L1PcInstance _leader = null;
 

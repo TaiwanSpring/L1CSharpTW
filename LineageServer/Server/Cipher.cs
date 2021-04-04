@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace LineageServer.Server
 {
@@ -68,7 +69,6 @@ namespace LineageServer.Server
             {
                 tb[i] = data[i];
             }
-
             data[0] ^= eb[0];
 
             for (int i = 1; i < data.Length; i++)

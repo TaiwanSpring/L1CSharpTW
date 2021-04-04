@@ -10,11 +10,12 @@ namespace LineageServer.Server.Model
         CancellationTokenSource tokenSource = new CancellationTokenSource();
         public L1PcDeleteTimer(L1PcInstance pc) : base(pc)
         {
-            Cancel += L1PcDeleteTimer_Cancel;
+
         }
 
-        private void L1PcDeleteTimer_Cancel(Interfaces.ICancel obj)
+        public override void cancel()
         {
+            base.cancel();
             this.tokenSource.Cancel();
         }
 

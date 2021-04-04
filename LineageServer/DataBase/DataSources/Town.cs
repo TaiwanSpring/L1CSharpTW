@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Town : DataSource
@@ -19,16 +21,16 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_leader_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_town_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_leader_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_tax_rate, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_tax_rate_reserved, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_sales_money, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_sales_money_yesterday, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_town_tax, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_town_fix_tax, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_leader_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_town_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_leader_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_tax_rate, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_tax_rate_reserved, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_sales_money, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_sales_money_yesterday, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_town_tax, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_town_fix_tax, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Town() : base(TableName)
         {

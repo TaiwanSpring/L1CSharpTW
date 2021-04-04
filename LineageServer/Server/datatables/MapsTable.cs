@@ -21,7 +21,7 @@ namespace LineageServer.Server.DataTables
         /// </summary>
         private MapsTable()
         {
-            
+
         }
         public void Initialize()
         {
@@ -85,12 +85,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> X開始座標 </returns>
         public int getStartX(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].startX;
+            }
+            else
             {
                 return 0;
             }
-            return _maps[mapId].startX;
         }
 
         /// <summary>
@@ -101,12 +103,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> X終了座標 </returns>
         public int getEndX(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].endX;
+            }
+            else
             {
                 return 0;
             }
-            return _maps[mapId].endX;
         }
 
         /// <summary>
@@ -117,12 +121,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> Y開始座標 </returns>
         public int getStartY(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].startY;
+            }
+            else
             {
                 return 0;
             }
-            return _maps[mapId].startY;
         }
 
         /// <summary>
@@ -133,12 +139,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> Y終了座標 </returns>
         public int getEndY(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].endY;
+            }
+            else
             {
                 return 0;
             }
-            return _maps[mapId].endY;
         }
 
         /// <summary>
@@ -149,12 +157,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> モンスター量の倍率 </returns>
         public double getMonsterAmount(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
             {
-                return 0;
+                return _maps[mapId].monster_amount;
             }
-            return map.monster_amount;
+            else
+            {
+                return 0d;
+            }
         }
 
         /// <summary>
@@ -165,12 +175,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> ドロップ倍率 </returns>
         public double getDropRate(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
             {
-                return 0;
+                return _maps[mapId].dropRate;
             }
-            return map.dropRate;
+            else
+            {
+                return 0d;
+            }
         }
 
         /// <summary>
@@ -182,12 +194,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> 水中であればtrue </returns>
         public bool isUnderwater(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].isUnderwater;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].isUnderwater;
         }
 
         /// <summary>
@@ -198,12 +212,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> ブックマーク可能であればtrue </returns>
         public bool isMarkable(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].markable;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].markable;
         }
 
         /// <summary>
@@ -214,12 +230,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> 可能であればtrue </returns>
         public bool isTeleportable(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].teleportable;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].teleportable;
         }
 
         /// <summary>
@@ -230,12 +248,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> 可能であればtrue </returns>
         public bool isEscapable(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].escapable;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].escapable;
         }
 
         /// <summary>
@@ -247,12 +267,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> 復活可能であればtrue </returns>
         public bool isUseResurrection(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].isUseResurrection;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].isUseResurrection;
         }
 
         /// <summary>
@@ -264,12 +286,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> パインワンド使用可能であればtrue </returns>
         public bool isUsePainwand(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].isUsePainwand;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].isUsePainwand;
         }
 
         /// <summary>
@@ -281,12 +305,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> デスペナルティであればtrue </returns>
         public bool isEnabledDeathPenalty(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].isEnabledDeathPenalty;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].isEnabledDeathPenalty;
         }
 
         /// <summary>
@@ -298,12 +324,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> ペット・サモンを連れて行けるならばtrue </returns>
         public bool isTakePets(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].isTakePets;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].isTakePets;
         }
 
         /// <summary>
@@ -315,12 +343,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> ペット・サモンを呼び出せるならばtrue </returns>
         public bool isRecallPets(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].isRecallPets;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].isRecallPets;
         }
 
         /// <summary>
@@ -332,12 +362,14 @@ namespace LineageServer.Server.DataTables
         /// <returns> アイテムを使用できるならばtrue </returns>
         public bool isUsableItem(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].isUsableItem;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].isUsableItem;
         }
 
         /// <summary>
@@ -349,12 +381,19 @@ namespace LineageServer.Server.DataTables
         /// <returns> スキルを使用できるならばtrue </returns>
         public bool isUsableSkill(int mapId)
         {
-            MapData map = _maps[mapId];
-            if (map == null)
+            if (_maps.ContainsKey(mapId))
+            {
+                return _maps[mapId].isUsableSkill;
+            }
+            else
             {
                 return false;
             }
-            return _maps[mapId].isUsableSkill;
+        }
+
+        public bool HasMap(int mapId)
+        {
+            return _maps.ContainsKey(mapId);
         }
         class MapData
         {

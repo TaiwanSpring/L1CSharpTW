@@ -1,4 +1,5 @@
-﻿using LineageServer.Models;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Serverpackets;
 using System;
@@ -23,7 +24,7 @@ namespace LineageServer.Server.Model.Gametime
 					return;
 				}
 
-				pc.sendPackets(new S_GameTime(L1GameTimeClock.Instance.CurrentTime().Seconds));
+				pc.sendPackets(new S_GameTime(Container.Instance.Resolve<IGameTimeClock>().CurrentTime().Seconds));
 			}
 			catch (Exception)
 			{

@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Inn : DataSource
@@ -16,13 +18,13 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_due_time, DbType = DbType.DateTime, IsPKey = false},
-            new ColumnInfo() { Column = Column_npcid, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_room_number, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_key_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_lodger_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hall, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_due_time, MySqlDbType = MySqlDbType.DateTime, IsPKey = false},
+            new ColumnInfo() { Column = Column_npcid, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_room_number, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_key_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_lodger_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hall, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public Inn() : base(TableName)
         {

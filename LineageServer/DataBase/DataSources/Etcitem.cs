@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Etcitem : DataSource
@@ -38,35 +40,35 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_unidentified_name_id, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_identified_name_id, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_item_type, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_use_type, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_material, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_item_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_weight, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_invgfx, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_grdgfx, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_itemdesc_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_stackable, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_max_charge_count, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_dmg_small, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_dmg_large, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_min_lvl, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_max_lvl, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locx, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locy, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mapid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_bless, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_trade, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_cant_delete, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_can_seal, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_delay_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_delay_time, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_delay_effect, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_food_volume, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_save_at_once, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_unidentified_name_id, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_identified_name_id, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_item_type, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_use_type, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_material, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_item_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_weight, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_invgfx, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_grdgfx, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_itemdesc_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_stackable, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_max_charge_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_dmg_small, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_dmg_large, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_min_lvl, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_max_lvl, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locx, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locy, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_bless, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_trade, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_cant_delete, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_can_seal, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_delay_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_delay_time, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_delay_effect, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_food_volume, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_save_at_once, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public Etcitem() : base(TableName)
         {

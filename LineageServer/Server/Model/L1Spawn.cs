@@ -368,7 +368,7 @@ namespace LineageServer.Server.Model
             L1GameTime currentTime = Container.Instance.Resolve<IGameTimeClock>().CurrentTime();
             if ((_time != null) && !_time.includes(currentTime))
             { // 指定時間外なら指定時間までの時間を足す
-                long diff = (long)(_time.TimeStart - currentTime.Calendar).TotalMilliseconds;
+                long diff = (long)(DateTime.Today.Add(_time.TimeStart) - currentTime.Calendar).TotalMilliseconds;
                 if (diff < 0)
                 {
                     diff += 24 * 3600 * 1000;
@@ -407,9 +407,9 @@ namespace LineageServer.Server.Model
             if (Config.SPAWN_HOME_POINT && (Config.SPAWN_HOME_POINT_COUNT <= Amount) && (Config.SPAWN_HOME_POINT_DELAY >= MinRespawnDelay) && AreaSpawn)
             {
                 _spawnHomePoint = true;
-                _homePoint = MapFactory.NewMap<int, Point>();
             }
 
+            _homePoint = MapFactory.NewMap<int, Point>();
             int spawnNum = 0;
             while (spawnNum < _maximumCount)
             {
@@ -429,9 +429,11 @@ namespace LineageServer.Server.Model
             if ((_time != null) && !_time.includes(Container.Instance.Resolve<IGameTimeClock>().CurrentTime()))
             {
                 ExecuteSpawnTask(spawnNumber, 0);
-                return;
             }
-            doSpawn(spawnNumber, 0);
+            else
+            {
+                doSpawn(spawnNumber, 0);
+            }
         }
 
         protected internal virtual void doSpawn(int spawnNumber, int objectId)
@@ -522,7 +524,11 @@ namespace LineageServer.Server.Model
                             if (AreaSpawn)
                             { // 座標が範囲指定されている場合
                                 Point pt = null;
-                                if (_spawnHomePoint && (null != (pt = _homePoint[spawnNumber])))
+                                if (_homePoint.ContainsKey(spawnNumber))
+                                {
+                                    pt = _homePoint[spawnNumber];
+                                }
+                                if (_spawnHomePoint && pt != null)
                                 { // ホームポイントを元に再出現させる場合
                                     L1Location loc = (new L1Location(pt, MapId)).randomLocation(Config.SPAWN_HOME_POINT_RANGE, false);
                                     newlocx = loc.X;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LineageServer.william
 {
-    public class ItemPrice
+    class ItemPrice
     {
         private static ILogger _log = Logger.GetLogger(nameof(ItemPrice));
 

@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class DungeonRandom : DataSource
@@ -29,26 +31,26 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_src_x, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_src_y, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_src_mapid, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_new_x1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_y1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_mapid1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_x2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_y2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_mapid2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_x3, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_y3, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_mapid3, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_x4, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_y4, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_mapid4, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_x5, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_y5, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_mapid5, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_new_heading, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_src_x, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_src_y, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_src_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_new_x1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_y1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_mapid1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_x2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_y2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_mapid2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_x3, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_y3, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_mapid3, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_x4, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_y4, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_mapid4, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_x5, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_y5, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_mapid5, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_new_heading, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public DungeonRandom() : base(TableName)
         {

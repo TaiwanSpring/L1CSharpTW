@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class SpawnlistBoss : DataSource
@@ -30,27 +32,27 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_location, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_cycle_type, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_count, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_npc_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_group_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locx, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locy, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_randomx, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_randomy, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locx1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locy1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locx2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_locy2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_heading, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mapid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_movement_distance, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_respawn_screen, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_rest, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_spawn_type, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_percentage, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_location, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_cycle_type, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_npc_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_group_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locx, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locy, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_randomx, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_randomy, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locx1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locy1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locx2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_locy2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_heading, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_movement_distance, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_respawn_screen, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_rest, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_spawn_type, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_percentage, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public SpawnlistBoss() : base(TableName)
         {

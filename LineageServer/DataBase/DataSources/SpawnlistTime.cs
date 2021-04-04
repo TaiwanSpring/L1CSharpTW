@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
 	class SpawnlistTime : DataSource
@@ -15,12 +17,12 @@ namespace LineageServer.DataBase.DataSources
 		protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
 		private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
 		{
-			new ColumnInfo() { Column = Column_spawn_id, DbType = DbType.Int32, IsPKey = true},
-			new ColumnInfo() { Column = Column_time_start, DbType = DbType.DateTime, IsPKey = false},
-			new ColumnInfo() { Column = Column_time_end, DbType = DbType.DateTime, IsPKey = false},
-			new ColumnInfo() { Column = Column_period_start, DbType = DbType.DateTime, IsPKey = false},
-			new ColumnInfo() { Column = Column_period_end, DbType = DbType.DateTime, IsPKey = false},
-			new ColumnInfo() { Column = Column_delete_at_endtime, DbType = DbType.Boolean, IsPKey = false},
+			new ColumnInfo() { Column = Column_spawn_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+			new ColumnInfo() { Column = Column_time_start, MySqlDbType = MySqlDbType.Time, IsPKey = false},
+			new ColumnInfo() { Column = Column_time_end, MySqlDbType = MySqlDbType.Time, IsPKey = false},
+			new ColumnInfo() { Column = Column_period_start, MySqlDbType = MySqlDbType.Time, IsPKey = false},
+			new ColumnInfo() { Column = Column_period_end, MySqlDbType = MySqlDbType.Time, IsPKey = false},
+			new ColumnInfo() { Column = Column_delete_at_endtime, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
 		};
 		public SpawnlistTime() : base(TableName)
 		{

@@ -106,26 +106,23 @@ namespace LineageServer.Server.Model
 
         public static bool operator ==(L1Location a, L1Location b)
         {
-            if (a != null && b != null)
+            if (a is null && b is null)
             {
-                return (a.getMap() == b.getMap()) && (a.X == b.X) && (a.Y == b.Y);
+                return true;
+            }
+            else if (a is null || b is null)
+            {
+                return false;
             }
             else
             {
-                return false;
+                return (a.getMap() == b.getMap()) && (a.X == b.X) && (a.Y == b.Y);
             }
         }
 
         public static bool operator !=(L1Location a, L1Location b)
         {
-            if (a != null && b != null)
-            {
-                return !(a == b);
-            }
-            else
-            {
-                return true;
-            }
+            return !(a == b);
         }
         public override int GetHashCode()
         {

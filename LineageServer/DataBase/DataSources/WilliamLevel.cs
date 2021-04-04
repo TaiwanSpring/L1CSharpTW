@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class WilliamLevel : DataSource
@@ -25,22 +27,22 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_註解, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_getItem, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_count, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_enchantlvl, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_message, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_level, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_give_royal, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_give_knight, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_give_mage, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_give_elf, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_give_darkelf, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_give_dragonknight, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_give_illusionist, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_quest_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_quest_step, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_註解, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_getItem, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_count, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_enchantlvl, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_message, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_level, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_give_royal, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_give_knight, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_give_mage, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_give_elf, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_give_darkelf, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_give_dragonknight, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_give_illusionist, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_quest_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_quest_step, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public WilliamLevel() : base(TableName)
         {

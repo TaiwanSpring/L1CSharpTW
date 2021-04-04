@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class RaceTicket : DataSource
@@ -14,11 +16,11 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_item_obj_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_round, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_victory, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_runner_num, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_allotment_percentage, DbType = DbType.Double, IsPKey = false},
+            new ColumnInfo() { Column = Column_item_obj_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_round, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_victory, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_runner_num, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_allotment_percentage, MySqlDbType = MySqlDbType.Float, IsPKey = false},
         };
         public RaceTicket() : base(TableName)
         {

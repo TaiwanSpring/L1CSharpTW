@@ -109,7 +109,7 @@ namespace LineageServer.Clientpackets
                 isStatusError = true;
             }
 
-            int statusAmount = pc.Dex + pc.Cha + pc.Con + pc.Int + pc.Str + pc.Wis;
+            int statusAmount = pc.BaseDex + pc.BaseCha + pc.BaseCon + pc.BaseInt + pc.BaseStr + pc.BaseWis;
 
             if ((statusAmount != 75) || isStatusError)
             {
@@ -194,7 +194,7 @@ namespace LineageServer.Clientpackets
                 int skill_id = l1skills.SkillId;
                 SkillsTable.Instance.spellMastery(object_id, skill_id, skill_name, 0, 0); // 儲存魔法資料到資料庫中
             }
-            Beginner.Instance.GiveItem(pc);
+            BeginnerController.Instance.GiveItem(pc);
             pc.AccountName = client.AccountName;
             Container.Instance.Resolve<ICharacterController>().storeNewCharacter(pc);
             S_NewCharPacket s_newcharpacket = new S_NewCharPacket(pc);

@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.DataTables;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.skill;
 using LineageServer.Server.Templates;
@@ -728,7 +729,7 @@ namespace LineageServer.Server.Model
                     _targetPc.CurrentMp = _targetPc.CurrentMp - 5;
                     if (_calcType == PC_PC)
                     {
-                        dmg += _pc.Wis * 5;
+                        dmg += _pc.BaseWis * 5;
                     }
                     else if (_calcType == NPC_PC)
                     {
@@ -776,7 +777,7 @@ namespace LineageServer.Server.Model
                 int castleId = L1CastleLocation.getCastleIdByArea(_targetPc);
                 if (castleId > 0)
                 {
-                    isNowWar = WarTimeController.Instance.isNowWar(castleId);
+                    isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(castleId);
                 }
                 if (!isNowWar)
                 {
@@ -858,7 +859,7 @@ namespace LineageServer.Server.Model
             {
                 if (_calcType == PC_PC)
                 {
-                    if (_targetPc.Wis >= RandomHelper.Next(100))
+                    if (_targetPc.BaseWis >= RandomHelper.Next(100))
                     {
                         _pc.sendPackets(new S_DoActionGFX(_pc.Id, ActionCodes.ACTION_Damage));
                         _pc.broadcastPacket(new S_DoActionGFX(_pc.Id, ActionCodes.ACTION_Damage));
@@ -880,7 +881,7 @@ namespace LineageServer.Server.Model
                     }
                     else
                     {
-                        if (_targetPc.Wis >= RandomHelper.Next(100))
+                        if (_targetPc.BaseWis >= RandomHelper.Next(100))
                         {
                             _npc.broadcastPacket(new S_DoActionGFX(_npc.Id, ActionCodes.ACTION_Damage));
                             _targetPc.sendPackets(new S_SkillSound(_targetPc.Id, 4395));
@@ -930,7 +931,7 @@ namespace LineageServer.Server.Model
                     _targetNpc.CurrentMp = _targetNpc.CurrentMp - 5;
                     if (_calcType == PC_NPC)
                     {
-                        dmg += _pc.Wis * 5;
+                        dmg += _pc.BaseWis * 5;
                     }
                     else if (_calcType == NPC_NPC)
                     {
@@ -967,7 +968,7 @@ namespace LineageServer.Server.Model
                 int castleId = L1CastleLocation.getCastleIdByArea(_targetNpc);
                 if (castleId > 0)
                 {
-                    isNowWar = WarTimeController.Instance.isNowWar(castleId);
+                    isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(castleId);
                 }
                 if (!isNowWar)
                 {
@@ -1056,7 +1057,7 @@ namespace LineageServer.Server.Model
             if ((_calcType == PC_PC) || (_calcType == PC_NPC))
             {
                 int spByItem = _pc.Sp - _pc.TrueSp; // アイテムによるSP変動
-                charaIntelligence = _pc.Int + spByItem - 12;
+                charaIntelligence = _pc.BaseInt + spByItem - 12;
             }
             else if ((_calcType == NPC_PC) || (_calcType == NPC_NPC))
             {

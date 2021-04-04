@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.DataTables;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Gametime;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.npc.action;
@@ -313,7 +314,7 @@ namespace LineageServer.Server.Model
                     _weaponBless = weapon.Item.Bless;
                     _weaponEnchant = weapon.EnchantLevel;
                     _weaponMaterial = weapon.Item.Material;
-                    _statusDamage = dexDmg[_pc.Dex]; // 傷害預設用敏捷補正
+                    _statusDamage = dexDmg[_pc.BaseDex]; // 傷害預設用敏捷補正
 
                     if (_weaponType == 20)
                     { // 弓箭
@@ -336,7 +337,7 @@ namespace LineageServer.Server.Model
                     else
                     { // 近戰類武器
                         _weaponEnchant = weapon.EnchantLevel - weapon.get_durability(); // 計算武器損傷
-                        _statusDamage = strDmg[_pc.Str]; // 傷害用力量補正
+                        _statusDamage = strDmg[_pc.BaseStr]; // 傷害用力量補正
                     }
                     _weaponDoubleDmgChance = weapon.Item.DoubleDmgChance;
                     _weaponAttrEnchantKind = weapon.AttrEnchantKind;
@@ -474,22 +475,22 @@ namespace LineageServer.Server.Model
         {
             _hitRate = _pc.Level;
 
-            if (_pc.Str > 59)
+            if (_pc.BaseStr > 59)
             {
                 _hitRate += strHit[58];
             }
             else
             {
-                _hitRate += strHit[_pc.Str - 1];
+                _hitRate += strHit[_pc.BaseStr - 1];
             }
 
-            if (_pc.Dex > 60)
+            if (_pc.BaseDex > 60)
             {
                 _hitRate += dexHit[59];
             }
             else
             {
-                _hitRate += dexHit[_pc.Dex - 1];
+                _hitRate += dexHit[_pc.BaseDex - 1];
             }
 
             // 命中計算 與魔法、食物buff
@@ -642,22 +643,22 @@ namespace LineageServer.Server.Model
             // ＝（PCのLv＋クラス補正＋STR補正＋DEX補正＋武器補正＋DAIの枚数/2＋魔法補正）×5－{NPCのAC×（-5）}
             _hitRate = _pc.Level;
 
-            if (_pc.Str > 59)
+            if (_pc.BaseStr > 59)
             {
                 _hitRate += strHit[58];
             }
             else
             {
-                _hitRate += strHit[_pc.Str - 1];
+                _hitRate += strHit[_pc.BaseStr - 1];
             }
 
-            if (_pc.Dex > 60)
+            if (_pc.BaseDex > 60)
             {
                 _hitRate += dexHit[59];
             }
             else
             {
-                _hitRate += dexHit[_pc.Dex - 1];
+                _hitRate += dexHit[_pc.BaseDex - 1];
             }
 
             // 命中計算 與魔法、食物buff
@@ -1268,7 +1269,7 @@ namespace LineageServer.Server.Model
             int castleId = L1CastleLocation.getCastleIdByArea(_targetNpc);
             if (castleId > 0)
             {
-                isNowWar = WarTimeController.Instance.isNowWar(castleId);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(castleId);
             }
             if (!isNowWar)
             {
@@ -1370,7 +1371,7 @@ namespace LineageServer.Server.Model
             int castleId = L1CastleLocation.getCastleIdByArea(_targetPc);
             if (castleId > 0)
             {
-                isNowWar = WarTimeController.Instance.isNowWar(castleId);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(castleId);
             }
             if (!isNowWar)
             {
@@ -1618,7 +1619,7 @@ namespace LineageServer.Server.Model
             {
                 bool flag = false;
                 int undead = _npc.NpcTemplate.get_undead();
-                bool isNight = L1GameTimeClock.Instance.CurrentTime().Night;
+                bool isNight = Container.Instance.Resolve<IGameTimeClock>().CurrentTime().Night;
                 if (isNight && ((undead == 1) || (undead == 3) || (undead == 4)))
                 { // 18～6時、かつ、アンデッド系・アンデッド系ボス・弱点無効のアンデッド系
                     flag = true;
@@ -1711,7 +1712,7 @@ namespace LineageServer.Server.Model
             else
             {
                 // 魔法娃娃效果 - 中毒
-                if (L1MagicDoll.getEffectByDoll(attacker, (sbyte)1) == 1)
+                if (L1MagicDoll.getEffectByDoll(attacker, 1) == 1)
                 {
                     L1DamagePoison.doInfection(attacker, target, 3000, 5);
                 }
@@ -1833,7 +1834,7 @@ namespace LineageServer.Server.Model
         {
             int bowActId = 0;
             int npcGfxid = _npc.TempCharGfx;
-            int actId = L1NpcDefaultAction.Instance.getSpecialAttack(npcGfxid); // 特殊攻擊動作
+            int actId = Container.Instance.Resolve<IGameActionProvider>().getSpecialAttack(npcGfxid); // 特殊攻擊動作
             double dmg = _damage;
             int[] data = null;
 
@@ -1864,7 +1865,7 @@ namespace LineageServer.Server.Model
                 {
                     if (!isLongRange || bowActId == 0)
                     { // 近距離
-                        actId = L1NpcDefaultAction.Instance.getDefaultAttack(npcGfxid);
+                        actId = Container.Instance.Resolve<IGameActionProvider>().getDefaultAttack(npcGfxid);
                         if (bowActId > 0)
                         { // 遠距離怪物，近距離時攻擊力加成
                             dmg *= 1.2;
@@ -1872,7 +1873,7 @@ namespace LineageServer.Server.Model
                     }
                     else
                     { // 遠距離
-                        actId = L1NpcDefaultAction.Instance.getRangedAttack(npcGfxid);
+                        actId = Container.Instance.Resolve<IGameActionProvider>().getRangedAttack(npcGfxid);
                     }
                 }
             }

@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Skills : DataSource
@@ -40,37 +42,37 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_target, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_nameid, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_skill_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_skill_level, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_skill_number, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mpConsume, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hpConsume, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_itemConsumeId, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_itemConsumeCount, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_reuseDelay, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_buffDuration, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_target_to, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_damage_value, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_damage_dice, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_damage_dice_count, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_probability_value, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_probability_dice, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_attr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_type, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_lawful, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ranged, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_area, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_through, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_action_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_castgfx, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_castgfx2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_sysmsgID_happen, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_sysmsgID_stop, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_sysmsgID_fail, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_target, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_nameid, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_skill_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_skill_level, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_skill_number, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mpConsume, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hpConsume, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_itemConsumeId, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_itemConsumeCount, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_reuseDelay, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_buffDuration, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_target_to, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_damage_value, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_damage_dice, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_damage_dice_count, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_probability_value, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_probability_dice, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_attr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_type, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_lawful, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ranged, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_area, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_through, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_action_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_castgfx, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_castgfx2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_sysmsgID_happen, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_sysmsgID_stop, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_sysmsgID_fail, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Skills() : base(TableName)
         {

@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class CharacterQuests : DataSource
@@ -12,9 +14,9 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_char_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_quest_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_quest_step, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_char_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_quest_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_quest_step, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public CharacterQuests() : base(TableName)
         {

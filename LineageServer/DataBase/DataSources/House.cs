@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class House : DataSource
@@ -17,14 +19,14 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_house_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_location, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_tax_deadline, DbType = DbType.DateTime, IsPKey = false},
-            new ColumnInfo() { Column = Column_house_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_house_area, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_keeper_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_is_on_sale, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_is_purchase_basement, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_house_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_location, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_tax_deadline, MySqlDbType = MySqlDbType.DateTime, IsPKey = false},
+            new ColumnInfo() { Column = Column_house_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_house_area, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_keeper_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_is_on_sale, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_is_purchase_basement, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public House() : base(TableName)
         {

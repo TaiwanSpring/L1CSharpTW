@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Getback : DataSource
@@ -26,23 +28,23 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_area_x1, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_area_y1, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_area_x2, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_area_y2, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_area_mapid, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_getback_x1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_getback_y1, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_getback_x2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_getback_y2, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_getback_x3, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_getback_y3, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_getback_mapid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_getback_townid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_getback_townid_elf, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_getback_townid_darkelf, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_scrollescape, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_area_x1, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_area_y1, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_area_x2, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_area_y2, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_area_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_getback_x1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_getback_y1, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_getback_x2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_getback_y2, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_getback_x3, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_getback_y3, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_getback_mapid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_getback_townid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_getback_townid_elf, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_getback_townid_darkelf, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_scrollescape, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Getback() : base(TableName)
         {

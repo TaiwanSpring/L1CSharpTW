@@ -538,7 +538,7 @@ namespace LineageServer.Server.Model
         {
             pc.stopPcDeleteTimer();
 
-            int[] loc = Getback.GetBack_Location(pc, true);
+            int[] loc = GetbackController.GetBack_Location(pc, true);
 
             pc.removeAllKnownObjects();
             pc.broadcastPacket(new S_RemoveObject(pc));

@@ -21,22 +21,22 @@ namespace LineageServer.Models
 
         public void Info(string message)
         {
-
+            Console.WriteLine($"{message}");
         }
 
         public void Log(string message)
         {
-
+            Console.WriteLine($"{message}");
         }
 
         public void Warning(string message)
         {
-
+            Console.WriteLine($"{message}");
         }
 
         public void Error(Exception e)
         {
-            
+            Console.WriteLine($"{e.Message}{Environment.NewLine}{e.StackTrace}");
         }
     }
 }

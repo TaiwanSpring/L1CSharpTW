@@ -1,39 +1,22 @@
-﻿/// <summary>
-///                            License
-/// THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS  
-/// CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
-/// THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW.  
-/// ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR  
-/// COPYRIGHT LAW IS PROHIBITED.
-/// 
-/// BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND  
-/// AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE  
-/// MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED 
-/// HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
-/// 
-/// </summary>
+﻿using LineageServer.Server.Model.Instance;
+
 namespace LineageServer.Serverpackets
 {
-	using L1ItemInstance = LineageServer.Server.Model.Instance.L1ItemInstance;
+    class S_Letter : ServerBasePacket
+    {
 
-	// Referenced classes of package l1j.server.server.serverpackets:
-	// ServerBasePacket
+        private const string S_LETTER = "[S] S_Letter";
 
-	public class S_Letter : ServerBasePacket
-	{
+        private byte[] _byte = null;
 
-		private const string S_LETTER = "[S] S_Letter";
+        public S_Letter(L1ItemInstance item)
+        {
+            buildPacket(item);
+        }
 
-		private byte[] _byte = null;
-
-		public S_Letter(L1ItemInstance item)
-		{
-			buildPacket(item);
-		}
-
-		private void buildPacket(L1ItemInstance item)
-		{
-			/*
+        private void buildPacket(L1ItemInstance item)
+        {
+            /*
 			 * IDataBaseConnection con = null; PreparedStatement pstm = null; ResultSet rs =
 			 * null; try { con = L1DatabaseFactory.getInstance().getConnection();
 			 * pstm = con
@@ -50,27 +33,15 @@ namespace LineageServer.Serverpackets
 			 * _log.log(Enum.Level.Server, e.getLocalizedMessage(), e); } finally {
 			 * SQLUtil.close(rs); SQLUtil.close(pstm); SQLUtil.close(con); }
 			 */
-		}
+        }
 
-		public override sbyte[] Content
-		{
-			get
-			{
-				if (_byte == null)
-				{
-					_byte = Bytes;
-				}
-				return _byte;
-			}
-		}
-
-		public override string Type
-		{
-			get
-			{
-				return S_LETTER;
-			}
-		}
-	}
+        public override string Type
+        {
+            get
+            {
+                return S_LETTER;
+            }
+        }
+    }
 
 }

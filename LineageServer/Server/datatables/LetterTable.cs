@@ -50,7 +50,7 @@ namespace LineageServer.Server.DataTables
         {
             //IDbCommand dbCommand = Container.Instance.Resolve<IDbConnection>().CreateCommand();
             //dbCommand.CommandText = " SELECT Max(item_object_id)+1 as cnt FROM letter";
-            //IDataReader dataReader = dbCommand.ExecuteReader();
+            //IDataReader dataReader = dbCommand.ExecuteReader(); System.Diagnostics.Debug.Print("Open");
             //int itemObjectId = 0;
             //if (dataReader.Read())
             {

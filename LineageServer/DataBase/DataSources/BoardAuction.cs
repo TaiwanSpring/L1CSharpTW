@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class BoardAuction : DataSource
@@ -19,16 +21,16 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_house_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_location, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_old_owner, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_bidder, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_deadline, DbType = DbType.DateTime, IsPKey = false},
-            new ColumnInfo() { Column = Column_house_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_house_area, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_price, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_old_owner_id, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_bidder_id, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_house_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_location, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_old_owner, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_bidder, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_deadline, MySqlDbType = MySqlDbType.DateTime, IsPKey = false},
+            new ColumnInfo() { Column = Column_house_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_house_area, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_price, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_old_owner_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_bidder_id, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public BoardAuction() : base(TableName)
         {

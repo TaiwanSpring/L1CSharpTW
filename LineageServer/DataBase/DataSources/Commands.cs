@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Commands : DataSource
@@ -12,9 +14,9 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = true},
-            new ColumnInfo() { Column = Column_class_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_access_level, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_name, MySqlDbType = MySqlDbType.Text, IsPKey = true},
+            new ColumnInfo() { Column = Column_class_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_access_level, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Commands() : base(TableName)
         {

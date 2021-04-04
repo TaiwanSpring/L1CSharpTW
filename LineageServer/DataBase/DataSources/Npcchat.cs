@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Npcchat : DataSource
@@ -24,21 +26,21 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_chat_id1, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_chat_id2, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_chat_id3, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_chat_id4, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_chat_id5, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_npc_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_start_delay_time, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_chat_interval, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_repeat_interval, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_game_time, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_chat_timing, DbType = DbType.Boolean, IsPKey = true},
-            new ColumnInfo() { Column = Column_is_shout, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_is_world_chat, DbType = DbType.Boolean, IsPKey = false},
-            new ColumnInfo() { Column = Column_is_repeat, DbType = DbType.Boolean, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_chat_id1, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_chat_id2, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_chat_id3, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_chat_id4, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_chat_id5, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_npc_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_start_delay_time, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_chat_interval, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_repeat_interval, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_game_time, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_chat_timing, MySqlDbType = MySqlDbType.Bit, IsPKey = true},
+            new ColumnInfo() { Column = Column_is_shout, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_is_world_chat, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
+            new ColumnInfo() { Column = Column_is_repeat, MySqlDbType = MySqlDbType.Bit, IsPKey = false},
         };
         public Npcchat() : base(TableName)
         {

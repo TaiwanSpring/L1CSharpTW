@@ -2456,11 +2456,11 @@ namespace LineageServer.Clientpackets
                 if (s == "0")
                 {
                     pc.CurrentHp = pc.MaxHp;
-                    pc.CurrentMp = pc.MaxMp;
+                    pc.CurrentMp = pc.BaseMaxMp;
                     pc.sendPackets(new S_ServerMessage(77));
                     pc.sendPackets(new S_SkillSound(pc.Id, 830));
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                 }
             }
             // 治療師（西部）
@@ -2472,11 +2472,11 @@ namespace LineageServer.Clientpackets
                     { // check
                         pc.Inventory.consumeItem(L1ItemId.ADENA, 5); // del
                         pc.CurrentHp = pc.MaxHp;
-                        pc.CurrentMp = pc.MaxMp;
+                        pc.CurrentMp = pc.BaseMaxMp;
                         pc.sendPackets(new S_ServerMessage(77));
                         pc.sendPackets(new S_SkillSound(pc.Id, 830));
                         pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                         if (pc.InParty)
                         { // パーティー中
                             pc.Party.updateMiniHP(pc);
@@ -6645,7 +6645,7 @@ namespace LineageServer.Clientpackets
                         return;
                     }
                 }
-                isNowWar = WarTimeController.Instance.isNowWar(L1CastleLocation.KENT_CASTLE_ID);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(L1CastleLocation.KENT_CASTLE_ID);
             }
             else if (keeperId == 70600)
             { // OT
@@ -6656,7 +6656,7 @@ namespace LineageServer.Clientpackets
                         return;
                     }
                 }
-                isNowWar = WarTimeController.Instance.isNowWar(L1CastleLocation.OT_CASTLE_ID);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(L1CastleLocation.OT_CASTLE_ID);
             }
             else if ((keeperId == 70778) || (keeperId == 70987) || (keeperId == 70687))
             { // WW城
@@ -6667,7 +6667,7 @@ namespace LineageServer.Clientpackets
                         return;
                     }
                 }
-                isNowWar = WarTimeController.Instance.isNowWar(L1CastleLocation.WW_CASTLE_ID);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(L1CastleLocation.WW_CASTLE_ID);
             }
             else if ((keeperId == 70817) || (keeperId == 70800) || (keeperId == 70988) || (keeperId == 70990) || (keeperId == 70989) || (keeperId == 70991))
             { // ギラン城
@@ -6678,7 +6678,7 @@ namespace LineageServer.Clientpackets
                         return;
                     }
                 }
-                isNowWar = WarTimeController.Instance.isNowWar(L1CastleLocation.GIRAN_CASTLE_ID);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(L1CastleLocation.GIRAN_CASTLE_ID);
             }
             else if ((keeperId == 70863) || (keeperId == 70992) || (keeperId == 70862))
             { // ハイネ城
@@ -6689,7 +6689,7 @@ namespace LineageServer.Clientpackets
                         return;
                     }
                 }
-                isNowWar = WarTimeController.Instance.isNowWar(L1CastleLocation.HEINE_CASTLE_ID);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(L1CastleLocation.HEINE_CASTLE_ID);
             }
             else if ((keeperId == 70995) || (keeperId == 70994) || (keeperId == 70993))
             { // ドワーフ城
@@ -6700,7 +6700,7 @@ namespace LineageServer.Clientpackets
                         return;
                     }
                 }
-                isNowWar = WarTimeController.Instance.isNowWar(L1CastleLocation.DOWA_CASTLE_ID);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(L1CastleLocation.DOWA_CASTLE_ID);
             }
             else if (keeperId == 70996)
             { // アデン城
@@ -6711,7 +6711,7 @@ namespace LineageServer.Clientpackets
                         return;
                     }
                 }
-                isNowWar = WarTimeController.Instance.isNowWar(L1CastleLocation.ADEN_CASTLE_ID);
+                isNowWar = Container.Instance.Resolve<IWarController>().isNowWar(L1CastleLocation.ADEN_CASTLE_ID);
             }
 
             foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)
@@ -6791,7 +6791,7 @@ namespace LineageServer.Clientpackets
                 int castleId = clan.CastleId;
                 if (castleId != 0)
                 { // 城主クラン
-                    if (!WarTimeController.Instance.isNowWar(castleId))
+                    if (!Container.Instance.Resolve<IWarController>().isNowWar(castleId))
                     {
                         // 城門を元に戻す
                         foreach (L1DoorInstance door in Container.Instance.Resolve<IDoorController>().DoorList)

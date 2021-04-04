@@ -6,6 +6,8 @@ using LineageServer.Serverpackets;
 using LineageServer.Server.Templates;
 using System;
 using System.Collections.Generic;
+using LineageServer.Server;
+
 namespace LineageServer.Command.Executors
 {
 	/// <summary>

@@ -7,11 +7,11 @@ namespace LineageServer.Utils
         static Random random = new Random();
         public static int Next(int next)
         {
-            return random.Next(next + 1);
+            return random.Next(next);
         }
         public static int Next(int min, int max)
         {
-            return random.Next(min, max + 1);
+            return random.Next(min, max);
         }
         public static byte NextByte()
         {

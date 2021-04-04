@@ -1,4 +1,6 @@
-﻿namespace LineageServer.Serverpackets
+﻿using LineageServer.Server;
+
+namespace LineageServer.Serverpackets
 {
 	class S_AddSkill : ServerBasePacket
 	{

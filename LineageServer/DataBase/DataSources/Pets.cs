@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class Pets : DataSource
@@ -19,16 +21,16 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_name, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_item_obj_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_objid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_npcid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_lvl, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_exp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_lawful, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_food, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_name, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_item_obj_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_objid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_npcid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_lvl, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_exp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_lawful, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_food, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public Pets() : base(TableName)
         {

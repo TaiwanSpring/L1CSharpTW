@@ -1,5 +1,7 @@
 using System.Data;
 using LineageServer.Enum;
+using MySql.Data.MySqlClient;
+
 namespace LineageServer.DataBase.DataSources
 {
     class ArmorSet : DataSource
@@ -34,31 +36,31 @@ namespace LineageServer.DataBase.DataSources
         protected override ColumnInfo[] ColumnInfos { get { return columnInfos; } }
         private static readonly ColumnInfo[] columnInfos = new ColumnInfo[]
         {
-            new ColumnInfo() { Column = Column_note, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_sets, DbType = DbType.String, IsPKey = false},
-            new ColumnInfo() { Column = Column_id, DbType = DbType.Int32, IsPKey = true},
-            new ColumnInfo() { Column = Column_polyid, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_ac, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hpr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mpr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_mr, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_str, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_dex, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_con, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_wis, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_cha, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_intl, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_hit_modifier, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_dmg_modifier, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_bow_hit_modifier, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_bow_dmg_modifier, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_sp, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_defense_water, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_defense_wind, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_defense_fire, DbType = DbType.Int32, IsPKey = false},
-            new ColumnInfo() { Column = Column_defense_earth, DbType = DbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_note, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_sets, MySqlDbType = MySqlDbType.Text, IsPKey = false},
+            new ColumnInfo() { Column = Column_id, MySqlDbType = MySqlDbType.Int32, IsPKey = true},
+            new ColumnInfo() { Column = Column_polyid, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_ac, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hpr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mpr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_mr, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_str, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_dex, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_con, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_wis, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_cha, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_intl, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_hit_modifier, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_dmg_modifier, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_bow_hit_modifier, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_bow_dmg_modifier, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_sp, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_defense_water, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_defense_wind, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_defense_fire, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
+            new ColumnInfo() { Column = Column_defense_earth, MySqlDbType = MySqlDbType.Int32, IsPKey = false},
         };
         public ArmorSet() : base(TableName)
         {

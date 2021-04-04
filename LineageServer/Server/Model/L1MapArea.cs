@@ -14,7 +14,8 @@
 /// </summary>
 namespace LineageServer.Server.Model
 {
-	using L1Map = LineageServer.Server.Model.Map.L1Map;
+    using LineageServer.Interfaces;
+    using L1Map = LineageServer.Server.Model.Map.L1Map;
 	using L1WorldMap = LineageServer.Server.Model.Map.L1WorldMap;
 	using Rectangle = LineageServer.Server.Types.Rectangle;
 

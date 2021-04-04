@@ -950,12 +950,12 @@ namespace LineageServer.Server.Model.Instance
                 {
                     pc.sendPackets(new S_ServerMessage(1580)); // 安塔瑞斯：黑暗的詛咒將會降臨到你們身上！席琳，
                                                                // 我的母親，請讓我安息吧...
-                    L1BuffUtil.bloodstain(pc, (sbyte)0, 4320, true);
+                    L1BuffUtil.bloodstain(pc, 0, 4320, true);
                 }
                 else if (NpcTemplate.get_npcId() == 97046)
                 {
                     pc.sendPackets(new S_ServerMessage(1668)); // 法利昂：莎爾...你這個傢伙...怎麼...對得起我的母親...席琳啊...請拿走...我的生命吧...
-                    L1BuffUtil.bloodstain(pc, (sbyte)1, 4320, true);
+                    L1BuffUtil.bloodstain(pc, 1, 4320, true);
                 }
             }
         }

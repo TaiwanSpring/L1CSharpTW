@@ -1,9 +1,9 @@
-﻿namespace LineageServer.Serverpackets
-{
-	using Opcodes = LineageServer.Server.Opcodes;
-	using L1PcInstance = LineageServer.Server.Model.Instance.L1PcInstance;
+﻿using LineageServer.Server;
+using LineageServer.Server.Model.Instance;
 
-	public class S_EquipmentWindow : ServerBasePacket
+namespace LineageServer.Serverpackets
+{
+	class S_EquipmentWindow : ServerBasePacket
 	{
 		private const string S_EQUIPMENTWINDOWS = "[S] S_EquipmentWindow";
 
@@ -86,18 +86,6 @@
 			else
 			{
 				WriteC(0x00); //TODO 0:脫下(0x00=0)
-			}
-		}
-
-		public override sbyte[] Content
-		{
-			get
-			{
-				if (_byte == null)
-				{
-					_byte = Bytes;
-				}
-				return _byte;
 			}
 		}
 

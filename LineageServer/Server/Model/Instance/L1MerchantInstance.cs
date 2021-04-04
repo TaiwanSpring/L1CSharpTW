@@ -1,4 +1,5 @@
-﻿using LineageServer.Models;
+﻿using LineageServer.Interfaces;
+using LineageServer.Models;
 using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Game;
 using LineageServer.Server.Model.Gametime;
@@ -67,7 +68,7 @@ namespace LineageServer.Server.Model.Instance
                     }
                     Rest = true;
                     _monitor = new RestMonitor(this);
-					Container.Instance.Resolve<ITaskController>().execute((Interfaces.IRunnable)this._monitor, REST_MILLISEC);
+                    Container.Instance.Resolve<ITaskController>().execute(this._monitor, REST_MILLISEC);
                 }
             }
 
@@ -1282,7 +1283,7 @@ namespace LineageServer.Server.Model.Instance
                 }
                 else if (npcid == 70011)
                 { // 話せる島の船着き管理人
-                    int time = L1GameTimeClock.Instance.CurrentTime().Seconds % 86400;
+                    int time = Container.Instance.Resolve<IGameTimeClock>().CurrentTime().Seconds % 86400;
                     if ((time < 60 * 60 * 6) || (time > 60 * 60 * 20))
                     { // 20:00～6:00
                         htmlid = "shipEvI6";
@@ -5436,7 +5437,7 @@ namespace LineageServer.Server.Model.Instance
                     pc.CurrentHp = pc.MaxHp;
                     if (pc.Level < 13)
                     {
-                        pc.CurrentMp = pc.MaxMp;
+                        pc.CurrentMp = pc.BaseMaxMp;
                     }
                     pc.sendPackets(new S_ServerMessage(77));
                     pc.sendPackets(new S_SkillSound(pc.Id, 830));

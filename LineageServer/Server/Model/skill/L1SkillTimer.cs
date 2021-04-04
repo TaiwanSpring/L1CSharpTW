@@ -95,7 +95,7 @@ namespace LineageServer.Server.Model.skill
             }
             else if (skillId == L1SkillId.DRESS_DEXTERITY)
             { // ドレス デクスタリティー
-                cha.addDex((sbyte)-2);
+                cha.addDex(-2);
                 if (cha is L1PcInstance)
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
@@ -104,7 +104,7 @@ namespace LineageServer.Server.Model.skill
             }
             else if (skillId == L1SkillId.DRESS_MIGHTY)
             { // ドレス マイティー
-                cha.addStr((sbyte)-2);
+                cha.addStr(-2);
                 if (cha is L1PcInstance)
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
@@ -143,7 +143,7 @@ namespace LineageServer.Server.Model.skill
             }
             else if (skillId == L1SkillId.CLEAR_MIND)
             { // クリアー マインド
-                cha.addWis((sbyte)-3);
+                cha.addWis(-3);
                 if (cha is L1PcInstance)
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
@@ -235,7 +235,7 @@ namespace LineageServer.Server.Model.skill
             }
             else if (skillId == L1SkillId.PHYSICAL_ENCHANT_STR)
             { // フィジカル エンチャント：STR
-                cha.addStr((sbyte)-5);
+                cha.addStr(-5);
                 if (cha is L1PcInstance)
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
@@ -244,7 +244,7 @@ namespace LineageServer.Server.Model.skill
             }
             else if (skillId == L1SkillId.PHYSICAL_ENCHANT_DEX)
             { // フィジカル エンチャント：DEX
-                cha.addDex((sbyte)-5);
+                cha.addDex(-5);
                 if (cha is L1PcInstance)
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
@@ -338,7 +338,7 @@ namespace LineageServer.Server.Model.skill
                     { // パーティー中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                 }
             }
             else if ((skillId == L1SkillId.HASTE) || (skillId == L1SkillId.GREATER_HASTE))
@@ -388,19 +388,19 @@ namespace LineageServer.Server.Model.skill
             }
             else if (skillId == L1SkillId.INSIGHT)
             { // 洞察
-                cha.addStr((sbyte)-1);
-                cha.addCon((sbyte)-1);
-                cha.addDex((sbyte)-1);
-                cha.addWis((sbyte)-1);
-                cha.addInt((sbyte)-1);
+                cha.addStr(-1);
+                cha.addCon(-1);
+                cha.addDex(-1);
+                cha.addWis(-1);
+                cha.addInt(-1);
             }
             else if (skillId == L1SkillId.PANIC)
             { // 恐慌
-                cha.addStr((sbyte)1);
-                cha.addCon((sbyte)1);
-                cha.addDex((sbyte)1);
-                cha.addWis((sbyte)1);
-                cha.addInt((sbyte)1);
+                cha.addStr(1);
+                cha.addCon(1);
+                cha.addDex(1);
+                cha.addWis(1);
+                cha.addInt(1);
             }
 
             // ****** 状態変化が解けた場合
@@ -764,7 +764,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-20);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     pc.sendPackets(new S_PacketBox(53, 4, 0));
                     pc.CookingId = 0;
                 }
@@ -819,7 +819,7 @@ namespace LineageServer.Server.Model.skill
                         pc.Party.updateMiniHP(pc);
                     }
                     pc.addMaxMp(-30);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     pc.sendPackets(new S_PacketBox(53, 9, 0));
                     pc.CookingId = 0;
                 }
@@ -904,7 +904,7 @@ namespace LineageServer.Server.Model.skill
                         pc.Party.updateMiniHP(pc);
                     }
                     pc.addMaxMp(-50);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     pc.sendPackets(new S_PacketBox(53, 17, 0));
                     pc.CookingId = 0;
                 }
@@ -1020,7 +1020,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-40);
                     pc.addMpr(-4);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                 }
             }
             else if (skillId == L1SkillId.EFFECT_ENCHANTING_BATTLE)
@@ -1041,14 +1041,14 @@ namespace LineageServer.Server.Model.skill
                 if (cha is L1PcInstance)
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
-                    pc.addDodge((sbyte)-5); // 閃避率 - 50%
-                                            // 更新閃避率顯示
+                    pc.addDodge(-5); // 閃避率 - 50%
+                                     // 更新閃避率顯示
                     pc.sendPackets(new S_PacketBox(88, pc.Dodge));
                 }
             }
             else if (skillId == L1SkillId.RESIST_FEAR)
             { // 恐懼無助
-                cha.addNdodge((sbyte)-5); // 閃避率 + 50%
+                cha.addNdodge(-5); // 閃避率 + 50%
                 if (cha is L1PcInstance)
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
@@ -1086,7 +1086,7 @@ namespace LineageServer.Server.Model.skill
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_A_2)
@@ -1100,7 +1100,7 @@ namespace LineageServer.Server.Model.skill
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_A_3)
@@ -1114,7 +1114,7 @@ namespace LineageServer.Server.Model.skill
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_A_4)
@@ -1128,7 +1128,7 @@ namespace LineageServer.Server.Model.skill
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_A_5)
@@ -1143,7 +1143,7 @@ namespace LineageServer.Server.Model.skill
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_A_6)
@@ -1158,7 +1158,7 @@ namespace LineageServer.Server.Model.skill
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_A_7)
@@ -1173,7 +1173,7 @@ namespace LineageServer.Server.Model.skill
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_A_8)
@@ -1189,7 +1189,7 @@ namespace LineageServer.Server.Model.skill
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_A_9)
@@ -1201,13 +1201,13 @@ namespace LineageServer.Server.Model.skill
                     pc.addHpr(-5);
                     pc.addHitup(-2);
                     pc.addDmgup(-2);
-                    pc.addStr((sbyte)-1);
+                    pc.addStr(-1);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_B_1)
@@ -1218,12 +1218,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxHp(-5);
                     pc.addMaxMp(-3);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_B_2)
@@ -1234,12 +1234,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxHp(-10);
                     pc.addMaxMp(-6);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_B_3)
@@ -1250,12 +1250,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxHp(-15);
                     pc.addMaxMp(-10);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_B_4)
@@ -1266,12 +1266,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxHp(-20);
                     pc.addMaxMp(-15);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_B_5)
@@ -1282,12 +1282,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxHp(-25);
                     pc.addMaxMp(-20);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_B_6)
@@ -1299,12 +1299,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxMp(-20);
                     pc.addHpr(-1);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_B_7)
@@ -1317,12 +1317,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addHpr(-1);
                     pc.addMpr(-1);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_B_8)
@@ -1335,12 +1335,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addHpr(-2);
                     pc.addMpr(-1);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_B_9)
@@ -1354,14 +1354,14 @@ namespace LineageServer.Server.Model.skill
                     pc.addMpr(-2);
                     pc.addBowDmgup(-2);
                     pc.addBowHitup(-2);
-                    pc.addDex((sbyte)-1);
+                    pc.addDex(-1);
                     pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_C_1)
@@ -1370,8 +1370,8 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-5);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_C_2)
@@ -1380,8 +1380,8 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-10);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_C_3)
@@ -1390,8 +1390,8 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-15);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_C_4)
@@ -1400,8 +1400,8 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-20);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_C_5)
@@ -1411,8 +1411,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-25);
                     pc.addMpr(-1);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_C_6)
@@ -1422,8 +1422,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-30);
                     pc.addMpr(-2);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_C_7)
@@ -1433,8 +1433,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-35);
                     pc.addMpr(-3);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_C_8)
@@ -1444,8 +1444,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-40);
                     pc.addMpr(-4);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_C_9)
@@ -1455,11 +1455,11 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-50);
                     pc.addMpr(-5);
-                    pc.addInt((sbyte)-1);
+                    pc.addInt(-1);
                     pc.addSp(-1);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_D_1)
@@ -1469,7 +1469,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMr(-2);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_D_2)
@@ -1479,7 +1479,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMr(-4);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_D_3)
@@ -1489,7 +1489,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMr(-6);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_D_4)
@@ -1499,7 +1499,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMr(-8);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_D_5)
@@ -1510,7 +1510,7 @@ namespace LineageServer.Server.Model.skill
                     pc.addMr(-10);
                     pc.addAc(1);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_D_6)
@@ -1521,7 +1521,7 @@ namespace LineageServer.Server.Model.skill
                     pc.addMr(-10);
                     pc.addAc(2);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_D_7)
@@ -1532,7 +1532,7 @@ namespace LineageServer.Server.Model.skill
                     pc.addMr(-10);
                     pc.addAc(3);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_D_8)
@@ -1544,7 +1544,7 @@ namespace LineageServer.Server.Model.skill
                     pc.addAc(4);
                     pc.addDamageReductionByArmor(-1);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_STONE_D_9)
@@ -1554,10 +1554,10 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMr(-20);
                     pc.addAc(5);
-                    pc.addCon((sbyte)-1);
+                    pc.addCon(-1);
                     pc.addDamageReductionByArmor(-3);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.MagicStoneLevel = (sbyte)0;
+                    pc.MagicStoneLevel = 0;
                 }
             }
             else if (skillId == L1SkillId.EFFECT_MAGIC_EYE_OF_AHTHARTS)
@@ -1567,8 +1567,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addRegistStone(-3); // 石化耐性
 
-                    pc.addDodge((sbyte)-1); // 閃避率 - 10%
-                                            // 更新閃避率顯示
+                    pc.addDodge(-1); // 閃避率 - 10%
+                                     // 更新閃避率顯示
                     pc.sendPackets(new S_PacketBox(88, pc.Dodge));
                 }
             }
@@ -1607,8 +1607,8 @@ namespace LineageServer.Server.Model.skill
                     pc.addRegistBlind(-3); // 闇黑耐性
                                            // 魔法傷害減免
 
-                    pc.addDodge((sbyte)-1); // 閃避率 - 10%
-                                            // 更新閃避率顯示
+                    pc.addDodge(-1); // 閃避率 - 10%
+                                     // 更新閃避率顯示
                     pc.sendPackets(new S_PacketBox(88, pc.Dodge));
                 }
             }
@@ -1621,8 +1621,8 @@ namespace LineageServer.Server.Model.skill
                                              // 魔法傷害減免
                                              // 魔法暴擊率
 
-                    pc.addDodge((sbyte)-1); // 閃避率 - 10%
-                                            // 更新閃避率顯示
+                    pc.addDodge(-1); // 閃避率 - 10%
+                                     // 更新閃避率顯示
                     pc.sendPackets(new S_PacketBox(88, pc.Dodge));
                 }
             }
@@ -1636,8 +1636,8 @@ namespace LineageServer.Server.Model.skill
                                     // 魔法暴擊率
                                     // 防護中毒狀態
 
-                    pc.addDodge((sbyte)-1); // 閃避率 - 10%
-                                            // 更新閃避率顯示
+                    pc.addDodge(-1); // 閃避率 - 10%
+                                     // 更新閃避率顯示
                     pc.sendPackets(new S_PacketBox(88, pc.Dodge));
                 }
             }
@@ -1659,7 +1659,7 @@ namespace LineageServer.Server.Model.skill
                     {
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                 }
             }
             else if (skillId == L1SkillId.EFFECT_BLESS_OF_SAELL)
@@ -1676,7 +1676,7 @@ namespace LineageServer.Server.Model.skill
                     {
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.MaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
                 }
             }
             else if (skillId == L1SkillId.ERASE_MAGIC)

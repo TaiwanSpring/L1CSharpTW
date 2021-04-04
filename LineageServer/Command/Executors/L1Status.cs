@@ -36,7 +36,7 @@ namespace LineageServer.Command.Executors
                 // -- not use DB --
                 if (param == "AC")
                 {
-                    target.addAc((sbyte)(value - target.Ac));
+                    target.addAc((value - target.Ac));
                 }
                 else if (param == "MR")
                 {
@@ -61,7 +61,7 @@ namespace LineageServer.Command.Executors
                     else if (param == "MP")
                     {
                         target.addBaseMaxMp((short)(value - target.BaseMaxMp));
-                        target.CurrentMpDirect = target.MaxMp;
+                        target.CurrentMpDirect = target.BaseMaxMp;
                     }
                     else if (param == "LAWFUL")
                     {
@@ -85,27 +85,27 @@ namespace LineageServer.Command.Executors
                     }
                     else if (param == "STR")
                     {
-                        target.addBaseStr((sbyte)(value - target.BaseStr));
+                        target.addBaseStr((byte)(value - target.BaseStr));
                     }
                     else if (param == "CON")
                     {
-                        target.addBaseCon((sbyte)(value - target.BaseCon));
+                        target.addBaseCon((byte)(value - target.BaseCon));
                     }
                     else if (param == "DEX")
                     {
-                        target.addBaseDex((sbyte)(value - target.BaseDex));
+                        target.addBaseDex((byte)(value - target.BaseDex));
                     }
                     else if (param == "INT")
                     {
-                        target.addBaseInt((sbyte)(value - target.BaseInt));
+                        target.addBaseInt((byte)(value - target.BaseInt));
                     }
                     else if (param == "WIS")
                     {
-                        target.addBaseWis((sbyte)(value - target.BaseWis));
+                        target.addBaseWis((byte)(value - target.BaseWis));
                     }
                     else if (param == "CHA")
                     {
-                        target.addBaseCha((sbyte)(value - target.BaseCha));
+                        target.addBaseCha((byte)(value - target.BaseCha));
                     }
                     else
                     {

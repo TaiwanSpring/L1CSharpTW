@@ -162,7 +162,7 @@ namespace LineageServer.Clientpackets
             }
             pc.refresh();
             pc.CurrentHp = pc.MaxHp;
-            pc.CurrentMp = pc.MaxMp;
+            pc.CurrentMp = pc.BaseMaxMp;
             if (pc.TempMaxLevel != pc.Level)
             {
                 pc.Level = pc.TempMaxLevel;

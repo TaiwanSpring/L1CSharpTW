@@ -186,7 +186,7 @@ namespace LineageServer
         /// <summary>
         /// 設定自動取得道具的方式 0-掉落地上, 1-掉落寵物身上, 2-掉落角色身上
         /// </summary>
-        public static sbyte AUTO_LOOT;
+        public static int AUTO_LOOT;
         /// <summary>
         /// 設定道具掉落的範圍大小
         /// </summary>
@@ -357,7 +357,7 @@ namespace LineageServer
         /// <summary>
         /// 刪除丟棄的物品的最小等級
         /// </summary>
-        public static sbyte DropItemMinLv;
+        public static int DropItemMinLv;
         /// <summary>
         /// 重新啟動伺服器 (分鐘、0 = 不重啟) by阿傑
         /// </summary>
@@ -617,9 +617,9 @@ namespace LineageServer
 
         /// <summary>
         ///Record Settings </summary>
-        public static sbyte LOGGING_WEAPON_ENCHANT;
+        public static int LOGGING_WEAPON_ENCHANT;
 
-        public static sbyte LOGGING_ARMOR_ENCHANT;
+        public static int LOGGING_ARMOR_ENCHANT;
 
         public static bool LOGGING_CHAT_NORMAL;
 
@@ -649,17 +649,17 @@ namespace LineageServer
 
         /// <summary>
         /// Configuration files </summary>
-        public const string SERVER_CONFIG_FILE = "./config/server.ConfigLoader";
+        public const string SERVER_CONFIG_FILE = "./config/server.properties";
 
-        public const string RATES_CONFIG_FILE = "./config/rates.ConfigLoader";
+        public const string RATES_CONFIG_FILE = "./config/rates.properties";
 
-        public const string ALT_SETTINGS_FILE = "./config/configLoader.ConfigLoader";
+        public const string ALT_SETTINGS_FILE = "./config/altsettings.properties";
 
-        public const string CHAR_SETTINGS_CONFIG_FILE = "./config/configLoader.ConfigLoader";
+        public const string CHAR_SETTINGS_CONFIG_FILE = "./config/charsettings.properties";
 
-        public const string FIGHT_SETTINGS_CONFIG_FILE = "./config/fights.ConfigLoader";
+        public const string FIGHT_SETTINGS_CONFIG_FILE = "./config/fights.properties";
 
-        public const string RECORD_SETTINGS_CONFIG_FILE = "./config/record.ConfigLoader";
+        public const string RECORD_SETTINGS_CONFIG_FILE = "./config/record.properties";
 
         /// <summary>
         /// 其他設定 </summary>
@@ -751,7 +751,7 @@ namespace LineageServer
 
                 GLOBAL_CHAT_LEVEL = short.Parse(configLoader.GetProperty("GlobalChatLevel", "30"));
                 WHISPER_CHAT_LEVEL = short.Parse(configLoader.GetProperty("WhisperChatLevel", "5"));
-                AUTO_LOOT = sbyte.Parse(configLoader.GetProperty("AutoLoot", "2"));
+                AUTO_LOOT = int.Parse(configLoader.GetProperty("AutoLoot", "2"));
                 LOOTING_RANGE = int.Parse(configLoader.GetProperty("LootingRange", "3"));
                 ALT_NONPVP = bool.Parse(configLoader.GetProperty("NonPvP", "true"));
                 ALT_ATKMSG = bool.Parse(configLoader.GetProperty("AttackMessageOn", "true"));
@@ -789,7 +789,7 @@ namespace LineageServer
                 BONUS_STATS2 = int.Parse(configLoader.GetProperty("BONUS_STATS2", "5")); //調整能力值上限 by 丫傑 end
                 BONUS_STATS3 = int.Parse(configLoader.GetProperty("BONUS_STATS3", "25")); //調整能力值上限 by 丫傑 end
                 Drop_Item = bool.Parse(configLoader.GetProperty("DropItem", "false")); //TODO　刪除丟棄物品 by bill00148
-                DropItemMinLv = sbyte.Parse(configLoader.GetProperty("DropItemMinLv", "200")); //TODO　刪除丟棄物品 by bill00148
+                DropItemMinLv = byte.Parse(configLoader.GetProperty("DropItemMinLv", "200")); //TODO　刪除丟棄物品 by bill00148
                 MaxHPMP = bool.Parse(configLoader.GetProperty("FullHPMP", "false")); //TODO 升級血魔滿
                 DeleteFood = bool.Parse(configLoader.GetProperty("DeleteFood", "false")); //TODO 廣播扣飽食度
                 Gamesleep = int.Parse(configLoader.GetProperty("Gamesleep", "30"));
@@ -963,8 +963,8 @@ namespace LineageServer
             {
                 ConfigLoader configLoader = new ConfigLoader(RECORD_SETTINGS_CONFIG_FILE);
 
-                LOGGING_WEAPON_ENCHANT = sbyte.Parse(configLoader.GetProperty("LoggingWeaponEnchant", "0"));
-                LOGGING_ARMOR_ENCHANT = sbyte.Parse(configLoader.GetProperty("LoggingArmorEnchant", "0"));
+                LOGGING_WEAPON_ENCHANT = int.Parse(configLoader.GetProperty("LoggingWeaponEnchant", "0"));
+                LOGGING_ARMOR_ENCHANT = int.Parse(configLoader.GetProperty("LoggingArmorEnchant", "0"));
                 LOGGING_CHAT_NORMAL = bool.Parse(configLoader.GetProperty("LoggingChatNormal", "false"));
                 LOGGING_CHAT_WHISPER = bool.Parse(configLoader.GetProperty("LoggingChatWhisper", "false"));
                 LOGGING_CHAT_SHOUT = bool.Parse(configLoader.GetProperty("LoggingChatShout", "false"));
@@ -1091,7 +1091,7 @@ namespace LineageServer
             }
             else if (pName == "Weightrate")
             {
-                RATE_WEIGHT_LIMIT = sbyte.Parse(pValue);
+                RATE_WEIGHT_LIMIT = int.Parse(pValue);
             }
             // configLoader.ConfigLoader
             else if (pName == "GlobalChatLevel")
@@ -1104,7 +1104,7 @@ namespace LineageServer
             }
             else if (pName == "AutoLoot")
             {
-                AUTO_LOOT = sbyte.Parse(pValue);
+                AUTO_LOOT = int.Parse(pValue);
             }
             else if (pName == "LOOTING_RANGE")
             {
@@ -1152,7 +1152,7 @@ namespace LineageServer
             }
             else if (pName == "AutomaticItemDeletionRange")
             {
-                ALT_ITEM_DELETION_RANGE = sbyte.Parse(pValue);
+                ALT_ITEM_DELETION_RANGE = int.Parse(pValue);
             }
             else if (pName == "GMshop")
             {
@@ -1523,11 +1523,11 @@ namespace LineageServer
             //record.ConfigLoader
             else if (pName == "LoggingWeaponEnchant")
             {
-                LOGGING_WEAPON_ENCHANT = sbyte.Parse(pValue);
+                LOGGING_WEAPON_ENCHANT = int.Parse(pValue);
             }
             else if (pName == "LoggingArmorEnchant")
             {
-                LOGGING_ARMOR_ENCHANT = sbyte.Parse(pValue);
+                LOGGING_ARMOR_ENCHANT = int.Parse(pValue);
             }
             else
             {

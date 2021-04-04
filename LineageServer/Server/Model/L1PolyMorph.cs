@@ -1,4 +1,5 @@
-﻿using LineageServer.Server.DataTables;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server.DataTables;
 using LineageServer.Server.Model.Instance;
 using LineageServer.Server.Model.npc.action;
 using LineageServer.Server.Model.skill;
@@ -312,7 +313,7 @@ namespace LineageServer.Server.Model
                 if (mob.TempCharGfx != polyId)
                 {
                     mob.TempCharGfx = polyId;
-                    int npcStatus = L1NpcDefaultAction.Instance.getStatus(polyId);
+                    int npcStatus = Container.Instance.Resolve<IGameActionProvider>().getStatus(polyId);
                     mob.Status = npcStatus;
                     if (npcStatus == 20)
                     { // 弓類
@@ -422,7 +423,7 @@ namespace LineageServer.Server.Model
                 L1MonsterInstance mob = (L1MonsterInstance)cha;
                 int gfxId = mob.GfxId;
                 mob.TempCharGfx = 0;
-                mob.Status = L1NpcDefaultAction.Instance.getStatus(gfxId);
+                mob.Status = Container.Instance.Resolve<IGameActionProvider>().getStatus(gfxId);
                 mob.PolyAtkRanged = -1;
                 mob.PolyArrowGfx = 0;
                 mob.Passispeed = SprTable.Instance.getSprSpeed(gfxId, mob.Status); // 移動速度

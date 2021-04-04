@@ -1,4 +1,7 @@
-﻿using LineageServer.Server.Model.Gametime;
+﻿using LineageServer.Interfaces;
+using LineageServer.Server;
+using LineageServer.Server.Model;
+using LineageServer.Server.Model.Gametime;
 using LineageServer.Server.Model.Instance;
 
 namespace LineageServer.Serverpackets
@@ -9,7 +12,7 @@ namespace LineageServer.Serverpackets
 
         public S_OwnCharStatus(L1PcInstance pc)
         {
-            int time = L1GameTimeClock.Instance.currentTime().Seconds;
+            int time = Container.Instance.Resolve<IGameTimeClock>().CurrentTime().Seconds;
             time = time - (time % 300);
             WriteC(Opcodes.S_OPCODE_OWNCHARSTATUS);
             WriteD(pc.Id);
@@ -26,20 +29,20 @@ namespace LineageServer.Serverpackets
                 WriteC(pc.Level);
             }
             WriteExp(pc.Exp);
-            WriteC(pc.Str);
-            WriteC(pc.Int);
-            WriteC(pc.Wis);
-            WriteC(pc.Dex);
-            WriteC(pc.Con);
-            WriteC(pc.Cha);
+            WriteC(pc.BaseStr);
+            WriteC(pc.BaseInt);
+            WriteC(pc.BaseWis);
+            WriteC(pc.BaseDex);
+            WriteC(pc.BaseCon);
+            WriteC(pc.BaseCha);
             WriteH(pc.CurrentHp);
             WriteH(pc.MaxHp);
             WriteH(pc.CurrentMp);
-            WriteH(pc.MaxMp);
+            WriteH(pc.BaseMaxMp);
             WriteC(pc.Ac);
             WriteD(time);
             WriteC(pc.get_food());
-            WriteC(pc.Inventory.Weight242);
+            WriteC((pc.Inventory as L1PcInventory).Weight242);
             WriteH(pc.Lawful);
             WriteH(pc.Fire);
             WriteH(pc.Water);
