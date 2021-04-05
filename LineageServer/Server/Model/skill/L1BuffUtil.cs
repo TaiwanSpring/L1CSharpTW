@@ -194,12 +194,12 @@ namespace LineageServer.Server.Model.skill
                         pc.addAc(-8);
                         break;
                 }
-                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                 if (pc.InParty)
                 {
                     pc.Party.updateMiniHP(pc);
                 }
-                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                 pc.sendPackets(new S_OwnCharAttrDef(pc));
             }
@@ -812,7 +812,7 @@ namespace LineageServer.Server.Model.skill
                     {
                         L1PcInstance pc = (L1PcInstance)_user;
                         pc.addDodge(5); // 閃避率 + 50%
-                                               // 更新閃避率顯示
+                                        // 更新閃避率顯示
                         pc.sendPackets(new S_PacketBox(88, pc.Dodge));
                     }
                     break;
@@ -1095,12 +1095,12 @@ namespace LineageServer.Server.Model.skill
                         pc.AdvenMp = pc.BaseMaxMp / 5;
                         pc.addMaxHp(pc.AdvenHp);
                         pc.addMaxMp(pc.AdvenMp);
-                        pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                        pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                         if (pc.InParty)
                         { // パーティー中
                             pc.Party.updateMiniHP(pc);
                         }
-                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     }
                     break;
                 // 神聖疾走、行走加速、風之疾走
@@ -1296,7 +1296,7 @@ namespace LineageServer.Server.Model.skill
                                     // 現在のペットコスト
                                     petcost += pet.Petcost;
                                 }
-                                int pcCha = pc.BaseCha;
+                                int pcCha = pc.getCha();
                                 if (pcCha > 34)
                                 { // max count = 5
                                     pcCha = 34;
@@ -1370,7 +1370,7 @@ namespace LineageServer.Server.Model.skill
 
                                     L1Npc npcTemp = Container.Instance.Resolve<INpcController>().getTemplate(summonid);
                                     L1SummonInstance summon = new L1SummonInstance(npcTemp, pc);
-                                    summon.Petcost = pc.BaseCha + 7; // 精霊の他にはNPCを所属させられない
+                                    summon.Petcost = pc.getCha() + 7; // 精霊の他にはNPCを所属させられない
                                 }
                             }
                             else
@@ -1558,7 +1558,7 @@ namespace LineageServer.Server.Model.skill
                 petcost += petNpc.Petcost;
             }
 
-            int pcCha = pc.BaseCha;
+            int pcCha = pc.getCha();
             int charisma = 0;
             int summoncount = 0;
             if ((levelrange <= 56) || (levelrange == 64))

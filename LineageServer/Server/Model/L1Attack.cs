@@ -314,7 +314,7 @@ namespace LineageServer.Server.Model
                     _weaponBless = weapon.Item.Bless;
                     _weaponEnchant = weapon.EnchantLevel;
                     _weaponMaterial = weapon.Item.Material;
-                    _statusDamage = dexDmg[_pc.BaseDex]; // 傷害預設用敏捷補正
+                    _statusDamage = dexDmg[_pc.getDex()]; // 傷害預設用敏捷補正
 
                     if (_weaponType == 20)
                     { // 弓箭
@@ -337,7 +337,7 @@ namespace LineageServer.Server.Model
                     else
                     { // 近戰類武器
                         _weaponEnchant = weapon.EnchantLevel - weapon.get_durability(); // 計算武器損傷
-                        _statusDamage = strDmg[_pc.BaseStr]; // 傷害用力量補正
+                        _statusDamage = strDmg[_pc.getStr()]; // 傷害用力量補正
                     }
                     _weaponDoubleDmgChance = weapon.Item.DoubleDmgChance;
                     _weaponAttrEnchantKind = weapon.AttrEnchantKind;
@@ -475,22 +475,22 @@ namespace LineageServer.Server.Model
         {
             _hitRate = _pc.Level;
 
-            if (_pc.BaseStr > 59)
+            if (_pc.getStr() > 59)
             {
                 _hitRate += strHit[58];
             }
             else
             {
-                _hitRate += strHit[_pc.BaseStr - 1];
+                _hitRate += strHit[_pc.getStr() - 1];
             }
 
-            if (_pc.BaseDex > 60)
+            if (_pc.getDex() > 60)
             {
                 _hitRate += dexHit[59];
             }
             else
             {
-                _hitRate += dexHit[_pc.BaseDex - 1];
+                _hitRate += dexHit[_pc.getDex() - 1];
             }
 
             // 命中計算 與魔法、食物buff
@@ -643,22 +643,22 @@ namespace LineageServer.Server.Model
             // ＝（PCのLv＋クラス補正＋STR補正＋DEX補正＋武器補正＋DAIの枚数/2＋魔法補正）×5－{NPCのAC×（-5）}
             _hitRate = _pc.Level;
 
-            if (_pc.BaseStr > 59)
+            if (_pc.getStr() > 59)
             {
                 _hitRate += strHit[58];
             }
             else
             {
-                _hitRate += strHit[_pc.BaseStr - 1];
+                _hitRate += strHit[_pc.getStr() - 1];
             }
 
-            if (_pc.BaseDex > 60)
+            if (_pc.getDex() > 60)
             {
                 _hitRate += dexHit[59];
             }
             else
             {
-                _hitRate += dexHit[_pc.BaseDex - 1];
+                _hitRate += dexHit[_pc.getDex() - 1];
             }
 
             // 命中計算 與魔法、食物buff

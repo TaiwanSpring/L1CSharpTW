@@ -117,8 +117,8 @@ namespace LineageServer.Server.Model
         {
             double dmg = 0;
             int spByItem = pc.Sp - pc.TrueSp;
-            int intel = pc.BaseInt;
-            int charaIntelligence = pc.BaseInt + spByItem - 12;
+            int intel = pc.getInt();
+            int charaIntelligence = pc.getInt() + spByItem - 12;
             double coefficientA = 1.0 + 3.0 / 32.0 * charaIntelligence;
             if (coefficientA < 1)
             {

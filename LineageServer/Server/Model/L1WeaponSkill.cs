@@ -301,7 +301,7 @@ namespace LineageServer.Server.Model
                 int locx = cha.X;
                 int locy = cha.Y;
                 int sp = pc.Sp;
-                int intel = pc.BaseInt;
+                int intel = pc.getInt();
                 double bsk = 0;
                 if (pc.hasSkillEffect(L1SkillId.BERSERKERS))
                 {
@@ -360,7 +360,7 @@ namespace LineageServer.Server.Model
             kiringkuDamage += value;
 
             int spByItem = pc.Sp - pc.TrueSp; // アイテムによるSP変動
-            charaIntelligence = pc.BaseInt + spByItem - 12;
+            charaIntelligence = pc.getInt() + spByItem - 12;
             if (charaIntelligence < 1)
             {
                 charaIntelligence = 1;
@@ -411,7 +411,7 @@ namespace LineageServer.Server.Model
             if (probability >= chance)
             {
                 int sp = pc.Sp;
-                int intel = pc.BaseInt;
+                int intel = pc.getInt();
                 int area = 0;
                 int effectTargetId = 0;
                 int effectId = 0;
@@ -509,7 +509,7 @@ namespace LineageServer.Server.Model
             if (4 >= chance)
             {
                 int sp = pc.Sp;
-                int intel = pc.BaseInt;
+                int intel = pc.getInt();
                 double bsk = 0;
                 if (pc.hasSkillEffect(L1SkillId.BERSERKERS))
                 {

@@ -56,12 +56,12 @@ namespace LineageServer.Command.Executors
                     if (param == "HP")
                     {
                         target.addBaseMaxHp((short)(value - target.BaseMaxHp));
-                        target.CurrentHpDirect = target.MaxHp;
+                        target.CurrentHpDirect = target.getMaxHp();
                     }
                     else if (param == "MP")
                     {
                         target.addBaseMaxMp((short)(value - target.BaseMaxMp));
-                        target.CurrentMpDirect = target.BaseMaxMp;
+                        target.CurrentMpDirect = target.getMaxMp();
                     }
                     else if (param == "LAWFUL")
                     {

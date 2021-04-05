@@ -1,7 +1,6 @@
 ﻿using LineageServer.Interfaces;
 using LineageServer.Server;
 using LineageServer.Server.Model;
-using LineageServer.Server.Model.Gametime;
 using LineageServer.Server.Model.Instance;
 
 namespace LineageServer.Serverpackets
@@ -29,16 +28,16 @@ namespace LineageServer.Serverpackets
                 WriteC(pc.Level);
             }
             WriteExp(pc.Exp);
-            WriteC(pc.BaseStr);
-            WriteC(pc.BaseInt);
-            WriteC(pc.BaseWis);
-            WriteC(pc.BaseDex);
-            WriteC(pc.BaseCon);
-            WriteC(pc.BaseCha);
+            WriteC(pc.getStr());
+            WriteC(pc.getInt());
+            WriteC(pc.getWis());
+            WriteC(pc.getDex());
+            WriteC(pc.getCon());
+            WriteC(pc.getCha());
             WriteH(pc.CurrentHp);
-            WriteH(pc.MaxHp);
+            WriteH(pc.getMaxHp());
             WriteH(pc.CurrentMp);
-            WriteH(pc.BaseMaxMp);
+            WriteH(pc.getMaxMp());
             WriteC(pc.Ac);
             WriteD(time);
             WriteC(pc.get_food());

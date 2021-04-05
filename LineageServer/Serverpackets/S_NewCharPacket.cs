@@ -21,19 +21,20 @@ namespace LineageServer.Serverpackets
             WriteC(pc.Type);
             WriteC(pc.get_sex());
             WriteH(pc.Lawful);
-            WriteH(pc.MaxHp);
-            WriteH(pc.BaseMaxMp);
+            WriteH(pc.getMaxHp());
+            WriteH(pc.getMaxMp());
             WriteC(pc.Ac);
             WriteC(pc.Level);
-            WriteC(pc.BaseStr);
-            WriteC(pc.BaseDex);
-            WriteC(pc.BaseCon);
-            WriteC(pc.BaseWis);
-            WriteC(pc.BaseCha);
-            WriteC(pc.BaseInt);
+            WriteC(pc.getStr());
+            WriteC(pc.getDex());
+            WriteC(pc.getCon());
+            WriteC(pc.getWis());
+            WriteC(pc.getCha());
+            WriteC(pc.getInt());
             WriteC(0); // 是否為管理員
             WriteD(pc.SimpleBirthday);
-            WriteC((pc.Level ^ pc.BaseStr ^ pc.BaseDex ^ pc.BaseCon ^ pc.BaseWis ^ pc.BaseCha ^ pc.BaseInt) & 0xff); // XOR 驗證
+            WriteC((pc.Level ^ pc.getStr() ^ pc.getDex() ^ pc.getCon()
+                ^ pc.getWis() ^ pc.getCha() ^ pc.getInt()) & 0xff); // XOR 驗證
         }
 
         public override string Type

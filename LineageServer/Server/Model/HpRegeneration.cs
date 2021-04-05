@@ -59,10 +59,10 @@ namespace LineageServer.Server.Model
             int maxBonus = 1;
 
             // CONボーナス
-            if (11 < _pc.Level && 14 <= _pc.BaseCon)
+            if (11 < _pc.Level && 14 <= _pc.getCon())
             {
-                maxBonus = _pc.BaseCon - 12;
-                if (25 < _pc.BaseCon)
+                maxBonus = _pc.getCon() - 12;
+                if (25 < _pc.getCon())
                 {
                     maxBonus = 14;
                 }
@@ -195,7 +195,7 @@ namespace LineageServer.Server.Model
 
             if (!_pc.Dead)
             {
-                _pc.CurrentHp = Math.Min(newHp, _pc.MaxHp);
+                _pc.CurrentHp = Math.Min(newHp, _pc.getMaxHp());
             }
         }
 

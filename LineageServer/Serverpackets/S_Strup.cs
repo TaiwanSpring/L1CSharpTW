@@ -11,7 +11,7 @@ namespace LineageServer.Serverpackets
         {
             WriteC(Opcodes.S_OPCODE_STRUP);
             WriteH(time);
-            WriteC(pc.BaseStr);
+            WriteC(pc.getStr());
             WriteC((pc.Inventory as L1PcInventory).Weight242);
             WriteC(type);
             WriteH(0);

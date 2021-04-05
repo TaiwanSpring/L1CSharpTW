@@ -153,7 +153,7 @@ namespace LineageServer.Server.Model.item.Action
                     case L1SkillId.EFFECT_STRENGTHENING_HP: // 體力增強卷軸
                         pc.addMaxHp(50);
                         pc.addHpr(4);
-                        pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                        pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                         if (pc.InParty)
                         { // 組隊中
                             pc.Party.updateMiniHP(pc);
@@ -162,7 +162,7 @@ namespace LineageServer.Server.Model.item.Action
                     case L1SkillId.EFFECT_STRENGTHENING_MP: // 魔力增強卷軸
                         pc.addMaxMp(40);
                         pc.addMpr(4);
-                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                         break;
                     case L1SkillId.EFFECT_MAGIC_EYE_OF_AHTHARTS: // 地龍之魔眼
                         pc.addRegistStone(3); // 石化耐性 +3
@@ -457,7 +457,7 @@ namespace LineageServer.Server.Model.item.Action
 
                 if (type >= 84 && type <= 92)
                 { // (近戰)
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -465,8 +465,8 @@ namespace LineageServer.Server.Model.item.Action
                 }
                 else if (type >= 93 && type <= 101)
                 { // (遠攻)
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -474,7 +474,7 @@ namespace LineageServer.Server.Model.item.Action
                 }
                 else if (type >= 102 && type <= 110)
                 { // 恢復
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                 }
                 else if (type >= 111 && type <= 119)
                 { // 防禦

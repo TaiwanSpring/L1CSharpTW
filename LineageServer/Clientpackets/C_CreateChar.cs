@@ -109,7 +109,8 @@ namespace LineageServer.Clientpackets
                 isStatusError = true;
             }
 
-            int statusAmount = pc.BaseDex + pc.BaseCha + pc.BaseCon + pc.BaseInt + pc.BaseStr + pc.BaseWis;
+            int statusAmount = pc.getDex() + pc.getCha() + pc.getCon()
+                + pc.getInt() + pc.getStr() + pc.getWis();
 
             if ((statusAmount != 75) || isStatusError)
             {

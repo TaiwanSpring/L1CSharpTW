@@ -19,7 +19,11 @@ namespace LineageServer.Serverpackets
             }
             else if (type == 1)
             {
-                int[] status = new int[] { pc.BaseStr, pc.BaseInt, pc.BaseWis, pc.BaseDex, pc.BaseCon, pc.BaseCha };
+                int[] status = new int[] 
+                {
+                    pc.getStr(), pc.getInt(), pc.getWis(),
+                    pc.getDex(), pc.getCon(), pc.getCha()
+                };
                 for (int i = 0; i <= status.Length; i++)
                 {
                     for (int j = i + 1; j <= status.Length; j++)
@@ -36,12 +40,12 @@ namespace LineageServer.Serverpackets
         private void buildPacket(L1PcInstance pc)
         {
             WriteC(Opcodes.S_OPCODE_OWNCHARSTATUS2);
-            WriteC(pc.BaseStr);
-            WriteC(pc.BaseInt);
-            WriteC(pc.BaseWis);
-            WriteC(pc.BaseDex);
-            WriteC(pc.BaseCon);
-            WriteC(pc.BaseCha);
+            WriteC(pc.getStr());
+            WriteC(pc.getInt());
+            WriteC(pc.getWis());
+            WriteC(pc.getDex());
+            WriteC(pc.getCon());
+            WriteC(pc.getCha());
             WriteC((pc.Inventory as L1PcInventory).Weight242);
         }
         public override string Type

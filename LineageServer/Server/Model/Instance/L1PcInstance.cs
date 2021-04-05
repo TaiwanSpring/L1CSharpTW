@@ -91,7 +91,7 @@ namespace LineageServer.Server.Model.Instance
         {
             get
             {
-                return (short)_mpr;
+                return _mpr;
             }
         }
 
@@ -107,7 +107,6 @@ namespace LineageServer.Server.Model.Instance
         {
             get
             {
-
                 return _originalHpr;
             }
         }
@@ -118,7 +117,6 @@ namespace LineageServer.Server.Model.Instance
         {
             get
             {
-
                 return _originalMpr;
             }
         }
@@ -317,10 +315,6 @@ namespace LineageServer.Server.Model.Instance
         private const int INTERVAL_EXP_MONITOR = 500;
 
         private ITimerTask _expMonitorFuture;
-        /// <summary>
-        /// 等級
-        /// </summary>
-        public int Level { get; set; }
         public virtual void onChangeExp()
         {
             int level = ExpTable.getLevelByExp(Exp);
@@ -625,7 +619,6 @@ namespace LineageServer.Server.Model.Instance
             _quest = new L1Quest(this);
             _equipSlot = new L1EquipmentSlot(this); // コンストラクタでthisポインタを渡すのは安全だろうか・・・
         }
-        public int MaxHp { get; set; }
         public override int CurrentHp
         {
             set
@@ -635,12 +628,12 @@ namespace LineageServer.Server.Model.Instance
                     return;
                 }
                 int currentHp = value;
-                if (currentHp >= MaxHp)
+                if (currentHp >= getMaxHp())
                 {
-                    currentHp = MaxHp;
+                    currentHp = getMaxHp();
                 }
                 CurrentHpDirect = currentHp;
-                sendPackets(new S_HPUpdate(currentHp, MaxHp));
+                sendPackets(new S_HPUpdate(currentHp, getMaxHp()));
                 if (InParty)
                 { // パーティー中
                     Party.updateMiniHP(this);
@@ -657,12 +650,12 @@ namespace LineageServer.Server.Model.Instance
                     return;
                 }
                 int currentMp = value;
-                if ((currentMp >= BaseMaxMp) || Gm)
+                if ((currentMp >= getMaxMp()) || Gm)
                 {
-                    currentMp = BaseMaxMp;
+                    currentMp = getMaxMp();
                 }
                 CurrentMpDirect = currentMp;
-                sendPackets(new S_MPUpdate(currentMp, BaseMaxMp));
+                sendPackets(new S_MPUpdate(currentMp, getMaxMp()));
             }
         }
 
@@ -1521,9 +1514,9 @@ namespace LineageServer.Server.Model.Instance
                 }
 
                 int newMp = CurrentMp - mpDamage;
-                if (newMp > BaseMaxMp)
+                if (newMp > getMaxMp())
                 {
-                    newMp = BaseMaxMp;
+                    newMp = getMaxMp();
                 }
 
                 if (newMp <= 0)
@@ -1637,15 +1630,15 @@ namespace LineageServer.Server.Model.Instance
                     }
                 }
                 int newHp = CurrentHp - (int)(damage);
-                if (newHp > MaxHp)
+                if (newHp > getMaxHp())
                 {
-                    newHp = MaxHp;
+                    newHp = getMaxHp();
                 }
                 if (newHp <= 0)
                 {
                     if (Gm)
                     {
-                        CurrentHp = MaxHp;
+                        CurrentHp = getMaxHp();
                     }
                     else
                     {
@@ -2253,7 +2246,7 @@ namespace LineageServer.Server.Model.Instance
                     er = Level / 9; // イリュージョニスト
                 }
 
-                er += (BaseDex - 8) / 2;
+                er += (getDex() - 8) / 2;
 
                 er += OriginalEr;
 
@@ -2452,13 +2445,13 @@ namespace LineageServer.Server.Model.Instance
 
         private short _baseMaxHp = 0; // ● ＭＡＸＨＰベース（1～32767）
 
-        public virtual short BaseMaxHp
-        {
-            get
-            {
-                return _baseMaxHp;
-            }
-        }
+        //public virtual short BaseMaxHp
+        //{
+        //    get
+        //    {
+        //        return _baseMaxHp;
+        //    }
+        //}
 
         public virtual void addBaseMaxHp(short i)
         {
@@ -2477,13 +2470,13 @@ namespace LineageServer.Server.Model.Instance
 
         private short _baseMaxMp = 0; // ● ＭＡＸＭＰベース（0～32767）
 
-        public virtual short BaseMaxMp
-        {
-            get
-            {
-                return _baseMaxMp;
-            }
-        }
+        //public virtual short BaseMaxMp
+        //{
+        //    get
+        //    {
+        //        return _baseMaxMp;
+        //    }
+        //}
 
         public virtual void addBaseMaxMp(short i)
         {
@@ -2520,7 +2513,7 @@ namespace LineageServer.Server.Model.Instance
                 return _originalAc;
             }
         }
-
+        /*
         private byte _baseStr = 0; // ● ＳＴＲベース（1～127）
 
         public virtual byte BaseStr
@@ -2670,7 +2663,7 @@ namespace LineageServer.Server.Model.Instance
             addWis((byte)(i - _baseWis));
             _baseWis = i;
         }
-
+        */
         private int _originalStr = 0; // ● オリジナル STR
 
         public virtual int OriginalStr
@@ -3321,8 +3314,8 @@ namespace LineageServer.Server.Model.Instance
         {
             get
             {
-                int str = BaseStr;
-                int con = BaseCon;
+                int str = getStr();
+                int con = getCon();
                 double maxWeight = 150 * (Math.Floor(0.6 * str + 0.4 * con + 1));
 
                 double weightReductionByArmor = WeightReduction; // 防具による重量軽減
@@ -3465,8 +3458,8 @@ namespace LineageServer.Server.Model.Instance
                 //TODO 升級後血魔補滿
                 if (Config.MaxHPMP)
                 {
-                    CurrentHp = MaxHp;
-                    CurrentMp = BaseMaxMp;
+                    CurrentHp = getMaxHp();
+                    CurrentMp = getMaxMp();
                 }
                 //end
             }
@@ -4265,7 +4258,7 @@ namespace LineageServer.Server.Model.Instance
             { // イリュージョニスト
                 newMr = 20;
             }
-            newMr += CalcStat.calcStatMr(BaseWis); // WIS分のMRボーナス
+            newMr += CalcStat.calcStatMr(getWis()); // WIS分のMRボーナス
             newMr += Level / 2; // LVの半分だけ追加
             addMr(newMr - _baseMr);
             _baseMr = newMr;

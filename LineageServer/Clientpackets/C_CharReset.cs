@@ -62,7 +62,8 @@ namespace LineageServer.Clientpackets
                 Container.Instance.Resolve<ICharacterController>().saveCharStatus(pc);
             }
             else if (stage == 0x02)
-            { // 0x02:ステータス再分配
+            {
+                // 0x02:ステータス再分配
                 int type2 = ReadC();
                 if (type2 == 0x00)
                 { // 0x00:Lv1UP
@@ -161,8 +162,8 @@ namespace LineageServer.Clientpackets
                 pc.addMr(0 - pc.OriginalMr);
             }
             pc.refresh();
-            pc.CurrentHp = pc.MaxHp;
-            pc.CurrentMp = pc.BaseMaxMp;
+            pc.CurrentHp = pc.getMaxHp();
+            pc.CurrentMp = pc.getMaxMp();
             if (pc.TempMaxLevel != pc.Level)
             {
                 pc.Level = pc.TempMaxLevel;

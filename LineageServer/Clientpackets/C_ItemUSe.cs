@@ -6078,7 +6078,7 @@ namespace LineageServer.Clientpackets
             }
 
             // XXX 適当なダメージ計算、要修正
-            int dmg = (RandomHelper.Next(11) - 5) + user.BaseStr;
+            int dmg = (RandomHelper.Next(11) - 5) + user.getStr();
             dmg = Math.Max(1, dmg);
 
             if (target is L1PcInstance)
@@ -6102,7 +6102,7 @@ namespace LineageServer.Clientpackets
                 }
                 else if ((newHp <= 0) && pc.Gm)
                 {
-                    pc.CurrentHp = pc.MaxHp;
+                    pc.CurrentHp = pc.getMaxHp();
                 }
                 else if ((newHp <= 0) && !pc.Gm)
                 {
@@ -6462,7 +6462,7 @@ namespace LineageServer.Clientpackets
                 }
                 petCost += petNpc.Petcost;
             }
-            int charisma = pc.BaseCha;
+            int charisma = pc.getCha();
             if (pc.Crown)
             { // 君主
                 charisma += 6;

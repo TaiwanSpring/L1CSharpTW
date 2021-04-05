@@ -28,7 +28,7 @@ namespace LineageServer.Server.Model
         public virtual void regenMp()
         {
             int baseMpr = 1;
-            int wis = _pc.BaseWis;
+            int wis = _pc.getWis();
             if ((wis == 15) || (wis == 16))
             {
                 baseMpr = 2;

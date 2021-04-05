@@ -333,12 +333,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxMp(-pc.AdvenMp);
                     pc.AdvenHp = 0;
                     pc.AdvenMp = 0;
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // パーティー中
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                 }
             }
             else if ((skillId == L1SkillId.HASTE) || (skillId == L1SkillId.GREATER_HASTE))
@@ -730,7 +730,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-30);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // パーティー中
                         pc.Party.updateMiniHP(pc);
@@ -764,7 +764,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-20);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.sendPackets(new S_PacketBox(53, 4, 0));
                     pc.CookingId = 0;
                 }
@@ -813,13 +813,13 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-30);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // パーティー中
                         pc.Party.updateMiniHP(pc);
                     }
                     pc.addMaxMp(-30);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.sendPackets(new S_PacketBox(53, 9, 0));
                     pc.CookingId = 0;
                 }
@@ -898,13 +898,13 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-50);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // パーティー中
                         pc.Party.updateMiniHP(pc);
                     }
                     pc.addMaxMp(-50);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.sendPackets(new S_PacketBox(53, 17, 0));
                     pc.CookingId = 0;
                 }
@@ -961,7 +961,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-30);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // パーティー中
                         pc.Party.updateMiniHP(pc);
@@ -1006,7 +1006,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-50);
                     pc.addHpr(-4);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1020,7 +1020,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-40);
                     pc.addMpr(-4);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                 }
             }
             else if (skillId == L1SkillId.EFFECT_ENCHANTING_BATTLE)
@@ -1081,7 +1081,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-10);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1095,7 +1095,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-20);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1109,7 +1109,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-30);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1123,7 +1123,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-40);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1138,7 +1138,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-50);
                     pc.addHpr(-1);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1153,7 +1153,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-60);
                     pc.addHpr(-2);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1168,7 +1168,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-70);
                     pc.addHpr(-3);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1184,7 +1184,7 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxHp(-80);
                     pc.addHpr(-4);
                     pc.addHitup(-1);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1202,7 +1202,7 @@ namespace LineageServer.Server.Model.skill
                     pc.addHitup(-2);
                     pc.addDmgup(-2);
                     pc.addStr(-1);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1217,8 +1217,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-5);
                     pc.addMaxMp(-3);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1233,8 +1233,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-10);
                     pc.addMaxMp(-6);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1249,8 +1249,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-15);
                     pc.addMaxMp(-10);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1265,8 +1265,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-20);
                     pc.addMaxMp(-15);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1281,8 +1281,8 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxHp(-25);
                     pc.addMaxMp(-20);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1298,8 +1298,8 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxHp(-30);
                     pc.addMaxMp(-20);
                     pc.addHpr(-1);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1316,8 +1316,8 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxMp(-20);
                     pc.addHpr(-1);
                     pc.addMpr(-1);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1334,8 +1334,8 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxMp(-25);
                     pc.addHpr(-2);
                     pc.addMpr(-1);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1355,8 +1355,8 @@ namespace LineageServer.Server.Model.skill
                     pc.addBowDmgup(-2);
                     pc.addBowHitup(-2);
                     pc.addDex(-1);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -1370,7 +1370,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-5);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.MagicStoneLevel = 0;
                 }
             }
@@ -1380,7 +1380,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-10);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.MagicStoneLevel = 0;
                 }
             }
@@ -1390,7 +1390,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-15);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.MagicStoneLevel = 0;
                 }
             }
@@ -1400,7 +1400,7 @@ namespace LineageServer.Server.Model.skill
                 {
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-20);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.MagicStoneLevel = 0;
                 }
             }
@@ -1411,7 +1411,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-25);
                     pc.addMpr(-1);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.MagicStoneLevel = 0;
                 }
             }
@@ -1422,7 +1422,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-30);
                     pc.addMpr(-2);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.MagicStoneLevel = 0;
                 }
             }
@@ -1433,7 +1433,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-35);
                     pc.addMpr(-3);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.MagicStoneLevel = 0;
                 }
             }
@@ -1444,7 +1444,7 @@ namespace LineageServer.Server.Model.skill
                     L1PcInstance pc = (L1PcInstance)cha;
                     pc.addMaxMp(-40);
                     pc.addMpr(-4);
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.MagicStoneLevel = 0;
                 }
             }
@@ -1458,7 +1458,7 @@ namespace LineageServer.Server.Model.skill
                     pc.addInt(-1);
                     pc.addSp(-1);
                     pc.sendPackets(new S_SPMR(pc));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                     pc.MagicStoneLevel = 0;
                 }
             }
@@ -1654,12 +1654,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addDmgup(-1);
                     pc.addHitup(-5);
                     pc.addWeightReduction(-40);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     {
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                 }
             }
             else if (skillId == L1SkillId.EFFECT_BLESS_OF_SAELL)
@@ -1671,12 +1671,12 @@ namespace LineageServer.Server.Model.skill
                     pc.addMaxMp(-10);
                     pc.addWater(-30);
                     pc.addAc(8);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     {
                         pc.Party.updateMiniHP(pc);
                     }
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                 }
             }
             else if (skillId == L1SkillId.ERASE_MAGIC)

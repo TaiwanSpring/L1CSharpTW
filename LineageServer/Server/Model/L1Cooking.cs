@@ -354,7 +354,7 @@ namespace LineageServer.Server.Model
             { // ベアーステーキ
                 cookingType = 1;
                 pc.addMaxHp(30);
-                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                 if (pc.InParty)
                 { // パーティー中
                     pc.Party.updateMiniHP(pc);
@@ -374,7 +374,7 @@ namespace LineageServer.Server.Model
             { // フルーツサラダ
                 cookingType = 4;
                 pc.addMaxMp(20);
-                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
             }
             else if ((cookingId == L1SkillId.COOKING_1_5_N) || (cookingId == L1SkillId.COOKING_1_5_S))
             { // フルーツ甘酢あんかけ
@@ -398,13 +398,13 @@ namespace LineageServer.Server.Model
             { // アリゲーターステーキ
                 cookingType = 9;
                 pc.addMaxHp(30);
-                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                 if (pc.InParty)
                 { // パーティー中
                     pc.Party.updateMiniHP(pc);
                 }
                 pc.addMaxMp(30);
-                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
             }
             else if ((cookingId == L1SkillId.COOKING_2_2_N) || (cookingId == L1SkillId.COOKING_2_2_S))
             { // タートルドラゴンの菓子
@@ -444,13 +444,13 @@ namespace LineageServer.Server.Model
             { // グリフォン焼き
                 cookingType = 17;
                 pc.addMaxHp(50);
-                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                 if (pc.InParty)
                 { // パーティー中
                     pc.Party.updateMiniHP(pc);
                 }
                 pc.addMaxMp(50);
-                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
             }
             else if ((cookingId == L1SkillId.COOKING_3_2_N) || (cookingId == L1SkillId.COOKING_3_2_S))
             { // コカトリスステーキ
@@ -483,7 +483,7 @@ namespace LineageServer.Server.Model
             { // 深海魚のシチュー
                 cookingType = 22;
                 pc.addMaxHp(30);
-                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                 if (pc.InParty)
                 { // パーティー中
                     pc.Party.updateMiniHP(pc);

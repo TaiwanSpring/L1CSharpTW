@@ -19,8 +19,8 @@ namespace LineageServer.Command.Executors
                 int objid = pc.Id;
                 pc.sendPackets(new S_SkillSound(objid, 759));
                 pc.broadcastPacket(new S_SkillSound(objid, 759));
-                pc.CurrentHp = pc.MaxHp;
-                pc.CurrentMp = pc.BaseMaxMp;
+                pc.CurrentHp = pc.getMaxHp();
+                pc.CurrentMp = pc.getMaxMp();
                 foreach (L1PcInstance tg in Container.Instance.Resolve<IGameWorld>().getVisiblePlayer(pc))
                 {
                     if ((tg.CurrentHp == 0) && tg.Dead)
@@ -37,8 +37,8 @@ namespace LineageServer.Command.Executors
                         tg.sendPackets(new S_SystemMessage("GM給予了治療。"));
                         tg.broadcastPacket(new S_SkillSound(tg.Id, 832));
                         tg.sendPackets(new S_SkillSound(tg.Id, 832));
-                        tg.CurrentHp = tg.MaxHp;
-                        tg.CurrentMp = tg.BaseMaxMp;
+                        tg.CurrentHp = tg.getMaxHp();
+                        tg.CurrentMp = tg.getMaxMp();
                     }
                 }
             }

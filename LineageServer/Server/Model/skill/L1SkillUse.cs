@@ -1163,48 +1163,48 @@ namespace LineageServer.Server.Model.skill
                     currentHp = _player.CurrentHp;
 
                     // MPのINT軽減
-                    if ((_player.BaseInt > 12) && (_skillId > L1SkillId.HOLY_WEAPON) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
+                    if ((_player.getInt() > 12) && (_skillId > L1SkillId.HOLY_WEAPON) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
                     { // LV2以上
                         _mpConsume--;
                     }
-                    if ((_player.BaseInt > 13) && (_skillId > L1SkillId.STALAC) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
+                    if ((_player.getInt() > 13) && (_skillId > L1SkillId.STALAC) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
                     { // LV3以上
                         _mpConsume--;
                     }
-                    if ((_player.BaseInt > 14) && (_skillId > L1SkillId.WEAK_ELEMENTAL) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
+                    if ((_player.getInt() > 14) && (_skillId > L1SkillId.WEAK_ELEMENTAL) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
                     { // LV4以上
                         _mpConsume--;
                     }
-                    if ((_player.BaseInt > 15) && (_skillId > L1SkillId.MEDITATION) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
+                    if ((_player.getInt() > 15) && (_skillId > L1SkillId.MEDITATION) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
                     { // LV5以上
                         _mpConsume--;
                     }
-                    if ((_player.BaseInt > 16) && (_skillId > L1SkillId.DARKNESS) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
+                    if ((_player.getInt() > 16) && (_skillId > L1SkillId.DARKNESS) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
                     { // LV6以上
                         _mpConsume--;
                     }
-                    if ((_player.BaseInt > 17) && (_skillId > L1SkillId.BLESS_WEAPON) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
+                    if ((_player.getInt() > 17) && (_skillId > L1SkillId.BLESS_WEAPON) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
                     { // LV7以上
                         _mpConsume--;
                     }
-                    if ((_player.BaseInt > 18) && (_skillId > L1SkillId.DISEASE) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
+                    if ((_player.getInt() > 18) && (_skillId > L1SkillId.DISEASE) && (_skillId <= L1SkillId.FREEZING_BLIZZARD))
                     { // LV8以上
                         _mpConsume--;
                     }
 
                     // 騎士智力減免
-                    if ((_player.BaseInt > 12) && (_skillId >= L1SkillId.SHOCK_STUN) && (_skillId <= L1SkillId.COUNTER_BARRIER))
+                    if ((_player.getInt() > 12) && (_skillId >= L1SkillId.SHOCK_STUN) && (_skillId <= L1SkillId.COUNTER_BARRIER))
                     {
-                        if (_player.BaseInt <= 17)
+                        if (_player.getInt() <= 17)
                         {
-                            _mpConsume -= (_player.BaseInt - 12);
+                            _mpConsume -= (_player.getInt() - 12);
                         }
                         else
                         {
                             _mpConsume -= 5; // int > 18
                             if (_mpConsume > 1)
                             { // 法術還可以減免
-                                int extraInt = (_player.BaseInt - 17);
+                                int extraInt = (_player.getInt() - 17);
                                 // 減免公式
                                 for (int first = 1, range = 2; first <= extraInt; first += range, range++)
                                 {
@@ -2579,7 +2579,7 @@ namespace LineageServer.Server.Model.skill
                                 L1ItemInstance item = pc.Inventory.getItem(_itemobjid);
                                 if (item != null)
                                 {
-                                    int dark = (int)(10 + (pc.Level * 0.8) + (pc.BaseWis - 6) * 1.2);
+                                    int dark = (int)(10 + (pc.Level * 0.8) + (pc.getWis() - 6) * 1.2);
                                     int brave = (int)(dark / 2.1);
                                     int wise = (int)(brave / 2.0);
                                     int kayser = (int)(wise / 1.9);

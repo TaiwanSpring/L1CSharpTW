@@ -729,7 +729,7 @@ namespace LineageServer.Server.Model
                     _targetPc.CurrentMp = _targetPc.CurrentMp - 5;
                     if (_calcType == PC_PC)
                     {
-                        dmg += _pc.BaseWis * 5;
+                        dmg += _pc.getWis() * 5;
                     }
                     else if (_calcType == NPC_PC)
                     {
@@ -806,7 +806,7 @@ namespace LineageServer.Server.Model
                 int nowDamage = 0;
                 if (_calcType == PC_PC)
                 {
-                    nowDamage = _pc.MaxHp - _pc.CurrentHp;
+                    nowDamage = _pc.getMaxHp() - _pc.CurrentHp;
                     if (nowDamage > 0)
                     {
                         dmg = nowDamage / 5;
@@ -859,7 +859,7 @@ namespace LineageServer.Server.Model
             {
                 if (_calcType == PC_PC)
                 {
-                    if (_targetPc.BaseWis >= RandomHelper.Next(100))
+                    if (_targetPc.getWis() >= RandomHelper.Next(100))
                     {
                         _pc.sendPackets(new S_DoActionGFX(_pc.Id, ActionCodes.ACTION_Damage));
                         _pc.broadcastPacket(new S_DoActionGFX(_pc.Id, ActionCodes.ACTION_Damage));
@@ -881,7 +881,7 @@ namespace LineageServer.Server.Model
                     }
                     else
                     {
-                        if (_targetPc.BaseWis >= RandomHelper.Next(100))
+                        if (_targetPc.getWis() >= RandomHelper.Next(100))
                         {
                             _npc.broadcastPacket(new S_DoActionGFX(_npc.Id, ActionCodes.ACTION_Damage));
                             _targetPc.sendPackets(new S_SkillSound(_targetPc.Id, 4395));
@@ -931,7 +931,7 @@ namespace LineageServer.Server.Model
                     _targetNpc.CurrentMp = _targetNpc.CurrentMp - 5;
                     if (_calcType == PC_NPC)
                     {
-                        dmg += _pc.BaseWis * 5;
+                        dmg += _pc.getWis() * 5;
                     }
                     else if (_calcType == NPC_NPC)
                     {
@@ -946,7 +946,7 @@ namespace LineageServer.Server.Model
                 int nowDamage = 0;
                 if (_calcType == PC_NPC)
                 {
-                    nowDamage = _pc.MaxHp - _pc.CurrentHp;
+                    nowDamage = _pc.getMaxHp() - _pc.CurrentHp;
                     if (nowDamage > 0)
                     {
                         dmg = nowDamage / 5;
@@ -1057,7 +1057,7 @@ namespace LineageServer.Server.Model
             if ((_calcType == PC_PC) || (_calcType == PC_NPC))
             {
                 int spByItem = _pc.Sp - _pc.TrueSp; // アイテムによるSP変動
-                charaIntelligence = _pc.BaseInt + spByItem - 12;
+                charaIntelligence = _pc.getInt() + spByItem - 12;
             }
             else if ((_calcType == NPC_PC) || (_calcType == NPC_NPC))
             {

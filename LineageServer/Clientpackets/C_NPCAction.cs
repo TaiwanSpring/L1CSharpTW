@@ -2446,7 +2446,7 @@ namespace LineageServer.Clientpackets
                     pc.CurrentHp = pc.CurrentHp + hp;
                     pc.sendPackets(new S_ServerMessage(77));
                     pc.sendPackets(new S_SkillSound(pc.Id, 830));
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     htmlid = ""; // ウィンドウを消す
                 }
             }
@@ -2455,12 +2455,12 @@ namespace LineageServer.Clientpackets
             {
                 if (s == "0")
                 {
-                    pc.CurrentHp = pc.MaxHp;
-                    pc.CurrentMp = pc.BaseMaxMp;
+                    pc.CurrentHp = pc.getMaxHp();
+                    pc.CurrentMp = pc.getMaxMp();
                     pc.sendPackets(new S_ServerMessage(77));
                     pc.sendPackets(new S_SkillSound(pc.Id, 830));
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                    pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                 }
             }
             // 治療師（西部）

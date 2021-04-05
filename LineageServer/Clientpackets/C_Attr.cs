@@ -66,7 +66,7 @@ namespace LineageServer.Clientpackets
                             if (clan != null)
                             {
                                 int maxMember = 0;
-                                int charisma = pc.BaseCha;
+                                int charisma = pc.getCha();
                                 // 公式
                                 maxMember = charisma * 3 * (2 + pc.Level / 50);
                                 // 未過45 人數/3
@@ -221,7 +221,7 @@ namespace LineageServer.Clientpackets
                         }
                         else if (c == 1)
                         { // Yes
-                            resurrection(pc, resusepc1, (short)(pc.MaxHp / 2));
+                            resurrection(pc, resusepc1, (short)(pc.getMaxHp() / 2));
                         }
                     }
                     break;
@@ -510,9 +510,9 @@ namespace LineageServer.Clientpackets
                         }
                         if (s.ToLower().Equals("str".ToLower()))
                         {
-                            if (pc.BaseStr < Config.BONUS_STATS1)
+                            if (pc.getStr() < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseStr(1); // 素のSTR値に+1
+                                pc.addStr(1); // 素のSTR値に+1
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                                 pc.sendPackets(new S_CharVisualUpdate(pc));
@@ -526,9 +526,9 @@ namespace LineageServer.Clientpackets
                         }
                         else if (s.ToLower().Equals("dex".ToLower()))
                         {
-                            if (pc.BaseDex < Config.BONUS_STATS1)
+                            if (pc.getDex() < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseDex(1); // 素のDEX値に+1
+                                pc.addDex(1); // 素のDEX値に+1
                                 pc.resetBaseAc();
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
@@ -542,9 +542,9 @@ namespace LineageServer.Clientpackets
                         }
                         else if (s.ToLower().Equals("con".ToLower()))
                         {
-                            if (pc.BaseCon < Config.BONUS_STATS1)
+                            if (pc.getCon() < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseCon(1); // 素のCON値に+1
+                                pc.addCon(1); // 素のCON値に+1
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                                 pc.sendPackets(new S_CharVisualUpdate(pc));
@@ -557,9 +557,9 @@ namespace LineageServer.Clientpackets
                         }
                         else if (s.ToLower().Equals("int".ToLower()))
                         {
-                            if (pc.BaseInt < Config.BONUS_STATS1)
+                            if (pc.getInt() < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseInt(1); // 素のINT値に+1
+                                pc.addInt(1); // 素のINT値に+1
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                                 pc.sendPackets(new S_CharVisualUpdate(pc));
@@ -572,9 +572,9 @@ namespace LineageServer.Clientpackets
                         }
                         else if (s.ToLower().Equals("wis".ToLower()))
                         {
-                            if (pc.BaseWis < Config.BONUS_STATS1)
+                            if (pc.getWis() < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseWis(1); // 素のWIS値に+1
+                                pc.addWis(1); // 素のWIS値に+1
                                 pc.resetBaseMr();
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
@@ -588,9 +588,9 @@ namespace LineageServer.Clientpackets
                         }
                         else if (s.ToLower().Equals("cha".ToLower()))
                         {
-                            if (pc.BaseCha < Config.BONUS_STATS1)
+                            if (pc.getCha() < Config.BONUS_STATS1)
                             { // 調整能力值上限
-                                pc.addBaseCha(1); // 素のCHA値に+1
+                                pc.addCha(1); // 素のCHA値に+1
                                 pc.BonusStats = pc.BonusStats + 1;
                                 pc.sendPackets(new S_OwnCharStatus2(pc, 0));
                                 pc.sendPackets(new S_CharVisualUpdate(pc));
