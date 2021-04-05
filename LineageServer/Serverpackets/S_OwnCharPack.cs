@@ -65,7 +65,7 @@ namespace LineageServer.Serverpackets
 			WriteC(pc.ClanRank > 0 ? pc.ClanRank << 4 : 0xb0); // 階級  * 16
 			if (pc.InParty) // パーティー中
 			{
-				WriteC(100 * pc.CurrentHp / pc.MaxHp);
+				WriteC(100 * pc.CurrentHp / pc.getMaxHp());
 			}
 			else
 			{

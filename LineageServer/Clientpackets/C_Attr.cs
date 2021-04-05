@@ -238,7 +238,7 @@ namespace LineageServer.Clientpackets
                         }
                         else if (c == 1)
                         { // Yes
-                            resurrection(pc, resusepc2, pc.MaxHp);
+                            resurrection(pc, resusepc2, pc.getMaxHp());
                             // EXPロストしている、G-RESを掛けられた、EXPロストした死亡
                             // 全てを満たす場合のみEXP復旧
                             if ((pc.ExpRes == 1) && pc.Gres && pc.GresValid)

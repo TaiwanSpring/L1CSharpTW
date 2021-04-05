@@ -25,7 +25,7 @@ namespace LineageServer.Server.Model
                 if (skillId == L1SkillId.AWAKEN_ANTHARAS)
                 { // 覺醒：安塔瑞斯
                     pc.addMaxHp(127);
-                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                    pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                     if (pc.InParty)
                     { // 組隊中
                         pc.Party.updateMiniHP(pc);
@@ -65,7 +65,7 @@ namespace LineageServer.Server.Model
             if (skillId == L1SkillId.AWAKEN_ANTHARAS)
             { // 覺醒：安塔瑞斯
                 pc.addMaxHp(-127);
-                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
+                pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
                 if (pc.InParty)
                 { // パーティー中
                     pc.Party.updateMiniHP(pc);

@@ -112,8 +112,8 @@ namespace LineageServer.Server.Model
 
             foreach (L1PcInstance member in members)
             {
-                member.sendPackets(new S_HPMeter(pc.Id, 100 * pc.CurrentHp / pc.MaxHp));
-                pc.sendPackets(new S_HPMeter(member.Id, 100 * member.CurrentHp / member.MaxHp));
+                member.sendPackets(new S_HPMeter(pc.Id, 100 * pc.CurrentHp / pc.getMaxHp()));
+                pc.sendPackets(new S_HPMeter(member.Id, 100 * member.CurrentHp / member.getMaxHp()));
             }
         }
 
@@ -136,7 +136,7 @@ namespace LineageServer.Server.Model
 
             foreach (L1PcInstance member in members)
             { // パーティーメンバー分更新
-                member.sendPackets(new S_HPMeter(pc.Id, 100 * pc.CurrentHp / pc.MaxHp));
+                member.sendPackets(new S_HPMeter(pc.Id, 100 * pc.CurrentHp / pc.getMaxHp()));
             }
         }
 

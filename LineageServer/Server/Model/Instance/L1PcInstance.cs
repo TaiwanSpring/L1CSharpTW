@@ -1672,15 +1672,12 @@ namespace LineageServer.Server.Model.Instance
             //死亡, 取消交易
             if (TradeID != 0)
             {
-                //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-                //ORIGINAL LINE: final l1j.server.server.model.L1Trade trade = new l1j.server.server.model.L1Trade();
                 L1Trade trade = new L1Trade();
                 trade.TradeCancel(this);
             }
 
             Container.Instance.Resolve<ITaskController>().execute(new Death(this, lastAttacker));
         }
-        public L1Map Map { get; set; }
         private class Death : IRunnable
         {
             private readonly L1PcInstance outerInstance;
@@ -2445,13 +2442,13 @@ namespace LineageServer.Server.Model.Instance
 
         private short _baseMaxHp = 0; // ● ＭＡＸＨＰベース（1～32767）
 
-        //public virtual short BaseMaxHp
-        //{
-        //    get
-        //    {
-        //        return _baseMaxHp;
-        //    }
-        //}
+        public virtual short BaseMaxHp
+        {
+            get
+            {
+                return _baseMaxHp;
+            }
+        }
 
         public virtual void addBaseMaxHp(short i)
         {
@@ -2470,13 +2467,13 @@ namespace LineageServer.Server.Model.Instance
 
         private short _baseMaxMp = 0; // ● ＭＡＸＭＰベース（0～32767）
 
-        //public virtual short BaseMaxMp
-        //{
-        //    get
-        //    {
-        //        return _baseMaxMp;
-        //    }
-        //}
+        public virtual short BaseMaxMp
+        {
+            get
+            {
+                return _baseMaxMp;
+            }
+        }
 
         public virtual void addBaseMaxMp(short i)
         {
@@ -2513,7 +2510,7 @@ namespace LineageServer.Server.Model.Instance
                 return _originalAc;
             }
         }
-        /*
+
         private byte _baseStr = 0; // ● ＳＴＲベース（1～127）
 
         public virtual byte BaseStr
@@ -2663,7 +2660,7 @@ namespace LineageServer.Server.Model.Instance
             addWis((byte)(i - _baseWis));
             _baseWis = i;
         }
-        */
+
         private int _originalStr = 0; // ● オリジナル STR
 
         public virtual int OriginalStr

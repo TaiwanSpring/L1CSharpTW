@@ -15,7 +15,7 @@ namespace LineageServer.Serverpackets
 
         public S_HPUpdate(L1PcInstance pc)
         {
-            buildPacket(pc.CurrentHp, pc.MaxHp);
+            buildPacket(pc.CurrentHp, pc.getMaxHp());
         }
 
         public virtual void buildPacket(int currentHp, int maxHp)

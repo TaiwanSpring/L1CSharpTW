@@ -311,14 +311,14 @@ namespace LineageServer.Clientpackets
             int npcId = npc.NpcTemplate.get_npcId();
             if (npcId == 45313)
             { // タイガー
-                if ((npc.MaxHp / 3 > npc.CurrentHp) && (RandomHelper.Next(16) == 15))
+                if ((npc.getMaxHp() / 3 > npc.CurrentHp) && (RandomHelper.Next(16) == 15))
                 {
                     isSuccess = true;
                 }
             }
             else
             {
-                if (npc.MaxHp / 3 > npc.CurrentHp)
+                if (npc.getMaxHp() / 3 > npc.CurrentHp)
                 {
                     isSuccess = true;
                 }

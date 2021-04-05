@@ -208,7 +208,7 @@ namespace LineageServer.Clientpackets
                     pc.sendPackets(new S_ServerMessage(L1SystemMessageId.Message1973));
                     return;
                 }
-                if (pc.CurrentHp >= pc.MaxHp)
+                if (pc.CurrentHp >= pc.getMaxHp())
                 {
                     pc.sendPackets(new S_ServerMessage(L1SystemMessageId.Message1974));
                     return;
@@ -227,7 +227,7 @@ namespace LineageServer.Clientpackets
                     }
                     else if (fullTime >= 1 && fullTime <= 29)
                     {
-                        addHp = (int)(pc.MaxHp * (fullTime / 100.0D));
+                        addHp = (int)(pc.getMaxHp() * (fullTime / 100.0D));
                     }
                     else if (fullTime >= 30)
                     {
@@ -236,25 +236,25 @@ namespace LineageServer.Clientpackets
                         {
                             gfxId1 = 8684;
                             gfxId2 = 8907;
-                            addHp = (int)(pc.MaxHp * (20 + RandomHelper.Next(20) / 100.0D));
+                            addHp = (int)(pc.getMaxHp() * (20 + RandomHelper.Next(20) / 100.0D));
                         }
                         else if (weaponEnchantLv == 7 || weaponEnchantLv == 8)
                         {
                             gfxId1 = 8685;
                             gfxId2 = 8909;
-                            addHp = (int)(pc.MaxHp * ((30 + RandomHelper.Next(20)) / 100.0D));
+                            addHp = (int)(pc.getMaxHp() * ((30 + RandomHelper.Next(20)) / 100.0D));
                         }
                         else if (weaponEnchantLv == 9 || weaponEnchantLv == 10)
                         {
                             gfxId1 = 8773;
                             gfxId2 = 8910;
-                            addHp = (int)(pc.MaxHp * ((50 + RandomHelper.Next(10)) / 100.0D));
+                            addHp = (int)(pc.getMaxHp() * ((50 + RandomHelper.Next(10)) / 100.0D));
                         }
                         else if (weaponEnchantLv >= 11)
                         {
                             gfxId1 = 8686;
                             gfxId2 = 8908;
-                            addHp = (int)(pc.MaxHp * (0.7));
+                            addHp = (int)(pc.getMaxHp() * (0.7));
                         }
                     }
 

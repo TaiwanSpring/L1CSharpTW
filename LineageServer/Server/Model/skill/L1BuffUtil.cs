@@ -301,7 +301,7 @@ namespace LineageServer.Server.Model.skill
                             }
                             if ((npc.CurrentHp == 0) && npc.Dead)
                             {
-                                npc.resurrect(npc.MaxHp / 4);
+                                npc.resurrect(npc.getMaxHp() / 4);
                                 npc.Resurrect = true;
                                 if ((npc is L1PetInstance))
                                 {
@@ -604,7 +604,7 @@ namespace LineageServer.Server.Model.skill
                         { // 獨角獸
                             if (npc.GfxId == npc.TempCharGfx)
                             {
-                                npc.CurrentHp = npc.MaxHp;
+                                npc.CurrentHp = npc.getMaxHp();
                                 npc.TempCharGfx = 2332;
                                 npc.broadcastPacket(new S_NpcChangeShape(npc.Id, 2332, npc.Lawful, npc.Status));
                                 npc.Name = "$2103";
@@ -613,7 +613,7 @@ namespace LineageServer.Server.Model.skill
                             }
                             else if (npc.TempCharGfx == 2332)
                             {
-                                npc.CurrentHp = npc.MaxHp;
+                                npc.CurrentHp = npc.getMaxHp();
                                 npc.TempCharGfx = 2755;
                                 npc.broadcastPacket(new S_NpcChangeShape(npc.Id, 2755, npc.Lawful, npc.Status));
                                 npc.Name = "$2488";

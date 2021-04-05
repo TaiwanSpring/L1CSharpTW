@@ -501,15 +501,15 @@ namespace LineageServer.Server.Model
                 if (skillId == L1SkillId.TAMING_MONSTER)
                 {
                     double probabilityRevision = 1;
-                    if ((_targetNpc.MaxHp * 1 / 4) > _targetNpc.CurrentHp)
+                    if ((_targetNpc.getMaxHp() * 1 / 4) > _targetNpc.CurrentHp)
                     {
                         probabilityRevision = 1.3;
                     }
-                    else if ((_targetNpc.MaxHp * 2 / 4) > _targetNpc.CurrentHp)
+                    else if ((_targetNpc.getMaxHp() * 2 / 4) > _targetNpc.CurrentHp)
                     {
                         probabilityRevision = 1.2;
                     }
-                    else if ((_targetNpc.MaxHp * 3 / 4) > _targetNpc.CurrentHp)
+                    else if ((_targetNpc.getMaxHp() * 3 / 4) > _targetNpc.CurrentHp)
                     {
                         probabilityRevision = 1.1;
                     }
@@ -814,7 +814,7 @@ namespace LineageServer.Server.Model
                 }
                 else if (_calcType == NPC_PC)
                 {
-                    nowDamage = _npc.MaxHp - _npc.CurrentHp;
+                    nowDamage = _npc.getMaxHp() - _npc.CurrentHp;
                     if (nowDamage > 0)
                     {
                         dmg = nowDamage / 5;
@@ -954,7 +954,7 @@ namespace LineageServer.Server.Model
                 }
                 else if (_calcType == NPC_NPC)
                 {
-                    nowDamage = _npc.MaxHp - _npc.CurrentHp;
+                    nowDamage = _npc.getMaxHp() - _npc.CurrentHp;
                     if (nowDamage > 0)
                     {
                         dmg = nowDamage / 5;

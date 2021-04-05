@@ -5434,10 +5434,10 @@ namespace LineageServer.Server.Model.Instance
                     pc.MoveSpeed = 1;
                     pc.setSkillEffect(L1SkillId.STATUS_HASTE, 1600 * 1000);
 
-                    pc.CurrentHp = pc.MaxHp;
+                    pc.CurrentHp = pc.getMaxHp();
                     if (pc.Level < 13)
                     {
-                        pc.CurrentMp = pc.BaseMaxMp;
+                        pc.CurrentMp = pc.getMaxMp();
                     }
                     pc.sendPackets(new S_ServerMessage(77));
                     pc.sendPackets(new S_SkillSound(pc.Id, 830));

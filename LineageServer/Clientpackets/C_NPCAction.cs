@@ -2471,12 +2471,12 @@ namespace LineageServer.Clientpackets
                     if (pc.Inventory.checkItem(L1ItemId.ADENA, 5))
                     { // check
                         pc.Inventory.consumeItem(L1ItemId.ADENA, 5); // del
-                        pc.CurrentHp = pc.MaxHp;
-                        pc.CurrentMp = pc.BaseMaxMp;
+                        pc.CurrentHp = pc.getMaxHp();
+                        pc.CurrentMp = pc.getMaxMp();
                         pc.sendPackets(new S_ServerMessage(77));
                         pc.sendPackets(new S_SkillSound(pc.Id, 830));
-                        pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.MaxHp));
-                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.BaseMaxMp));
+                        pc.sendPackets(new S_HPUpdate(pc.CurrentHp, pc.getMaxHp()));
+                        pc.sendPackets(new S_MPUpdate(pc.CurrentMp, pc.getMaxMp()));
                         if (pc.InParty)
                         { // パーティー中
                             pc.Party.updateMiniHP(pc);

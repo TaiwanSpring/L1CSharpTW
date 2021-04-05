@@ -516,7 +516,7 @@ namespace LineageServer.Server.Model
                     return false;
                 }
 
-                int hpRatio = (companionNpc.CurrentHp * 100) / companionNpc.MaxHp;
+                int hpRatio = (companionNpc.CurrentHp * 100) / companionNpc.getMaxHp();
                 if (hpRatio <= MobSkillTemplate.getTriggerCompanionHp(skillIdx))
                 {
                     useble = true;
@@ -571,7 +571,7 @@ namespace LineageServer.Server.Model
                     npc = (L1NpcInstance)@object;
                     if (npc.NpcTemplate.get_family() == family)
                     {
-                        companionHpRatio = (npc.CurrentHp * 100) / npc.MaxHp;
+                        companionHpRatio = (npc.CurrentHp * 100) / npc.getMaxHp();
                         if (companionHpRatio < hpRatio)
                         {
                             hpRatio = companionHpRatio;

@@ -71,7 +71,7 @@ namespace LineageServer.Serverpackets
                 WriteC(Opcodes.S_OPCODE_PACKETBOX);
                 WriteC(S_PacketBox.UPDATE_OLD_PART_MEMBER);
                 nowhp = leader.CurrentHp;
-                maxhp = leader.MaxHp;
+                maxhp = leader.getMaxHp();
                 WriteC(member.Length - 1);
                 WriteD(leader.Id);
                 WriteS(leader.Name);
@@ -86,7 +86,7 @@ namespace LineageServer.Serverpackets
                         continue;
                     }
                     nowhp = member[i].CurrentHp;
-                    maxhp = member[i].MaxHp;
+                    maxhp = member[i].getMaxHp();
                     WriteD(member[i].Id);
                     WriteS(member[i].Name);
                     WriteC((int)(nowhp / maxhp) * 100);

@@ -1668,7 +1668,7 @@ namespace LineageServer.Clientpackets
                                     }
                                     if ((npc.CurrentHp == 0) && npc.Dead)
                                     {
-                                        npc.resurrect(npc.MaxHp / 4);
+                                        npc.resurrect(npc.getMaxHp() / 4);
                                         npc.Resurrect = true;
                                         if ((npc is L1PetInstance))
                                         {
